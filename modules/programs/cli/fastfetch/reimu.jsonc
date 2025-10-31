@@ -1,0 +1,84 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "~/.config/fastfetch/ascii/reimu-dairi.txt",
+        "color":{"1": "red","2": "white"}
+    },
+    "modules": [
+        "title",
+        "separator",
+        {
+            "type": "os",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "host",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "kernel",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "uptime",
+            "keyColor": "yellow"
+        },
+        "break",
+        {
+            "type": "wm",
+            "keyColor": "blue"
+        },
+	{
+            "type": "shell",
+            "keyColor": "blue"
+        },
+        {
+            "type": "packages",
+            "keyColor": "blue"
+        },
+        {
+            "type": "terminal",
+            "format": "{pretty-name}",
+            "keyColor": "blue"
+        },
+        {
+            "type": "terminalfont",
+            "format": "{/name}{-}{/}{name}{?size} {size}{?}",
+            "keyColor": "blue"
+        },
+        {
+            "type": "display",
+            "compactType": "original",
+            "key": "Resolution",
+            "keyColor": "blue"
+        },
+        "break",
+        {
+            "type": "cpu",
+            "keyColor": "red"
+        },
+        {
+            "type": "gpu",
+            "key": "GPU",
+            "detectionMethod": "vulkan",
+            "keyColor": "red"
+        },
+        {
+            "type": "memory",
+            "keyColor": "red"
+        },
+        {
+            "type": "disk",
+            "folders": "/",
+            "keyColor": "red"
+        },
+        "break",
+        {
+            "type": "localip",
+            "compact": true,
+            "keyColor": "green"
+        },
+        "break",
+        "colors"
+    ]
+}
