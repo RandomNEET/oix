@@ -1,4 +1,3 @@
-{ ... }:
 {
   services = {
     devmon.enable = true;
