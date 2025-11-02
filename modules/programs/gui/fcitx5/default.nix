@@ -14,7 +14,7 @@
           waylandFrontend = true;
           addons =
             with pkgs;
-            [ fcitx5-chinese-addons ]
+            [ qt6Packages.fcitx5-chinese-addons ]
             ++ lib.optionals ((opts.theme or "") == "catppuccin-mocha") [ catppuccin-fcitx5 ];
           settings = {
             inputMethod = {
