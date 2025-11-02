@@ -545,13 +545,6 @@ rec {
   };
 
   # Programs
-  git = {
-    user = {
-      name = "RandomNEET";
-      email = "dev@randomneet.me";
-    };
-  };
-
   nixvim = {
     withNodeJs = false;
     withPerl = false;

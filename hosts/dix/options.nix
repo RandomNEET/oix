@@ -138,9 +138,11 @@ rec {
 
   # Programs
   git = {
-    user = {
-      name = "RandomNEET";
-      email = "dev@randomneet.me";
+    settings = {
+      user = {
+        name = "RandomNEET";
+        email = "dev@randomneet.me";
+      };
     };
   };
 
@@ -241,6 +243,7 @@ rec {
       enable = true;
       plugins = [
         "vi-mode"
+        "git"
       ];
       theme = "simple";
     };
