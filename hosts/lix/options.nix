@@ -153,6 +153,13 @@ rec {
         name = "RandomNEET";
         email = "dev@randomneet.me";
       };
+      init = {
+        defaultBranch = "master";
+      };
+      advice = {
+        defaultBranchName = false;
+      };
+
     };
   };
 
