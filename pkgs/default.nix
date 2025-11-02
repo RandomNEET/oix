@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, opts, ... }:
 {
   obsidian-catppuccin = pkgs.callPackage ./obsidian-catppuccin { };
   obsidian-livesync = pkgs.callPackage ./obsidian-livesync { };

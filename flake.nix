@@ -38,16 +38,21 @@
       hosts = builtins.filter (n: builtins.pathExists (./hosts + "/${n}/options.nix")) (
         builtins.attrNames (builtins.readDir ./hosts)
       );
-      overlay = (
-        final: prev:
-        let
-          stable = inputs."nixpkgs-stable".legacyPackages.${final.system};
-        in
-        (import ./pkgs { pkgs = final; })
-        // {
-          inherit stable;
-        }
-      );
+      mkOverlay =
+        opts:
+        (
+          final: prev:
+          let
+            stable = inputs."nixpkgs-stable".legacyPackages.${final.system};
+          in
+          (import ./pkgs {
+            pkgs = final;
+            inherit opts;
+          })
+          // {
+            inherit stable;
+          }
+        );
       mkNixos =
         name:
         let
@@ -67,7 +72,7 @@
                 home-manager.useUserPackages = true;
                 home-manager.extraSpecialArgs = { inherit inputs opts; };
               }
-              { nixpkgs.overlays = [ overlay ]; }
+              { nixpkgs.overlays = [ (mkOverlay opts) ]; }
             ];
           };
         };
