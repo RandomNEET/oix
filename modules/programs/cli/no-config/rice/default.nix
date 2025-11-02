@@ -3,6 +3,7 @@
   home-manager.sharedModules = [
     (_: {
       home.packages = with pkgs; [
+        asciiquarium-transparent
         cbonsai
         cowsay
         cmatrix
