@@ -5,7 +5,6 @@
       programs.swaylock = {
         enable = true;
         settings = {
-          image = opts.swaylock.image;
           scaling = "fill";
           color = "1e1e2e";
           font = "JetBrains Mono Nerd Font";
@@ -21,6 +20,9 @@
           key-hl-color = "a6e3a1";
           indicator-idle-visible = true;
           show-failed-attempts = true;
+        }
+        // lib.optionalAttrs ((opts.swaylock.image or "") != "") {
+          image = opts.swaylock.image;
         };
       };
     })
