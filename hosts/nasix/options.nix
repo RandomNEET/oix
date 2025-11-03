@@ -44,10 +44,25 @@ rec {
   };
 
   # Users
-  rootpasswd = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
-  username = "howl";
-  userpasswd = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
-  uid = 1000;
+  users = {
+    mutableUsers = false;
+    root = {
+      initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
+    };
+    default = {
+      name = "howl";
+      initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
+      isNormalUser = true;
+      uid = 1000;
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "libvirtd"
+        "docker"
+      ];
+      shell = "zsh";
+    };
+  };
 
   # User environment
   editor = "nvim";
@@ -85,7 +100,7 @@ rec {
       port = 10110;
     };
     baseUrl = "https://freshrss.scaphium.xyz";
-    defaultUser = username;
+    defaultUser = users.default.name;
     passwordFile = "/var/lib/freshrss/password";
   };
 
@@ -100,7 +115,7 @@ rec {
       transport.tls.trustedCaFile = "/etc/frp/cert/ca.crt";
       includes = [ "/etc/frp/proxies.toml" ];
     };
-    environmentFile = "/home/${username}/.vault/env/frp.env";
+    environmentFile = "/home/${users.default.name}/.vault/env/frp.env";
   };
 
   homepage-dashboard = {
@@ -449,7 +464,7 @@ rec {
         ];
       }
     ];
-    environmentFile = "/home/${username}/.vault/env/homepage-dashboard.env";
+    environmentFile = "/home/${users.default.name}/.vault/env/homepage-dashboard.env";
   };
 
   mpd = {
@@ -486,7 +501,7 @@ rec {
         browseable = "yes";
         comment = "Private samba share.";
         path = "/mnt/smb";
-        "valid users" = [ "${username}" ];
+        "valid users" = [ "${users.default.name}" ];
         "read only" = "no";
         "writable" = "yes";
       };
@@ -494,9 +509,9 @@ rec {
   };
 
   ssh = {
-    keysDir = "/home/${username}/.vault/ssh";
+    keysDir = "/home/${users.default.name}/.vault/ssh";
 
-    daemon = {
+    server = {
       enable = true;
       ports = [
         22
@@ -533,14 +548,14 @@ rec {
       ROCKET_ADDRESS = "0.0.0.0";
       ROCKET_PORT = 10300;
     };
-    environmentFile = "/home/${username}/.vault/env/vaultwarden.env";
+    environmentFile = "/home/${users.default.name}/.vault/env/vaultwarden.env";
   };
 
   proxy = {
     xray = {
       role = "client";
       method = "lpf"; # tproxy lpf
-      settingsFile = "/home/${username}/.vault/proxy/xray/client/${proxy.xray.method}/outsider/docker.json";
+      settingsFile = "/home/${users.default.name}/.vault/proxy/xray/client/${proxy.xray.method}/outsider/docker.json";
     };
   };
 

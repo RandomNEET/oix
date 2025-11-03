@@ -8,7 +8,10 @@
       enable = true;
 
       user =
-        if (opts.mpd.outputType or "") == "pipewire" then opts.username else (opts.mpd.user or "mpd");
+        if (opts.mpd.outputType or "") == "pipewire" then
+          opts.users.default.name
+        else
+          (opts.mpd.user or "mpd");
       group = opts.mpd.group or "mpd";
 
       dataDir = dataDir;
@@ -29,6 +32,6 @@
     };
 
   systemd.services.mpd.environment = lib.mkIf ((opts.mpd.outputType or "") == "pipewire") {
-    XDG_RUNTIME_DIR = "/run/user/${toString opts.uid}";
+    XDG_RUNTIME_DIR = "/run/user/${toString opts.users.default.uid}";
   };
 }

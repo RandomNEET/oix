@@ -29,12 +29,4 @@
     win-virtio
     win-spice
   ];
-
-  users = {
-    users = {
-      ${opts.username} = {
-        extraGroups = [ "libvirtd" ];
-      };
-    };
-  };
 }

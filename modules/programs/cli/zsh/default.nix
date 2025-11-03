@@ -4,8 +4,9 @@
   ...
 }:
 {
-  programs.zsh.enable = true;
-  users.users.${opts.username}.shell = pkgs.zsh;
+  programs.zsh = {
+    enable = true;
+  };
   home-manager.sharedModules = [
     (
       { config, ... }:

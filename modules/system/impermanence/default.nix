@@ -27,7 +27,7 @@
         }
       ]
       ++ lib.optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
-      ++ lib.optional config.boot.lanzaboote.enable "/var/lib/sbctl"
+      ++ lib.optional (config.boot.lanzaboote.enable or false) "/var/lib/sbctl"
     );
     files = (
       [

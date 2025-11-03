@@ -22,7 +22,7 @@ in
                 monitor = primaryLandscape.output;
                 color = "rgb(36, 39, 58)";
               }
-              // lib.optionalAttrs (opts.hyprlock.background or null != null) {
+              // lib.optionalAttrs ((opts.hyprlock.background or "") != "") {
                 path = opts.hyprlock.background;
                 new_optimizations = true;
                 blur_size = 3;

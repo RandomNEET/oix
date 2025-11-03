@@ -21,10 +21,24 @@ rec {
   };
 
   # Users
-  rootpasswd = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
-  username = "howl";
-  userpasswd = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
-  uid = 1000;
+  users = {
+    mutableUsers = false;
+    root = {
+      initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
+    };
+    default = {
+      name = "howl";
+      initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
+      isNormalUser = true;
+      uid = 1000;
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "libvirtd"
+      ];
+      shell = "zsh";
+    };
+  };
 
   # User environment
   editor = "nvim";
@@ -86,9 +100,9 @@ rec {
   };
 
   ssh = {
-    keysDir = "/home/${username}/.vault/ssh";
+    keysDir = "/home/${users.default.name}/.vault/ssh";
 
-    daemon = {
+    server = {
       enable = true;
       ports = [
         22
@@ -128,7 +142,7 @@ rec {
 
   proxy = {
     dae = {
-      configFile = "/home/${username}/.vault/proxy/dae/default.dae";
+      configFile = "/home/${users.default.name}/.vault/proxy/dae/default.dae";
       openFirewall = {
         enable = true;
         port = 12345;
@@ -153,7 +167,7 @@ rec {
   };
 
   gpg = {
-    homedir = "/home/${username}/.gnupg";
+    homedir = "/home/${users.default.name}/.gnupg";
     agent = {
       enable = true;
       enableSshSupport = true; # Automatically disable ssh-agent if set to true
@@ -295,7 +309,7 @@ rec {
   hibernate = false;
 
   wallpaper = {
-    dir = "/home/${username}/pic/wallpapers";
+    dir = "/home/${users.default.name}/pic/wallpapers";
     landscapeDir = "${wallpaper.dir}/landscape";
     portraitDir = "${wallpaper.dir}/portrait";
     transition = {

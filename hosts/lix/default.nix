@@ -66,6 +66,7 @@
     ../../modules/programs/gui/vscode
     ../../modules/programs/gui/zathura
     ../../modules/programs/gui/no-config/networking
+    ../../modules/programs/gui/no-config/productivity
 
     ../../modules/scripts
 

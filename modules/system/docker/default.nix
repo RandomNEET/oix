@@ -28,12 +28,4 @@
     extraOptions = opts.docker.extraOptions or "";
     extraPackages = with pkgs; [ ];
   };
-
-  users = {
-    users = {
-      ${opts.username} = {
-        extraGroups = [ "docker" ];
-      };
-    };
-  };
 }
