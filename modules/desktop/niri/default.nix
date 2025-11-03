@@ -40,24 +40,38 @@
         ...
       }:
       let
-        inherit (lib) getExe getExe';
         autoclicker = pkgs.callPackage ./scripts/autoclicker.nix { };
         niriConfig = ''
-          ${lib.concatMapStringsSep "\n" (output: ''
-            output "${output.name}" {
-              ${lib.optionalString (output.off or false) "off"}
-              ${lib.optionalString (output.mode != null) ''mode "${output.mode}"''}
-              ${lib.optionalString (output.scale != null) ''scale ${builtins.toJSON output.scale}''}
-              ${lib.optionalString (output.transform != null) ''transform "${output.transform}"''}
-              ${
-                lib.optionalString (
-                  output.position != null
-                ) ''position x=${toString output.position.x} y=${toString output.position.y}''
-              } 
-              ${lib.optionalString (output.variable-refresh-rate or false) "variable-refresh-rate"}
-              ${lib.optionalString (output.focus-at-startup or false) "focus-at-startup"}
-            }
-          '') opts.niri.output}
+          ${lib.concatMapStringsSep "\n" (
+            output:
+            lib.optionalString ((output.name or "") != "") ''
+              output "${output.name}" {
+                ${lib.optionalString (output.off or false) "off"}
+                ${lib.optionalString ((output.mode or "") != "") ''mode "${output.mode}"''}
+                ${lib.optionalString ((output.scale or null) != null) ''scale ${builtins.toJSON output.scale}''}
+                ${lib.optionalString ((output.transform or "") != "") ''transform "${output.transform}"''}
+                ${
+                  lib.optionalString (
+                    (((output.position.x or null) != null) && ((output.position.y or null) != null))
+                  ) ''position x=${toString output.position.x} y=${toString output.position.y}''
+                } 
+                ${lib.optionalString (output.variable-refresh-rate or false) "variable-refresh-rate"}
+                ${lib.optionalString (output.focus-at-startup or false) "focus-at-startup"}
+                ${lib.optionalString (
+                  (output.backdrop-color or "") != ""
+                ) ''backdrop-color "${output.backdrop-color}"''}
+                ${lib.optionalString ((output.hot-corners or null) != null) ''
+                  hot-corners {
+                    ${lib.optionalString (output.hot-corners.off or false) "off"}
+                    ${lib.optionalString (output.hot-corners.top-left or false) "top-left"}
+                    ${lib.optionalString (output.hot-corners.top-right or false) "top-right"}
+                    ${lib.optionalString (output.hot-corners.bottom-left or false) "bottom-left"}
+                    ${lib.optionalString (output.hot-corners.bottom-right or false) "bottom-right"}
+                  }
+                ''}
+              }
+            ''
+          ) opts.niri.output}
 
           input {
               touchpad {

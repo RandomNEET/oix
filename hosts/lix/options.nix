@@ -349,8 +349,8 @@ rec {
   niri = {
     output = [
       {
-        off = false;
         name = "eDP-1";
+        off = false;
         mode = "1920x1080@60.008";
         scale = 1.25;
         transform = "normal";
