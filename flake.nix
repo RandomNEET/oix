@@ -51,6 +51,10 @@
           })
           // {
             inherit stable;
+            nur = import inputs.nur {
+              nurpkgs = final;
+              pkgs = final;
+            };
           }
         );
       mkNixos =
