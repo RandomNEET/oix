@@ -1,0 +1,25 @@
+default_language = "english1000"
+
+[theme]
+default = "none"
+title = "cba6f7;bold"
+input_border = "89b4fa"
+prompt_border = "a6e3a1"
+border_type = "rounded"
+
+prompt_correct = "a6e3a1"
+prompt_incorrect = "f38ba8"
+prompt_untyped = "585b70"
+prompt_current_correct = "a6e3a1;bold"
+prompt_current_incorrect = "f38ba8;bold"
+prompt_current_untyped = "74c7ec;bold"
+prompt_cursor = "f5e0dc;underlined"
+
+results_overview = "89b4fa;bold"
+results_overview_border = "89b4fa"
+results_worst_keys = "fab387;bold"
+results_worst_keys_border = "fab387"
+results_chart = "cba6f7"
+results_chart_x = "b4befe"
+results_chart_y = "9399b2;italic"
+results_restart_prompt = "6c7086;italic"
