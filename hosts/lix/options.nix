@@ -100,6 +100,16 @@ rec {
     outputType = "pipewire";
   };
 
+  proxy = {
+    dae = {
+      configFile = "/home/${users.default.name}/.vault/proxy/dae/default.dae";
+      openFirewall = {
+        enable = true;
+        port = 12345;
+      };
+    };
+  };
+
   ssh = {
     keysDir = "/home/${users.default.name}/.vault/ssh";
 
@@ -147,16 +157,6 @@ rec {
       STOP_CHARGE_THRESH_BAT0 = 80;
       START_CHARGE_THRESH_BAT1 = 40;
       STOP_CHARGE_THRESH_BAT1 = 80;
-    };
-  };
-
-  proxy = {
-    dae = {
-      configFile = "/home/${users.default.name}/.vault/proxy/dae/default.dae";
-      openFirewall = {
-        enable = true;
-        port = 12345;
-      };
     };
   };
 

@@ -43,13 +43,13 @@
     ../../modules/programs/cli/spotify-player
     ../../modules/programs/cli/tmux
     ../../modules/programs/cli/trash-cli
+    ../../modules/programs/cli/ttyper
     ../../modules/programs/cli/yazi
     ../../modules/programs/cli/zoxide
     ../../modules/programs/cli/zsh
     ../../modules/programs/cli/no-config/archive
     ../../modules/programs/cli/no-config/media
     ../../modules/programs/cli/no-config/rice
-    ../../modules/programs/cli/no-config/typing
 
     ../../modules/programs/gui/discord
     ../../modules/programs/gui/fcitx5

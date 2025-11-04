@@ -99,6 +99,16 @@ rec {
     outputType = "pipewire";
   };
 
+  proxy = {
+    dae = {
+      configFile = "/home/${users.default.name}/.vault/proxy/dae/default.dae";
+      openFirewall = {
+        enable = true;
+        port = 12345;
+      };
+    };
+  };
+
   ssh = {
     keysDir = "/home/${users.default.name}/.vault/ssh";
 
@@ -140,16 +150,6 @@ rec {
     };
   };
 
-  proxy = {
-    dae = {
-      configFile = "/home/${users.default.name}/.vault/proxy/dae/default.dae";
-      openFirewall = {
-        enable = true;
-        port = 12345;
-      };
-    };
-  };
-
   # Programs
   git = {
     settings = {
@@ -163,6 +163,15 @@ rec {
       advice = {
         defaultBranchName = false;
       };
+    };
+  };
+
+  games = {
+    home = {
+      packages = [
+        "osu-lazer"
+        "prismlauncher"
+      ];
     };
   };
 

@@ -8,6 +8,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote?ref=v0.4.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    impermanence.url = "github:nix-community/impermanence";
     nix-flatpak.url = "github:gmodena/nix-flatpak?ref=latest";
     nixvim = {
       url = "github:nix-community/nixvim";
@@ -21,11 +26,6 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote?ref=v0.4.2";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    impermanence.url = "github:nix-community/impermanence";
   };
   outputs =
     {
@@ -35,29 +35,16 @@
       ...
     }@inputs:
     let
+      inherit (self) outputs;
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
       hosts = builtins.filter (n: builtins.pathExists (./hosts + "/${n}/options.nix")) (
         builtins.attrNames (builtins.readDir ./hosts)
       );
-      mkOverlay =
-        opts:
-        (
-          final: prev:
-          let
-            stable = inputs."nixpkgs-stable".legacyPackages.${final.system};
-          in
-          (import ./pkgs {
-            pkgs = final;
-            inherit opts;
-          })
-          // {
-            inherit stable;
-            nur = import inputs.nur {
-              nurpkgs = final;
-              pkgs = final;
-            };
-          }
-        );
-      mkNixos =
+      mkHost =
         name:
         let
           hostPath = ./hosts + "/${name}";
@@ -74,21 +61,17 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = { inherit inputs opts; };
+                home-manager.extraSpecialArgs = { inherit inputs outputs opts; };
               }
-              { nixpkgs.overlays = [ (mkOverlay opts) ]; }
+              {
+                nixpkgs.overlays = import ./overlays { inherit inputs opts; };
+              }
             ];
           };
         };
     in
     {
-      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkNixos hosts);
-      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (
-        system:
-        let
-          pkgs = import nixpkgs { inherit system; };
-        in
-        pkgs.nixfmt-tree
-      );
+      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkHost hosts);
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
     };
 }

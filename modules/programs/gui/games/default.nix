@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, opts, ... }:
 {
   programs = {
     steam = {
@@ -18,15 +18,6 @@
     gamemode.enable = true;
   };
 
-  home-manager.sharedModules = [
-    (_: {
-      home.packages = with pkgs; [
-        osu-lazer
-        prismlauncher
-      ];
-    })
-  ];
-
   hardware = {
     graphics = {
       enable = true;
@@ -39,4 +30,12 @@
 
   # Dualsense edge support
   services.udev.packages = with pkgs; [ game-devices-udev-rules ];
+
+  environment.systemPackages = builtins.map (name: pkgs.${name}) (opts.games.system.packages or [ ]);
+
+  home-manager.sharedModules = [
+    (_: {
+      home.packages = builtins.map (name: pkgs.${name}) (opts.games.home.packages or [ ]);
+    })
+  ];
 }
