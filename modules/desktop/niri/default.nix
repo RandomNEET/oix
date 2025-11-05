@@ -98,9 +98,13 @@
               default-column-width { proportion 0.5; }
               focus-ring {
                   width 2
-                  active-gradient from="#ca9ee6" to="#f2d5cf" angle=45
-                  inactive-gradient from="#b4befe" to="#6c7086" angle=45
-              }
+                  ${lib.optionalString (
+                    (opts.theme or "") == "catppuccin-mocha"
+                  ) ''active-gradient from="#ca9ee6" to="#f2d5cf" angle=45''}
+                  ${lib.optionalString (
+                    (opts.theme or "") == "catppuccin-mocha"
+                  ) ''inactive-gradient from="#b4befe" to="#6c7086" angle=45''}
+                  }
               border {
                   off
               }
@@ -108,7 +112,7 @@
                   softness 30
                   spread 5
                   offset x=0 y=5
-                  color "#0007"
+                  ${lib.optionalString ((opts.theme or "") == "catppuccin-mocha") ''color "#11111b"''}
               }
           }
 

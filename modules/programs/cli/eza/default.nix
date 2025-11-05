@@ -1,3 +1,4 @@
+{ lib, opts, ... }:
 {
   home-manager.sharedModules = [
     (_: {
@@ -6,7 +7,9 @@
         enableBashIntegration = true;
         enableZshIntegration = true;
         icons = "auto";
-        theme = "catppuccin";
+      }
+      // lib.optionalAttrs ((opts.theme or "") != "") {
+        theme = opts.theme;
       };
     })
   ];

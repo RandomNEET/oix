@@ -10,7 +10,7 @@
       programs = {
         firefox = {
           enable = true;
-          policies = import ./policies.nix { inherit opts; };
+          policies = import ./policies.nix { inherit lib opts; };
           profiles = {
             default = {
               # choose a profile name; directory is /home/<user>/.mozilla/firefox/profile_0

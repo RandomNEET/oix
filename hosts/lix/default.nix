@@ -47,14 +47,10 @@
     ../../modules/programs/cli/yazi
     ../../modules/programs/cli/zoxide
     ../../modules/programs/cli/zsh
-    ../../modules/programs/cli/no-config/archive
-    ../../modules/programs/cli/no-config/media
-    ../../modules/programs/cli/no-config/rice
 
     ../../modules/programs/gui/discord
     ../../modules/programs/gui/fcitx5
     ../../modules/programs/gui/firefox
-    ../../modules/programs/gui/firejail
     ../../modules/programs/gui/games
     ../../modules/programs/gui/kitty
     ../../modules/programs/gui/localsend
@@ -65,12 +61,9 @@
     ../../modules/programs/gui/thunderbird
     ../../modules/programs/gui/vscode
     ../../modules/programs/gui/zathura
-    ../../modules/programs/gui/no-config/networking
-    ../../modules/programs/gui/no-config/productivity
 
     ../../modules/scripts
 
-    ../../modules/desktop/niri
-    ../../modules/desktop/themes
+    ../../modules/desktop
   ];
 }

@@ -41,22 +41,29 @@
         "aarch64-linux"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
-      hosts = builtins.filter (n: builtins.pathExists (./hosts + "/${n}/options.nix")) (
-        builtins.attrNames (builtins.readDir ./hosts)
-      );
+      hosts = builtins.filter (
+        n:
+        (builtins.readDir ./hosts).${n} == "directory"
+        && builtins.pathExists (./hosts + "/${n}/hardware-configuration.nix")
+        && builtins.pathExists (./hosts + "/${n}/options.nix")
+      ) (builtins.attrNames (builtins.readDir ./hosts));
       mkHost =
         name:
         let
-          hostPath = ./hosts + "/${name}";
-          opts = import (hostPath + "/options.nix");
+          host = ./hosts + "/${name}";
+          opts =
+            (import (host + "/options.nix") {
+              lib = nixpkgs.lib;
+              inherit inputs outputs;
+            }).opts;
         in
         {
-          name = opts.hostname;
+          name = name;
           value = nixpkgs.lib.nixosSystem {
             system = opts.system;
-            specialArgs = { inherit inputs opts; };
+            specialArgs = { inherit inputs outputs opts; };
             modules = [
-              hostPath
+              host
               home-manager.nixosModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;

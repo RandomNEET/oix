@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
 {
   home-manager.sharedModules = [
     (_: {
@@ -6,19 +11,13 @@
         enable = true;
         config = {
           style = "plain";
-          theme = "catppuccin-mocha";
+        }
+        // lib.optionalAttrs ((opts.theme or "") != "") {
+          theme = opts.theme;
         };
-        themes = {
-          catppuccin-mocha = {
-            src = pkgs.fetchFromGitHub {
-              owner = "catppuccin";
-              repo = "bat";
-              rev = "main";
-              sha256 = "sha256-lJapSgRVENTrbmpVyn+UQabC9fpV1G1e+CdlJ090uvg=";
-            };
-            file = "themes/Catppuccin Mocha.tmTheme";
-          };
-        };
+      }
+      // lib.optionalAttrs ((opts.theme or "") != "") {
+        themes = import ./${opts.theme}.nix { inherit pkgs; };
       };
     })
   ];

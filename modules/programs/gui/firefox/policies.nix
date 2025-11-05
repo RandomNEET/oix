@@ -1,4 +1,4 @@
-{ opts, ... }:
+{ lib, opts, ... }:
 {
   AllowFileSelectionDialogs = true;
   AppAutoUpdate = false;
@@ -124,7 +124,9 @@
       installation_mode = "force_installed";
       private_browsing = true;
     };
-    # Catppuccin Mocha - Mauve
+  }
+  // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
+    # Catppuccin Mocha - Mauve, only included if theme matches
     "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}" = {
       install_url = "https://addons.mozilla.org/firefox/downloads/latest/catppuccin-mocha-mauve-git/latest.xpi";
       installation_mode = "force_installed";

@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
 {
   home-manager.sharedModules = [
     (_: {
@@ -7,10 +12,10 @@
         type = "fcitx5";
         fcitx5 = {
           waylandFrontend = true;
-          addons = with pkgs; [
-            fcitx5-chinese-addons
-            catppuccin-fcitx5
-          ];
+          addons =
+            with pkgs;
+            [ fcitx5-chinese-addons ]
+            ++ lib.optionals ((opts.theme or "") == "catppuccin-mocha") [ catppuccin-fcitx5 ];
           settings = {
             inputMethod = {
               GroupOrder."0" = "Default";
@@ -47,9 +52,11 @@
                 TrayFont = "JetBrainsMono Nerd Font 10";
                 TrayOutlineColor = "#000000";
                 TrayTextColor = "#ffffff";
+                UserAccentColor = false;
+              }
+              // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
                 Theme = "catppuccin-mocha-mauve";
                 DarkTheme = "catppuccin-mocha-mauve";
-                UserAccentColor = false;
               };
               keyboard.globalSection = {
                 EmojiEnabled = true;

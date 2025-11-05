@@ -49,18 +49,20 @@
                 enable = true;
               }
             ];
-            themes = [
-              {
-                pkg = pkgs.obsidian-catppuccin;
-                enable = true;
-              }
-            ];
             appearance = {
               cssTheme = "Catppuccin";
               interfaceFontFamily = "JetBrainsMono Nerd Font";
               textFontFamily = "JetBrainsMono Nerd Font";
               monospaceFontFamily = "JetBrainsMono Nerd Font";
             };
+          }
+          // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
+            themes = [
+              {
+                pkg = pkgs.obsidian-catppuccin;
+                enable = true;
+              }
+            ];
           };
           vaults =
             opts.obsidian.vaults or {

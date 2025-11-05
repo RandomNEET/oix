@@ -1,3 +1,4 @@
+{ lib, opts, ... }:
 {
   home-manager.sharedModules = [
     (_: {
@@ -5,13 +6,17 @@
         enable = true;
         settings = {
           viewer = {
-            window = "#1e1e2e80";
             scale = "optimal";
             antialiasing = "mks13";
+          }
+          // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
+            window = "#1e1e2e80";
           };
           font = {
             name = "JetBrainsMono Nerd Font";
             size = 12;
+          }
+          // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
             color = "#cdd6f4ff";
             shadow = "#1e1e2ed0";
             background = "#1e1e2e00";

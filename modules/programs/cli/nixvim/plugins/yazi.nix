@@ -1,8 +1,4 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 {
   programs.nixvim = {
     keymaps = lib.mkIf config.programs.yazi.enable [

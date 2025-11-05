@@ -1,4 +1,4 @@
-{ opts, ... }:
+{ pkgs, opts, ... }:
 {
   nix = {
     settings = {
@@ -36,6 +36,12 @@
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_BIN_HOME = "$HOME/.local/bin";
   };
+  environment.systemPackages = builtins.map (name: pkgs.${name}) (opts.packages.system or [ ]);
+  home-manager.sharedModules = [
+    (_: {
+      home.packages = builtins.map (name: pkgs.${name}) (opts.packages.home or [ ]);
+    })
+  ];
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "25.05";
 }

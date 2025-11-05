@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
 {
   home-manager.sharedModules = [
     (_: {
@@ -6,6 +11,8 @@
         enable = true;
         package = pkgs.thunderbird.override {
           extraPolicies.ExtensionSettings = {
+          }
+          // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
             "{47f5c9df-1d03-5424-ae9e-0613b69a9d2f}" = {
               installation_mode = "force_installed";
               install_url = "https://raw.githubusercontent.com/catppuccin/thunderbird/main/themes/mocha/mocha-mauve.xpi";

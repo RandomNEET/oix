@@ -41,7 +41,11 @@
 
           oh-my-zsh = {
             enable = opts.zsh.oh-my-zsh.enable or false;
-            plugins = opts.zsh.oh-my-zsh.plugins or [ ];
+            plugins =
+              opts.zsh.oh-my-zsh.plugins or [
+                "vi-mode"
+                "git"
+              ];
             theme = opts.zsh.oh-my-zsh.theme or "";
             custom = opts.zsh.oh-my-zsh.custom or "";
             extraConfig = opts.zsh.oh-my-zsh.extraConfig or "";

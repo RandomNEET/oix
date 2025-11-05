@@ -10,8 +10,8 @@
       imports = [
         ./init.nix
         ./keymap.nix
-        ./theme.nix
-      ];
+      ]
+      ++ lib.optional ((opts.theme or "") != "") ./${opts.theme}.nix;
 
       programs.yazi =
         let

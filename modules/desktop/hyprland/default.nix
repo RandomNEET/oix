@@ -177,11 +177,13 @@
                 gaps_in = 4;
                 gaps_out = 9;
                 border_size = 2;
-                "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
-                "col.inactive_border" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
                 resize_on_border = true;
                 layout = "dwindle"; # dwindle or master
                 # allow_tearing = true; # Allow tearing for games (use immediate window rules for specific games or all titles)
+              }
+              // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
+                "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
+                "col.inactive_border" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
               };
               decoration = {
                 shadow.enabled = false;
@@ -198,6 +200,8 @@
                 };
               };
               group = {
+              }
+              // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
                 "col.border_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
                 "col.border_inactive" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
                 "col.border_locked_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
@@ -546,7 +550,7 @@
                 "$mainMod, mouse:272, movewindow"
                 "$mainMod, mouse:273, resizewindow"
               ];
-              monitor = opts.hyprland.monitor;
+              monitor = opts.hyprland.monitor or [ ];
             };
             extraConfig = ''
               binds {
@@ -559,7 +563,7 @@
               monitor=,preferred,auto,1
 
               # Binds workspaces to my monitors only (find desc with: hyprctl monitors)
-              ${opts.hyprland.workspaceBind}
+              ${opts.hyprland.workspaceBinds or ""}
             '';
           };
         }

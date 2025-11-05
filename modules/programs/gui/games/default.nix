@@ -31,11 +31,11 @@
   # Dualsense edge support
   services.udev.packages = with pkgs; [ game-devices-udev-rules ];
 
-  environment.systemPackages = builtins.map (name: pkgs.${name}) (opts.games.system.packages or [ ]);
+  environment.systemPackages = builtins.map (name: pkgs.${name}) (opts.games.packages.system or [ ]);
 
   home-manager.sharedModules = [
     (_: {
-      home.packages = builtins.map (name: pkgs.${name}) (opts.games.home.packages or [ ]);
+      home.packages = builtins.map (name: pkgs.${name}) (opts.games.packages.home or [ ]);
     })
   ];
 }

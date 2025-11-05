@@ -34,7 +34,8 @@ in
       powerManagement.enable = true; # This can cause sleep/suspend to fail.
       modesetting.enable = true;
       package = nvidiaDriverChannel;
-    };
+    }
+    // lib.optionalAttrs ((opts.hardware.nvidia or { }) != { }) opts.hardware.nvidia;
     graphics = {
       enable = true;
       # package = nvidiaDriverChannel;

@@ -1,6 +1,4 @@
+{ lib, opts, ... }:
 {
-  # Import all your configuration modules here
-  imports = [
-    ./catppuccin.nix
-  ];
+  imports = lib.optional ((opts.theme or "") != "") ./${opts.theme};
 }
