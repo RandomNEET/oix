@@ -14,6 +14,6 @@
 
     serverConfig = opts.qbittorrent.serverConfig or { };
 
-    extraArgs = opts.qbittorrent.extraArgs or [ ];
+    extraArgs = [ ] ++ (opts.qbittorrent.extraArgs or [ ]);
   };
 }
