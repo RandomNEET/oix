@@ -8,7 +8,7 @@ def hex_to_rgba(hex_color, alpha=1.0):
     return f"rgba({r}, {g}, {b}, {alpha})"
 
 
-def setup(c, flavour, samecolorrows=False):
+def setup(c, flavour, samecolorrows=False, opacity0=0.9, opacity1=0.1):
     palette = {}
 
     # flavours {{{
@@ -251,7 +251,7 @@ def setup(c, flavour, samecolorrows=False):
 
     # statusbar {{{
     ## Background color of the statusbar.
-    c.colors.statusbar.normal.bg = hex_to_rgba(palette["base"], 0.9)
+    c.colors.statusbar.normal.bg = hex_to_rgba(palette["base"], opacity0)
     ## Background color of the statusbar in insert mode.
     c.colors.statusbar.insert.bg = hex_to_rgba(palette["crust"], 1.0)
     ## Background color of the statusbar in command mode.
@@ -311,11 +311,11 @@ def setup(c, flavour, samecolorrows=False):
 
     # tabs {{{
     ## Background color of the tab bar.
-    c.colors.tabs.bar.bg = hex_to_rgba(palette["crust"], 0.1)
+    c.colors.tabs.bar.bg = hex_to_rgba(palette["crust"], opacity1)
     ## Background color of unselected even tabs.
-    c.colors.tabs.even.bg = hex_to_rgba(palette["surface2"], 0.1)
+    c.colors.tabs.even.bg = hex_to_rgba(palette["surface2"], opacity1)
     ## Background color of unselected odd tabs.
-    c.colors.tabs.odd.bg = hex_to_rgba(palette["surface1"], 0.1)
+    c.colors.tabs.odd.bg = hex_to_rgba(palette["surface1"], opacity1)
 
     ## Foreground color of unselected even tabs.
     c.colors.tabs.even.fg = hex_to_rgba(palette["overlay2"], 1.0)
@@ -333,9 +333,9 @@ def setup(c, flavour, samecolorrows=False):
     c.colors.tabs.indicator.system = "none"
 
     # ## Background color of selected even tabs.
-    c.colors.tabs.selected.even.bg = hex_to_rgba(palette["base"], 0.9)
+    c.colors.tabs.selected.even.bg = hex_to_rgba(palette["base"], opacity0)
     # ## Background color of selected odd tabs.
-    c.colors.tabs.selected.odd.bg = hex_to_rgba(palette["base"], 0.9)
+    c.colors.tabs.selected.odd.bg = hex_to_rgba(palette["base"], opacity0)
 
     # ## Foreground color of selected even tabs.
     c.colors.tabs.selected.even.fg = hex_to_rgba(palette["text"], 1.0)

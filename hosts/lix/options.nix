@@ -360,7 +360,7 @@
       };
       window = {
         hide_decoration = true;
-        transparent = true;
+        transparent = false;
       };
       completion = {
         height = "30%";

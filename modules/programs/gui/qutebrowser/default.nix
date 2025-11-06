@@ -26,7 +26,9 @@
             import themes
           ''
           + lib.optionalString ((opts.theme or "") == "catppuccin-mocha") ''
-            themes.catppuccin.setup(c, 'mocha', True)
+            themes.catppuccin.setup(c, 'mocha', True, ${toString (opts.qutebrowser.theme.opacity0 or 0.9)}, ${
+              toString (opts.qutebrowser.theme.opacity1 or 0.1)
+            })
           ''
           + (opts.qutebrowser.extraConfig or "");
         };

@@ -302,6 +302,10 @@
     };
 
     qutebrowser = {
+      theme = {
+        opacity0 = 0.9;
+        opacity1 = 0.1;
+      };
       window = {
         hide_decoration = true;
         transparent = true;
