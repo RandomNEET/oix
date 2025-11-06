@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   opts,
   ...
 }:
@@ -12,12 +11,9 @@
         config = {
           style = "plain";
         }
-        // lib.optionalAttrs ((opts.theme or "") != "") {
-          theme = opts.theme;
+        // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
+          theme = "Catppuccin Mocha";
         };
-      }
-      // lib.optionalAttrs ((opts.theme or "") != "") {
-        themes = import ./${opts.theme}.nix { inherit pkgs; };
       };
     })
   ];

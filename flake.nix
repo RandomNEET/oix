@@ -58,7 +58,7 @@
             }).opts;
         in
         {
-          name = name;
+          name = opts.hostname or name;
           value = nixpkgs.lib.nixosSystem {
             system = opts.system;
             specialArgs = { inherit inputs outputs opts; };

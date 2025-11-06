@@ -15,7 +15,7 @@
           tmux.enableShellIntegration = true;
         }
         // lib.optionalAttrs ((opts.theme or "") != "") {
-          colors = import ./${opts.theme}.nix;
+          colors = import ./themes/${opts.theme}.nix;
         };
 
         programs.zsh = lib.mkIf config.programs.zsh.enable {

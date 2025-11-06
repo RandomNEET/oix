@@ -12,9 +12,10 @@
           };
         }
         // lib.optionalAttrs ((opts.theme or "") != "") {
-          color = import ./${opts.theme}.nix;
+          color.theme = opts.theme;
         };
       };
+      home.file.".config/cava/themes".source = ./themes;
     })
   ];
 }

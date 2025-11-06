@@ -5,7 +5,9 @@
   ...
 }:
 let
-  theme = lib.optionalAttrs ((opts.theme or "") != "") (import ./${opts.theme}.nix { inherit pkgs; });
+  theme = lib.optionalAttrs ((opts.theme or "") != "") (
+    import ./themes/${opts.theme}.nix { inherit pkgs; }
+  );
 in
 {
   home-manager.sharedModules = [

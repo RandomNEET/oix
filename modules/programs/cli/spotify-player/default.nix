@@ -13,10 +13,8 @@
         // lib.optionalAttrs ((opts.theme or "") != "") {
           theme = opts.theme;
         };
-      }
-      // lib.optionalAttrs ((opts.theme or "") != "") {
-        themes = import ./${opts.theme}.nix;
       };
+      home.file.".config/spotify-player/theme.toml".source = ./theme.toml;
     })
   ];
 }

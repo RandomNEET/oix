@@ -247,7 +247,7 @@
         );
       }
       // lib.optionalAttrs ((opts.theme or "") != "") {
-        imports = [ ./${opts.theme}.nix ];
+        imports = [ ./themes/${opts.theme}.nix ];
       }
     )
   ];

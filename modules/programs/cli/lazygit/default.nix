@@ -15,7 +15,7 @@
           };
         }
         // lib.optionalAttrs ((opts.theme or "") != "") {
-          gui = import ./${opts.theme}.nix { inherit pkgs; };
+          gui = import ./themes/${opts.theme}.nix { inherit pkgs; };
         };
       };
 

@@ -39,24 +39,17 @@
               "templates"
               "word-count"
             ];
-            communityPlugins = [
-              {
-                pkg = pkgs.obsidian-livesync;
-                enable = true;
-              }
-              {
-                pkg = pkgs.obsidian-trash-explorer;
-                enable = true;
-              }
-            ];
+            communityPlugins = import ./plugins.nix { inherit pkgs; };
             appearance = {
-              cssTheme = "Catppuccin";
               interfaceFontFamily = "JetBrainsMono Nerd Font";
               textFontFamily = "JetBrainsMono Nerd Font";
               monospaceFontFamily = "JetBrainsMono Nerd Font";
             };
           }
           // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
+            appearance = {
+              cssTheme = "Catppuccin";
+            };
             themes = [
               {
                 pkg = pkgs.obsidian-catppuccin;

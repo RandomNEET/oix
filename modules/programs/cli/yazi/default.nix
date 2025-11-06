@@ -11,7 +11,7 @@
         ./init.nix
         ./keymap.nix
       ]
-      ++ lib.optional ((opts.theme or "") != "") ./${opts.theme}.nix;
+      ++ lib.optional ((opts.theme or "") != "") ./themes/${opts.theme}.nix;
 
       programs.yazi =
         let
