@@ -5,7 +5,8 @@
     d = "https://duckduckgo.com/?q={}";
     g = "https://www.google.com/search?hl=en&q={}";
     w = "https://en.wikipedia.org/wiki/Special:Search?search={}&go=Go&ns0=1";
-    dl = "https://www.deepl.com/translator#-/-/{}";
+    te = "https://translate.google.com/?sl=auto&tl=en&text={}&op=translate";
+    tz = "https://translate.google.com/?sl=auto&tl=zh-CN&text={}&op=translate";
     aw = "https://wiki.archlinux.org/?search={}";
     nw = "https://wiki.nixos.org/index.php?search={}";
     mn = "https://mynixos.com/search?q={}";
