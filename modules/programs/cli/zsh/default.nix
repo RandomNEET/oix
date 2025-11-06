@@ -1,8 +1,4 @@
-{
-  pkgs,
-  opts,
-  ...
-}:
+{ opts, ... }:
 {
   programs.zsh = {
     enable = true;
@@ -25,7 +21,7 @@
             size = 100000;
           };
 
-          initExtra = '''' + (opts.zsh.initContent or "");
+          initContent = '''' + (opts.zsh.initContent or "");
 
           envExtra = '''' + (opts.zsh.envExtra or "");
 
