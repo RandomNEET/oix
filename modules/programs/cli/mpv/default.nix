@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
 {
   home-manager.sharedModules = [
     (
@@ -84,8 +89,8 @@
             Z = "add audio-delay -0.1";
             X = "add audio-delay 0.1";
 
-            "1" = "add volume -1";
-            "2" = "add volume 1";
+            "-" = "add volume -1";
+            "=" = "add volume 1";
             s = "cycle sub";
             v = "cycle video";
             a = "cycle audio";
@@ -119,7 +124,8 @@
             screenshot-sw = true;
             # cache-dir = "${config.xdg.cacheHome}/mpv";
             input-default-bindings = false;
-          };
+          }
+          // lib.optionalAttrs ((opts.theme or "") != "") (import ./themes/${opts.theme}.nix);
         };
       }
     )
