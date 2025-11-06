@@ -1,10 +1,5 @@
 {
-  imports = [
-    ./boot.nix
-    ./networking.nix
-    ./security.nix
-    ./systemd.nix
-    ./users.nix
-    ./misc.nix
-  ];
+  imports = builtins.map (f: ./${f}) (
+    builtins.filter (f: f != "default.nix") (builtins.attrNames (builtins.readDir ./.))
+  );
 }
