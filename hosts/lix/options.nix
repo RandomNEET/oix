@@ -54,7 +54,7 @@
     editor = "nvim";
     terminal = "kitty";
     terminalFileManager = "yazi";
-    browser = "firefox";
+    browser = "qutebrowser"; # firefox qutebrowser
     xdg = {
       userDirs = {
         desktop = null; # null or "$HOME/dsk"
@@ -101,6 +101,7 @@
     };
 
     proxy = {
+      # dae xray
       dae = {
         configFile = "/home/${users.default.name}/.vault/proxy/dae/default.dae";
         openFirewall = {
@@ -298,6 +299,23 @@
           enable = true;
           target = "doc/notes";
         };
+      };
+    };
+
+    qutebrowser = {
+      window = {
+        hide_decoration = true;
+        transparent = true;
+      };
+      url = {
+        default_page = "https://startpage.randomneet.me/";
+        start_pages = "https://startpage.randomneet.me/";
+      };
+      quickmarks = {
+        sp = "https://startpage.randomneet.me/";
+        hp = "https://homepage.scaphium.xyz/";
+        ld = "https://linkding.scaphium.xyz/";
+        mgd = "https://webmail.migadu.com/";
       };
     };
 

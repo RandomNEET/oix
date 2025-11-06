@@ -56,6 +56,7 @@
     ../../modules/programs/gui/localsend
     ../../modules/programs/gui/obs-studio
     ../../modules/programs/gui/obsidian
+    ../../modules/programs/gui/qutebrowser
     ../../modules/programs/gui/spicetify
     ../../modules/programs/gui/swayimg
     ../../modules/programs/gui/thunderbird

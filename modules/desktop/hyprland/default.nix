@@ -282,25 +282,12 @@
                 mfact = 0.5;
               };
               windowrule = [
-                #"noanim, class:^(Rofi)$
-                "tile,title:(.*)(Godot)(.*)$"
-                # "workspace 1, class:^(kitty|Alacritty|org.wezfurlong.wezterm)$"
-                # "workspace 2, class:^(code|VSCodium|code-url-handler|codium-url-handler)$"
-                # "workspace 3, class:^(krita)$"
-                # "workspace 3, title:(.*)(Godot)(.*)$"
-                # "workspace 3, title:(GNU Image Manipulation Program)(.*)$"
-                # "workspace 3, class:^(factorio)$"
-                # "workspace 3, class:^(steam)$"
-                # "workspace 5, class:^(firefox|floorp|zen)$"
-                # "workspace 6, class:^(Spotify)$"
-                # "workspace 6, title:(.*)(Spotify)(.*)$"
-
                 # Can use FLOAT FLOAT for active and inactive or just FLOAT
                 "opacity 0.80 0.80,class:^(kitty|alacritty|Alacritty|org.wezfurlong.wezterm)$"
                 "opacity 0.90 0.90,class:^(gcr-prompter)$" # keyring prompt
                 "opacity 0.90 0.90,title:^(Hyprland Polkit Agent)$" # polkit prompt
                 "opacity 1.00 1.00,class:^(firefox)$"
-                "opacity 0.90 0.90,class:^(Brave-browser)$"
+                "opacity 1.00 1.00,class:^(org\.qutebrowser\.qutebrowser)$"
                 "opacity 0.80 0.80,class:^(Steam)$"
                 "opacity 0.80 0.80,class:^(steam)$"
                 "opacity 0.80 0.80,class:^(steamwebhelper)$"
