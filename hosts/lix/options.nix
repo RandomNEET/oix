@@ -307,6 +307,10 @@
         hide_decoration = true;
         transparent = true;
       };
+      completion = {
+        height = "30%";
+        shrink = true;
+      };
       url = {
         default_page = "https://startpage.randomneet.me/";
         start_pages = "https://startpage.randomneet.me/";
