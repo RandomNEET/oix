@@ -14,6 +14,7 @@
     ../../modules/services/blueman
     ../../modules/services/flatpak
     ../../modules/services/greetd
+    ../../modules/services/kmonad
     ../../modules/services/mpd
     ../../modules/services/pipewire
     ../../modules/services/snapper

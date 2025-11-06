@@ -80,6 +80,57 @@
       };
     };
 
+    kmonad = {
+      keyboards = {
+        T480 = {
+          name = "T480";
+          device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+          config = ''
+            (defcfg
+              input  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+              output (uinput-sink "T480")
+              fallthrough true
+            )
+            (defsrc
+                   mute vold volu
+            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
+              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
+              caps a    s    d    f    g    h    j    k    l    ;    '          ret
+              lsft z    x    c    v    b    n    m    ,    .    /               rsft
+              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
+            )
+            (defalias 
+              mod (layer-toggle mod1)
+            )
+            (deflayer mod0
+                   mute vold volu
+            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
+              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
+              lctl a    s    d    f    g    h    j    k    l    ;    '          ret
+              lsft z    x    c    v    b    n    m    ,    .    /               rsft
+              wkup @mod lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
+            )
+            (deflayer mod1
+                   mute vold volu
+            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
+              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
+              caps a    s    d    f    g    h    j    k    l    ;    '          ret
+              lsft z    x    c    v    b    n    m    ,    .    /               rsft
+              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
+            )
+          '';
+          extraGroups = [
+            "input"
+            "uinput"
+          ];
+          enableHardening = true;
+        };
+      };
+    };
+
     mpd = {
       dataDir = "/home/${users.default.name}/.local/share/mpd";
       musicDirectory = "/home/${users.default.name}/mus";
@@ -303,6 +354,10 @@
     };
 
     qutebrowser = {
+      theme = {
+        opacity0 = 1.0;
+        opacity1 = 1.0;
+      };
       window = {
         hide_decoration = true;
         transparent = true;
