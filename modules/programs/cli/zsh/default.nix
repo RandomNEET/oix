@@ -25,9 +25,9 @@
             size = 100000;
           };
 
-          initExtra = opts.zsh.initContent or '''';
+          initExtra = '''' + (opts.zsh.initContent or "");
 
-          envExtra = opts.zsh.envExtra or '''';
+          envExtra = '''' + (opts.zsh.envExtra or "");
 
           shellGlobalAliases =
             opts.zsh.shellGlobalAliases or {
@@ -48,7 +48,7 @@
               ];
             theme = opts.zsh.oh-my-zsh.theme or "";
             custom = opts.zsh.oh-my-zsh.custom or "";
-            extraConfig = opts.zsh.oh-my-zsh.extraConfig or "";
+            extraConfig = '''' + (opts.zsh.oh-my-zsh.extraConfig or "");
           };
         };
       }

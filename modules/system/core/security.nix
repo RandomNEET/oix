@@ -1,9 +1,9 @@
 { opts, ... }:
 {
   security.sudo = {
-    extraConfig =
-      opts.sudo.extraConfig or ''
-        Defaults lecture = never
-      '';
+    extraConfig = ''
+      Defaults lecture = never
+    ''
+    + (opts.sudo.extraConfig or "");
   };
 }

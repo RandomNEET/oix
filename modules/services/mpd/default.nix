@@ -28,7 +28,7 @@
       fluidsynth = opts.mpd.fluidsynth or false;
       startWhenNeeded = opts.mpd.startWhenNeeded or false;
 
-      extraConfig = opts.mpd.extraConfig or "";
+      extraConfig = '''' + (opts.mpd.extraConfig or "");
     };
 
   systemd.services.mpd.environment = lib.mkIf ((opts.mpd.outputType or "") == "pipewire") {
