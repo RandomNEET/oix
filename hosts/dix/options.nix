@@ -83,6 +83,11 @@
     mbsync = {
       configFile = "/home/${users.default.name}/.vault/mail/mbsync/RandomNEET";
       preExec = "/run/current-system/sw/bin/mkdir -p /home/${users.default.name}/.mail/neet";
+      notify = {
+        enable = true;
+        mailDir = "/home/${users.default.name}/.mail/neet";
+        countFile = "${mbsync.notify.mailDir}/.count";
+      };
     };
 
     mpd = {
