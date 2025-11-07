@@ -1,3 +1,4 @@
+{ lib, opts, ... }:
 {
   programs.nixvim = {
     plugins = {
@@ -9,7 +10,6 @@
             "quickfix"
           ];
           options = {
-            theme = "catppuccin";
             globalstatus = true;
             disabled_filetypes = {
               statusline = [
@@ -25,6 +25,9 @@
               tabline = 1000;
               winbar = 1000;
             };
+          }
+          // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
+            theme = "catppuccin";
           };
           sections.lualine_c = [ "filename" ];
           sections.lualine_x = [ "location" ];
