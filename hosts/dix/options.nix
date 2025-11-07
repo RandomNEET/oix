@@ -274,7 +274,6 @@
         enable = true;
         plugins = [
           "vi-mode"
-          "git"
         ];
         theme = "simple";
       };
