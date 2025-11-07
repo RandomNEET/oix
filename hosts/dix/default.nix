@@ -14,6 +14,7 @@
     ../../modules/services/blueman
     ../../modules/services/flatpak
     ../../modules/services/greetd
+    ../../modules/services/mbsync
     ../../modules/services/mpd
     ../../modules/services/pipewire
     ../../modules/services/power-profiles-daemon
@@ -21,6 +22,7 @@
     ../../modules/services/ssh
     ../../modules/services/proxy/dae
 
+    ../../modules/programs/cli/aerc
     ../../modules/programs/cli/bash
     ../../modules/programs/cli/bat
     ../../modules/programs/cli/btop

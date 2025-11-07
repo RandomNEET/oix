@@ -80,6 +80,11 @@
       };
     };
 
+    mbsync = {
+      configFile = "/home/${users.default.name}/.vault/mail/mbsync/RandomNEET";
+      preExec = "/run/current-system/sw/bin/mkdir -p /home/${users.default.name}/.mail/neet";
+    };
+
     mpd = {
       dataDir = "/mnt/hdd1/media/.mpd";
       musicDirectory = "/mnt/hdd1/media/music";

@@ -15,6 +15,7 @@
     ../../modules/services/flatpak
     ../../modules/services/greetd
     ../../modules/services/kmonad
+    ../../modules/services/mbsync
     ../../modules/services/mpd
     ../../modules/services/pipewire
     ../../modules/services/snapper
@@ -22,6 +23,7 @@
     ../../modules/services/tlp
     ../../modules/services/proxy/dae
 
+    ../../modules/programs/cli/aerc
     ../../modules/programs/cli/bash
     ../../modules/programs/cli/bat
     ../../modules/programs/cli/btop
