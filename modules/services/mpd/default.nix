@@ -8,7 +8,7 @@
       enable = true;
 
       user =
-        if (opts.mpd.outputType or "") == "pipewire" then
+        if ((opts.mpd.outputType or "") == "pipewire") then
           opts.users.default.name
         else
           (opts.mpd.user or "mpd");

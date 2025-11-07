@@ -18,7 +18,7 @@
   systemd.user.services.random-wall = {
     description = "Change wallpaper every hour";
     startAt = "hourly";
-    script = "exec /run/current-system/sw/bin/bash ${./scripts/swww-randomize-multi.sh}";
+    script = "${./scripts/swww-randomize-multi.sh}";
     serviceConfig = {
       Type = "oneshot";
       Environment = "PATH=/etc/profiles/per-user/${opts.users.default.name}/bin:/run/current-system/sw/bin";
