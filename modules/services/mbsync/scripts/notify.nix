@@ -1,5 +1,5 @@
 { pkgs, opts, ... }:
-pkgs.writeShellScript "notify" ''
+pkgs.writeShellScript "mbsync-notify" ''
   MAILDIR="${opts.mbsync.notify.mailDir}"
   COUNT_FILE="${opts.mbsync.notify.countFile}"
 

@@ -9,7 +9,7 @@
     (
       _:
       let
-        notify = import ./scripts/notify.nix { inherit pkgs opts; };
+        mbsync-notify = import ./scripts/notify.nix { inherit pkgs opts; };
       in
       {
         services.mbsync = {
@@ -19,7 +19,7 @@
           frequency = opts.mbsync.frequency or "*:0/5";
           preExec = opts.mbsync.preExec or null;
           postExec = ''
-            ${lib.optionalString (opts.mbsync.notify.enable or false) "${notify}"}
+            ${lib.optionalString (opts.mbsync.notify.enable or false) "${mbsync-notify}"}
           ''
           + (opts.mbsync.postExec or "");
         };
