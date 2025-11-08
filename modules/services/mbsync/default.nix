@@ -14,14 +14,14 @@
       {
         services.mbsync = {
           enable = true;
-          verbose = opts.mbsync.verbose or true;
-          configFile = opts.mbsync.configFile or null;
-          frequency = opts.mbsync.frequency or "*:0/5";
-          preExec = opts.mbsync.preExec or null;
+          verbose = opts.mbsync.service.verbose or true;
+          configFile = opts.mbsync.service.configFile or null;
+          frequency = opts.mbsync.service.frequency or "*:0/5";
+          preExec = opts.mbsync.service.preExec or null;
           postExec = ''
-            ${lib.optionalString (opts.mbsync.notify.enable or false) "${mbsync-notify}"}
+            ${lib.optionalString (opts.mbsync.service.notify.enable or false) "${mbsync-notify}"}
           ''
-          + (opts.mbsync.postExec or "");
+          + (opts.mbsync.service.postExec or "");
         };
       }
     )

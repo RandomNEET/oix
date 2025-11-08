@@ -74,9 +74,11 @@
               // (opts.aerc.extraConfig.openers or { });
             hooks =
               { }
-              // lib.optionalAttrs (config.services.mbsync.enable && (opts.mbsync.notify.enable or false)) {
-                aerc-shutdown = "${mbsync-count}";
-              }
+              //
+                lib.optionalAttrs (config.services.mbsync.enable && (opts.mbsync.service.notify.enable or false))
+                  {
+                    aerc-shutdown = "${mbsync-count}";
+                  }
               // (opts.aerc.extraConfig.hooks or { });
           }
           // (opts.aerc.extraConfig or { });
