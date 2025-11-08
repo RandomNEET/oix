@@ -446,53 +446,53 @@
     hyprlock = {
       background = "${wallpaper.dir}/landscape/touhou/marisa-reimu-3.jpg";
     };
-  };
-  # }}}
+    # }}}
 
-  # Package {{{
-  flatpak = {
+    # Package {{{
+    flatpak = {
+      packages = {
+        system = [ ];
+        home = [
+          "com.github.tchx84.Flatseal"
+          "com.qq.QQ"
+          "com.tencent.WeChat"
+        ];
+      };
+    };
+
+    games = {
+      packages = {
+        home = [
+          "osu-lazer"
+          "prismlauncher"
+        ];
+      };
+    };
+
     packages = {
-      system = [ ];
       home = [
-        "com.github.tchx84.Flatseal"
-        "com.qq.QQ"
-        "com.tencent.WeChat"
+        "_7zz"
+        "unrar"
+
+        "ffmpeg"
+        "imagemagick"
+
+        "asciiquarium-transparent"
+        "cbonsai"
+        "cowsay"
+        "cmatrix"
+        "fortune"
+        "figlet"
+        "lolcat"
+        "pipes"
+        "tty-clock"
+
+        "qbittorrent"
+
+        "gimp"
+        "libreoffice"
       ];
     };
+    # }}}
   };
-
-  games = {
-    packages = {
-      home = [
-        "osu-lazer"
-        "prismlauncher"
-      ];
-    };
-  };
-
-  packages = {
-    home = [
-      "_7zz"
-      "unrar"
-
-      "ffmpeg"
-      "imagemagick"
-
-      "asciiquarium-transparent"
-      "cbonsai"
-      "cowsay"
-      "cmatrix"
-      "fortune"
-      "figlet"
-      "lolcat"
-      "pipes"
-      "tty-clock"
-
-      "qbittorrent"
-
-      "gimp"
-      "libreoffice"
-    ];
-  };
-  # }}}
 }

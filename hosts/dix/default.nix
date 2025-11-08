@@ -1,9 +1,7 @@
-# vim:fileencoding=utf-8:foldmethod=marker
 {
   imports = [
     ./hardware-configuration.nix
 
-    # System {{{
     ../../modules/system/core
     ../../modules/system/fonts
     ../../modules/system/garbage-collect
@@ -11,9 +9,7 @@
     ../../modules/system/impermanence
     ../../modules/system/secure-boot
     ../../modules/system/virtualisation
-    # }}}
 
-    # Services {{{
     ../../modules/services/automount
     ../../modules/services/blueman
     ../../modules/services/flatpak
@@ -25,9 +21,7 @@
     ../../modules/services/snapper
     ../../modules/services/ssh
     ../../modules/services/proxy/dae
-    # }}}
 
-    # Programs {{{
     ../../modules/programs/accounts
 
     ../../modules/programs/cli/aerc
@@ -74,7 +68,6 @@
     ../../modules/programs/gui/thunderbird
     ../../modules/programs/gui/vscode
     ../../modules/programs/gui/zathura
-    # }}}
 
     ../../modules/scripts
 
