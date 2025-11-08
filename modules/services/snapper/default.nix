@@ -5,7 +5,7 @@
       opts.snapper.config or {
         home = {
           SUBVOLUME = "/home";
-          ALLOW_USERS = [ opts.users.default.name ];
+          ALLOW_USERS = [ opts.users.primary.name ];
           TIMELINE_CREATE = true;
           TIMELINE_CLEANUP = true;
         };

@@ -24,7 +24,7 @@ pkgs.writeShellScriptBin "hypr-keybinds" ''
     "SUPER SPACE" "Launch application menu" "/launcher drun"
     "SUPER SHIFT W" "Launch wallpaper menu" "scripts/launcher wallpaper"
     ${
-      if (config.home-manager.users.${opts.users.default.name}.programs.tmux.enable or false) then
+      if (config.home-manager.users.${opts.users.primary.name}.programs.tmux.enable or false) then
         ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''
       else
         ""

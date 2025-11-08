@@ -9,7 +9,7 @@ let
   terminal = opts.terminal;
   displays = opts.display or [ ];
   wallpaperDir =
-    opts.wallpaper.dir or "${config.users.users.${opts.users.default.name}.home}/pic/wallpapers";
+    opts.wallpaper.dir or "${config.users.users.${opts.users.primary.name}.home}/pic/wallpapers";
   landscapeDir = opts.wallpaper.landscapeDir or "${wallpaperDir}/landscape";
   portraitDir = opts.wallpaper.portraitDir or "${wallpaperDir}/portrait";
   transitionType = opts.wallpaper.transition.type or "center";

@@ -21,7 +21,7 @@
     script = "${./scripts/swww-randomize-multi.sh}";
     serviceConfig = {
       Type = "oneshot";
-      Environment = "PATH=/etc/profiles/per-user/${opts.users.default.name}/bin:/run/current-system/sw/bin";
+      Environment = "PATH=/etc/profiles/per-user/${opts.users.primary.name}/bin:/run/current-system/sw/bin";
     };
   };
 
