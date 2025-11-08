@@ -319,7 +319,7 @@
       program = {
         groups = {
           inboxes = {
-            RandomNEET = [ "Inbox" ];
+            RandomNEET = [ "INBOX" ];
           };
         };
       };
