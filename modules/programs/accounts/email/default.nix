@@ -20,9 +20,15 @@
               name: value:
               value
               // {
-                aerc.enable = value.aerc.enable or config.programs.aerc.enable;
-                mbsync.enable = value.mbsync.enable or config.programs.mbsync.enable;
-                thunderbird.enable = value.thunderbird.enable or config.programs.thunderbird.enable;
+                aerc = (value.aerc or { }) // {
+                  enable = (value.aerc or { }).enable or config.programs.aerc.enable;
+                };
+                mbsync = (value.mbsync or { }) // {
+                  enable = (value.mbsync or { }).enable or config.programs.mbsync.enable;
+                };
+                thunderbird = (value.thunderbird or { }) // {
+                  enable = (value.thunderbird or { }).enable or config.programs.thunderbird.enable;
+                };
               }
             ) renamed;
         };

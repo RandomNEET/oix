@@ -292,7 +292,7 @@
         passwordCommand = "pass migadu/neet";
         realName = "RandomNEET";
         gpg = {
-          key = "9683BD4C21F2FA6B714A793EBFA119DF465BFBB1";
+          key = "0xBFA119DF465BFBB1";
           signByDefault = true;
           encryptByDefault = false;
         };
