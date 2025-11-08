@@ -320,7 +320,15 @@
       program = {
         groups = {
           inboxes = {
-            RandomNEET = [ "INBOX" ];
+            RandomNEET = [
+              "INBOX"
+              "INBOX/contact"
+              "INBOX/dev"
+              "INBOX/selfhost"
+              "INBOX/bill"
+              "INBOX/cert"
+              "INBOX/temp"
+            ];
           };
         };
       };
