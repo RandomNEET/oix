@@ -45,7 +45,7 @@
               astyle
               black
               isort
-              nixfmt-tree
+              nixfmt-rfc-style
               prettier
               prettierd
               rustfmt
