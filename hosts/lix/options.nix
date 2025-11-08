@@ -554,7 +554,7 @@
               tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
               lctl a    s    d    f    g    h    j    k    l    ;    '          ret
               lsft z    x    c    v    b    n    m    ,    .    /               rsft
-              wkup @mod lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
+              wkup lctl lmet lalt           spc            ralt sys  @mod  pgdn up   pgup
             )
             (deflayer mod1
                    mute vold volu
