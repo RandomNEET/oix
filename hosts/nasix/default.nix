@@ -1,13 +1,17 @@
+# vim:fileencoding=utf-8:foldmethod=marker
 {
   imports = [
     ./hardware-configuration.nix
 
+    # System {{{
     ../../modules/system/core
     ../../modules/system/docker
     ../../modules/system/garbage-collect
     ../../modules/system/gpu
     ../../modules/system/virtualisation
+    # }}}
 
+    # Services {{{
     ../../modules/services/automount
     ../../modules/services/calibre-web
     ../../modules/services/cron
@@ -22,7 +26,9 @@
     ../../modules/services/ssh
     ../../modules/services/vaultwarden
     ../../modules/services/proxy/xray
+    # }}}
 
+    # Programs {{{
     ../../modules/programs/cli/bash
     ../../modules/programs/cli/bat
     ../../modules/programs/cli/btop
@@ -41,6 +47,7 @@
     ../../modules/programs/cli/yazi
     ../../modules/programs/cli/zoxide
     ../../modules/programs/cli/zsh
+    # }}}
 
     ../../modules/scripts
   ];

@@ -1,3 +1,4 @@
+# vim:fileencoding=utf-8:foldmethod=marker
 {
   inputs,
   outputs,
@@ -6,7 +7,7 @@
 }:
 {
   opts = rec {
-    # System
+    # System {{{
     hostname = "lix";
     system = "x86_64-linux";
     gpu = "intel-integrated";
@@ -14,29 +15,15 @@
     timezone = "Asia/Shanghai";
     kbdLayout = "us";
     consoleKeymap = "us";
-    boot = {
-      kernelPackages = "linuxPackages_zen"; # _latest, _zen, _xanmod_latest, _hardened, _rt, _OTHER_CHANNEL, etc.
-    };
-    lanzaboote = {
-      enable = true;
-      pkiBundle = "/nix/persist/var/lib/sbctl";
-    };
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ ];
-      allowedUDPPorts = [ ];
-    };
-    ip = {
-      local = "192.168.0.69";
-    };
+    # }}}
 
-    # Users
+    # User {{{
     users = {
       mutableUsers = false;
       root = {
         initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
       };
-      default = {
+      primary = {
         name = "howl";
         initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
         isNormalUser = true;
@@ -50,14 +37,14 @@
       };
     };
 
-    # User environment
     editor = "nvim";
     terminal = "kitty";
     terminalFileManager = "yazi";
-    browser = "qutebrowser"; # firefox qutebrowser
+    browser = "qutebrowser";
+
     xdg = {
       userDirs = {
-        desktop = null; # null or "$HOME/dsk"
+        desktop = null;
         documents = "$HOME/doc";
         download = "$HOME/dls";
         music = "$HOME/mus";
@@ -67,113 +54,31 @@
         videos = "$HOME/vid";
       };
     };
+    # }}}
 
-    # Services
-    flatpak = {
-      packages = {
-        system = [ ];
-        home = [
-          "com.github.tchx84.Flatseal"
-          "com.qq.QQ"
-          "com.tencent.WeChat"
-        ];
-      };
+    # Boot {{{
+    boot = {
+      kernelPackages = "linuxPackages_zen";
+    };
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/nix/persist/var/lib/sbctl";
+    };
+    # }}}
+
+    # Network {{{
+    ip = {
+      local = "192.168.0.69";
     };
 
-    kmonad = {
-      keyboards = {
-        T480 = {
-          name = "T480";
-          device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
-          config = ''
-            (defcfg
-              input  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
-              output (uinput-sink "T480")
-              fallthrough true
-            )
-            (defsrc
-                   mute vold volu
-            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
-              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
-              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
-              caps a    s    d    f    g    h    j    k    l    ;    '          ret
-              lsft z    x    c    v    b    n    m    ,    .    /               rsft
-              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
-            )
-            (defalias 
-              mod (layer-toggle mod1)
-            )
-            (deflayer mod0
-                   mute vold volu
-            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
-              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
-              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
-              lctl a    s    d    f    g    h    j    k    l    ;    '          ret
-              lsft z    x    c    v    b    n    m    ,    .    /               rsft
-              wkup @mod lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
-            )
-            (deflayer mod1
-                   mute vold volu
-            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
-              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
-              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
-              caps a    s    d    f    g    h    j    k    l    ;    '          ret
-              lsft z    x    c    v    b    n    m    ,    .    /               rsft
-              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
-            )
-          '';
-          extraGroups = [
-            "input"
-            "uinput"
-          ];
-          enableHardening = true;
-        };
-      };
-    };
-
-    mbsync = {
-      configFile = "/home/${users.default.name}/.vault/mail/mbsync/RandomNEET";
-      preExec = "/run/current-system/sw/bin/mkdir -p /home/${users.default.name}/.mail/neet";
-      notify = {
-        enable = true;
-        mailDir = "/home/${users.default.name}/.mail/neet";
-        countFile = "${mbsync.notify.mailDir}/.count";
-      };
-    };
-
-    mpd = {
-      dataDir = "/home/${users.default.name}/.local/share/mpd";
-      musicDirectory = "/home/${users.default.name}/mus";
-      startWhenNeeded = true;
-      extraConfig = ''
-        audio_output {
-           type   "pipewire"
-           name   "PipeWire Sound Server"
-        }
-        audio_output {
-           type   "fifo"
-           name   "my_fifo"
-           path   "/tmp/mpd.fifo"
-           format "44100:16:2"
-        }
-        auto_update "yes"
-      '';
-      outputType = "pipewire";
-    };
-
-    proxy = {
-      # dae xray
-      dae = {
-        configFile = "/home/${users.default.name}/.vault/proxy/dae/default.dae";
-        openFirewall = {
-          enable = true;
-          port = 12345;
-        };
-      };
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
     };
 
     ssh = {
-      keysDir = "/home/${users.default.name}/.vault/ssh";
+      keysDir = "/home/${users.primary.name}/.vault/ssh";
 
       server = {
         enable = true;
@@ -213,81 +118,83 @@
       };
     };
 
-    tlp = {
-      settings = {
-        START_CHARGE_THRESH_BAT0 = 40;
-        STOP_CHARGE_THRESH_BAT0 = 80;
-        START_CHARGE_THRESH_BAT1 = 40;
-        STOP_CHARGE_THRESH_BAT1 = 80;
-      };
-    };
-
-    # Programs
-    aerc = {
-      extraAccounts = {
-        RandomNEET = {
-          source = "maildir://~/.mail/neet";
-          outgoing-cred-cmd = "pass smtp.migadu.com/neet";
-          from = "RandomNEET <neet@randomneet.me>";
-          cache-headers = true;
-
-          default = "Inbox";
-          folders-sort = "Inbox,Inbox/contact,Inbox/dev,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
-          check-mail = "5m";
-          check-mail-cmd = "systemctl --user start mbsync.service";
-          check-mail-timeout = "30s";
-
-          pgp-auto-sign = true;
-          pgp-attach-key = true;
-          pgp-opportunistic-encrypt = false;
-          pgp-self-encrypt = true;
-          pgp-key-id = "9683BD4C21F2FA6B714A793EBFA119DF465BFBB1";
-          pgp-error-level = "warn";
+    proxy = {
+      dae = {
+        configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
+        openFirewall = {
+          enable = true;
+          port = 12345;
         };
       };
     };
+    # }}}
 
-    git = {
-      settings = {
-        user = {
-          name = "RandomNEET";
-          email = "dev@randomneet.me";
-        };
-        init = {
-          defaultBranch = "master";
-        };
-        advice = {
-          defaultBranchName = false;
-        };
-
-      };
-    };
-
+    # Security {{{
     gpg = {
-      homedir = "/home/${users.default.name}/.gnupg";
+      homedir = "/home/${users.primary.name}/.gnupg";
       agent = {
         enable = true;
-        enableSshSupport = true; # Automatically disable ssh-agent if set to true
+        enableSshSupport = true;
       };
     };
 
+    rbw = {
+      settings = {
+        base_url = "https://vaultwarden.scaphium.xyz";
+        email = "selfhost@randomneet.me";
+        lock_timeout = 3600;
+      };
+      rofi-rbw = true;
+    };
+    # }}}
+
+    # Shell {{{
+    zsh = {
+      initContent = '''';
+
+      envExtra = ''
+        export VI_MODE_SET_CURSOR=true
+        MODE_INDICATOR="%F{red}<<<%f"
+      '';
+
+      shellGlobalAliases = {
+        G = "| grep";
+      };
+
+      shellAliases = {
+        update = "sudo nixos-rebuild switch";
+      };
+
+      oh-my-zsh = {
+        enable = true;
+        plugins = [
+          "vi-mode"
+        ];
+        theme = "simple";
+      };
+    };
+    # }}}
+
+    # Editor {{{
     nixvim = {
       withNodeJs = false;
       withPerl = false;
       withPython3 = true;
       withRuby = false;
 
+      treesitter.enable = true;
       lsp.enable = true;
-      treesitter.enable = true; # Automatically disable noice if set to false
-      lint.enable = true;
       conform.enable = true;
+      lint.enable = true;
+
+      snack = {
+        image.enable = true;
+      };
+      noice.enable = true;
+
       copilot = {
         enable = true;
         cmp = false;
-      };
-      noice.enable = true; # Require treesitter
-      snack = {
-        image.enable = true;
       };
 
       obsidian = {
@@ -330,44 +237,12 @@
         ];
       };
     };
+    # }}}
 
-    rbw = {
-      settings = {
-        base_url = "https://vaultwarden.scaphium.xyz";
-        email = "selfhost@randomneet.me";
-        lock_timeout = 3600;
-      };
-      rofi-rbw = true;
-    };
-
-    zsh = {
-      initContent = '''';
-
-      envExtra = ''
-        export VI_MODE_SET_CURSOR=true
-        MODE_INDICATOR="%F{red}<<<%f"
-      '';
-
-      shellGlobalAliases = {
-        G = "| grep";
-      };
-
-      shellAliases = {
-        update = "sudo nixos-rebuild switch";
-      };
-
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "vi-mode"
-        ];
-        theme = "simple";
-      };
-    };
-
+    # Browser {{{
     firefox = {
       network.trr = {
-        mode = 3; # 0 - Off (default), 1 - Reserved, 2 - First, 3 - Only
+        mode = 3;
         uri = "https://dns.alidns.com/dns-query";
         custom_uri = "https://dns.alidns.com/dns-query";
       };
@@ -375,15 +250,6 @@
       DisableFirefoxAccounts = false;
       titlebar-buttons-disable = true;
       full-screen-api.ignore-widgets = true;
-    };
-
-    obsidian = {
-      vaults = {
-        default = {
-          enable = true;
-          target = "doc/notes";
-        };
-      };
     };
 
     qutebrowser = {
@@ -410,33 +276,123 @@
         mgd = "https://webmail.migadu.com/";
       };
     };
+    # }}}
 
-    packages = {
-      home = [
-        "_7zz"
-        "unrar"
+    # Mail {{{
+    email = {
+      maildirBasePath = ".mail";
 
-        "ffmpeg"
-        "imagemagick"
+      primary = {
+        name = "RandomNEET";
+        primary = true;
+        maildir.path = "/neet";
+        address = "neet@randomneet.me";
+        userName = "neet@randomneet.me";
+        passwordCommand = "pass migadu/neet";
+        realName = "RandomNEET";
+        gpg = {
+          key = "9683BD4C21F2FA6B714A793EBFA119DF465BFBB1";
+          signByDefault = true;
+          encryptByDefault = false;
+        };
+        flavor = "migadu.com";
 
-        "asciiquarium-transparent"
-        "cbonsai"
-        "cowsay"
-        "cmatrix"
-        "fortune"
-        "figlet"
-        "lolcat"
-        "pipes"
-        "tty-clock"
+        aerc = {
+          enable = true;
+          extraAccounts = {
+            default = "Inbox";
+            folders-sort = "Inbox,Inbox/contact,Inbox/dev,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
+            check-mail = "5m";
+            check-mail-cmd = "systemctl --user start mbsync.service";
+            check-mail-timeout = "30s";
+          };
+        };
 
-        "qbittorrent"
-
-        "libreoffice"
-      ];
+        mbsync = {
+          enable = true;
+          create = "maildir";
+        };
+      };
     };
-    # Desktop
-    desktop = "niri"; # hyprland niri
-    theme = "catppuccin-mocha"; # catppuccin-mocha
+
+    mbsync = {
+      program = {
+        groups = {
+          inboxes = {
+            RandomNEET = [ "Inbox" ];
+          };
+        };
+      };
+      service = {
+        configFile = "/home/${users.primary.name}/.vault/mail/mbsync/neet";
+        notify = {
+          enable = true;
+          mailDir = "/home/${users.primary.name}/.mail/neet";
+          countFile = "${mbsync.service.notify.mailDir}/.new";
+        };
+      };
+    };
+    # }}}
+
+    # Media {{{
+    mpd = {
+      dataDir = "/home/${users.primary.name}/.local/share/mpd";
+      musicDirectory = "/home/${users.primary.name}/mus";
+      startWhenNeeded = true;
+      extraConfig = ''
+        audio_output {
+           type   "pipewire"
+           name   "PipeWire Sound Server"
+        }
+        audio_output {
+           type   "fifo"
+           name   "my_fifo"
+           path   "/tmp/mpd.fifo"
+           format "44100:16:2"
+        }
+        auto_update "yes"
+      '';
+      outputType = "pipewire";
+    };
+
+    rmpc = {
+      config = {
+        address = "127.0.0.1:6600";
+        password = "None";
+        notify = true;
+      };
+    };
+    # }}}
+
+    # Misc {{{
+    git = {
+      settings = {
+        user = {
+          name = "RandomNEET";
+          email = "dev@randomneet.me";
+        };
+        init = {
+          defaultBranch = "master";
+        };
+        advice = {
+          defaultBranchName = false;
+        };
+      };
+    };
+
+    obsidian = {
+      vaults = {
+        default = {
+          enable = true;
+          target = "doc/notes";
+        };
+      };
+    };
+    # }}}
+
+    # Desktop {{{
+    desktop = "niri";
+    theme = "catppuccin-mocha";
 
     display = [
       {
@@ -450,7 +406,7 @@
     hibernate = true;
 
     wallpaper = {
-      dir = "/home/${users.default.name}/pic/wallpapers";
+      dir = "/home/${users.primary.name}/pic/wallpapers";
       landscapeDir = "${wallpaper.dir}/landscape";
       portraitDir = "${wallpaper.dir}/portrait";
       transition = {
@@ -511,5 +467,105 @@
     swaylock = {
       image = "eDP-1:${wallpaper.dir}/landscape/touhou/marisa-reimu-3.jpg";
     };
+    # }}}
+
+    # Package {{{
+    flatpak = {
+      packages = {
+        system = [ ];
+        home = [
+          "com.github.tchx84.Flatseal"
+          "com.qq.QQ"
+          "com.tencent.WeChat"
+        ];
+      };
+    };
+
+    packages = {
+      home = [
+        "_7zz"
+        "unrar"
+
+        "ffmpeg"
+        "imagemagick"
+
+        "asciiquarium-transparent"
+        "cbonsai"
+        "cowsay"
+        "cmatrix"
+        "fortune"
+        "figlet"
+        "lolcat"
+        "pipes"
+        "tty-clock"
+
+        "qbittorrent"
+
+        "libreoffice"
+      ];
+    };
+    # }}}
+
+    # Hardware {{{
+    tlp = {
+      settings = {
+        START_CHARGE_THRESH_BAT0 = 40;
+        STOP_CHARGE_THRESH_BAT0 = 80;
+        START_CHARGE_THRESH_BAT1 = 40;
+        STOP_CHARGE_THRESH_BAT1 = 80;
+      };
+    };
+
+    kmonad = {
+      keyboards = {
+        T480 = {
+          name = "T480";
+          device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+          config = ''
+            (defcfg
+              input  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+              output (uinput-sink "T480")
+              fallthrough true
+            )
+            (defsrc
+                   mute vold volu
+            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
+              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
+              caps a    s    d    f    g    h    j    k    l    ;    '          ret
+              lsft z    x    c    v    b    n    m    ,    .    /               rsft
+              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
+            )
+            (defalias 
+              mod (layer-toggle mod1)
+            )
+            (deflayer mod0
+                   mute vold volu
+            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
+              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
+              lctl a    s    d    f    g    h    j    k    l    ;    '          ret
+              lsft z    x    c    v    b    n    m    ,    .    /               rsft
+              wkup @mod lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
+            )
+            (deflayer mod1
+                   mute vold volu
+            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
+              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
+              caps a    s    d    f    g    h    j    k    l    ;    '          ret
+              lsft z    x    c    v    b    n    m    ,    .    /               rsft
+              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
+            )
+          '';
+          extraGroups = [
+            "input"
+            "uinput"
+          ];
+          enableHardening = true;
+        };
+      };
+    };
+    # }}}
   };
 }
