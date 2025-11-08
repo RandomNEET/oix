@@ -40,6 +40,7 @@
     ../../modules/programs/cli/lazygit
     ../../modules/programs/cli/mpv
     ../../modules/programs/cli/nixvim
+    ../../modules/programs/cli/password-store
     ../../modules/programs/cli/rbw
     ../../modules/programs/cli/rigprep
     ../../modules/programs/cli/rmpc

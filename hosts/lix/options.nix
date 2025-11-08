@@ -223,6 +223,30 @@
     };
 
     # Programs
+    aerc = {
+      extraAccounts = {
+        RandomNEET = {
+          source = "maildir://~/.mail/neet";
+          outgoing-cred-cmd = "pass smtp.migadu.com/neet";
+          from = "RandomNEET <neet@randomneet.me>";
+          cache-headers = true;
+
+          default = "Inbox";
+          folders-sort = "Inbox,Inbox/contact,Inbox/dev,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
+          check-mail = "5m";
+          check-mail-cmd = "systemctl --user start mbsync.service";
+          check-mail-timeout = "30s";
+
+          pgp-auto-sign = true;
+          pgp-attach-key = true;
+          pgp-opportunistic-encrypt = false;
+          pgp-self-encrypt = true;
+          pgp-key-id = "9683BD4C21F2FA6B714A793EBFA119DF465BFBB1";
+          pgp-error-level = "warn";
+        };
+      };
+    };
+
     git = {
       settings = {
         user = {
