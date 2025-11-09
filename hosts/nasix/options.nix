@@ -304,26 +304,26 @@
         layout = [
           {
             "Media" = {
-              style = "column";
-              columns = 3;
+              style = "row";
+              columns = 4;
             };
           }
           {
-            "Downloads & subscriptions" = {
+            "Downloads" = {
               style = "column";
-              columns = 5;
+              columns = 4;
+            };
+          }
+          {
+            "Games" = {
+              style = "column";
+              columns = 4;
             };
           }
           {
             "Utilities" = {
               style = "column";
-              columns = 5;
-            };
-          }
-          {
-            "Games" = {
-              style = "row";
-              columns = 1;
+              columns = 4;
             };
           }
           {
@@ -398,10 +398,22 @@
                 icon = "freshrss";
               };
             }
+            {
+              "Spotify" = {
+                href = "https://myspotify.scaphium.xyz/";
+                # widget = {
+                #   type = "yourspotify";
+                #   url = "https://spotifyapi.scaphium.xyz/";
+                #   key = "{{HOMEPAGE_VAR_SPOTIFY_KEY}}";
+                #   interval = "week";
+                # };
+                icon = "spotify";
+              };
+            }
           ];
         }
         {
-          "Downloads & subscriptions" = [
+          "Downloads" = [
             {
               "qBittorrent" = {
                 href = "https://qBittorrent.scaphium.xyz/";
@@ -426,18 +438,6 @@
                 icon = "https://anirss.scaphium.xyz/favicon.ico";
               };
             }
-            {
-              "AutoBangumi" = {
-                href = "https://autobangumi.scaphium.xyz/";
-                icon = "https://autobangumi.scaphium.xyz/images/logo.svg";
-              };
-            }
-            {
-              "MoviePilot" = {
-                href = "https://moviepilot.scaphium.xyz/";
-                icon = "https://moviepilot.scaphium.xyz/favicon.ico";
-              };
-            }
           ];
         }
         {
@@ -449,21 +449,9 @@
               };
             }
             {
-              "linkding" = {
+              "Linkding" = {
                 href = "https://linkding.scaphium.xyz/";
                 icon = "linkding";
-              };
-            }
-            {
-              "Note-Mark" = {
-                href = "https://notemark.scaphium.xyz/";
-                icon = "https://notemark.scaphium.xyz/icon.svg";
-              };
-            }
-            {
-              "draw.io" = {
-                href = "http://{{HOMEPAGE_VAR_ADDR}}:10330/";
-                icon = "draw-io";
               };
             }
             {
@@ -481,7 +469,7 @@
                 icon = "minecraft";
                 widget = {
                   type = "minecraft";
-                  url = "udp://127.0.0.1:10500";
+                  url = "udp://127.0.0.1:11000";
                 };
               };
             }
@@ -490,43 +478,13 @@
         {
           "Status" = [
             {
-              "Info" = {
+              "Glances" = {
                 href = "https://glances.scaphium.xyz/";
                 widget = {
                   type = "glances";
                   url = "http://127.0.0.1:61208";
                   version = 4;
                   metric = "info";
-                };
-              };
-            }
-            {
-              "CPU Usage" = {
-                widget = {
-                  type = "glances";
-                  url = "http://127.0.0.1:61208";
-                  version = 4;
-                  metric = "cpu";
-                };
-              };
-            }
-            {
-              "Memory usage" = {
-                widget = {
-                  type = "glances";
-                  url = "http://127.0.0.1:61208";
-                  version = 4;
-                  metric = "memory";
-                };
-              };
-            }
-            {
-              "Network usage" = {
-                widget = {
-                  type = "glances";
-                  url = "http://127.0.0.1:61208";
-                  version = 4;
-                  metric = "network:wlo1";
                 };
               };
             }
