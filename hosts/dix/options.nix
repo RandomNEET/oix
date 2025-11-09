@@ -302,7 +302,7 @@
           enable = true;
           extraAccounts = {
             default = "Inbox";
-            folders-sort = "Inbox,Inbox/contact,Inbox/dev,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
+            folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
             check-mail = "5m";
             check-mail-cmd = "systemctl --user start mbsync.service";
             check-mail-timeout = "30s";
@@ -322,8 +322,8 @@
           inboxes = {
             RandomNEET = [
               "INBOX"
-              "INBOX/contact"
               "INBOX/dev"
+              "INBOX/contact"
               "INBOX/selfhost"
               "INBOX/bill"
               "INBOX/cert"
