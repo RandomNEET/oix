@@ -25,15 +25,15 @@
 
           envExtra = '''' + (opts.zsh.envExtra or "");
 
-          shellGlobalAliases =
-            opts.zsh.shellGlobalAliases or {
-              G = "| grep";
-            };
+          shellGlobalAliases = {
+            G = "| grep";
+          }
+          // (opts.zsh.shellGlobalAliases or { });
 
-          shellAliases =
-            opts.zsh.shellAliases or {
-              update = "sudo nixos-rebuild switch";
-            };
+          shellAliases = {
+            update = "sudo nixos-rebuild switch";
+          }
+          // (opts.zsh.shellAliases or { });
 
           oh-my-zsh = {
             enable = opts.zsh.oh-my-zsh.enable or false;

@@ -129,16 +129,14 @@
             addKeysToAgent = "yes";
           };
         };
-        agent.enable = true;
+        ssh-agent.enable = true;
       };
     };
 
-    proxy = {
-      xray = {
-        role = "client";
-        method = "lpf"; # tproxy lpf
-        settingsFile = "/home/${users.primary.name}/.vault/proxy/xray/client/${proxy.xray.method}/outsider/docker.json";
-      };
+    xray = {
+      role = "client";
+      method = "lpf";
+      settingsFile = "/home/${users.primary.name}/.vault/proxy/xray/client/${xray.method}/outsider/docker.json";
     };
 
     frp = {
@@ -184,11 +182,6 @@
 
     # Editor {{{
     nixvim = {
-      withNodeJs = false;
-      withPerl = false;
-      withPython3 = true;
-      withRuby = false;
-
       treesitter.enable = false;
       lsp.enable = false;
       conform.enable = true;

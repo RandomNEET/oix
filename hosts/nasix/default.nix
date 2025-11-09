@@ -21,7 +21,7 @@
     ../../modules/services/samba
     ../../modules/services/ssh
     ../../modules/services/vaultwarden
-    ../../modules/services/proxy/xray
+    ../../modules/services/xray
 
     ../../modules/programs/cli/bash
     ../../modules/programs/cli/bat

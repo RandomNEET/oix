@@ -26,25 +26,14 @@
     };
   };
   completion = {
-    open_categories =
-      opts.qutebrowser.completion.open_categories or [
-        "searchengines"
-        "quickmarks"
-        "bookmarks"
-        "history"
-        "filesystem"
-      ];
-    show = opts.qutebrowser.completion.show or "always";
     shrink = opts.qutebrowser.completion.shrink or false;
     height = opts.qutebrowser.completion.height or "50%";
-    use_best_match = opts.qutebrowser.completion.use_best_match or false;
     web_history = {
       exclude = [ ] ++ (opts.qutebrowser.completion.web_history.exclude or [ ]);
       max_items = opts.qutebrowser.completion.web_history.max_items or (-1);
     };
   };
   content = {
-    fullscreen.window = opts.qutebrowser.content.fullscreen.window or false;
     blocking = {
       enabled = opts.qutebrowser.content.blocking.enabled or true;
       method = opts.qutebrowser.content.blocking.method or "auto";

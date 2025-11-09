@@ -12,6 +12,7 @@
 
     ../../modules/services/automount
     ../../modules/services/blueman
+    ../../modules/services/dae
     ../../modules/services/flatpak
     ../../modules/services/greetd
     ../../modules/services/mbsync
@@ -20,7 +21,6 @@
     ../../modules/services/power-profiles-daemon
     ../../modules/services/snapper
     ../../modules/services/ssh
-    ../../modules/services/proxy/dae
 
     ../../modules/programs/accounts
 

@@ -26,10 +26,6 @@
             xclip.enable = true;
           };
         };
-        withNodeJs = opts.nixvim.withNodeJs or false;
-        withPerl = opts.nixvim.withPerl or false;
-        withPython3 = opts.nixvim.withPython3 or true;
-        withRuby = opts.nixvim.withRuby or true;
 
         extraPackages =
           with pkgs;

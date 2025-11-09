@@ -115,17 +115,15 @@
             addKeysToAgent = "yes";
           };
         };
-        agent.enable = false;
+        ssh-agent.enable = false;
       };
     };
 
-    proxy = {
-      dae = {
-        configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
-        openFirewall = {
-          enable = true;
-          port = 12345;
-        };
+    dae = {
+      configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
+      openFirewall = {
+        enable = true;
+        port = 12345;
       };
     };
     # }}}
@@ -133,7 +131,7 @@
     # Security {{{
     gpg = {
       homedir = "/home/${users.primary.name}/.gnupg";
-      agent = {
+      gpg-agent = {
         enable = true;
         enableSshSupport = true;
       };
@@ -178,11 +176,6 @@
 
     # Editor {{{
     nixvim = {
-      withNodeJs = false;
-      withPerl = false;
-      withPython3 = true;
-      withRuby = false;
-
       treesitter.enable = true;
       lsp.enable = true;
       conform.enable = true;
@@ -437,7 +430,7 @@
         "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5"
         "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1"
       ];
-      workspaceBinds = ''
+      extraConfig = ''
         workspace = 1, monitor:desc:SAC G7u Pro 0001, default:true;
         workspace = 10, monitor:desc:KOS KOIOS K2718UD 0000000000000, default:true;
       '';
@@ -457,26 +450,6 @@
     # }}}
 
     # Package {{{
-    flatpak = {
-      packages = {
-        system = [ ];
-        home = [
-          "com.github.tchx84.Flatseal"
-          "com.qq.QQ"
-          "com.tencent.WeChat"
-        ];
-      };
-    };
-
-    games = {
-      packages = {
-        home = [
-          "osu-lazer"
-          "prismlauncher"
-        ];
-      };
-    };
-
     packages = {
       home = [
         "_7zz"
@@ -500,6 +473,21 @@
         "gimp"
         "libreoffice"
       ];
+
+      flatpak = {
+        home = [
+          "com.github.tchx84.Flatseal"
+          "com.qq.QQ"
+          "com.tencent.WeChat"
+        ];
+      };
+
+      games = {
+        home = [
+          "osu-lazer"
+          "prismlauncher"
+        ];
+      };
     };
     # }}}
   };

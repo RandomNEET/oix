@@ -12,6 +12,6 @@
       "fat32"
       "btrfs"
     ];
-    kernelPackages = pkgs.${opts.boot.kernelPackages or "linuxPackages"};
+    kernelPackages = pkgs.${opts.boot.kernelPackages} or pkgs.linuxPackages;
   };
 }

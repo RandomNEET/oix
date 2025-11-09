@@ -9,8 +9,8 @@
           homedir = opts.gpg.homedir or "${config.home.homeDirectory}/.gnupg";
         };
         services.gpg-agent = {
-          enable = opts.gpg.agent.enable or false;
-          enableSshSupport = opts.gpg.agent.enableSshSupport or false;
+          enable = opts.gpg.gpg-agent.enable or false;
+          enableSshSupport = opts.gpg.gpg-agent.enableSshSupport or false;
           enableBashIntegration = true;
           enableZshIntegration = true;
           pinentry.package = if ((opts.desktop or "") != "") then pkgs.pinentry-qt else pkgs.pinentry-curses;

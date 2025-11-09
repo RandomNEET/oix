@@ -21,7 +21,7 @@ if config.services.dae.enable then
     fi
   ''
 else if config.services.xray.enable then
-  if opts.proxy.xray.method != null && opts.proxy.xray.method == "tproxy" then
+  if opts.xray.method != null && opts.xray.method == "tproxy" then
     pkgs.writeShellScriptBin "proxy-toggle" ''
 
       SERVICE="xray.service"

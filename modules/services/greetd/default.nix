@@ -7,6 +7,7 @@
 {
   services.greetd = {
     enable = true;
+    useTextGreeter = true;
     settings =
       if ((opts.greetd.settings or "") != "") then
         opts.greetd.settings
@@ -39,8 +40,5 @@
           };
         };
   };
-
-  environment.systemPackages = with pkgs; [
-    pkgs.tuigreet
-  ];
+  environment.systemPackages = with pkgs; [ tuigreet ];
 }

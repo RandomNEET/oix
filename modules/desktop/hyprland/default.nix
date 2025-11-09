@@ -539,18 +539,14 @@
               monitor = opts.hyprland.monitor or [ ];
             };
             extraConfig = ''
+              monitor=,preferred,auto,1
               binds {
                   workspace_back_and_forth = 0
                   #allow_workspace_cycles = 1
                   #pass_mouse_when_bound = 0
                 }
-
-              # Easily plug in any monitor
-              monitor=,preferred,auto,1
-
-              # Binds workspaces to my monitors only (find desc with: hyprctl monitors)
-              ${opts.hyprland.workspaceBinds or ""}
-            '';
+            ''
+            + (opts.hyprland.extraConfig);
           };
         }
       )

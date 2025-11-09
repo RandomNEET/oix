@@ -36,10 +36,14 @@
     XDG_DATA_HOME = "$HOME/.local/share";
     XDG_BIN_HOME = "$HOME/.local/bin";
   };
-  environment.systemPackages = builtins.map (name: pkgs.${name}) (opts.packages.system or [ ]);
+  environment.systemPackages =
+    with pkgs;
+    [ ] ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.system or [ ]);
   home-manager.sharedModules = [
     (_: {
-      home.packages = builtins.map (name: pkgs.${name}) (opts.packages.home or [ ]);
+      home.packages =
+        with pkgs;
+        [ ] ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.home or [ ]);
     })
   ];
   nixpkgs.config.allowUnfree = true;

@@ -1,4 +1,3 @@
-{ opts, ... }:
 ''
   # Binds are of the form <key sequence> = <command to run>
   # To use '=' in a key sequence, substitute it with "Eq": "<Ctrl+Eq>"
@@ -189,4 +188,3 @@
   <C-PgUp> = :prev-tab<Enter>
   <C-PgDn> = :next-tab<Enter>
 ''
-+ (opts.aerc.extraBinds or "")

@@ -114,17 +114,15 @@
             addKeysToAgent = "yes";
           };
         };
-        agent.enable = false;
+        ssh-agent.enable = false;
       };
     };
 
-    proxy = {
-      dae = {
-        configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
-        openFirewall = {
-          enable = true;
-          port = 12345;
-        };
+    dae = {
+      configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
+      openFirewall = {
+        enable = true;
+        port = 12345;
       };
     };
     # }}}
@@ -132,7 +130,7 @@
     # Security {{{
     gpg = {
       homedir = "/home/${users.primary.name}/.gnupg";
-      agent = {
+      gpg-agent = {
         enable = true;
         enableSshSupport = true;
       };
@@ -177,11 +175,6 @@
 
     # Editor {{{
     nixvim = {
-      withNodeJs = false;
-      withPerl = false;
-      withPython3 = true;
-      withRuby = false;
-
       treesitter.enable = true;
       lsp.enable = true;
       conform.enable = true;
@@ -429,7 +422,7 @@
       monitor = [
         "desc:Chimei Innolux Corporation 0x14C9, 1920x1080@60, 0x0, 1"
       ];
-      workspaceBinds = ''
+      extraConfig = ''
         workspace = 1, monitor:desc:Chimei Innolux Corporation 0x14C9, default:true;
       '';
     };
@@ -478,17 +471,6 @@
     # }}}
 
     # Package {{{
-    flatpak = {
-      packages = {
-        system = [ ];
-        home = [
-          "com.github.tchx84.Flatseal"
-          "com.qq.QQ"
-          "com.tencent.WeChat"
-        ];
-      };
-    };
-
     packages = {
       home = [
         "_7zz"
@@ -511,6 +493,14 @@
 
         "libreoffice"
       ];
+
+      flatpak = {
+        home = [
+          "com.github.tchx84.Flatseal"
+          "com.qq.QQ"
+          "com.tencent.WeChat"
+        ];
+      };
     };
     # }}}
 

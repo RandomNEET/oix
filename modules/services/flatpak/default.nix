@@ -9,18 +9,15 @@
   imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ];
   services.flatpak = {
     enable = true;
-    packages = opts.flatpak.packages.system or [ ];
     update = {
       onActivation = false;
     };
+    packages = opts.packages.flatpak.system or [ ];
   };
   home-manager.sharedModules = [
     (_: {
       imports = [ inputs.nix-flatpak.homeManagerModules.nix-flatpak ];
-      services.flatpak.packages = opts.flatpak.packages.home or [ ];
+      services.flatpak.packages = opts.packages.flatpak.home or [ ];
     })
   ];
-  systemd.services.flatpak-managed-install.serviceConfig = lib.mkIf config.services.greetd.enable {
-    Type = lib.mkForce "idle";
-  };
 }

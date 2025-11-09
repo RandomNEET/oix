@@ -20,8 +20,6 @@
           perDomainSettings = import ./domains.nix { inherit opts; };
           greasemonkey = import ./greasemonkey.nix { inherit pkgs; };
 
-          aliases = ({ }) // opts.qutebrowser.aliases or { };
-          keyMappings = ({ }) // opts.qutebrowser.keyMappings or { };
           extraConfig = ''
             import themes
           ''
@@ -29,8 +27,7 @@
             themes.catppuccin.setup(c, 'mocha', True, ${toString (opts.qutebrowser.theme.opacity0 or 0.9)}, ${
               toString (opts.qutebrowser.theme.opacity1 or 0.1)
             })
-          ''
-          + (opts.qutebrowser.extraConfig or "");
+          '';
         };
       };
       home.file = {

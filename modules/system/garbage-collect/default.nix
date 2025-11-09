@@ -4,7 +4,7 @@
     gc = {
       automatic = true;
       dates = opts.nix.gc.dates or "weekly";
-      options = opts.nix.gc.options or "--delete-older-than 1w";
+      options = opts.nix.gc.options or "--delete-older-than 7d";
       persistent = opts.nix.gc.persistent or true;
       randomizedDelaySec = opts.nix.gc.randomizeDelaySec or "60min";
     };

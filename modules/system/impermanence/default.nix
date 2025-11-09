@@ -28,7 +28,7 @@
       ]
       ++ lib.optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
       ++ lib.optional (config.boot.lanzaboote.enable or false) "/var/lib/sbctl"
-      ++ (opts.impermanence.persistence.directories or [ ])
+      ++ (opts.persistence."/nix/persist".directories or [ ])
     );
     files = (
       [
@@ -46,7 +46,7 @@
         "/etc/ssh/ssh_host_ed25519_key"
         "/etc/ssh/ssh_host_ed25519_key.pub"
       ]
-      ++ (opts.impermanence.persistence.files or [ ])
+      ++ (opts.persistence."/nix/persist".files or [ ])
     );
   };
 }
