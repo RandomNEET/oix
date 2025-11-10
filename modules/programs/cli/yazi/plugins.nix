@@ -17,7 +17,6 @@ in
       piper = pkgs.yaziPlugins.piper;
       ouch = pkgs.yaziPlugins.ouch;
       mediainfo = pkgs.yaziPlugins.mediainfo;
-      duckdb = pkgs.yaziPlugins.duckdb;
       relative-motions = pkgs.yaziPlugins.relative-motions;
       smart-filter = pkgs.yaziPlugins.smart-filter;
       sudo = pkgs.yaziPlugins.sudo;
@@ -107,38 +106,6 @@ in
             mime = "application/subrip";
             run = "mediainfo";
           }
-          {
-            name = "*.csv";
-            run = "duckdb";
-          }
-          {
-            name = "*.tsv";
-            run = "duckdb";
-          }
-          {
-            name = "*.json";
-            run = "duckdb";
-          }
-          {
-            name = "*.parquet";
-            run = "duckdb";
-          }
-          {
-            name = "*.txt";
-            run = "duckdb";
-          }
-          {
-            name = "*.xlsx";
-            run = "duckdb";
-          }
-          {
-            name = "*.db";
-            run = "duckdb";
-          }
-          {
-            name = "*.duckdb";
-            run = "duckdb";
-          }
         ];
         repend_preloaders = [
           {
@@ -148,36 +115,6 @@ in
           {
             mime = "application/subrip";
             run = "mediainfo";
-          }
-          {
-            name = "*.csv";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            name = "*.tsv";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            name = "*.json";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            name = "*.parquet";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            name = "*.txt";
-            run = "duckdb";
-            multi = false;
-          }
-          {
-            name = "*.xlsx";
-            run = "duckdb";
-            multi = false;
           }
         ];
       };
@@ -239,6 +176,32 @@ in
             on = "C";
             run = "plugin ouch";
             desc = "Compress with ouch";
+          }
+          {
+            on = "{";
+            run = "plugin duckdb -1";
+            desc = "Scroll one column to the left";
+          }
+          {
+            on = "}";
+            run = "plugin duckdb +1";
+            desc = "Scroll one column to the right";
+          }
+          {
+            on = [
+              "b"
+              "o"
+            ];
+            run = "plugin duckdb -open";
+            desc = "open with duckdb";
+          }
+          {
+            on = [
+              "b"
+              "u"
+            ];
+            run = "plugin duckdb -ui";
+            desc = "open with duckdb ui";
           }
           {
             on = [
@@ -368,11 +331,11 @@ in
         ];
       };
     };
+    extraPackages = with pkgs; [
+      ouch
+      mediainfo
+      glow
+      trash-cli
+    ];
   };
-  home.packages = with pkgs; [
-    ouch
-    mediainfo
-    glow
-    trash-cli
-  ];
 }
