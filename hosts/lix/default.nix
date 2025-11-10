@@ -36,6 +36,7 @@
     ../../modules/programs/cli/fzf
     ../../modules/programs/cli/gh
     ../../modules/programs/cli/git
+    ../../modules/programs/cli/glow
     ../../modules/programs/cli/gpg
     ../../modules/programs/cli/htop
     ../../modules/programs/cli/jq
