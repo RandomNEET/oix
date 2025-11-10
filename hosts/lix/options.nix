@@ -514,18 +514,15 @@
     # Package {{{
     packages = {
       home = [
-        "_7zz"
-        "unrar"
         "ffmpeg"
         "imagemagick"
-        "glow"
+        "lolcat"
+        "figlet"
+        "fortune"
         "asciiquarium-transparent"
         "cbonsai"
         "cowsay"
         "cmatrix"
-        "fortune"
-        "figlet"
-        "lolcat"
         "pipes"
         "tty-clock"
         "qbittorrent"

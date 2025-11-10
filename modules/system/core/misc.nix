@@ -38,7 +38,11 @@
   };
   environment.systemPackages =
     with pkgs;
-    [ ] ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.system or [ ]);
+    [
+      _7zz
+      unrar
+    ]
+    ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.system or [ ]);
   home-manager.sharedModules = [
     (_: {
       home.packages =
