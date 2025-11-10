@@ -38,7 +38,7 @@
     };
 
     editor = "nvim";
-    terminal = "kitty";
+    terminal = "foot";
     terminalFileManager = "yazi";
     browser = "qutebrowser";
 
@@ -170,6 +170,12 @@
         ];
         theme = "simple";
       };
+    };
+    # }}}
+
+    # Terminal {{{
+    foot = {
+      server = true;
     };
     # }}}
 

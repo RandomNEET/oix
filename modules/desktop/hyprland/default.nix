@@ -105,11 +105,26 @@
             systemd.enable = true;
             settings = {
               "$mainMod" = "SUPER";
-              "$terminal" = "${getExe pkgs.${opts.terminal}}";
-              "$fileManager" = ''$terminal --class "terminalFileManager" -e ${opts.terminalFileManager}'';
-              "$editor" = ''$terminal --class "editor" -e ${opts.editor}'';
+              "$terminal" =
+                if (opts.terminal == "foot") then
+                  if (opts.foot.server or false) then "${getExe' pkgs.foot "footclient"}" else "${getExe pkgs.foot}"
+                else
+                  "${getExe pkgs.${opts.terminal}}";
+              "$fileManager" =
+                if (opts.terminal == "kitty") then
+                  ''$terminal --class "terminalFileManager" -e ${opts.terminalFileManager}''
+                else if (opts.terminal == "foot") then
+                  ''$terminal --app-id "terminalFileManager" -e ${opts.terminalFileManager}''
+                else
+                  ''$terminal -e ${opts.terminalFileManager}'';
+              "$editor" =
+                if (opts.terminal == "kitty") then
+                  ''$terminal --class "editor" -e ${opts.editor}''
+                else if (opts.terminal == "foot") then
+                  ''$terminal --app-id "editor" -e ${opts.editor}''
+                else
+                  ''$terminal -e ${opts.editor}'';
               "$browser" = opts.browser;
-              "$menu" = "rofi -show drun";
 
               env = [
                 "LIBVA_DRIVER_NAME,nvidia"
@@ -148,6 +163,9 @@
                   "${./scripts/randomwallctl.sh} -r"
                 ]
                 ++ lib.optional osConfig.services.power-profiles-daemon.enable "powermodectl -r"
+                ++ lib.optional (
+                  (opts.terminal == "foot") && (opts.foot.server or false)
+                ) "${getExe pkgs.foot} --server"
               );
 
               input = {
@@ -249,7 +267,7 @@
               misc = {
                 disable_hyprland_logo = true;
                 mouse_move_focuses_monitor = true;
-                swallow_regex = "^(Alacritty|kitty)$";
+                swallow_regex = "^(kitty|foot|footclient)$";
                 enable_swallow = true;
                 vfr = true; # always keep on
                 vrr = 1; # enable variable refresh rate (0=off, 1=on, 2=fullscreen only)
@@ -276,7 +294,7 @@
               };
               windowrule = [
                 # Can use FLOAT FLOAT for active and inactive or just FLOAT
-                "opacity 0.80 0.80,class:^(kitty|alacritty|Alacritty|org.wezfurlong.wezterm)$"
+                "opacity 0.80 0.80,class:^(kitty|foot|footclient)$"
                 "opacity 0.90 0.90,class:^(gcr-prompter)$" # keyring prompt
                 "opacity 0.90 0.90,title:^(Hyprland Polkit Agent)$" # polkit prompt
                 "opacity 1.00 1.00,class:^(firefox)$"

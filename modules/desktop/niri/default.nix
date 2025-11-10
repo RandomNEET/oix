@@ -38,7 +38,31 @@
         ...
       }:
       let
+        inherit (lib) getExe getExe';
+
+        terminal =
+          if (opts.terminal == "foot") then
+            if (opts.foot.server or false) then "${getExe' pkgs.foot "footclient"}" else "${getExe pkgs.foot}"
+          else
+            "${getExe pkgs.${opts.terminal}}";
+        fileManager =
+          if (opts.terminal == "kitty") then
+            ''${terminal} --class \"terminalFileManager\" -e ${opts.terminalFileManager}''
+          else if (opts.terminal == "foot") then
+            ''${terminal} --app-id \"terminalFileManager\" -e ${opts.terminalFileManager}''
+          else
+            ''${terminal} -e ${opts.terminalFileManager}'';
+        editor =
+          if (opts.terminal == "kitty") then
+            ''${terminal} --class \"editor\" -e ${opts.editor}''
+          else if (opts.terminal == "foot") then
+            ''${terminal} --app-id \"editor\" -e ${opts.editor}''
+          else
+            ''${terminal} -e ${opts.editor}'';
+        browser = opts.browser;
+
         autoclicker = pkgs.callPackage ./scripts/autoclicker.nix { };
+
         niriConfig = ''
           ${lib.concatMapStringsSep "\n" (
             output:
@@ -139,6 +163,10 @@
           window-rule {
               draw-border-with-background false
               match app-id="kitty"
+              match app-id="foot"
+              match app-id="footclient"
+              match app-id="editor"
+              match app-id="terminalFileManager"
               match app-id="Spotify"
               match app-id="steam"
               match app-id="code"
@@ -169,15 +197,18 @@
           spawn-sh-at-startup "sleep 2 && pamixer --set-volume 50"
           spawn-sh-at-startup "${./scripts/randomwallctl.sh} -r"
           ${lib.optionalString osConfig.services.power-profiles-daemon.enable ''spawn-sh-at-startup "powermodectl -r"''}
+          ${lib.optionalString (
+            (opts.terminal == "foot") && (opts.foot.server or false)
+          ) ''spawn-sh-at-startup "${getExe pkgs.foot} --server"''}
 
           binds {
               Mod+Shift+Slash { show-hotkey-overlay; }
 
-              Mod+Return hotkey-overlay-title="Launch terminal: ${opts.terminal}" { spawn "${opts.terminal}"; }
-              Mod+F hotkey-overlay-title="Launch file manager: ${opts.terminalFileManager}" { spawn-sh "${opts.terminal} -e ${opts.terminalFileManager}"; }
-              Mod+E hotkey-overlay-title="Launch editor: ${opts.editor}" { spawn-sh "${opts.terminal} -e ${opts.editor}"; }
-              Mod+B hotkey-overlay-title="Launch browser: ${opts.browser}" { spawn "${opts.browser}"; }
-              Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${opts.terminal} -e btop"; }
+              Mod+Return hotkey-overlay-title="Launch terminal: ${opts.terminal}" { spawn "${terminal}"; }
+              Mod+F hotkey-overlay-title="Launch file manager: ${opts.terminalFileManager}" { spawn-sh "${fileManager}"; }
+              Mod+E hotkey-overlay-title="Launch editor: ${opts.editor}" { spawn-sh "${editor}"; }
+              Mod+B hotkey-overlay-title="Launch browser: ${opts.browser}" { spawn "${browser}"; }
+              Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${getExe pkgs.btop}"; }
               Super+Alt+L hotkey-overlay-title="Lock screen: swaylock" { spawn "swaylock"; }
 
               Mod+Space hotkey-overlay-title="Launch application menu" { spawn-sh "launcher drun"; }

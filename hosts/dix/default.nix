@@ -57,6 +57,7 @@
     ../../modules/programs/gui/discord
     ../../modules/programs/gui/fcitx5
     ../../modules/programs/gui/firefox
+    ../../modules/programs/gui/foot
     ../../modules/programs/gui/games
     ../../modules/programs/gui/kitty
     ../../modules/programs/gui/localsend

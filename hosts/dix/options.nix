@@ -174,6 +174,12 @@
     };
     # }}}
 
+    # Terminal {{{
+    foot = {
+      server = true;
+    };
+    # }}}
+
     # File manager {{{
     yazi = {
       keymap = {
