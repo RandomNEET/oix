@@ -495,10 +495,9 @@
       home = [
         "_7zz"
         "unrar"
-
         "ffmpeg"
         "imagemagick"
-
+        "glow"
         "asciiquarium-transparent"
         "cbonsai"
         "cowsay"
@@ -508,11 +507,9 @@
         "lolcat"
         "pipes"
         "tty-clock"
-
         "qbittorrent"
-
-        "gimp"
         "libreoffice"
+        "gimp"
       ];
 
       flatpak = {

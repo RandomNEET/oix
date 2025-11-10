@@ -623,7 +623,8 @@
       home = [
         "_7zz"
         "unrar"
-
+        "mediainfo"
+        "flac"
         "asciiquarium-transparent"
         "cbonsai"
         "cowsay"
@@ -633,8 +634,6 @@
         "lolcat"
         "pipes"
         "tty-clock"
-
-        "flac"
         "qq"
       ];
     };
