@@ -16,9 +16,7 @@
         };
         shellIntegration.enableBashIntegration = true;
         shellIntegration.enableZshIntegration = true;
-        # shellIntegration.mode = "no-sudo";
         settings = {
-          # shell = "${getExe pkgs.tmux}";
           cursor_trail = 3; # Fancy cursor movements (especially in nixvim)
           cursor_trail_decay = "0.08 0.3"; # Animation speed
           cursor_trail_start_threshold = "4";
@@ -31,18 +29,14 @@
           enable_audio_bell = false;
           mouse_hide_wait = 60;
           update_check_interval = 0;
-
           ## Tabs
           tab_title_template = "{index}";
           active_tab_font_style = "normal";
           inactive_tab_font_style = "normal";
           tab_bar_style = "powerline";
           tab_powerline_style = "round";
-          active_tab_foreground = "#1e1e2e";
-          active_tab_background = "#cba6f7";
-          inactive_tab_foreground = "#bac2de";
-          inactive_tab_background = "#313244";
-        };
+        }
+        // lib.optionalAttrs ((opts.theme or "") != "") (import ./themes/${opts.theme}.nix);
         keybindings = {
           "ctrl+alt+n" = "launch --cwd=current";
           "alt+w" = "copy_and_clear_or_interrupt";
