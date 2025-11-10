@@ -1,27 +1,18 @@
-{
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
+{ lib, opts, ... }:
 {
   home-manager.sharedModules = [
-    (_: {
-      imports = [
-        ./init.nix
-        ./keymap.nix
-      ]
-      ++ lib.optional ((opts.theme or "") != "") ./themes/${opts.theme}.nix;
-
-      programs.yazi =
-        let
-          displays = opts.display or [ ];
-          primaryDisplay = lib.findFirst (d: d.orientation or "" == "landscape") { } displays;
-        in
-        {
+    (
+      _:
+      let
+        displays = opts.display or [ ];
+        primaryDisplay = lib.findFirst (d: d.orientation or "" == "landscape") { } displays;
+      in
+      {
+        programs.yazi = {
           enable = true;
           enableBashIntegration = true;
           enableZshIntegration = true;
+          keymap = import ./keymap.nix { inherit opts; };
           settings = {
             mgr = {
               show_hidden = false;
@@ -43,57 +34,13 @@
               max_height = primaryDisplay.height or 900;
               image_quality = 90;
             };
-            plugin = {
-              repend_preloaders = [
-                {
-                  mime = "{audio,video,image}/*";
-                  run = "mediainfo";
-                }
-                {
-                  mime = "application/subrip";
-                  run = "mediainfo";
-                }
-              ];
-              prepend_previewers = [
-                {
-                  name = "*/";
-                  run = ''piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
-                }
-                {
-                  name = "*.tar*";
-                  run = ''piper --format=url -- tar tf "$1"'';
-                }
-                {
-                  name = "*.md";
-                  run = ''piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'';
-                }
-                {
-                  mime = "{audio,video,image}/*";
-                  run = "mediainfo";
-                }
-                {
-                  mime = "application/subrip";
-                  run = "mediainfo";
-                }
-              ];
-            };
           };
-          plugins = {
-            piper = pkgs.yaziPlugins.piper;
-            git = pkgs.yaziPlugins.git;
-            diff = pkgs.yaziPlugins.diff;
-            mediainfo = pkgs.yaziPlugins.mediainfo;
-            lazygit = pkgs.yaziPlugins.lazygit;
-            full-border = pkgs.yaziPlugins.full-border;
-            yatline = pkgs.yaziPlugins.yatline;
-            toggle-pane = pkgs.yaziPlugins.toggle-pane;
-          };
+        }
+        // lib.optionalAttrs ((opts.theme or "") != "") {
+          theme = (import (./themes + "/${opts.theme}.nix")).yazi;
         };
-
-      home.packages = with pkgs; [
-        mediainfo
-        glow
-      ];
-    })
+        imports = [ ./plugins.nix ];
+      }
+    )
   ];
 }
