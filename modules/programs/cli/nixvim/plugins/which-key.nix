@@ -3,7 +3,7 @@
     plugins.which-key = {
       enable = true;
       settings = {
-        preset = "modern";
+        preset = "helix";
       };
     };
   };
