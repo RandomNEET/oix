@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   pkgs,
   opts,
   ...
@@ -21,7 +22,7 @@
         globals.mapleader = " ";
         clipboard = {
           register = "unnamedplus";
-          providers = {
+          providers = lib.optionalAttrs ((opts.desktop or "") != "") {
             wl-copy.enable = true;
             xclip.enable = true;
           };
