@@ -174,6 +174,41 @@
     };
     # }}}
 
+    # File manager {{{
+    yazi = {
+      keymap = {
+        mgr = {
+          prepend_keymap = [
+            {
+              on = [
+                "g"
+                "d"
+              ];
+              run = "cd ~/dls";
+              desc = "Go ~/dls";
+            }
+            {
+              on = [
+                "g"
+                "r"
+              ];
+              run = "cd ~/repo";
+              desc = "Go ~/repo";
+            }
+            {
+              on = [
+                "g"
+                "u"
+              ];
+              run = "cd /run/media/$USER";
+              desc = "Go /run/media/$USER";
+            }
+          ];
+        };
+      };
+    };
+    # }}}
+
     # Editor {{{
     nixvim = {
       treesitter.enable = true;

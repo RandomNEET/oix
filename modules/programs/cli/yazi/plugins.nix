@@ -370,8 +370,9 @@ in
     };
   };
   home.packages = with pkgs; [
-    trash-cli
+    ouch
     mediainfo
     glow
+    trash-cli
   ];
 }

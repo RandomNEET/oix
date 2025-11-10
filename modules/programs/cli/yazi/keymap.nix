@@ -46,22 +46,6 @@
       {
         on = [
           "g"
-          "d"
-        ];
-        run = "cd ~/dls";
-        desc = "Go ~/dls";
-      }
-      {
-        on = [
-          "g"
-          "r"
-        ];
-        run = "cd ~/repo";
-        desc = "Go ~/repo";
-      }
-      {
-        on = [
-          "g"
           "t"
         ];
         run = "cd ~/tmp";
@@ -74,14 +58,6 @@
         ];
         run = "cd /mnt";
         desc = "Go /mnt";
-      }
-      {
-        on = [
-          "g"
-          "u"
-        ];
-        run = "cd /run/media/$USER";
-        desc = "Go /run/media/$USER";
       }
     ]
     ++ (opts.yazi.keymap.mgr.prepend_keymap or [ ]);
