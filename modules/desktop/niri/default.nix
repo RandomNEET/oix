@@ -364,12 +364,6 @@
           xwayland-satellite
         ];
 
-        home.sessionVariables = {
-          TERMINAL = opts.terminal;
-          EDITOR = opts.editor;
-          BROWSER = opts.browser;
-        };
-
         xdg = {
           enable = true;
           portal = {
