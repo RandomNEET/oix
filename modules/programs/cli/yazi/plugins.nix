@@ -33,6 +33,7 @@ in
     };
     settings = {
       prepend_fetchers = [
+        # git
         {
           id = "git";
           name = "*";
@@ -46,6 +47,7 @@ in
       ];
       plugin = {
         prepend_previewers = [
+          # piper
           {
             name = "*/";
             run = ''piper -- ${getExe pkgs.eza} -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
@@ -54,6 +56,7 @@ in
             name = "*.md";
             run = ''piper -- CLICOLOR_FORCE=1 ${getExe pkgs.glow} -w=$w -s=dark "$1"'';
           }
+          # ouch
           {
             mime = "application/*zip";
             run = "ouch";
@@ -98,6 +101,7 @@ in
             mime = "application/java-archive";
             run = "ouch";
           }
+          # mediainfo
           {
             mime = "{audio,video,image}/*";
             run = "mediainfo";
@@ -108,6 +112,7 @@ in
           }
         ];
         repend_preloaders = [
+          # mediainfo
           {
             mime = "{audio,video,image}/*";
             run = "mediainfo";
@@ -122,87 +127,25 @@ in
     keymap = {
       mgr = {
         prepend_keymap = [
+          # relative-motions
           {
-            on = "1";
-            run = "plugin relative-motions 1";
-            desc = "Move in relative steps";
+            on = "m";
+            run = "plugin relative-motions";
+            desc = "Trigger a new relative motion";
           }
-          {
-            on = "2";
-            run = "plugin relative-motions 2";
-            desc = "Move in relative steps";
-          }
-          {
-            on = "3";
-            run = "plugin relative-motions 3";
-            desc = "Move in relative steps";
-          }
-          {
-            on = "4";
-            run = "plugin relative-motions 4";
-            desc = "Move in relative steps";
-          }
-          {
-            on = "5";
-            run = "plugin relative-motions 5";
-            desc = "Move in relative steps";
-          }
-          {
-            on = "6";
-            run = "plugin relative-motions 6";
-            desc = "Move in relative steps";
-          }
-          {
-            on = "7";
-            run = "plugin relative-motions 7";
-            desc = "Move in relative steps";
-          }
-          {
-            on = "8";
-            run = "plugin relative-motions 8";
-            desc = "Move in relative steps";
-          }
-          {
-            on = "9";
-            run = "plugin relative-motions 9";
-            desc = "Move in relative steps";
-          }
+          # smart-filter
           {
             on = "F";
             run = "plugin smart-filter";
             desc = "Smart filter";
           }
+          # ouch
           {
             on = "C";
             run = "plugin ouch";
             desc = "Compress with ouch";
           }
-          {
-            on = "{";
-            run = "plugin duckdb -1";
-            desc = "Scroll one column to the left";
-          }
-          {
-            on = "}";
-            run = "plugin duckdb +1";
-            desc = "Scroll one column to the right";
-          }
-          {
-            on = [
-              "b"
-              "o"
-            ];
-            run = "plugin duckdb -open";
-            desc = "open with duckdb";
-          }
-          {
-            on = [
-              "b"
-              "u"
-            ];
-            run = "plugin duckdb -ui";
-            desc = "open with duckdb ui";
-          }
+          # sudo
           {
             on = [
               "R"
@@ -287,6 +230,7 @@ in
             run = "plugin sudo -- chmod";
             desc = "sudo chmod";
           }
+          # chmod
           {
             on = [
               "c"
@@ -295,6 +239,7 @@ in
             run = "plugin chmod";
             desc = "Chmod on selected files";
           }
+          # recycle-bin
           {
             on = [
               "R"
@@ -303,23 +248,26 @@ in
             run = "plugin recycle-bin";
             desc = "Open Recycle Bin menu";
           }
+          # diff
           {
             on = "<C-d>";
             run = "plugin diff";
             desc = "Diff the selected with the hovered file";
           }
+          # toggle-pane
           {
             on = "T";
             run = "plugin toggle-pane min-preview";
             desc = "Show or hide the preview pane";
           }
           {
-            on = "T";
+            on = "<C-t>";
             run = "plugin toggle-pane max-preview";
             desc = "Maximize or restore the preview pane";
           }
         ]
         ++ lib.optionals config.programs.lazygit.enable [
+          # lazygit
           {
             on = [
               "g"
