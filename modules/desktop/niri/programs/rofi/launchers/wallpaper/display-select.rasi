@@ -1,18 +1,18 @@
+/*****----- Global Properties -----*****/
+@import                          "shared/colors.rasi"
+@import                          "shared/fonts.rasi"
+
 /*****----- Configuration -----*****/
 configuration {
-	modi:                       "drun";
+    modi:                       "drun";
     show-icons:                 true;
     display-drun:               " ";
     display-run:                "";
     display-filebrowser:        "";
     display-window:             "";
-	drun-display-format:        "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";
-	window-format:              "{w} · {c} · {t}";
+    drun-display-format:        "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";
+    window-format:              "{w} · {c} · {t}";
 }
-
-/*****----- Global Properties -----*****/
-@import                          "shared/colors.rasi"
-@import                          "shared/fonts.rasi"
 
 * {
     border-colour:               rgba(122, 162, 247, 80%);
