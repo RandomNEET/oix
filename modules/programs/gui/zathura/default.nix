@@ -7,8 +7,9 @@
         programs.zathura = {
           enable = true;
           extraConfig = ''
-            ${lib.optionalString ((opts.theme or "") != "") "include ${opts.theme}"}
-          '';
+            set selection-clipboard clipboard
+          ''
+          + lib.optionalString ((opts.theme or "") != "") "include ${opts.theme}";
         };
       }
       // lib.optionalAttrs ((opts.theme or "") != "") {
