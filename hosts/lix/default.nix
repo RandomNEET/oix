@@ -43,6 +43,7 @@
     ../../modules/programs/cli/lazygit
     ../../modules/programs/cli/mbsync
     ../../modules/programs/cli/mpv
+    ../../modules/programs/cli/newsboat
     ../../modules/programs/cli/nixvim
     ../../modules/programs/cli/password-store
     ../../modules/programs/cli/rbw

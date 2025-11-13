@@ -422,6 +422,10 @@
       };
     };
 
+    newsboat = {
+      browser = "w3m";
+    };
+
     obsidian = {
       vaults = {
         default = {
@@ -516,6 +520,7 @@
       home = [
         "ffmpeg"
         "imagemagick"
+        "w3m"
         "lolcat"
         "figlet"
         "fortune"
