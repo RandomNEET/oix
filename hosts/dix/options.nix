@@ -308,7 +308,6 @@
         sp = "https://startpage.randomneet.me/";
         hp = "https://homepage.scaphium.xyz/";
         ld = "https://linkding.scaphium.xyz/";
-        mgd = "https://webmail.migadu.com/";
       };
     };
     # }}}
