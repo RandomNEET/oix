@@ -531,6 +531,7 @@
         "tty-clock"
         "qbittorrent"
         "libreoffice"
+        "jellyfin-mpv-shim"
       ];
 
       flatpak = {

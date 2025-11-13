@@ -511,6 +511,7 @@
         "qbittorrent"
         "libreoffice"
         "gimp"
+        "jellyfin-mpv-shim"
       ];
 
       flatpak = {
