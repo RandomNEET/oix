@@ -18,20 +18,20 @@ pkgs.writeShellApplication {
     gnused
   ];
   text = ''
-    # For each display, changes the wallpaper to a randomly chosen image based on
-    # display orientation (landscape/portrait).
+    WAYLAND_SOCKET=$(find /run/user/$UID -maxdepth 1 -type s -name 'wayland-*' | head -n1)
 
-    # Default configuration
+    if [ -z "$WAYLAND_SOCKET" ]; then
+    	exit 0
+    fi
+
     DEFAULT_LANDSCAPE_DIR="${landscapeDir}"
     DEFAULT_PORTRAIT_DIR="${portraitDir}"
     DEFAULT_TRANSITION_OPTS="--transition-type ${transitionType} --transition-step ${transitionStep} --transition-duration ${transitionDuration} --transition-fps ${transitionFps}"
 
-    # Use provided arguments or defaults
     LANDSCAPE_DIR="''${1:-$DEFAULT_LANDSCAPE_DIR}"
     PORTRAIT_DIR="''${2:-$DEFAULT_PORTRAIT_DIR}"
     TRANSITION_OPTS="''${3:-$DEFAULT_TRANSITION_OPTS}"
 
-    # Validate directories
     if [ ! -d "$LANDSCAPE_DIR" ] || [ ! -d "$PORTRAIT_DIR" ]; then
     	printf "Error: Invalid directories\n"
     	printf "  Landscape: %s\n" "$LANDSCAPE_DIR"
@@ -44,10 +44,8 @@ pkgs.writeShellApplication {
     	exit 1
     fi
 
-    # See swww-img(1)
     RESIZE_TYPE="crop"
 
-    # Get display orientation (landscape or portrait)
     get_orientation() {
     	local display="$1"
     	local line 
@@ -66,13 +64,11 @@ pkgs.writeShellApplication {
     	fi
     }
 
-    # Get random image from directory
     get_random_image() {
     	local dir="$1"
     	find "$dir" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | shuf -n 1
     }
 
-    # Parse swww query output and process each display
     swww query | grep "^:" | while IFS= read -r line; do
     	d=$(echo "$line" | sed -n 's/^: \([^:]*\):.*/\1/p')
 

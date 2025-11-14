@@ -36,14 +36,11 @@
   };
 
   systemd.user.services.random-wall = {
-    description = "Change wallpaper every hour";
-    wantedBy = [ "graphical-session.target" ];
-    wants = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
+    description = "Randomly change wallpaper";
     startAt = "hourly";
     script = "${lib.getExe (import ./scripts/random-wall.nix { inherit pkgs opts; })}";
     serviceConfig = {
-      Type = "simple";
+      Type = "oneshot";
     };
   };
 
