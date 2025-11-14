@@ -21,8 +21,9 @@ pkgs.writeShellScriptBin "hypr-keybinds" ''
     "SUPER B" "Launch browser" "$BROWSER"
     "CTRL ALT Delete" "Open system monitor" "btop"
     "SUPER A" "Launch application menu" "scripts/launcher drun"
-    "SUPER SPACE" "Launch application menu" "/launcher drun"
+    "SUPER SPACE" "Launch application menu" "scripts/launcher drun"
     "SUPER SHIFT W" "Launch wallpaper menu" "scripts/launcher wallpaper"
+    "SUPER CTRL W" "Random wallpaper" "scripts/random-wall"
     ${
       if (config.home-manager.users.${opts.users.primary.name}.programs.tmux.enable or false) then
         ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''
@@ -76,7 +77,6 @@ pkgs.writeShellScriptBin "hypr-keybinds" ''
     "SUPER Q" "Close active window" "killactive"
     "ALT F4" "Close active window" "killactive"
     "SUPER V" "Clipboard manager" "scripts/clip-manager.sh"
-    "SUPER CTRL W" "Random wallpaper" "scripts/swww-randomize-multi.sh"
     "SUPER ALT K" "Change keyboard layout" "scripts/keyboard-switch.sh"
     "SUPER P" "Screenshot (select area)" "scripts/screenshot.sh s"
     "SUPER CTRL P" "Screenshot (frozen screen)" "scripts/screenshot.sh sf"

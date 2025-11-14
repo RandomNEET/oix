@@ -37,11 +37,13 @@
 
   systemd.user.services.random-wall = {
     description = "Change wallpaper every hour";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
     startAt = "hourly";
-    script = "${./scripts/swww-randomize-multi.sh}";
+    script = "${lib.getExe (import ./scripts/random-wall.nix { inherit pkgs opts; })}";
     serviceConfig = {
-      Type = "oneshot";
-      Environment = "PATH=/etc/profiles/per-user/${opts.users.primary.name}/bin:/run/current-system/sw/bin";
+      Type = "simple";
     };
   };
 
@@ -437,7 +439,7 @@
                   "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
                   "$mainMod, V, exec, ${./scripts/clip-manager.sh}" # Clipboard Manager
                   "$mainMod SHIFT, W, exec, launcher wallpaper" # launch wallpaper switcher
-                  "$mainMod CTRL, W, exec, ${./scripts/swww-randomize-multi.sh}" # random wallpaper
+                  "$mainMod CTRL, W, exec, random-wall" # random wallpaper
 
                   # Screenshot/Screencapture
                   "$mainMod, P, exec, ${./scripts/screenshot.sh} s" # drag to snip an area / click on a window to print it

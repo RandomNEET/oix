@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   opts,
   ...
 }:
@@ -17,11 +18,13 @@
 
   systemd.user.services.random-wall = {
     description = "Change wallpaper every hour";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
     startAt = "hourly";
-    script = "${./scripts/swww-randomize-multi.sh}";
+    script = "${lib.getExe (import ./scripts/random-wall.nix { inherit pkgs opts; })}";
     serviceConfig = {
-      Type = "oneshot";
-      Environment = "PATH=/etc/profiles/per-user/${opts.users.primary.name}/bin:/run/current-system/sw/bin";
+      Type = "simple";
     };
   };
 
@@ -233,7 +236,7 @@
               Mod+F10 hotkey-overlay-title="Disable night mode" { spawn-sh "pkill wlsunset"; }
 
               Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "bash ${./scripts}/clip-manager.sh"; }
-              Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn-sh "bash ${./scripts}/swww-randomize-multi.sh"; }
+              Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn-sh "random-wall"; }
 
               XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
               XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
