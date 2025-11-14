@@ -222,7 +222,7 @@
       lint.enable = true;
 
       snack = {
-        image.enable = true;
+        image.enable = false;
       };
       noice.enable = true;
 
