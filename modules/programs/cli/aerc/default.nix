@@ -10,7 +10,6 @@
       { config, ... }:
       let
         inherit (lib) getExe getExe';
-        mbsync-count = import ../../../services/mbsync/scripts/count.nix { inherit pkgs opts; };
       in
       {
         programs.aerc = {
@@ -56,9 +55,11 @@
               // lib.optionalAttrs config.programs.thunderbird.enable { "message/rfc822" = "thunderbird"; };
             hooks =
               { }
-              // lib.optionalAttrs (
-                config.services.mbsync.enable && (opts.mbsync.service.notify.enable or false)
-              ) { aerc-shutdown = "${mbsync-count}"; };
+              //
+                lib.optionalAttrs (config.services.mbsync.enable && (opts.mbsync.service.notify.enable or false))
+                  {
+                    aerc-shutdown = "${import ../../../services/mbsync/scripts/count.nix { inherit pkgs opts; }}";
+                  };
           };
         };
         home.file.".config/aerc/stylesets".source = ./themes;
