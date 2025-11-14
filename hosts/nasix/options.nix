@@ -43,13 +43,13 @@
     xdg = {
       userDirs = {
         desktop = null;
-        documents = "$HOME/doc";
-        download = "$HOME/dls";
-        music = "$HOME/mus";
-        pictures = "$HOME/pic";
-        publicShare = "$HOME/pub";
-        templates = "$HOME/tpl";
-        videos = "$HOME/vid";
+        documents = "/home/${users.primary.name}/doc";
+        download = "/home/${users.primary.name}/dls";
+        music = "/home/${users.primary.name}/mus";
+        pictures = "/home/${users.primary.name}/pic";
+        publicShare = "/home/${users.primary.name}/pub";
+        templates = "/home/${users.primary.name}/tpl";
+        videos = "/home/${users.primary.name}/vid";
       };
     };
     # }}}

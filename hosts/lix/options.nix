@@ -45,13 +45,13 @@
     xdg = {
       userDirs = {
         desktop = null;
-        documents = "$HOME/doc";
-        download = "$HOME/dls";
-        music = "$HOME/mus";
-        pictures = "$HOME/pic";
-        publicShare = "$HOME/pub";
-        templates = "$HOME/tpl";
-        videos = "$HOME/vid";
+        documents = "/home/${users.primary.name}/doc";
+        download = "/home/${users.primary.name}/dls";
+        music = "/home/${users.primary.name}/mus";
+        pictures = "/home/${users.primary.name}/pic";
+        publicShare = "/home/${users.primary.name}/pub";
+        templates = "/home/${users.primary.name}/tpl";
+        videos = "/home/${users.primary.name}/vid";
       };
     };
     # }}}
@@ -451,11 +451,19 @@
     hibernate = true;
 
     wallpaper = {
-      dir = "/home/${users.primary.name}/pic/wallpapers";
+      dir = "${xdg.userDirs.pictures}/wallpapers";
       landscapeDir = "${wallpaper.dir}/landscape";
       portraitDir = "${wallpaper.dir}/portrait";
       transition = {
-        type = "center";
+        launcher = {
+          type = "center";
+          step = 90;
+          duration = 1;
+          fps = 60;
+        };
+      };
+      random-wall = {
+        type = "wipe";
         step = 90;
         duration = 1;
         fps = 60;

@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   opts,
@@ -9,7 +10,9 @@
     (
       _:
       let
-        docDir = lib.removePrefix "$HOME/" opts.xdg.userDirs.documents;
+        docDir =
+          lib.replaceStrings [ "${config.users.users.${opts.users.primary.name}.home}" "$HOME/" ] [ "" "" ]
+            opts.xdg.userDirs.documents;
       in
       {
         programs.obsidian = {

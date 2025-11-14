@@ -1,5 +1,6 @@
 {
   inputs,
+  config,
   lib,
   pkgs,
   opts,
@@ -44,14 +45,19 @@
         userDirs = {
           enable = true;
           createDirectories = false;
-          desktop = opts.xdg.userDirs.desktop or "$HOME/dsk";
-          documents = opts.xdg.userDirs.documents or "$HOME/doc";
-          download = opts.xdg.userDirs.download or "$HOME/dls";
-          music = opts.xdg.userDirs.music or "$HOME/mus";
-          pictures = opts.xdg.userDirs.pictures or "$HOME/pic";
-          publicShare = opts.xdg.userDirs.publicShare or "$HOME/pub";
-          templates = opts.xdg.userDirs.templates or "$HOME/tpl";
-          videos = opts.xdg.userDirs.videos or "$HOME/vid";
+          desktop = opts.xdg.userDirs.desktop or "${config.users.users.${opts.users.primary.name}.home}/dsk";
+          documents =
+            opts.xdg.userDirs.documents or "${config.users.users.${opts.users.primary.name}.home}/doc";
+          download =
+            opts.xdg.userDirs.download or "${config.users.users.${opts.users.primary.name}.home}/pic";
+          music = opts.xdg.userDirs.music or "${config.users.users.${opts.users.primary.name}.home}/mus";
+          pictures =
+            opts.xdg.userDirs.pictures or "${config.users.users.${opts.users.primary.name}.home}/pic";
+          publicShare =
+            opts.xdg.userDirs.publicShare or "${config.users.users.${opts.users.primary.name}.home}/pub";
+          templates =
+            opts.xdg.userDirs.templates or "${config.users.users.${opts.users.primary.name}.home}/tpl";
+          videos = opts.xdg.userDirs.videos or "${config.users.users.${opts.users.primary.name}.home}/vid";
         };
       };
     };
