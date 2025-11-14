@@ -222,7 +222,7 @@
       conform.enable = true;
       lint.enable = true;
 
-      snack = {
+      snacks = {
         image.enable = true;
       };
       noice.enable = true;

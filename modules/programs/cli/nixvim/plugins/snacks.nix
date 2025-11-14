@@ -212,7 +212,7 @@
             enabled = true;
           };
           image = {
-            enabled = opts.nixvim.snack.image.enable or true;
+            enabled = opts.nixvim.snacks.image.enable or false;
           };
         };
       };

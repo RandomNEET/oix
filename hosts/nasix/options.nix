@@ -187,7 +187,7 @@
       conform.enable = true;
       lint.enable = false;
 
-      snack = {
+      snacks = {
         image.enable = false;
       };
       noice.enable = false;
