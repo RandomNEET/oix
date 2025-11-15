@@ -58,7 +58,7 @@
 
     # Boot {{{
     boot = {
-      kernelPackages = "linuxPackages";
+      kernelPackages = "linuxPackages_zen";
     };
 
     lanzaboote = {
@@ -518,7 +518,6 @@
         "tty-clock"
         "qbittorrent"
         "libreoffice"
-        "gimp"
         "jellyfin-mpv-shim"
       ];
 
