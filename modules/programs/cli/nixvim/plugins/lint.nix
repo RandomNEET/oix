@@ -10,7 +10,7 @@
         gitcommit = [ "commitlint" ];
         javascript = [ "eslint_d" ];
         javascriptreact = [ "eslint_d" ];
-        json = [ "jsonlint" ];
+        json = [ "jq" ];
         lua = [ "luacheck" ];
         markdownlint = [ "markdownlint" ];
         nix = [ "nix" ];

@@ -53,10 +53,9 @@
               # Linters
               commitlint
               eslint_d
+              jq
               luajitPackages.luacheck
               markdownlint-cli
-              nodePackages.jsonlint
-              pylint
               ruff
               shellcheck
               yamllint
