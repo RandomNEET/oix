@@ -366,6 +366,7 @@
         ];
         style = lib.optionalString ((opts.theme or "") != "") (builtins.readFile ./${opts.theme}.css);
       };
+      home.packages = with pkgs; [ cava ];
     })
   ];
 }
