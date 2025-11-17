@@ -30,6 +30,9 @@ in
     }
     // lib.optionalAttrs config.programs.lazygit.enable {
       lazygit = pkgs.yaziPlugins.lazygit;
+    }
+    // lib.optionalAttrs ((opts.desktop or "") != "") {
+      wl-clipboard = pkgs.yaziPlugins.wl-clipboard;
     };
     settings = {
       prepend_fetchers = [
@@ -275,6 +278,14 @@ in
             ];
             run = "plugin lazygit";
             desc = "run lazygit";
+          }
+        ]
+        ++ lib.optionals ((opts.desktop or "") != "") [
+          # wl-clipboard
+          {
+            on = "Y";
+            run = "plugin wl-clipboard";
+            desc = "Copy to system clipboard";
           }
         ];
       };
