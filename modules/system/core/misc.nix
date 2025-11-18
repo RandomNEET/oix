@@ -39,6 +39,9 @@
   environment.systemPackages =
     with pkgs;
     [
+      openssl
+      wget
+      rsync
       _7zz
       unrar
     ]
