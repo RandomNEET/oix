@@ -626,12 +626,13 @@
         "lolcat"
         "figlet"
         "fortune"
+        "cowsay"
         "asciiquarium-transparent"
         "cbonsai"
-        "cowsay"
         "cmatrix"
         "pipes"
         "tty-clock"
+        "cliwt"
         "qq"
       ];
     };
