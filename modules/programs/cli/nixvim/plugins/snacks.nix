@@ -182,6 +182,7 @@
           explorer = {
             enabled = true;
             replace_netrw = true;
+            trash = true;
           };
           indent = {
             enabled = true;
