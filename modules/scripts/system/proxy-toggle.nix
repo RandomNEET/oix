@@ -20,6 +20,22 @@ if config.services.dae.enable then
         echo "$SERVICE started."
     fi
   ''
+else if config.services.sing-box.enable then
+  pkgs.writeShellScriptBin "proxy-toggle" ''
+
+    SERVICE="sing-box.service"
+
+    if systemctl is-active --quiet "$SERVICE"; then
+
+        echo "Stopping $SERVICE ..."
+        sudo systemctl stop "$SERVICE"
+        echo "$SERVICE stopped."
+    else
+        echo "Starting $SERVICE ..."
+        sudo systemctl start "$SERVICE"
+        echo "$SERVICE started."
+    fi
+  ''
 else if config.services.xray.enable then
   if opts.xray.method != null && opts.xray.method == "tproxy" then
     pkgs.writeShellScriptBin "proxy-toggle" ''
