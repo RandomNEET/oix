@@ -17,11 +17,11 @@
     ../../modules/services/homepage-dashboard
     ../../modules/services/jellyfin
     ../../modules/services/mpd
+    ../../modules/services/proxy
     ../../modules/services/qbittorrent
     ../../modules/services/samba
     ../../modules/services/ssh
     ../../modules/services/vaultwarden
-    ../../modules/services/xray
 
     ../../modules/programs/cli/bash
     ../../modules/programs/cli/bat

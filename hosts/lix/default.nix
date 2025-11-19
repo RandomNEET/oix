@@ -12,13 +12,13 @@
 
     ../../modules/services/automount
     ../../modules/services/blueman
-    ../../modules/services/dae
     ../../modules/services/flatpak
     ../../modules/services/greetd
     ../../modules/services/kmonad
     ../../modules/services/mbsync
     ../../modules/services/mpd
     ../../modules/services/pipewire
+    ../../modules/services/proxy
     ../../modules/services/snapper
     ../../modules/services/ssh
     ../../modules/services/tlp

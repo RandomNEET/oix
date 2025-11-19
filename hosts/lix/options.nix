@@ -118,11 +118,14 @@
       };
     };
 
-    dae = {
-      configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
-      openFirewall = {
-        enable = true;
-        port = 12345;
+    proxy = {
+      core = "dae";
+      dae = {
+        configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
+        openFirewall = {
+          enable = true;
+          port = 12345;
+        };
       };
     };
     # }}}

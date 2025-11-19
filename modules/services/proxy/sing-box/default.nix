@@ -36,12 +36,12 @@
           }
         ];
       }
-      // (opts.sing-box.settings.route or { });
+      // (opts.proxy.sing-box.settings.route or { });
     }
-    // (builtins.removeAttrs (opts.sing-box.settings or { }) [ "route" ]);
+    // (builtins.removeAttrs (opts.proxy.sing-box.settings or { }) [ "route" ]);
   };
   systemd.services.sing-box.environment =
-    lib.mkIf (opts.sing-box.ENABLE_DEPRECATED_SPECIAL_OUTBOUNDS or false)
+    lib.mkIf (opts.proxy.sing-box.ENABLE_DEPRECATED_SPECIAL_OUTBOUNDS or false)
       {
         ENABLE_DEPRECATED_SPECIAL_OUTBOUNDS = "true";
       };
