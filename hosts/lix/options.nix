@@ -7,7 +7,7 @@
 }:
 {
   opts = rec {
-    # System {{{
+    # Base {{{
     hostname = "lix";
     system = "x86_64-linux";
     gpu = "intel-integrated";
@@ -15,6 +15,199 @@
     timezone = "Asia/Shanghai";
     kbdLayout = "us";
     consoleKeymap = "us";
+    # }}}
+
+    # Boot {{{
+    boot = {
+      kernelPackages = "linuxPackages_zen";
+    };
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/nix/persist/var/lib/sbctl";
+    };
+    # }}}
+
+    # Network {{{
+    ip = {
+      local = "192.168.0.69";
+    };
+
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
+    };
+
+    proxy = {
+      core = "dae";
+      dae = {
+        configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
+        openFirewall = {
+          enable = true;
+          port = 12345;
+        };
+      };
+    };
+    # }}}
+
+    # Virtualisation {{{
+    virtualisation = {
+      vm = {
+        enable = true;
+        virt-manager = {
+          enable = true;
+        };
+      };
+    };
+    # }}}
+
+    # Desktop {{{
+    desktop = "niri";
+    theme = "catppuccin-mocha";
+
+    display = [
+      {
+        output = "eDP-1";
+        width = 1920;
+        height = 1080;
+        orientation = "landscape";
+      }
+    ];
+
+    hibernate = true;
+
+    wallpaper = {
+      dir = "${xdg.userDirs.pictures}/wallpapers";
+      landscapeDir = "${wallpaper.dir}/landscape";
+      portraitDir = "${wallpaper.dir}/portrait";
+      transition = {
+        launcher = {
+          type = "center";
+          step = 90;
+          duration = 1;
+          fps = 60;
+        };
+        random-wall = {
+          type = "wipe";
+          step = 90;
+          duration = 1;
+          fps = 60;
+        };
+      };
+    };
+
+    hyprland = {
+      monitor = [
+        "desc:Chimei Innolux Corporation 0x14C9, 1920x1080@60, 0x0, 1"
+      ];
+      extraConfig = ''
+        workspace = 1, monitor:desc:Chimei Innolux Corporation 0x14C9, default:true;
+      '';
+    };
+
+    hypridle = {
+      time = {
+        lock = "300";
+        dpmsOff = "1800";
+        sleep = "3600";
+      };
+    };
+
+    hyprlock = {
+      background = "${wallpaper.dir}/landscape/touhou/marisa-reimu-3.jpg";
+    };
+
+    niri = {
+      output = [
+        {
+          name = "eDP-1";
+          off = false;
+          mode = "1920x1080@60.008";
+          scale = 1.25;
+          transform = "normal";
+          position = {
+            x = 0;
+            y = 0;
+          };
+          variable-refresh-rate = false;
+          focus-at-startup = true;
+        }
+      ];
+    };
+
+    swayidle = {
+      time = {
+        lock = 300;
+        dpmsOff = 1800;
+        sleep = 3600;
+      };
+    };
+
+    swaylock = {
+      image = "eDP-1:${wallpaper.dir}/landscape/touhou/marisa-reimu-3.jpg";
+    };
+    # }}}
+
+    # Hardware {{{
+    tlp = {
+      settings = {
+        START_CHARGE_THRESH_BAT0 = 40;
+        STOP_CHARGE_THRESH_BAT0 = 80;
+        START_CHARGE_THRESH_BAT1 = 40;
+        STOP_CHARGE_THRESH_BAT1 = 80;
+      };
+    };
+
+    kmonad = {
+      keyboards = {
+        T480 = {
+          name = "T480";
+          device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+          config = ''
+            (defcfg
+              input  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+              output (uinput-sink "T480")
+              fallthrough true
+            )
+            (defsrc
+                   mute vold volu
+            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
+              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
+              caps a    s    d    f    g    h    j    k    l    ;    '          ret
+              lsft z    x    c    v    b    n    m    ,    .    /               rsft
+              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
+            )
+            (defalias 
+              mod (layer-toggle mod1)
+            )
+            (deflayer mod0
+                   mute vold volu
+            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
+              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
+              lctl a    s    d    f    g    h    j    k    l    ;    '          ret
+              lsft z    x    c    v    b    n    m    ,    .    /               rsft
+              wkup lctl lmet lalt           spc            ralt sys  @mod  pgdn up   pgup
+            )
+            (deflayer mod1
+                   mute vold volu
+            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
+              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
+              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
+              caps a    s    d    f    g    h    j    k    l    ;    '          ret
+              lsft z    x    c    v    b    n    m    ,    .    /               rsft
+              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
+            )
+          '';
+          extraGroups = [
+            "input"
+            "uinput"
+          ];
+          enableHardening = true;
+        };
+      };
+    };
     # }}}
 
     # User {{{
@@ -56,99 +249,6 @@
     };
     # }}}
 
-    # Boot {{{
-    boot = {
-      kernelPackages = "linuxPackages_zen";
-    };
-    lanzaboote = {
-      enable = true;
-      pkiBundle = "/nix/persist/var/lib/sbctl";
-    };
-    # }}}
-
-    # Network {{{
-    ip = {
-      local = "192.168.0.69";
-    };
-
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ ];
-      allowedUDPPorts = [ ];
-    };
-
-    ssh = {
-      keysDir = "/home/${users.primary.name}/.vault/ssh";
-
-      server = {
-        enable = true;
-        ports = [
-          22
-        ];
-        settings = {
-          PasswordAuthentication = false;
-        };
-        authorizedKeysFiles = [ "${ssh.keysDir}/lix.pub" ];
-      };
-
-      client = {
-        matchBlocks = {
-          "github.com" = {
-            hostname = "github.com";
-            user = "git";
-            identityFile = "${ssh.keysDir}/gh-randomneet";
-            addKeysToAgent = "yes";
-          };
-          "dix" = {
-            hostname = outputs.nixosConfigurations.dix._module.specialArgs.opts.ip.local;
-            port = 22;
-            user = "howl";
-            identityFile = "${ssh.keysDir}/dix";
-            addKeysToAgent = "yes";
-          };
-          "nasix" = {
-            hostname = outputs.nixosConfigurations.nasix._module.specialArgs.opts.ip.local;
-            port = 22;
-            user = "howl";
-            identityFile = "${ssh.keysDir}/nasix";
-            addKeysToAgent = "yes";
-          };
-        };
-        ssh-agent.enable = false;
-      };
-    };
-
-    proxy = {
-      core = "dae";
-      dae = {
-        configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
-        openFirewall = {
-          enable = true;
-          port = 12345;
-        };
-      };
-    };
-    # }}}
-
-    # Security {{{
-    gpg = {
-      homedir = "/home/${users.primary.name}/.gnupg";
-      gpg-agent = {
-        enable = true;
-        enableSshSupport = true;
-      };
-    };
-
-    rbw = {
-      settings = {
-        base_url = "https://vaultwarden.scaphium.xyz";
-        email = "selfhost@randomneet.me";
-        lock_timeout = 3600;
-      };
-      rofi-rbw = true;
-    };
-    # }}}
-
     # Shell {{{
     zsh = {
       initContent = '''';
@@ -172,6 +272,47 @@
           "vi-mode"
         ];
         theme = "simple";
+      };
+    };
+
+    ssh = {
+      keyDir = "/home/${users.primary.name}/.vault/ssh";
+
+      server = {
+        enable = true;
+        ports = [
+          22
+        ];
+        settings = {
+          PasswordAuthentication = false;
+        };
+        authorizedKeysFiles = [ "${ssh.keyDir}/lix.pub" ];
+      };
+
+      client = {
+        matchBlocks = {
+          "github.com" = {
+            hostname = "github.com";
+            user = "git";
+            identityFile = "${ssh.keyDir}/gh-randomneet";
+            addKeysToAgent = "yes";
+          };
+          "dix" = {
+            hostname = outputs.nixosConfigurations.dix._module.specialArgs.opts.ip.local;
+            port = 22;
+            user = "howl";
+            identityFile = "${ssh.keyDir}/dix";
+            addKeysToAgent = "yes";
+          };
+          "nasix" = {
+            hostname = outputs.nixosConfigurations.nasix._module.specialArgs.opts.ip.local;
+            port = 22;
+            user = "howl";
+            identityFile = "${ssh.keyDir}/nasix";
+            addKeysToAgent = "yes";
+          };
+        };
+        ssh-agent.enable = false;
       };
     };
     # }}}
@@ -408,6 +549,25 @@
     };
     # }}}
 
+    # Vault {{{
+    gpg = {
+      homedir = "/home/${users.primary.name}/.gnupg";
+      gpg-agent = {
+        enable = true;
+        enableSshSupport = true;
+      };
+    };
+
+    rbw = {
+      settings = {
+        base_url = "https://vaultwarden.scaphium.xyz";
+        email = "selfhost@randomneet.me";
+        lock_timeout = 3600;
+      };
+      rofi-rbw = true;
+    };
+    # }}}
+
     # Misc {{{
     git = {
       settings = {
@@ -438,93 +598,6 @@
     };
     # }}}
 
-    # Desktop {{{
-    desktop = "niri";
-    theme = "catppuccin-mocha";
-
-    display = [
-      {
-        output = "eDP-1";
-        width = 1920;
-        height = 1080;
-        orientation = "landscape";
-      }
-    ];
-
-    hibernate = true;
-
-    wallpaper = {
-      dir = "${xdg.userDirs.pictures}/wallpapers";
-      landscapeDir = "${wallpaper.dir}/landscape";
-      portraitDir = "${wallpaper.dir}/portrait";
-      transition = {
-        launcher = {
-          type = "center";
-          step = 90;
-          duration = 1;
-          fps = 60;
-        };
-      };
-      random-wall = {
-        type = "wipe";
-        step = 90;
-        duration = 1;
-        fps = 60;
-      };
-    };
-
-    hyprland = {
-      monitor = [
-        "desc:Chimei Innolux Corporation 0x14C9, 1920x1080@60, 0x0, 1"
-      ];
-      extraConfig = ''
-        workspace = 1, monitor:desc:Chimei Innolux Corporation 0x14C9, default:true;
-      '';
-    };
-
-    hypridle = {
-      time = {
-        lock = "300";
-        dpmsOff = "1800";
-        sleep = "3600";
-      };
-    };
-
-    hyprlock = {
-      background = "${wallpaper.dir}/landscape/touhou/marisa-reimu-3.jpg";
-    };
-
-    niri = {
-      output = [
-        {
-          name = "eDP-1";
-          off = false;
-          mode = "1920x1080@60.008";
-          scale = 1.25;
-          transform = "normal";
-          position = {
-            x = 0;
-            y = 0;
-          };
-          variable-refresh-rate = false;
-          focus-at-startup = true;
-        }
-      ];
-    };
-
-    swayidle = {
-      time = {
-        lock = 300;
-        dpmsOff = 1800;
-        sleep = 3600;
-      };
-    };
-
-    swaylock = {
-      image = "eDP-1:${wallpaper.dir}/landscape/touhou/marisa-reimu-3.jpg";
-    };
-    # }}}
-
     # Package {{{
     packages = {
       home = [
@@ -552,68 +625,6 @@
           "com.qq.QQ"
           "com.tencent.WeChat"
         ];
-      };
-    };
-    # }}}
-
-    # Hardware {{{
-    tlp = {
-      settings = {
-        START_CHARGE_THRESH_BAT0 = 40;
-        STOP_CHARGE_THRESH_BAT0 = 80;
-        START_CHARGE_THRESH_BAT1 = 40;
-        STOP_CHARGE_THRESH_BAT1 = 80;
-      };
-    };
-
-    kmonad = {
-      keyboards = {
-        T480 = {
-          name = "T480";
-          device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
-          config = ''
-            (defcfg
-              input  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
-              output (uinput-sink "T480")
-              fallthrough true
-            )
-            (defsrc
-                   mute vold volu
-            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
-              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
-              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
-              caps a    s    d    f    g    h    j    k    l    ;    '          ret
-              lsft z    x    c    v    b    n    m    ,    .    /               rsft
-              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
-            )
-            (defalias 
-              mod (layer-toggle mod1)
-            )
-            (deflayer mod0
-                   mute vold volu
-            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
-              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
-              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
-              lctl a    s    d    f    g    h    j    k    l    ;    '          ret
-              lsft z    x    c    v    b    n    m    ,    .    /               rsft
-              wkup lctl lmet lalt           spc            ralt sys  @mod  pgdn up   pgup
-            )
-            (deflayer mod1
-                   mute vold volu
-            esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  home end  ins  del
-              grv  1    2    3    4    5    6    7    8    9    0    -     =    bspc
-              tab  q    w    e    r    t    y    u    i    o    p    [     ]    \
-              caps a    s    d    f    g    h    j    k    l    ;    '          ret
-              lsft z    x    c    v    b    n    m    ,    .    /               rsft
-              wkup lctl lmet lalt           spc            ralt sys  rctl  pgdn up   pgup
-            )
-          '';
-          extraGroups = [
-            "input"
-            "uinput"
-          ];
-          enableHardening = true;
-        };
       };
     };
     # }}}

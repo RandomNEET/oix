@@ -3,7 +3,6 @@
     ./hardware-configuration.nix
 
     ../../modules/system/core
-    ../../modules/system/docker
     ../../modules/system/garbage-collect
     ../../modules/system/gpu
     ../../modules/system/virtualisation

@@ -6,7 +6,7 @@
     ../../modules/system/fonts
     ../../modules/system/garbage-collect
     ../../modules/system/gpu
-    ../../modules/system/impermanence
+    ../../modules/system/persistence
     ../../modules/system/secure-boot
     ../../modules/system/virtualisation
 

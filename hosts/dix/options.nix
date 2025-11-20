@@ -7,7 +7,7 @@
 }:
 {
   opts = rec {
-    # System {{{
+    # Base {{{
     hostname = "dix";
     system = "x86_64-linux";
     gpu = "nvidia";
@@ -15,6 +15,116 @@
     timezone = "Asia/Shanghai";
     kbdLayout = "us";
     consoleKeymap = "us";
+    # }}}
+
+    # Boot {{{
+    boot = {
+      kernelPackages = "linuxPackages_zen";
+    };
+
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/nix/persist/var/lib/sbctl";
+    };
+    # }}}
+
+    # Network {{{
+    ip = {
+      local = "192.168.0.24";
+    };
+
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ ];
+      allowedUDPPorts = [ ];
+    };
+
+    proxy = {
+      core = "dae";
+      dae = {
+        configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
+        openFirewall = {
+          enable = true;
+          port = 12345;
+        };
+      };
+    };
+    # }}}
+
+    # Virtualisation {{{
+    virtualisation = {
+      vm = {
+        enable = true;
+        virt-manager = {
+          enable = true;
+        };
+      };
+    };
+    # }}}
+
+    # Desktop {{{
+    desktop = "hyprland";
+    theme = "catppuccin-mocha";
+
+    display = [
+      {
+        output = "DP-1";
+        width = 3840;
+        height = 2160;
+        orientation = "landscape";
+      }
+      {
+        output = "HDMI-A-1";
+        width = 2160;
+        height = 3840;
+        orientation = "portrait";
+      }
+    ];
+
+    hibernate = false;
+
+    wallpaper = {
+      dir = "${xdg.userDirs.pictures}/wallpapers";
+      landscapeDir = "${wallpaper.dir}/landscape";
+      portraitDir = "${wallpaper.dir}/portrait";
+      transition = {
+        launcher = {
+          type = "center";
+          step = 90;
+          duration = 1;
+          fps = 60;
+        };
+        random-wall = {
+          type = "wipe";
+          step = 90;
+          duration = 1;
+          fps = 60;
+        };
+      };
+    };
+
+    hyprland = {
+      monitor = [
+        "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5"
+        "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1"
+      ];
+      extraConfig = ''
+        workspace = 1, monitor:desc:SAC G7u Pro 0001, default:true;
+        workspace = 10, monitor:desc:KOS KOIOS K2718UD 0000000000000, default:true;
+      '';
+    };
+
+    hypridle = {
+      time = {
+        lock = "1800";
+        dpmsOff = "3600";
+        sleep = "";
+      };
+    };
+
+    hyprlock = {
+      background = "${wallpaper.dir}/landscape/touhou/marisa-reimu-3.jpg";
+    };
     # }}}
 
     # User {{{
@@ -56,100 +166,6 @@
     };
     # }}}
 
-    # Boot {{{
-    boot = {
-      kernelPackages = "linuxPackages_zen";
-    };
-
-    lanzaboote = {
-      enable = true;
-      pkiBundle = "/nix/persist/var/lib/sbctl";
-    };
-    # }}}
-
-    # Network {{{
-    ip = {
-      local = "192.168.0.24";
-    };
-
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ ];
-      allowedUDPPorts = [ ];
-    };
-
-    ssh = {
-      keysDir = "/home/${users.primary.name}/.vault/ssh";
-
-      server = {
-        enable = true;
-        ports = [
-          22
-        ];
-        settings = {
-          PasswordAuthentication = false;
-        };
-        authorizedKeysFiles = [ "${ssh.keysDir}/dix.pub" ];
-      };
-
-      client = {
-        matchBlocks = {
-          "github.com" = {
-            hostname = "github.com";
-            user = "git";
-            identityFile = "${ssh.keysDir}/gh-randomneet";
-            addKeysToAgent = "yes";
-          };
-          "lix" = {
-            hostname = outputs.nixosConfigurations.lix._module.specialArgs.opts.ip.local;
-            port = 22;
-            user = "howl";
-            identityFile = "${ssh.keysDir}/lix";
-            addKeysToAgent = "yes";
-          };
-          "nasix" = {
-            hostname = outputs.nixosConfigurations.nasix._module.specialArgs.opts.ip.local;
-            port = 22;
-            user = "howl";
-            identityFile = "${ssh.keysDir}/nasix";
-            addKeysToAgent = "yes";
-          };
-        };
-        ssh-agent.enable = false;
-      };
-    };
-
-    proxy = {
-      core = "dae";
-      dae = {
-        configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
-        openFirewall = {
-          enable = true;
-          port = 12345;
-        };
-      };
-    };
-    # }}}
-
-    # Security {{{
-    gpg = {
-      homedir = "/home/${users.primary.name}/.gnupg";
-      gpg-agent = {
-        enable = true;
-        enableSshSupport = true;
-      };
-    };
-
-    rbw = {
-      settings = {
-        base_url = "https://vaultwarden.scaphium.xyz";
-        email = "selfhost@randomneet.me";
-        lock_timeout = 3600;
-      };
-      rofi-rbw = true;
-    };
-    # }}}
-
     # Shell {{{
     zsh = {
       initContent = '''';
@@ -173,6 +189,47 @@
           "vi-mode"
         ];
         theme = "simple";
+      };
+    };
+
+    ssh = {
+      keyDir = "/home/${users.primary.name}/.vault/ssh";
+
+      server = {
+        enable = true;
+        ports = [
+          22
+        ];
+        settings = {
+          PasswordAuthentication = false;
+        };
+        authorizedKeysFiles = [ "${ssh.keyDir}/dix.pub" ];
+      };
+
+      client = {
+        matchBlocks = {
+          "github.com" = {
+            hostname = "github.com";
+            user = "git";
+            identityFile = "${ssh.keyDir}/gh-randomneet";
+            addKeysToAgent = "yes";
+          };
+          "lix" = {
+            hostname = outputs.nixosConfigurations.lix._module.specialArgs.opts.ip.local;
+            port = 22;
+            user = "howl";
+            identityFile = "${ssh.keyDir}/lix";
+            addKeysToAgent = "yes";
+          };
+          "nasix" = {
+            hostname = outputs.nixosConfigurations.nasix._module.specialArgs.opts.ip.local;
+            port = 22;
+            user = "howl";
+            identityFile = "${ssh.keyDir}/nasix";
+            addKeysToAgent = "yes";
+          };
+        };
+        ssh-agent.enable = false;
       };
     };
     # }}}
@@ -409,6 +466,25 @@
     };
     # }}}
 
+    # Vault {{{
+    gpg = {
+      homedir = "/home/${users.primary.name}/.gnupg";
+      gpg-agent = {
+        enable = true;
+        enableSshSupport = true;
+      };
+    };
+
+    rbw = {
+      settings = {
+        base_url = "https://vaultwarden.scaphium.xyz";
+        email = "selfhost@randomneet.me";
+        lock_timeout = 3600;
+      };
+      rofi-rbw = true;
+    };
+    # }}}
+
     # Misc {{{
     git = {
       settings = {
@@ -436,71 +512,6 @@
           target = "doc/notes";
         };
       };
-    };
-    # }}}
-
-    # Desktop {{{
-    desktop = "hyprland";
-    theme = "catppuccin-mocha";
-
-    display = [
-      {
-        output = "DP-1";
-        width = 3840;
-        height = 2160;
-        orientation = "landscape";
-      }
-      {
-        output = "HDMI-A-1";
-        width = 2160;
-        height = 3840;
-        orientation = "portrait";
-      }
-    ];
-
-    hibernate = false;
-
-    wallpaper = {
-      dir = "${xdg.userDirs.pictures}/wallpapers";
-      landscapeDir = "${wallpaper.dir}/landscape";
-      portraitDir = "${wallpaper.dir}/portrait";
-      transition = {
-        launcher = {
-          type = "center";
-          step = 90;
-          duration = 1;
-          fps = 60;
-        };
-      };
-      random-wall = {
-        type = "wipe";
-        step = 90;
-        duration = 1;
-        fps = 60;
-      };
-    };
-
-    hyprland = {
-      monitor = [
-        "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5"
-        "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1"
-      ];
-      extraConfig = ''
-        workspace = 1, monitor:desc:SAC G7u Pro 0001, default:true;
-        workspace = 10, monitor:desc:KOS KOIOS K2718UD 0000000000000, default:true;
-      '';
-    };
-
-    hypridle = {
-      time = {
-        lock = "1800";
-        dpmsOff = "3600";
-        sleep = "";
-      };
-    };
-
-    hyprlock = {
-      background = "${wallpaper.dir}/landscape/touhou/marisa-reimu-3.jpg";
     };
     # }}}
 

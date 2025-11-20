@@ -7,7 +7,7 @@
 }:
 {
   opts = rec {
-    # System {{{
+    # Base {{{
     hostname = "nasix";
     system = "x86_64-linux";
     gpu = "nvidia";
@@ -15,43 +15,6 @@
     timezone = "Asia/Shanghai";
     kbdLayout = "us";
     consoleKeymap = "us";
-    # }}}
-
-    # User {{{
-    users = {
-      mutableUsers = false;
-      root = {
-        initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
-      };
-      primary = {
-        name = "howl";
-        initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
-        isNormalUser = true;
-        uid = 1000;
-        extraGroups = [
-          "wheel"
-          "networkmanager"
-          "libvirtd"
-          "docker"
-        ];
-        shell = "zsh";
-      };
-    };
-
-    editor = "nvim";
-    terminalFileManager = "yazi";
-    xdg = {
-      userDirs = {
-        desktop = null;
-        documents = "/home/${users.primary.name}/doc";
-        download = "/home/${users.primary.name}/dls";
-        music = "/home/${users.primary.name}/mus";
-        pictures = "/home/${users.primary.name}/pic";
-        publicShare = "/home/${users.primary.name}/pub";
-        templates = "/home/${users.primary.name}/tpl";
-        videos = "/home/${users.primary.name}/vid";
-      };
-    };
     # }}}
 
     # Boot {{{
@@ -98,41 +61,6 @@
       allowedUDPPorts = [ 6881 ];
     };
 
-    ssh = {
-      keysDir = "/home/${users.primary.name}/.vault/ssh";
-
-      server = {
-        enable = true;
-        ports = [
-          22
-        ];
-        settings = {
-          PasswordAuthentication = false;
-        };
-        authorizedKeysFiles = [ "${ssh.keysDir}/nasix.pub" ];
-      };
-
-      client = {
-        matchBlocks = {
-          "dix" = {
-            hostname = outputs.nixosConfigurations.dix._module.specialArgs.opts.ip.local;
-            port = 22;
-            user = "howl";
-            identityFile = "${ssh.keysDir}/dix";
-            addKeysToAgent = "yes";
-          };
-          "lix" = {
-            hostname = outputs.nixosConfigurations.lix._module.specialArgs.opts.ip.local;
-            port = 22;
-            user = "howl";
-            identityFile = "${ssh.keysDir}/lix";
-            addKeysToAgent = "yes";
-          };
-        };
-        ssh-agent.enable = true;
-      };
-    };
-
     proxy = {
       core = "xray";
       xray = {
@@ -140,61 +68,19 @@
         settingsFile = "/home/${users.primary.name}/.vault/proxy/xray/client/${proxy.xray.method}/outsider/docker.json";
       };
     };
-
-    frp = {
-      role = "client";
-      settings = {
-        serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
-        serverPort = 20000;
-        auth.token = "{{.Envs.FRP_TOKEN}}";
-        transport.tls.certFile = "/etc/frp/cert/client.crt";
-        transport.tls.keyFile = "/etc/frp/cert/client.key";
-        transport.tls.trustedCaFile = "/etc/frp/cert/ca.crt";
-        includes = [ "/etc/frp/proxies.toml" ];
-      };
-      environmentFile = "/home/${users.primary.name}/.vault/env/frp.env";
-    };
     # }}}
 
-    # Shell {{{
-    zsh = {
-      initContent = '''';
-
-      envExtra = ''
-        export VI_MODE_SET_CURSOR=true
-        MODE_INDICATOR="%F{red}<<<%f"
-      '';
-
-      shellGlobalAliases = {
-        G = "| grep";
-      };
-
-      shellAliases = {
-        update = "sudo nixos-rebuild switch";
-      };
-
-      oh-my-zsh = {
+    # Virtualisation {{{
+    virtualisation = {
+      vm = {
         enable = true;
-        plugins = [
-          "vi-mode"
-        ];
+        virt-manager = {
+          enable = false;
+        };
       };
-    };
-    # }}}
-
-    # Editor {{{
-    nixvim = {
-      treesitter.enable = false;
-      lsp.enable = false;
-      conform.enable = true;
-      lint.enable = false;
-
-      snacks = {
-        image.enable = false;
+      docker = {
+        enable = true;
       };
-      noice.enable = false;
-
-      copilot.enable = false;
     };
     # }}}
 
@@ -254,6 +140,20 @@
           "writable" = "yes";
         };
       };
+    };
+
+    frp = {
+      role = "client";
+      settings = {
+        serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
+        serverPort = 20000;
+        auth.token = "{{.Envs.FRP_TOKEN}}";
+        transport.tls.certFile = "/etc/frp/cert/client.crt";
+        transport.tls.keyFile = "/etc/frp/cert/client.key";
+        transport.tls.trustedCaFile = "/etc/frp/cert/ca.crt";
+        includes = [ "/etc/frp/proxies.toml" ];
+      };
+      environmentFile = "/home/${users.primary.name}/.vault/env/frp.env";
     };
 
     vaultwarden = {
@@ -616,6 +516,127 @@
     };
     # }}}
 
+    # Hardware {{{
+    hardware.nvidia.prime = {
+      nvidiaBusId = "PCI:07:0:0";
+      amdgpuBusId = "PCI:01:0:0";
+    };
+    # }}}
+
+    # User {{{
+    users = {
+      mutableUsers = false;
+      root = {
+        initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
+      };
+      primary = {
+        name = "howl";
+        initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
+        isNormalUser = true;
+        uid = 1000;
+        extraGroups = [
+          "wheel"
+          "networkmanager"
+          "libvirtd"
+          "docker"
+        ];
+        shell = "zsh";
+      };
+    };
+
+    editor = "nvim";
+    terminalFileManager = "yazi";
+    xdg = {
+      userDirs = {
+        desktop = null;
+        documents = "/home/${users.primary.name}/doc";
+        download = "/home/${users.primary.name}/dls";
+        music = "/home/${users.primary.name}/mus";
+        pictures = "/home/${users.primary.name}/pic";
+        publicShare = "/home/${users.primary.name}/pub";
+        templates = "/home/${users.primary.name}/tpl";
+        videos = "/home/${users.primary.name}/vid";
+      };
+    };
+    # }}}
+
+    # Shell {{{
+    zsh = {
+      initContent = '''';
+
+      envExtra = ''
+        export VI_MODE_SET_CURSOR=true
+        MODE_INDICATOR="%F{red}<<<%f"
+      '';
+
+      shellGlobalAliases = {
+        G = "| grep";
+      };
+
+      shellAliases = {
+        update = "sudo nixos-rebuild switch";
+      };
+
+      oh-my-zsh = {
+        enable = true;
+        plugins = [
+          "vi-mode"
+        ];
+      };
+    };
+
+    ssh = {
+      keyDir = "/home/${users.primary.name}/.vault/ssh";
+
+      server = {
+        enable = true;
+        ports = [
+          22
+        ];
+        settings = {
+          PasswordAuthentication = false;
+        };
+        authorizedKeysFiles = [ "${ssh.keyDir}/nasix.pub" ];
+      };
+
+      client = {
+        matchBlocks = {
+          "dix" = {
+            hostname = outputs.nixosConfigurations.dix._module.specialArgs.opts.ip.local;
+            port = 22;
+            user = "howl";
+            identityFile = "${ssh.keyDir}/dix";
+            addKeysToAgent = "yes";
+          };
+          "lix" = {
+            hostname = outputs.nixosConfigurations.lix._module.specialArgs.opts.ip.local;
+            port = 22;
+            user = "howl";
+            identityFile = "${ssh.keyDir}/lix";
+            addKeysToAgent = "yes";
+          };
+        };
+        ssh-agent.enable = true;
+      };
+    };
+    # }}}
+
+    # Editor {{{
+    nixvim = {
+      treesitter.enable = false;
+      lsp.enable = false;
+      conform.enable = true;
+      lint.enable = false;
+
+      snacks = {
+        image.enable = false;
+      };
+      noice.enable = false;
+
+      copilot.enable = false;
+    };
+    # }}}
+
     # Package {{{
     packages = {
       system = [
@@ -637,13 +658,6 @@
         "cliwt"
         "qq"
       ];
-    };
-    # }}}
-
-    # Hardware {{{
-    hardware.nvidia.prime = {
-      nvidiaBusId = "PCI:07:0:0";
-      amdgpuBusId = "PCI:01:0:0";
     };
     # }}}
   };
