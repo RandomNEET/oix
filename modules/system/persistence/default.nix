@@ -26,8 +26,10 @@
           mode = "u=rwx,g=rx,o=";
         }
       ]
-      ++ lib.optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
       ++ lib.optional (config.boot.lanzaboote.enable or false) "/var/lib/sbctl"
+      ++ lib.optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
+      ++ lib.optional config.virtualisation.docker.enable "/var/lib/docker"
+      ++ lib.optional config.virtualisation.waydroid.enable "/var/lib/waydroid"
       ++ (opts.persistence."/nix/persist".directories or [ ])
     );
     files = (
