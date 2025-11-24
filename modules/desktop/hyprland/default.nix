@@ -100,8 +100,9 @@
           };
 
           wayland.windowManager.hyprland = {
-            enable = true; # enable Hyprland
+            enable = true;
             systemd.enable = true;
+            plugins = with pkgs; [ hyprlandPlugins.hyprexpo ];
             settings = {
               "$mainMod" = "SUPER";
               "$terminal" =
@@ -183,6 +184,7 @@
                 sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
                 force_no_accel = true;
               };
+
               general = {
                 gaps_in = 4;
                 gaps_out = 9;
@@ -195,6 +197,7 @@
                 "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
                 "col.inactive_border" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
               };
+
               decoration = {
                 shadow.enabled = false;
                 rounding = 10;
@@ -209,6 +212,7 @@
                   xray = false;
                 };
               };
+
               group = {
               }
               // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
@@ -217,6 +221,7 @@
                 "col.border_locked_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
                 "col.border_locked_inactive" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
               };
+
               layerrule = [
                 "blur, rofi"
                 "ignorezero, rofi"
@@ -230,6 +235,7 @@
                 # "ignorealpha 0.8, swaync-notification-window"
                 # "dimaround, swaync-control-center"
               ];
+
               animations = {
                 enabled = true;
                 bezier = [
@@ -256,13 +262,39 @@
                   "specialWorkspace, 1, 3, md3_decel, slidevert"
                 ];
               };
+
               render = {
                 direct_scanout = 2; # 0 = off, 1 = on, 2 = auto (on with content type ‘game’)
               };
+
+              cursor = {
+                inactive_timeout = 5;
+              };
+
+              gestures = {
+                gesture = [
+                  "3, horizontal, workspace"
+                  "3, up, fullscreen"
+                  "3, down, close"
+                ];
+              };
+
+              dwindle = {
+                pseudotile = true;
+                preserve_split = true;
+              };
+
+              master = {
+                new_status = "master";
+                new_on_top = true;
+                mfact = 0.5;
+              };
+
               ecosystem = {
                 no_update_news = true;
                 no_donation_nag = true;
               };
+
               misc = {
                 disable_hyprland_logo = true;
                 mouse_move_focuses_monitor = true;
@@ -271,26 +303,9 @@
                 vfr = true; # always keep on
                 vrr = 1; # enable variable refresh rate (0=off, 1=on, 2=fullscreen only)
               };
+
               xwayland.force_zero_scaling = true;
-              cursor = {
-                inactive_timeout = 5;
-              };
-              gestures = {
-                gesture = [
-                  "3, horizontal, workspace"
-                  "3, up, fullscreen"
-                  "3, down, close"
-                ];
-              };
-              dwindle = {
-                pseudotile = true;
-                preserve_split = true;
-              };
-              master = {
-                new_status = "master";
-                new_on_top = true;
-                mfact = 0.5;
-              };
+
               windowrule = [
                 # Can use FLOAT FLOAT for active and inactive or just FLOAT
                 "opacity 0.80 0.80,class:^(kitty|foot|footclient)$"
@@ -399,20 +414,14 @@
                   # Keybinds help menu
                   "$mainMod SHIFT, slash, exec, hypr-keybinds"
 
-                  "$mainMod, F8, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${lib.getExe autoclicker} --cps 40"
-                  # "$mainMod ALT, mouse:276, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${lib.getExe autoclicker} --cps 60"
-
-                  # Night Mode (lower value means warmer temp)
-                  "$mainMod, F9, exec, hyprsunset --temperature 3500" # good values: 3500, 3000, 2500
-                  "$mainMod, F10, exec, pkill hyprsunset"
-
                   # Window/Session actions
-                  "$mainMod, Q, killactive" # killactive, kill the window on focus
-                  "ALT, F4, killactive" # killactive, kill the window on focus
-                  "$mainMod, delete, exit" # kill hyperland session
+                  "$mainMod, Tab, hyprexpo:expo, toggle" # toggle overview
                   "$mainMod, W, togglefloating" # toggle the window on focus to float
                   "$mainMod SHIFT, G, togglegroup" # toggle the window on focus to group
                   "ALT, return, fullscreen" # toggle the window on focus to fullscreen
+                  "$mainMod, Q, killactive" # killactive, kill the window on focus
+                  "ALT, F4, killactive" # killactive, kill the window on focus
+                  "$mainMod, delete, exit" # kill hyperland session
                   "$mainMod ALT, L, exec, hyprlock" # lock screen
                   "$mainMod, backspace, exec, pkill -x wlogout || wlogout -b 4" # logout menu
                   "$CONTROL, ESCAPE, exec, pkill waybar || waybar" # toggle waybar
@@ -428,6 +437,7 @@
 
                   "$mainMod, A, exec, launcher drun" # launch desktop applications
                   "$mainMod, SPACE, exec, launcher drun" # launch desktop applications
+                  "$mainMod SHIFT, W, exec, launcher wallpaper" # launch wallpaper switcher
                   # "$mainMod, Z, exec, launcher emoji" # launch emoji picker
                   # "$mainMod, tab, exec, launcher window" # switch between desktop applications
                   # "$mainMod, R, exec, launcher file" # brrwse system files
@@ -435,8 +445,12 @@
                   "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
                   "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
                   "$mainMod, V, exec, ${./scripts/clip-manager.sh}" # Clipboard Manager
-                  "$mainMod SHIFT, W, exec, launcher wallpaper" # launch wallpaper switcher
                   "$mainMod CTRL, W, exec, random-wall" # random wallpaper
+
+                  "$mainMod, F8, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${lib.getExe autoclicker} --cps 40"
+                  # "$mainMod ALT, mouse:276, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${lib.getExe autoclicker} --cps 60"
+                  "$mainMod, F9, exec, hyprsunset --temperature 3500" # good values: 3500, 3000, 2500
+                  "$mainMod, F10, exec, pkill hyprsunset"
 
                   # Screenshot/Screencapture
                   "$mainMod, P, exec, ${./scripts/screenshot.sh} s" # drag to snip an area / click on a window to print it
@@ -459,8 +473,8 @@
                   # ",XF86AudioPause,exec,${./scripts/media-ctrl.sh} play-pause" # go to next media
 
                   # to switch between windows in a floating workspace
-                  "$mainMod, Tab, cyclenext"
-                  "$mainMod, Tab, bringactivetotop"
+                  "ALT, Tab, cyclenext"
+                  "ALT, Tab, bringactivetotop"
 
                   # Switch workspaces relative to the active workspace with mainMod + CTRL + [←→]
                   "$mainMod CTRL, right, workspace, r+1"
@@ -474,7 +488,6 @@
                   "$mainMod, right, movefocus, r"
                   "$mainMod, up, movefocus, u"
                   "$mainMod, down, movefocus, d"
-                  "ALT, Tab, movefocus, d"
 
                   # Move focus with mainMod + HJKL keys
                   "$mainMod, h, movefocus, l"
@@ -542,12 +555,28 @@
                   "$mainMod, G, exec, launcher games" # game launcher
                   "$mainMod ALT, G, exec, ${./scripts/gamemode.sh}" # disable hypr effects for gamemode
                 ];
+
               bindm = [
                 # Move/Resize windows with mainMod + LMB/RMB and dragging
                 "$mainMod, mouse:272, movewindow"
                 "$mainMod, mouse:273, resizewindow"
               ];
+
               monitor = opts.hyprland.monitor or [ ];
+
+              plugin = {
+                hyprexpo = {
+                  columns = 3;
+                  gap_size = 5;
+                  bg_col = "rgb(111111)";
+                  workspace_method = "center current"; # [center/first] [workspace] e.g. first 1 or center m+1
+
+                  enable_gesture = true;
+                  gesture_fingers = 3;
+                  gesture_distance = 300;
+                  gesture_positive = false;
+                };
+              };
             };
             extraConfig = ''
               monitor=,preferred,auto,1
