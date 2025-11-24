@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   opts,
   ...
 }:
@@ -153,27 +152,6 @@
                   command = "sh -c '[ \"$SWAYNC_TOGGLE_STATE\" = true ] && nmcli radio wifi on || nmcli radio wifi off'";
                   update-command = "sh -c 'nmcli radio wifi | grep -q enabled && echo true || echo false'";
                 }
-
-                {
-                  label = "󰖚";
-                  type = "toggle";
-                  command = "pgrep -x hyprsunset >/dev/null && pkill hyprsunset || nohup hyprsunset --temperature 3500";
-                  update-command = "pgrep -x hyprsunset >/dev/null && echo true || echo false";
-                }
-
-                {
-                  label = "󰒲";
-                  command = "systemctl --user is-active --quiet hypridle.service && systemctl --user stop hypridle.service || systemctl --user start hypridle.service";
-                  type = "toggle";
-                  update-command = "pgrep -x hypridle > /dev/null && echo false || echo true";
-                }
-
-                {
-                  label = "󰸉";
-                  type = "toggle";
-                  command = "${../../scripts/randomwallctl.sh} -t";
-                  update-command = "${../../scripts/randomwallctl.sh} -s && grep -q \"^enabled$\" \"$HOME/.config/hypr/random-wall\" && echo true || echo false";
-                }
               ]
               ++ lib.optional config.services.power-profiles-daemon.enable {
                 label = "";
@@ -186,7 +164,29 @@
                 type = "toggle";
                 command = "powermodectl -t";
                 update-command = "powermodectl -s && grep -q \"^manual$\" \"$HOME/.config/hypr/power-mode\" && echo true || echo false";
-              };
+              }
+              ++ [
+                {
+                  label = "󰒲";
+                  command = "systemctl --user is-active --quiet hypridle.service && systemctl --user stop hypridle.service || systemctl --user start hypridle.service";
+                  type = "toggle";
+                  update-command = "pgrep -x hypridle > /dev/null && echo false || echo true";
+                }
+
+                {
+                  label = "󰖚";
+                  type = "toggle";
+                  command = "pgrep -x hyprsunset >/dev/null && pkill hyprsunset || nohup hyprsunset --temperature 3500";
+                  update-command = "pgrep -x hyprsunset >/dev/null && echo true || echo false";
+                }
+
+                {
+                  label = "󰸉";
+                  type = "toggle";
+                  command = "${../../scripts/randomwallctl.sh} -t";
+                  update-command = "${../../scripts/randomwallctl.sh} -s && grep -q \"^enabled$\" \"$HOME/.config/hypr/random-wall\" && echo true || echo false";
+                }
+              ];
             };
           };
           scripts = {
