@@ -178,6 +178,7 @@
 
           hotkey-overlay {
               skip-at-startup
+              hide-not-bound
           }
 
           screenshot-path "~/pic/screenshots/screenshot from %Y-%m-%d %H-%M-%S.png"
