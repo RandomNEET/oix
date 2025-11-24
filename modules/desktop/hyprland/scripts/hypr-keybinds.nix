@@ -55,7 +55,7 @@ pkgs.writeShellScriptBin "hypr-keybinds" ''
     "SUPER CTRL P" "Screenshot (frozen screen)" "scripts/screenshot.sh sf"
     "SUPER Print" "Screenshot (current monitor)" "scripts/screenshot.sh m"
     "SUPER ALT P" "Screenshot (all monitors)" "scripts/screenshot.sh p"
-    "SUPER Tab" "Toggle overview" "hyprexpo:expo toggle"
+    "SUPER Tab" "Toggle overview" "overview:toggle"
     "SUPER W" "Toggle floating window" "togglefloating"
     "SUPER SHIFT G" "Toggle window group" "togglegroup"
     "ALT Return" "Toggle fullscreen" "fullscreen"

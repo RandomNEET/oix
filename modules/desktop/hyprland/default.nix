@@ -102,7 +102,7 @@
           wayland.windowManager.hyprland = {
             enable = true;
             systemd.enable = true;
-            plugins = with pkgs; [ hyprlandPlugins.hyprexpo ];
+            plugins = with pkgs; [ hyprlandPlugins.hyprspace ];
             settings = {
               "$mainMod" = "SUPER";
               "$terminal" =
@@ -415,7 +415,7 @@
                   "$mainMod SHIFT, slash, exec, hypr-keybinds"
 
                   # Window/Session actions
-                  "$mainMod, Tab, hyprexpo:expo, toggle" # toggle overview
+                  "$mainMod, Tab, overview:toggle" # toggle overview
                   "$mainMod, W, togglefloating" # toggle the window on focus to float
                   "$mainMod SHIFT, G, togglegroup" # toggle the window on focus to group
                   "ALT, return, fullscreen" # toggle the window on focus to fullscreen
@@ -565,16 +565,10 @@
               monitor = opts.hyprland.monitor or [ ];
 
               plugin = {
-                hyprexpo = {
-                  columns = 3;
-                  gap_size = 5;
-                  bg_col = "rgb(111111)";
-                  workspace_method = "center current"; # [center/first] [workspace] e.g. first 1 or center m+1
-
-                  enable_gesture = true;
-                  gesture_fingers = 3;
-                  gesture_distance = 300;
-                  gesture_positive = false;
+                overview = {
+                  disableBlur = true;
+                  onBottom = true;
+                  centerAligned = true;
                 };
               };
             };
