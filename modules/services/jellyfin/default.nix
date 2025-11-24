@@ -1,4 +1,4 @@
-{ pkgs, opts, ... }:
+{ opts, ... }:
 {
   services.jellyfin = rec {
     enable = true;
@@ -12,10 +12,4 @@
     logDir = opts.jellyfin.logDir or "${dataDir}/log";
     cacheDir = opts.jellyfin.cacheDir or "/var/cache/jellyfin";
   };
-
-  environment.systemPackages = with pkgs; [
-    jellyfin
-    jellyfin-web
-    jellyfin-ffmpeg
-  ];
 }

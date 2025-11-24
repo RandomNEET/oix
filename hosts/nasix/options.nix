@@ -296,12 +296,12 @@
             {
               "Spotify" = {
                 href = "https://myspotify.scaphium.xyz/";
-                # widget = {
-                #   type = "yourspotify";
-                #   url = "https://spotifyapi.scaphium.xyz/";
-                #   key = "{{HOMEPAGE_VAR_SPOTIFY_KEY}}";
-                #   interval = "week";
-                # };
+                widget = {
+                  type = "yourspotify";
+                  url = "https://spotifyapi.scaphium.xyz/";
+                  key = "{{HOMEPAGE_VAR_SPOTIFY_KEY}}";
+                  interval = "week";
+                };
                 icon = "spotify";
               };
             }
