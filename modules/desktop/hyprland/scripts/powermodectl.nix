@@ -1,6 +1,6 @@
-{ config, pkgs, ... }:
-if config.services.power-profiles-daemon.enable then
-  pkgs.writeShellScriptBin "powermodectl" ''
+{ osConfig, pkgs, ... }:
+if osConfig.services.power-profiles-daemon.enable then
+  pkgs.writeShellScript "powermodectl" ''
     MODE_FILE="$HOME/.config/hypr/power-mode"
     mkdir -p "$(dirname "$MODE_FILE")"
 
@@ -61,8 +61,8 @@ if config.services.power-profiles-daemon.enable then
       *) echo "Usage: $0 [-t|--toggle] | [-r|--restore] | [-s|--sync]" ;;
     esac
   ''
-else if config.services.tlp.enable then
-  pkgs.writeShellScriptBin "powermodectl" ''
+else if osConfig.services.tlp.enable then
+  pkgs.writeShellScript "powermodectl" ''
     MODE_FILE="$HOME/.config/hypr/power-mode"
     mkdir -p "$(dirname "$MODE_FILE")"
 

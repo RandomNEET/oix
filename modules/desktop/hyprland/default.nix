@@ -162,7 +162,9 @@
                   "sleep 2 && pamixer --set-volume 50"
                   "${./scripts/randomwallctl.sh} -r"
                 ]
-                ++ lib.optional osConfig.services.power-profiles-daemon.enable "powermodectl -r"
+                ++ lib.optional osConfig.services.power-profiles-daemon.enable "${
+                  import ./scripts/powermodectl.nix { inherit osConfig pkgs; }
+                } -r"
                 ++ lib.optional (
                   (opts.terminal == "foot") && (opts.foot.server or false)
                 ) "${getExe pkgs.foot} --server"
@@ -416,7 +418,17 @@
                 in
                 [
                   # Keybinds help menu
-                  "$mainMod SHIFT, slash, exec, hypr-keybinds"
+                  "$mainMod SHIFT, slash, exec, ${
+                    import ./scripts/keybinds.nix {
+                      inherit
+                        osConfig
+                        config
+                        lib
+                        pkgs
+                        opts
+                        ;
+                    }
+                  }"
 
                   # Window/Session actions
                   "$mainMod, Tab, overview:toggle" # toggle overview

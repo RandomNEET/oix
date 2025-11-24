@@ -1,5 +1,5 @@
-{ config, pkgs, ... }:
-if config.services.power-profiles-daemon.enable then
+{ osConfig, pkgs, ... }:
+if osConfig.services.power-profiles-daemon.enable then
   pkgs.writeShellScriptBin "powermodectl" ''
     MODE_FILE="$HOME/.config/niri/power-mode"
     mkdir -p "$(dirname "$MODE_FILE")"
@@ -61,7 +61,7 @@ if config.services.power-profiles-daemon.enable then
       *) echo "Usage: $0 [-t|--toggle] | [-r|--restore] | [-s|--sync]" ;;
     esac
   ''
-else if config.services.tlp.enable then
+else if osConfig.services.tlp.enable then
   pkgs.writeShellScriptBin "powermodectl" ''
     MODE_FILE="$HOME/.config/niri/power-mode"
     mkdir -p "$(dirname "$MODE_FILE")"

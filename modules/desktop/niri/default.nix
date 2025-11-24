@@ -197,7 +197,9 @@
           spawn-sh-at-startup "nm-applet --indicator"
           spawn-sh-at-startup "sleep 2 && pamixer --set-volume 50"
           spawn-sh-at-startup "${./scripts/randomwallctl.sh} -r"
-          ${lib.optionalString osConfig.services.power-profiles-daemon.enable ''spawn-sh-at-startup "powermodectl -r"''}
+          ${lib.optionalString osConfig.services.power-profiles-daemon.enable ''spawn-sh-at-startup "${
+            import ./scripts/powermodectl.nix { inherit osConfig pkgs; }
+          } -r"''}
           ${lib.optionalString (
             (opts.terminal == "foot") && (opts.foot.server or false)
           ) ''spawn-sh-at-startup "${getExe pkgs.foot} --server"''}

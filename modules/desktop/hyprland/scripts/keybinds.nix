@@ -1,11 +1,12 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
   opts,
   ...
 }:
-pkgs.writeShellScriptBin "hypr-keybinds" ''
+pkgs.writeShellScript "keybinds" ''
   set -euo pipefail
 
   TERMINAL=${lib.escapeShellArg opts.terminal}
@@ -14,7 +15,7 @@ pkgs.writeShellScriptBin "hypr-keybinds" ''
   BROWSER=${lib.escapeShellArg opts.browser}
 
   KEYBINDERS=(
-    "SUPER SHIFT /" "Show keybinds" "scripts/hypr-keybinds"
+    "SUPER SHIFT /" "Show keybinds" "scripts/keybinds"
     "SUPER Return" "Launch terminal" "$TERMINAL"
     "SUPER T" "Launch terminal" "$TERMINAL"
     "SUPER F" "Launch file manager" "$FILEMANAGER"
@@ -23,12 +24,11 @@ pkgs.writeShellScriptBin "hypr-keybinds" ''
     "SUPER A" "Launch application menu" "scripts/launcher drun"
     "SUPER SPACE" "Launch application menu" "scripts/launcher drun"
     "SUPER SHIFT W" "Launch wallpaper menu" "scripts/launcher wallpaper"
-    ${lib.optionalString (config.home-manager.users.${opts.users.primary.name}.programs.tmux.enable
-      or false
+    ${lib.optionalString (config.programs.tmux.enable or false
     ) ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''}
     ${lib.optionalString (opts.rbw.rofi-rbw or false
     ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
-    ${lib.optionalString (config.programs.steam.enable or false
+    ${lib.optionalString (osConfig.programs.steam.enable or false
     ) ''"SUPER SHIFT G" "Game launcher" "scripts/launcher games"''}
     "CTRL ALT Delete" "Open system monitor" "btop"
     "SUPER CTRL C" "Colour picker" "hyprpicker --autocopy"
@@ -36,7 +36,7 @@ pkgs.writeShellScriptBin "hypr-keybinds" ''
     "SUPER SHIFT Q" "Open notification panel" "swaync-client -t -sw"
     "SUPER V" "Clipboard manager" "scripts/clip-manager.sh"
     "SUPER CTRL W" "Random wallpaper" "scripts/random-wall"
-    ${lib.optionalString (config.programs.steam.enable or false
+    ${lib.optionalString (osConfig.programs.steam.enable or false
     ) ''"SUPER ALT G" "Enable game mode" "scripts/gamemode.sh"''}
     "SUPER F8" "Toggle autoclicker" "scripts/autoclicker.nix"
     "SUPER F9" "Enable night mode" "hyprsunset --temperature 2500"
