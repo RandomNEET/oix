@@ -80,10 +80,12 @@
               on-scroll-up = "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n +100";
               on-scroll-down = "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n -100";
             };
+
             "custom/cava_mviz" = {
               exec = "${../../scripts/waybar-cava.sh}";
               format = "{}";
             };
+
             "cava" = {
               hide_on_silence = false;
               framerate = 60;
@@ -104,6 +106,7 @@
               bar_delimiter = 0;
               on-click = "playerctl play-pause";
             };
+
             "custom/gpuinfo" = {
               exec = "${../../scripts/gpuinfo.sh}";
               return-type = "json";
@@ -113,11 +116,13 @@
               tooltip = true;
               max-length = 1000;
             };
+
             "custom/icon" = {
               # format = " ";
               exec = "echo ' '";
               format = "{}";
             };
+
             "mpris" = {
               format = "{player_icon} {title} - {artist}";
               format-paused = "{status_icon} <i>{title} - {artist}</i>";
@@ -141,6 +146,7 @@
               ];
               max-length = 30;
             };
+
             "temperature" = {
               hwmon-path = "/sys/class/hwmon/hwmon1/temp1_input";
               critical-threshold = 83;

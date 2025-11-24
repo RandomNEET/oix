@@ -214,6 +214,10 @@
               };
 
               group = {
+                groupbar = {
+                  font_size = 16;
+                  height = 30;
+                };
               }
               // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
                 "col.border_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
@@ -417,14 +421,15 @@
                   # Window/Session actions
                   "$mainMod, Tab, overview:toggle" # toggle overview
                   "$mainMod, W, togglefloating" # toggle the window on focus to float
-                  "$mainMod SHIFT, G, togglegroup" # toggle the window on focus to group
+                  "$mainMod, G, togglegroup" # toggle the window on focus to group
                   "ALT, return, fullscreen" # toggle the window on focus to fullscreen
                   "$mainMod, Q, killactive" # killactive, kill the window on focus
-                  "ALT, F4, killactive" # killactive, kill the window on focus
-                  "$mainMod, delete, exit" # kill hyperland session
-                  "$mainMod ALT, L, exec, hyprlock" # lock screen
                   "$mainMod, backspace, exec, pkill -x wlogout || wlogout -b 4" # logout menu
                   "$CONTROL, ESCAPE, exec, pkill waybar || waybar" # toggle waybar
+
+                  # Special workspace (scratchpad)
+                  "$mainMod, S, togglespecialworkspace,"
+                  "$mainMod CTRL, S, movetoworkspacesilent, special"
 
                   # Applications/Programs
                   "$mainMod, Return, exec, $terminal"
@@ -441,7 +446,6 @@
                   # "$mainMod, Z, exec, launcher emoji" # launch emoji picker
                   # "$mainMod, tab, exec, launcher window" # switch between desktop applications
                   # "$mainMod, R, exec, launcher file" # brrwse system files
-                  "$mainMod ALT, K, exec, ${./scripts/keyboard-switch.sh}" # change keyboard layout
                   "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
                   "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
                   "$mainMod, V, exec, ${./scripts/clip-manager.sh}" # Clipboard Manager
@@ -494,6 +498,8 @@
                   "$mainMod, l, movefocus, r"
                   "$mainMod, k, movefocus, u"
                   "$mainMod, j, movefocus, d"
+                  "$mainMod ALT, k, changegroupactive, b"
+                  "$mainMod ALT, j, changegroupactive, f"
 
                   # Go to workspace 6 and 7 with mouse side buttons
                   "$mainMod, mouse:276, workspace, 1"
@@ -522,11 +528,6 @@
                   "$mainMod SHIFT $CONTROL, L, movewindow, r"
                   "$mainMod SHIFT $CONTROL, K, movewindow, u"
                   "$mainMod SHIFT $CONTROL, J, movewindow, d"
-
-                  # Special workspaces (scratchpad)
-                  "$mainMod CTRL, S, movetoworkspacesilent, special"
-                  "$mainMod ALT, S, movetoworkspacesilent, special"
-                  "$mainMod, S, togglespecialworkspace,"
                 ]
                 ++ (builtins.concatLists (
                   builtins.genList (
@@ -552,7 +553,7 @@
                   "$mainMod ALT, U, exec, launcher rbw" # launch password manager
                 ]
                 ++ lib.optionals (osConfig.programs.steam.enable or false) [
-                  "$mainMod, G, exec, launcher games" # game launcher
+                  "$mainMod SHIFT, G, exec, launcher games" # game launcher
                   "$mainMod ALT, G, exec, ${./scripts/gamemode.sh}" # disable hypr effects for gamemode
                 ];
 

@@ -209,7 +209,6 @@
               Mod+E hotkey-overlay-title="Launch editor: ${opts.editor}" { spawn-sh "${editor}"; }
               Mod+B hotkey-overlay-title="Launch browser: ${opts.browser}" { spawn "${browser}"; }
               Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${getExe pkgs.btop}"; }
-              Super+Alt+L hotkey-overlay-title="Lock screen: swaylock" { spawn "swaylock"; }
 
               Mod+Space hotkey-overlay-title="Launch application menu" { spawn-sh "launcher drun"; }
               Mod+Shift+W hotkey-overlay-title="Launch wallpaper menu" { spawn-sh "launcher wallpaper"; }
@@ -373,8 +372,6 @@
               Mod+P 	 { screenshot; }
               Mod+Ctrl+P { screenshot-screen; }
               Mod+Alt+P  { screenshot-window; }
-
-              Mod+Delete { quit; }
           }
         '';
       in
