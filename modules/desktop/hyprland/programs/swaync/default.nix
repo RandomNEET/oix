@@ -193,7 +193,25 @@
                     command = "${randomwallctl} -t";
                     update-command = "${randomwallctl} -s && grep -q \"^enabled$\" \"$HOME/.config/hypr/random-wall\" && echo true || echo false";
                   }
-                ];
+                ]
+                ++ lib.optional config.services.dae.enable {
+                  label = "󰴴";
+                  type = "toggle";
+                  command = "systemctl is-active --quiet dae.service && pkexec systemctl stop dae.service || pkexec systemctl start dae.service";
+                  update-command = "pgrep -x dae > /dev/null && echo true || echo false";
+                }
+                ++ lib.optional config.services.sing-box.enable {
+                  label = "󰴴";
+                  type = "toggle";
+                  command = "systemctl is-active --quiet sing-box.service && pkexec systemctl stop sing-box.service || pkexec systemctl start sing-box.service";
+                  update-command = "pgrep -x sing-box > /dev/null && echo true || echo false";
+                }
+                ++ lib.optional config.services.xray.enable {
+                  label = "󰴴";
+                  type = "toggle";
+                  command = "systemctl is-active --quiet xray.service && pkexec systemctl stop xray.service || pkexec systemctl start xray.service";
+                  update-command = "pgrep -x xray > /dev/null && echo true || echo false";
+                };
               };
             };
             scripts = {
