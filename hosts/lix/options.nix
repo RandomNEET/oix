@@ -418,18 +418,6 @@
     # }}}
 
     # Browser {{{
-    firefox = {
-      network.trr = {
-        mode = 3;
-        uri = "https://dns.alidns.com/dns-query";
-        custom_uri = "https://dns.alidns.com/dns-query";
-      };
-      browser.startup.homepage = "https://startpage.randomneet.me/";
-      DisableFirefoxAccounts = false;
-      titlebar-buttons-disable = true;
-      full-screen-api.ignore-widgets = true;
-    };
-
     qutebrowser = {
       theme = {
         opacity0 = 1.0;
