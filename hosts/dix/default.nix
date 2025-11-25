@@ -68,7 +68,6 @@
     ../../modules/programs/gui/qutebrowser
     ../../modules/programs/gui/spicetify
     ../../modules/programs/gui/swayimg
-    ../../modules/programs/gui/thunderbird
     ../../modules/programs/gui/vscode
     ../../modules/programs/gui/zathura
 
