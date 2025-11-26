@@ -5,6 +5,12 @@
       programs.swayimg = {
         enable = true;
         settings = {
+          general = {
+            mode = "viewer";
+          }
+          // lib.optionalAttrs ((opts.desktop or "") == "hyprland") {
+            overlay = "yes";
+          };
           viewer = {
             scale = "optimal";
             antialiasing = "mks13";
