@@ -603,6 +603,7 @@
         "tty-clock"
         "cliwt"
         "qbittorrent"
+        "gImageReader"
         "libreoffice"
         "jellyfin-mpv-shim"
       ];
