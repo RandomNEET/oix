@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   opts,
@@ -7,7 +8,9 @@
 let
   terminal = opts.terminal;
   displays = opts.display or [ ];
-  wallpaperDir = opts.wallpaper.dir or "${opts.xdg.userDirs.pictures}/wallpapers";
+  wallpaperDir =
+    opts.wallpaper.dir
+      or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
   landscapeDir = opts.wallpaper.landscapeDir or "${wallpaperDir}/landscape";
   portraitDir = opts.wallpaper.portraitDir or "${wallpaperDir}/portrait";
   transitionType = opts.wallpaper.launcher.transition.type or "center";

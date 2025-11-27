@@ -1,11 +1,14 @@
 {
+  osConfig,
   config,
   lib,
   opts,
   ...
 }:
 let
-  docDir = lib.removePrefix "$HOME/" opts.xdg.userDirs.documents;
+  docDir =
+    lib.replaceStrings [ "${osConfig.users.users.${opts.users.primary.name}.home}" "$HOME/" ] [ "" "" ]
+      config.xdg.userDirs.documents;
 in
 {
   programs.nixvim = {

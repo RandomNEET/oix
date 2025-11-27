@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   opts,
@@ -8,11 +7,11 @@
 {
   home-manager.sharedModules = [
     (
-      _:
+      { osConfig, config, ... }:
       let
         docDir =
-          lib.replaceStrings [ "${config.users.users.${opts.users.primary.name}.home}" "$HOME/" ] [ "" "" ]
-            opts.xdg.userDirs.documents;
+          lib.replaceStrings [ "${osConfig.users.users.${opts.users.primary.name}.home}" "$HOME/" ] [ "" "" ]
+            config.xdg.userDirs.documents;
       in
       {
         programs.obsidian = {

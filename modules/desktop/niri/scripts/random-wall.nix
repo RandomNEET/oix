@@ -1,6 +1,13 @@
-{ pkgs, opts, ... }:
+{
+  config,
+  pkgs,
+  opts,
+  ...
+}:
 let
-  wallpaperDir = opts.wallpaper.dir or "${opts.xdg.userDirs.pictures}/wallpapers";
+  wallpaperDir =
+    opts.wallpaper.dir
+      or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
   landscapeDir = opts.wallpaper.landscapeDir or "${wallpaperDir}/landscape";
   portraitDir = opts.wallpaper.portraitDir or "${wallpaperDir}/portrait";
   transitionType = opts.wallpaper.transition.random-wall.type or "wipe";

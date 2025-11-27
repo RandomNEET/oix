@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   opts,
@@ -19,7 +20,7 @@
   systemd.user.services.random-wall = {
     description = "Randomly change wallpaper";
     startAt = "hourly";
-    script = "${lib.getExe (import ./scripts/random-wall.nix { inherit pkgs opts; })}";
+    script = "${lib.getExe (import ./scripts/random-wall.nix { inherit config pkgs opts; })}";
     serviceConfig = {
       Type = "oneshot";
     };
