@@ -38,6 +38,7 @@
     ../../modules/programs/cli/tmux
     ../../modules/programs/cli/trash-cli
     ../../modules/programs/cli/yazi
+    ../../modules/programs/cli/yt-dlp
     ../../modules/programs/cli/zoxide
     ../../modules/programs/cli/zsh
 
