@@ -364,7 +364,7 @@
                 icon = "minecraft";
                 widget = {
                   type = "minecraft";
-                  url = "udp://127.0.0.1:11000";
+                  url = "{{HOMEPAGE_VAR_MINECRAFT_URL}}";
                 };
               };
             }
