@@ -62,7 +62,6 @@
     ../../modules/programs/gui/fcitx5
     ../../modules/programs/gui/foot
     ../../modules/programs/gui/games
-    ../../modules/programs/gui/kitty
     ../../modules/programs/gui/localsend
     ../../modules/programs/gui/obs-studio
     ../../modules/programs/gui/obsidian
