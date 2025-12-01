@@ -6,40 +6,31 @@
 }:
 if config.services.dae.enable then
   pkgs.writeShellScriptBin "proxy-toggle" ''
-
     SERVICE="dae.service"
 
     if systemctl is-active --quiet "$SERVICE"; then
-
         echo "Stopping $SERVICE ..."
-        sudo systemctl stop "$SERVICE"
-        echo "$SERVICE stopped."
+        sudo systemctl stop --verbose "$SERVICE"
     else
         echo "Starting $SERVICE ..."
-        sudo systemctl start "$SERVICE"
-        echo "$SERVICE started."
+        sudo systemctl start --verbose "$SERVICE"
     fi
   ''
 else if config.services.sing-box.enable then
   pkgs.writeShellScriptBin "proxy-toggle" ''
-
     SERVICE="sing-box.service"
 
     if systemctl is-active --quiet "$SERVICE"; then
-
         echo "Stopping $SERVICE ..."
-        sudo systemctl stop "$SERVICE"
-        echo "$SERVICE stopped."
+        sudo systemctl stop --verbose "$SERVICE"
     else
         echo "Starting $SERVICE ..."
-        sudo systemctl start "$SERVICE"
-        echo "$SERVICE started."
+        sudo systemctl start --verbose "$SERVICE"
     fi
   ''
 else if config.services.xray.enable then
-  if opts.proxy.xray.method != null && opts.proxy.xray.method == "tproxy" then
+  if ((opts.proxy.xray.method or "") == "tproxy") then
     pkgs.writeShellScriptBin "proxy-toggle" ''
-
       SERVICE="xray.service"
 
       if systemctl is-active --quiet "$SERVICE"; then
@@ -55,9 +46,7 @@ else if config.services.xray.enable then
           sudo iptables -t mangle -X XRAY_SELF
 
           echo "Stopping $SERVICE ..."
-          sudo systemctl stop "$SERVICE"
-
-          echo "$SERVICE stopped and rules cleared."
+          sudo systemctl stop --verbose "$SERVICE"
       else
           echo "Applying iptables and routes ..."
           sudo ip route add local default dev lo table 100
@@ -97,26 +86,19 @@ else if config.services.xray.enable then
           sudo iptables -t mangle -A OUTPUT -j XRAY_SELF
 
           echo "Starting $SERVICE ..."
-          sudo systemctl start "$SERVICE"
-
-          echo "$SERVICE started and rules applied."
+          sudo systemctl start --verbose "$SERVICE"
       fi
     ''
   else
     pkgs.writeShellScriptBin "proxy-toggle" ''
-
       SERVICE="xray.service"
 
       if systemctl is-active --quiet "$SERVICE"; then
           echo "Stopping $SERVICE ..."
-          sudo systemctl stop "$SERVICE"
-
-          echo "$SERVICE stopped."
+          sudo systemctl stop --verbose "$SERVICE"
       else
           echo "Starting $SERVICE ..."
-          sudo systemctl start "$SERVICE"
-
-          echo "$SERVICE started."
+          sudo systemctl start --verbose "$SERVICE"
       fi
     ''
 else
