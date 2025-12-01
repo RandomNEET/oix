@@ -71,7 +71,7 @@
                 home-manager.extraSpecialArgs = { inherit inputs outputs opts; };
               }
               {
-                nixpkgs.overlays = import ./overlays { inherit inputs opts; };
+                nixpkgs.overlays = import ./overlays { inherit inputs; };
               }
             ];
           };

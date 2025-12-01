@@ -1,4 +1,4 @@
-{ pkgs, opts, ... }:
+{ pkgs, ... }:
 {
   cliwt = pkgs.callPackage ./cliwt { };
   obsidian-catppuccin = pkgs.callPackage ./obsidian-catppuccin { };
