@@ -605,7 +605,6 @@
         "qbittorrent"
         "gImageReader"
         "libreoffice"
-        "jellyfin-mpv-shim"
       ];
 
       flatpak = {
