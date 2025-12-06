@@ -8,4 +8,5 @@
     };
     configFile = opts.proxy.dae.configFile or null;
   };
+  imports = [ ./scripts ];
 }
