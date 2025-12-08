@@ -22,6 +22,7 @@
     webpage = {
       darkmode = {
         enabled = true;
+        policy.images = "never";
       };
     };
   };
