@@ -1,8 +1,4 @@
-{
-  lib,
-  opts,
-  ...
-}:
+{ lib, opts, ... }:
 {
   home-manager.sharedModules = [
     (
