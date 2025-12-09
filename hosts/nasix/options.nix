@@ -62,9 +62,10 @@
     };
 
     proxy = {
-      core = "xray";
       xray = {
-        method = "lpf";
+        enable = true;
+        role = "client";
+        method = "redirect";
         settingsFile = "/home/${users.primary.name}/.vault/proxy/xray/client/${proxy.xray.method}/outsider/docker.json";
       };
     };

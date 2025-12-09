@@ -39,8 +39,8 @@
     };
 
     proxy = {
-      core = "dae";
       dae = {
+        enable = true;
         configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
         openFirewall = {
           enable = true;
