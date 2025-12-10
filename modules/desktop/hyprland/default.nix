@@ -567,7 +567,7 @@
                 ]
                 ++ lib.optionals (osConfig.programs.steam.enable or false) [
                   "$mainMod SHIFT, G, exec, launcher games" # game launcher
-                  "$mainMod ALT, G, exec, ${./scripts/gamemode.sh}" # disable hypr effects for gamemode
+                  "$mainMod CTRL, G, exec, ${./scripts/gamemode.sh}" # disable hypr effects for gamemode
                 ];
 
               bindm = [

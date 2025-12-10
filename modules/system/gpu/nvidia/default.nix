@@ -9,16 +9,18 @@ let
   nvidiaDriverChannel = config.boot.kernelPackages.nvidiaPackages.latest; # stable, latest, beta, etc.
 in
 {
-  environment.sessionVariables = lib.optionalAttrs ((opts.display or [ ]) != [ ]) {
-    NVD_BACKEND = "direct";
-    GBM_BACKEND = "nvidia-drm";
-    WLR_NO_HARDWARE_CURSORS = "1";
-    LIBVA_DRIVER_NAME = "nvidia";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    # MOZ_DISABLE_RDD_SANDBOX = 1; # Potential security risk
+  environment.sessionVariables =
+    lib.optionalAttrs (((opts.display or [ ]) != [ ]) || ((opts.desktop or "") != ""))
+      {
+        NVD_BACKEND = "direct";
+        GBM_BACKEND = "nvidia-drm";
+        WLR_NO_HARDWARE_CURSORS = "1";
+        LIBVA_DRIVER_NAME = "nvidia";
+        __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+        # MOZ_DISABLE_RDD_SANDBOX = 1; # Potential security risk
 
-    __GL_GSYNC_ALLOWED = "1"; # GSync
-  };
+        __GL_GSYNC_ALLOWED = "1"; # GSync
+      };
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ]; # or "nvidiaLegacy470", etc.
@@ -31,11 +33,11 @@ in
       open = true;
       # nvidiaPersistenced = true;
       nvidiaSettings = false;
-      powerManagement.enable = true; # This can cause sleep/suspend to fail.
-      modesetting.enable = true;
+      powerManagement.enable = true; # Fixes sleep/suspend
+      modesetting.enable = true; # Mmodesetting is required.
       package = nvidiaDriverChannel;
     }
-    // lib.optionalAttrs ((opts.hardware.nvidia or { }) != { }) opts.hardware.nvidia;
+    // (opts.hardware.nvidia or { });
     graphics = {
       enable = true;
       # package = nvidiaDriverChannel;

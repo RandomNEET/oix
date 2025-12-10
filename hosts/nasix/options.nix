@@ -518,9 +518,13 @@
     # }}}
 
     # Hardware {{{
-    hardware.nvidia.prime = {
-      nvidiaBusId = "PCI:07:0:0";
-      amdgpuBusId = "PCI:01:0:0";
+    hardware = {
+      nvidia = {
+        prime = {
+          nvidiaBusId = "PCI:07:0:0";
+          amdgpuBusId = "PCI:01:0:0";
+        };
+      };
     };
     # }}}
 

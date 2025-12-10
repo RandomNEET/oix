@@ -37,7 +37,7 @@ pkgs.writeShellScript "keybinds" ''
     "SUPER V" "Clipboard manager" "scripts/clip-manager.sh"
     "SUPER CTRL W" "Random wallpaper" "scripts/random-wall"
     ${lib.optionalString (osConfig.programs.steam.enable or false
-    ) ''"SUPER ALT G" "Enable game mode" "scripts/gamemode.sh"''}
+    ) ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
     "SUPER F8" "Toggle autoclicker" "scripts/autoclicker.nix"
     "SUPER F9" "Enable night mode" "hyprsunset --temperature 2500"
     "SUPER F10" "Disable night mode" "pkill hyprsunset"
