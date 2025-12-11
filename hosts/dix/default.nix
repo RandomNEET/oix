@@ -41,7 +41,6 @@
     ../../modules/programs/cli/jq
     ../../modules/programs/cli/lazygit
     ../../modules/programs/cli/mbsync
-    ../../modules/programs/cli/mpv
     ../../modules/programs/cli/password-store
     ../../modules/programs/cli/newsboat
     ../../modules/programs/cli/nixvim
@@ -62,6 +61,7 @@
     ../../modules/programs/gui/games
     ../../modules/programs/gui/kitty
     ../../modules/programs/gui/localsend
+    ../../modules/programs/gui/mpv
     ../../modules/programs/gui/obs-studio
     ../../modules/programs/gui/obsidian
     ../../modules/programs/gui/qutebrowser
