@@ -186,7 +186,6 @@
 
           spawn-at-startup "waybar"
           spawn-at-startup "swaync"
-          spawn-at-startup "fcitx5"
           spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=gnome"
           spawn-sh-at-startup "systemctl --user stop xdg-desktop-portal.service"
           spawn-sh-at-startup "systemctl --user start xdg-desktop-portal.service"
