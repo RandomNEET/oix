@@ -9,24 +9,12 @@
     (_: {
       services.swayidle = {
         enable = true;
-        events = [
-          {
-            event = "lock";
-            command = "${pkgs.swaylock}/bin/swaylock &";
-          }
-          {
-            event = "unlock";
-            command = "${pkgs.procps}/bin/pkill --signal SIGUSR1 swaylock";
-          }
-          {
-            event = "before-sleep";
-            command = "${pkgs.systemd}/bin/loginctl lock-session";
-          }
-          {
-            event = "after-resume";
-            command = "${pkgs.niri}/bin/niri msg action power-on-monitors";
-          }
-        ];
+        events = {
+          lock = "${pkgs.swaylock}/bin/swaylock &";
+          unlock = "${pkgs.procps}/bin/pkill --signal SIGUSR1 swaylock";
+          before-sleep = "${pkgs.systemd}/bin/loginctl lock-session";
+          after-resume = "${pkgs.niri}/bin/niri msg action power-on-monitors";
+        };
         timeouts =
           lib.optionals ((opts.swayidle.time.lock or "") != "") [
             {

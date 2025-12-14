@@ -17,6 +17,20 @@
     consoleKeymap = "us";
     # }}}
 
+    # Nix {{{
+    nix = {
+      settings = {
+        substituters = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
+      };
+    };
+
+    nixpkgs = {
+      config = {
+        cudaSupport = false;
+      };
+    };
+    # }}}
+
     # Boot {{{
     boot = {
       kernelPackages = "linuxPackages";
@@ -66,7 +80,7 @@
         enable = true;
         role = "client";
         method = "redirect";
-        settingsFile = "/home/${users.primary.name}/.vault/proxy/xray/client/${proxy.xray.method}/outsider/docker.json";
+        settingsFile = "/home/${users.primary.name}/.vault/proxy/xray/${proxy.xray.role}/${proxy.xray.method}/outsider/docker.json";
       };
     };
     # }}}
@@ -144,17 +158,22 @@
     };
 
     frp = {
-      role = "client";
-      settings = {
-        serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
-        serverPort = 20000;
-        auth.token = "{{.Envs.FRP_TOKEN}}";
-        transport.tls.certFile = "/etc/frp/cert/client.crt";
-        transport.tls.keyFile = "/etc/frp/cert/client.key";
-        transport.tls.trustedCaFile = "/etc/frp/cert/ca.crt";
-        includes = [ "/etc/frp/proxies.toml" ];
+      instances = {
+        "outsider" = {
+          enable = true;
+          role = "client";
+          settings = {
+            serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
+            serverPort = 20000;
+            auth.token = "{{.Envs.FRP_TOKEN}}";
+            transport.tls.certFile = "/etc/frp/cert/client.crt";
+            transport.tls.keyFile = "/etc/frp/cert/client.key";
+            transport.tls.trustedCaFile = "/etc/frp/cert/ca.crt";
+            includes = [ "/etc/frp/proxies.toml" ];
+          };
+          environmentFiles = [ "/home/${users.primary.name}/.vault/env/frp.env" ];
+        };
       };
-      environmentFile = "/home/${users.primary.name}/.vault/env/frp.env";
     };
 
     vaultwarden = {

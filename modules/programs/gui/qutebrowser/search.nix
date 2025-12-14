@@ -10,10 +10,11 @@
     aw = "https://wiki.archlinux.org/?search={}";
     nw = "https://wiki.nixos.org/index.php?search={}";
     mn = "https://mynixos.com/search?q={}";
-    hm = "https://home-manager-options.extranix.com/?query={}";
     ng = "https://noogle.dev/q?term={}";
-    nps = "https://search.nixos.org/packages?channel=25.05&query={}";
     npu = "https://search.nixos.org/packages?channel=unstable&query={}";
+    nps = "https://search.nixos.org/packages?channel=25.11&query={}";
+    hmu = "https://home-manager-options.extranix.com/?query={}&release=master";
+    hms = "https://home-manager-options.extranix.com/?query={}&release=release-25.11";
   }
   // opts.qutebrowser.searchEngines or { }
 )

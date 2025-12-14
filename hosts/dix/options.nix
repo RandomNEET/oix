@@ -19,7 +19,7 @@
 
     # Boot {{{
     boot = {
-      kernelPackages = "linuxPackages_zen";
+      kernelPackages = "linuxPackages";
     };
 
     lanzaboote = {

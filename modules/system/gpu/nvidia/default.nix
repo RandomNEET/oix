@@ -51,7 +51,7 @@ in
   };
   nixpkgs.config = {
     nvidia.acceptLicense = true;
-    cudaSupport = true;
+    cudaSupport = opts.nixpkgs.config.cudaSupport or true;
     allowUnfreePredicate =
       pkg:
       builtins.elem (lib.getName pkg) [
