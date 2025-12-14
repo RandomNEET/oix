@@ -23,6 +23,11 @@
     lanzaboote = {
       enable = opts.lanzaboote.enable or false;
       pkiBundle = opts.lanzaboote.pkiBundle or "/var/lib/sbctl";
+      autoGenerateKeys.enable = true;
+      autoEnrollKeys = {
+        enable = true;
+        autoReboot = true;
+      };
     };
   };
 }
