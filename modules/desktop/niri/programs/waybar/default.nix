@@ -33,7 +33,6 @@
               "niri/workspaces"
               "cava"
             ];
-            # modules-center = ["clock" "custom/notification"];
             modules-center = [
               "idle_inhibitor"
               "clock"
@@ -101,7 +100,6 @@
                 "█"
               ];
               input_delay = 1;
-              # "noise_reduction" = 0.77;
               sleep_timer = 5;
               bar_delimiter = 0;
               on-click = "playerctl play-pause";
@@ -115,12 +113,6 @@
               interval = 5; # once every 5 seconds
               tooltip = true;
               max-length = 1000;
-            };
-
-            "custom/icon" = {
-              # format = " ";
-              exec = "echo ' '";
-              format = "{}";
             };
 
             "mpris" = {
@@ -169,7 +161,6 @@
 
             "clock" = {
               format = "{:%a %d %b %R}";
-              # format = "{:%R 󰃭 %d·%m·%y}";
               format-alt = "{:%I:%M:%p}";
               tooltip-format = "<tt>{calendar}</tt>";
               calendar = {
@@ -235,23 +226,16 @@
             };
 
             "network" = {
-              # on-click = "nm-connection-editor";
-              # "interface" = "wlp2*"; # (Optional) To force the use of this interface
               format-wifi = "󰤨 Wi-Fi";
-              # format-wifi = " {bandwidthDownBits}  {bandwidthUpBits}";
-              # format-wifi = "󰤨 {essid}";
               format-ethernet = "󱘖 Wired";
-              # format-ethernet = " {bandwidthDownBits}  {bandwidthUpBits}";
               format-linked = "󱘖 {ifname} (No IP)";
               format-disconnected = "󰤮 Off";
-              # format-disconnected = "󰤮 Disconnected";
               format-alt = "󰤨 {signalStrength}%";
               tooltip-format = "󱘖 {ipaddr}  {bandwidthUpBytes}  {bandwidthDownBytes}";
             };
 
             "bluetooth" = {
               format = "";
-              # format-disabled = ""; # an empty format will hide the module
               format-connected = " {num_connections}";
               tooltip-format = " {device_alias}";
               tooltip-format-connected = "{device_enumerate}";
@@ -301,7 +285,6 @@
                 critical = 20;
               };
               format = "{icon} {capacity}%";
-              # format-charging = " {capacity}%";
               format-charging = " {capacity}%";
               format-plugged = " {capacity}%";
               format-alt = "{time} {icon}";

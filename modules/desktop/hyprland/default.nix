@@ -175,7 +175,7 @@
                 kb_layout = "${opts.kbdLayout}";
                 kb_variant = "${opts.kbdVariant or ""}";
 
-                repeat_delay = 300; # or 212
+                repeat_delay = 300;
                 repeat_rate = 30;
 
                 follow_mouse = 1;
@@ -193,8 +193,7 @@
                 gaps_out = 9;
                 border_size = 2;
                 resize_on_border = true;
-                layout = "dwindle"; # dwindle or master
-                # allow_tearing = true; # Allow tearing for games (use immediate window rules for specific games or all titles)
+                layout = "dwindle";
               }
               // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
                 "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
@@ -207,12 +206,12 @@
                 dim_special = 0.3;
                 blur = {
                   enabled = true;
-                  special = true;
-                  size = 6; # 6
-                  passes = 2; # 3
-                  new_optimizations = true;
+                  size = 6;
+                  passes = 2;
                   ignore_opacity = true;
+                  new_optimizations = true;
                   xray = false;
+                  special = false;
                 };
               };
 
@@ -239,8 +238,6 @@
                 "ignorezero, swaync-control-center"
                 "ignorezero, swaync-notification-window"
                 "ignorealpha 0.7, swaync-control-center"
-                # "ignorealpha 0.8, swaync-notification-window"
-                # "dimaround, swaync-control-center"
               ];
 
               animations = {
@@ -262,10 +259,7 @@
                   "windows, 1, 3, md3_decel, popin 60%"
                   "border, 1, 10, default"
                   "fade, 1, 2.5, md3_decel"
-                  # "workspaces, 1, 3.5, md3_decel, slide"
                   "workspaces, 1, 3.5, easeOutExpo, slide"
-                  # "workspaces, 1, 7, fluent_decel, slidefade 15%"
-                  # "specialWorkspace, 1, 3, md3_decel, slidefadevert 15%"
                   "specialWorkspace, 1, 3, md3_decel, slidevert"
                 ];
               };
@@ -394,6 +388,7 @@
                 "float,class:^(nm-connection-editor)$"
                 "float,class:^(org.kde.polkit-kde-authentication-agent-1)$"
               ];
+
               binde = [
                 # Resize windows
                 "$mainMod SHIFT, right, resizeactive, 30 0"
@@ -413,6 +408,7 @@
                 ",XF86AudioLowerVolume,exec,pamixer -d 2"
                 ",XF86AudioRaiseVolume,exec,pamixer -i 2"
               ];
+
               bind =
                 let
                   autoclicker = pkgs.callPackage ./scripts/autoclicker.nix { };
@@ -586,6 +582,7 @@
                 };
               };
             };
+
             extraConfig = ''
               monitor=,preferred,auto,1
               binds {
