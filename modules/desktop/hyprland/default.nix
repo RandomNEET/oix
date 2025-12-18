@@ -7,6 +7,7 @@
 }:
 {
   imports = [
+    ./programs/fcitx5
     ./programs/hypridle
     ./programs/hyprlock
     ./programs/rofi

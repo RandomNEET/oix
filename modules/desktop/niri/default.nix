@@ -7,6 +7,7 @@
 }:
 {
   imports = [
+    ./programs/fcitx5
     ./programs/rofi
     ./programs/swayidle
     ./programs/swaylock

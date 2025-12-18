@@ -1,0 +1,5 @@
+patch:
+  __include: rime_ice_suggestion:/
+  __patch:
+    schema_list:
+      - schema: rime_ice # 雾凇拼音（全拼）
