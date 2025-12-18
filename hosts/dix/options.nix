@@ -281,17 +281,13 @@
       lsp.enable = true;
       conform.enable = true;
       lint.enable = true;
-
-      snacks = {
-        image.enable = true;
-      };
-      noice.enable = true;
-
       copilot = {
         enable = true;
         cmp = false;
       };
-
+      snacks = {
+        image.enable = true;
+      };
       obsidian = {
         workspaces = [
           {

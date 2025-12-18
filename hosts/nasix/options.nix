@@ -651,13 +651,10 @@
       lsp.enable = false;
       conform.enable = true;
       lint.enable = false;
-
+      copilot.enable = false;
       snacks = {
         image.enable = false;
       };
-      noice.enable = false;
-
-      copilot.enable = false;
     };
     # }}}
 

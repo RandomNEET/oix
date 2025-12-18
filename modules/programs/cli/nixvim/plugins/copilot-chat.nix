@@ -1,7 +1,10 @@
 { lib, opts, ... }:
+let
+  copilotEnabled = opts.nixvim.copilot.enable or false;
+in
 {
   programs.nixvim = {
-    keymaps = lib.mkIf (opts.nixvim.copilot.enable or true) [
+    keymaps = lib.mkIf copilotEnabled [
       {
         mode = "n";
         action = "<cmd>CopilotChatToggle<CR>";
@@ -12,7 +15,7 @@
       }
     ];
     plugins.copilot-chat = {
-      enable = opts.nixvim.copilot.enable or true;
+      enable = copilotEnabled;
       settings = {
         answer_header = "## Copilot ";
         auto_follow_cursor = false;
@@ -36,7 +39,7 @@
         show_help = true;
         window = {
           layout = "vertical"; # 'vertical', 'horizontal', 'float', 'replace', or a function that returns the layout
-          width = 0.25; # fractional width of parent, or absolute width in columns when > 1
+          width = 0.4; # fractional width of parent, or absolute width in columns when > 1
           height = 0.5; # fractional height of parent, or absolute height in rows when > 1
         };
       };

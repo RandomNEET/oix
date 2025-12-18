@@ -1,7 +1,10 @@
 { lib, opts, ... }:
+let
+  conformEnabled = opts.nixvim.conform.enable or true;
+in
 {
   programs.nixvim = {
-    keymaps = lib.mkIf (opts.nixvim.conform.enable or true) [
+    keymaps = lib.mkIf conformEnabled [
       {
         mode = "n";
         key = "<leader>fm";
@@ -12,7 +15,7 @@
       }
     ];
     plugins.conform-nvim = {
-      enable = opts.nixvim.conform.enable or true;
+      enable = conformEnabled;
       settings = {
         formatters_by_ft = {
           c = [ "astyle" ];

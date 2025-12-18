@@ -1,4 +1,7 @@
 { lib, opts, ... }:
+let
+  copilotCmpEnabled = (opts.nixvim.copilot.enable or false) && (opts.nixvim.copilot.cmp or false);
+in
 {
   programs.nixvim = {
     plugins.blink-cmp = {
@@ -10,7 +13,7 @@
         sources = {
           providers = {
           }
-          // lib.optionalAttrs ((opts.nixvim.copilot.enable or true) && (opts.nixvim.copilot.cmp or false)) {
+          // lib.optionalAttrs copilotCmpEnabled {
             copilot = {
               async = true;
               module = "blink-cmp-copilot";
@@ -23,16 +26,13 @@
             "path"
             "buffer"
           ]
-          ++ lib.optional (
-            (opts.nixvim.copilot.enable or true) && (opts.nixvim.copilot.cmp or false)
-          ) "copilot";
+          ++ lib.optional copilotCmpEnabled "copilot";
         };
-        cmdline = lib.mkIf (opts.nixvim.noice.enable or true) {
+        cmdline = lib.mkIf copilotCmpEnabled {
           enabled = false;
         };
       };
     };
-    plugins.blink-cmp-copilot.enable =
-      (opts.nixvim.copilot.enable or true) && (opts.nixvim.copilot.cmp or false);
+    plugins.blink-cmp-copilot.enable = copilotCmpEnabled;
   };
 }

@@ -1,10 +1,8 @@
-{ opts, ... }:
 {
   programs.nixvim = {
     plugins = {
       noice = {
-        enable = (opts.nixvim.noice.enable or true) && (opts.nixvim.treesitter.enable or true);
-
+        enable = true;
         settings = {
           cmdline = {
             enabled = true;
