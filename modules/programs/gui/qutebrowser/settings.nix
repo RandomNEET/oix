@@ -1,5 +1,21 @@
 { opts, ... }:
 {
+  completion = {
+    shrink = opts.qutebrowser.completion.shrink or false;
+    height = opts.qutebrowser.completion.height or "50%";
+    web_history = {
+      exclude = [ ] ++ (opts.qutebrowser.completion.web_history.exclude or [ ]);
+      max_items = opts.qutebrowser.completion.web_history.max_items or (-1);
+    };
+  };
+  editor = {
+    command = [
+      "${opts.terminal}"
+      "-e"
+      "${opts.editor}"
+      "{file}"
+    ];
+  };
   fonts = {
     default_size = "10pt";
     default_family = [
@@ -24,14 +40,6 @@
         enabled = true;
         policy.images = "never";
       };
-    };
-  };
-  completion = {
-    shrink = opts.qutebrowser.completion.shrink or false;
-    height = opts.qutebrowser.completion.height or "50%";
-    web_history = {
-      exclude = [ ] ++ (opts.qutebrowser.completion.web_history.exclude or [ ]);
-      max_items = opts.qutebrowser.completion.web_history.max_items or (-1);
     };
   };
   content = {

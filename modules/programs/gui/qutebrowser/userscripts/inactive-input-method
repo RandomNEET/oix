@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ "$1" = "fcitx5" ]; then
+	STATE=$(fcitx5-remote)
+
+	if [ "$STATE" != "1" ]; then
+		fcitx5-remote -c
+	fi
+fi

@@ -1,3 +1,9 @@
+{ config, lib, ... }:
+let
+  inactivateIM = lib.optionalString (
+    config.i18n.inputMethod.type != null
+  ) "spawn --userscript inactive-input-method ${config.i18n.inputMethod.type} ;; ";
+in
 {
   normal = {
     "'" = "mode-enter jump_mark";
@@ -202,7 +208,7 @@
     "$" = "move-to-end-of-line";
     "0" = "move-to-start-of-line";
     "<Ctrl-Space>" = "selection-drop";
-    "<Escape>" = "mode-leave";
+    "<Escape>" = "${inactivateIM}mode-leave";
     "<Return>" = "yank selection";
     "<Space>" = "selection-toggle";
     "G" = "move-to-end-of-document";
@@ -255,7 +261,7 @@
     "<Ctrl-W>" = ''rl-rubout " "'';
     "<Ctrl-Y>" = "rl-yank";
     "<Down>" = "completion-item-focus --history next";
-    "<Escape>" = "mode-leave";
+    "<Escape>" = "${inactivateIM}mode-leave";
     "<PgDown>" = "completion-item-focus next-page";
     "<PgUp>" = "completion-item-focus prev-page";
     "<Return>" = "command-accept";
@@ -269,19 +275,19 @@
     "<Ctrl-B>" = "hint all tab-bg";
     "<Ctrl-F>" = "hint links";
     "<Ctrl-R>" = "hint --rapid links tab-bg";
-    "<Escape>" = "mode-leave";
+    "<Escape>" = "${inactivateIM}mode-leave";
     "<Return>" = "hint-follow";
   };
 
   insert = {
     "<Ctrl-E>" = "edit-text";
-    "<Escape>" = "mode-leave";
+    "<Escape>" = "${inactivateIM}mode-leave";
     "<Shift-Escape>" = "fake-key <Escape>";
     "<Shift-Ins>" = "insert-text -- {primary}";
   };
 
   passthrough = {
-    "<Shift-Escape>" = "mode-leave";
+    "<Shift-Escape>" = "${inactivateIM}mode-leave";
   };
 
   prompt = {
@@ -306,7 +312,7 @@
     "<Ctrl-X>" = "prompt-open-download";
     "<Ctrl-Y>" = "rl-yank";
     "<Down>" = "prompt-item-focus next";
-    "<Escape>" = "mode-leave";
+    "<Escape>" = "${inactivateIM}mode-leave";
     "<Return>" = "prompt-accept";
     "<Shift-Tab>" = "prompt-item-focus prev";
     "<Tab>" = "prompt-item-focus next";
@@ -314,13 +320,13 @@
   };
 
   register = {
-    "<Escape>" = "mode-leave";
+    "<Escape>" = "${inactivateIM}mode-leave";
   };
 
   yesno = {
     "<Alt-Shift-Y>" = "prompt-yank --sel";
     "<Alt-Y>" = "prompt-yank";
-    "<Escape>" = "mode-leave";
+    "<Escape>" = "${inactivateIM}mode-leave";
     "<Return>" = "prompt-accept";
     "N" = "prompt-accept --save no";
     "Y" = "prompt-accept --save yes";
