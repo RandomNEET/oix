@@ -10,14 +10,14 @@ pkgs.stdenv.mkDerivation rec {
     cp ${
       pkgs.fetchurl {
         url = "https://github.com/proog/obsidian-trash-explorer/releases/download/${version}/main.js";
-        sha256 = "0gf0py0vlsp04dx2bhdlbaa7vhnvim2nl2flg7kr5dkwwk2ck470";
+        sha256 = "sha256-4JDJxOR8tpLnedQJakWN28J9lFq0wSV6I+BquoG/wD0=";
       }
     } $out/main.js
 
     cp ${
       pkgs.fetchurl {
         url = "https://github.com/proog/obsidian-trash-explorer/releases/download/${version}/manifest.json";
-        sha256 = "17whfpsp96ndj7wsxr0y0j2nplw7ijacjiwgprh7p988qyvwdy9y";
+        sha256 = "sha256-PvnGt8cIpXtgvo9HyZSMh9NrhQQe5K75kc2adPV1kJ8=";
       }
     } $out/manifest.json
   '';
