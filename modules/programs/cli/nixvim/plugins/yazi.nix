@@ -14,14 +14,14 @@
         };
       }
       {
-        key = "<leader>cw";
+        key = "<leader>yw";
         action = "<cmd>Yazi cwd<cr>";
         options = {
           desc = "Open the file manager in nvim's working directory";
         };
       }
       {
-        key = "<c-up>";
+        key = "<leader>ys";
         action = "<cmd>Yazi toggle<cr>";
         options = {
           desc = "Resume the last yazi session";

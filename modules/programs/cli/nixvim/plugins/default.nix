@@ -19,6 +19,7 @@
     ./persistence.nix
     ./snacks.nix
     ./treesitter.nix
+    ./visual-multi.nix
     ./which-key.nix
     ./yanky.nix
     ./yazi.nix
