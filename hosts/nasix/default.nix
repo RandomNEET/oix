@@ -1,7 +1,5 @@
 {
   imports = [
-    ./hardware-configuration.nix
-
     ../../modules/system/core
     ../../modules/system/garbage-collect
     ../../modules/system/gpu

@@ -51,6 +51,7 @@
         name:
         let
           host = ./hosts + "/${name}";
+          hardware = host + "/hardware-configuration.nix";
           opts =
             (import (host + "/options.nix") {
               lib = nixpkgs.lib;
@@ -64,6 +65,7 @@
             specialArgs = { inherit inputs outputs opts; };
             modules = [
               host
+              hardware
               home-manager.nixosModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;
