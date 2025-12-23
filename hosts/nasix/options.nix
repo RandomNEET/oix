@@ -372,7 +372,7 @@
             {
               "NapcatQQ" = {
                 href = "http://{{HOMEPAGE_VAR_ADDR}}:6099/";
-                icon = "https://raw.githubusercontent.com/NapNeko/NapCatQQ/refs/heads/main/napcat.webui/public/favicon.ico";
+                icon = "https://raw.githubusercontent.com/NapNeko/NapCatQQ/refs/heads/main/packages/napcat-webui-frontend/public/favicon.ico";
               };
             }
           ];
