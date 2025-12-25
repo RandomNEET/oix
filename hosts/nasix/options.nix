@@ -18,12 +18,6 @@
     # }}}
 
     # Nix {{{
-    nix = {
-      settings = {
-        substituters = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
-      };
-    };
-
     nixpkgs = {
       config = {
         cudaSupport = false;
@@ -647,10 +641,10 @@
 
     # Editor {{{
     nixvim = {
-      treesitter.enable = false;
-      lsp.enable = false;
+      treesitter.enable = true;
+      lsp.enable = true;
       conform.enable = true;
-      lint.enable = false;
+      lint.enable = true;
       copilot.enable = false;
       snacks = {
         image.enable = false;
