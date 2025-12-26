@@ -55,7 +55,7 @@ pkgs.writeShellApplication {
 
     get_orientation() {
     	local display="$1"
-    	local line 
+    	local line
     	line=$(swww query | grep ": $display:")
     	local resolution
     	resolution=$(echo "$line" | sed -n 's/.*: [^:]*: \([0-9]*x[0-9]*\).*/\1/p')
@@ -73,7 +73,7 @@ pkgs.writeShellApplication {
 
     get_random_image() {
     	local dir="$1"
-    	find "$dir" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | shuf -n 1
+    	find "$dir" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" -o -iname "*.jxl" -o -iname "*.gif" \) | shuf -n 1
     }
 
     swww query | grep "^:" | while IFS= read -r line; do
