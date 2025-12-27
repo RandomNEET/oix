@@ -236,7 +236,7 @@
               Mod+F10 hotkey-overlay-title="Disable night mode" { spawn-sh "pkill wlsunset"; }
 
               Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "bash ${./scripts}/clip-manager.sh"; }
-              Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn-sh "random-wall"; }
+              Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn "random-wall"; }
 
               XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
               XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
@@ -390,9 +390,9 @@
           pamixer
           pavucontrol
           playerctl
-          wtype
-          wlsunset
           wl-clipboard
+          wlsunset
+          wtype
           xwayland-satellite
         ];
 

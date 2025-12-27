@@ -98,7 +98,20 @@ pkgs.writeShellScript "keybinds" ''
     "XF86AudioPlay" "Play/Pause media" "playerctl play-pause"
     "XF86AudioNext" "Next media track" "playerctl next"
     "XF86AudioPrev" "Previous media track" "playerctl previous"
-  )
+    "SUPER M" "Enter mouse mode" "submap mouse-mode"
+    "(mouse-mode) H" "Mouse move left" "exec wlrctl pointer move -10 0"
+    "(mouse-mode) L" "Mouse move right" "exec wlrctl pointer move 10 0"
+    "(mouse-mode) K" "Mouse move up" "exec wlrctl pointer move 0 -10"
+    "(mouse-mode) J" "Mouse move down" "exec wlrctl pointer move 0 10"
+    "(mouse-mode) SHIFT H" "Mouse move left (fast)" "exec wlrctl pointer move -100 0"
+    "(mouse-mode) SHIFT L" "Mouse move right (fast)" "exec wlrctl pointer move 100 0"
+    "(mouse-mode) SHIFT K" "Mouse move up (fast)" "exec wlrctl pointer move 0 -100"
+    "(mouse-mode) SHIFT J" "Mouse move down (fast)" "exec wlrctl pointer move 0 100"
+    "(mouse-mode) ," "Mouse left click" "exec wlrctl pointer click left"
+    "(mouse-mode) ." "Mouse right click" "exec wlrctl pointer click right"
+    "(mouse-mode) Escape" "Exit mouse mode" "submap reset"
+    "(mouse-mode) Q" "Exit mouse mode" "submap reset"
+     )
 
   yad --center \
     --title="Hyprland Keybinds" \

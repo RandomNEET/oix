@@ -71,8 +71,9 @@
             pamixer
             pavucontrol
             playerctl
-            wtype
             wl-clipboard
+            wlrctl
+            wtype
             yad
           ];
 
@@ -538,6 +539,9 @@
                   "$mainMod SHIFT $CONTROL, L, movewindow, r"
                   "$mainMod SHIFT $CONTROL, K, movewindow, u"
                   "$mainMod SHIFT $CONTROL, J, movewindow, d"
+
+                  # Enter mouse mode
+                  "SUPER, M, submap, mouse-mode"
                 ]
                 ++ (builtins.concatLists (
                   builtins.genList (
@@ -580,6 +584,33 @@
                   disableBlur = true;
                   onBottom = true;
                   centerAligned = true;
+                };
+              };
+            };
+
+            submaps = {
+              mouse-mode = {
+                settings = {
+                  binde = [
+                    # Move around
+                    ", H, exec, wlrctl pointer move -10 0"
+                    ", L, exec, wlrctl pointer move 10 0"
+                    ", K, exec, wlrctl pointer move 0 -10"
+                    ", J, exec, wlrctl pointer move 0 10"
+                    "SHIFT, H, exec, wlrctl pointer move -100 0"
+                    "SHIFT, L, exec, wlrctl pointer move 100 0"
+                    "SHIFT, K, exec, wlrctl pointer move 0 -100"
+                    "SHIFT, J, exec, wlrctl pointer move 0 100"
+                  ];
+                  bind = [
+                    # Click
+                    ", comma, exec, wlrctl pointer click left"
+                    ", period, exec, wlrctl pointer click right"
+
+                    # Exit
+                    ", escape, submap, reset"
+                    ", Q, submap, reset"
+                  ];
                 };
               };
             };
