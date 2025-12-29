@@ -1,11 +1,8 @@
 { lib, opts, ... }:
-let
-  lintEnabled = opts.nixvim.lint.enable or true;
-in
 {
-  programs.nixvim = {
+  programs.nixvim = lib.mkIf (opts.nixvim.lint.enable or true) {
     plugins.lint = {
-      enable = lintEnabled;
+      enable = true;
       lintersByFt = {
         c = [ "clangtidy" ];
         cpp = [ "clangtidy" ];
@@ -26,7 +23,7 @@ in
       };
       linters = { };
     };
-    extraConfigLua = lib.mkIf lintEnabled ''
+    extraConfigLua = ''
       -- Linting function
       local lint = require("lint")
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

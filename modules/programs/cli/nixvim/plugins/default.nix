@@ -4,7 +4,6 @@
     ./bufferline.nix
     ./comment.nix
     ./conform-nvim.nix
-    ./copilot-chat.nix
     ./copilot-lua.nix
     ./flash.nix
     ./lazygit.nix
@@ -16,6 +15,7 @@
     ./noice.nix
     ./nvim-autopairs.nix
     ./obsidian.nix
+    ./opencode.nix
     ./persistence.nix
     ./snacks.nix
     ./treesitter.nix

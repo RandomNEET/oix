@@ -209,6 +209,9 @@
           statuscolumn = {
             enabled = true;
           };
+          terminal = {
+            enabled = true;
+          };
           words = {
             enabled = true;
           };

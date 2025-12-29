@@ -1,9 +1,9 @@
-{ opts, ... }:
+{ lib, opts, ... }:
 {
-  programs.nixvim = {
+  programs.nixvim = lib.mkIf (opts.nixvim.lsp.enable or true) {
     plugins = {
       lsp = {
-        enable = opts.nixvim.lsp.enable or true;
+        enable = true;
         servers = {
           clangd.enable = true;
           lua_ls.enable = true;

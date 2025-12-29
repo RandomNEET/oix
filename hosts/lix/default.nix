@@ -42,6 +42,7 @@
     ../../modules/programs/cli/mbsync
     ../../modules/programs/cli/newsboat
     ../../modules/programs/cli/nixvim
+    ../../modules/programs/cli/opencode
     ../../modules/programs/cli/password-store
     ../../modules/programs/cli/rbw
     ../../modules/programs/cli/rigprep

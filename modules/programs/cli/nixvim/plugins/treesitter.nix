@@ -1,12 +1,17 @@
-{ pkgs, opts, ... }:
 {
-  programs.nixvim = {
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
+{
+  programs.nixvim = lib.mkIf (opts.nixvim.treesitter.enable or true) {
     plugins = {
       treesitter-context = {
         enable = false;
       };
       treesitter = {
-        enable = opts.nixvim.treesitter.enable or true;
+        enable = true;
         nixvimInjections = true;
         nixGrammars = true;
         folding = false;

@@ -11,8 +11,8 @@ let
       config.xdg.userDirs.documents;
 in
 {
-  programs.nixvim = {
-    keymaps = lib.mkIf config.programs.obsidian.enable [
+  programs.nixvim = lib.mkIf config.programs.obsidian.enable {
+    keymaps = [
       {
         mode = "n";
         action = "<cmd>Obsidian new<CR>";
@@ -56,7 +56,7 @@ in
     ];
     plugins = {
       obsidian = {
-        enable = config.programs.obsidian.enable;
+        enable = true;
         settings = {
           completion = {
             min_chars = 2;

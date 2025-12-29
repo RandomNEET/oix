@@ -1,8 +1,8 @@
-{ opts, ... }:
+{ lib, opts, ... }:
 {
-  programs.nixvim = {
+  programs.nixvim = lib.mkIf (opts.nixvim.copilot.enable or false) {
     plugins.copilot-lua = {
-      enable = opts.nixvim.copilot.enable or false;
+      enable = true;
       settings = {
         panel = {
           enabled = true;

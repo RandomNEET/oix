@@ -34,6 +34,7 @@
             [
               fd
               ghostscript
+              lsof
               lynx
               ripgrep
             ]
