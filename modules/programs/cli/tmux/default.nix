@@ -56,10 +56,6 @@ in
             bind j select-pane -D
 
             # Resize panes
-            # bind -n M-h resize-pane -L 2
-            # bind -n M-l resize-pane -R 2
-            # bind -n M-k resize-pane -U 2
-            # bind -n M-j resize-pane -D 2
             bind -n M-Left resize-pane -L 2
             bind -n M-Right resize-pane -R 2
             bind -n M-Up resize-pane -U 2

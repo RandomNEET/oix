@@ -59,6 +59,14 @@ in
             name = "*.md";
             run = ''piper -- CLICOLOR_FORCE=1 ${getExe pkgs.glow} -w=$w -s=dark "$1"'';
           }
+          {
+            name = "*.csv";
+            run = ''piper -- ${getExe pkgs.bat} -p --color=always "$1"'';
+          }
+          {
+            mime = "application/sqlite3";
+            run = ''piper -- ${getExe pkgs.sqlite} "$1" ".schema --indent"'';
+          }
           # ouch
           {
             mime = "application/*zip";
@@ -112,6 +120,13 @@ in
           {
             mime = "application/subrip";
             run = "mediainfo";
+          }
+        ];
+        append_previewers = [
+          # piper
+          {
+            name = "*";
+            run = ''piper -- ${getExe pkgs.hexyl} --border=none --terminal-width=$w "$1"'';
           }
         ];
         repend_preloaders = [
@@ -293,7 +308,6 @@ in
     extraPackages = with pkgs; [
       ouch
       mediainfo
-      glow
       trash-cli
     ];
   };
