@@ -246,9 +246,11 @@
           }
         );
       }
-      // lib.optionalAttrs ((opts.theme or "") != "") {
-        imports = [ ./themes/${opts.theme}.nix ];
-      }
+      //
+        lib.optionalAttrs (((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.nix))
+          {
+            imports = [ ./themes/${opts.theme}.nix ];
+          }
     )
   ];
 }

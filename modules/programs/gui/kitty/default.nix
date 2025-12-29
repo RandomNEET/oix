@@ -37,7 +37,9 @@
           tab_bar_style = "powerline";
           tab_powerline_style = "round";
         }
-        // lib.optionalAttrs ((opts.theme or "") != "") (import ./themes/${opts.theme}.nix);
+        // lib.optionalAttrs (
+          ((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.nix)
+        ) (import ./themes/${opts.theme}.nix);
         keybindings = {
           "ctrl+alt+n" = "launch --cwd=current";
           "alt+w" = "copy_and_clear_or_interrupt";

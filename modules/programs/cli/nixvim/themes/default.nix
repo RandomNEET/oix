@@ -1,4 +1,6 @@
 { lib, opts, ... }:
 {
-  imports = lib.optional ((opts.theme or "") != "") ./${opts.theme};
+  imports = lib.optional (
+    ((opts.theme or "") != "") && (builtins.pathExists ./${opts.theme})
+  ) ./${opts.theme};
 }

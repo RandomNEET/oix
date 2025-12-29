@@ -8,7 +8,9 @@ let
   base = ''
     default_language = "english1000"
   '';
-  theme = lib.optionalString ((opts.theme or "") != "") (builtins.readFile ./${opts.theme}.toml);
+  theme = lib.optionalString (
+    ((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.toml)
+  ) (builtins.readFile ./themes/${opts.theme}.toml);
 in
 {
   home-manager.sharedModules = [

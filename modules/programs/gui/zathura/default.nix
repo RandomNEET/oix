@@ -9,12 +9,12 @@
           extraConfig = ''
             set selection-clipboard clipboard
           ''
-          + lib.optionalString ((opts.theme or "") != "") "include ${opts.theme}";
+          + lib.optionalString ((opts.theme or "") != "") "include themes/${opts.theme}";
         };
       }
       // lib.optionalAttrs ((opts.theme or "") != "") {
         home.file = {
-          ".config/zathura/${opts.theme}".source = ./${opts.theme};
+          ".config/zathura/themes".source = ./themes;
         };
       }
     )

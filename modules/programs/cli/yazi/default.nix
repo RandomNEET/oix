@@ -1,46 +1,25 @@
 { lib, opts, ... }:
 {
   home-manager.sharedModules = [
-    (
-      _:
-      let
-        displays = opts.display or [ ];
-        primaryDisplay = lib.findFirst (d: d.orientation or "" == "landscape") { } displays;
-      in
-      {
-        programs.yazi = {
-          enable = true;
-          enableBashIntegration = true;
-          enableZshIntegration = true;
-          keymap = import ./keymap.nix { inherit opts; };
-          settings = {
-            mgr = {
-              show_hidden = false;
-              show_symlink = true;
-              sort_dir_first = true;
-              linemode = "size"; # or size, permissions, owner, mtime
-              ratio = [
-                # or 0 3 4
-                1
-                3
-                4
-              ];
-            };
-            preview = {
-              # wrap = "yes";
-              tab_size = 4;
-              image_filter = "triangle"; # from fast to slow but high quality: nearest, triangle, catmull-rom, lanczos3
-              max_width = primaryDisplay.width or 600;
-              max_height = primaryDisplay.height or 900;
-              image_quality = 90;
-            };
-          };
-        }
-        // lib.optionalAttrs ((opts.theme or "") != "") {
-          theme = (import (./themes + "/${opts.theme}.nix")).yazi;
-        };
-        imports = [ ./plugins.nix ];
+    (_: {
+      programs.yazi = {
+        enable = true;
+        enableBashIntegration = true;
+        enableZshIntegration = true;
+        settings = import ./settings.nix { inherit lib opts; };
+        keymap = import ./keymap.nix { inherit opts; };
+        initLua =
+          builtins.readFile ./init.lua
+          + lib.optionalString (
+            ((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.lua)
+          ) (builtins.readFile ./themes/${opts.theme}.lua);
       }
-    )
+      //
+        lib.optionalAttrs (((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.lua))
+          {
+            theme = import ./themes/${opts.theme}.nix;
+          };
+      imports = [ ./plugins.nix ];
+    })
   ];
 }

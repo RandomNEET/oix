@@ -10,9 +10,7 @@ let
 in
 {
   programs.yazi = {
-    initLua =
-      builtins.readFile ./init.lua
-      + lib.optionalString ((opts.theme or "") != "") (import (./themes + "/${opts.theme}.nix")).yatline;
+    initLua = builtins.readFile ./plugins.lua;
     plugins = {
       piper = pkgs.yaziPlugins.piper;
       ouch = pkgs.yaziPlugins.ouch;

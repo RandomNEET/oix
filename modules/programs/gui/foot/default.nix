@@ -22,7 +22,9 @@
             scrollback-down-half-page = "Control+j";
           };
         }
-        // lib.optionalAttrs ((opts.theme or "") != "") (import ./themes/${opts.theme}.nix);
+        // lib.optionalAttrs (
+          ((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.nix)
+        ) (import ./themes/${opts.theme}.nix);
       };
     })
   ];

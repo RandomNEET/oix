@@ -125,7 +125,9 @@
             # cache-dir = "${config.xdg.cacheHome}/mpv";
             input-default-bindings = false;
           }
-          // lib.optionalAttrs ((opts.theme or "") != "") (import ./themes/${opts.theme}.nix);
+          // lib.optionalAttrs (
+            ((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.nix)
+          ) (import ./themes/${opts.theme}.nix);
         };
       }
     )
