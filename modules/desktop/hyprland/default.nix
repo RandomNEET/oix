@@ -162,7 +162,6 @@
                   "${getExe' pkgs.wl-clipboard "wl-paste"} --type text --watch cliphist store" # clipboard store text data
                   "${getExe' pkgs.wl-clipboard "wl-paste"} --type image --watch cliphist store" # clipboard store image data
                   "rm '$XDG_CACHE_HOME/cliphist/db'" # Clear clipboard
-                  "sleep 2 && pamixer --set-volume 50"
                   "${./scripts/randomwallctl.sh} -r"
                 ]
                 ++ lib.optional osConfig.services.power-profiles-daemon.enable "${

@@ -196,7 +196,6 @@
           spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
           spawn-sh-at-startup "rm $XDG_CACHE_HOME/cliphist/db"
           spawn-sh-at-startup "nm-applet --indicator"
-          spawn-sh-at-startup "sleep 2 && pamixer --set-volume 50"
           spawn-sh-at-startup "${./scripts/randomwallctl.sh} -r"
           ${lib.optionalString osConfig.services.power-profiles-daemon.enable ''spawn-sh-at-startup "${
             import ./scripts/powermodectl.nix { inherit osConfig pkgs; }
