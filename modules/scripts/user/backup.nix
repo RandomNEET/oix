@@ -10,7 +10,7 @@ if (opts.hostname or "") == "dix" then
     mv -v ~/vault.tar.gz.gpg /mnt/hdd2/backup
 
     echo "==> Backing up user directories..."
-    for dir in nixos doc pic pkg repo .local/share/zsh; do
+    for dir in nixos doc pic pkg repo vid .local/share/zsh; do
       echo "--> $dir"
       rsync -aAXH --delete --no-links --human-readable --quiet \
         --info=NAME,REMOVE,DEL \
