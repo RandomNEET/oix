@@ -1,5 +1,6 @@
 {
   programs.nixvim = {
+    globals.mapleader = " ";
     keymaps = [
       # Window navigation
       {

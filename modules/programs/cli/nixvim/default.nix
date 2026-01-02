@@ -19,15 +19,6 @@
         enable = true;
         viAlias = true;
         vimAlias = true;
-        globals.mapleader = " ";
-        clipboard = {
-          register = "unnamedplus";
-          providers = lib.optionalAttrs ((opts.desktop or "") != "") {
-            wl-copy.enable = true;
-            xclip.enable = true;
-          };
-        };
-
         extraPackages =
           with pkgs;
           (
@@ -63,8 +54,6 @@
             ]
           );
       };
-
-      home.packages = with pkgs; [ ];
     })
   ];
 }
