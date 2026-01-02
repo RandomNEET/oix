@@ -30,7 +30,18 @@
             theme = "catppuccin";
           };
           sections = {
-            lualine_a = [ "mode" ];
+            lualine_a = [
+              "mode"
+              {
+                __raw = ''
+                  function()
+                    local reg = vim.fn.reg_recording()
+                    if reg == "" then return "" end
+                    return "Recording @" .. reg
+                  end
+                '';
+              }
+            ];
             lualine_b = [
               "branch"
               "diff"
