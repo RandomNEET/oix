@@ -1,9 +1,17 @@
-{ lib, opts, ... }:
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
 {
   home-manager.sharedModules = [
     (_: {
       programs.yazi = {
         enable = true;
+        package = pkgs.yazi.override {
+          _7zz = pkgs._7zz-rar;
+        };
         enableBashIntegration = true;
         enableZshIntegration = true;
         settings = import ./settings.nix { inherit lib opts; };
@@ -14,4 +22,8 @@
       imports = [ ./plugins.nix ];
     })
   ];
+  nix.settings = {
+    extra-substituters = [ "https://yazi.cachix.org" ];
+    extra-trusted-public-keys = [ "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k=" ];
+  };
 }

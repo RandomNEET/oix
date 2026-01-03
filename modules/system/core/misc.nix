@@ -45,8 +45,7 @@
       openssl
       wget
       rsync
-      _7zz
-      unrar
+      _7zz-rar
     ]
     ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.system or [ ]);
   home-manager.sharedModules = [
