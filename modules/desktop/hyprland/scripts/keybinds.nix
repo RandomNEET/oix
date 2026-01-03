@@ -23,19 +23,21 @@ pkgs.writeShellScript "keybinds" ''
     "SUPER B" "Launch browser" "$BROWSER"
     "SUPER A" "Launch application menu" "scripts/launcher drun"
     "SUPER SPACE" "Launch application menu" "scripts/launcher drun"
-    "SUPER SHIFT W" "Launch wallpaper menu" "scripts/launcher wallpaper"
+    "SUPER SHIFT W" "Select wallpaper" "scripts/launcher wallpaper"
+    "SUPER CTRL W" "Random wallpaper" "scripts/random-wall"
+    "SUPER CTRL T" "Select theme" "scripts/launcher theme"
+    "SUPER ALT S" "Select specialisation" "scripts/launcher specialisation"
     ${lib.optionalString (config.programs.tmux.enable or false
     ) ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''}
     ${lib.optionalString (opts.rbw.rofi-rbw or false
     ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
     ${lib.optionalString (osConfig.programs.steam.enable or false
-    ) ''"SUPER SHIFT G" "Game launcher" "scripts/launcher games"''}
-    "CTRL ALT Delete" "Open system monitor" "btop"
-    "SUPER CTRL C" "Colour picker" "hyprpicker --autocopy"
+    ) ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
+    "SUPER V" "Clipboard manager" "scripts/clip-manager.sh"
     "SUPER SHIFT N" "Open notification panel" "swaync-client -t -sw"
     "SUPER SHIFT Q" "Open notification panel" "swaync-client -t -sw"
-    "SUPER V" "Clipboard manager" "scripts/clip-manager.sh"
-    "SUPER CTRL W" "Random wallpaper" "scripts/random-wall"
+    "CTRL ALT Delete" "Open system monitor" "btop"
+    "SUPER CTRL C" "Colour picker" "hyprpicker --autocopy"
     ${lib.optionalString (osConfig.programs.steam.enable or false
     ) ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
     "SUPER F8" "Toggle autoclicker" "scripts/autoclicker.nix"
@@ -50,6 +52,7 @@ pkgs.writeShellScript "keybinds" ''
     "SUPER G" "Toggle group window" "togglegroup"
     "ALT Return" "Toggle fullscreen" "fullscreen"
     "SUPER Q" "Close active window" "killactive"
+    "SUPER ALT L" "Lock screen" "hyprlock"
     "SUPER Backspace" "Power menu" "wlogout -b 4"
     "CTRL Escape" "Toggle Waybar" "pkill waybar || waybar"
     "SUPER S" "Toggle scratchpad workspace" "togglespecialworkspace"

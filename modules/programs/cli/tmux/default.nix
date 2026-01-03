@@ -4,11 +4,6 @@
   opts,
   ...
 }:
-let
-  theme = lib.optionalAttrs (
-    ((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.nix)
-  ) (import ./themes/${opts.theme}.nix { inherit pkgs; });
-in
 {
   home-manager.sharedModules = [
     (
@@ -24,7 +19,7 @@ in
           focusEvents = true;
           historyLimit = 100000;
           terminal = "tmux-256color";
-          plugins = with pkgs.tmuxPlugins; [ vim-tmux-navigator ] ++ (theme.plugins or [ ]);
+          plugins = with pkgs.tmuxPlugins; [ vim-tmux-navigator ];
           extraConfig = ''
             # Options
             set -g @catppuccin_flavour 'mocha'
@@ -77,8 +72,7 @@ in
             bind-key -T copy-mode-vi v send-keys -X begin-selection
             bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
             bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
-          ''
-          + (theme.extraConfig or "");
+          '';
         };
 
         home.shellAliases = {

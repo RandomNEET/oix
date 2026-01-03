@@ -1,4 +1,4 @@
-{ pkgs, opts, ... }:
+{ pkgs, ... }:
 {
   home-manager.sharedModules = [
     (
@@ -9,10 +9,7 @@
           type = "fcitx5";
           fcitx5 = {
             waylandFrontend = true;
-            addons =
-              with pkgs;
-              [ fcitx5-rime-ice ]
-              ++ lib.optionals ((opts.theme or "") == "catppuccin-mocha") [ catppuccin-fcitx5 ];
+            addons = with pkgs; [ fcitx5-rime-ice ];
             settings = {
               inputMethod = {
                 GroupOrder."0" = "Default";
@@ -39,16 +36,9 @@
               };
               addons = {
                 classicui.globalSection = {
-                  Font = "JetBrainsMono Nerd Font 10";
-                  MenuFont = "JetBrainsMono Nerd Font 10";
-                  TrayFont = "JetBrainsMono Nerd Font 10";
                   TrayOutlineColor = "#000000";
                   TrayTextColor = "#ffffff";
                   UserAccentColor = false;
-                }
-                // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-                  Theme = "catppuccin-mocha-mauve";
-                  DarkTheme = "catppuccin-mocha-mauve";
                 };
                 keyboard.globalSection = {
                   EmojiEnabled = true;
@@ -61,12 +51,6 @@
           };
         };
         home = {
-          # activation.copyRimeIce = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          #   mkdir -p $HOME/.local/share/fcitx5/rime
-          #   cp -r ${pkgs.rime-ice}/share/rime-data/* $HOME/.local/share/fcitx5/rime/
-          #   chown -R $USER:users $HOME/.local/share/fcitx5/rime
-          #   chmod -R u+rwX $HOME/.local/share/fcitx5/rime
-          # '';
           file = {
             ".local/share/fcitx5/rime/default.custom.yaml".source = ./rime/default.custom.yaml;
             ".local/share/fcitx5/rime/rime_ice.custom.yaml".source = ./rime/rime_ice.custom.yaml;

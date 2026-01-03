@@ -1,4 +1,7 @@
-{ lib, opts, ... }:
+{ config, opts, ... }:
+let
+  colors = config.lib.stylix.colors;
+in
 {
   home-manager.sharedModules = [
     (_: {
@@ -41,7 +44,51 @@
               }
           )
         ];
-        style = lib.optionalString ((opts.theme or "") != "") (builtins.readFile ./${opts.theme}.css);
+        style = ''
+          window {
+            font-family: monospace;
+            font-size: 14pt;
+            color: #${colors.base05}; 
+            background-color: rgba(${colors.base00-rgb-r}, ${colors.base00-rgb-g}, ${colors.base00-rgb-b}, 0.5);
+          }
+
+          button {
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 25%;
+            border: none;
+            background-color: transparent;
+            margin: 5px;
+            transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+          }
+
+          button:hover {
+            background-color: rgba(${colors.base02-rgb-r}, ${colors.base02-rgb-g}, ${colors.base02-rgb-b}, 0.2);
+          }
+
+          button:focus {
+            background-color: #${colors.base0E};
+            color: #${colors.base00};
+          }
+
+          #lock { background-image: image(url("icons/lock.png")); }
+          #lock:focus { background-image: image(url("icons/lock-hover.png")); }
+
+          #logout { background-image: image(url("icons/logout.png")); }
+          #logout:focus { background-image: image(url("icons/logout-hover.png")); }
+
+          #shutdown { background-image: image(url("icons/power.png")); }
+          #shutdown:focus { background-image: image(url("icons/power-hover.png")); }
+
+          #reboot { background-image: image(url("icons/restart.png")); }
+          #reboot:focus { background-image: image(url("icons/restart-hover.png")); }
+
+          #hibernate { background-image: image(url("icons/sleep.png")); }
+          #hibernate:focus { background-image: image(url("icons/sleep-hover.png")); }
+
+          #suspend { background-image: image(url("icons/sleep.png")); }
+          #suspend:focus { background-image: image(url("icons/sleep-hover.png")); }
+        '';
       };
     })
   ];

@@ -21,7 +21,16 @@
   systemd.user.services.random-wall = {
     description = "Randomly change wallpaper";
     startAt = "hourly";
-    script = "${lib.getExe (import ./scripts/random-wall.nix { inherit config pkgs opts; })}";
+    script = "${lib.getExe (
+      import ./scripts/random-wall.nix {
+        inherit
+          config
+          lib
+          pkgs
+          opts
+          ;
+      }
+    )}";
     serviceConfig = {
       Type = "oneshot";
     };
@@ -122,13 +131,7 @@
               default-column-width { proportion 0.5; }
               focus-ring {
                   width 2
-                  ${lib.optionalString (
-                    (opts.theme or "") == "catppuccin-mocha"
-                  ) ''active-gradient from="#ca9ee6" to="#f2d5cf" angle=45''}
-                  ${lib.optionalString (
-                    (opts.theme or "") == "catppuccin-mocha"
-                  ) ''inactive-gradient from="#b4befe" to="#6c7086" angle=45''}
-                  }
+              }
               border {
                   off
               }
@@ -136,7 +139,6 @@
                   softness 30
                   spread 5
                   offset x=0 y=5
-                  ${lib.optionalString ((opts.theme or "") == "catppuccin-mocha") ''color "#11111b"''}
               }
           }
 
@@ -214,8 +216,11 @@
               Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${getExe pkgs.btop}"; }
 
               Mod+Space hotkey-overlay-title="Launch application menu" { spawn-sh "launcher drun"; }
-              Mod+Shift+W hotkey-overlay-title="Launch wallpaper menu" { spawn-sh "launcher wallpaper"; }
-
+              Mod+Shift+W hotkey-overlay-title="Select wallpaper" { spawn-sh "launcher wallpaper"; }
+              Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn "random-wall"; }
+              Mod+Ctrl+T hotkey-overlay-title="Select theme" { spawn-sh "launcher theme"; }
+              Mod+Alt+S hotkey-overlay-title="Select specialisation" { spawn-sh "launcher specialisation"; }
+              Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "bash ${./scripts}/clip-manager.sh"; }
               ${lib.optionalString (config.programs.tmux.enable or false) ''
                 Mod+Shift+T hotkey-overlay-title="Launch tmux sessions" { spawn-sh "launcher tmux"; }
               ''}
@@ -223,9 +228,10 @@
                 Mod+Alt+U hotkey-overlay-title="Launch password manager" { spawn-sh "launcher rbw"; }
               ''}
               ${lib.optionalString (osConfig.programs.steam.enable or false) ''
-                Mod+G hotkey-overlay-title="Game launcher" { spawn-sh "launcher games"; }
+                Mod+G hotkey-overlay-title="Game launcher" { spawn-sh "launcher game"; }
               ''}
 
+              Mod+Alt+L hotkey-overlay-title="Lock screen" { spawn "swaylock"; }
               Mod+Backspace hotkey-overlay-title="Power menu" { spawn-sh "pkill -x wlogout || wlogout -b 4"; }
               Mod+Shift+Q hotkey-overlay-title="Open notification panel" { spawn-sh "swaync-client -t -sw"; }
               Ctrl+Escape hotkey-overlay-title="Toggle waybar" { spawn-sh "pkill waybar || waybar"; }
@@ -233,9 +239,6 @@
               Mod+F8 hotkey-overlay-title="Toggle autoclicker" { spawn-sh "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${lib.getExe autoclicker} --cps 40"; }
               Mod+F9 hotkey-overlay-title="Enable night mode" { spawn-sh "wlsunset -T 6500"; }
               Mod+F10 hotkey-overlay-title="Disable night mode" { spawn-sh "pkill wlsunset"; }
-
-              Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "bash ${./scripts}/clip-manager.sh"; }
-              Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn "random-wall"; }
 
               XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
               XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }

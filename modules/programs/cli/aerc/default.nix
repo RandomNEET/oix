@@ -24,9 +24,6 @@
               mouse-enabled = "true";
               border-char-vertical = "│";
               border-char-horizontal = "─";
-            }
-            // lib.optionalAttrs ((opts.theme or "") != "") {
-              styleset-name = opts.theme;
             };
             filters = {
               "text/plain" = "wrap -w 100 | colorize";
@@ -62,7 +59,6 @@
                   };
           };
         };
-        home.file.".config/aerc/stylesets".source = ./themes;
       }
     )
   ];

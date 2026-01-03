@@ -65,6 +65,7 @@
     # Desktop {{{
     desktop = "hyprland";
     theme = "catppuccin-mocha";
+    # theme = "gruvbox-dark-hard";
 
     display = [
       {
@@ -85,8 +86,8 @@
 
     wallpaper = {
       dir = "${xdg.userDirs.pictures}/wallpapers";
-      landscapeDir = "${wallpaper.dir}/landscape";
-      portraitDir = "${wallpaper.dir}/portrait";
+      landscapeDir = "${wallpaper.dir}/themed/landscape";
+      portraitDir = "${wallpaper.dir}/themed/portrait";
       transition = {
         launcher = {
           type = "center";
@@ -123,7 +124,7 @@
     };
 
     hyprlock = {
-      background = "${wallpaper.dir}/landscape/touhou/marisa-reimu-3.jpg";
+      background = "${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
     };
     # }}}
 
@@ -446,6 +447,7 @@
         address = "127.0.0.1:6600";
         password = "None";
         notify = true;
+        theme = "stylix";
       };
     };
     # }}}
@@ -504,6 +506,7 @@
       home = [
         "ffmpeg"
         "imagemagick"
+        "gowall"
         "w3m"
         "lolcat"
         "figlet"

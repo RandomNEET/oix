@@ -6,13 +6,25 @@
   ...
 }:
 let
+  fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
+  splitName = lib.splitString "-" fullThemeName;
+  themeBaseName = builtins.head splitName;
+
   terminal = opts.terminal;
   displays = opts.display or [ ];
   wallpaperDir =
     opts.wallpaper.dir
       or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
-  landscapeDir = opts.wallpaper.landscapeDir or "${wallpaperDir}/landscape";
-  portraitDir = opts.wallpaper.portraitDir or "${wallpaperDir}/portrait";
+  landscapeDir =
+    if ((opts.wallpaper.landscapeDir or "") != "") then
+      "${opts.wallpaper.landscapeDir}/${themeBaseName}"
+    else
+      "${wallpaperDir}/landscape";
+  portraitDir =
+    if ((opts.wallpaper.portraitDir or "") != "") then
+      "${opts.wallpaper.portraitDir}/${themeBaseName}"
+    else
+      "${wallpaperDir}/portrait";
   transitionType = opts.wallpaper.launcher.transition.type or "center";
   transitionStep = toString (opts.wallpaper.launcher.transition.step or 90);
   transitionDuration = toString (opts.wallpaper.launcher.transition.duration or 1);
@@ -82,7 +94,7 @@ pkgs.writeShellScriptBin "launcher" ''
         DISPLAY_OUTPUT="${singleDisplayOutput}"
         DISPLAY_ORIENTATION="${singleDisplayOrientation}"
       else
-        rofi_theme_display="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/wallpaper/display-select.rasi"
+        rofi_theme_display="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/custom/display-select.rasi"
         r_override_display="entry{placeholder:'Select Display...';}listview{lines:$DISPLAY_COUNT;}"
         DISPLAY_CHOICE=$(cat <<EOF | rofi -dmenu -i -theme-str "$r_override_display" -theme "$rofi_theme_display" -format 'i:s'
   ${displayListStr}
@@ -103,11 +115,11 @@ pkgs.writeShellScriptBin "launcher" ''
       CACHE_FLAG="$CACHE_DIR/.cache_ready"
 
       if [ "$DISPLAY_ORIENTATION" = "landscape" ]; then
-        rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/wallpaper/wallpaper-select-landscape.rasi"
+        rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/custom/wallpaper-select-landscape.rasi"
         SEARCH_DIR="$LANDSCAPE_DIR"
         THUMB_SIZE="320x180"
       else
-        rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/wallpaper/wallpaper-select-portrait.rasi"
+        rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/custom/wallpaper-select-portrait.rasi"
         SEARCH_DIR="$PORTRAIT_DIR"
         THUMB_SIZE="180x320"
       fi
@@ -196,15 +208,75 @@ pkgs.writeShellScriptBin "launcher" ''
 
       echo "Set wallpaper for Display $DISPLAY_OUTPUT ($DISPLAY_ORIENTATION): $WALLPAPER_PATH"
       ;;
+    theme)
+      SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
+      SYSTEM_SWITCH="/nix/var/nix/profiles/system/bin/switch-to-configuration"
+
+      THEMES="default"
+      if [ -d "$SPEC_DIR" ]; then
+        THEMES="$THEMES\n$(ls "$SPEC_DIR")"
+      fi
+
+      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/custom/theme-select.rasi"
+      r_override="entry{placeholder:'Select Specialisation...';}listview{lines:9;}"
+      
+      SELECTED=$(echo -e "$THEMES" | rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")
+
+      if [ -z "$SELECTED" ]; then
+        exit 0
+      fi
+
+      if [ "$SELECTED" = "default" ]; then
+        pkexec "$SYSTEM_SWITCH" test
+      else
+        pkexec "$SPEC_DIR/$SELECTED/bin/switch-to-configuration" test
+      fi
+
+      pkill waybar
+      pkill swaync
+      pkill fcitx5
+
+      waybar &
+      swaync &
+      fcitx5 -d
+
+      random-wall
+
+      niri msg action reload-config
+      ;;
     emoji)
       rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/type-4/style-4.rasi"
       r_override="entry{placeholder:'Search Emojis...';}listview{lines:15;}"
       rofi -modi emoji -show emoji -theme "''${rofi_theme}" -theme-str "$r_override"
       ;;
-    games)
+    game)
       r_override="entry{placeholder:'Search Games...';}listview{lines:15;}"
       rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/type-1/style-5.rasi"
       rofi -show games -modi games -theme "''${rofi_theme}" -theme-str "$r_override"
+      ;;
+    specialisation)
+      SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
+      SYSTEM_SWITCH="/nix/var/nix/profiles/system/bin/switch-to-configuration"
+
+      OPTIONS="default"
+      if [ -d "$SPEC_DIR" ]; then
+        OPTIONS="$OPTIONS\n$(ls "$SPEC_DIR")"
+      fi
+
+      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/launchers/custom/theme-select.rasi"
+      r_override="entry{placeholder:'Select Theme...';}listview{lines:9;}"
+      
+      SELECTED=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")
+
+      if [ -z "$SELECTED" ]; then
+        exit 0
+      fi
+
+      if [ "$SELECTED" = "default" ]; then
+        pkexec "$SYSTEM_SWITCH" test
+      else
+        pkexec "$SPEC_DIR/$SELECTED/bin/switch-to-configuration" test
+      fi
       ;;
     wallpaper-clear-cache)
       CACHE_DIR="''${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper-thumbnails"
@@ -227,8 +299,10 @@ pkgs.writeShellScriptBin "launcher" ''
       echo "  rbw                    Browse and search passwords"
       echo "  wallpaper              Select display and set wallpaper"
       echo "  wallpaper-clear-cache  Clear wallpaper thumbnail cache"
+      echo "  theme		     Select and set theme"
       echo "  emoji                  Search and insert emojis"
-      echo "  games                  Launch games menu"
+      echo "  game                   Launch games menu"
+      echo "  specialisation 	     Select and switch specialisation "
       echo "  help                   Display this help message"
       echo "  --help                 Same as 'help'"
       echo ""

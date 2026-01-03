@@ -1,9 +1,4 @@
-{
-  inputs,
-  lib,
-  opts,
-  ...
-}:
+{ inputs, ... }:
 {
   home-manager.sharedModules = [
     (
@@ -24,10 +19,6 @@
             lyricsPlus
             historyInSidebar
           ];
-        }
-        // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-          theme = spicePkgs.themes.text;
-          colorScheme = "CatppuccinMocha";
         };
       }
     )

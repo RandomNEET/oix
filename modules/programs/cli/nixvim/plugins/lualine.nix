@@ -1,4 +1,3 @@
-{ lib, opts, ... }:
 {
   programs.nixvim = {
     plugins = {
@@ -25,9 +24,6 @@
               tabline = 1000;
               winbar = 1000;
             };
-          }
-          // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-            theme = "catppuccin";
           };
           sections = {
             lualine_a = [

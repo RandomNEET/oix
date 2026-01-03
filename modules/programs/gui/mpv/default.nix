@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
+{ pkgs, ... }:
 {
   home-manager.sharedModules = [
     (
@@ -107,27 +102,20 @@
             CLOSE_WIN = "quit";
             "CLOSE_WIN {encode}" = "quit 4";
             "Ctrl+w" = ''set hwdec "no"'';
-            # T = "script-binding generate-thumbnails";
           };
           config = {
             osc = "no";
             resume-playback-check-mtime = true;
-            # ao = "alsa";
             audio-file-auto = "fuzzy";
             sub-auto = "fuzzy";
-            # gpu-context = "waylandvk";
             wayland-edge-pixels-pointer = 0;
             wayland-edge-pixels-touch = 0;
             screenshot-format = "webp";
             screenshot-webp-lossless = true;
             screenshot-directory = "${resolveHome config.xdg.userDirs.pictures}/screenshots/mpv";
             screenshot-sw = true;
-            # cache-dir = "${config.xdg.cacheHome}/mpv";
             input-default-bindings = false;
-          }
-          // lib.optionalAttrs (
-            ((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.nix)
-          ) (import ./themes/${opts.theme}.nix);
+          };
         };
       }
     )

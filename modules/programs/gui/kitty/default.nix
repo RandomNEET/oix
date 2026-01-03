@@ -1,19 +1,8 @@
 {
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
-{
-  fonts.packages = with pkgs.nerd-fonts; [ jetbrains-mono ];
   home-manager.sharedModules = [
     (_: {
       programs.kitty = {
         enable = true;
-        font = {
-          name = "JetBrainsMono Nerd Font";
-          size = 12.0;
-        };
         shellIntegration.enableBashIntegration = true;
         shellIntegration.enableZshIntegration = true;
         settings = {
@@ -36,10 +25,7 @@
           inactive_tab_font_style = "normal";
           tab_bar_style = "powerline";
           tab_powerline_style = "round";
-        }
-        // lib.optionalAttrs (
-          ((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.nix)
-        ) (import ./themes/${opts.theme}.nix);
+        };
         keybindings = {
           "ctrl+alt+n" = "launch --cwd=current";
           "alt+w" = "copy_and_clear_or_interrupt";
@@ -55,9 +41,6 @@
           "alt+9" = "goto_tab 9";
           "alt+0" = "goto_tab 10";
         };
-      }
-      // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-        themeFile = "Catppuccin-Mocha";
       };
     })
   ];

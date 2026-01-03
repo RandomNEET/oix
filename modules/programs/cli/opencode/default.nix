@@ -1,4 +1,3 @@
-{ lib, opts, ... }:
 {
   home-manager.sharedModules = [
     (_: {
@@ -10,9 +9,6 @@
           keybinds = {
             leader = "ctrl+x";
           };
-        }
-        // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-          theme = "catppuccin";
         };
       };
     })

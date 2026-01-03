@@ -1,4 +1,4 @@
-{ lib, opts, ... }:
+{ opts, ... }:
 {
   AllowFileSelectionDialogs = true;
   AppAutoUpdate = false;
@@ -73,5 +73,5 @@
     ExtensionRecommendations = false;
     SkipOnboarding = true;
   };
-  ExtensionSettings = import ./extensions.nix { inherit lib opts; };
+  ExtensionSettings = import ./extensions.nix;
 }

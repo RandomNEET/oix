@@ -1,15 +1,28 @@
 {
   config,
+  lib,
   pkgs,
   opts,
   ...
 }:
 let
+  fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
+  splitName = lib.splitString "-" fullThemeName;
+  themeBaseName = builtins.head splitName;
+
   wallpaperDir =
     opts.wallpaper.dir
       or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
-  landscapeDir = opts.wallpaper.landscapeDir or "${wallpaperDir}/landscape";
-  portraitDir = opts.wallpaper.portraitDir or "${wallpaperDir}/portrait";
+  landscapeDir =
+    if ((opts.wallpaper.landscapeDir or "") != "") then
+      "${opts.wallpaper.landscapeDir}/${themeBaseName}"
+    else
+      "${wallpaperDir}/landscape";
+  portraitDir =
+    if ((opts.wallpaper.portraitDir or "") != "") then
+      "${opts.wallpaper.portraitDir}/${themeBaseName}"
+    else
+      "${wallpaperDir}/portrait";
   transitionType = opts.wallpaper.transition.random-wall.type or "wipe";
   transitionStep = toString (opts.wallpaper.transition.random-wall.step or 90);
   transitionDuration = toString (opts.wallpaper.transition.random-wall.duration or 1);

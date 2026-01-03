@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
+{ pkgs, opts, ... }:
 {
   home-manager.sharedModules = [
     (_: {
@@ -25,10 +20,7 @@
           bind-key ^p halfpageup
           bind-key ^n halfpagedown
           bind-key m mark-feed-read
-        ''
-        + lib.optionalString (
-          ((opts.theme or "") != "") && (builtins.pathExists ./themes/${opts.theme}.nix)
-        ) (import ./themes/${opts.theme}.nix);
+        '';
         browser = opts.newsboat.browser or opts.browser or "${pkgs.xdg-utils}/bin/xdg-open";
         queries = opts.newsboat.queries or { };
         urls = opts.newsboat.urls or [ ];

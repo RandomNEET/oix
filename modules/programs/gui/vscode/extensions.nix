@@ -22,7 +22,3 @@ with pkgs.vscode-extensions;
   ms-python.python
   vue.volar
 ]
-++ lib.optionals ((opts.theme or "") == "catppuccin-mocha") [
-  pkgs.vscode-extensions.catppuccin.catppuccin-vsc
-  pkgs.vscode-extensions.catppuccin.catppuccin-vsc-icons
-]

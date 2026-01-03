@@ -1,10 +1,4 @@
 {
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
-{
   home-manager.sharedModules = [
     (_: {
       programs.lazygit = {
@@ -13,9 +7,6 @@
           git = {
             overrideGpg = true;
           };
-        }
-        // lib.optionalAttrs ((opts.theme or "") != "") {
-          gui = import ./themes/${opts.theme}.nix { inherit pkgs; };
         };
       };
 

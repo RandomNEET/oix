@@ -40,7 +40,16 @@
   systemd.user.services.random-wall = {
     description = "Randomly change wallpaper";
     startAt = "hourly";
-    script = "${lib.getExe (import ./scripts/random-wall.nix { inherit config pkgs opts; })}";
+    script = "${lib.getExe (
+      import ./scripts/random-wall.nix {
+        inherit
+          config
+          lib
+          pkgs
+          opts
+          ;
+      }
+    )}";
     serviceConfig = {
       Type = "oneshot";
     };
@@ -195,10 +204,6 @@
                 border_size = 2;
                 resize_on_border = true;
                 layout = "dwindle";
-              }
-              // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-                "col.active_border" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
-                "col.inactive_border" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
               };
 
               decoration = {
@@ -221,12 +226,6 @@
                   font_size = 16;
                   height = 30;
                 };
-              }
-              // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-                "col.border_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
-                "col.border_inactive" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
-                "col.border_locked_active" = "rgba(ca9ee6ff) rgba(f2d5cfff) 45deg";
-                "col.border_locked_inactive" = "rgba(b4befecc) rgba(6c7086cc) 45deg";
               };
 
               layerrule = [
@@ -434,6 +433,7 @@
                   "$mainMod, G, togglegroup" # toggle the window on focus to group
                   "ALT, return, fullscreen" # toggle the window on focus to fullscreen
                   "$mainMod, Q, killactive" # killactive, kill the window on focus
+                  "$mainMod ALT, L, exec, hyprlock" # lock screen
                   "$mainMod, backspace, exec, pkill -x wlogout || wlogout -b 4" # logout menu
                   "$CONTROL, ESCAPE, exec, pkill waybar || waybar" # toggle waybar
 
@@ -453,16 +453,14 @@
                   "$mainMod, A, exec, launcher drun" # launch desktop applications
                   "$mainMod, SPACE, exec, launcher drun" # launch desktop applications
                   "$mainMod SHIFT, W, exec, launcher wallpaper" # launch wallpaper switcher
-                  # "$mainMod, Z, exec, launcher emoji" # launch emoji picker
-                  # "$mainMod, tab, exec, launcher window" # switch between desktop applications
-                  # "$mainMod, R, exec, launcher file" # brrwse system files
+                  "$mainMod CTRL, W, exec, random-wall" # random wallpaper
+                  "$mainMod CTRL, T, exec, launcher theme" # launch theme switcher
+                  "$mainMod ALT, S, exec, launcher specialisation" # launch specialisation  switcher
+                  "$mainMod, V, exec, ${./scripts/clip-manager.sh}" # Clipboard Manager
                   "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
                   "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
-                  "$mainMod, V, exec, ${./scripts/clip-manager.sh}" # Clipboard Manager
-                  "$mainMod CTRL, W, exec, random-wall" # random wallpaper
 
                   "$mainMod, F8, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${lib.getExe autoclicker} --cps 40"
-                  # "$mainMod ALT, mouse:276, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${lib.getExe autoclicker} --cps 60"
                   "$mainMod, F9, exec, hyprsunset --temperature 3500" # good values: 3500, 3000, 2500
                   "$mainMod, F10, exec, pkill hyprsunset"
 
@@ -480,11 +478,6 @@
                   ",XF86AudioPause,exec,playerctl play-pause" # Play/Pause media
                   ",xf86AudioNext,exec,playerctl next" # go to next media
                   ",xf86AudioPrev,exec,playerctl previous" # go to previous media
-
-                  # ",xf86AudioNext,exec,${./scripts/media-ctrl.sh} next" # go to next media
-                  # ",xf86AudioPrev,exec,${./scripts/media-ctrl.sh} previous" # go to previous media
-                  # ",XF86AudioPlay,exec,${./scripts/media-ctrl.sh} play-pause" # go to next media
-                  # ",XF86AudioPause,exec,${./scripts/media-ctrl.sh} play-pause" # go to next media
 
                   # to switch between windows in a floating workspace
                   "ALT, Tab, cyclenext"
@@ -566,7 +559,7 @@
                   "$mainMod ALT, U, exec, launcher rbw" # launch password manager
                 ]
                 ++ lib.optionals (osConfig.programs.steam.enable or false) [
-                  "$mainMod SHIFT, G, exec, launcher games" # game launcher
+                  "$mainMod SHIFT, G, exec, launcher game" # game launcher
                   "$mainMod CTRL, G, exec, ${./scripts/gamemode.sh}" # disable hypr effects for gamemode
                 ];
 

@@ -1,4 +1,12 @@
-{ lib, opts, ... }:
+{
+  config,
+  lib,
+  opts,
+  ...
+}:
+let
+  colors = config.lib.stylix.colors;
+in
 {
   home-manager.sharedModules = [
     (_: {
@@ -12,19 +20,17 @@
           indicator-thickness = 10;
           indicator-idle-visible = true;
           show-failed-attempts = true;
+          color = colors.base00;
+          inside-color = colors.base00;
+          line-color = colors.base0E;
+          ring-color = colors.base0D;
+          text-color = colors.base05;
+          text-wrong-color = colors.base08;
+          bs-hl-color = colors.base08;
+          key-hl-color = colors.base0B;
         }
         // lib.optionalAttrs ((opts.swaylock.image or "") != "") {
           image = opts.swaylock.image;
-        }
-        // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-          color = "1e1e2e";
-          inside-color = "1e1e2e";
-          line-color = "cba6f7";
-          ring-color = "89b4fa";
-          text-color = "cdd6f4";
-          text-wrong-color = "f38ba8";
-          bs-hl-color = "f38ba8";
-          key-hl-color = "a6e3a1";
         };
       };
     })

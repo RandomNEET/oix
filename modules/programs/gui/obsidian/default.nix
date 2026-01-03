@@ -42,22 +42,6 @@
               "word-count"
             ];
             communityPlugins = import ./plugins.nix { inherit pkgs; };
-            appearance = {
-              interfaceFontFamily = "JetBrainsMono Nerd Font";
-              textFontFamily = "JetBrainsMono Nerd Font";
-              monospaceFontFamily = "JetBrainsMono Nerd Font";
-            };
-          }
-          // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-            appearance = {
-              cssTheme = "Catppuccin";
-            };
-            themes = [
-              {
-                pkg = pkgs.obsidian-catppuccin;
-                enable = true;
-              }
-            ];
           };
           vaults =
             opts.obsidian.vaults or {

@@ -1,4 +1,3 @@
-{ lib, opts, ... }:
 {
   home-manager.sharedModules = [
     (_: {
@@ -10,12 +9,8 @@
             sensitivity = 100; # Default
             autosens = 1;
           };
-        }
-        // lib.optionalAttrs ((opts.theme or "") != "") {
-          color.theme = opts.theme;
         };
       };
-      home.file.".config/cava/themes".source = ./themes;
     })
   ];
 }
