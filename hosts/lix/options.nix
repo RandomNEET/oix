@@ -588,7 +588,6 @@
       home = [
         "ffmpeg"
         "imagemagick"
-        "gowall"
         "w3m"
         "lolcat"
         "figlet"
@@ -601,7 +600,6 @@
         "tty-clock"
         "cliwt"
         "qbittorrent"
-        "gImageReader"
         "libreoffice"
       ];
 

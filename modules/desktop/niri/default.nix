@@ -8,6 +8,7 @@
 {
   imports = [
     ./programs/fcitx5
+    ./programs/gowall
     ./programs/rofi
     ./programs/swayidle
     ./programs/swaylock
@@ -378,6 +379,7 @@
               Mod+P 	 { screenshot; }
               Mod+Ctrl+P { screenshot-screen; }
               Mod+Alt+P  { screenshot-window; }
+              Mod+Shift+Print { spawn-sh "inotifywait -e close_write --format '%f' ~/pic/screenshots/ | (read file; gowall ocr \"$HOME/pic/screenshots/$file\" - -s tes | wl-copy && notify-send 'OCR Success' \"Recognized: $file\") & niri msg action screenshot"; }
           }
         '';
       in
@@ -385,9 +387,10 @@
         home.file.".config/niri/config.kdl".text = niriConfig;
 
         home.packages = with pkgs; [
-          cliphist
-          libnotify
           brightnessctl
+          cliphist
+          inotify-tools
+          libnotify
           networkmanagerapplet
           pamixer
           pavucontrol
