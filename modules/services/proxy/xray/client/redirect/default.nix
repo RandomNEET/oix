@@ -4,5 +4,4 @@
     enable = true;
     settingsFile = opts.proxy.xray.settingsFile or null;
   };
-  imports = [ ./scripts ];
 }

@@ -45,5 +45,4 @@
       {
         ENABLE_DEPRECATED_SPECIAL_OUTBOUNDS = "true";
       };
-  imports = [ ./scripts ];
 }
