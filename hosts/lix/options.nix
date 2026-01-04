@@ -510,21 +510,23 @@
     # Media {{{
     mpd = {
       dataDir = "/home/${users.primary.name}/.local/share/mpd";
-      musicDirectory = "/home/${users.primary.name}/mus";
       startWhenNeeded = true;
-      extraConfig = ''
-        audio_output {
-           type   "pipewire"
-           name   "PipeWire Sound Server"
-        }
-        audio_output {
-           type   "fifo"
-           name   "my_fifo"
-           path   "/tmp/mpd.fifo"
-           format "44100:16:2"
-        }
-        auto_update "yes"
-      '';
+      settings = {
+        music_directory = "/home/${users.primary.name}/mus";
+        audio_output = [
+          {
+            type = "pipewire";
+            name = "PipeWire Sound Server";
+          }
+          {
+            type = "fifo";
+            name = "my_fifo";
+            path = "/tmp/mpd.fifo";
+            format = "44100:16:2";
+          }
+        ];
+        auto_update = "yes";
+      };
       outputType = "pipewire";
     };
 

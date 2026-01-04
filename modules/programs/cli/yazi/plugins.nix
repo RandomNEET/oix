@@ -22,7 +22,7 @@ in
       recycle-bin = pkgs.yaziPlugins.recycle-bin;
       git = pkgs.yaziPlugins.git;
       diff = pkgs.yaziPlugins.diff;
-      yatline = pkgs.yaziPlugins.yatline;
+      # yatline = pkgs.yaziPlugins.yatline;
       full-border = pkgs.yaziPlugins.full-border;
       toggle-pane = pkgs.yaziPlugins.toggle-pane;
     }
@@ -37,12 +37,12 @@ in
         # git
         {
           id = "git";
-          name = "*";
+          url = "*";
           run = "git";
         }
         {
           id = "git";
-          name = "*/";
+          url = "*/";
           run = "git";
         }
       ];
@@ -50,15 +50,15 @@ in
         prepend_previewers = [
           # piper
           {
-            name = "*/";
+            url = "*/";
             run = ''piper -- ${getExe pkgs.eza} -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
           }
           {
-            name = "*.md";
+            url = "*.md";
             run = ''piper -- CLICOLOR_FORCE=1 ${getExe pkgs.glow} -w=$w -s=dark "$1"'';
           }
           {
-            name = "*.csv";
+            url = "*.csv";
             run = ''piper -- ${getExe pkgs.bat} -p --color=always "$1"'';
           }
           {
@@ -123,7 +123,7 @@ in
         append_previewers = [
           # piper
           {
-            name = "*";
+            url = "*";
             run = ''piper -- ${getExe pkgs.hexyl} --border=none --terminal-width=$w "$1"'';
           }
         ];

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# HYPRGAMEMODE=$(hyprctl getoption animations:enabled | sed -n '2p' | awk '{print $2}')
 HYPRGAMEMODE=$(hyprctl getoption animations:enabled | sed -n '1p' | awk '{print $2}')
 
 if [ $HYPRGAMEMODE = 1 ]; then
@@ -20,7 +19,7 @@ if [ $HYPRGAMEMODE = 1 ]; then
         keyword layerrule noanim,swaync-notification-window ;\
         keyword layerrule noanim,swww-daemon ;\
         keyword layerrule noanim,rofi"
-	hyprctl 'keyword windowrule opaque,class:(.*)' # ensure all windows are opaque
+	hyprctl 'keyword windowrule opaque on,match:class (.*)' # ensure all windows are opaque
 	exit
 else
 	hyprctl reload config-only -q

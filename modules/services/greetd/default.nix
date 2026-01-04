@@ -14,7 +14,7 @@
       else if config.programs.hyprland.enable then
         {
           default_session = {
-            command = "tuigreet --time --theme 'border=lightblue;text=white;prompt=lightcyan;time=lightyellow;action=white;button=lightred;container=black;input=white' --sessions /etc/greetd/sessions --cmd hyprland";
+            command = "tuigreet --time --theme 'border=lightblue;text=white;prompt=lightcyan;time=lightyellow;action=white;button=lightred;container=black;input=white' --sessions /etc/greetd/sessions --cmd start-hyprland";
             user = "greeter";
           };
         }

@@ -14,7 +14,7 @@
         enable = true;
         nixvimInjections = true;
         nixGrammars = true;
-        folding = false;
+        folding.enable = false;
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
           bash
           diff

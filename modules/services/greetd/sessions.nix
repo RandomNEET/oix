@@ -5,7 +5,7 @@
       "greetd/sessions/hyprland.desktop".text = ''
         [Desktop Entry]
         Name=hyprland
-        Exec=hyprland
+        Exec=start-hyprland
         Type=Application
       '';
     })

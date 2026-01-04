@@ -48,7 +48,7 @@ pkgs.writeShellScript "keybinds" ''
     "SUPER ALT P" "Screenshot (all monitors)" "scripts/screenshot.sh p"
     "SUPER Print" "Screenshot (current monitor)" "scripts/screenshot.sh m"
     "SUPER SHIFT Print" "OCR capture (select area)" "scripts/screenshot.sh o"
-    "SUPER Tab" "Toggle overview" "overview:toggle"
+    # "SUPER Tab" "Toggle overview" "overview:toggle"
     "SUPER W" "Toggle floating window" "togglefloating"
     "SUPER G" "Toggle group window" "togglegroup"
     "ALT Return" "Toggle fullscreen" "fullscreen"

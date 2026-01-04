@@ -515,17 +515,17 @@
 
     mpd = {
       dataDir = "/mnt/smb/media/.mpd";
-      musicDirectory = "/mnt/smb/media/music";
       startWhenNeeded = false;
-      extraConfig = ''
-        audio_output {
-            type        "httpd"
-            name        "MPD HTTP Stream"
-            encoder     "vorbis"
-            port        "8000"
-            quality     "5.0"
-        }
-      '';
+      settings = {
+        music_directory = "/mnt/smb/media/music";
+        audio_output = {
+          type = "httpd";
+          name = "MPD HTTP Stream";
+          encoder = "vorbis";
+          port = "8000";
+          quality = "5.0";
+        };
+      };
       outputType = "httpd";
     };
     # }}}
