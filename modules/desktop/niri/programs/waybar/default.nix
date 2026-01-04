@@ -21,7 +21,7 @@ in
           {
             layer = "top";
             position = "top";
-            height = 32; # 35
+            height = 32;
             exclusive = true;
             passthrough = false;
             gtk-layer-shell = true;
@@ -34,62 +34,95 @@ in
 
             modules-left = [
               "niri/workspaces"
+              "niri/window"
               "cava"
             ];
             modules-center = [
               "idle_inhibitor"
               "clock"
             ];
-            modules-right =
-              lib.optionals (lib.match ".*integrated.*" opts.gpu == null) [
-                "custom/gpuinfo"
-              ]
-              ++ [
-                "cpu"
-                "memory"
-                "backlight"
-                "pulseaudio"
-                "bluetooth"
-                "network"
-                "battery"
-                "tray"
-              ];
+            modules-right = [
+              "cpu"
+              "memory"
+            ]
+            ++ lib.optionals (lib.match ".*integrated.*" (opts.gpu or "") == null) [
+              "custom/gpuinfo"
+            ]
+            ++ [
+              "backlight"
+              "pulseaudio"
+              "bluetooth"
+              "network"
+              "battery"
+              "tray"
+              "custom/notification"
+              "custom/power"
+            ];
 
-            "custom/notification" = {
-              tooltip = false;
+            "niri/workspaces" = {
               format = "{icon}";
-              format-icons = {
-                notification = "<span foreground='red'><sup></sup></span>";
-                none = "";
-                dnd-notification = "<span foreground='red'><sup></sup></span>";
-                dnd-none = "";
-                inhibited-notification = "<span foreground='red'><sup></sup></span>";
-                inhibited-none = "";
-                dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
-                dnd-inhibited-none = "";
+            };
+
+            "niri/window" = {
+              format = "{title}";
+              separate-outputs = true;
+              icon = true;
+              icon-size = 20;
+            };
+
+            "backlight" = {
+              format = "{icon} {percent}%";
+              format-icons = [
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+                ""
+              ];
+              on-scroll-up = "${pkgs.brightnessctl}/bin/brightnessctl set 2%+";
+              on-scroll-down = "${pkgs.brightnessctl}/bin/brightnessctl set 2%-";
+            };
+
+            "battery" = {
+              states = {
+                good = 95;
+                warning = 30;
+                critical = 20;
               };
-              return-type = "json";
-              exec-if = "which swaync-client";
-              exec = "swaync-client -swb";
-              on-click = "swaync-client -t -sw";
-              on-click-right = "swaync-client -d -sw";
-              escape = true;
+              format = "{icon} {capacity}%";
+              format-charging = " {capacity}%";
+              format-plugged = " {capacity}%";
+              format-alt = "{time} {icon}";
+              format-icons = [
+                "󰂎"
+                "󰁺"
+                "󰁻"
+                "󰁼"
+                "󰁽"
+                "󰁾"
+                "󰁿"
+                "󰂀"
+                "󰂁"
+                "󰂂"
+                "󰁹"
+              ];
             };
 
-            "custom/colour-temperature" = {
-              format = "{} ";
-              exec = "wl-gammarelay-rs watch {t}";
-              on-scroll-up = "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n +100";
-              on-scroll-down = "busctl --user -- call rs.wl-gammarelay / rs.wl.gammarelay UpdateTemperature n -100";
-            };
-
-            "custom/cava_mviz" = {
-              exec = "${../../scripts/waybar-cava.sh}";
-              format = "{}";
+            "bluetooth" = {
+              format = "";
+              format-connected = " {num_connections}";
+              tooltip-format = " {device_alias}";
+              tooltip-format-connected = "{device_enumerate}";
+              tooltip-format-enumerate-connected = " {device_alias}";
+              on-click = "blueman-manager";
             };
 
             "cava" = {
-              hide_on_silence = false;
+              hide_on_silence = true;
               framerate = 60;
               bars = 10;
               format-icons = [
@@ -106,60 +139,6 @@ in
               sleep_timer = 5;
               bar_delimiter = 0;
               on-click = "playerctl play-pause";
-            };
-
-            "custom/gpuinfo" = {
-              exec = "${../../scripts/gpuinfo.sh}";
-              return-type = "json";
-              format = "{0}";
-              on-click = "${../../scripts/gpuinfo.sh} --toggle";
-              interval = 5; # once every 5 seconds
-              tooltip = true;
-              max-length = 1000;
-            };
-
-            "mpris" = {
-              format = "{player_icon} {title} - {artist}";
-              format-paused = "{status_icon} <i>{title} - {artist}</i>";
-              player-icons = {
-                default = "▶";
-                spotify = "";
-                mpv = "󰐹";
-                vlc = "󰕼";
-                firefox = "";
-                chromium = "";
-                kdeconnect = "";
-                mopidy = "";
-              };
-              status-icons = {
-                paused = "⏸";
-                playing = "";
-              };
-              ignored-players = [
-                "firefox"
-                "chromium"
-              ];
-              max-length = 30;
-            };
-
-            "temperature" = {
-              hwmon-path = "/sys/class/hwmon/hwmon1/temp1_input";
-              critical-threshold = 83;
-              format = "{icon} {temperatureC}°C";
-              format-icons = [
-                ""
-                ""
-                ""
-              ];
-              interval = 10;
-            };
-
-            "idle_inhibitor" = {
-              format = "{icon}";
-              format-icons = {
-                activated = "󰥔";
-                deactivated = "";
-              };
             };
 
             "clock" = {
@@ -202,6 +181,14 @@ in
               ];
             };
 
+            "idle_inhibitor" = {
+              format = "{icon}";
+              format-icons = {
+                activated = "󰥔";
+                deactivated = "";
+              };
+            };
+
             "memory" = {
               interval = 30;
               format = "󰾆 {percentage}%";
@@ -211,39 +198,27 @@ in
               tooltip-format = " {used:.1f}GB/{total:.1f}GB";
             };
 
-            "backlight" = {
-              format = "{icon} {percent}%";
-              format-icons = [
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
-                ""
+            "mpris" = {
+              format = "{status_icon} {dynamic}";
+              status-icons = {
+                playing = "";
+                paused = "";
+                stopped = "";
+              };
+              dynamic-len = 30;
+              dynamic-order = [
+                "title"
+                "artist"
+                "album"
               ];
-              on-scroll-up = "${pkgs.brightnessctl}/bin/brightnessctl set 2%+";
-              on-scroll-down = "${pkgs.brightnessctl}/bin/brightnessctl set 2%-";
             };
 
             "network" = {
-              format-wifi = "󰤨 Wi-Fi";
-              format-ethernet = "󱘖 Wired";
-              format-linked = "󱘖 {ifname} (No IP)";
-              format-disconnected = "󰤮 Off";
+              format-wifi = "󰤨 ";
+              format-ethernet = "󱘖 ";
+              format-disconnected = "󰤮 ";
               format-alt = "󰤨 {signalStrength}%";
               tooltip-format = "󱘖 {ipaddr}  {bandwidthUpBytes}  {bandwidthDownBytes}";
-            };
-
-            "bluetooth" = {
-              format = "";
-              format-connected = " {num_connections}";
-              tooltip-format = " {device_alias}";
-              tooltip-format-connected = "{device_enumerate}";
-              tooltip-format-enumerate-connected = " {device_alias}";
-              on-click = "blueman-manager";
             };
 
             "pulseaudio" = {
@@ -276,40 +251,58 @@ in
               scroll-step = 5;
             };
 
+            "temperature" = {
+              hwmon-path = "/sys/class/hwmon/hwmon1/temp1_input";
+              critical-threshold = 85;
+              format = "{icon} {temperatureC}°C";
+              format-icons = [
+                ""
+                ""
+                ""
+              ];
+              interval = 10;
+            };
+
             "tray" = {
               icon-size = 14;
               spacing = 6;
             };
 
-            "battery" = {
-              states = {
-                good = 95;
-                warning = 30;
-                critical = 20;
+            "custom/gpuinfo" = {
+              exec = "${../../scripts/gpuinfo.sh}";
+              return-type = "json";
+              format = "{0}";
+              on-click = "${../../scripts/gpuinfo.sh} --toggle";
+              interval = 5;
+              tooltip = true;
+              max-length = 1000;
+            };
+
+            "custom/notification" = {
+              tooltip = false;
+              format = "{icon}";
+              format-icons = {
+                notification = "<span foreground='red'><sup></sup></span>";
+                none = "";
+                dnd-notification = "<span foreground='red'><sup></sup></span>";
+                dnd-none = "";
+                inhibited-notification = "<span foreground='red'><sup></sup></span>";
+                inhibited-none = "";
+                dnd-inhibited-notification = "<span foreground='red'><sup></sup></span>";
+                dnd-inhibited-none = "";
               };
-              format = "{icon} {capacity}%";
-              format-charging = " {capacity}%";
-              format-plugged = " {capacity}%";
-              format-alt = "{time} {icon}";
-              format-icons = [
-                "󰂎"
-                "󰁺"
-                "󰁻"
-                "󰁼"
-                "󰁽"
-                "󰁾"
-                "󰁿"
-                "󰂀"
-                "󰂁"
-                "󰂂"
-                "󰁹"
-              ];
+              return-type = "json";
+              exec-if = "which swaync-client";
+              exec = "swaync-client -swb";
+              on-click = "swaync-client -t -sw";
+              on-click-right = "swaync-client -d -sw";
+              escape = true;
             };
 
             "custom/power" = {
               format = "{}";
               on-click = "wlogout -b 4";
-              interval = 86400; # once every day
+              interval = 86400;
               tooltip = true;
             };
           }
@@ -326,7 +319,7 @@ in
           window#waybar {
             transition-property: background-color;
             transition-duration: 0.5s;
-            background: transparent;
+            background:  transparent;
             border-radius: 10px;
           }
 
@@ -347,7 +340,7 @@ in
 
           .modules-left {
             background: #${colors.base00};
-            border: 1px solid #${colors.base0D};
+            border:  1px solid #${colors.base0D};
             padding-right: 15px;
             padding-left: 2px;
             border-radius: 10px;
@@ -356,7 +349,7 @@ in
           .modules-center {
             background: #${colors.base00};
             border: 0.5px solid #${colors.base03};
-            padding-right: 5px;
+            padding-right:  5px;
             padding-left: 5px;
             border-radius: 10px;
           }
@@ -373,6 +366,7 @@ in
           #backlight-slider,
           #battery,
           #bluetooth,
+          #cava,
           #clock,
           #cpu,
           #disk,
@@ -391,45 +385,13 @@ in
           #window,
           #wireplumber,
           #workspaces,
-          #custom-backlight,
-          #custom-cycle_wall,
-          #custom-keybinds,
-          #custom-keyboard,
-          #custom-light_dark,
-          #custom-lock,
-          #custom-menu,
-          #custom-power_vertical,
-          #custom-power,
-          #custom-swaync,
-          #custom-updater,
-          #custom-weather,
-          #custom-weather.clearNight,
-          #custom-weather.cloudyFoggyDay,
-          #custom-weather.cloudyFoggyNight,
-          #custom-weather.default,
-          #custom-weather.rainyDay,
-          #custom-weather.rainyNight,
-          #custom-weather.severe,
-          #custom-weather.showyIcyDay,
-          #custom-weather.snowyIcyNight,
-          #custom-weather.sunnyDay {
+          #custom-gpuinfo,
+          #custom-notification,
+          #custom-power {
             padding-top: 3px;
             padding-bottom: 3px;
             padding-right: 6px;
             padding-left: 6px;
-          }
-
-          #idle_inhibitor {
-            color: #${colors.base0D};
-          }
-
-          #bluetooth,
-          #backlight {
-            color: #${colors.base0D};
-          }
-
-          #battery {
-            color: #${colors.base0B};
           }
 
           @keyframes blink {
@@ -438,75 +400,47 @@ in
             }
           }
 
-          #battery.critical:not(.charging) {
-            background-color: #${colors.base08};
+          #window {
             color: #${colors.base05};
-            animation-name: blink;
-            animation-duration: 0.5s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-            box-shadow: inset 0 -3px transparent;
           }
 
-          #custom-updates {
-            color: #${colors.base0D};
-          }
-
-          #custom-notification {
-            color: #${colors.base06};
-            padding: 0px 5px;
-            border-radius: 5px;
-          }
-
-          #language {
-            color: #${colors.base0D};
-          }
-
-          #clock {
-            color: #${colors.base0A};
-          }
-
-          #custom-icon {
-            font-size: 15px;
-            color: #${colors.base0E};
-          }
-
-          #custom-gpuinfo {
-            color: #${colors.base08};
-          }
-
-          #cpu {
-            color: #${colors.base0A};
-          }
-
-          #custom-keyboard,
-          #memory {
-            color: #${colors.base0B};
-          }
-
-          #disk {
-            color: #${colors.base0C};
-          }
-
-          #temperature {
-            color: #${colors.base0C};
-          }
-
+          #pulseaudio.muted,
           #temperature.critical {
             background-color: #${colors.base08};
           }
 
-          #tray > .passive {
-            -gtk-icon-effect: dim;
+          #clock,
+          #cpu {
+            color: #${colors.base0A};
           }
 
-          #tray > .needs-attention {
-            -gtk-icon-effect: highlight;
+          #battery,
+          #memory {
+            color: #${colors.base0B};
+          }
+
+          #disk,
+          #temperature {
+            color: #${colors.base0C};
+          }
+
+          #backlight,
+          #bluetooth,
+          #idle_inhibitor,
+          #language,
+          #network,
+          #pulseaudio {
+            color: #${colors.base0D};
+          }
+
+          #cava,
+          #mpris,
+          #pulseaudio.bluetooth {
+            color: #${colors.base0E};
           }
 
           #keyboard-state {
-            color: #${colors.base0F};
+            color:  #${colors.base0F};
           }
 
           #workspaces button {
@@ -514,9 +448,10 @@ in
             text-shadow: none;
             padding: 0px;
             border-radius: 9px;
+            background-color: #${colors.base01};
             padding-left: 4px;
             padding-right: 4px;
-            animation: gradient_f 20s ease-in infinite;
+            animation:  gradient_f 20s ease-in infinite;
             transition: all 0.5s cubic-bezier(0.55, -0.68, 0.48, 1.682);
           }
 
@@ -530,11 +465,6 @@ in
             transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
           }
 
-          #workspaces button.persistent {
-            color: #${colors.base03};
-            border-radius: 10px;
-          }
-
           #workspaces button.active {
             color: #${colors.base09};
             border-radius: 10px;
@@ -546,8 +476,28 @@ in
 
           #workspaces button.urgent {
             color: #${colors.base08};
-            border-radius: 0px;
+            border-radius:  0px;
           }
+
+          #battery.critical:not(.charging) {
+            background-color: #${colors.base08};
+            color: #${colors.base05};
+            animation-name: blink;
+            animation-duration: 0.5s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            box-shadow: inset 0 -3px transparent;
+          }
+
+          #tray > .passive {
+            -gtk-icon-effect: dim;
+          }
+
+          #tray > .needs-attention {
+            -gtk-icon-effect: highlight;
+          }
+
 
           #taskbar button.active {
             padding-left: 8px;
@@ -561,66 +511,6 @@ in
             padding-right: 2px;
             animation: gradient_f 20s ease-in infinite;
             transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
-          }
-
-          #custom-cava_mviz {
-            color: #${colors.base0E};
-          }
-
-          #cava {
-            color: #${colors.base0E};
-          }
-
-          #mpris {
-            color: #${colors.base0E};
-          }
-
-          #custom-menu {
-            color: #${colors.base0F};
-          }
-
-          #custom-power {
-            color: #${colors.base08};
-          }
-
-          #custom-updater {
-            color: #${colors.base08};
-          }
-
-          #custom-light_dark {
-            color: #${colors.base0D};
-          }
-
-          #custom-weather {
-            color: #${colors.base0D};
-          }
-
-          #custom-lock {
-            color: #${colors.base08};
-          }
-
-          #pulseaudio {
-            color: #${colors.base0D};
-          }
-
-          #pulseaudio.bluetooth {
-            color: #${colors.base0E};
-          }
-
-          #pulseaudio.muted {
-            color: #${colors.base08};
-          }
-
-          #window {
-            color: #${colors.base0E};
-          }
-
-          #custom-waybar-mpris {
-            color: #${colors.base0D};
-          }
-
-          #network {
-            color: #${colors.base0D};
           }
 
           #network.disconnected,
@@ -652,7 +542,7 @@ in
           #backlight-slider slider {
             min-width: 0px;
             min-height: 0px;
-            opacity: 0;
+            opacity:  0;
             background-image: none;
             border: none;
             box-shadow: none;
@@ -666,6 +556,12 @@ in
 
           #backlight-slider highlight {
             min-width: 10px;
+            border-radius: 5px;
+          }
+
+          #custom-notification {
+            color: #${colors.base06};
+            padding: 0px 5px;
             border-radius: 5px;
           }
         '';
