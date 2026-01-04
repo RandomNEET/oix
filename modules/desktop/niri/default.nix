@@ -381,7 +381,7 @@
               Mod+P 	 { screenshot; }
               Mod+Ctrl+P { screenshot-screen; }
               Mod+Alt+P  { screenshot-window; }
-              Mod+Shift+Print { spawn-sh "inotifywait -e close_write --format '%f' ~/pic/screenshots/ | (read file; gowall ocr \"$HOME/pic/screenshots/$file\" - -s tes | wl-copy && notify-send 'OCR Success' \"Recognized: $file\") & niri msg action screenshot"; }
+              Mod+Shift+Print { spawn-sh "inotifywait -e close_write --format '%f' ~/pic/screenshots/ | (read file; gowall ocr \"$HOME/pic/screenshots/$file\" - -s tes | wl-copy && notify-send -a \"screenshot\" -u low 'OCR Success' \"Recognized: $file\") & niri msg action screenshot"; }
           }
         '';
       in

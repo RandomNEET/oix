@@ -65,9 +65,9 @@ m)
 o)
 	if grimblast --freeze save area "$TEMP_OCR_FILE"; then
 		if gowall ocr "$TEMP_OCR_FILE" - -s tes | wl-copy; then
-			notify-send -i "edit-paste" "OCR Success" "Text copied to clipboard"
+			notify-send -a "screenshot" -u low -i "edit-paste" "OCR Success" "Text copied to clipboard"
 		else
-			notify-send -u critical "OCR Error" "Failed to recognize text"
+			notify-send -a "screenshot" -u low -i "dialog-error" "OCR Error" "Failed to recognize text"
 		fi
 		rm -f "$TEMP_OCR_FILE"
 	else
@@ -81,5 +81,5 @@ esac
 
 latest_file=$(find "$SCREENSHOT_DIR" -name "*_screenshot.png" -cmin -0.1 2>/dev/null | head -n 1)
 if [[ -n "$latest_file" ]]; then
-	notify-send -a "Screenshot" -r 91190 -t 2200 -i "$latest_file" "Screenshot Saved" "Path: $SCREENSHOT_DIR"
+	notify-send -a "screenshot" -u low -r 91190 -t 2200 -i "$latest_file" "Screenshot Saved" "Path: $SCREENSHOT_DIR"
 fi

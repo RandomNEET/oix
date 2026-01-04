@@ -13,7 +13,7 @@ pkgs.writeShellScript "mbsync-notify" ''
 
   if (( NEW_COUNT > OLD_COUNT )); then
     NEW_MAILS=$((NEW_COUNT - OLD_COUNT))
-    notify-send -i mail-unread "New Mail" "You have $NEW_MAILS new email(s)"
+    notify-send -a "mbsync" -i mail-unread "New Mail" "You have $NEW_MAILS new email(s)"
   fi
 
   if (( NEW_COUNT != OLD_COUNT )); then
