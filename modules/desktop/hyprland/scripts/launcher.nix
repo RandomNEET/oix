@@ -6,6 +6,7 @@
   ...
 }:
 let
+  defaultTheme = opts.theme or "default";
   fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
   splitName = lib.splitString "-" fullThemeName;
   themeBaseName = builtins.head splitName;
@@ -212,7 +213,7 @@ pkgs.writeShellScriptBin "launcher" ''
       SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
       SYSTEM_SWITCH="/nix/var/nix/profiles/system/bin/switch-to-configuration"
 
-      THEMES="default"
+      THEMES="${defaultTheme}"
       if [ -d "$SPEC_DIR" ]; then
         THEMES="$THEMES\n$(ls "$SPEC_DIR")"
       fi
@@ -226,7 +227,7 @@ pkgs.writeShellScriptBin "launcher" ''
         exit 0
       fi
 
-      if [ "$SELECTED" = "default" ]; then
+      if [ "$SELECTED" = "${defaultTheme}" ]; then
         pkexec "$SYSTEM_SWITCH" test
       else
         pkexec "$SPEC_DIR/$SELECTED/bin/switch-to-configuration" test
