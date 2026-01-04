@@ -107,17 +107,16 @@ pkgs.writeShellScriptBin "proxy" ''
 
   # Status Output
   echo "------------------------------------------------"
-  printf "Service: \033[1;34m%s\033[0m\n" "$SERVICE" # Bold Blue
+  printf "Service: \033[1;34m%s\033[0m\n" "$SERVICE"
 
   STATUS_INFO=$(systemctl status "$SERVICE" --no-pager -l)
 
-  # Extract Active line and add color
   if echo "$STATUS_INFO" | grep -q "active (running)"; then
-      echo -e "Status:  \033[1;32m● RUNNING\033[0m" # Bold Green
+      echo -e "Status:  \033[1;32m● RUNNING\033[0m"
   elif echo "$STATUS_INFO" | grep -q "failed"; then
-      echo -e "Status:  \033[1;31m✘ FAILED\033[0m"  # Bold Red
+      echo -e "Status:  \033[1;31m✘ FAILED\033[0m"
   else
-      echo -e "Status:  \033[1;30m○ STOPPED\033[0m" # Bold Gray
+      echo -e "Status:  \033[1;33m○ STOPPED\033[0m"
   fi
   echo "------------------------------------------------"
 ''
