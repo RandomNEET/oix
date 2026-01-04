@@ -457,7 +457,7 @@
                   "$mainMod CTRL, W, exec, random-wall" # random wallpaper
                   "$mainMod CTRL, T, exec, launcher theme" # launch theme switcher
                   "$mainMod ALT, S, exec, launcher specialisation" # launch specialisation  switcher
-                  "$mainMod, V, exec, ${./scripts/clip-manager.sh}" # Clipboard Manager
+                  "$mainMod, V, exec, ${import ./scripts/clip-manager.nix { inherit config lib pkgs; }}" # Clipboard Manager
                   "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
                   "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
 

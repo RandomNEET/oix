@@ -15,7 +15,7 @@ pkgs.writeShellScript "keybinds" ''
   BROWSER=${lib.escapeShellArg opts.browser}
 
   KEYBINDERS=(
-    "SUPER SHIFT /" "Show keybinds" "scripts/keybinds"
+    "SUPER SHIFT /" "Show keybinds" "scripts/keybinds.nix"
     "SUPER Return" "Launch terminal" "$TERMINAL"
     "SUPER T" "Launch terminal" "$TERMINAL"
     "SUPER F" "Launch file manager" "$FILEMANAGER"
@@ -33,7 +33,7 @@ pkgs.writeShellScript "keybinds" ''
     ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
     ${lib.optionalString (osConfig.programs.steam.enable or false
     ) ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
-    "SUPER V" "Clipboard manager" "scripts/clip-manager.sh"
+    "SUPER V" "Clipboard manager" "scripts/clip-manager.nix"
     "SUPER SHIFT N" "Open notification panel" "swaync-client -t -sw"
     "SUPER SHIFT Q" "Open notification panel" "swaync-client -t -sw"
     "CTRL ALT Delete" "Open system monitor" "btop"

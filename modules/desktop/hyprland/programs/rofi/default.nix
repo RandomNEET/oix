@@ -20,20 +20,8 @@
           ];
           extraConfig = import ./config.nix;
         };
-      xdg.configFile."rofi/launchers" = {
-        source = ./launchers;
-        recursive = true;
-      };
-      xdg.configFile."rofi/colors" = {
-        source = ./colors;
-        recursive = true;
-      };
-      xdg.configFile."rofi/assets" = {
-        source = ./assets;
-        recursive = true;
-      };
-      xdg.configFile."rofi/resolution" = {
-        source = ./resolution;
+      xdg.configFile."rofi/themes" = {
+        source = ./themes;
         recursive = true;
       };
     })

@@ -8,8 +8,6 @@
   normalize-match = true;
   show-icons = true;
   steal-focus = false;
-  # icon-theme = "Papirus-Dark";
-  # dpi = -1;
 
   # ---------- Matching setting ----------
   matching = "normal";
@@ -36,15 +34,10 @@
   run-shell-command = "{terminal} -e {cmd}";
 
   # ---------- Window switcher settings ----------
-  window-match-fields = "title,class,role,name,desktop";
+  window-match-fields = "title,class";
   window-command = "wmctrl -i -R {window}";
   window-format = "{w} - {c} - {t:0}";
   window-thumbnail = false;
-
-  # ---------- Combi settings ----------
-  # combi-modi = "window,run";
-  # combi-hide-mode-prefix = false;
-  # combi-display-format = "{mode} {text}";
 
   # ---------- History and Sorting ----------
   disable-history = false;
@@ -67,8 +60,6 @@
   sort = false;
   threads = 0;
   click-to-exit = true;
-  # ignored-prefixes = "";
-  # pid = "/run/user/1000/rofi.pid";
 
   # ---------- File browser settings ----------
 
