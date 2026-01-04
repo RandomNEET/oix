@@ -35,7 +35,6 @@ in
               select_current_song_on_change: false,
               browser_song_sort: [Disc, Track, Artist, Title],
               directories_sort: SortFormat(group_by_type: true, reverse: false),
-              ${lib.optionalString ((opts.rmpc.config.theme or "") != "") "theme: \"${opts.theme}\","}
               album_art: (
                   method: Auto,
                   max_size_px: (width: 1200, height: 1200),
@@ -205,6 +204,7 @@ in
                   ),
                   eq: [],
               ),
+              ${lib.optionalString config.stylix.enable "theme: \"stylix\","}
           )
         '';
       };
