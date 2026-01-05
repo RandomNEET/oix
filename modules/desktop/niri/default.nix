@@ -218,7 +218,7 @@
               Mod+Shift+W hotkey-overlay-title="Select wallpaper" { spawn-sh "launcher wallpaper"; }
               Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn "random-wall"; }
               Mod+Ctrl+T hotkey-overlay-title="Select theme" { spawn-sh "launcher theme"; }
-              Mod+Alt+S hotkey-overlay-title="Select specialisation" { spawn-sh "launcher specialisation"; }
+              Mod+Alt+S hotkey-overlay-title="Select specialisation" { spawn-sh "launcher spec"; }
               Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "${
                 import ./scripts/clip-manager.nix {
                   inherit

@@ -26,7 +26,7 @@ pkgs.writeShellScript "keybinds" ''
     "SUPER SHIFT W" "Select wallpaper" "scripts/launcher wallpaper"
     "SUPER CTRL W" "Random wallpaper" "scripts/random-wall"
     "SUPER CTRL T" "Select theme" "scripts/launcher theme"
-    "SUPER ALT S" "Select specialisation" "scripts/launcher specialisation"
+    "SUPER ALT S" "Select specialisation" "scripts/launcher spec"
     ${lib.optionalString (config.programs.tmux.enable or false
     ) ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''}
     ${lib.optionalString (opts.rbw.rofi-rbw or false

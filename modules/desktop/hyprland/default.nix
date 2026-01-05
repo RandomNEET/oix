@@ -453,7 +453,7 @@
                   "$mainMod SHIFT, W, exec, launcher wallpaper" # launch wallpaper switcher
                   "$mainMod CTRL, W, exec, random-wall" # random wallpaper
                   "$mainMod CTRL, T, exec, launcher theme" # launch theme switcher
-                  "$mainMod ALT, S, exec, launcher specialisation" # launch specialisation  switcher
+                  "$mainMod ALT, S, exec, launcher spec" # launch specialisation  switcher
                   "$mainMod, V, exec, ${
                     import ./scripts/clip-manager.nix {
                       inherit
