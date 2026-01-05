@@ -518,13 +518,15 @@
       startWhenNeeded = false;
       settings = {
         music_directory = "/mnt/smb/media/music";
-        audio_output = {
-          type = "httpd";
-          name = "MPD HTTP Stream";
-          encoder = "vorbis";
-          port = "8000";
-          quality = "5.0";
-        };
+        audio_output = [
+          {
+            type = "httpd";
+            name = "MPD HTTP Stream";
+            encoder = "vorbis";
+            port = "8000";
+            quality = "5.0";
+          }
+        ];
       };
       outputType = "httpd";
     };
