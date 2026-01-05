@@ -670,7 +670,6 @@
         "cmatrix"
         "pipes"
         "tty-clock"
-        "cliwt"
         "qq"
       ];
     };

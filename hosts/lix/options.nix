@@ -603,7 +603,6 @@
         "cmatrix"
         "pipes"
         "tty-clock"
-        "cliwt"
         "qbittorrent"
         "libreoffice"
       ];
