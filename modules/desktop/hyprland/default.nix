@@ -234,7 +234,6 @@
                 "ignore_alpha 0.7, match:namespace rofi"
 
                 "blur on, match:namespace swaync-control-center"
-                "blur on, match:namespace swaync-notification-window"
                 "ignore_alpha 0.7, match:namespace swaync-control-center"
               ];
 
