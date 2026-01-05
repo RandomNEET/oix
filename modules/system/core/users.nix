@@ -24,6 +24,10 @@
         if name == "root" then value // { } else value // { shell = pkgs.${value.shell or "shadow"}; }
       ) renamed;
   };
+  nix.settings.trusted-users = [
+    "${opts.users.primary.name}"
+    "@wheel"
+  ];
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
