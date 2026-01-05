@@ -222,7 +222,14 @@
               Mod+Ctrl+T hotkey-overlay-title="Select theme" { spawn-sh "launcher theme"; }
               Mod+Alt+S hotkey-overlay-title="Select specialisation" { spawn-sh "launcher specialisation"; }
               Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "${
-                import ./scripts/clip-manager.nix { inherit config lib pkgs; }
+                import ./scripts/clip-manager.nix {
+                  inherit
+                    config
+                    lib
+                    pkgs
+                    opts
+                    ;
+                }
               }"; }
               ${lib.optionalString (config.programs.tmux.enable or false) ''
                 Mod+Shift+T hotkey-overlay-title="Launch tmux sessions" { spawn-sh "launcher tmux"; }

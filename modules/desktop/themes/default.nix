@@ -5,16 +5,22 @@
   opts,
   ...
 }:
+let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
+  defaultTheme = if hasThemes then builtins.head themes else "";
+  otherThemes = if hasThemes then builtins.tail themes else [ ];
+in
 {
   imports = [ inputs.stylix.nixosModules.stylix ];
 
-  stylix = {
+  stylix = lib.mkIf hasThemes {
     enable = true;
     autoEnable = false;
     targets = {
       console.enable = true;
     };
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/${opts.theme}.yaml";
+    base16Scheme = lib.mkIf hasThemes "${pkgs.base16-schemes}/share/themes/${defaultTheme}.yaml";
     fonts = {
       monospace = {
         package = pkgs.nerd-fonts.jetbrains-mono;
@@ -35,30 +41,22 @@
     };
   };
 
-  specialisation = {
-    everforest-dark-hard.configuration = {
-      stylix = {
-        base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/everforest-dark-hard.yaml";
-      };
-    };
-    gruvbox-dark-hard.configuration = {
-      stylix = {
-        base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-      };
-    };
-    kanagawa.configuration = {
-      stylix = {
-        base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/kanagawa.yaml";
-      };
-    };
-    nord.configuration = {
-      stylix = {
-        base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/nord.yaml";
-      };
-    };
-  };
+  specialisation = lib.mkIf hasThemes (
+    builtins.listToAttrs (
+      map (theme: {
+        name = theme;
+        value = {
+          configuration = {
+            stylix = {
+              base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
+            };
+          };
+        };
+      }) otherThemes
+    )
+  );
 
-  home-manager.sharedModules = [
+  home-manager.sharedModules = lib.mkIf hasThemes [
     (
       { config, ... }:
       {

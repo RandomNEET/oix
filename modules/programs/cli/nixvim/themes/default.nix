@@ -1,6 +1,11 @@
 { lib, opts, ... }:
+let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
+  defaultTheme = if themes != [ ] then builtins.head themes else "";
+in
 {
   imports = lib.optional (
-    ((opts.theme or "") != "") && (builtins.pathExists ./${opts.theme}.nix)
-  ) ./${opts.theme}.nix;
+    hasThemes && (builtins.pathExists ./${defaultTheme}.nix)
+  ) ./${defaultTheme}.nix;
 }

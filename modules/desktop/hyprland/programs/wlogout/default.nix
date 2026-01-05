@@ -1,5 +1,12 @@
-{ config, opts, ... }:
+{
+  config,
+  lib,
+  opts,
+  ...
+}:
 let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
   colors = config.lib.stylix.colors;
 in
 {
@@ -44,7 +51,7 @@ in
               }
           )
         ];
-        style = ''
+        style = lib.mkIf hasThemes ''
           window {
             font-family: monospace;
             font-size: 14pt;

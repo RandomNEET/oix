@@ -1,10 +1,13 @@
 {
-  config,
   lib,
   pkgs,
   opts,
   ...
 }:
+let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
+in
 {
   home-manager.sharedModules = [
     (_: {
@@ -28,7 +31,7 @@
           bind-key ^n halfpagedown
           bind-key m mark-feed-read
         ''
-        + lib.optionalString config.stylix.enable ''
+        + lib.optionalString hasThemes ''
           color listnormal         color15 default
           color listnormal_unread  color2  default
           color listfocus_unread   color2  color8

@@ -6,26 +6,20 @@
   ...
 }:
 let
-  defaultTheme = opts.theme or "default";
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
+  defaultTheme = if hasThemes then builtins.head opts.themes else "default";
   fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
   splitName = lib.splitString "-" fullThemeName;
-  themeBaseName = builtins.head splitName;
+  themeBaseName = if hasThemes then builtins.head splitName else "default";
 
   terminal = opts.terminal;
   displays = opts.display or [ ];
   wallpaperDir =
     opts.wallpaper.dir
       or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
-  landscapeDir =
-    if ((opts.wallpaper.landscapeDir or "") != "") then
-      "${opts.wallpaper.landscapeDir}/${themeBaseName}"
-    else
-      "${wallpaperDir}/landscape";
-  portraitDir =
-    if ((opts.wallpaper.portraitDir or "") != "") then
-      "${opts.wallpaper.portraitDir}/${themeBaseName}"
-    else
-      "${wallpaperDir}/portrait";
+  landscapeDir = "${wallpaperDir}/${themeBaseName}/landscape";
+  portraitDir = "${wallpaperDir}/${themeBaseName}/portrait";
   transitionType = opts.wallpaper.launcher.transition.type or "center";
   transitionStep = toString (opts.wallpaper.launcher.transition.step or 90);
   transitionDuration = toString (opts.wallpaper.launcher.transition.duration or 1);
@@ -213,13 +207,10 @@ pkgs.writeShellScriptBin "launcher" ''
       SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
       SYSTEM_SWITCH="/nix/var/nix/profiles/system/bin/switch-to-configuration"
 
-      THEMES="${defaultTheme}"
-      if [ -d "$SPEC_DIR" ]; then
-        THEMES="$THEMES\n$(ls "$SPEC_DIR")"
-      fi
+      THEMES="${builtins.concatStringsSep "\\n" (opts.themes or [ defaultTheme ])}"
 
       rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/theme.rasi"
-      r_override="entry{placeholder:'Select Specialisation...';}listview{lines:9;}"
+      r_override="entry{placeholder:'Select Theme...';}listview{lines:9;}"
       
       SELECTED=$(echo -e "$THEMES" | rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")
 
@@ -259,13 +250,18 @@ pkgs.writeShellScriptBin "launcher" ''
       SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
       SYSTEM_SWITCH="/nix/var/nix/profiles/system/bin/switch-to-configuration"
 
+      EXCLUDE_PATTERN="${builtins.concatStringsSep "|" (opts.themes or [ ])}"
+
       OPTIONS="default"
       if [ -d "$SPEC_DIR" ]; then
-        OPTIONS="$OPTIONS\n$(ls "$SPEC_DIR")"
+        OTHER_SPECS=$(ls "$SPEC_DIR" | grep -Ev "^($EXCLUDE_PATTERN)$")
+        if [ -n "$OTHER_SPECS" ]; then
+          OPTIONS="$OPTIONS\n$OTHER_SPECS"
+        fi
       fi
 
       rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/specialisation.rasi"
-      r_override="entry{placeholder:'Select Theme...';}listview{lines:9;}"
+      r_override="entry{placeholder:'Select Specialisation...';}listview{lines:9;}"
       
       SELECTED=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")
 

@@ -1,9 +1,16 @@
-{ config, ... }:
+{
+  config,
+  lib,
+  opts,
+  ...
+}:
 let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
   colors = config.lib.stylix.colors;
 in
 {
-  programs.waybar = {
+  programs.waybar = lib.mkIf hasThemes {
     style = ''
       * {
         font-family: ${config.stylix.fonts.monospace.name}; 

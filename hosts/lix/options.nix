@@ -63,7 +63,13 @@
 
     # Desktop {{{
     desktop = "niri";
-    theme = "catppuccin-mocha";
+    themes = [
+      "catppuccin-mocha"
+      "everforest-dark-hard"
+      "gruvbox-dark-hard"
+      "kanagawa"
+      "nord"
+    ];
 
     display = [
       {
@@ -78,8 +84,6 @@
 
     wallpaper = {
       dir = "${xdg.userDirs.pictures}/wallpapers";
-      landscapeDir = "${wallpaper.dir}/themed/landscape";
-      portraitDir = "${wallpaper.dir}/themed/portrait";
       transition = {
         launcher = {
           type = "center";
@@ -114,7 +118,7 @@
     };
 
     hyprlock = {
-      background = "${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
+      background = "${wallpaper.dir}/default/landscape/touhou/marisa-reimu-3.jpg";
     };
 
     niri = {
@@ -144,7 +148,7 @@
     };
 
     swaylock = {
-      image = "eDP-1:${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
+      image = "eDP-1:${wallpaper.dir}/default/landscape/touhou/marisa-reimu-3.jpg";
     };
     # }}}
 

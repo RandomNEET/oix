@@ -6,23 +6,17 @@
   ...
 }:
 let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
   fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
   splitName = lib.splitString "-" fullThemeName;
-  themeBaseName = builtins.head splitName;
+  themeBaseName = if hasThemes then builtins.head splitName else "default";
 
   wallpaperDir =
     opts.wallpaper.dir
       or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
-  landscapeDir =
-    if ((opts.wallpaper.landscapeDir or "") != "") then
-      "${opts.wallpaper.landscapeDir}/${themeBaseName}"
-    else
-      "${wallpaperDir}/landscape";
-  portraitDir =
-    if ((opts.wallpaper.portraitDir or "") != "") then
-      "${opts.wallpaper.portraitDir}/${themeBaseName}"
-    else
-      "${wallpaperDir}/portrait";
+  landscapeDir = "${wallpaperDir}/${themeBaseName}/landscape";
+  portraitDir = "${wallpaperDir}/${themeBaseName}/portrait";
   transitionType = opts.wallpaper.transition.random-wall.type or "wipe";
   transitionStep = toString (opts.wallpaper.transition.random-wall.step or 90);
   transitionDuration = toString (opts.wallpaper.transition.random-wall.duration or 1);

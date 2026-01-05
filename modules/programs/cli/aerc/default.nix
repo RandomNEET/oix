@@ -6,6 +6,8 @@
   ...
 }:
 let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
   colors = config.lib.stylix.colors;
 in
 {
@@ -62,7 +64,7 @@ in
                     aerc-shutdown = "${import ../../../services/mbsync/scripts/count.nix { inherit pkgs opts; }}";
                   };
           };
-          stylesets = lib.mkIf config.stylix.enable {
+          stylesets = lib.mkIf hasThemes {
             stylix = ''
               # Default styles
               *.default=true

@@ -5,6 +5,8 @@
   ...
 }:
 let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
   colors = config.lib.stylix.colors;
 in
 {
@@ -20,6 +22,12 @@ in
           indicator-thickness = 10;
           indicator-idle-visible = true;
           show-failed-attempts = true;
+        }
+        // lib.optionalAttrs ((opts.swaylock.image or "") != "") {
+          image = opts.swaylock.image;
+        }
+        // lib.optionalAttrs hasThemes {
+          font = config.stylix.fonts.monospace.name;
           color = colors.base00;
           inside-color = colors.base00;
           line-color = colors.base0E;
@@ -28,9 +36,6 @@ in
           text-wrong-color = colors.base08;
           bs-hl-color = colors.base08;
           key-hl-color = colors.base0B;
-        }
-        // lib.optionalAttrs ((opts.swaylock.image or "") != "") {
-          image = opts.swaylock.image;
         };
       };
     })

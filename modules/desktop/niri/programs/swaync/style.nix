@@ -1,9 +1,16 @@
-{ config, ... }:
+{
+  config,
+  lib,
+  opts,
+  ...
+}:
 let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
   colors = config.lib.stylix.colors;
 in
 {
-  services.swaync = {
+  services.swaync = lib.mkIf hasThemes {
     style = ''
       @define-color shadow rgba(0, 0, 0, 0.25);
 

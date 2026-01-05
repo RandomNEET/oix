@@ -1,5 +1,12 @@
-{ config, opts, ... }:
+{
+  config,
+  lib,
+  opts,
+  ...
+}:
 let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
   colors = config.lib.stylix.colors;
 
   opacity = {
@@ -44,14 +51,6 @@ in
   scrolling = {
     smooth = true;
   };
-  colors = {
-    webpage = {
-      darkmode = {
-        enabled = true;
-        policy.images = "never";
-      };
-    };
-  };
   content = {
     blocking = {
       enabled = opts.qutebrowser.content.blocking.enabled or true;
@@ -71,6 +70,14 @@ in
     start_pages = opts.qutebrowser.url.start_pages or "https://start.duckduckgo.com/";
   };
   colors = {
+    webpage = {
+      darkmode = {
+        enabled = true;
+        policy.images = "never";
+      };
+    };
+  }
+  // lib.optionalAttrs hasThemes {
     # Completion widget
     completion.category.bg = hexToRgba colors.base00 opacity.high;
     completion.category.border.bottom = hexToRgba colors.base00 opacity.high;

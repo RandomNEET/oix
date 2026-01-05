@@ -1,4 +1,14 @@
-{ lib, opts, ... }:
+{
+  config,
+  lib,
+  opts,
+  ...
+}:
+let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
+  colors = config.lib.stylix.colors;
+in
 {
   home-manager.sharedModules = [
     (_: {
@@ -15,17 +25,18 @@
             scale = "optimal";
             antialiasing = "mks13";
           }
-          // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-            window = "#1e1e2e80";
+          // lib.optionalAttrs hasThemes {
+            window = "#${colors.base00}80";
           };
           font = {
             name = "JetBrainsMono Nerd Font";
             size = 12;
           }
-          // lib.optionalAttrs ((opts.theme or "") == "catppuccin-mocha") {
-            color = "#cdd6f4ff";
-            shadow = "#1e1e2ed0";
-            background = "#1e1e2e00";
+          // lib.optionalAttrs hasThemes {
+            name = config.stylix.fonts.monospace.name;
+            color = "#${colors.base05}ff";
+            shadow = "#${colors.base00}d0";
+            background = "#${colors.base00}00";
           };
           "info.viewer" = {
             top_left = "+name,+format,+filesize,+imagesize,+exif";

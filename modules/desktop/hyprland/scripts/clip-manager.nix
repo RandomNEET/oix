@@ -2,12 +2,15 @@
   config,
   lib,
   pkgs,
+  opts,
   ...
 }:
 let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
   fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
   splitName = lib.splitString "-" fullThemeName;
-  themeBaseName = builtins.head splitName;
+  themeBaseName = if hasThemes then builtins.head splitName else "default";
 in
 pkgs.writeShellScript "clip-manager" ''
   while true; do

@@ -1,16 +1,11 @@
-{
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
+{ config, pkgs, ... }:
 {
   home-manager.sharedModules = [
     (_: {
       programs.thunderbird = {
         enable = true;
         package = pkgs.thunderbird.override {
-          extraPolicies.ExtensionSettings = import ./extensions.nix { inherit lib opts; };
+          extraPolicies.ExtensionSettings = { };
         };
         profiles = {
           default = {
@@ -23,7 +18,7 @@
             settings = {
               "app.donation.eoy.version.viewed" = 999;
               "mailnews.start_page.enabled" = false;
-              "font.name.sans-serif.x-western" = "JetBrainsMono Nerd Font";
+              "font.name.sans-serif.x-western" = config.stylix.fonts.monospace.name;
 
               # TELEMETRY
               "datareporting.policy.dataSubmissionEnabled" = false;

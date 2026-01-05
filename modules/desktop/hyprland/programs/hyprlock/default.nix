@@ -5,6 +5,8 @@
   ...
 }:
 let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
   colors = config.lib.stylix.colors;
   displays = opts.display or [ ];
   primaryLandscape = lib.findFirst (d: d.orientation == "landscape") (lib.head displays) displays;
@@ -45,7 +47,7 @@ in
                 vibrancy = "0.21";
                 vibrancy_darkness = "0.0";
               }
-              // lib.optionalAttrs ((opts.hyprlock.background or "") == "") {
+              // lib.optionalAttrs hasThemes {
                 color = hexToRgb colors.base00;
               }
             )
@@ -56,38 +58,47 @@ in
           }) otherDisplays);
 
           input-field = [
-            {
-              monitor = primaryLandscape.output;
-              size = "250, 50";
-              outline_thickness = "3";
-              fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
-              fail_transition = "300";
-              fade_on_empty = false;
-              placeholder_text = "Password...";
-              dots_size = "0.2";
-              dots_spacing = "0.64";
-              dots_center = true;
-              position = "0, 140";
-              halign = "center";
-              valign = "bottom";
-              outer_color = hexToRgb colors.base0E;
-              inner_color = hexToRgb colors.base00;
-              font_color = hexToRgb colors.base0E;
-              fail_color = hexToRgb colors.base08;
-            }
+            (
+              {
+                monitor = primaryLandscape.output;
+                size = "250, 50";
+                outline_thickness = "3";
+                fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>";
+                fail_transition = "300";
+                fade_on_empty = false;
+                placeholder_text = "Password...";
+                dots_size = "0.2";
+                dots_spacing = "0.64";
+                dots_center = true;
+                position = "0, 140";
+                halign = "center";
+                valign = "bottom";
+              }
+              // lib.optionalAttrs hasThemes {
+                outer_color = hexToRgb colors.base0E;
+                inner_color = hexToRgb colors.base00;
+                font_color = hexToRgb colors.base0E;
+                fail_color = hexToRgb colors.base08;
+              }
+            )
           ];
 
           label = [
-            {
-              monitor = primaryLandscape.output;
-              text = "$TIME";
-              font_size = "64";
-              font_family = "JetBrains Mono Nerd Font 10";
-              position = "0, 16";
-              valign = "center";
-              halign = "center";
-              color = hexToRgb colors.base0E;
-            }
+            (
+              {
+                monitor = primaryLandscape.output;
+                text = "$TIME";
+                font_size = "64";
+                font_family = "JetBrains Mono Nerd Font 10";
+                position = "0, 16";
+                valign = "center";
+                halign = "center";
+              }
+              // lib.optionalAttrs hasThemes {
+                font_family = "${config.stylix.fonts.monospace.name} 10";
+                color = hexToRgb colors.base0E;
+              }
+            )
           ];
         };
       };
