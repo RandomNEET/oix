@@ -120,7 +120,6 @@ pkgs.writeShellScriptBin "launcher" ''
       fi
 
       CACHE_DIR="''${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper-thumbnails"
-      CACHE_FLAG="$CACHE_DIR/.cache_ready"
 
       if [ "$DISPLAY_ORIENTATION" = "landscape" ]; then
         rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-landscape.rasi"
@@ -141,54 +140,32 @@ pkgs.writeShellScriptBin "launcher" ''
         local wallpaper_name="''${relative_path%.*}"
         local thumbnail="$CACHE_DIR/''${wallpaper_name}.jpg"
         mkdir -p "$(dirname "$thumbnail")"
-        if [ ! -f "$thumbnail" ]; then
-          ${lib.getExe pkgs.imagemagick} "$wallpaper[0]" \
-            -strip -gravity center \
-            -thumbnail "$thumb_size^" \
-            -extent "$thumb_size" \
-            "$thumbnail" 2>/dev/null || true
-        fi
+        ${lib.getExe pkgs.imagemagick} "$wallpaper[0]" \
+          -strip -gravity center \
+          -thumbnail "$thumb_size^" \
+          -extent "$thumb_size" \
+          "$thumbnail" 2>/dev/null || true
       }
-
-      if [ ! -f "$CACHE_FLAG" ]; then
-        mkdir -p "$CACHE_DIR"
-        if command -v ${lib.getExe pkgs.parallel} >/dev/null 2>&1; then
-          export WALLPAPER_DIR CACHE_DIR
-          export -f generate_thumbnail
-          ${lib.getExe pkgs.fd} --type f \
-            -e jpg -e jpeg -e png -e webp -e jxl -e gif \
-            . "$LANDSCAPE_DIR" \
-            | ${lib.getExe pkgs.parallel} --will-cite -j4 \
-              'generate_thumbnail {} "320x180"'
-          ${lib.getExe pkgs.fd} --type f \
-            -e jpg -e jpeg -e png -e webp -e jxl -e gif \
-            . "$PORTRAIT_DIR" \
-            | ${lib.getExe pkgs.parallel} --will-cite -j4 \
-              'generate_thumbnail {} "180x320"'
-        else
-          ${lib.getExe pkgs.fd} --type f \
-            -e jpg -e jpeg -e png -e webp -e jxl -e gif \
-            . "$LANDSCAPE_DIR" | while read -r wallpaper; do
-            generate_thumbnail "$wallpaper" "320x180"
-          done
-          ${lib.getExe pkgs.fd} --type f \
-            -e jpg -e jpeg -e png -e webp -e jxl -e gif \
-            . "$PORTRAIT_DIR" | while read -r wallpaper; do
-            generate_thumbnail "$wallpaper" "180x320"
-          done
+      
+      MISSING_THUMBS=()
+      while read -r wallpaper; do
+        relative_path="''${wallpaper#$WALLPAPER_DIR/}"
+        wallpaper_name="''${relative_path%.*}"
+        thumbnail="$CACHE_DIR/''${wallpaper_name}.jpg"
+        if [ !  -f "$thumbnail" ]; then
+          MISSING_THUMBS+=("$wallpaper")
         fi
-        touch "$CACHE_FLAG"
-      else
-        ${lib.getExe pkgs.fd} --type f \
-          -e jpg -e jpeg -e png -e webp -e jxl -e gif \
-          . "$SEARCH_DIR" | while read -r wallpaper; do
-          relative_path="''${wallpaper#$WALLPAPER_DIR/}"
-          wallpaper_name="''${relative_path%.*}"
-          thumbnail="$CACHE_DIR/''${wallpaper_name}.jpg"
-          if [ ! -f "$thumbnail" ]; then
-            generate_thumbnail "$wallpaper" "$THUMB_SIZE" &
-          fi
+      done < <(${lib.getExe pkgs.fd} --type f \
+        -e jpg -e jpeg -e png -e webp -e jxl -e gif \
+        . "$SEARCH_DIR")
+      
+      if [ ''${#MISSING_THUMBS[@]} -gt 0 ]; then
+        mkdir -p "$CACHE_DIR"
+        for wallpaper in "''${MISSING_THUMBS[@]}"; do
+          generate_thumbnail "$wallpaper" "$THUMB_SIZE" &
+          (( $(jobs -r | wc -l) >= 4 )) && wait -n
         done
+        wait
       fi
 
       CHOICE=$(${lib.getExe pkgs.fd} --type f \
