@@ -23,6 +23,7 @@ let
 
     random-wall
 
+    hyprctl reload
     niri msg action reload-config
   '';
 
@@ -120,6 +121,27 @@ pkgs.writeShellScriptBin "launcher" ''
       fi
 
       CACHE_DIR="''${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper-thumbnails"
+
+      if [ -d "$CACHE_DIR" ]; then
+        find "$CACHE_DIR" -type f -name "*.jpg" | while read -r thumb; do
+          rel_thumb="''${thumb#$CACHE_DIR/}"
+          source_base="$WALLPAPER_DIR/''${rel_thumb%.*}"
+          
+          found=false
+          for ext in jpg jpeg png webp jxl gif; do
+            if [ -f "$source_base.$ext" ]; then
+              found=true
+              break
+            fi
+          done
+
+          if [ "$found" = false ]; then
+            echo "Removing stale thumbnail: $rel_thumb"
+            rm "$thumb"
+            rmdir -p "$(dirname "$thumb")" 2>/dev/null || true
+          fi
+        done
+      fi
 
       if [ "$DISPLAY_ORIENTATION" = "landscape" ]; then
         rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-landscape.rasi"
