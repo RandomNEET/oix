@@ -12,6 +12,19 @@ let
   fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
   splitName = lib.splitString "-" fullThemeName;
   themeBaseName = if hasThemes then builtins.head splitName else "default";
+  themeReloadCommands = ''
+    pkill waybar
+    pkill swaync
+    pkill fcitx5
+
+    waybar &
+    swaync &
+    fcitx5 -d
+
+    random-wall
+
+    hyprctl reload
+  '';
 
   terminal = opts.terminal;
   displays = opts.display or [ ];
@@ -224,17 +237,7 @@ pkgs.writeShellScriptBin "launcher" ''
         pkexec "$SPEC_DIR/$SELECTED/bin/switch-to-configuration" test
       fi
 
-      pkill waybar
-      pkill swaync
-      pkill fcitx5
-
-      waybar &
-      swaync &
-      fcitx5 -d
-
-      random-wall
-
-      hyprctl reload
+      ${themeReloadCommands}
       ;;
     emoji)
       rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/emoji.rasi"

@@ -22,16 +22,14 @@
   systemd.user.services.random-wall = {
     description = "Randomly change wallpaper";
     startAt = "hourly";
-    script = "${lib.getExe (
-      import ./scripts/random-wall.nix {
-        inherit
-          config
-          lib
-          pkgs
-          opts
-          ;
-      }
-    )}";
+    script = "${import ./scripts/random-wall.nix {
+      inherit
+        config
+        lib
+        pkgs
+        opts
+        ;
+    }}";
     serviceConfig = {
       Type = "oneshot";
     };
