@@ -17,7 +17,7 @@ pkgs.writeShellScript "convert-wall" ''
   WALLPAPERS_DIR="${wallpaperDir}"
   THEMES=(${themesArray})
 
-  if [ ! -d "$ORIGINAL_DIR" ]; then
+  if [ !  -d "$ORIGINAL_DIR" ]; then
     echo "Error: Source directory $ORIGINAL_DIR not found."
     exit 1
   fi
@@ -34,26 +34,23 @@ pkgs.writeShellScript "convert-wall" ''
         TARGET_DIR="$WALLPAPERS_DIR/$THEME/$ORIENT/$CAT_NAME"
         mkdir -p "$TARGET_DIR"
 
-        echo "--- Processing: [$THEME] -> [$ORIENT] -> [$CAT_NAME] ---"
-
+        IMAGES_TO_CONVERT=""
         for img in "$CAT_PATH"/*; do
           [[ -f "$img" ]] || continue
           IMG_NAME=$(basename "$img")
-
-          # Available formats:  png, jpg, jpeg, webp
-          if [[ ! "$IMG_NAME" =~ \.(png|jpg|jpeg|webp)$ ]]; then
-            continue
-          fi
-
-          if [ -f "$TARGET_DIR/$IMG_NAME" ]; then
-            continue
-          fi
-
-          # Call gowall for color conversion
-          ${pkgs.gowall}/bin/gowall convert "$img" \
-            --theme "$THEME" \
-            --output "$TARGET_DIR/$IMG_NAME"
+          [[ "$IMG_NAME" =~ \.(png|jpg|jpeg|webp)$ ]] || continue
+          [ -f "$TARGET_DIR/$IMG_NAME" ] && continue
+          IMAGES_TO_CONVERT="$IMAGES_TO_CONVERT,$img"
         done
+
+        IMAGES_TO_CONVERT="''${IMAGES_TO_CONVERT#,}"
+        if [ -n "$IMAGES_TO_CONVERT" ]; then
+          echo "--- Processing: [$THEME] -> [$ORIENT] -> [$CAT_NAME] ---"
+          ${pkgs.gowall}/bin/gowall convert \
+            --batch "$IMAGES_TO_CONVERT" \
+            --theme "$THEME" \
+            --output "$TARGET_DIR"
+        fi
       done
     done
   done

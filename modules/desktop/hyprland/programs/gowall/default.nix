@@ -13,27 +13,36 @@ let
 in
 {
   home-manager.sharedModules = [
-    (_: {
-      home = {
-        packages = with pkgs; [
-          gowall
-          tesseract
-        ];
-        file = {
-          ".config/gowall/schema.yml".text = ''
-            schemas:
-              - name: "tes"
-                config:
-                  ocr:
-                    provider: "tesseract"
-                    model: "tesseract"
-          '';
-          ".config/gowall/config.yml".text = ''
-            EnableImagePreviewing: true
-          '';
+    (
+      { osConfig, config, ... }:
+      let
+        picDir =
+          lib.replaceStrings [ "${osConfig.users.users.${opts.users.primary.name}.home}" "$HOME/" ] [ "" "" ]
+            config.xdg.userDirs.pictures;
+      in
+      {
+        home = {
+          packages = with pkgs; [
+            gowall
+            tesseract
+          ];
+          file = {
+            ".config/gowall/schema.yml".text = ''
+              schemas:
+                - name: "tes"
+                  config:
+                    ocr:
+                      provider: "tesseract"
+                      model: "tesseract"
+            '';
+            ".config/gowall/config.yml".text = ''
+              EnableImagePreviewing: false
+              OutputFolder: "${picDir}/gowall"
+            '';
+          };
         };
-      };
-    })
+      }
+    )
   ];
   systemd.user = lib.mkIf (hasThemes && hasWallpapers) {
     services.convert-wall = {
