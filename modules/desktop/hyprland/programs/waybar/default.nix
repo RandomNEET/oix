@@ -19,6 +19,7 @@
             {
               layer = "top";
               position = "top";
+              mode = "dock";
               height = 32;
               exclusive = true;
               passthrough = false;

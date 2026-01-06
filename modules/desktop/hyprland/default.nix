@@ -379,26 +379,27 @@ in
               "no_blur on, match:tag games"
               "no_anim on, match:tag games"
 
-              # Float and pin Picture-in-Picture in browsers
-              "match:float true, match:title ^(Picture-in-Picture)$, match:class ^(zen|zen-beta|floorp|firefox)$"
-              "match:pin true, match:title ^(Picture-in-Picture)$, match:class ^(zen|zen-beta|floorp|firefox)$"
+              "float on, center on, size 800 1000, match:title Hyprland Keybinds"
+              "float on, match:title ^(Picture-in-Picture)$, match:class ^(firefox)$"
+              "pin on, match:title ^(Picture-in-Picture)$, match:class ^(firefox)$"
 
-              "match:float true, match:class ^(qt5ct)$"
-              "match:float true, match:class ^(nwg-look)$"
-              "match:float true, match:class ^(org.kde.ark)$"
-              "match:float true, match:class ^(Signal)$" # Signal-Gtk
-              "match:float true, match:class ^(com.github.rafostar.Clapper)$" # Clapper-Gtk
-              "match:float true, match:class ^(app.drey.Warp)$" # Warp-Gtk
-              "match:float true, match:class ^(net.davidotek.pupgui2)$" # ProtonUp-Qt
-              "match:float true, match:class ^(eog)$" # Imageviewer-Gtk
-              "match:float true, match:class ^(io.gitlab.theevilskeleton.Upscaler)$" # Upscaler-Gtk
-              "match:float true, match:class ^(yad)$"
-              "match:float true, match:class ^(pavucontrol)$"
-              "match:float true, match:class ^(blueman-manager)$"
-              "match:float true, match:class ^(.blueman-manager-wrapped)$"
-              "match:float true, match:class ^(nm-applet)$"
-              "match:float true, match:class ^(nm-connection-editor)$"
-              "match:float true, match:class ^(org.kde.polkit-kde-authentication-agent-1)$"
+              "float on, match:class ^(qt5ct)$"
+              "float on, match:class ^(nwg-look)$"
+              "float on, match:class ^(org.kde.ark)$"
+              "float on, match:class ^(Signal)$" # Signal-Gtk
+              "float on, match:class ^(com.github.rafostar.Clapper)$" # Clapper-Gtk
+              "float on, match:class ^(app.drey.Warp)$" # Warp-Gtk
+              "float on, match:class ^(net.davidotek.pupgui2)$" # ProtonUp-Qt
+              "float on, match:class ^(eog)$" # Imageviewer-Gtk
+              "float on, match:class ^(io.gitlab.theevilskeleton.Upscaler)$" # Upscaler-Gtk
+              "float on, match:class ^(yad)$"
+              "float on, match:class ^(pavucontrol)$"
+              "float on, match:class ^(blueman-manager)$"
+              "float on, match:class ^(.blueman-manager-wrapped)$"
+              "float on, match:class ^(nm-applet)$"
+              "float on, match:class ^(nm-connection-editor)$"
+              "float on, match:class ^(org.kde.polkit-kde-authentication-agent-1)$"
+
             ];
 
             binde = [
