@@ -22,8 +22,7 @@ pkgs.writeShellScriptBin "keybinds" ''
     "SUPER B" "Launch browser" "$BROWSER"
     "SUPER A" "Launch application menu" "scripts/launcher drun"
     "SUPER SPACE" "Launch application menu" "scripts/launcher drun"
-    "SUPER SHIFT W" "Select wallpaper" "scripts/launcher wallpaper"
-    "SUPER CTRL W" "Random wallpaper" "scripts/random-wall"
+    "SUPER CTRL W" "Select wallpaper" "scripts/launcher wallpaper"
     "SUPER CTRL T" "Select theme" "scripts/launcher theme"
     "SUPER ALT S" "Select specialisation" "scripts/launcher spec"
     ${lib.optionalString config.home-manager.users.${opts.users.primary.name}.programs.tmux.enable
@@ -33,6 +32,7 @@ pkgs.writeShellScriptBin "keybinds" ''
     ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
     ${lib.optionalString config.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
     "SUPER V" "Clipboard manager" "scripts/clip-manager"
+    "SUPER SHIFT W" "Random wallpaper" "scripts/random-wall"
     "SUPER SHIFT N" "Open notification panel" "swaync-client -t -sw"
     "SUPER SHIFT Q" "Open notification panel" "swaync-client -t -sw"
     "CTRL ALT Delete" "Open system monitor" "btop"

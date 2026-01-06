@@ -215,8 +215,7 @@ in
               Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${lib.getExe pkgs.btop}"; }
 
               Mod+Space hotkey-overlay-title="Launch application menu" { spawn-sh "${launcher} drun"; }
-              Mod+Shift+W hotkey-overlay-title="Select wallpaper" { spawn-sh "${launcher} wallpaper"; }
-              Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn "${random-wall}"; }
+              Mod+Ctrl+W hotkey-overlay-title="Select wallpaper" { spawn-sh "${launcher} wallpaper"; }
               Mod+Ctrl+T hotkey-overlay-title="Select theme" { spawn-sh "${launcher} theme"; }
               Mod+Alt+S hotkey-overlay-title="Select specialisation" { spawn-sh "${launcher} spec"; }
               Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "${clip-manager}"; }
@@ -230,10 +229,11 @@ in
                 Mod+G hotkey-overlay-title="Game launcher" { spawn-sh "${launcher} game"; }
               ''}
 
-              Mod+Alt+L hotkey-overlay-title="Lock screen" { spawn "swaylock"; }
-              Mod+Backspace hotkey-overlay-title="Power menu" { spawn-sh "pkill -x wlogout || wlogout -b 4"; }
+              Mod+Shift+W hotkey-overlay-title="Random wallpaper" { spawn "${random-wall}"; }
               Mod+Shift+Q hotkey-overlay-title="Open notification panel" { spawn-sh "swaync-client -t -sw"; }
               Ctrl+Escape hotkey-overlay-title="Toggle waybar" { spawn-sh "systemctl --user is-active --quiet waybar && systemctl --user stop waybar || systemctl --user start waybar"; }
+              Mod+Alt+L hotkey-overlay-title="Lock screen" { spawn "swaylock"; }
+              Mod+Backspace hotkey-overlay-title="Power menu" { spawn-sh "pkill -x wlogout || wlogout -b 4"; }
 
               Mod+F8 hotkey-overlay-title="Toggle autoclicker" { spawn-sh "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"; }
               Mod+F9 hotkey-overlay-title="Enable night mode" { spawn-sh "wlsunset -T 6500"; }

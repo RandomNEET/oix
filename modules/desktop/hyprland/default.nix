@@ -450,11 +450,11 @@ in
 
               "$mainMod, A, exec, ${launcher} drun" # launch desktop applications
               "$mainMod, SPACE, exec, ${launcher} drun" # launch desktop applications
-              "$mainMod SHIFT, W, exec, ${launcher} wallpaper" # launch wallpaper switcher
-              "$mainMod CTRL, W, exec, ${random-wall}" # random wallpaper
+              "$mainMod CTRL, W, exec, ${launcher} wallpaper" # launch wallpaper switcher
               "$mainMod CTRL, T, exec, ${launcher} theme" # launch theme switcher
               "$mainMod ALT, S, exec, ${launcher} spec" # launch specialisation  switcher
               "$mainMod, V, exec, ${clip-manager}" # Clipboard Manager
+              "$mainMod SHIFT, W, exec, ${random-wall}" # random wallpaper
               "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
               "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
 
