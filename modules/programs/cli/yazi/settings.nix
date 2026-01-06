@@ -17,7 +17,6 @@ in
     ];
   };
   preview = {
-    # wrap = "yes";
     tab_size = 4;
     image_filter = "triangle"; # from fast to slow but high quality: nearest, triangle, catmull-rom, lanczos3
     max_width = primaryDisplay.width or 600;
