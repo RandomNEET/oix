@@ -15,7 +15,7 @@
     };
   };
   home-manager.sharedModules = [
-    (_: {
+    {
       nix.gc = {
         automatic = true;
         dates = "weekly";
@@ -23,6 +23,6 @@
         persistent = true;
         randomizedDelaySec = "60min";
       };
-    })
+    }
   ];
 }

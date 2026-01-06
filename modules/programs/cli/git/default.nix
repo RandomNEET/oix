@@ -6,7 +6,7 @@
 }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.git = {
         enable = true;
         settings = opts.git.settings or { };
@@ -508,6 +508,6 @@
           alias gke='\gitk --all $(git log --walk-reflogs --pretty=%h) &!'
         '';
       };
-    })
+    }
   ];
 }

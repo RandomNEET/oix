@@ -1,6 +1,6 @@
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.kitty = {
         enable = true;
         shellIntegration.enableBashIntegration = true;
@@ -42,6 +42,6 @@
           "alt+0" = "goto_tab 10";
         };
       };
-    })
+    }
   ];
 }

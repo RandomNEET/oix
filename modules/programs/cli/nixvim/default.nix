@@ -7,7 +7,7 @@
 }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       imports = [
         inputs.nixvim.homeModules.nixvim
         ./core
@@ -54,6 +54,6 @@
             ]
           );
       };
-    })
+    }
   ];
 }

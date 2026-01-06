@@ -6,7 +6,7 @@
 }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       services.swayidle = {
         enable = true;
         events = {
@@ -44,6 +44,6 @@
             )
           ];
       };
-    })
+    }
   ];
 }

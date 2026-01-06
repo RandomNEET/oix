@@ -6,7 +6,7 @@
 }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs = {
         firefox = {
           enable = true;
@@ -63,6 +63,6 @@
           ./chrome/titlebar-buttons-disable
         else
           ./chrome/titlebar-buttons-enable;
-    })
+    }
   ];
 }

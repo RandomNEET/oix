@@ -83,9 +83,5 @@ let
   _ = builtins.trace "Found ${toString scriptCount} script derivations" null;
 in
 {
-  home-manager.sharedModules = [
-    (_: {
-      home.packages = scriptDerivations;
-    })
-  ];
+  home-manager.sharedModules = [ { home.packages = scriptDerivations; } ];
 }

@@ -1,6 +1,6 @@
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.jq = {
         enable = true;
         colors = {
@@ -14,6 +14,6 @@
           objectKeys = "1;34";
         };
       };
-    })
+    }
   ];
 }

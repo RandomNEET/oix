@@ -1,7 +1,7 @@
 { opts, ... }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.gh = {
         enable = true;
         settings = {
@@ -10,6 +10,6 @@
           editor = opts.editor or "";
         };
       };
-    })
+    }
   ];
 }

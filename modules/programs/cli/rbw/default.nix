@@ -6,7 +6,7 @@
 }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.rbw = {
         enable = true;
         settings = {
@@ -21,6 +21,6 @@
         pkgs.pinentry-all
       ]
       ++ lib.optionals (opts.rbw.rofi-rbw or false) [ pkgs.rofi-rbw ];
-    })
+    }
   ];
 }

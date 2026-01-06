@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       home.packages = with pkgs; [ (discord.override { withVencord = true; }) ];
       xdg.configFile."Vencord/settings/settings.json".text = builtins.toJSON ({
         notifyAboutUpdates = true;
@@ -233,6 +233,6 @@
           settingsSyncVersion = 1737589382741;
         };
       });
-    })
+    }
   ];
 }

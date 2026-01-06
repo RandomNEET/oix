@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       home = {
         packages = with pkgs; [ trash-cli ];
 
@@ -13,6 +13,6 @@
           ttrm = "trash-rm";
         };
       };
-    })
+    }
   ];
 }

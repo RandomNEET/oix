@@ -1,6 +1,6 @@
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.ripgrep = {
         enable = true;
         arguments = [
@@ -8,6 +8,6 @@
           "--colors=line:style:bold"
         ];
       };
-    })
+    }
   ];
 }

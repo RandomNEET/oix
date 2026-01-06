@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.thunderbird = {
         enable = true;
         package = pkgs.thunderbird.override {
@@ -55,6 +55,6 @@
           };
         };
       };
-    })
+    }
   ];
 }

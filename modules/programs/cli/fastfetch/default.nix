@@ -1,6 +1,6 @@
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.fastfetch = {
         enable = true;
       };
@@ -15,6 +15,6 @@
           reimufetch = "fastfetch -c ~/.config/fastfetch/reimu.jsonc";
         };
       };
-    })
+    }
   ];
 }

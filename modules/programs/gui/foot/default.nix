@@ -1,6 +1,6 @@
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.foot = {
         enable = true;
         settings = {
@@ -13,6 +13,6 @@
           };
         };
       };
-    })
+    }
   ];
 }

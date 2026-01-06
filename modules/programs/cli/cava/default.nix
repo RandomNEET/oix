@@ -1,6 +1,6 @@
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.cava = {
         enable = true;
         settings = {
@@ -11,6 +11,6 @@
           };
         };
       };
-    })
+    }
   ];
 }

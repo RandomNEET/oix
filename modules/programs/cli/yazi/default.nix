@@ -6,7 +6,7 @@
 }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.yazi = {
         enable = true;
         package = pkgs.yazi.override {
@@ -20,7 +20,7 @@
         initLua = builtins.readFile ./init.lua;
       };
       imports = [ ./plugins.nix ];
-    })
+    }
   ];
   nix.settings = {
     extra-substituters = [ "https://yazi.cachix.org" ];

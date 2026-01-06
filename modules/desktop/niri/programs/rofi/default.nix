@@ -6,7 +6,7 @@
 }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.rofi = {
         enable = true;
         terminal = "${lib.getExe pkgs.${opts.terminal}}";
@@ -45,6 +45,6 @@
           allMappings = lib.foldl' (acc: theme: acc // (mkThemeMapping theme)) { } themeDirs;
         in
         allMappings;
-    })
+    }
   ];
 }

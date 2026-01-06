@@ -10,7 +10,7 @@ let
 in
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       programs.newsboat = {
         enable = true;
         autoReload = true;
@@ -55,6 +55,6 @@ in
         queries = { } // (opts.newsboat.queries or { });
         urls = [ ] ++ (opts.newsboat.urls or [ ]);
       };
-    })
+    }
   ];
 }

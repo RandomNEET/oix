@@ -1,7 +1,7 @@
 { lib, opts, ... }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       services.hypridle = {
         enable = true;
         settings = {
@@ -42,6 +42,6 @@
             ];
         };
       };
-    })
+    }
   ];
 }

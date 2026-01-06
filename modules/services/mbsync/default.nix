@@ -6,7 +6,7 @@
 }:
 {
   home-manager.sharedModules = [
-    (_: {
+    {
       services.mbsync = {
         enable = true;
         verbose = opts.mbsync.service.verbose or true;
@@ -20,6 +20,6 @@
           )
           + (opts.mbsync.service.postExec or "");
       };
-    })
+    }
   ];
 }

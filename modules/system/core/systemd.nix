@@ -8,7 +8,7 @@
   systemd = { } // (opts.systemd or { });
 
   home-manager.sharedModules = [
-    (_: {
+    {
       home.shellAliases = {
         # User commands (no sudo)
         sc-cat = "systemctl cat";
@@ -173,6 +173,6 @@
           }
         '';
       };
-    })
+    }
   ];
 }
