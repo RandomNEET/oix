@@ -1,10 +1,4 @@
-{
-  inputs,
-  config,
-  lib,
-  opts,
-  ...
-}:
+{ inputs, opts, ... }:
 {
   imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ];
   services.flatpak = {
