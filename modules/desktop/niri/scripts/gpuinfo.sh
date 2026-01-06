@@ -229,8 +229,8 @@ generate_json() {
 	#TODO Add Something incase needed.
 	declare -A tooltip_parts
 	if [[ -n "${utilization}" ]]; then tooltip_parts["\n$speedo Utilization: "]="${utilization}%"; fi
-	if [[ -n "${current_clock_speed}" ]] && [[ -n "${max_clock_speed}" ]]; then tooltip_parts["\n Clock Speed: "]="${current_clock_speed}/${max_clock_speed} MHz"; fi
-	if [[ -n "${core_clock}" ]]; then tooltip_parts["\n Clock Speed: "]="${core_clock} MHz"; fi
+	if [[ -n "${current_clock_speed}" ]] && [[ -n "${max_clock_speed}" ]]; then tooltip_parts["\n󰾅 Clock Speed: "]="${current_clock_speed}/${max_clock_speed} MHz"; fi
+	if [[ -n "${core_clock}" ]]; then tooltip_parts["\n󰾅 Clock Speed: "]="${core_clock} MHz"; fi
 	if [[ -n "${power_usage}" ]]; then
 		if [[ -n "${power_limit}" ]]; then
 			tooltip_parts["\n󱪉 Power Usage: "]="${power_usage}/${power_limit} W"

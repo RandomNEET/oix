@@ -9,30 +9,19 @@ let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
-  fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
-  splitName = lib.splitString "-" fullThemeName;
-  themeBaseName = if hasThemes then builtins.head splitName else "default";
   themeReloadCommands = ''
-    pkill waybar
-    pkill swaync
-    pkill fcitx5
-
-    waybar &
-    swaync &
-    fcitx5 -d
-
-    random-wall
-
+    systemctl --user restart waybar
+    systemctl --user restart fcitx5-daemon
     niri msg action reload-config
+    ${random-wall}
   '';
+  random-wall = lib.getExe (import ./random-wall.nix { inherit config pkgs opts; });
 
   terminal = opts.terminal;
   displays = opts.display or [ ];
   wallpaperDir =
     opts.wallpaper.dir
       or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
-  landscapeDir = "${wallpaperDir}/${themeBaseName}/landscape";
-  portraitDir = "${wallpaperDir}/${themeBaseName}/portrait";
   transitionType = opts.wallpaper.launcher.transition.type or "center";
   transitionStep = toString (opts.wallpaper.launcher.transition.step or 90);
   transitionDuration = toString (opts.wallpaper.launcher.transition.duration or 1);
@@ -63,38 +52,48 @@ pkgs.writeShellScriptBin "launcher" ''
     exit 0
   fi
 
+  THEME_BASE_NAME="${defaultTheme}"
+  PALETTE_FILE="$XDG_CONFIG_HOME/stylix/palette.json"
+  if [ -f "$PALETTE_FILE" ]; then
+    FULL_SLUG=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
+    if [ -n "$FULL_SLUG" ]; then
+      THEME_BASE_NAME=$(echo "$FULL_SLUG" | cut -d'-' -f1)
+    fi
+  fi
+  THEME_BASE_NAME=''${THEME_BASE_NAME:-"${defaultTheme}"}
+
   case $1 in
   drun)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/drun.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/drun.rasi"
     r_override="entry{placeholder:'Search...';}listview{lines:9;}"
     rofi -show drun -theme-str "$r_override" -theme "$rofi_theme"
     ;;
   window)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/window.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/window.rasi"
     r_override="entry{placeholder:'Search Windows...';}listview{lines:12;}"
     rofi -show window -theme-str "$r_override" -theme "$rofi_theme"
     ;;
   file)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/file.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/file.rasi"
     r_override="entry{placeholder:'Search Files...';}listview{lines:8;}"
     rofi -show filebrowser -theme-str "$r_override" -theme "$rofi_theme"
     ;;
   game)
     r_override="entry{placeholder:'Search Games...';}listview{lines:15;}"
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/game.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/game.rasi"
     rofi -show games -modi games -theme "''${rofi_theme}" -theme-str "$r_override"
     ;;
   emoji)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/emoji.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/emoji.rasi"
     r_override="entry{placeholder:'Search Emojis...';}listview{lines:15;}"
     rofi -modi emoji -show emoji -theme "''${rofi_theme}" -theme-str "$r_override"
     ;;
   rbw)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/rbw.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/rbw.rasi"
     rofi-rbw --selector rofi --selector-args="-theme $rofi_theme"
     ;;
   tmux)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/tmux.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/tmux.rasi"
     r_override="entry{placeholder:'Search Tmux Sessions...';}listview{lines:15;}"
     sessions=$(tmux ls -F '#{session_name}: #{session_path} (#{session_windows} windows)' |
       rofi -dmenu -i -theme-str "$r_override" -theme "$rofi_theme" | cut -d: -f1)
@@ -102,69 +101,17 @@ pkgs.writeShellScriptBin "launcher" ''
       ${terminal} --hold -e tmux attach -t $sessions
     fi
     ;;
-  spec)
-    SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
-    SYSTEM_SWITCH="/nix/var/nix/profiles/system/bin/switch-to-configuration"
-
-    EXCLUDE_PATTERN="${builtins.concatStringsSep "|" (opts.themes or [ ])}"
-
-    OPTIONS="default"
-    if [ -d "$SPEC_DIR" ]; then
-      OTHER_SPECS=$(ls "$SPEC_DIR" | grep -Ev "^($EXCLUDE_PATTERN)$")
-      if [ -n "$OTHER_SPECS" ]; then
-        OPTIONS="$OPTIONS\n$OTHER_SPECS"
-      fi
-    fi
-
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/specialisation.rasi"
-    r_override="entry{placeholder:'Select Specialisation...';}listview{lines:9;}"
-    
-    SELECTED=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")
-
-    if [ -z "$SELECTED" ]; then
-      exit 0
-    fi
-
-    if [ "$SELECTED" = "default" ]; then
-      pkexec "$SYSTEM_SWITCH" test
-    else
-      pkexec "$SPEC_DIR/$SELECTED/bin/switch-to-configuration" test
-    fi
-    ;;
-  theme)
-    SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
-    SYSTEM_SWITCH="/nix/var/nix/profiles/system/bin/switch-to-configuration"
-
-    THEMES="${builtins.concatStringsSep "\\n" (opts.themes or [ defaultTheme ])}"
-
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/theme.rasi"
-    r_override="entry{placeholder:'Select Theme...';}listview{lines:9;}"
-    
-    SELECTED=$(echo -e "$THEMES" | rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")
-
-    if [ -z "$SELECTED" ]; then
-      exit 0
-    fi
-
-    if [ "$SELECTED" = "${defaultTheme}" ]; then
-      pkexec "$SYSTEM_SWITCH" test
-    else
-      pkexec "$SPEC_DIR/$SELECTED/bin/switch-to-configuration" test
-    fi
-
-    ${themeReloadCommands}
-    ;;
   wallpaper)
     WALLPAPER_DIR="${wallpaperDir}"
-    LANDSCAPE_DIR="${landscapeDir}"
-    PORTRAIT_DIR="${portraitDir}"
+    LANDSCAPE_DIR="$WALLPAPER_DIR/$THEME_BASE_NAME/landscape"
+    PORTRAIT_DIR="$WALLPAPER_DIR/$THEME_BASE_NAME/portrait"
     DISPLAY_COUNT=${toString displayCount}
 
     if [ "$DISPLAY_COUNT" -eq 1 ]; then
       DISPLAY_OUTPUT="${singleDisplayOutput}"
       DISPLAY_ORIENTATION="${singleDisplayOrientation}"
     else
-      rofi_theme_display="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-display.rasi"
+      rofi_theme_display="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/wallpaper-display.rasi"
       r_override_display="entry{placeholder:'Select Display...';}listview{lines:$DISPLAY_COUNT;}"
 
       DISPLAY_CHOICE=$(rofi -dmenu \
@@ -209,11 +156,11 @@ pkgs.writeShellScriptBin "launcher" ''
     fi
 
     if [ "$DISPLAY_ORIENTATION" = "landscape" ]; then
-      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-landscape.rasi"
+      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/wallpaper-landscape.rasi"
       SEARCH_DIR="$LANDSCAPE_DIR"
       THUMB_SIZE="320x180"
     else
-      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-portrait.rasi"
+      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/wallpaper-portrait.rasi"
       SEARCH_DIR="$PORTRAIT_DIR"
       THUMB_SIZE="180x320"
     fi
@@ -280,6 +227,54 @@ pkgs.writeShellScriptBin "launcher" ''
 
     echo "Set wallpaper for Display $DISPLAY_OUTPUT ($DISPLAY_ORIENTATION): $WALLPAPER_PATH"
     ;;
+  theme)
+    BASE_GEN="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
+    SPEC_DIR="$BASE_GEN/specialisation"
+    
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/theme.rasi"
+    r_override="entry{placeholder:'Select Theme...';}listview{lines:9;}"
+    
+    SELECTED=$( (ls "$SPEC_DIR" 2>/dev/null; echo "${defaultTheme}") | \
+        rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")
+    
+    if [ -z "$SELECTED" ]; then
+      exit 0
+    fi
+    
+    if [ "$SELECTED" = "${defaultTheme}" ]; then
+      echo "Switching to $SELECTED..."
+      "$BASE_GEN/activate"
+    else
+      echo "Switching to $SELECTED..."
+      "$SPEC_DIR/$SELECTED/activate"
+    fi
+    
+    ${themeReloadCommands}
+    ;;
+  spec)
+    SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
+    SYSTEM_SWITCH="/nix/var/nix/profiles/system/bin/switch-to-configuration"
+
+    OPTIONS="default"
+    if [ -d "$SPEC_DIR" ]; then
+      OPTIONS="$OPTIONS\n$(ls "$SPEC_DIR")"
+    fi
+
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/specialisation.rasi"
+    r_override="entry{placeholder:'Select Specialisation...';}listview{lines:9;}"
+    
+    SELECTED=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")
+
+    if [ -z "$SELECTED" ]; then
+      exit 0
+    fi
+
+    if [ "$SELECTED" = "default" ]; then
+      pkexec "$SYSTEM_SWITCH" test
+    else
+      pkexec "$SPEC_DIR/$SELECTED/bin/switch-to-configuration" test
+    fi
+    ;;
   help | --help | -h)
     echo "Usage: launcher [ACTION]"
     echo "Launch various rofi modes with custom themes and settings."
@@ -292,9 +287,9 @@ pkgs.writeShellScriptBin "launcher" ''
     echo "  emoji                  Search and insert emojis"
     echo "  rbw                    Browse and search passwords"
     echo "  tmux                   Search active tmux sessions"
-    echo "  spec                   Select and switch specialisation "
-    echo "  theme                  Select and set theme"
     echo "  wallpaper              Select display and set wallpaper"
+    echo "  theme                  Select and set theme"
+    echo "  spec                   Select and switch specialisation "
     echo "  help                   Display this help message"
     echo "  --help                 Same as 'help'"
     echo ""

@@ -41,21 +41,6 @@ in
     };
   };
 
-  specialisation = lib.mkIf hasThemes (
-    builtins.listToAttrs (
-      map (theme: {
-        name = theme;
-        value = {
-          configuration = {
-            stylix = {
-              base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
-            };
-          };
-        };
-      }) otherThemes
-    )
-  );
-
   home-manager.sharedModules = lib.mkIf hasThemes [
     (
       { config, ... }:
@@ -127,6 +112,37 @@ in
             };
           };
         };
+
+        specialisation = lib.mkIf hasThemes (
+          builtins.listToAttrs (
+            map (theme: {
+              name = theme;
+              value = {
+                configuration = {
+                  stylix = {
+                    base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
+                  };
+                };
+              };
+            }) otherThemes
+          )
+        );
+
+        home.activation.saveHmBasePath = ''
+          if [[ ! "$0" =~ "specialisation" ]]; then
+            LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
+            
+            mkdir -p "$(dirname "$LINK_PATH")"
+            
+            REAL_SELF=$(readlink -f "$0")
+            BASE_GEN=''${REAL_SELF%/activate}
+            
+            if [ -d "$BASE_GEN/specialisation" ]; then
+              ln -sfn "$BASE_GEN" "$LINK_PATH"
+              verboseEcho "Linked $LINK_PATH -> $BASE_GEN"
+            fi
+          fi
+        '';
       }
     )
   ];

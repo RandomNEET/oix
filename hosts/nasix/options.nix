@@ -27,7 +27,7 @@
 
     # Boot {{{
     boot = {
-      kernelPackages = "linuxPackages";
+      kernelPackages = "linuxPackages"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
     };
     # }}}
 

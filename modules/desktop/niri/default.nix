@@ -5,6 +5,21 @@
   opts,
   ...
 }:
+let
+  launcher = lib.getExe (
+    import ./scripts/launcher.nix {
+      inherit
+        config
+        lib
+        pkgs
+        opts
+        ;
+    }
+  );
+  random-wall = lib.getExe (import ./scripts/random-wall.nix { inherit config pkgs opts; });
+  clip-manager = lib.getExe (import ./scripts/clip-manager.nix { inherit pkgs opts; });
+  autoclicker = lib.getExe (pkgs.callPackage ./scripts/autoclicker.nix { });
+in
 {
   imports = [
     ./programs/fcitx5
@@ -20,16 +35,9 @@
   ];
 
   systemd.user.services.random-wall = {
-    description = "Randomly change wallpaper";
+    description = "Random wallpaper";
     startAt = "hourly";
-    script = "${import ./scripts/random-wall.nix {
-      inherit
-        config
-        lib
-        pkgs
-        opts
-        ;
-    }}";
+    script = "${random-wall}";
     serviceConfig = {
       Type = "oneshot";
     };
@@ -41,20 +49,16 @@
 
   home-manager.sharedModules = [
     (
-      {
-        osConfig,
-        config,
-        pkgs,
-        ...
-      }:
+      { osConfig, config, ... }:
       let
-        inherit (lib) getExe getExe';
-
         terminal =
           if (opts.terminal == "foot") then
-            if (opts.foot.server or false) then "${getExe' pkgs.foot "footclient"}" else "${getExe pkgs.foot}"
+            if (opts.foot.server or false) then
+              "${lib.getExe' pkgs.foot "footclient"}"
+            else
+              "${lib.getExe pkgs.foot}"
           else
-            "${getExe pkgs.${opts.terminal}}";
+            "${lib.getExe pkgs.${opts.terminal}}";
         fileManager =
           if (opts.terminal == "kitty") then
             ''${terminal} --class \"terminalFileManager\" -e ${opts.terminalFileManager}''
@@ -70,8 +74,6 @@
           else
             ''${terminal} -e ${opts.editor}'';
         browser = opts.browser;
-
-        autoclicker = pkgs.callPackage ./scripts/autoclicker.nix { };
 
         niriConfig = ''
           ${lib.concatMapStringsSep "\n" (
@@ -186,8 +188,6 @@
 
           screenshot-path "~/pic/screenshots/screenshot from %Y-%m-%d %H-%M-%S.png"
 
-          spawn-at-startup "waybar"
-          spawn-at-startup "swaync"
           spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=gnome"
           spawn-sh-at-startup "systemctl --user stop xdg-desktop-portal.service"
           spawn-sh-at-startup "systemctl --user start xdg-desktop-portal.service"
@@ -203,7 +203,7 @@
           } -r"''}
           ${lib.optionalString (
             (opts.terminal == "foot") && (opts.foot.server or false)
-          ) ''spawn-sh-at-startup "${getExe pkgs.foot} --server"''}
+          ) ''spawn-sh-at-startup "${lib.getExe pkgs.foot} --server"''}
 
           binds {
               Mod+Shift+Slash { show-hotkey-overlay; }
@@ -212,39 +212,30 @@
               Mod+F hotkey-overlay-title="Launch file manager: ${opts.terminalFileManager}" { spawn-sh "${fileManager}"; }
               Mod+E hotkey-overlay-title="Launch editor: ${opts.editor}" { spawn-sh "${editor}"; }
               Mod+B hotkey-overlay-title="Launch browser: ${opts.browser}" { spawn "${browser}"; }
-              Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${getExe pkgs.btop}"; }
+              Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${lib.getExe pkgs.btop}"; }
 
-              Mod+Space hotkey-overlay-title="Launch application menu" { spawn-sh "launcher drun"; }
-              Mod+Shift+W hotkey-overlay-title="Select wallpaper" { spawn-sh "launcher wallpaper"; }
-              Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn "random-wall"; }
-              Mod+Ctrl+T hotkey-overlay-title="Select theme" { spawn-sh "launcher theme"; }
-              Mod+Alt+S hotkey-overlay-title="Select specialisation" { spawn-sh "launcher spec"; }
-              Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "${
-                import ./scripts/clip-manager.nix {
-                  inherit
-                    config
-                    lib
-                    pkgs
-                    opts
-                    ;
-                }
-              }"; }
+              Mod+Space hotkey-overlay-title="Launch application menu" { spawn-sh "${launcher} drun"; }
+              Mod+Shift+W hotkey-overlay-title="Select wallpaper" { spawn-sh "${launcher} wallpaper"; }
+              Mod+Ctrl+W hotkey-overlay-title="Random wallpaper" { spawn "${random-wall}"; }
+              Mod+Ctrl+T hotkey-overlay-title="Select theme" { spawn-sh "${launcher} theme"; }
+              Mod+Alt+S hotkey-overlay-title="Select specialisation" { spawn-sh "${launcher} spec"; }
+              Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "${clip-manager}"; }
               ${lib.optionalString (config.programs.tmux.enable or false) ''
-                Mod+Shift+T hotkey-overlay-title="Launch tmux sessions" { spawn-sh "launcher tmux"; }
+                Mod+Shift+T hotkey-overlay-title="Launch tmux sessions" { spawn-sh "${launcher} tmux"; }
               ''}
               ${lib.optionalString (opts.rbw.rofi-rbw or false) ''
-                Mod+Alt+U hotkey-overlay-title="Launch password manager" { spawn-sh "launcher rbw"; }
+                Mod+Alt+U hotkey-overlay-title="Launch password manager" { spawn-sh "${launcher} rbw"; }
               ''}
               ${lib.optionalString (osConfig.programs.steam.enable or false) ''
-                Mod+G hotkey-overlay-title="Game launcher" { spawn-sh "launcher game"; }
+                Mod+G hotkey-overlay-title="Game launcher" { spawn-sh "${launcher} game"; }
               ''}
 
               Mod+Alt+L hotkey-overlay-title="Lock screen" { spawn "swaylock"; }
               Mod+Backspace hotkey-overlay-title="Power menu" { spawn-sh "pkill -x wlogout || wlogout -b 4"; }
               Mod+Shift+Q hotkey-overlay-title="Open notification panel" { spawn-sh "swaync-client -t -sw"; }
-              Ctrl+Escape hotkey-overlay-title="Toggle waybar" { spawn-sh "pkill waybar || waybar"; }
+              Ctrl+Escape hotkey-overlay-title="Toggle waybar" { spawn-sh "systemctl --user is-active --quiet waybar && systemctl --user stop waybar || systemctl --user start waybar"; }
 
-              Mod+F8 hotkey-overlay-title="Toggle autoclicker" { spawn-sh "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${lib.getExe autoclicker} --cps 40"; }
+              Mod+F8 hotkey-overlay-title="Toggle autoclicker" { spawn-sh "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"; }
               Mod+F9 hotkey-overlay-title="Enable night mode" { spawn-sh "wlsunset -T 6500"; }
               Mod+F10 hotkey-overlay-title="Disable night mode" { spawn-sh "pkill wlsunset"; }
 

@@ -33,7 +33,6 @@
     useUserPackages = true;
     backupFileExtension = "backup";
     users.${opts.users.primary.name} = {
-      # Let Home Manager install and manage itself.
       programs.home-manager.enable = true;
       home = {
         username = opts.users.primary.name;

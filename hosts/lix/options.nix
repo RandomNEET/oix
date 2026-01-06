@@ -19,7 +19,7 @@
 
     # Boot {{{
     boot = {
-      kernelPackages = "linuxPackages_zen";
+      kernelPackages = "linuxPackages_zen"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
     };
     lanzaboote = {
       enable = true;
@@ -63,6 +63,7 @@
 
     # Desktop {{{
     desktop = "niri";
+    # https://github.com/tinted-theming/schemes
     themes = [
       "catppuccin-mocha"
       "everforest-dark-hard"

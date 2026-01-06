@@ -13,6 +13,7 @@
       '';
     };
     rtkit.enable = true;
+    polkit.enable = true;
     apparmor = {
       enable = true;
       killUnconfinedConfinables = true;
@@ -21,23 +22,6 @@
     # Prevent replacing the running kernel without a reboot
     protectKernelImage = true;
     acme.acceptTerms = true;
-    polkit = {
-      enable = lib.mkDefault (((opts.display or [ ]) != [ ]) || ((opts.desktop or "") != ""));
-      extraConfig = ''
-        polkit.addRule(function(action, subject) {
-          if (action.id == "org.freedesktop.policykit.exec" &&
-              subject.isInGroup("wheel")) {
-            var program = action.lookup("program");
-            if (program && (
-                program.indexOf("/nix/var/nix/profiles/system/bin/switch-to-configuration") === 0 ||
-                program.indexOf("/nix/var/nix/profiles/system/specialisation/") === 0
-            )) {
-              return polkit.Result.YES;
-            }
-          }
-        });
-      '';
-    };
   };
   boot = {
     kernel.sysctl = {

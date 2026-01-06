@@ -1,12 +1,11 @@
 {
-  osConfig,
   config,
   lib,
   pkgs,
   opts,
   ...
 }:
-pkgs.writeShellScript "keybinds" ''
+pkgs.writeShellScriptBin "keybinds" ''
   set -euo pipefail
 
   TERMINAL=${lib.escapeShellArg opts.terminal}
@@ -15,7 +14,7 @@ pkgs.writeShellScript "keybinds" ''
   BROWSER=${lib.escapeShellArg opts.browser}
 
   KEYBINDERS=(
-    "SUPER SHIFT /" "Show keybinds" "scripts/keybinds.nix"
+    "SUPER SHIFT /" "Show keybinds" "scripts/keybinds"
     "SUPER Return" "Launch terminal" "$TERMINAL"
     "SUPER T" "Launch terminal" "$TERMINAL"
     "SUPER F" "Launch file manager" "$FILEMANAGER"
@@ -27,20 +26,19 @@ pkgs.writeShellScript "keybinds" ''
     "SUPER CTRL W" "Random wallpaper" "scripts/random-wall"
     "SUPER CTRL T" "Select theme" "scripts/launcher theme"
     "SUPER ALT S" "Select specialisation" "scripts/launcher spec"
-    ${lib.optionalString (config.programs.tmux.enable or false
-    ) ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''}
+    ${lib.optionalString config.home-manager.users.${opts.users.primary.name}.programs.tmux.enable
+      ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''
+    }
     ${lib.optionalString (opts.rbw.rofi-rbw or false
     ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
-    ${lib.optionalString (osConfig.programs.steam.enable or false
-    ) ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
-    "SUPER V" "Clipboard manager" "scripts/clip-manager.nix"
+    ${lib.optionalString config.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
+    "SUPER V" "Clipboard manager" "scripts/clip-manager"
     "SUPER SHIFT N" "Open notification panel" "swaync-client -t -sw"
     "SUPER SHIFT Q" "Open notification panel" "swaync-client -t -sw"
     "CTRL ALT Delete" "Open system monitor" "btop"
     "SUPER CTRL C" "Colour picker" "hyprpicker --autocopy"
-    ${lib.optionalString (osConfig.programs.steam.enable or false
-    ) ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
-    "SUPER F8" "Toggle autoclicker" "scripts/autoclicker.nix"
+    ${lib.optionalString config.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
+    "SUPER F8" "Toggle autoclicker" "scripts/autoclicker"
     "SUPER F9" "Enable night mode" "hyprsunset --temperature 2500"
     "SUPER F10" "Disable night mode" "pkill hyprsunset"
     "SUPER P" "Screenshot (select area)" "scripts/screenshot.sh s"
@@ -55,7 +53,7 @@ pkgs.writeShellScript "keybinds" ''
     "SUPER Q" "Close active window" "killactive"
     "SUPER ALT L" "Lock screen" "hyprlock"
     "SUPER Backspace" "Power menu" "wlogout -b 4"
-    "CTRL Escape" "Toggle Waybar" "pkill waybar || waybar"
+    "CTRL Escape" "Toggle Waybar" "toggle waybar service"
     "SUPER S" "Toggle scratchpad workspace" "togglespecialworkspace"
     "SUPER CTRL S" "Move to scratchpad" "movetoworkspacesilent special"
     "SUPER H" "Move focus left (HJKL)" "movefocus l"

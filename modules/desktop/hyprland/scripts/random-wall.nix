@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   opts,
   ...
@@ -8,15 +7,9 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
-  splitName = lib.splitString "-" fullThemeName;
-  themeBaseName = if hasThemes then builtins.head splitName else "default";
+  defaultTheme = if hasThemes then builtins.head opts.themes else "default";
 
-  wallpaperDir =
-    opts.wallpaper.dir
-      or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
-  landscapeDir = "${wallpaperDir}/${themeBaseName}/landscape";
-  portraitDir = "${wallpaperDir}/${themeBaseName}/portrait";
+  wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
   transitionType = opts.wallpaper.transition.random-wall.type or "wipe";
   transitionStep = toString (opts.wallpaper.transition.random-wall.step or 90);
   transitionDuration = toString (opts.wallpaper.transition.random-wall.duration or 1);
@@ -38,8 +31,18 @@ pkgs.writeShellApplication {
     	exit 0
     fi
 
-    DEFAULT_LANDSCAPE_DIR="${landscapeDir}"
-    DEFAULT_PORTRAIT_DIR="${portraitDir}"
+    THEME_BASE_NAME="${defaultTheme}"
+    PALETTE_FILE="$XDG_CONFIG_HOME/stylix/palette.json"
+    if [ -f "$PALETTE_FILE" ]; then
+      FULL_SLUG=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
+      if [ -n "$FULL_SLUG" ]; then
+        THEME_BASE_NAME=$(echo "$FULL_SLUG" | cut -d'-' -f1)
+      fi
+    fi
+    THEME_BASE_NAME=''${THEME_BASE_NAME:-"${defaultTheme}"}
+
+    DEFAULT_LANDSCAPE_DIR="${wallpaperDir}/$THEME_BASE_NAME/landscape"
+    DEFAULT_PORTRAIT_DIR="${wallpaperDir}/$THEME_BASE_NAME/portrait"
     DEFAULT_TRANSITION_OPTS="--transition-type ${transitionType} --transition-step ${transitionStep} --transition-duration ${transitionDuration} --transition-fps ${transitionFps}"
 
     LANDSCAPE_DIR="''${1:-$DEFAULT_LANDSCAPE_DIR}"

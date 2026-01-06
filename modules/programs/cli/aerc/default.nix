@@ -1,21 +1,17 @@
 {
-  config,
   lib,
   pkgs,
   opts,
   ...
 }:
-let
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
-  colors = config.lib.stylix.colors;
-in
 {
   home-manager.sharedModules = [
     (
       { config, ... }:
       let
-        inherit (lib) getExe getExe';
+        themes = opts.themes or [ ];
+        hasThemes = themes != [ ];
+        colors = config.lib.stylix.colors;
       in
       {
         programs.aerc = {
@@ -33,14 +29,15 @@ in
             };
             filters = {
               "text/plain" = "wrap -w 100 | colorize";
-              "text/html" = "! ${getExe pkgs.w3m} -I UTF-8 -T text/html";
+              "text/html" = "! ${lib.getExe pkgs.w3m} -I UTF-8 -T text/html";
               "text/calendar" = "calendar";
-              "text/\\*" = "${getExe pkgs.bat} -fP --file-name=\"$AERC_FILENAME\" --style=plain";
+              "text/\\*" = "${lib.getExe pkgs.bat} -fP --file-name=\"$AERC_FILENAME\" --style=plain";
               ".headers" = "colorize";
               "message/delivery-status" = "colorize";
-              "message/rfc822" = "${getExe pkgs.caeml} | colorize";
-              "application/mbox" = "${getExe pkgs.catbox} -c caeml | colorize";
-              "application/pdf" = "${getExe' pkgs.poppler-utils "pdftotext"} - -l 10 -nopgbrk -q - | fmt -w 100";
+              "message/rfc822" = "${lib.getExe pkgs.caeml} | colorize";
+              "application/mbox" = "${lib.getExe pkgs.catbox} -c caeml | colorize";
+              "application/pdf" =
+                "${lib.getExe' pkgs.poppler-utils "pdftotext"} - -l 10 -nopgbrk -q - | fmt -w 100";
               ".filename,~.*\\.csv" = "column -t --separator=\",\"";
             };
             openers =
