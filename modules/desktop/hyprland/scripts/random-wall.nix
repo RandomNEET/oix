@@ -9,7 +9,9 @@ let
   hasThemes = themes != [ ];
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
 
-  wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
+  wallpaperDir =
+    opts.wallpaper.dir
+      or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
   transitionType = opts.wallpaper.transition.random-wall.type or "wipe";
   transitionStep = toString (opts.wallpaper.transition.random-wall.step or 90);
   transitionDuration = toString (opts.wallpaper.transition.random-wall.duration or 1);
@@ -18,11 +20,12 @@ in
 pkgs.writeShellApplication {
   name = "random-wall";
   runtimeInputs = with pkgs; [
-    swww
     coreutils
     findutils
     gnugrep
     gnused
+    jq
+    swww
   ];
   text = ''
     WAYLAND_SOCKET=$(find /run/user/$UID -maxdepth 1 -type s -name 'wayland-*' | head -n1)
@@ -34,7 +37,7 @@ pkgs.writeShellApplication {
     THEME_BASE_NAME="${defaultTheme}"
     PALETTE_FILE="$XDG_CONFIG_HOME/stylix/palette.json"
     if [ -f "$PALETTE_FILE" ]; then
-      FULL_SLUG=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
+      FULL_SLUG=$(jq -r '.slug // empty' "$PALETTE_FILE")
       if [ -n "$FULL_SLUG" ]; then
         THEME_BASE_NAME=$(echo "$FULL_SLUG" | cut -d'-' -f1)
       fi

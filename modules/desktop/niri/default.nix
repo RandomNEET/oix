@@ -31,7 +31,6 @@ in
     ./programs/swww
     ./programs/waybar
     ./programs/wlogout
-    ./scripts
   ];
 
   systemd.user.services.random-wall = {
