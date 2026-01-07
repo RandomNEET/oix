@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
+{ lib, pkgs, ... }:
 {
   home-manager.sharedModules = [
     (
@@ -22,7 +17,6 @@
           plugins = with pkgs.tmuxPlugins; [ vim-tmux-navigator ];
           extraConfig = ''
             # Options
-            set -g @catppuccin_flavour 'mocha'
             set -g allow-rename off
             set -g status-position top
             set -g base-index 1
