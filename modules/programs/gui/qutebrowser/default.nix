@@ -25,7 +25,7 @@
             extraConfig = '''' + (opts.qutebrowser.extraConfig or "");
           };
         };
-        home.file.".config/qutebrowser/userscripts".source = ./userscripts;
+        imports = [ ./userscripts ];
       }
     )
   ];
