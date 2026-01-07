@@ -9,7 +9,7 @@
     (
       { config, ... }:
       let
-        inherit (lib) getExe getExe';
+        inherit (lib) optionalAttrs getExe getExe';
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
         colors = config.lib.stylix.colors;
@@ -27,6 +27,9 @@
               mouse-enabled = "true";
               border-char-vertical = "│";
               border-char-horizontal = "─";
+            }
+            // optionalAttrs hasThemes {
+              styleset-name = "stylix";
             };
             filters = {
               "text/plain" = "wrap -w 100 | colorize";
@@ -42,24 +45,22 @@
             };
             openers =
               { }
-              // lib.optionalAttrs ((opts.desktop or "") == "") { use-terminal-pinentry = "true"; }
-              // lib.optionalAttrs ((opts.desktop or "") != "") { "x-scheme-handler/http*" = "xdg-open {}"; }
-              // lib.optionalAttrs ((opts.desktop or "") != "" && (opts.editor or "") != "") {
+              // optionalAttrs ((opts.desktop or "") == "") { use-terminal-pinentry = "true"; }
+              // optionalAttrs ((opts.desktop or "") != "") { "x-scheme-handler/http*" = "xdg-open {}"; }
+              // optionalAttrs ((opts.desktop or "") != "" && (opts.editor or "") != "") {
                 "text/plain" = "${opts.terminal} -e ${opts.editor} {}";
               }
-              // lib.optionalAttrs ((opts.desktop or "") != "" && (opts.browser or "") != "") {
+              // optionalAttrs ((opts.desktop or "") != "" && (opts.browser or "") != "") {
                 "text/html" = "${opts.browser} {}";
               }
-              // lib.optionalAttrs config.programs.swayimg.enable { "image/*" = "swayimg {}"; }
-              // lib.optionalAttrs config.programs.zathura.enable { "application/pdf" = "zathura {}"; }
-              // lib.optionalAttrs config.programs.thunderbird.enable { "message/rfc822" = "thunderbird"; };
+              // optionalAttrs config.programs.swayimg.enable { "image/*" = "swayimg {}"; }
+              // optionalAttrs config.programs.zathura.enable { "application/pdf" = "zathura {}"; }
+              // optionalAttrs config.programs.thunderbird.enable { "message/rfc822" = "thunderbird"; };
             hooks =
               { }
-              //
-                lib.optionalAttrs (config.services.mbsync.enable && (opts.mbsync.service.notify.enable or false))
-                  {
-                    aerc-shutdown = "${import ../../../services/mbsync/scripts/count.nix { inherit pkgs opts; }}";
-                  };
+              // optionalAttrs (config.services.mbsync.enable && (opts.mbsync.service.notify.enable or false)) {
+                aerc-shutdown = "${import ../../../services/mbsync/scripts/count.nix { inherit pkgs opts; }}";
+              };
           };
           stylesets = lib.mkIf hasThemes {
             stylix = ''
@@ -126,11 +127,6 @@
               quote_*.fg=#${colors.base03}
               quote_1.fg=#${colors.base04}
             '';
-          };
-          extraConfig = {
-            ui = {
-              styleset-name = "stylix";
-            };
           };
         };
       }
