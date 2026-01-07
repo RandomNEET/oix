@@ -6,7 +6,8 @@
   ...
 }:
 let
-  launcher = lib.getExe (
+  inherit (lib) getExe getExe';
+  launcher = getExe (
     import ./scripts/launcher.nix {
       inherit
         config
@@ -16,9 +17,9 @@ let
         ;
     }
   );
-  random-wall = lib.getExe (import ./scripts/random-wall.nix { inherit config pkgs opts; });
-  clip-manager = lib.getExe (import ./scripts/clip-manager.nix { inherit pkgs opts; });
-  autoclicker = lib.getExe (pkgs.callPackage ./scripts/autoclicker.nix { });
+  random-wall = getExe (import ./scripts/random-wall.nix { inherit config pkgs opts; });
+  clip-manager = getExe (import ./scripts/clip-manager.nix { inherit pkgs opts; });
+  autoclicker = getExe (pkgs.callPackage ./scripts/autoclicker.nix { });
 in
 {
   imports = [
@@ -52,12 +53,9 @@ in
       let
         terminal =
           if (opts.terminal == "foot") then
-            if (opts.foot.server or false) then
-              "${lib.getExe' pkgs.foot "footclient"}"
-            else
-              "${lib.getExe pkgs.foot}"
+            if (opts.foot.server or false) then "${getExe' pkgs.foot "footclient"}" else "${getExe pkgs.foot}"
           else
-            "${lib.getExe pkgs.${opts.terminal}}";
+            "${getExe pkgs.${opts.terminal}}";
         fileManager =
           if (opts.terminal == "kitty") then
             ''${terminal} --class \"terminalFileManager\" -e ${opts.terminalFileManager}''
@@ -202,7 +200,7 @@ in
           } -r"''}
           ${lib.optionalString (
             (opts.terminal == "foot") && (opts.foot.server or false)
-          ) ''spawn-sh-at-startup "${lib.getExe pkgs.foot} --server"''}
+          ) ''spawn-sh-at-startup "${getExe pkgs.foot} --server"''}
 
           binds {
               Mod+Shift+Slash { show-hotkey-overlay; }
@@ -211,7 +209,7 @@ in
               Mod+F hotkey-overlay-title="Launch file manager: ${opts.terminalFileManager}" { spawn-sh "${fileManager}"; }
               Mod+E hotkey-overlay-title="Launch editor: ${opts.editor}" { spawn-sh "${editor}"; }
               Mod+B hotkey-overlay-title="Launch browser: ${opts.browser}" { spawn "${browser}"; }
-              Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${lib.getExe pkgs.btop}"; }
+              Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${getExe pkgs.btop}"; }
 
               Mod+Space hotkey-overlay-title="Launch application menu" { spawn-sh "${launcher} drun"; }
               Mod+Ctrl+W hotkey-overlay-title="Select wallpaper" { spawn-sh "${launcher} wallpaper"; }

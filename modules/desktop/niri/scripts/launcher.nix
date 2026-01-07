@@ -6,6 +6,7 @@
   ...
 }:
 let
+  inherit (lib) getExe;
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
@@ -15,7 +16,7 @@ let
     niri msg action reload-config
     ${random-wall}
   '';
-  random-wall = lib.getExe (import ./random-wall.nix { inherit config pkgs opts; });
+  random-wall = getExe (import ./random-wall.nix { inherit config pkgs opts; });
 
   terminal = opts.terminal;
   displays = opts.display or [ ];
@@ -174,7 +175,7 @@ pkgs.writeShellScriptBin "launcher" ''
       local wallpaper_name="''${relative_path%.*}"
       local thumbnail="$CACHE_DIR/''${wallpaper_name}.jpg"
       mkdir -p "$(dirname "$thumbnail")"
-      ${lib.getExe pkgs.imagemagick} "$wallpaper[0]" \
+      ${getExe pkgs.imagemagick} "$wallpaper[0]" \
         -strip -gravity center \
         -thumbnail "$thumb_size^" \
         -extent "$thumb_size" \
@@ -189,7 +190,7 @@ pkgs.writeShellScriptBin "launcher" ''
       if [ !  -f "$thumbnail" ]; then
         MISSING_THUMBS+=("$wallpaper")
       fi
-    done < <(${lib.getExe pkgs.fd} --type f \
+    done < <(${getExe pkgs.fd} --type f \
       -e jpg -e jpeg -e png -e webp -e jxl -e gif \
       . "$SEARCH_DIR")
     
@@ -202,7 +203,7 @@ pkgs.writeShellScriptBin "launcher" ''
       wait
     fi
 
-    CHOICE=$(${lib.getExe pkgs.fd} --type f \
+    CHOICE=$(${getExe pkgs.fd} --type f \
       -e jpg -e jpeg -e png -e webp -e jxl -e gif \
       . "$SEARCH_DIR" \
       | sed "s|$WALLPAPER_DIR/||" \

@@ -6,7 +6,8 @@
   ...
 }:
 let
-  launcher = lib.getExe (
+  inherit (lib) getExe getExe';
+  launcher = getExe (
     import ./scripts/launcher.nix {
       inherit
         config
@@ -16,9 +17,9 @@ let
         ;
     }
   );
-  random-wall = lib.getExe (import ./scripts/random-wall.nix { inherit config pkgs opts; });
-  clip-manager = lib.getExe (import ./scripts/clip-manager.nix { inherit pkgs opts; });
-  keybinds = lib.getExe (
+  random-wall = getExe (import ./scripts/random-wall.nix { inherit config pkgs opts; });
+  clip-manager = getExe (import ./scripts/clip-manager.nix { inherit pkgs opts; });
+  keybinds = getExe (
     import ./scripts/keybinds.nix {
       inherit
         config
@@ -28,7 +29,7 @@ let
         ;
     }
   );
-  autoclicker = lib.getExe (pkgs.callPackage ./scripts/autoclicker.nix { });
+  autoclicker = getExe (pkgs.callPackage ./scripts/autoclicker.nix { });
 in
 {
   imports = [
@@ -134,12 +135,9 @@ in
             "$mainMod" = "SUPER";
             "$terminal" =
               if (opts.terminal == "foot") then
-                if (opts.foot.server or false) then
-                  "${lib.getExe' pkgs.foot "footclient"}"
-                else
-                  "${lib.getExe pkgs.foot}"
+                if (opts.foot.server or false) then "${getExe' pkgs.foot "footclient"}" else "${getExe pkgs.foot}"
               else
-                "${lib.getExe pkgs.${opts.terminal}}";
+                "${getExe pkgs.${opts.terminal}}";
             "$fileManager" =
               if (opts.terminal == "kitty") then
                 ''$terminal --class "terminalFileManager" -e ${opts.terminalFileManager}''
@@ -184,8 +182,8 @@ in
                 "hyprctl dispatch workspace 1"
                 "nm-applet --indicator"
                 "wl-clipboard-history -t"
-                "${lib.getExe' pkgs.wl-clipboard "wl-paste"} --type text --watch cliphist store" # clipboard store text data
-                "${lib.getExe' pkgs.wl-clipboard "wl-paste"} --type image --watch cliphist store" # clipboard store image data
+                "${getExe' pkgs.wl-clipboard "wl-paste"} --type text --watch cliphist store" # clipboard store text data
+                "${getExe' pkgs.wl-clipboard "wl-paste"} --type image --watch cliphist store" # clipboard store image data
                 "rm '$XDG_CACHE_HOME/cliphist/db'" # Clear clipboard
                 "${./scripts/randomwallctl.sh} -r"
               ]
@@ -194,7 +192,7 @@ in
               } -r"
               ++ lib.optional (
                 (opts.terminal == "foot") && (opts.foot.server or false)
-              ) "${lib.getExe pkgs.foot} --server"
+              ) "${getExe pkgs.foot} --server"
             );
 
             input = {
@@ -446,7 +444,7 @@ in
               "$mainMod, F, exec, $fileManager"
               "$mainMod, E, exec, $editor"
               "$mainMod, B, exec, $browser"
-              "$CONTROL ALT, DELETE, exec, $terminal -e ${lib.getExe pkgs.btop}" # System Monitor
+              "$CONTROL ALT, DELETE, exec, $terminal -e ${getExe pkgs.btop}" # System Monitor
               "$mainMod CTRL, C, exec, hyprpicker --autocopy --format=hex" # Colour Picker
 
               "$mainMod, A, exec, ${launcher} drun" # launch desktop applications

@@ -5,6 +5,9 @@
   opts,
   ...
 }:
+let
+  inherit (lib) getExe;
+in
 {
   programs.yazi = {
     initLua = builtins.readFile ./plugins.lua;
@@ -48,19 +51,19 @@
           # piper
           {
             url = "*/";
-            run = ''piper -- ${lib.getExe pkgs.eza} -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
+            run = ''piper -- ${getExe pkgs.eza} -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
           }
           {
             url = "*.md";
-            run = ''piper -- CLICOLOR_FORCE=1 ${lib.getExe pkgs.glow} -w=$w -s=dark "$1"'';
+            run = ''piper -- CLICOLOR_FORCE=1 ${getExe pkgs.glow} -w=$w -s=dark "$1"'';
           }
           {
             url = "*.csv";
-            run = ''piper -- ${lib.getExe pkgs.bat} -p --color=always "$1"'';
+            run = ''piper -- ${getExe pkgs.bat} -p --color=always "$1"'';
           }
           {
             mime = "application/sqlite3";
-            run = ''piper -- ${lib.getExe pkgs.sqlite} "$1" ".schema --indent"'';
+            run = ''piper -- ${getExe pkgs.sqlite} "$1" ".schema --indent"'';
           }
           # ouch
           {
@@ -121,7 +124,7 @@
           # piper
           {
             url = "*";
-            run = ''piper -- ${lib.getExe pkgs.hexyl} --border=none --terminal-width=$w "$1"'';
+            run = ''piper -- ${getExe pkgs.hexyl} --border=none --terminal-width=$w "$1"'';
           }
         ];
         repend_preloaders = [
