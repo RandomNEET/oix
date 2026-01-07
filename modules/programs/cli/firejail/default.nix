@@ -25,10 +25,6 @@ in
         executable = "${getBin pkgs.calibre}/bin/calibre";
         profile = "${pkgs.firejail}/etc/firejail/calibre.profile";
       };
-      discord = mkIf homeConfig.programs.vesktop.enable {
-        executable = "${getBin pkgs.vesktop}/bin/vesktop";
-        profile = "${pkgs.firejail}/etc/firejail/vesktop.profile";
-      };
       firefox = mkIf homeConfig.programs.firefox.enable {
         executable = "${getBin pkgs.firefox}/bin/firefox";
         profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
@@ -80,6 +76,10 @@ in
       thunderbird = mkIf homeConfig.programs.thunderbird.enable {
         executable = "${getBin pkgs.thunderbird}/bin/thunderbird";
         profile = "${pkgs.firejail}/etc/firejail/thunderbird.profile";
+      };
+      vesktop = mkIf homeConfig.programs.vesktop.enable {
+        executable = "${getBin pkgs.vesktop}/bin/vesktop";
+        profile = "${pkgs.firejail}/etc/firejail/vesktop.profile";
       };
       vscode = mkIf homeConfig.programs.vscode.enable {
         executable = "${getBin pkgs.vscode}/bin/code";

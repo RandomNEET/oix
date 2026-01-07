@@ -78,7 +78,7 @@ if hasThemes then
             spicetify.enable = true;
             spotify-player.enable = true;
             tmux.enable = true;
-            vencord.enable = true;
+            vesktop.enable = true;
             vscode.enable = true;
             waybar.enable = true;
             yazi.enable = true;
