@@ -46,7 +46,13 @@
     ];
   };
 
-  boot.initrd.luks.devices."enc".device = "/dev/disk/by-uuid/055580b6-24c9-4c6b-b4d8-eab81bc10224";
+  boot.initrd = {
+    systemd.enable = true;
+    luks.devices."enc" = {
+      device = "/dev/disk/by-uuid/055580b6-24c9-4c6b-b4d8-eab81bc10224";
+      crypttabExtraOpts = [ "tpm2-device=auto" ];
+    };
+  };
 
   fileSystems."/nix" = {
     device = "/dev/disk/by-uuid/71a4dc8a-d603-4724-b6f9-26b92eb283d8";
