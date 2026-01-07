@@ -58,6 +58,25 @@
         virt-manager = {
           enable = true;
         };
+        hooks = {
+          qemu = {
+            auto-mount = ''
+              VM_NAME="win11-native"
+              if [ "$1" = "$VM_NAME" ]; then
+                  case "$2" in
+                      prepare)
+                          umount -l /mnt/ssd || true 
+                          ;;
+                      stopped|release)
+                          if ! mountpoint -q /mnt/ssd; then
+                              mount /mnt/ssd || true
+                          fi
+                          ;;
+                  esac
+              fi
+            '';
+          };
+        };
       };
     };
     # }}}

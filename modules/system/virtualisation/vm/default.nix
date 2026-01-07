@@ -1,4 +1,9 @@
-{ pkgs, opts, ... }:
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
 {
   virtualisation = {
     libvirtd = {
@@ -8,6 +13,21 @@
         runAsRoot = true;
         swtpm.enable = true;
       };
+      hooks = lib.mapAttrs (
+        type: scripts:
+        lib.mapAttrs (
+          name: scriptContent:
+          pkgs.writeShellScript name ''
+            export PATH="${
+              lib.makeBinPath [
+                pkgs.util-linux
+                pkgs.coreutils
+              ]
+            }:$PATH"
+            ${scriptContent}
+          ''
+        ) scripts
+      ) (opts.virtualisation.vm.hooks or { });
     };
     spiceUSBRedirection.enable = true;
   };
