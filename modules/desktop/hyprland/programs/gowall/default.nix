@@ -14,10 +14,10 @@ in
 {
   home-manager.sharedModules = [
     (
-      { osConfig, config, ... }:
+      { config, ... }:
       let
         picDir =
-          lib.replaceStrings [ "${osConfig.users.users.${opts.users.primary.name}.home}" "$HOME/" ] [ "" "" ]
+          lib.replaceStrings [ "${config.home.homeDirectory}" "$HOME/" ] [ "" "" ]
             config.xdg.userDirs.pictures;
       in
       {

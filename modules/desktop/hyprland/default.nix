@@ -175,7 +175,8 @@ in
               "WLR_RENDERER_ALLOW_SOFTWARE,1"
               "NIXPKGS_ALLOW_UNFREE,1"
               "NIXOS_XDG_OPEN_USE_PORTAL,1"
-            ];
+            ]
+            ++ lib.optional osConfig.programs.firejail.enable "PATH,$HOME/.local/bin:$PATH";
 
             exec-once = (
               [

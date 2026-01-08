@@ -247,9 +247,9 @@
         download = "/home/${users.primary.name}/dls";
         music = "/home/${users.primary.name}/mus";
         pictures = "/home/${users.primary.name}/pic";
-        publicShare = "/home/${users.primary.name}/pub";
-        templates = "/home/${users.primary.name}/tpl";
         videos = "/home/${users.primary.name}/vid";
+        templates = "/home/${users.primary.name}/tpl";
+        publicShare = "/home/${users.primary.name}/pub";
       };
     };
     # }}}
@@ -469,7 +469,7 @@
             default = "Inbox";
             folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
             check-mail = "5m";
-            check-mail-cmd = "systemctl --user start mbsync.service";
+            check-mail-cmd = "touch /home/${users.primary.name}/${email.maildirBasePath}/.trigger";
             check-mail-timeout = "30s";
           };
         };

@@ -13,7 +13,7 @@ let
   themeReloadCommands = ''
     systemctl --user restart waybar
     systemctl --user restart fcitx5-daemon
-    niri msg action reload-config
+    niri msg action load-config-file
     ${random-wall}
   '';
   random-wall = getExe (import ./random-wall.nix { inherit config pkgs opts; });

@@ -56,11 +56,11 @@
           music = opts.xdg.userDirs.music or "${config.users.users.${opts.users.primary.name}.home}/mus";
           pictures =
             opts.xdg.userDirs.pictures or "${config.users.users.${opts.users.primary.name}.home}/pic";
-          publicShare =
-            opts.xdg.userDirs.publicShare or "${config.users.users.${opts.users.primary.name}.home}/pub";
+          videos = opts.xdg.userDirs.videos or "${config.users.users.${opts.users.primary.name}.home}/vid";
           templates =
             opts.xdg.userDirs.templates or "${config.users.users.${opts.users.primary.name}.home}/tpl";
-          videos = opts.xdg.userDirs.videos or "${config.users.users.${opts.users.primary.name}.home}/vid";
+          publicShare =
+            opts.xdg.userDirs.publicShare or "${config.users.users.${opts.users.primary.name}.home}/pub";
         };
       };
     };

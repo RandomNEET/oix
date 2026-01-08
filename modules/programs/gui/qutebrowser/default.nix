@@ -15,7 +15,14 @@
             loadAutoconfig = false;
             enableDefaultBindings = false;
 
-            settings = import ./settings.nix { inherit config lib opts; };
+            settings = import ./settings.nix {
+              inherit
+                config
+                lib
+                pkgs
+                opts
+                ;
+            };
             keyBindings = import ./binds.nix { inherit config lib; };
             greasemonkey = import ./greasemonkey.nix { inherit pkgs; };
             searchEngines = import ./search.nix { inherit opts; };

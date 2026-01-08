@@ -1,5 +1,4 @@
 {
-  osConfig,
   config,
   lib,
   opts,
@@ -7,7 +6,7 @@
 }:
 let
   docDir =
-    lib.replaceStrings [ "${osConfig.users.users.${opts.users.primary.name}.home}" "$HOME/" ] [ "" "" ]
+    lib.replaceStrings [ "${config.home.homeDirectory}" "$HOME/" ] [ "" "" ]
       config.xdg.userDirs.documents;
 in
 {

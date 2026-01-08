@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   opts,
   ...
 }:
@@ -34,12 +35,34 @@ in
     };
   };
   editor = {
-    command = [
-      "${opts.terminal}"
-      "-e"
-      "${opts.editor}"
-      "{file}"
-    ];
+    command =
+      if ((opts.terminal or "" != "") && (opts.editor == "nvim")) then
+        if config.programs.nixvim.enable then
+          [
+            "${pkgs.${opts.terminal}}/bin/${opts.terminal}"
+            "-e"
+            "${config.programs.nixvim.build.package}/bin/nvim"
+            "{file}"
+          ]
+        else
+          [
+            "${pkgs.${opts.terminal}}/bin/${opts.terminal}"
+            "-e"
+            "${pkgs.neovim}/bin/nvim"
+            "{file}"
+          ]
+      else if (opts.editor == "vscode") then
+        [
+          "${pkgs.vscode}/bin/code"
+          "{file}"
+        ]
+      else
+        [
+          "gvim"
+          "-f"
+          "{file}"
+          "normal {line}G{column0}l"
+        ];
   };
   window = {
     hide_decoration = opts.qutebrowser.window.hide_decoration or false;

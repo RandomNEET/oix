@@ -573,9 +573,9 @@
         download = "/home/${users.primary.name}/dls";
         music = "/home/${users.primary.name}/mus";
         pictures = "/home/${users.primary.name}/pic";
-        publicShare = "/home/${users.primary.name}/pub";
-        templates = "/home/${users.primary.name}/tpl";
         videos = "/home/${users.primary.name}/vid";
+        templates = "/home/${users.primary.name}/tpl";
+        publicShare = "/home/${users.primary.name}/pub";
       };
     };
     # }}}

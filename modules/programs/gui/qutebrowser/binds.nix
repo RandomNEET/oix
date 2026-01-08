@@ -100,6 +100,8 @@ in
     "cd" = "download-clear";
     "co" = "tab-only";
     "d" = "tab-close";
+    "ec" = "cmd-edit";
+    "eu" = "edit-url";
     "f" = "hint";
     "g$" = "tab-focus -1";
     "g0" = "tab-focus 1";

@@ -15,7 +15,7 @@
           layout = [
             {
               label = "logout";
-              action = "hyprctl dispatch exit 0";
+              action = "niri msg action quit -s";
               text = "Exit";
               keybind = "e";
             }
