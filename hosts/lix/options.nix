@@ -7,7 +7,7 @@
 }:
 {
   opts = rec {
-    # Base {{{
+    # base {{{
     hostname = "lix";
     system = "x86_64-linux";
     gpu = "intel-integrated";
@@ -15,9 +15,10 @@
     timezone = "Asia/Shanghai";
     kbdLayout = "us";
     consoleKeymap = "us";
+    hibernate = true;
     # }}}
 
-    # Boot {{{
+    # boot {{{
     boot = {
       kernelPackages = "linuxPackages_zen"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
     };
@@ -27,7 +28,7 @@
     };
     # }}}
 
-    # Network {{{
+    # network {{{
     ip = {
       local = "192.168.0.69";
     };
@@ -38,6 +39,7 @@
       allowedUDPPorts = [ ];
     };
 
+    # available cores: dae sing-box xray
     proxy = {
       dae = {
         enable = true;
@@ -50,7 +52,7 @@
     };
     # }}}
 
-    # Virtualisation {{{
+    # virtualisation {{{
     virtualisation = {
       vm = {
         enable = true;
@@ -61,9 +63,10 @@
     };
     # }}}
 
-    # Desktop {{{
+    # desktop {{{
     desktop = "niri";
     # https://github.com/tinted-theming/schemes
+    # default to the first theme
     themes = [
       "catppuccin-mocha"
       "everforest-dark-hard"
@@ -72,6 +75,7 @@
       "nord"
     ];
 
+    #  use first display as primary display
     display = [
       {
         output = "eDP-1";
@@ -80,8 +84,6 @@
         orientation = "landscape";
       }
     ];
-
-    hibernate = true;
 
     wallpaper = {
       dir = "${xdg.userDirs.pictures}/wallpapers";
@@ -153,7 +155,7 @@
     };
     # }}}
 
-    # Hardware {{{
+    # hardware {{{
     tlp = {
       settings = {
         START_CHARGE_THRESH_BAT0 = 40;
@@ -215,7 +217,7 @@
     };
     # }}}
 
-    # User {{{
+    # user {{{
     users = {
       mutableUsers = false;
       root = {
@@ -254,7 +256,7 @@
     };
     # }}}
 
-    # Shell {{{
+    # shell {{{
     zsh = {
       initContent = '''';
 
@@ -322,13 +324,13 @@
     };
     # }}}
 
-    # Terminal {{{
+    # terminal {{{
     foot = {
       server = true;
     };
     # }}}
 
-    # File manager {{{
+    # file manager {{{
     yazi = {
       keymap = {
         mgr = {
@@ -363,7 +365,7 @@
     };
     # }}}
 
-    # Editor {{{
+    # editor {{{
     nixvim = {
       treesitter.enable = true;
       lsp.enable = true;
@@ -418,7 +420,7 @@
     };
     # }}}
 
-    # Browser {{{
+    # browser {{{
     qutebrowser = {
       theme = {
         opacity0 = 1.0;
@@ -444,7 +446,7 @@
     };
     # }}}
 
-    # Mail {{{
+    # mail {{{
     email = {
       maildirBasePath = ".mail";
 
@@ -470,7 +472,6 @@
             folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
             check-mail = "5m";
             check-mail-cmd = "touch /home/${users.primary.name}/${email.maildirBasePath}/.trigger";
-            check-mail-timeout = "30s";
           };
         };
 
@@ -504,11 +505,12 @@
           mailDir = "/home/${users.primary.name}/.mail/neet";
           countFile = "${mbsync.service.notify.mailDir}/.new";
         };
+        trigger.enable = true;
       };
     };
     # }}}
 
-    # Media {{{
+    # media {{{
     mpd = {
       dataDir = "/home/${users.primary.name}/.local/share/mpd";
       startWhenNeeded = true;
@@ -540,7 +542,7 @@
     };
     # }}}
 
-    # Vault {{{
+    # vault {{{
     gpg = {
       homedir = "/home/${users.primary.name}/.gnupg";
       gpg-agent = {
@@ -559,7 +561,7 @@
     };
     # }}}
 
-    # Misc {{{
+    # misc {{{
     git = {
       settings = {
         user = {
@@ -589,7 +591,7 @@
     };
     # }}}
 
-    # Package {{{
+    # package {{{
     packages = {
       home = [
         "ffmpeg"

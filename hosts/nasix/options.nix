@@ -7,7 +7,7 @@
 }:
 {
   opts = rec {
-    # Base {{{
+    # base {{{
     hostname = "nasix";
     system = "x86_64-linux";
     gpu = "nvidia";
@@ -17,7 +17,7 @@
     consoleKeymap = "us";
     # }}}
 
-    # Nix {{{
+    # nix {{{
     nixpkgs = {
       config = {
         cudaSupport = false;
@@ -25,13 +25,13 @@
     };
     # }}}
 
-    # Boot {{{
+    # boot {{{
     boot = {
       kernelPackages = "linuxPackages"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
     };
     # }}}
 
-    # Network {{{
+    # network {{{
     ip = {
       local = "192.168.0.56";
     };
@@ -69,6 +69,7 @@
       allowedUDPPorts = [ 6881 ];
     };
 
+    # available cores: dae sing-box xray
     proxy = {
       xray = {
         enable = true;
@@ -79,7 +80,7 @@
     };
     # }}}
 
-    # Virtualisation {{{
+    # virtualisation {{{
     virtualisation = {
       vm = {
         enable = true;
@@ -93,7 +94,7 @@
     };
     # }}}
 
-    # Server {{{
+    # server {{{
     systemd.services = {
       xray = {
         after = [
@@ -532,7 +533,7 @@
     };
     # }}}
 
-    # Hardware {{{
+    # hardware {{{
     hardware = {
       nvidia = {
         prime = {
@@ -543,7 +544,7 @@
     };
     # }}}
 
-    # User {{{
+    # user {{{
     users = {
       mutableUsers = false;
       root = {
@@ -580,7 +581,7 @@
     };
     # }}}
 
-    # Shell {{{
+    # shell {{{
     zsh = {
       initContent = '''';
 
@@ -641,7 +642,7 @@
     };
     # }}}
 
-    # Editor {{{
+    # editor {{{
     nixvim = {
       treesitter.enable = true;
       lsp.enable = true;
@@ -654,7 +655,7 @@
     };
     # }}}
 
-    # Package {{{
+    # package {{{
     packages = {
       system = [
         "iptables"

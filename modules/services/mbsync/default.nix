@@ -22,7 +22,8 @@
             )
             + (opts.mbsync.service.postExec or "");
         };
-        systemd.user.paths.mbsync-trigger = {
+        # for email clients in sandbox, no need to access systemctl to check mail
+        systemd.user.paths.mbsync-trigger = lib.mkIf (opts.mbsync.service.trigger.enable or false) {
           Unit = {
             Description = "Trigger mbsync when .trigger file is touched";
           };

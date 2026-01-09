@@ -44,6 +44,22 @@
       }
       {
         mode = "n";
+        key = "<leader>dh";
+        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("diffsplit " .. item.text) end end, title = "Select File to Diff" })<CR>'';
+        options = {
+          desc = "Horizontal diff split";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>dv";
+        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("vertical diffsplit " .. item.text) end end, title = "Select File to Diff" })<CR>'';
+        options = {
+          desc = "Vertical diff split";
+        };
+      }
+      {
+        mode = "n";
         action = "<cmd>lua require('snacks').explorer()<CR>";
         key = "<leader>e";
         options = {

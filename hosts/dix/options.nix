@@ -7,7 +7,7 @@
 }:
 {
   opts = rec {
-    # Base {{{
+    # base {{{
     hostname = "dix";
     system = "x86_64-linux";
     gpu = "nvidia";
@@ -15,9 +15,10 @@
     timezone = "Asia/Shanghai";
     kbdLayout = "us";
     consoleKeymap = "us";
+    hibernate = false;
     # }}}
 
-    # Boot {{{
+    # boot {{{
     boot = {
       kernelPackages = "linuxPackages_zen"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
     };
@@ -28,7 +29,7 @@
     };
     # }}}
 
-    # Network {{{
+    # network {{{
     ip = {
       local = "192.168.0.24";
     };
@@ -39,6 +40,7 @@
       allowedUDPPorts = [ ];
     };
 
+    # available cores: dae sing-box xray
     proxy = {
       dae = {
         enable = true;
@@ -51,7 +53,7 @@
     };
     # }}}
 
-    # Virtualisation {{{
+    # virtualisation {{{
     virtualisation = {
       vm = {
         enable = true;
@@ -81,9 +83,10 @@
     };
     # }}}
 
-    # Desktop {{{
+    # desktop {{{
     desktop = "hyprland";
     # https://github.com/tinted-theming/schemes
+    # default to the first theme
     themes = [
       "catppuccin-mocha"
       "everforest-dark-hard"
@@ -92,6 +95,7 @@
       "nord"
     ];
 
+    #  use first display as primary display
     display = [
       {
         output = "DP-1";
@@ -106,8 +110,6 @@
         orientation = "portrait";
       }
     ];
-
-    hibernate = false;
 
     wallpaper = {
       dir = "${xdg.userDirs.pictures}/wallpapers";
@@ -151,7 +153,7 @@
     };
     # }}}
 
-    # User {{{
+    # user {{{
     users = {
       mutableUsers = false;
       root = {
@@ -190,7 +192,7 @@
     };
     # }}}
 
-    # Shell {{{
+    # shell {{{
     zsh = {
       initContent = '''';
 
@@ -258,13 +260,13 @@
     };
     # }}}
 
-    # Terminal {{{
+    # terminal {{{
     foot = {
       server = true;
     };
     # }}}
 
-    # File manager {{{
+    # file manager {{{
     yazi = {
       keymap = {
         mgr = {
@@ -299,7 +301,7 @@
     };
     # }}}
 
-    # Editor {{{
+    # editor {{{
     nixvim = {
       treesitter.enable = true;
       lsp.enable = true;
@@ -354,7 +356,7 @@
     };
     # }}}
 
-    # Browser {{{
+    # browser {{{
     qutebrowser = {
       theme = {
         opacity0 = 0.9;
@@ -380,7 +382,7 @@
     };
     # }}}
 
-    # Mail {{{
+    # mail {{{
     email = {
       maildirBasePath = ".mail";
 
@@ -406,7 +408,6 @@
             folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
             check-mail = "5m";
             check-mail-cmd = "touch /home/${users.primary.name}/${email.maildirBasePath}/.trigger";
-            check-mail-timeout = "30s";
           };
         };
 
@@ -440,11 +441,12 @@
           mailDir = "/home/${users.primary.name}/.mail/neet";
           countFile = "${mbsync.service.notify.mailDir}/.new";
         };
+        trigger.enable = true;
       };
     };
     # }}}
 
-    # Media {{{
+    # media {{{
     mpd = {
       dataDir = "/mnt/hdd1/media/.mpd";
       startWhenNeeded = true;
@@ -476,7 +478,7 @@
     };
     # }}}
 
-    # Vault {{{
+    # vault {{{
     gpg = {
       homedir = "/home/${users.primary.name}/.gnupg";
       gpg-agent = {
@@ -495,7 +497,7 @@
     };
     # }}}
 
-    # Misc {{{
+    # misc {{{
     git = {
       settings = {
         user = {
@@ -525,7 +527,7 @@
     };
     # }}}
 
-    # Package {{{
+    # package {{{
     packages = {
       home = [
         "ffmpeg"

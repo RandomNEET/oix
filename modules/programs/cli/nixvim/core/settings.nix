@@ -2,6 +2,8 @@
 {
   programs.nixvim = {
     opts = {
+      termguicolors = true;
+
       ignorecase = true;
       smartcase = true;
       hlsearch = true;
@@ -16,6 +18,14 @@
 
       splitright = true;
       splitbelow = true;
+
+      diffopt = [
+        "internal"
+        "filler"
+        "closeoff"
+        "indent-heuristic"
+        "linematch:60"
+      ];
     };
 
     diagnostic = {
