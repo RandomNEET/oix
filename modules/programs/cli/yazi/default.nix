@@ -17,9 +17,9 @@
         settings = import ./settings.nix { inherit lib opts; };
         keymap = import ./keymap.nix { inherit opts; };
         theme = import ./theme.nix;
-        initLua = builtins.readFile ./init.lua;
+        initLua = builtins.readFile ./init.lua; # init.lua for yazi itself
       };
-      imports = [ ./plugins.nix ];
+      imports = [ ./plugins ];
     }
   ];
   nix.settings = {

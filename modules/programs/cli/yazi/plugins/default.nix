@@ -10,7 +10,7 @@ let
 in
 {
   programs.yazi = {
-    initLua = builtins.readFile ./plugins.lua;
+    initLua = builtins.readFile ./init.lua; # init.lua for plugins
     plugins = {
       piper = pkgs.yaziPlugins.piper;
       ouch = pkgs.yaziPlugins.ouch;
