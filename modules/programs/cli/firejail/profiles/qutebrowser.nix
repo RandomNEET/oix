@@ -17,7 +17,7 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   noblacklist ''${HOME}/.local/share/qutebrowser
   noblacklist ''${RUNUSER}/qutebrowser
 
-  # added to launch editor
+  # Added to launch editor
   noblacklist ''${PATH}/foot
   noblacklist ''${PATH}/footclient
   noblacklist ''${PATH}/kitty
@@ -75,7 +75,7 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   dbus-user.own org.mpris.MediaPlayer2.qutebrowser.*
   dbus-user.talk org.freedesktop.Notifications
 
-  # added for userscripts/ime-off
+  # Added for userscripts/ime-off
   ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") "dbus-user.talk org.fcitx.Fcitx5"}
 
   # Add the next line to your qutebrowser.local to allow screen sharing under wayland.

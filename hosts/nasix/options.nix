@@ -7,17 +7,17 @@
 }:
 {
   opts = rec {
-    # base {{{
+    # Base {{{
     hostname = "nasix";
     system = "x86_64-linux";
-    gpu = "nvidia";
+    gpu = "nvidia"; # available: amd nvidia intel-intergrated
     locale = "en_US.UTF-8";
     timezone = "Asia/Shanghai";
     kbdLayout = "us";
     consoleKeymap = "us";
     # }}}
 
-    # nix {{{
+    # Nix {{{
     nixpkgs = {
       config = {
         cudaSupport = false;
@@ -25,13 +25,13 @@
     };
     # }}}
 
-    # boot {{{
+    # Boot {{{
     boot = {
       kernelPackages = "linuxPackages"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
     };
     # }}}
 
-    # network {{{
+    # Network {{{
     ip = {
       local = "192.168.0.56";
     };
@@ -80,7 +80,7 @@
     };
     # }}}
 
-    # virtualisation {{{
+    # Virtualisation {{{
     virtualisation = {
       vm = {
         enable = true;
@@ -94,7 +94,7 @@
     };
     # }}}
 
-    # server {{{
+    # Server {{{
     systemd.services = {
       xray = {
         after = [
@@ -533,7 +533,7 @@
     };
     # }}}
 
-    # hardware {{{
+    # Hardware {{{
     hardware = {
       nvidia = {
         prime = {
@@ -544,7 +544,7 @@
     };
     # }}}
 
-    # user {{{
+    # User {{{
     users = {
       mutableUsers = false;
       root = {
@@ -565,11 +565,13 @@
       };
     };
 
+    # Define default programs
     editor = "nvim";
     terminalFileManager = "yazi";
+
     xdg = {
       userDirs = {
-        desktop = null;
+        desktop = null; # don't even have a desktop
         documents = "/home/${users.primary.name}/doc";
         download = "/home/${users.primary.name}/dls";
         music = "/home/${users.primary.name}/mus";
@@ -581,7 +583,7 @@
     };
     # }}}
 
-    # shell {{{
+    # Shell {{{
     zsh = {
       initContent = '''';
 
@@ -642,7 +644,7 @@
     };
     # }}}
 
-    # editor {{{
+    # Editor {{{
     nixvim = {
       treesitter.enable = true;
       lsp.enable = true;
@@ -655,7 +657,7 @@
     };
     # }}}
 
-    # package {{{
+    # Package {{{
     packages = {
       system = [
         "iptables"

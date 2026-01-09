@@ -125,6 +125,7 @@ in
         home.file.".config/niri/config.kdl".text = niriConfig;
 
         services.lxqt-policykit-agent.enable = true;
+        # Put inside of home-manager to auto start sservice after switching specialisation
         systemd.user = {
           services.random-wall = {
             Unit = {

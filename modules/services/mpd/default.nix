@@ -2,11 +2,7 @@
 {
   services.mpd = rec {
     enable = true;
-    user =
-      if ((opts.mpd.outputType or "") == "pipewire") then
-        opts.users.primary.name
-      else
-        (opts.mpd.user or "mpd");
+    user = if (opts.mpd.pipewire or false) then opts.users.primary.name else (opts.mpd.user or "mpd");
     group = opts.mpd.group or "mpd";
     dataDir = opts.mpd.dataDir or "/var/lib/mpd";
     startWhenNeeded = opts.mpd.startWhenNeeded or false;
@@ -19,7 +15,7 @@
     }
     // (opts.mpd.settings or { });
   };
-  systemd.services.mpd.environment = lib.mkIf ((opts.mpd.outputType or "") == "pipewire") {
+  systemd.services.mpd.environment = lib.mkIf (opts.mpd.pipewire or false) {
     XDG_RUNTIME_DIR = "/run/user/${toString opts.users.primary.uid}";
   };
 }

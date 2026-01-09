@@ -7,28 +7,30 @@
 }:
 {
   opts = rec {
-    # base {{{
+    # Base {{{
     hostname = "lix";
     system = "x86_64-linux";
-    gpu = "intel-integrated";
+    gpu = "intel-integrated"; # available: amd nvidia intel-intergrated
     locale = "en_US.UTF-8";
     timezone = "Asia/Shanghai";
     kbdLayout = "us";
     consoleKeymap = "us";
-    hibernate = true;
+    hibernate = false; # set to true if this machine supports hibernate
     # }}}
 
-    # boot {{{
+    # Boot {{{
     boot = {
       kernelPackages = "linuxPackages_zen"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
     };
+
+    # Secure boot
     lanzaboote = {
       enable = true;
       pkiBundle = "/nix/persist/var/lib/sbctl";
     };
     # }}}
 
-    # network {{{
+    # Network {{{
     ip = {
       local = "192.168.0.69";
     };
@@ -39,7 +41,7 @@
       allowedUDPPorts = [ ];
     };
 
-    # available cores: dae sing-box xray
+    # Available cores: dae sing-box xray
     proxy = {
       dae = {
         enable = true;
@@ -52,7 +54,7 @@
     };
     # }}}
 
-    # virtualisation {{{
+    # Virtualisation {{{
     virtualisation = {
       vm = {
         enable = true;
@@ -63,10 +65,11 @@
     };
     # }}}
 
-    # desktop {{{
-    desktop = "niri";
+    # Desktop {{{
+    desktop = "niri"; # available: hyprland niri
+
     # https://github.com/tinted-theming/schemes
-    # default to the first theme
+    # Default to the first theme
     themes = [
       "catppuccin-mocha"
       "everforest-dark-hard"
@@ -75,7 +78,7 @@
       "nord"
     ];
 
-    #  use first display as primary display
+    # Use first display as primary display
     display = [
       {
         output = "eDP-1";
@@ -86,7 +89,27 @@
     ];
 
     wallpaper = {
+      # Base directory for wallpapers
+      # Required structure: base / <theme_name> / <orientation> / <pictures>
+      #
+      # Notes:
+      # - Original colored pictures belong in the "default" theme folder.
+      # - Valid orientations: "landscape", "portrait".
+      #
+      # Example:
+      #  wallpapers
+      # ├──  catppuccin
+      # │   ├──  landscape
+      # │   │   └──  pic.jpg
+      # │   └──  portrait
+      # │       └──  pic.jpg
+      # └──  default
+      #     ├──  landscape
+      #     │   └──  pic.jpg
+      #     └──  portrait
+      #         └──  pic.jpg
       dir = "${xdg.userDirs.pictures}/wallpapers";
+      # Transition effects for swww
       transition = {
         launcher = {
           type = "center";
@@ -155,7 +178,7 @@
     };
     # }}}
 
-    # hardware {{{
+    # Hardware {{{
     tlp = {
       settings = {
         START_CHARGE_THRESH_BAT0 = 40;
@@ -237,6 +260,7 @@
       };
     };
 
+    # Define default programs
     editor = "nvim";
     terminal = "foot";
     terminalFileManager = "yazi";
@@ -244,7 +268,7 @@
 
     xdg = {
       userDirs = {
-        desktop = null;
+        desktop = null; # no need for wm
         documents = "/home/${users.primary.name}/doc";
         download = "/home/${users.primary.name}/dls";
         music = "/home/${users.primary.name}/mus";
@@ -256,7 +280,7 @@
     };
     # }}}
 
-    # shell {{{
+    # Shell {{{
     zsh = {
       initContent = '''';
 
@@ -324,13 +348,13 @@
     };
     # }}}
 
-    # terminal {{{
+    # Terminal {{{
     foot = {
-      server = true;
+      server = true; # set true to launch foot server on startup;
     };
     # }}}
 
-    # file manager {{{
+    # File Manager {{{
     yazi = {
       keymap = {
         mgr = {
@@ -365,7 +389,7 @@
     };
     # }}}
 
-    # editor {{{
+    # Editor {{{
     nixvim = {
       treesitter.enable = true;
       lsp.enable = true;
@@ -420,7 +444,7 @@
     };
     # }}}
 
-    # browser {{{
+    # Browser {{{
     qutebrowser = {
       theme = {
         opacity0 = 1.0;
@@ -446,7 +470,7 @@
     };
     # }}}
 
-    # mail {{{
+    # Mail {{{
     email = {
       maildirBasePath = ".mail";
 
@@ -500,17 +524,18 @@
       };
       service = {
         configFile = "/home/${users.primary.name}/.vault/mail/mbsync/neet";
+        # Desktop notification script settings
         notify = {
           enable = true;
           mailDir = "/home/${users.primary.name}/.mail/neet";
           countFile = "${mbsync.service.notify.mailDir}/.new";
         };
-        trigger.enable = true;
+        trigger.enable = true; # whether to enable mbsync-trigger service
       };
     };
     # }}}
 
-    # media {{{
+    # Media {{{
     mpd = {
       dataDir = "/home/${users.primary.name}/.local/share/mpd";
       startWhenNeeded = true;
@@ -530,24 +555,24 @@
         ];
         auto_update = "yes";
       };
-      outputType = "pipewire";
+      pipewire = true; # set to true to enable pipewire extra tweaks
     };
 
     rmpc = {
       config = {
         address = "127.0.0.1:6600";
         password = "None";
-        notify = true;
+        notify = true; # whether to enable desktop notification
       };
     };
     # }}}
 
-    # vault {{{
+    # Vault {{{
     gpg = {
       homedir = "/home/${users.primary.name}/.gnupg";
       gpg-agent = {
         enable = true;
-        enableSshSupport = true;
+        enableSshSupport = true; # auto disable ssh-agent if enabled
       };
     };
 
@@ -557,11 +582,11 @@
         email = "selfhost@randomneet.me";
         lock_timeout = 3600;
       };
-      rofi-rbw = true;
+      rofi-rbw = true; # install rofi-rbw, add related keybind to wm and use graphical pinentry if set to true
     };
     # }}}
 
-    # misc {{{
+    # Misc {{{
     git = {
       settings = {
         user = {
@@ -591,7 +616,7 @@
     };
     # }}}
 
-    # package {{{
+    # Package {{{
     packages = {
       home = [
         "ffmpeg"

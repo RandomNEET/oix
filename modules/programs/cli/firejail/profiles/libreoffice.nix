@@ -29,7 +29,7 @@ pkgs.writeText "firejail-libreoffice-profile" ''
   # Allow java (blacklisted by disable-devel.inc)
   include allow-java.inc
 
-  # added for themes
+  # Added for themes
   noblacklist ''${HOME}/.config/gtk-3.0
   noblacklist ''${HOME}/.config/gtk-4.0
   noblacklist ''${HOME}/.config/dconf
@@ -76,7 +76,7 @@ pkgs.writeText "firejail-libreoffice-profile" ''
   private-etc @tls-ca,@x11,cups,gnupg,libreoffice,papersize,ssh,profiles # added profiles
   private-tmp
 
-  # added for themes
+  # Added for themes
   dbus-user filter
   dbus-user.talk org.freedesktop.portal.Desktop
   dbus-user.talk org.gnome.desktop.interface

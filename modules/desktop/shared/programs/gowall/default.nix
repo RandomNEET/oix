@@ -45,11 +45,11 @@ in
       }
     )
   ];
-  # put outside of home-manager to prevent triggering the service when switching specialisation
+  # Put outside of home-manager to prevent triggering the service when switching specialisation
   systemd.user = lib.mkIf (hasThemes && hasWallpapers) {
     services.convert-wall = {
       description = "Auto convert wallpaper";
-      script = "${import ./scripts/convert-wall.nix { inherit lib pkgs opts; }}";
+      script = "${convert-wall}";
       serviceConfig = {
         Type = "oneshot";
       };

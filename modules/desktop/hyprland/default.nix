@@ -125,6 +125,7 @@ in
           };
 
         services.hyprpolkitagent.enable = true;
+        # Put inside of home-manager to auto start sservice after switching specialisation
         systemd.user = {
           services.random-wall = {
             Unit = {
