@@ -41,7 +41,7 @@ let
     };
     mpv = {
       enable = config.programs.mpv.enable;
-      bin = "${getBin pkgs.mpv}/bin/mpv";
+      bin = "${config.programs.mpv.finalPackage}/bin/mpv";
       profile = profiles.mpv;
     };
     newsboat = {

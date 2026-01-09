@@ -10,7 +10,8 @@
         programs.mpv = {
           enable = true;
           scripts = with pkgs.mpvScripts; [
-            thumbnail
+            uosc
+            thumbfast
             mpris
           ];
           bindings = rec {
@@ -104,7 +105,7 @@
             "Ctrl+w" = ''set hwdec "no"'';
           };
           config = {
-            osc = "no";
+            input-default-bindings = false;
             resume-playback-check-mtime = true;
             audio-file-auto = "fuzzy";
             sub-auto = "fuzzy";
@@ -114,7 +115,9 @@
             screenshot-webp-lossless = true;
             screenshot-directory = "${resolveHome config.xdg.userDirs.pictures}/screenshots/mpv";
             screenshot-sw = true;
-            input-default-bindings = false;
+            # uosc tweaks
+            osd-bar = false;
+            border = false;
           };
         };
       }

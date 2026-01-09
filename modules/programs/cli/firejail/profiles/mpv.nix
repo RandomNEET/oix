@@ -109,7 +109,5 @@ pkgs.writeText "firejail-mpv-profile" ''
   dbus-user none
   dbus-system none
 
-  read-only ''${HOME}
-  read-write ${PICTURES}
   restrict-namespaces
 ''
