@@ -35,12 +35,11 @@
             "gi" = "implementation";
             "gr" = "references";
             "gt" = "type_definition";
-            "K" = "hover";
-
-            "<C-k>" = "signature_help";
+            "gk" = "hover";
 
             "<leader>ca" = "code_action";
             "<leader>rn" = "rename";
+            "<leader>sh" = "signature_help";
             "<leader>wa" = "add_workspace_folder";
             "<leader>wr" = "remove_workspace_folder";
           };
