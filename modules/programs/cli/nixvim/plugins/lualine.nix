@@ -37,6 +37,14 @@
                   end
                 '';
               }
+              {
+                __raw = "function() return vim.fn['ObsessionStatus']('[$]', '') end";
+                cond = ''
+                  function()
+                    return vim.fn['ObsessionStatus']('[$]', ''') ~= ""
+                  end
+                '';
+              }
             ];
             lualine_b = [
               "branch"

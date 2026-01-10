@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   opts,
@@ -6,11 +7,13 @@
 }:
 let
   inherit (lib) optionalString;
+  check =
+    pname: builtins.any (p: (builtins.isAttrs p) && (lib.getName p == pname)) config.home.packages;
 in
 {
   home-manager.sharedModules = [
     (
-      { config, ... }:
+      { osConfig, config, ... }:
       let
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
@@ -45,7 +48,6 @@ in
             bind R source-file ~/.config/tmux/tmux.conf
             bind w list-windows
             bind * setw synchronize-panes
-            bind P set pane-border-status
             bind -n C-M-c kill-pane
             bind x swap-pane -D
             bind z resize-pane -Z
@@ -75,17 +77,22 @@ in
           '';
           plugins = with pkgs.tmuxPlugins; [
             {
-              plugin = minimal-tmux-status;
+              plugin = dotbar;
               extraConfig = ''
-                set -g @minimal-tmux-status "bottom"
-                set -g @minimal-tmux-show-expanded-icon-for-all-tabs true
-                set -g @minimal-tmux-use-arrow true
-                set -g @minimal-tmux-right-arrow ""
-                set -g @minimal-tmux-left-arrow ""
+                set -g @tmux-dotbar-position "bottom"
+                set -g @tmux-dotbar-justify "absolute-centre"
+                set -g @tmux-dotbar-left "true"
+                set -g @tmux-dotbar-right true
+                set -g @tmux-dotbar-ssh-enabled true
+                set -g @tmux-dotbar-ssh-icon-only true
+                set -g @tmux-dotbar-ssh-icon '󰌘'
               ''
               + optionalString hasThemes ''
-                set -g @minimal-tmux-fg "#${colors.base00}"
-                set -g @minimal-tmux-bg "#${colors.base0E}"
+                set -g @tmux-dotbar-bg "#${colors.base00}"
+                set -g @tmux-dotbar-fg "#${colors.base04}"
+                set -g @tmux-dotbar-fg-current "#${colors.base05}"
+                set -g @tmux-dotbar-fg-session "#${colors.base03}"
+                set -g @tmux-dotbar-fg-prefix "#${colors.base0E}"
               '';
             }
             {
@@ -99,9 +106,31 @@ in
               '';
             }
             {
+              plugin = tmux-floax;
+              extraConfig = ''
+                set -g @floax-bind 'p'
+                set -g @floax-bind-menu 'P'
+              ''
+              + optionalString hasThemes ''
+                set -g @floax-border-color "#${colors.base0B}"
+                set -g @floax-text-color "#${colors.base0D}"
+              '';
+            }
+            {
               plugin = resurrect;
               extraConfig = ''
                 set -g @resurrect-dir '${config.xdg.stateHome}/tmux/resurrect'
+                set -g @resurrect-processes '
+                  ${optionalString ((opts.editor or "") == "nvim") ''"~nvim->nvim"''}
+                  ${optionalString config.programs.yazi.enable ''"~yazi->yazi"''}
+                  ${optionalString config.programs.opencode.enable ''"~opencode->opencode"''}
+                  ${optionalString config.programs.aerc.enable ''"~aerc->aerc"''}
+                  ${optionalString config.programs.lazygit.enable ''"lazygit"''}
+                  ${optionalString config.programs.btop.enable ''"btop"''}
+                  ${optionalString osConfig.programs.htop.enable ''"htop"''}
+                  "~man"
+                  less more tail top ssh
+                '
                 ${optionalString ((opts.editor or "") == "nvim") "set -g @resurrect-strategy-nvim 'session'"}
               '';
             }

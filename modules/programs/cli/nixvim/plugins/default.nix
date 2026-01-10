@@ -14,6 +14,7 @@
     ./mini.nix
     ./noice.nix
     ./nvim-autopairs.nix
+    ./obsession.nix
     ./obsidian.nix
     ./opencode.nix
     ./persistence.nix
