@@ -1,6 +1,6 @@
 {
   programs.nixvim = {
-    globals.mapleader = " ";
+    globals.mapleader = " "; # space
     keymaps = [
       # Window navigation
       {
@@ -47,22 +47,20 @@
           desc = "Cycle to left window";
         };
       }
-
       # Buffer
       {
         mode = "n";
         key = "<leader>bd";
-        action = "<CMD>bdelete<CR>";
+        action = "<cmd>bdelete<CR>";
         options = {
           desc = "Delete buffer";
         };
       }
-
       # Move text up and down
       {
         mode = "n";
         key = "<A-k>";
-        action = "<CMD>m .-2<CR>==";
+        action = "<cmd>m .-2<CR>==";
         options = {
           desc = "Move text up";
         };
@@ -70,7 +68,7 @@
       {
         mode = "n";
         key = "<A-j>";
-        action = "<CMD>m .+1<CR>==";
+        action = "<cmd>m .+1<CR>==";
         options = {
           desc = "Move text down";
         };
@@ -81,7 +79,7 @@
           "x"
         ];
         key = "<A-k>";
-        action = "<CMD>m '<-2<CR>gv=gv";
+        action = "<cmd>m '<-2<CR>gv=gv";
         options = {
           desc = "Move text up";
         };
@@ -92,7 +90,7 @@
           "x"
         ];
         key = "<A-j>";
-        action = "<CMD>m '>+1<CR>gv=gv";
+        action = "<cmd>m '>+1<CR>gv=gv";
         options = {
           desc = "Move text down";
         };
@@ -100,7 +98,7 @@
       {
         mode = "x";
         key = "K";
-        action = "<CMD>m '<-2<CR>gv=gv";
+        action = "<cmd>m '<-2<CR>gv=gv";
         options = {
           desc = "Move text up";
         };
@@ -108,7 +106,7 @@
       {
         mode = "x";
         key = "J";
-        action = "<CMD>m '>+1<CR>gv=gv";
+        action = "<cmd>m '>+1<CR>gv=gv";
         options = {
           desc = "Move text down";
         };
