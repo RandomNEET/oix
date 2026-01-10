@@ -235,12 +235,12 @@
 
                   tab_bar: (
                       active_style: (fg: "black", bg: "#${colors.base0E}", modifiers: "Bold"),
-                      inactive_style: (fg: "#${colors.base03}"),
+                      inactive_style: (fg: "#${colors.base04}"),
                   ),
 
                   highlighted_item_style: (fg: "#${colors.base0A}", modifiers: "Bold"),
-                  current_item_style: (fg: "black", bg: "#${colors.base0D}", modifiers: "Bold"),
-                  borders_style: (fg: "#${colors.base03}"),
+                  current_item_style: (fg: "black", bg: "#${colors.base07}", modifiers: "Bold"),
+                  borders_style: (fg: "#${colors.base04}"),
                   highlight_border_style: (fg: "#${colors.base0A}"),
 
                   symbols: (
@@ -262,7 +262,7 @@
                       symbols: ["│", "█", "▲", "▼"],
                       track_style: (),
                       ends_style: (),
-                      thumb_style: (fg: "#${colors.base0D}"),
+                      thumb_style: (fg: "#${colors.base07}"),
                   ),
 
                   song_table_format: [
@@ -354,9 +354,9 @@
                       rows: [
                           (
                               left: [
-                                  (kind: Text("["), style: (fg: "#${colors.base0D}", modifiers: "Bold")),
-                                  (kind: Property(Status(State)), style: (fg: "#${colors.base0D}", modifiers: "Bold")),
-                                  (kind: Text("]"), style: (fg: "#${colors.base0D}", modifiers: "Bold")),
+                                  (kind: Text("["), style: (fg: "#${colors.base07}", modifiers: "Bold")),
+                                  (kind: Property(Status(State)), style: (fg: "#${colors.base07}", modifiers: "Bold")),
+                                  (kind: Text("]"), style: (fg: "#${colors.base07}", modifiers: "Bold")),
                               ],
                               center: [
                                   (
@@ -366,14 +366,14 @@
                                   ),
                               ],
                               right: [
-                                  (kind: Property(Widget(ScanStatus)), style: (fg: "#${colors.base0D}")),
-                                  (kind: Property(Widget(Volume)), style: (fg: "#${colors.base0D}")),
+                                  (kind: Property(Widget(ScanStatus)), style: (fg: "#${colors.base07}")),
+                                  (kind: Property(Widget(Volume)), style: (fg: "#${colors.base07}")),
                               ],
                           ),
                           (
                               left: [
                                   (kind: Property(Status(Elapsed)), style: (fg: "#${colors.base05}")),
-                                  (kind: Text(" / "), style: (fg: "#${colors.base03}")),
+                                  (kind: Text(" / "), style: (fg: "#${colors.base04}")),
                                   (kind: Property(Status(Duration)), style: (fg: "#${colors.base05}")),
                                   (kind: Text(" ("), style: (fg: "#${colors.base03}")),
                                   (kind: Property(Status(Bitrate)), style: (fg: "#${colors.base05}")),

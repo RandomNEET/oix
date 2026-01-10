@@ -47,7 +47,7 @@ in
       }
 
       .time {
-        color: #${colors.base04};
+        color: alpha(#${colors.base05}, 0.9);
         font-size: 16px;
         background: transparent;
         font-size: 16px;
@@ -59,7 +59,7 @@ in
         background: transparent;
         font-size: 15px;
         font-weight: 500;
-        color: #${colors.base04};
+        color: #${colors.base05};
         text-shadow: none;
       }
 
@@ -342,11 +342,11 @@ in
 
       /* Toggles */
       .toggle:checked {
-        background: #${colors.base02};
+        background: #${colors.base03};
       }
 
       .toggle:checked:hover {
-        background: #${colors.base03};
+        background: #${colors.base04};
       }
 
       scale trough {

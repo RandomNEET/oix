@@ -111,14 +111,14 @@ in
     # Even/odd rows - using same color for simplicity
     completion.even.bg = hexToRgba colors.base00 opacity.high;
     completion.odd.bg = hexToRgba colors.base01 opacity.high;
-    completion.fg = hexToRgba colors.base04 opacity.high;
+    completion.fg = hexToRgba colors.base05 opacity.high;
 
     # Selected completion item
     completion.item.selected.bg = hexToRgba colors.base02 opacity.high;
     completion.item.selected.border.bottom = hexToRgba colors.base02 opacity.high;
     completion.item.selected.border.top = hexToRgba colors.base02 opacity.high;
     completion.item.selected.fg = hexToRgba colors.base05 opacity.high;
-    completion.item.selected.match.fg = hexToRgba colors.base0F opacity.high;
+    completion.item.selected.match.fg = hexToRgba colors.base06 opacity.high;
     completion.match.fg = hexToRgba colors.base05 opacity.high;
 
     # Scrollbar
@@ -140,12 +140,12 @@ in
     # Hints
     hints.bg = hexToRgba colors.base09 opacity.high;
     hints.fg = hexToRgba colors.base00 opacity.high;
-    hints.match.fg = hexToRgba colors.base04 opacity.high;
+    hints.match.fg = hexToRgba colors.base05 opacity.high;
 
     # Keyhint widget
     keyhint.bg = hexToRgba colors.base00 opacity.high;
     keyhint.fg = hexToRgba colors.base05 opacity.high;
-    keyhint.suffix.fg = hexToRgba colors.base04 opacity.high;
+    keyhint.suffix.fg = hexToRgba colors.base05 opacity.high;
 
     # Messages
     messages.error.bg = hexToRgba colors.base03 opacity.high;
@@ -177,7 +177,7 @@ in
     statusbar.passthrough.bg = hexToRgba colors.base00 opacity.high;
 
     statusbar.normal.fg = hexToRgba colors.base05 opacity.high;
-    statusbar.insert.fg = hexToRgba colors.base0F opacity.high;
+    statusbar.insert.fg = hexToRgba colors.base06 opacity.high;
     statusbar.command.fg = hexToRgba colors.base05 opacity.high;
     statusbar.passthrough.fg = hexToRgba colors.base09 opacity.high;
     statusbar.caret.fg = hexToRgba colors.base09 opacity.high;
@@ -191,18 +191,18 @@ in
     statusbar.url.warn.fg = hexToRgba colors.base0A opacity.high;
 
     # Private mode
-    statusbar.private.bg = hexToRgba colors.base00 opacity.high;
-    statusbar.private.fg = hexToRgba colors.base04 opacity.high;
+    statusbar.private.bg = hexToRgba colors.base01 opacity.high;
+    statusbar.private.fg = hexToRgba colors.base05 opacity.high;
     statusbar.command.private.bg = hexToRgba colors.base00 opacity.high;
     statusbar.command.private.fg = hexToRgba colors.base04 opacity.high;
 
     # Tabs
     tabs.bar.bg = hexToRgba colors.base01 opacity.low;
-    tabs.even.bg = hexToRgba colors.base02 opacity.low;
-    tabs.odd.bg = hexToRgba colors.base02 opacity.low;
+    tabs.even.bg = hexToRgba colors.base03 opacity.low;
+    tabs.odd.bg = hexToRgba colors.base04 opacity.low;
 
-    tabs.even.fg = hexToRgba colors.base03 opacity.high;
-    tabs.odd.fg = hexToRgba colors.base03 opacity.high;
+    tabs.even.fg = hexToRgba colors.base04 opacity.high;
+    tabs.odd.fg = hexToRgba colors.base04 opacity.high;
 
     tabs.indicator.error = hexToRgba colors.base08 opacity.high;
     tabs.indicator.system = "none";
@@ -220,7 +220,7 @@ in
     contextmenu.disabled.bg = hexToRgba colors.base00 opacity.high;
     contextmenu.disabled.fg = hexToRgba colors.base03 opacity.high;
 
-    contextmenu.selected.bg = hexToRgba colors.base03 opacity.high;
-    contextmenu.selected.fg = hexToRgba colors.base0F opacity.high;
+    contextmenu.selected.bg = hexToRgba colors.base02 opacity.high;
+    contextmenu.selected.fg = hexToRgba colors.base05 opacity.high;
   };
 }

@@ -52,7 +52,7 @@ in
 
       .modules-center {
         background: #${colors.base00};
-        border: 0.5px solid #${colors.base03};
+        border: 0.5px solid #${colors.base04};
         padding-right:  5px;
         padding-left: 5px;
         border-radius: 10px;
@@ -108,6 +108,10 @@ in
         color: #${colors.base05};
       }
 
+      #pulseaudio {
+        color: #${colors.base07};
+      }
+
       #pulseaudio.muted,
       #temperature.critical {
         background-color: #${colors.base08};
@@ -124,7 +128,8 @@ in
       }
 
       #disk,
-      #temperature {
+      #temperature,
+      #custom-gpuinfo {
         color: #${colors.base0C};
       }
 
@@ -132,8 +137,7 @@ in
       #bluetooth,
       #idle_inhibitor,
       #language,
-      #network,
-      #pulseaudio {
+      #network {
         color: #${colors.base0D};
       }
 
@@ -155,7 +159,6 @@ in
         background-color: #${colors.base01};
         padding-left: 4px;
         padding-right: 4px;
-        animation:  gradient_f 20s ease-in infinite;
         transition: all 0.5s cubic-bezier(0.55, -0.68, 0.48, 1.682);
       }
 
@@ -165,7 +168,6 @@ in
         background-color: #${colors.base02};
         padding-left: 2px;
         padding-right: 2px;
-        animation: gradient_f 20s ease-in infinite;
         transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
       }
 
@@ -174,7 +176,6 @@ in
         border-radius: 10px;
         padding-left: 8px;
         padding-right: 8px;
-        animation: gradient_f 20s ease-in infinite;
         transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
       }
 
@@ -202,18 +203,15 @@ in
         -gtk-icon-effect: highlight;
       }
 
-
       #taskbar button.active {
         padding-left: 8px;
         padding-right: 8px;
-        animation: gradient_f 20s ease-in infinite;
         transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
       }
 
       #taskbar button:hover {
         padding-left: 2px;
         padding-right: 2px;
-        animation: gradient_f 20s ease-in infinite;
         transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
       }
 
