@@ -1,8 +1,21 @@
-{ lib, pkgs, ... }:
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
+let
+  inherit (lib) optionalString;
+in
 {
   home-manager.sharedModules = [
     (
       { config, ... }:
+      let
+        themes = opts.themes or [ ];
+        hasThemes = themes != [ ];
+        colors = config.lib.stylix.colors;
+      in
       {
         programs.tmux = {
           enable = true;
@@ -14,11 +27,10 @@
           focusEvents = true;
           historyLimit = 100000;
           terminal = "tmux-256color";
-          plugins = with pkgs.tmuxPlugins; [ vim-tmux-navigator ];
           extraConfig = ''
             # Options
             set -g allow-rename off
-            set -g status-position top
+            set -g status-position bottom
             set -g base-index 1
             set -g pane-base-index 1
             set -g renumber-windows on
@@ -37,12 +49,6 @@
             bind -n C-M-c kill-pane
             bind x swap-pane -D
             bind z resize-pane -Z
-
-            # Select panes
-            bind h select-pane -L
-            bind l select-pane -R
-            bind k select-pane -U
-            bind j select-pane -D
 
             # Resize panes
             bind -n M-Left resize-pane -L 2
@@ -67,6 +73,40 @@
             bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
             bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
           '';
+          plugins = with pkgs.tmuxPlugins; [
+            {
+              plugin = minimal-tmux-status;
+              extraConfig = ''
+                set -g @minimal-tmux-status "bottom"
+                set -g @minimal-tmux-show-expanded-icon-for-all-tabs true
+                set -g @minimal-tmux-use-arrow true
+                set -g @minimal-tmux-right-arrow ""
+                set -g @minimal-tmux-left-arrow ""
+              ''
+              + optionalString hasThemes ''
+                set -g @minimal-tmux-fg "#${colors.base00}"
+                set -g @minimal-tmux-bg "#${colors.base0E}"
+              '';
+            }
+            {
+              plugin = tmux-sessionx;
+              extraConfig = ''
+                set -g @sessionx-bind 'o'
+                set -g @sessionx-prefix on
+                set -g @sessionx-x-path '${config.home.homeDirectory}/repo'
+                ${optionalString config.programs.fzf.enable "set -g @sessionx-fzf-builtin-tmux 'on'"}
+                ${optionalString config.programs.zoxide.enable "set -g @sessionx-zoxide-mode 'on'"}
+              '';
+            }
+            {
+              plugin = resurrect;
+              extraConfig = ''
+                set -g @resurrect-dir '${config.xdg.stateHome}/tmux/resurrect'
+                ${optionalString ((opts.editor or "") == "nvim") "set -g @resurrect-strategy-nvim 'session'"}
+              '';
+            }
+            vim-tmux-navigator
+          ];
         };
 
         home.shellAliases = {

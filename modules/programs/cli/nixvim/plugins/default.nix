@@ -18,6 +18,7 @@
     ./opencode.nix
     ./persistence.nix
     ./snacks.nix
+    ./tmux-navigator.nix
     ./treesitter.nix
     ./visual-multi.nix
     ./which-key.nix

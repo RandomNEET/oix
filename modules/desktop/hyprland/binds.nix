@@ -78,7 +78,7 @@
 
     # Applications/Programs
     "$mainMod, Return, exec, $terminal"
-    "$mainMod, T, exec, $terminal"
+    "$mainMod, T, exec, [float;center;size 1000 600] $terminal"
     "$mainMod, F, exec, $fileManager"
     "$mainMod, E, exec, $editor"
     "$mainMod, B, exec, $browser"
