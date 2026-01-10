@@ -2,6 +2,7 @@
 {
   programs.nixvim = {
     autoCmd = [
+      # Use treesitter for folding if no manual folds are defined
       {
         event = "BufReadPost";
         pattern = "*";
@@ -21,6 +22,7 @@
           '';
         };
       }
+      # Set conceallevel for markdown files
       {
         event = "FileType";
         pattern = "markdown";
@@ -33,6 +35,7 @@
         };
       }
     ]
+    # Auto inactive fcitx5 when leaving insert mode
     ++ lib.optional (config.i18n.inputMethod.type == "fcitx5") {
       event = [
         "InsertLeave"

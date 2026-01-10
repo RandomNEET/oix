@@ -36,6 +36,7 @@ in
   };
   editor = {
     command =
+      # auto generate command based on options.nix
       if ((opts.terminal or "" != "") && (opts.editor == "nvim")) then
         if config.programs.nixvim.enable then
           [

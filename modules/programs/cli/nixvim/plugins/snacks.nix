@@ -2,6 +2,7 @@
 {
   programs.nixvim = {
     keymaps = [
+      # Picker
       {
         mode = "n";
         action = "<cmd>lua require('snacks').picker.smart()<CR>";
@@ -58,6 +59,7 @@
           desc = "Vertical diff split";
         };
       }
+      # Explorer
       {
         mode = "n";
         action = "<cmd>lua require('snacks').explorer()<CR>";
@@ -66,6 +68,7 @@
           desc = "File explorer";
         };
       }
+      # Terminal
       {
         mode = "n";
         action = "<cmd>lua require('snacks').terminal.toggle()<CR>";
@@ -74,6 +77,7 @@
           desc = "Toggle terminal";
         };
       }
+      # Dashboard
       {
         mode = "n";
         action = "<cmd>lua require('snacks').dashboard()<CR>";

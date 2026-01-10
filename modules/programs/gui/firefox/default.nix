@@ -58,6 +58,7 @@
           };
         };
       };
+      # whether disable titlebar buttons for wm
       home.file.".mozilla/firefox/default/chrome".source =
         if (opts.firefox.titlebar-buttons-disable or false) then
           ./chrome/titlebar-buttons-disable

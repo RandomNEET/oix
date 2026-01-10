@@ -41,7 +41,7 @@
         xclip.enable = true;
       };
     };
-
+    # Use OSC 52 for clipboard sync when connected via ssh
     extraConfigLua = ''
       local function is_ssh()
       	return vim.env.SSH_CONNECTION or vim.env.SSH_CLIENT or vim.env.SSH_TTY
