@@ -31,12 +31,10 @@
     dim_special = 0.3;
     blur = {
       enabled = true;
-      size = 6;
-      passes = 2;
+      size = 8;
+      passes = 3;
       ignore_opacity = true;
       new_optimizations = true;
-      xray = false;
-      special = false;
     };
   };
 

@@ -52,7 +52,7 @@ in
 
       .modules-center {
         background: #${colors.base00};
-        border: 0.5px solid #${colors.base04};
+        border: 1px solid #${colors.base04};
         padding-right:  5px;
         padding-left: 5px;
         border-radius: 10px;
