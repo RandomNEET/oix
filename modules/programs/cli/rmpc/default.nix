@@ -212,8 +212,8 @@
           '';
         };
         home = {
-          file = lib.optionalAttrs hasThemes {
-            ".config/rmpc/themes/stylix.ron".text = ''
+          file = {
+            ".config/rmpc/themes/stylix.ron".text = lib.optionalAttrs hasThemes ''
               #![enable(implicit_some)]
               #![enable(unwrap_newtypes)]
               #![enable(unwrap_variant_newtypes)]
@@ -445,6 +445,18 @@
                       }),
                   ),
               )
+            '';
+
+            ".local/share/applications/rmpc.desktop".text = ''
+              [Desktop Entry]
+                Name=rmpc
+                GenericName=Music Player
+                Comment=TUI client for MPD
+                Exec=rmpc
+                Terminal=true
+                Type=Application
+                Icon=mpd
+                Categories=Audio;Music;Player;ConsoleOnly;
             '';
           };
           packages = with pkgs; [ cava ];
