@@ -11,7 +11,7 @@
         mode = [
           "n"
         ];
-        key = "<leader>md";
+        key = "<leader>mp";
         action = "<cmd>MarkdownPreviewToggle<cr>";
         options = {
           desc = "Open markdown previrew in browser";

@@ -5,7 +5,7 @@
       # Picker
       {
         mode = "n";
-        action = "<cmd>lua require('snacks').picker.smart()<CR>";
+        action = "<cmd>lua require('snacks').picker.smart()<cr>";
         key = "<leader><space>";
         options = {
           desc = "Smart find files";
@@ -13,7 +13,7 @@
       }
       {
         mode = "n";
-        action = "<cmd>lua require('snacks').picker.buffers()<CR>";
+        action = "<cmd>lua require('snacks').picker.buffers()<cr>";
         key = "<leader>,";
         options = {
           desc = "Buffers";
@@ -21,7 +21,7 @@
       }
       {
         mode = "n";
-        action = "<cmd>lua require('snacks').picker.grep()<CR>";
+        action = "<cmd>lua require('snacks').picker.grep()<cr>";
         key = "<leader>/";
         options = {
           desc = "Grep";
@@ -29,7 +29,7 @@
       }
       {
         mode = "n";
-        action = "<cmd>lua require('snacks').picker.command_history()<CR>";
+        action = "<cmd>lua require('snacks').picker.command_history()<cr>";
         key = "<leader>:";
         options = {
           desc = "Command history";
@@ -37,7 +37,7 @@
       }
       {
         mode = "n";
-        action = "<cmd>lua require('snacks').picker.notifications()<CR>";
+        action = "<cmd>lua require('snacks').picker.notifications()<cr>";
         key = "<leader>n";
         options = {
           desc = "Notification history";
@@ -46,7 +46,7 @@
       {
         mode = "n";
         key = "<leader>dh";
-        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("diffsplit " .. item.text) end end, title = "Select File to Diff" })<CR>'';
+        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("diffsplit " .. item.text) end end, title = "Select File to Diff" })<cr>'';
         options = {
           desc = "Horizontal diff split";
         };
@@ -54,7 +54,7 @@
       {
         mode = "n";
         key = "<leader>dv";
-        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("vertical diffsplit " .. item.text) end end, title = "Select File to Diff" })<CR>'';
+        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("vertical diffsplit " .. item.text) end end, title = "Select File to Diff" })<cr>'';
         options = {
           desc = "Vertical diff split";
         };
@@ -62,7 +62,7 @@
       # Explorer
       {
         mode = "n";
-        action = "<cmd>lua require('snacks').explorer()<CR>";
+        action = "<cmd>lua require('snacks').explorer()<cr>";
         key = "<leader>e";
         options = {
           desc = "File explorer";
@@ -71,7 +71,7 @@
       # Terminal
       {
         mode = "n";
-        action = "<cmd>lua require('snacks').terminal.toggle()<CR>";
+        action = "<cmd>lua require('snacks').terminal.toggle()<cr>";
         key = "<leader>t";
         options = {
           desc = "Toggle terminal";
@@ -80,7 +80,7 @@
       # Dashboard
       {
         mode = "n";
-        action = "<cmd>lua require('snacks').dashboard()<CR>";
+        action = "<cmd>lua require('snacks').dashboard()<cr>";
         key = "<leader>gh";
         options = {
           desc = "Dashboard";

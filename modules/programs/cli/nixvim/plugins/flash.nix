@@ -10,7 +10,7 @@
           "x"
           "o"
         ];
-        action = "<CMD>lua require('flash').jump()<CR>";
+        action = "<cmd>lua require('flash').jump()<cr>";
         key = "s";
         options = {
           desc = "Flash";
@@ -24,7 +24,7 @@
           "x"
           "o"
         ];
-        action = "<CMD>lua require('flash').treesitter()<CR>";
+        action = "<cmd>lua require('flash').treesitter()<cr>";
         key = "S";
         options = {
           desc = "Flash Treesitter";
@@ -34,7 +34,7 @@
       }
       {
         mode = [ "o" ];
-        action = "<CMD>lua require('flash').remote()<CR>";
+        action = "<cmd>lua require('flash').remote()<cr>";
         key = "r";
         options = {
           desc = "Remote Flash";
@@ -47,7 +47,7 @@
           "o"
           "x"
         ];
-        action = "<CMD>lua require('flash').treesitter_search()<CR>";
+        action = "<cmd>lua require('flash').treesitter_search()<cr>";
         key = "R";
         options = {
           desc = "Treesitter Search";
@@ -57,7 +57,7 @@
       }
       {
         mode = [ "c" ];
-        action = "<CMD>lua require('flash').toggle()<CR>";
+        action = "<cmd>lua require('flash').toggle()<cr>";
         key = "<A-s>";
         options = {
           desc = "Toggle Flash Search";

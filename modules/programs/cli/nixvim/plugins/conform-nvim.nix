@@ -5,7 +5,7 @@
       {
         mode = "n";
         key = "<leader>fm";
-        action = "<CMD>lua require('conform').format({ aync = true, lsp_fallback = true })<CR>";
+        action = "<cmd>lua require('conform').format({ aync = true, lsp_fallback = true })<cr>";
         options = {
           desc = "Format buffer";
         };

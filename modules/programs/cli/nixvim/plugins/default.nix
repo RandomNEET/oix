@@ -5,6 +5,7 @@
     ./comment.nix
     ./conform-nvim.nix
     ./copilot-lua.nix
+    ./csvview.nix
     ./flash.nix
     ./lazygit.nix
     ./lint.nix
@@ -18,7 +19,9 @@
     ./obsidian.nix
     ./opencode.nix
     ./persistence.nix
+    ./render-markdown.nix
     ./snacks.nix
+    ./spectre.nix
     ./tmux-navigator.nix
     ./treesitter.nix
     ./visual-multi.nix

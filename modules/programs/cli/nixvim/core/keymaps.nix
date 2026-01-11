@@ -9,7 +9,7 @@
           "t"
         ];
         key = "<C-k>";
-        action = "<Cmd>wincmd k<CR>";
+        action = "<cmd>wincmd k<cr>";
         options = {
           desc = "Cycle to top window";
         };
@@ -20,7 +20,7 @@
           "t"
         ];
         key = "<C-j>";
-        action = "<Cmd>wincmd j<CR>";
+        action = "<cmd>wincmd j<cr>";
         options = {
           desc = "Cycle to bottom window";
         };
@@ -31,7 +31,7 @@
           "t"
         ];
         key = "<C-l>";
-        action = "<Cmd>wincmd l<CR>";
+        action = "<cmd>wincmd l<cr>";
         options = {
           desc = "Cycle to right window";
         };
@@ -42,7 +42,7 @@
           "t"
         ];
         key = "<C-h>";
-        action = "<Cmd>wincmd h<CR>";
+        action = "<cmd>wincmd h<cr>";
         options = {
           desc = "Cycle to left window";
         };
@@ -51,7 +51,7 @@
       {
         mode = "n";
         key = "<leader>bd";
-        action = "<cmd>bdelete<CR>";
+        action = "<cmd>bdelete<cr>";
         options = {
           desc = "Delete buffer";
         };
@@ -60,7 +60,7 @@
       {
         mode = "n";
         key = "<A-k>";
-        action = "<cmd>m .-2<CR>==";
+        action = "<cmd>m .-2<cr>==";
         options = {
           desc = "Move text up";
         };
@@ -68,7 +68,7 @@
       {
         mode = "n";
         key = "<A-j>";
-        action = "<cmd>m .+1<CR>==";
+        action = "<cmd>m .+1<cr>==";
         options = {
           desc = "Move text down";
         };
@@ -79,7 +79,7 @@
           "x"
         ];
         key = "<A-k>";
-        action = "<cmd>m '<-2<CR>gv=gv";
+        action = "<cmd>m '<-2<cr>gv=gv";
         options = {
           desc = "Move text up";
         };
@@ -90,7 +90,7 @@
           "x"
         ];
         key = "<A-j>";
-        action = "<cmd>m '>+1<CR>gv=gv";
+        action = "<cmd>m '>+1<cr>gv=gv";
         options = {
           desc = "Move text down";
         };
@@ -98,7 +98,7 @@
       {
         mode = "x";
         key = "K";
-        action = "<cmd>m '<-2<CR>gv=gv";
+        action = "<cmd>m '<-2<cr>gv=gv";
         options = {
           desc = "Move text up";
         };
@@ -106,7 +106,7 @@
       {
         mode = "x";
         key = "J";
-        action = "<cmd>m '>+1<CR>gv=gv";
+        action = "<cmd>m '>+1<cr>gv=gv";
         options = {
           desc = "Move text down";
         };

@@ -8,7 +8,7 @@
           "x"
         ];
         key = "<C-a>";
-        action = "<cmd>lua require('opencode').ask('@this: ', { submit = true })<CR>";
+        action = "<cmd>lua require('opencode').ask('@this: ', { submit = true })<cr>";
         options = {
           desc = "Ask opencode";
         };
@@ -19,7 +19,7 @@
           "x"
         ];
         key = "<C-x>";
-        action = "<cmd>lua require('opencode').select()<CR>";
+        action = "<cmd>lua require('opencode').select()<cr>";
         options = {
           desc = "Execute opencode action…";
         };
@@ -30,7 +30,7 @@
           "t"
         ];
         key = "<C-.>";
-        action = "<cmd>lua require('opencode').toggle()<CR>";
+        action = "<cmd>lua require('opencode').toggle()<cr>";
         options = {
           desc = "Toggle opencode";
         };
@@ -59,7 +59,7 @@
       {
         mode = "n";
         key = "<S-C-u>";
-        action = "<cmd>lua require('opencode').command('session.half.page.up')<CR>";
+        action = "<cmd>lua require('opencode').command('session.half.page.up')<cr>";
         options = {
           desc = "opencode half page up";
         };
@@ -67,7 +67,7 @@
       {
         mode = "n";
         key = "<S-C-d>";
-        action = "<cmd>lua require('opencode').command('session.half.page.down')<CR>";
+        action = "<cmd>lua require('opencode').command('session.half.page.down')<cr>";
         options = {
           desc = "opencode half page down";
         };

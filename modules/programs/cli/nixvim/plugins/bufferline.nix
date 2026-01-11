@@ -90,7 +90,7 @@
         {
           mode = "n";
           key = "<leader>bP";
-          action = "<Cmd>BufferLineGroupClose ungrouped<CR>";
+          action = "<cmd>BufferLineGroupClose ungrouped<cr>";
           options = {
             desc = "Delete non-pinned buffers";
           };
