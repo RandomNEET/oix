@@ -7,6 +7,8 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
+  desktop = opts.desktop or "";
+  hasDesktop = desktop != "";
 in
 {
   programs.nixvim = {
@@ -45,7 +47,7 @@ in
 
     clipboard = {
       register = "unnamedplus";
-      providers = lib.mkIf ((opts.desktop or "") != "") {
+      providers = lib.mkIf hasDesktop {
         wl-copy.enable = true;
         xclip.enable = true;
       };

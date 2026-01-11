@@ -7,6 +7,8 @@
 }:
 let
   inherit (lib) getExe;
+  desktop = opts.desktop or "";
+  hasDesktop = desktop != "";
 in
 {
   programs.yazi = {
@@ -29,7 +31,7 @@ in
     // lib.optionalAttrs config.programs.lazygit.enable {
       lazygit = pkgs.yaziPlugins.lazygit;
     }
-    // lib.optionalAttrs ((opts.desktop or "") != "") {
+    // lib.optionalAttrs hasDesktop {
       wl-clipboard = pkgs.yaziPlugins.wl-clipboard;
     };
     settings = {
@@ -293,7 +295,7 @@ in
             desc = "run lazygit";
           }
         ]
-        ++ lib.optionals ((opts.desktop or "") != "") [
+        ++ lib.optionals hasDesktop [
           # wl-clipboard
           {
             on = "Y";

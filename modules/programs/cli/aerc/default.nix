@@ -4,6 +4,10 @@
   opts,
   ...
 }:
+let
+  desktop = opts.desktop or "";
+  hasDesktop = desktop != "";
+in
 {
   home-manager.sharedModules = [
     (
@@ -45,12 +49,12 @@
             };
             openers =
               { }
-              // optionalAttrs ((opts.desktop or "") == "") { use-terminal-pinentry = "true"; }
-              // optionalAttrs ((opts.desktop or "") != "") { "x-scheme-handler/http*" = "xdg-open {}"; }
-              // optionalAttrs ((opts.desktop or "") != "" && (opts.editor or "") != "") {
+              // optionalAttrs hasDesktop { use-terminal-pinentry = "true"; }
+              // optionalAttrs hasDesktop { "x-scheme-handler/http*" = "xdg-open {}"; }
+              // optionalAttrs hasDesktop {
                 "text/plain" = "${opts.terminal} -e ${opts.editor} {}";
               }
-              // optionalAttrs ((opts.desktop or "") != "" && (opts.browser or "") != "") {
+              // optionalAttrs hasDesktop {
                 "text/html" = "${opts.browser} {}";
               }
               // optionalAttrs config.programs.swayimg.enable { "image/*" = "swayimg {}"; }

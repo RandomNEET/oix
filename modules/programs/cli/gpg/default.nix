@@ -1,4 +1,8 @@
 { pkgs, opts, ... }:
+let
+  desktop = opts.desktop or "";
+  hasDesktop = desktop != "";
+in
 {
   home-manager.sharedModules = [
     (
@@ -13,8 +17,8 @@
           enableSshSupport = opts.gpg.gpg-agent.enableSshSupport or false;
           enableBashIntegration = true;
           enableZshIntegration = true;
-          pinentry.package = if ((opts.desktop or "") != "") then pkgs.pinentry-qt else pkgs.pinentry-curses;
-          pinentry.program = if ((opts.desktop or "") != "") then "pinentry-qt" else "pinentry-curses";
+          pinentry.package = if hasDesktop then pkgs.pinentry-qt else pkgs.pinentry-curses;
+          pinentry.program = if hasDesktop then "pinentry-qt" else "pinentry-curses";
         };
         home.packages = [ pkgs.pinentry-all ];
       }
