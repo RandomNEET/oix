@@ -47,6 +47,7 @@ in
     "<Ctrl-Q>" = "quit";
     "<Ctrl-Return>" = "selection-follow -t";
     "<Ctrl-Shift-N>" = "open -p";
+    "<Ctrl-Shift-R>" = "config-source";
     "<Ctrl-Shift-T>" = "undo";
     "<Ctrl-Shift-Tab>" = "nop";
     "<Ctrl-Shift-W>" = "close";
