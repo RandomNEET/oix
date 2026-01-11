@@ -15,6 +15,9 @@ in
     (
       { osConfig, config, ... }:
       let
+        resurrectDir = "${config.xdg.stateHome}/tmux/resurrect";
+        resurrect-cmd-fix = import ./scripts/resurrect-cmd-fix.nix { inherit pkgs resurrectDir; };
+
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
         colors = config.lib.stylix.colors;
@@ -119,7 +122,8 @@ in
             {
               plugin = resurrect;
               extraConfig = ''
-                set -g @resurrect-dir '${config.xdg.stateHome}/tmux/resurrect'
+                set -g @resurrect-dir '${resurrectDir}'
+                set -g @resurrect-hook-post-save-layout '${resurrect-cmd-fix}'
                 set -g @resurrect-processes '
                   ${optionalString ((opts.editor or "") == "nvim") ''"~nvim->nvim"''}
                   ${optionalString config.programs.yazi.enable ''"~yazi->yazi"''}
