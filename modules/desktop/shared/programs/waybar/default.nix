@@ -62,7 +62,7 @@ in
               ]
               ++ [
                 "backlight"
-                "pulseaudio"
+                "group/audio"
                 "bluetooth"
                 "network"
                 "battery"
@@ -237,6 +237,19 @@ in
                 tooltip-format = "󱘖 {ipaddr}  {bandwidthUpBytes}  {bandwidthDownBytes}";
               };
 
+              "group/audio" = {
+                orientation = "horizontal";
+                drawer = {
+                  transition-duration = 500;
+                  children-class = "audio-child";
+                  transition-left-to-right = false;
+                };
+                modules = [
+                  "pulseaudio"
+                  "pulseaudio/slider"
+                ];
+              };
+
               "pulseaudio" = {
                 format = "{icon} {volume}";
                 format-muted = " ";
@@ -256,6 +269,12 @@ in
                     ""
                   ];
                 };
+              };
+
+              "pulseaudio/slider" = {
+                min = 0;
+                max = 100;
+                orientation = "horizontal";
               };
 
               "pulseaudio#microphone" = {

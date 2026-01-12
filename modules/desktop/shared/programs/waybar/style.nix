@@ -108,6 +108,7 @@ in
         color: #${colors.base05};
       }
 
+      #audio
       #pulseaudio {
         color: #${colors.base07};
       }
@@ -234,11 +235,13 @@ in
         min-width: 80px;
         min-height: 5px;
         border-radius: 5px;
+        background-color: #${colors.base02};
       }
 
       #pulseaudio-slider highlight {
         min-height: 10px;
         border-radius: 5px;
+        background-color: #${colors.base0E};
       }
 
       #backlight-slider slider {
