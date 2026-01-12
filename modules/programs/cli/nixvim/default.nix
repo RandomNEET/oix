@@ -12,7 +12,6 @@
         inputs.nixvim.homeModules.nixvim
         ./core
         ./plugins
-        ./themes
       ];
 
       programs.nixvim = {

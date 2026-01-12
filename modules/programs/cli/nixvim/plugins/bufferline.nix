@@ -38,6 +38,38 @@
       '';
     in
     {
+      plugins.bufferline = {
+        enable = true;
+        settings = {
+          options = {
+            mode = "buffers";
+            style_preset = "bufferline.style_preset.default";
+            numbers = "ordinal";
+            indicator = {
+              icon = "▎";
+              style = "icon";
+            };
+            buffer_close_icon = "󰅖";
+            modified_icon = "●";
+            close_icon = "";
+            left_trunc_marker = " ";
+            right_trunc_marker = " ";
+            tab_size = 18;
+            diagnostics = "nvim_lsp";
+            offsets = [
+              {
+                filetype = "snacks_layout_box";
+                text = cwd;
+                text_align = "left";
+                separator = true;
+              }
+            ];
+            show_buffer_icons = true;
+            show_buffer_close_icons = false;
+            separator_style = "thin"; # “slant”, “padded_slant”, “slope”, “padded_slope”, “thick”, “thin”
+          };
+        };
+      };
       keymaps = [
         {
           mode = "n";
@@ -96,37 +128,5 @@
           };
         }
       ];
-      plugins.bufferline = {
-        enable = true;
-        settings = {
-          options = {
-            mode = "buffers";
-            style_preset = "bufferline.style_preset.default";
-            numbers = "ordinal";
-            indicator = {
-              icon = "▎";
-              style = "icon";
-            };
-            buffer_close_icon = "󰅖";
-            modified_icon = "●";
-            close_icon = "";
-            left_trunc_marker = " ";
-            right_trunc_marker = " ";
-            tab_size = 18;
-            diagnostics = "nvim_lsp";
-            offsets = [
-              {
-                filetype = "snacks_layout_box";
-                text = cwd;
-                text_align = "left";
-                separator = true;
-              }
-            ];
-            show_buffer_icons = true;
-            show_buffer_close_icons = false;
-            separator_style = "thin"; # “slant”, “padded_slant”, “slope”, “padded_slope”, “thick”, “thin”
-          };
-        };
-      };
     };
 }

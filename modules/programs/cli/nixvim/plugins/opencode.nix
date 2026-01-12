@@ -1,6 +1,14 @@
 { config, lib, ... }:
 {
   programs.nixvim = lib.mkIf config.programs.opencode.enable {
+    plugins = {
+      opencode = {
+        enable = true;
+        settings = {
+          auto_reload = false;
+        };
+      };
+    };
     keymaps = [
       {
         mode = [
@@ -73,13 +81,5 @@
         };
       }
     ];
-    plugins = {
-      opencode = {
-        enable = true;
-        settings = {
-          auto_reload = false;
-        };
-      };
-    };
   };
 }

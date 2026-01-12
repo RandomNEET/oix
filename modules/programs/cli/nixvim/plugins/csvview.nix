@@ -1,17 +1,5 @@
 {
   programs.nixvim = {
-    keymaps = [
-      {
-        mode = [
-          "n"
-        ];
-        key = "<leader>cv";
-        action = "<cmd>CsvViewToggle<cr>";
-        options = {
-          desc = "Toggle CSV view";
-        };
-      }
-    ];
     plugins.csvview = {
       enable = true;
       settings = {
@@ -24,5 +12,17 @@
         };
       };
     };
+    keymaps = [
+      {
+        mode = [
+          "n"
+        ];
+        key = "<leader>cv";
+        action = "<cmd>CsvViewToggle<cr>";
+        options = {
+          desc = "Toggle CSV view";
+        };
+      }
+    ];
   };
 }

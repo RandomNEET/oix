@@ -1,15 +1,5 @@
 {
   programs.nixvim = {
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>fm";
-        action = "<cmd>lua require('conform').format({ aync = true, lsp_fallback = true })<cr>";
-        options = {
-          desc = "Format buffer";
-        };
-      }
-    ];
     plugins.conform-nvim = {
       enable = true;
       settings = {
@@ -57,5 +47,15 @@
         };
       };
     };
+    keymaps = [
+      {
+        mode = "n";
+        key = "<leader>fm";
+        action = "<cmd>lua require('conform').format({ aync = true, lsp_fallback = true })<cr>";
+        options = {
+          desc = "Format buffer";
+        };
+      }
+    ];
   };
 }

@@ -1,92 +1,16 @@
-{ config, ... }:
+{
+  config,
+  lib,
+  opts,
+  ...
+}:
+let
+  themes = opts.themes or [ ];
+  hasThemes = themes != [ ];
+  colors = config.lib.stylix.colors;
+in
 {
   programs.nixvim = {
-    keymaps = [
-      # Picker
-      {
-        mode = "n";
-        action = "<cmd>lua require('snacks').picker.smart()<cr>";
-        key = "<leader><space>";
-        options = {
-          desc = "Smart find files";
-        };
-      }
-      {
-        mode = "n";
-        action = "<cmd>lua require('snacks').picker.buffers()<cr>";
-        key = "<leader>,";
-        options = {
-          desc = "Buffers";
-        };
-      }
-      {
-        mode = "n";
-        action = "<cmd>lua require('snacks').picker.grep()<cr>";
-        key = "<leader>/";
-        options = {
-          desc = "Grep";
-        };
-      }
-      {
-        mode = "n";
-        action = "<cmd>lua require('snacks').picker.command_history()<cr>";
-        key = "<leader>:";
-        options = {
-          desc = "Command history";
-        };
-      }
-      {
-        mode = "n";
-        action = "<cmd>lua require('snacks').picker.notifications()<cr>";
-        key = "<leader>n";
-        options = {
-          desc = "Notification history";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>dh";
-        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("diffsplit " .. item.text) end end, title = "Select File to Diff" })<cr>'';
-        options = {
-          desc = "Horizontal diff split";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>dv";
-        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("vertical diffsplit " .. item.text) end end, title = "Select File to Diff" })<cr>'';
-        options = {
-          desc = "Vertical diff split";
-        };
-      }
-      # Explorer
-      {
-        mode = "n";
-        action = "<cmd>lua require('snacks').explorer()<cr>";
-        key = "<leader>e";
-        options = {
-          desc = "File explorer";
-        };
-      }
-      # Terminal
-      {
-        mode = "n";
-        action = "<cmd>lua require('snacks').terminal.toggle()<cr>";
-        key = "<leader>t";
-        options = {
-          desc = "Toggle terminal";
-        };
-      }
-      # Dashboard
-      {
-        mode = "n";
-        action = "<cmd>lua require('snacks').dashboard()<cr>";
-        key = "<leader>gh";
-        options = {
-          desc = "Dashboard";
-        };
-      }
-    ];
     plugins = {
       snacks = {
         enable = true;
@@ -239,6 +163,102 @@
             enabled = config.programs.kitty.enable;
           };
         };
+      };
+    };
+    keymaps = [
+      # Picker
+      {
+        mode = "n";
+        action = "<cmd>lua require('snacks').picker.smart()<cr>";
+        key = "<leader><space>";
+        options = {
+          desc = "Smart find files";
+        };
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua require('snacks').picker.buffers()<cr>";
+        key = "<leader>,";
+        options = {
+          desc = "Buffers";
+        };
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua require('snacks').picker.grep()<cr>";
+        key = "<leader>/";
+        options = {
+          desc = "Grep";
+        };
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua require('snacks').picker.command_history()<cr>";
+        key = "<leader>:";
+        options = {
+          desc = "Command history";
+        };
+      }
+      {
+        mode = "n";
+        action = "<cmd>lua require('snacks').picker.notifications()<cr>";
+        key = "<leader>n";
+        options = {
+          desc = "Notification history";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>dh";
+        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("diffsplit " .. item.text) end end, title = "Select File to Diff" })<cr>'';
+        options = {
+          desc = "Horizontal diff split";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>dv";
+        action = ''<cmd>lua Snacks.picker.files({ confirm = function(picker, item) picker:close() if item then vim.cmd("vertical diffsplit " .. item.text) end end, title = "Select File to Diff" })<cr>'';
+        options = {
+          desc = "Vertical diff split";
+        };
+      }
+      # Explorer
+      {
+        mode = "n";
+        action = "<cmd>lua require('snacks').explorer()<cr>";
+        key = "<leader>e";
+        options = {
+          desc = "File explorer";
+        };
+      }
+      # Terminal
+      {
+        mode = "n";
+        action = "<cmd>lua require('snacks').terminal.toggle()<cr>";
+        key = "<leader>t";
+        options = {
+          desc = "Toggle terminal";
+        };
+      }
+      # Dashboard
+      {
+        mode = "n";
+        action = "<cmd>lua require('snacks').dashboard()<cr>";
+        key = "<leader>gh";
+        options = {
+          desc = "Dashboard";
+        };
+      }
+    ];
+    highlightOverride = lib.mkIf hasThemes {
+      SnacksPicker = {
+        fg = "#${colors.base05}";
+        bg = "none";
+      };
+      SnacksPickerBorder = {
+        fg = "#${colors.base05}";
+        bg = "none";
       };
     };
   };

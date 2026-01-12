@@ -2,9 +2,6 @@
 {
   programs.nixvim = {
     plugins = {
-      treesitter-context = {
-        enable = false;
-      };
       treesitter = {
         enable = true;
         nixvimInjections = true;
@@ -31,6 +28,9 @@
           incremental_selection.enable = true;
           indent.enable = true;
         };
+      };
+      treesitter-context = {
+        enable = false;
       };
     };
   };

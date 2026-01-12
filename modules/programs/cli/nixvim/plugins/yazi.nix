@@ -1,6 +1,14 @@
 { config, lib, ... }:
 {
   programs.nixvim = lib.mkIf config.programs.yazi.enable {
+    plugins.yazi = {
+      enable = true;
+      settings = {
+        enable_mouse_support = true;
+        open_for_directories = true;
+        yazi_floating_window_border = "rounded";
+      };
+    };
     keymaps = [
       {
         mode = [
@@ -28,13 +36,5 @@
         };
       }
     ];
-    plugins.yazi = {
-      enable = true;
-      settings = {
-        enable_mouse_support = true;
-        open_for_directories = true;
-        yazi_floating_window_border = "rounded";
-      };
-    };
   };
 }

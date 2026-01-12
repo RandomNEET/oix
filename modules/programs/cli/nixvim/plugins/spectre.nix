@@ -1,39 +1,5 @@
 {
   programs.nixvim = {
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>S";
-        action = "<cmd>lua require('spectre').toggle()<cr>";
-        options = {
-          desc = "Toggle Spectre";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>sw";
-        action = "<leader>sw', '<cmd>lua require('spectre').open_visual({select_word=true})<cr>";
-        options = {
-          desc = "Search current word";
-        };
-      }
-      {
-        mode = "v";
-        key = "<leader>sw";
-        action = "'<leader>sp', '<cmd>lua require('spectre').open_file_search({select_word=true})<cr>";
-        options = {
-          desc = "Search current word";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>sp";
-        action = "leader>sp', '<cmd>lua require('spectre').open_file_search({select_word=true})<cr>";
-        options = {
-          desc = "Search on current file";
-        };
-      }
-    ];
     plugins.spectre = {
       enable = true;
       settings = {
@@ -87,5 +53,39 @@
         live_update = true;
       };
     };
+    keymaps = [
+      {
+        mode = "n";
+        key = "<leader>S";
+        action = "<cmd>lua require('spectre').toggle()<cr>";
+        options = {
+          desc = "Toggle Spectre";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>sw";
+        action = "<leader>sw', '<cmd>lua require('spectre').open_visual({select_word=true})<cr>";
+        options = {
+          desc = "Search current word";
+        };
+      }
+      {
+        mode = "v";
+        key = "<leader>sw";
+        action = "'<leader>sp', '<cmd>lua require('spectre').open_file_search({select_word=true})<cr>";
+        options = {
+          desc = "Search current word";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>sp";
+        action = "leader>sp', '<cmd>lua require('spectre').open_file_search({select_word=true})<cr>";
+        options = {
+          desc = "Search on current file";
+        };
+      }
+    ];
   };
 }
