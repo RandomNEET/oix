@@ -1,9 +1,13 @@
 {
   pkgs,
+  opts,
   global,
   DOWNLOADS,
   ...
 }:
+let
+  username = opts.users.primary.name;
+in
 pkgs.writeText "firejail-libreoffice-profile" ''
   # Firejail profile for libreoffice
   # Description: Office productivity suite
@@ -30,9 +34,9 @@ pkgs.writeText "firejail-libreoffice-profile" ''
   include allow-java.inc
 
   # Added for themes
+  noblacklist ''${HOME}/.config/dconf
   noblacklist ''${HOME}/.config/gtk-3.0
   noblacklist ''${HOME}/.config/gtk-4.0
-  noblacklist ''${HOME}/.config/dconf
   whitelist ''${HOME}/.config/dconf
   whitelist ''${HOME}/.config/gtk-3.0
   whitelist ''${HOME}/.config/gtk-4.0
@@ -73,13 +77,12 @@ pkgs.writeText "firejail-libreoffice-profile" ''
   #private-bin libreoffice,sh,uname,dirname,grep,sed,basename,ls
   private-cache
   private-dev
-  private-etc @tls-ca,@x11,cups,gnupg,libreoffice,papersize,ssh,profiles # added profiles
+  private-etc @tls-ca,@x11,cups,gnupg,libreoffice,papersize,ssh,profiles/per-user/${username}/share/themes # added profiles
   private-tmp
 
   # Added for themes
   dbus-user filter
   dbus-user.talk org.freedesktop.portal.Desktop
-  dbus-user.talk org.gnome.desktop.interface
 
   dbus-system none
 

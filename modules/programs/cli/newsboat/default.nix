@@ -51,7 +51,7 @@ in
           highlight article "https?://[^ ]+" color4 default
           highlight article "\[[0-9]+\]" color6 default bold
         '';
-        browser = opts.newsboat.browser or opts.browser or "${pkgs.xdg-utils}/bin/xdg-open";
+        browser = opts.browser or "${pkgs.xdg-utils}/bin/xdg-open";
         queries = { } // (opts.newsboat.queries or { });
         urls = [ ] ++ (opts.newsboat.urls or [ ]);
       };

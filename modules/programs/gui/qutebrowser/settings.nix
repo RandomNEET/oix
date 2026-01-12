@@ -37,12 +37,14 @@ in
   editor = {
     command =
       # auto generate command based on options.nix
-      if ((opts.terminal or "" != "") && (opts.editor == "nvim")) then
+      if (((opts.terminal or "") != "") && (opts.editor == "nvim")) then
         if config.programs.nixvim.enable then
           [
             "${pkgs.${opts.terminal}}/bin/${opts.terminal}"
             "-e"
             "${config.programs.nixvim.build.package}/bin/nvim"
+            "--cmd"
+            "set clipboard=unnamedplus | syntax on"
             "{file}"
           ]
         else
@@ -52,11 +54,6 @@ in
             "${pkgs.neovim}/bin/nvim"
             "{file}"
           ]
-      else if (opts.editor == "vscode") then
-        [
-          "${pkgs.vscode}/bin/code"
-          "{file}"
-        ]
       else
         [
           "gvim"

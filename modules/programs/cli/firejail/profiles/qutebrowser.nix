@@ -38,12 +38,14 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   include disable-programs.inc
   include disable-shell.inc
 
+  mkdir ''${RUNUSER}/qutebrowser
   whitelist ${DOWNLOADS}
   whitelist ''${HOME}/.cache/qutebrowser
   whitelist ''${HOME}/.config/qutebrowser
   whitelist ''${HOME}/.local/share/qutebrowser
   whitelist ''${RUNUSER}/qutebrowser
   whitelist /usr/share/qutebrowser
+  whitelist /run/current-system/sw/bin/cat # for wl-clipboard in vim
   include whitelist-common.inc
   include whitelist-run-common.inc
   include whitelist-runuser-common.inc
@@ -66,7 +68,7 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   private-cache
   private-dev
   private-etc @tls-ca,egl # added egl for hardware acceleration
-  private-tmp
+  #private-tmp # for other programs to open html
 
   dbus-user filter
   # qutebrowser-qt6 uses a newer chrome version which uses the name 'chromium'
@@ -78,9 +80,9 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   # Added for userscripts/ime-off
   ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") "dbus-user.talk org.fcitx.Fcitx5"}
 
-  # Add the next line to your qutebrowser.local to allow screen sharing under wayland.
+  # Add the next line to allow screen sharing under wayland.
   #dbus-user.talk org.freedesktop.portal.Desktop
-  # Add the next line to your qutebrowser.local if screen sharing sharing still does not work
+  # Add the next line if screen sharing sharing still does not work
   # with the above lines (might depend on the portal implementation).
   #ignore noroot
   dbus-system none

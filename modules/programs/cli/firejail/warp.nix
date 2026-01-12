@@ -123,7 +123,8 @@ let
 
   toWarp = lib.filter (name: packages.${name}.enable) (builtins.attrNames packages);
 
-  # line '2> >(grep -v -e "fseccomp" -e "dumpable" >&2)' is to suppress known warnings about 'dumpable process' and 'fseccomp' permissions
+  # line '2> >(grep -v -e "fseccomp" -e "dumpable" >&2)' suppresses known warnings about 'dumpable process' and 'fseccomp' permissions
+  # known issue caused by this line: unable to launch w3m in newsboat
   warpCmd =
     name:
     let
