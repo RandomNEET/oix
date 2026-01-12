@@ -584,30 +584,6 @@
     # }}}
 
     # Shell {{{
-    zsh = {
-      initContent = '''';
-
-      envExtra = ''
-        export VI_MODE_SET_CURSOR=true
-        MODE_INDICATOR="%F{red}<<<%f"
-      '';
-
-      shellGlobalAliases = {
-        G = "| grep";
-      };
-
-      shellAliases = {
-        update = "sudo nixos-rebuild switch";
-      };
-
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "vi-mode"
-        ];
-      };
-    };
-
     ssh = {
       keyDir = "/home/${users.primary.name}/.vault/ssh";
 
@@ -639,20 +615,6 @@
             addKeysToAgent = "yes";
           };
         };
-        ssh-agent.enable = true;
-      };
-    };
-    # }}}
-
-    # Editor {{{
-    nixvim = {
-      treesitter.enable = true;
-      lsp.enable = true;
-      conform.enable = true;
-      lint.enable = true;
-      copilot.enable = false;
-      snacks = {
-        image.enable = false;
       };
     };
     # }}}

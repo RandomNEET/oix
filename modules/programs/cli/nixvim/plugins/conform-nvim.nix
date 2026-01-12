@@ -1,6 +1,5 @@
-{ lib, opts, ... }:
 {
-  programs.nixvim = lib.mkIf (opts.nixvim.conform.enable or true) {
+  programs.nixvim = {
     keymaps = [
       {
         mode = "n";

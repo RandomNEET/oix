@@ -82,8 +82,6 @@
     "$mainMod, F, exec, $fileManager"
     "$mainMod, E, exec, $editor"
     "$mainMod, B, exec, $browser"
-    "$CONTROL ALT, DELETE, exec, $terminal -e ${getExe pkgs.btop}" # System Monitor
-    "$mainMod CTRL, C, exec, hyprpicker --autocopy --format=hex" # Colour Picker
 
     "$mainMod, A, exec, ${launcher} drun" # launch desktop applications
     "$mainMod, SPACE, exec, ${launcher} drun" # launch desktop applications
@@ -95,16 +93,17 @@
     "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
     "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
 
-    "$mainMod, F8, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
-    "$mainMod, F9, exec, hyprsunset --temperature 3500" # good values: 3500, 3000, 2500
-    "$mainMod, F10, exec, pkill hyprsunset"
+    "$mainMod, F1, exec, $terminal -e ${getExe pkgs.btop}" # System Monitor
+    "$mainMod, F10, exec, pkill hyprpicker || hyprpicker --autocopy --format=hex" # Colour Picker
+    "$mainMod, F11, exec, pkill hyprsunset || hyprsunset --temperature 3500" # good values: 3500, 3000, 2500
+    "$mainMod, F12, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
 
     # Screenshot/Screencapture
     "$mainMod, P, exec, ${screenshot} s" # drag to snip an area / click on a window to print it
-    "$mainMod CTRL, P, exec, ${screenshot} sf" # frozen screen, drag to snip an area / click on a window to print it
+    "$mainMod SHIFT, P, exec, ${screenshot} sf" # frozen screen, drag to snip an area / click on a window to print it
+    "$mainMod CTRL, P, exec, ${screenshot} m" # print focused monitor
     "$mainMod ALT, P, exec, ${screenshot} p" # print all monitor outputs
-    "$mainMod, print, exec, ${screenshot} m" # print focused monitor
-    "$mainMod SHIFT, print, exec, ${screenshot} o" # ocr capture
+    "$mainMod, print, exec, ${screenshot} o" # ocr capture
 
     # Functional keybinds
     ",xf86Sleep, exec, systemctl suspend" # Put computer into sleep mode

@@ -1,14 +1,4 @@
-{
-  config,
-  lib,
-  opts,
-  ...
-}:
-let
-  docDir =
-    lib.replaceStrings [ "${config.home.homeDirectory}" "$HOME/" ] [ "" "" ]
-      config.xdg.userDirs.documents;
-in
+{ config, lib, ... }:
 {
   programs.nixvim = lib.mkIf config.programs.obsidian.enable {
     keymaps = [
@@ -63,12 +53,14 @@ in
           };
           new_notes_location = "current_dir";
           workspaces =
-            opts.nixvim.obsidian.workspaces or [
-              {
-                name = "notes";
-                path = "~/${docDir}/notes";
-              }
-            ];
+            let
+              vaults = config.programs.obsidian.vaults;
+              enabledVaults = lib.filterAttrs (name: value: value.enable or true) vaults;
+            in
+            lib.mapAttrsToList (name: value: {
+              inherit name;
+              path = "~/${value.target}";
+            }) enabledVaults;
           picker = {
             name = "snacks.pick";
           };

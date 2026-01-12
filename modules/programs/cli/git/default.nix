@@ -9,8 +9,16 @@
     {
       programs.git = {
         enable = true;
-        settings = opts.git.settings or { };
-        includes = opts.git.includes or [ ];
+        settings = {
+          init = {
+            defaultBranch = "master";
+          };
+          advice = {
+            defaultBranchName = false;
+          };
+        }
+        // (opts.git.settings or { });
+        includes = [ ] ++ (opts.git.includes or [ ]);
       };
 
       home.shellAliases = {

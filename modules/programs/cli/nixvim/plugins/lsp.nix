@@ -1,6 +1,5 @@
-{ lib, opts, ... }:
 {
-  programs.nixvim = lib.mkIf (opts.nixvim.lsp.enable or true) {
+  programs.nixvim = {
     plugins = {
       lsp = {
         enable = true;

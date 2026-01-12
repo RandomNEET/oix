@@ -48,6 +48,7 @@
       hosts = builtins.filter (
         n:
         (builtins.readDir ./hosts).${n} == "directory"
+        && builtins.pathExists (./hosts + "/${n}/default.nix")
         && builtins.pathExists (./hosts + "/${n}/hardware-configuration.nix")
         && builtins.pathExists (./hosts + "/${n}/options.nix")
       ) (builtins.attrNames (builtins.readDir ./hosts));

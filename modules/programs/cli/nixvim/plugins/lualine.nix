@@ -5,6 +5,7 @@
         enable = true;
         settings = {
           iconsEnabled = true;
+          theme = "auto";
           extensions = [
             "quickfix"
           ];
@@ -13,6 +14,7 @@
             disabled_filetypes = {
               statusline = [
                 "snacks_dashboard"
+                "snacks_picker_list"
               ];
             };
             component_separators.left = "";

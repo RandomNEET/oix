@@ -16,7 +16,7 @@ pkgs.writeShellScriptBin "keybinds" ''
   KEYBINDERS=(
     "SUPER SHIFT /" "Show keybinds" "scripts/keybinds"
     "SUPER Return" "Launch terminal" "$TERMINAL"
-    "SUPER T" "Launch terminal" "$TERMINAL"
+    "SUPER T" "Launch terminal (float)" "$TERMINAL"
     "SUPER F" "Launch file manager" "$FILEMANAGER"
     "SUPER E" "Launch editor" "$EDITOR"
     "SUPER B" "Launch browser" "$BROWSER"
@@ -31,21 +31,20 @@ pkgs.writeShellScriptBin "keybinds" ''
     ${lib.optionalString (opts.rbw.rofi-rbw or false
     ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
     ${lib.optionalString config.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
+    ${lib.optionalString config.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
     "SUPER V" "Clipboard manager" "scripts/clip-manager"
     "SUPER SHIFT W" "Random wallpaper" "scripts/random-wall"
     "SUPER SHIFT N" "Open notification panel" "swaync-client -t -sw"
     "SUPER SHIFT Q" "Open notification panel" "swaync-client -t -sw"
-    "CTRL ALT Delete" "Open system monitor" "btop"
-    "SUPER CTRL C" "Colour picker" "hyprpicker --autocopy"
-    ${lib.optionalString config.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
-    "SUPER F8" "Toggle autoclicker" "scripts/autoclicker"
-    "SUPER F9" "Enable night mode" "hyprsunset --temperature 2500"
-    "SUPER F10" "Disable night mode" "pkill hyprsunset"
+    "SUPER F1" "Open system monitor" "btop"
+    "SUPER F10" "Colour picker" "hyprpicker --autocopy"
+    "SUPER F11" "Toggle night mode" "hyprsunset"
+    "SUPER F12" "Toggle autoclicker" "scripts/autoclicker"
     "SUPER P" "Screenshot (select area)" "scripts/screenshot.sh s"
-    "SUPER CTRL P" "Screenshot (frozen screen)" "scripts/screenshot.sh sf"
+    "SUPER SHIFT P" "Screenshot (frozen screen)" "scripts/screenshot.sh sf"
+    "SUPER CTRL P" "Screenshot (current monitor)" "scripts/screenshot.sh m"
     "SUPER ALT P" "Screenshot (all monitors)" "scripts/screenshot.sh p"
-    "SUPER Print" "Screenshot (current monitor)" "scripts/screenshot.sh m"
-    "SUPER SHIFT Print" "OCR capture (select area)" "scripts/screenshot.sh o"
+    "SUPER Print" "OCR capture (select area)" "scripts/screenshot.sh o"
     # "SUPER Tab" "Toggle overview" "overview:toggle"
     "SUPER W" "Toggle floating window" "togglefloating"
     "SUPER G" "Toggle group window" "togglegroup"

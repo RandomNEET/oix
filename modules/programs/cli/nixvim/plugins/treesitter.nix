@@ -1,11 +1,6 @@
+{ pkgs, ... }:
 {
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
-{
-  programs.nixvim = lib.mkIf (opts.nixvim.treesitter.enable or true) {
+  programs.nixvim = {
     plugins = {
       treesitter-context = {
         enable = false;

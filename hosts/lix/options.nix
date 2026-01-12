@@ -282,26 +282,8 @@
 
     # Shell {{{
     zsh = {
-      initContent = '''';
-
-      envExtra = ''
-        export VI_MODE_SET_CURSOR=true
-        MODE_INDICATOR="%F{red}<<<%f"
-      '';
-
-      shellGlobalAliases = {
-        G = "| grep";
-      };
-
-      shellAliases = {
-        update = "sudo nixos-rebuild switch";
-      };
-
       oh-my-zsh = {
         enable = true;
-        plugins = [
-          "vi-mode"
-        ];
         theme = "simple";
       };
     };
@@ -343,7 +325,6 @@
             addKeysToAgent = "yes";
           };
         };
-        ssh-agent.enable = false;
       };
     };
     # }}}
@@ -385,61 +366,6 @@
             }
           ];
         };
-      };
-    };
-    # }}}
-
-    # Editor {{{
-    nixvim = {
-      treesitter.enable = true;
-      lsp.enable = true;
-      conform.enable = true;
-      lint.enable = true;
-      copilot = {
-        enable = true;
-        cmp = false;
-      };
-      snacks = {
-        image.enable = false;
-      };
-      obsidian = {
-        workspaces = [
-          {
-            name = "index";
-            path = "~/${obsidian.vaults.default.target}/00 index";
-            overrides = {
-              notes_subdir = "00 index";
-            };
-          }
-          {
-            name = "study";
-            path = "~/${obsidian.vaults.default.target}/10 study";
-            overrides = {
-              notes_subdir = "10 study";
-            };
-          }
-          {
-            name = "develop";
-            path = "~/${obsidian.vaults.default.target}/20 develop";
-            overrides = {
-              notes_subdir = "20 develop";
-            };
-          }
-          {
-            name = "daily";
-            path = "~/${obsidian.vaults.default.target}/30 daily";
-            overrides = {
-              notes_subdir = "30 daily";
-            };
-          }
-          {
-            name = "todos";
-            path = "~/${obsidian.vaults.default.target}/99 todos";
-            overrides = {
-              notes_subdir = "99 todos";
-            };
-          }
-        ];
       };
     };
     # }}}
@@ -567,37 +493,12 @@
     };
     # }}}
 
-    # Vault {{{
-    gpg = {
-      homedir = "/home/${users.primary.name}/.gnupg";
-      gpg-agent = {
-        enable = true;
-        enableSshSupport = true; # auto disable ssh-agent if enabled
-      };
-    };
-
-    rbw = {
-      settings = {
-        base_url = "https://vaultwarden.scaphium.xyz";
-        email = "selfhost@randomneet.me";
-        lock_timeout = 3600;
-      };
-      rofi-rbw = true; # install rofi-rbw, add related keybind to wm and use graphical pinentry if set to true
-    };
-    # }}}
-
     # Misc {{{
     git = {
       settings = {
         user = {
           name = "RandomNEET";
           email = "dev@randomneet.me";
-        };
-        init = {
-          defaultBranch = "master";
-        };
-        advice = {
-          defaultBranchName = false;
         };
       };
     };
@@ -613,6 +514,15 @@
           target = "doc/notes";
         };
       };
+    };
+
+    rbw = {
+      settings = {
+        base_url = "https://vaultwarden.scaphium.xyz";
+        email = "selfhost@randomneet.me";
+        lock_timeout = 3600;
+      };
+      rofi-rbw = true; # install rofi-rbw, add related keybind to wm and use graphical pinentry if set to true
     };
     # }}}
 

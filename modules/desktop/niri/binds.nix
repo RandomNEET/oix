@@ -42,7 +42,6 @@ in
       Mod+F hotkey-overlay-title="Launch file manager: ${opts.terminalFileManager}" { spawn-sh "${fileManager}"; }
       Mod+E hotkey-overlay-title="Launch editor: ${opts.editor}" { spawn-sh "${editor}"; }
       Mod+B hotkey-overlay-title="Launch browser: ${opts.browser}" { spawn "${browser}"; }
-      Ctrl+Alt+Delete hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${getExe pkgs.btop}"; }
 
       Mod+Space hotkey-overlay-title="Launch application menu" { spawn-sh "${launcher} drun"; }
       Mod+Ctrl+W hotkey-overlay-title="Select wallpaper" { spawn-sh "${launcher} wallpaper"; }
@@ -65,9 +64,9 @@ in
       Mod+Alt+L hotkey-overlay-title="Lock screen" { spawn "swaylock"; }
       Mod+Backspace hotkey-overlay-title="Power menu" { spawn-sh "pkill -x wlogout || wlogout -b 4"; }
 
-      Mod+F8 hotkey-overlay-title="Toggle autoclicker" { spawn-sh "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"; }
-      Mod+F9 hotkey-overlay-title="Enable night mode" { spawn-sh "wlsunset -T 6500"; }
-      Mod+F10 hotkey-overlay-title="Disable night mode" { spawn-sh "pkill wlsunset"; }
+      Mod+F1 hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${getExe pkgs.btop}"; }
+      Mod+F11 hotkey-overlay-title="Enable night mode" { spawn-sh "pkill wlsunset || wlsunset -T 6500"; }
+      Mod+F12 hotkey-overlay-title="Toggle autoclicker" { spawn-sh "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"; }
 
       XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
       XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
