@@ -44,7 +44,7 @@ in
 
       .modules-left {
         background: #${colors.base00};
-        border:  1px solid #${colors.base0D};
+        border: 1px solid #${colors.base0D};
         padding-right: 15px;
         padding-left: 2px;
         border-radius: 10px;
@@ -53,7 +53,7 @@ in
       .modules-center {
         background: #${colors.base00};
         border: 1px solid #${colors.base04};
-        padding-right:  5px;
+        padding-right: 5px;
         padding-left: 5px;
         border-radius: 10px;
       }
@@ -108,6 +108,11 @@ in
         color: #${colors.base05};
       }
 
+      #light,
+      #backlight {
+        color: #${colors.base06};
+      }
+
       #audio
       #pulseaudio {
         color: #${colors.base07};
@@ -129,12 +134,10 @@ in
       }
 
       #disk,
-      #temperature,
-      #custom-gpuinfo {
+      #temperature {
         color: #${colors.base0C};
       }
 
-      #backlight,
       #bluetooth,
       #idle_inhibitor,
       #language,
@@ -148,7 +151,8 @@ in
         color: #${colors.base0E};
       }
 
-      #keyboard-state {
+      #keyboard-state,
+      #custom-gpuinfo {
         color:  #${colors.base0F};
       }
 
@@ -182,7 +186,7 @@ in
 
       #workspaces button.urgent {
         color: #${colors.base08};
-        border-radius:  0px;
+        border-radius: 0px;
       }
 
       #battery.critical:not(.charging) {
@@ -257,11 +261,13 @@ in
         min-width: 80px;
         min-height: 10px;
         border-radius: 5px;
+        background-color: #${colors.base02};
       }
 
       #backlight-slider highlight {
         min-width: 10px;
         border-radius: 5px;
+        background-color: #${colors.base0A};
       }
 
       #custom-notification {

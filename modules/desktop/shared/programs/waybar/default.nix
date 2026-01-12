@@ -61,7 +61,7 @@ in
                 "custom/gpuinfo"
               ]
               ++ [
-                "backlight"
+                "group/light"
                 "group/audio"
                 "bluetooth"
                 "network"
@@ -86,6 +86,19 @@ in
                 on-click = "activate";
               };
 
+              "group/light" = {
+                orientation = "horizontal";
+                drawer = {
+                  transition-duration = 500;
+                  children-class = "light-child";
+                  transition-left-to-right = false;
+                };
+                modules = [
+                  "backlight"
+                  "backlight/slider"
+                ];
+              };
+
               "backlight" = {
                 format = "{icon} {percent}%";
                 format-icons = [
@@ -101,6 +114,12 @@ in
                 ];
                 on-scroll-up = "${pkgs.brightnessctl}/bin/brightnessctl set 2%+";
                 on-scroll-down = "${pkgs.brightnessctl}/bin/brightnessctl set 2%-";
+              };
+
+              "backlight/slider" = {
+                min = 0;
+                max = 100;
+                orientation = "horizontal";
               };
 
               "battery" = {
