@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  opts,
-  ...
-}:
+{ opts, ... }:
 {
   systemd = { } // (opts.systemd or { });
 
@@ -144,34 +139,6 @@
         # --failed commands
         sc-failed = "systemctl --failed";
         scu-failed = "systemctl --user --failed";
-      };
-
-      programs.zsh = lib.mkIf config.programs.zsh.enable {
-        initContent = ''
-          # Systemd prompt info function
-          function systemd_prompt_info {
-            local unit
-            for unit in "$@"; do
-              echo -n "$ZSH_THEME_SYSTEMD_PROMPT_PREFIX"
-
-              if [[ -n "$ZSH_THEME_SYSTEMD_PROMPT_CAPS" ]]; then
-                echo -n "''${(U)unit:gs/%/%%}:"
-              else
-                echo -n "''${unit:gs/%/%%}:"
-              fi
-
-              if systemctl is-active "$unit" &>/dev/null; then
-                echo -n "$ZSH_THEME_SYSTEMD_PROMPT_ACTIVE"
-              elif systemctl --user is-active "$unit" &>/dev/null; then
-                echo -n "$ZSH_THEME_SYSTEMD_PROMPT_ACTIVE"
-              else
-                echo -n "$ZSH_THEME_SYSTEMD_PROMPT_NOTACTIVE"
-              fi
-
-              echo -n "$ZSH_THEME_SYSTEMD_PROMPT_SUFFIX"
-            done
-          }
-        '';
       };
     }
   ];

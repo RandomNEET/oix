@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   opts,
@@ -7,8 +6,6 @@
 }:
 let
   inherit (lib) optionalString;
-  check =
-    pname: builtins.any (p: (builtins.isAttrs p) && (lib.getName p == pname)) config.home.packages;
 in
 {
   home-manager.sharedModules = [
@@ -149,12 +146,6 @@ in
           tksv = "tmux kill-server";
           tl = "tmux list-sessions";
           ts = "tmux new-session -s";
-        };
-
-        programs.zsh = lib.mkIf config.programs.zsh.enable {
-          initContent = ''
-            bindkey -s '^t' "tmux\r"
-          '';
         };
       }
     )
