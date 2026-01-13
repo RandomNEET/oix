@@ -58,6 +58,7 @@
       "subvol=@nix"
       "compress=zstd"
       "noatime"
+      "x-systemd.device-timeout=0" # wait for decryption
     ];
   };
 
@@ -68,6 +69,7 @@
       "subvol=@home"
       "compress=zstd"
       "noatime"
+      "x-systemd.device-timeout=0" # wait for decryption
     ];
   };
 
@@ -78,12 +80,11 @@
       "subvol=@home/.snapshots"
       "compress=zstd"
       "noatime"
+      "x-systemd.device-timeout=0" # wait for decryption
     ];
   };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/d8e48513-24d6-4b81-bca2-cabc16336661"; }
-  ];
+  swapDevices = [ { device = "/dev/disk/by-uuid/d8e48513-24d6-4b81-bca2-cabc16336661"; } ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

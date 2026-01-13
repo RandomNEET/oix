@@ -1,10 +1,5 @@
 # vim:fileencoding=utf-8:foldmethod=marker
-{
-  inputs,
-  outputs,
-  lib,
-  ...
-}:
+{ outputs, lib, ... }:
 {
   opts = rec {
     # Base {{{

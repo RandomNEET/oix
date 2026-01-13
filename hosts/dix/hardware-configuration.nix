@@ -61,6 +61,7 @@
       "subvol=@nix"
       "compress=zstd"
       "noatime"
+      "x-systemd.device-timeout=0" # wait for decryption
     ];
   };
 
@@ -71,6 +72,7 @@
       "subvol=@home"
       "compress=zstd"
       "noatime"
+      "x-systemd.device-timeout=0" # wait for decryption
     ];
   };
 
@@ -81,6 +83,7 @@
       "subvol=@home/.snapshots"
       "compress=zstd"
       "noatime"
+      "x-systemd.device-timeout=0" # wait for decryption
     ];
   };
 
