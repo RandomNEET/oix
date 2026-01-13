@@ -1,4 +1,12 @@
-{ opts, ... }:
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
+let
+  inherit (lib) mkOrder;
+in
 {
   programs.zsh = {
     enable = true;
@@ -9,6 +17,7 @@
       {
         programs.zsh = {
           enable = true;
+          defaultKeymap = "viins";
           enableCompletion = true;
           autosuggestion.enable = true;
           syntaxHighlighting.enable = true;
@@ -21,7 +30,27 @@
             size = 100000;
           };
 
-          initContent = '''' + (opts.zsh.initContent or "");
+          initContent = lib.mkMerge (
+            [
+              # mkBefore: Early initialization
+              (mkOrder 500 '''')
+              # Before completion initialization
+              (mkOrder 550 '''')
+              # default: General configuration
+              (mkOrder 1000 ''
+                function zvm_config() {
+                  ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+                  ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+                  ZVM_VI_HIGHLIGHT_FOREGROUND=black
+                  ZVM_VI_HIGHLIGHT_BACKGROUND=white
+                }
+                source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+              '')
+              # Before completion initialization
+              (mkOrder 1500 '''')
+            ]
+            ++ (opts.zsh.initContent or [ ])
+          );
 
           envExtra = '''' + (opts.zsh.envExtra or "");
 
@@ -34,17 +63,6 @@
             update = "sudo nixos-rebuild switch";
           }
           // (opts.zsh.shellAliases or { });
-
-          oh-my-zsh = {
-            enable = opts.zsh.oh-my-zsh.enable or true;
-            plugins = [ "vi-mode" ] ++ (opts.zsh.oh-my-zsh.plugins or [ ]);
-            extraConfig = ''
-              export VI_MODE_SET_CURSOR=true
-              MODE_INDICATOR="%F{red}<<<%f"
-            ''
-            + (opts.zsh.oh-my-zsh.extraConfig or "");
-            theme = opts.zsh.oh-my-zsh.theme or "";
-          };
         };
       }
     )

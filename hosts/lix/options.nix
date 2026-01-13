@@ -276,13 +276,6 @@
     # }}}
 
     # Shell {{{
-    zsh = {
-      oh-my-zsh = {
-        enable = true;
-        theme = "simple";
-      };
-    };
-
     ssh = {
       keyDir = "/home/${users.primary.name}/.vault/ssh";
 

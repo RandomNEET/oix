@@ -3,15 +3,13 @@
     {
       programs.lazygit = {
         enable = true;
+        enableBashIntegration = true;
+        enableZshIntegration = true;
         settings = {
           git = {
             overrideGpg = true;
           };
         };
-      };
-
-      home.shellAliases = {
-        lg = "lazygit";
       };
     }
   ];
