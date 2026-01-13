@@ -44,7 +44,7 @@ in
             "-e"
             "${config.programs.nixvim.build.package}/bin/nvim"
             "--cmd"
-            "set clipboard=unnamedplus | syntax on"
+            "set clipboard=unnamedplus | syntax on | nnoremap q ZQ"
             "{file}"
           ]
         else
@@ -52,6 +52,8 @@ in
             "${pkgs.${opts.terminal}}/bin/${opts.terminal}"
             "-e"
             "${pkgs.neovim}/bin/nvim"
+            "--cmd"
+            "set clipboard=unnamedplus | syntax on | nnoremap q ZQ"
             "{file}"
           ]
       else

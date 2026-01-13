@@ -1,10 +1,22 @@
 {
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
+{
   home-manager.sharedModules = [
     {
       programs.kitty = {
         enable = true;
         shellIntegration.enableBashIntegration = true;
         shellIntegration.enableZshIntegration = true;
+        actionAliases =
+          { }
+          // lib.optionalAttrs ((opts.editor or "") == "nvim") {
+            "kitty_scrollback_nvim" =
+              "kitten ${pkgs.vimPlugins.kitty-scrollback-nvim}/python/kitty_scrollback_nvim.py --config readonly --nvim-args -n -c 'nnoremap q ZQ'";
+          };
         settings = {
           cursor_trail = 3; # Fancy cursor movements (especially in nixvim)
           cursor_trail_decay = "0.08 0.3"; # Animation speed
@@ -18,7 +30,7 @@
           update_check_interval = 0;
           # Remote control
           allow_remote_control = "yes";
-          listen_on = "unix:@mykitty";
+          listen_on = "unix:/run/user/${toString opts.users.primary.uid}/kitty";
           # Tabs
           tab_title_template = "{index}";
           active_tab_font_style = "normal";
@@ -40,6 +52,9 @@
           "alt+8" = "goto_tab 8";
           "alt+9" = "goto_tab 9";
           "alt+0" = "goto_tab 10";
+        }
+        // lib.optionalAttrs ((opts.editor or "") == "nvim") {
+          "kitty_mod+h" = "kitty_scrollback_nvim";
         };
       };
     }

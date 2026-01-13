@@ -7,6 +7,7 @@
     ./copilot-lua.nix
     ./csvview.nix
     ./flash.nix
+    ./kitty-scrollback.nix
     ./lazygit.nix
     ./lint.nix
     ./lsp.nix
