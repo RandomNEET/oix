@@ -64,6 +64,9 @@ pkgs.writeText "firejail-mpv-profile" ''
   include disable-programs.inc
   include disable-shell.inc
 
+  mkdir ''${HOME}/.cache/mpv
+  #mkdir ''${HOME}/.config/mpv
+  mkdir ''${HOME}/.local/state/mpv
   whitelist ${DESKTOP}
   whitelist ${DOWNLOADS}
   whitelist ${MUSIC}

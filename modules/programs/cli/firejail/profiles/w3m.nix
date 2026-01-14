@@ -35,6 +35,7 @@ pkgs.writeText "firejail-w3m-profile" ''
   include disable-x11.inc
   include disable-xdg.inc
 
+  mkdir ''${HOME}/.w3m
   whitelist /usr/share/w3m
   whitelist ${DOWNLOADS}
   whitelist ''${HOME}/.w3m

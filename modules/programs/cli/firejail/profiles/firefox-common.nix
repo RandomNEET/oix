@@ -39,6 +39,7 @@ pkgs.writeText "firejail-firefox-common-profile" ''
   include disable-proc.inc
   include disable-programs.inc
 
+  mkdir ''${HOME}/.local/share/pki
   whitelist ${DOWNLOADS}
   whitelist ''${HOME}/.local/share/pki
   whitelist ''${HOME}/.pki

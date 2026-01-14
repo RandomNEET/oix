@@ -38,6 +38,9 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   include disable-programs.inc
   include disable-shell.inc
 
+  mkdir ''${HOME}/.cache/qutebrowser
+  #mkdir ''${HOME}/.config/qutebrowser
+  mkdir ''${HOME}/.local/share/qutebrowser
   mkdir ''${RUNUSER}/qutebrowser
   whitelist ${DOWNLOADS}
   whitelist ''${HOME}/.cache/qutebrowser

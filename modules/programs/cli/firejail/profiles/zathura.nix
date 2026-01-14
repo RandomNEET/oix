@@ -25,6 +25,8 @@ pkgs.writeText "firejail-zathrua-profile" ''
   include disable-write-mnt.inc
   include disable-xdg.inc
 
+  #mkdir ''${HOME}/.config/zathura
+  mkdir ''${HOME}/.local/share/zathura
   whitelist /usr/share/doc
   whitelist /usr/share/zathura
   include whitelist-runuser-common.inc

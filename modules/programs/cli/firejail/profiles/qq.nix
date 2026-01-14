@@ -27,6 +27,7 @@ pkgs.writeText "firejail-qq-profile" ''
   noblacklist ''${HOME}/.mozilla
   whitelist ''${HOME}/.mozilla/firefox/profiles.ini
 
+  mkdir ''${HOME}/.config/QQ
   whitelist ''${HOME}/.config/QQ
   whitelist ${DESKTOP}
   whitelist /opt/QQ

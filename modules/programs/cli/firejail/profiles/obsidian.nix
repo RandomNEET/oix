@@ -17,6 +17,7 @@ pkgs.writeText "firejail-obsidian-profile" ''
   noblacklist ${DOCUMENTS}
   noblacklist ''${HOME}/.config/obsidian
 
+  #mkdir ''${HOME}/.config/obsidian
   whitelist ${DOCUMENTS}
   whitelist ''${HOME}/.config/obsidian
 

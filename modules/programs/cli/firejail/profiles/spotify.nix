@@ -22,6 +22,9 @@ pkgs.writeText "firejail-spotify-profile" ''
   include disable-proc.inc
   include disable-programs.inc
 
+  mkdir ''${HOME}/.cache/spotify
+  mkdir ''${HOME}/.config/spotify
+  mkdir ''${HOME}/.local/share/spotify
   whitelist ''${HOME}/.cache/spotify
   whitelist ''${HOME}/.config/spotify
   whitelist ''${HOME}/.config/spotify-adblock

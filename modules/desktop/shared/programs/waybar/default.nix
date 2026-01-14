@@ -57,9 +57,7 @@ in
                 "cpu"
                 "memory"
               ]
-              ++ lib.optionals (lib.match ".*integrated.*" (opts.gpu or "") == null) [
-                "custom/gpuinfo"
-              ]
+              ++ lib.optional (lib.match ".*integrated.*" (opts.gpu or "") == null) "custom/gpuinfo"
               ++ [
                 "group/light"
                 "group/audio"

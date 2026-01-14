@@ -31,6 +31,8 @@ pkgs.writeText "firejail-firefox-profile" ''
 
   blacklist /usr/libexec
 
+  mkdir ''${HOME}/.cache/mozilla/firefox
+  mkdir ''${HOME}/.mozilla
   whitelist ''${HOME}/.cache/mozilla/firefox
   whitelist ''${HOME}/.mozilla
 

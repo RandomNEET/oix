@@ -27,6 +27,11 @@ pkgs.writeText "firejail-qbittorrent-profile" ''
   include disable-programs.inc
   include disable-shell.inc
 
+  mkdir ''${HOME}/.cache/qBittorrent
+  #mkdir ''${HOME}/.config/qBittorrent
+  #mkfile ''${HOME}/.config/qBittorrentrc
+  #mkdir ''${HOME}/.local/share/data/qBittorrent
+  mkdir ''${HOME}/.local/share/qBittorrent
   whitelist ${DOWNLOADS}
   whitelist ''${HOME}/.cache/qBittorrent
   whitelist ''${HOME}/.config/qBittorrent

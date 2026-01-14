@@ -60,6 +60,8 @@ pkgs.writeText "firejail-aerc-profile" ''
   include disable-x11.inc
   include disable-xdg.inc
 
+  #mkdir ''${HOME}/.config/aerc
+  mkdir ''${HOME}/.local/state/aerc
   whitelist ${DOCUMENTS}
   whitelist ${DOWNLOADS}
   whitelist ${config.accounts.email.maildirBasePath}
