@@ -237,6 +237,9 @@ in
     "y" = "yank selection";
     "{" = "move-to-end-of-prev-block";
     "}" = "move-to-end-of-next-block";
+    # userscripts
+    "te" = "spawn --userscript translate --target_lang en";
+    "tz" = "spawn --userscript translate --target_lang zh";
   };
 
   command = {
