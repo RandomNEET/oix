@@ -4,8 +4,8 @@
       enable = true;
       settins = {
         modes = {
-          command = true;
           insert = true;
+          command = false;
           terminal = false;
         };
       };
