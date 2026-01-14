@@ -15,7 +15,7 @@
           "n"
           "x"
         ];
-        key = "<C-a>";
+        key = "<leader>aa";
         action = "<cmd>lua require('opencode').ask('@this: ', { submit = true })<cr>";
         options = {
           desc = "Ask opencode";
@@ -26,7 +26,7 @@
           "n"
           "x"
         ];
-        key = "<C-x>";
+        key = "<leader>ae";
         action = "<cmd>lua require('opencode').select()<cr>";
         options = {
           desc = "Execute opencode action…";
@@ -37,7 +37,7 @@
           "n"
           "t"
         ];
-        key = "<C-.>";
+        key = "<leader>at";
         action = "<cmd>lua require('opencode').toggle()<cr>";
         options = {
           desc = "Toggle opencode";
