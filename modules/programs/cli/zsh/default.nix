@@ -63,6 +63,12 @@ in
                   autoload -U down-line-or-beginning-search
                   zle -N up-line-or-beginning-search
                   zle -N down-line-or-beginning-search
+                  function zvm_config() {
+                    ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+                    ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+                    ZVM_VI_HIGHLIGHT_FOREGROUND=black
+                    ZVM_VI_HIGHLIGHT_BACKGROUND=white
+                  }
                 '')
                 # default: General configuration
                 (mkOrder 1000 ''
@@ -81,13 +87,10 @@ in
                     }
                     zvm_after_init_commands+=(fzf_init)
                   ''}
-                  function zvm_config() {
-                    ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
-                    ZVM_SYSTEM_CLIPBOARD_ENABLED=true
-                    ZVM_VI_HIGHLIGHT_FOREGROUND=black
-                    ZVM_VI_HIGHLIGHT_BACKGROUND=white
+                  function zvm_after_lazy_keybindings() {
+                    zvm_bindkey vicmd 'k' up-line-or-beginning-search
+                    zvm_bindkey vicmd 'j' down-line-or-beginning-search
                   }
-                  source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
                 '')
                 # mkAfter: Last to run configuration
                 (mkOrder 1500 ''

@@ -104,8 +104,8 @@
   misc = {
     disable_hyprland_logo = true;
     mouse_move_focuses_monitor = true;
-    swallow_regex = "^(kitty|foot|footclient)$";
     enable_swallow = true;
+    swallow_regex = "^(kitty|foot|footclient)$";
     vfr = true; # always keep on
     vrr = 1; # enable variable refresh rate (0=off, 1=on, 2=fullscreen only)
   };
