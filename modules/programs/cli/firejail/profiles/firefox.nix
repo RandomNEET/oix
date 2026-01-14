@@ -13,6 +13,10 @@ pkgs.writeText "firejail-firefox-profile" ''
   # Persistent global definitions
   include ${global}
 
+  # Allow custom directory
+  noblacklist ''${HOME}/repo
+  whitelist ''${HOME}/repo
+
   # Note: Sandboxing web browsers is as important as it is complex. Users might
   # be interested in creating custom profiles depending on the use case (e.g. one
   # for general browsing, another for banking, ...). Consult our FAQ/issue

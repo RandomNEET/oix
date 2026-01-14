@@ -12,15 +12,19 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   # Persistent global definitions
   include ${global}
 
+  # Allow to launch terminal
+  noblacklist ''${PATH}/foot
+  noblacklist ''${PATH}/footclient
+  noblacklist ''${PATH}/kitty
+
+  # Allow custom directory
+  noblacklist ''${HOME}/repo
+  whitelist ''${HOME}/repo
+
   noblacklist ''${HOME}/.cache/qutebrowser
   noblacklist ''${HOME}/.config/qutebrowser
   noblacklist ''${HOME}/.local/share/qutebrowser
   noblacklist ''${RUNUSER}/qutebrowser
-
-  # Added to launch editor
-  noblacklist ''${PATH}/foot
-  noblacklist ''${PATH}/footclient
-  noblacklist ''${PATH}/kitty
 
   # Allow /bin/sh (blacklisted by disable-shell.inc)
   include allow-bin-sh.inc
