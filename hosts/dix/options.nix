@@ -80,13 +80,12 @@
     # }}}
 
     # Desktop {{{
-    desktop = "hyprland"; # available: hyprland niri
+    desktop = "hyprland-noctalia"; # available: hyprland-noctalia hyprland-waybar niri-waybar
 
     # https://github.com/tinted-theming/schemes
     # Default to the first theme
     themes = [
       "catppuccin-mocha"
-      "everforest-dark-hard"
       "gruvbox-dark-hard"
       "kanagawa"
       "nord"
@@ -96,12 +95,14 @@
     display = [
       {
         output = "DP-1";
+        external = true;
         width = 3840;
         height = 2160;
         orientation = "landscape";
       }
       {
         output = "HDMI-A-1";
+        external = true;
         width = 2160;
         height = 3840;
         orientation = "portrait";
@@ -129,44 +130,25 @@
       #     └──  portrait
       #         └──  pic.jpg
       dir = "${xdg.userDirs.pictures}/wallpapers";
-      # Transition effects for swww
-      transition = {
-        launcher = {
-          type = "center";
-          step = 90;
-          duration = 1;
-          fps = 60;
-        };
-        random-wall = {
-          type = "wipe";
-          step = 90;
-          duration = 1;
-          fps = 60;
-        };
-      };
     };
 
     hyprland = {
-      monitor = [
-        "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5"
-        "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1"
-      ];
+      settings = {
+        monitor = [
+          "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5"
+          "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1"
+        ];
+      };
       extraConfig = ''
         workspace = 1, monitor:desc:SAC G7u Pro 0001, default:true;
         workspace = 10, monitor:desc:KOS KOIOS K2718UD 0000000000000, default:true;
       '';
     };
 
-    hypridle = {
-      time = {
-        lock = "1800";
-        dpmsOff = "3600";
-        sleep = "";
+    noctalia = {
+      settings = {
+        avatarImage = "${xdg.userDirs.pictures}/avatars/weeb.jpg";
       };
-    };
-
-    hyprlock = {
-      background = "${wallpaper.dir}/default/landscape/touhou/marisa-reimu-3.jpg";
     };
     # }}}
 
@@ -185,6 +167,7 @@
           "wheel"
           "networkmanager"
           "libvirtd"
+          "i2c"
         ];
         shell = "zsh";
       };

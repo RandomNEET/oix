@@ -1,7 +1,7 @@
 { lib, opts, ... }:
 let
-  displays = opts.display or [ ];
-  primaryDisplay = lib.findFirst (d: d.orientation or "" == "landscape") { } displays;
+  display = opts.display or [ ];
+  primaryDisplay = lib.findFirst (d: d.orientation or "" == "landscape") { } display;
 in
 {
   mgr = {

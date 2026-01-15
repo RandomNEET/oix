@@ -1,10 +1,7 @@
 {
   layerrule = [
-    "blur on, match:namespace rofi"
-    "ignore_alpha 0.7, match:namespace rofi"
-
-    "blur on, match:namespace swaync-control-center"
-    "ignore_alpha 0.7, match:namespace swaync-control-center"
+    "blur on, ignore_alpha 0.7, match:namespace rofi"
+    "blur on, ignore_alpha 0.7, match:namespace swaync-control-center"
   ];
 
   windowrule = [

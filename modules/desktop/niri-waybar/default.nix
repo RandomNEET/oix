@@ -174,7 +174,6 @@ in
           playerctl
           wl-clipboard
           wlsunset
-          wtype
           xwayland-satellite
         ];
       }

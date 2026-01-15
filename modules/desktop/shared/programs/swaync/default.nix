@@ -65,7 +65,7 @@ in
                 position = "left";
                 actions =
                   [ ]
-                  ++ (optionals (desktop == "hyprland") [
+                  ++ optionals (desktop == "hyprland-waybar") [
                     {
                       label = "Whole screen";
                       command = "sh -c 'swaync-client -cp; sleep 1; grimblast copysave output \"/tmp/screenshot.png\"; swappy -f \"/tmp/screenshot.png\"'";
@@ -74,8 +74,8 @@ in
                       label = "Whole window / Select region";
                       command = "sh -c 'swaync-client -cp; grimblast copysave area \"/tmp/screenshot.png\"; swappy -f \"/tmp/screenshot.png\"'";
                     }
-                  ])
-                  ++ (optionals (desktop == "niri") [
+                  ]
+                  ++ optionals (desktop == "niri-waybar") [
                     {
                       label = "Whole screen";
                       command = "niri msg action screenshot-screen";
@@ -84,14 +84,14 @@ in
                       label = "Whole window";
                       command = "niri msg action screenshot-window";
                     }
-                  ]);
+                  ];
               };
               "menu#power" = {
                 label = "  Power Menu";
                 position = "left";
                 actions =
                   [ ]
-                  ++ (optionals (desktop == "hyprland") [
+                  ++ optionals (desktop == "hyprland-waybar") [
                     {
                       label = "  Lock";
                       command = "hyprlock";
@@ -100,8 +100,8 @@ in
                       label = "  Logout";
                       command = "hyprctl dispatch exit 0";
                     }
-                  ])
-                  ++ (optionals (desktop == "niri") [
+                  ]
+                  ++ optionals (desktop == "niri-waybar") [
                     {
                       label = "  Lock";
                       command = "swaylock";
@@ -110,7 +110,7 @@ in
                       label = "  Logout";
                       command = "niri msg action quit -s";
                     }
-                  ])
+                  ]
                   ++ [
                     {
                       label = "  Shut down";
@@ -169,14 +169,12 @@ in
                   command = "pamixer --default-source -t";
                   update-command = "sh -c 'pamixer --get-mute --default-source | grep true && echo true || echo false'";
                 }
-
                 {
                   label = "";
                   type = "toggle";
                   command = "blueman-manager";
                   update-command = "sh -c 'bluetoothctl show | grep -q \\\"Powered: yes\\\" && echo true || echo false'";
                 }
-
                 {
                   label = "󰤨";
                   type = "toggle";
@@ -184,31 +182,31 @@ in
                   update-command = "sh -c 'nmcli radio wifi | grep -q enabled && echo true || echo false'";
                 }
               ]
-              ++ lib.optional (config.services.power-profiles-daemon.enable && (desktop == "hyprland")) {
+              ++ lib.optional (config.services.power-profiles-daemon.enable && (desktop == "hyprland-waybar")) {
                 label = "";
                 type = "toggle";
                 command = "${powermodectl} -t";
                 update-command = "${powermodectl} -s && grep -q \"^performance$\" \"$HOME/.config/hypr/power-mode\" && echo true || echo false";
               }
-              ++ lib.optional (config.services.tlp.enable && (desktop == "hyprland")) {
+              ++ lib.optional (config.services.tlp.enable && (desktop == "hyprland-waybar")) {
                 label = "";
                 type = "toggle";
                 command = "${powermodectl} -t";
                 update-command = "${powermodectl} -s && grep -q \"^manual$\" \"$HOME/.config/hypr/power-mode\" && echo true || echo false";
               }
-              ++ lib.optional (config.services.power-profiles-daemon.enable && (desktop == "niri")) {
+              ++ lib.optional (config.services.power-profiles-daemon.enable && (desktop == "niri-waybar")) {
                 label = "";
                 type = "toggle";
                 command = "${powermodectl} -t";
                 update-command = "${powermodectl} -s && grep -q \"^performance$\" \"$HOME/.config/niri/power-mode\" && echo true || echo false";
               }
-              ++ lib.optional (config.services.tlp.enable && (desktop == "niri")) {
+              ++ lib.optional (config.services.tlp.enable && (desktop == "niri-waybar")) {
                 label = "";
                 type = "toggle";
                 command = "${powermodectl} -t";
                 update-command = "${powermodectl} -s && grep -q \"^manual$\" \"$HOME/.config/niri/power-mode\" && echo true || echo false";
               }
-              ++ (optionals (desktop == "hyprland") [
+              ++ optionals (desktop == "hyprland-waybar") [
                 {
                   label = "󰒲";
                   command = "systemctl --user is-active --quiet hypridle.service && systemctl --user stop hypridle.service || systemctl --user start hypridle.service";
@@ -227,8 +225,8 @@ in
                   command = "${randomwallctl} -t";
                   update-command = "${randomwallctl} -s && grep -q \"^enabled$\" \"$HOME/.config/hypr/random-wall\" && echo true || echo false";
                 }
-              ])
-              ++ (optionals (desktop == "niri") [
+              ]
+              ++ optionals (desktop == "niri-waybar") [
                 {
                   label = "󰒲";
                   command = "systemctl --user is-active --quiet swayidle.service && systemctl --user stop swayidle.service || systemctl --user start swayidle.service";
@@ -247,7 +245,7 @@ in
                   command = "${randomwallctl} -t";
                   update-command = "${randomwallctl} -s && grep -q \"^enabled$\" \"$HOME/.config/niri/random-wall\" && echo true || echo false";
                 }
-              ])
+              ]
               ++ lib.optional config.services.dae.enable {
                 label = "󰴴";
                 type = "toggle";

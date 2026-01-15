@@ -5,8 +5,8 @@
   ...
 }:
 let
-  displays = opts.display or [ ];
-  primaryDisplay = lib.findFirst (d: d.orientation or "" == "landscape") { } displays;
+  display = opts.display or [ ];
+  primaryDisplay = lib.findFirst (d: d.orientation or "" == "landscape") { } display;
 in
 {
   programs = {
@@ -61,10 +61,12 @@ in
       home.file.".local/share/applications/steam-gamescope.desktop".text = ''
         [Desktop Entry]
         Name=Steam (Gamescope)
+        Comment=Application for managing and playing games on Steam
         Exec=gamescope -e -O ${primaryDisplay.output} -W ${toString primaryDisplay.width} -H ${toString primaryDisplay.height} --adaptive-sync -- steam -tenfoot -pipewire-dmabuf
-        Type=Application
-        Terminal=false
         Icon=steam
+        Terminal=false
+        Type=Application
+        Categories=Network;FileTransfer;Game;
         Categories=Game;
       '';
     }

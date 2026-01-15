@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  opts,
-  ...
-}:
+{ opts, ... }:
 {
   services = {
     freshrss = {

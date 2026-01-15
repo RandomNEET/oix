@@ -61,13 +61,12 @@
     # }}}
 
     # Desktop {{{
-    desktop = "niri"; # available: hyprland niri
+    desktop = "niri-waybar"; # available: hyprland-noctalia hyprland-waybar niri-waybar
 
     # https://github.com/tinted-theming/schemes
     # Default to the first theme
     themes = [
       "catppuccin-mocha"
-      "everforest-dark-hard"
       "gruvbox-dark-hard"
       "kanagawa"
       "nord"
@@ -77,6 +76,7 @@
     display = [
       {
         output = "eDP-1";
+        external = false;
         width = 1920;
         height = 1080;
         orientation = "landscape";
@@ -122,9 +122,11 @@
     };
 
     hyprland = {
-      monitor = [
-        "desc:Chimei Innolux Corporation 0x14C9, 1920x1080@60, 0x0, 1"
-      ];
+      settings = {
+        monitor = [
+          "desc:Chimei Innolux Corporation 0x14C9, 1920x1080@60, 0x0, 1"
+        ];
+      };
       extraConfig = ''
         workspace = 1, monitor:desc:Chimei Innolux Corporation 0x14C9, default:true;
       '';

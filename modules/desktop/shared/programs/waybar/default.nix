@@ -24,7 +24,7 @@ in
             {
               layer = "top";
               position = "top";
-              mode = mkIf (desktop == "hyprland") "dock";
+              mode = mkIf (desktop == "hyprland-waybar") "dock";
               height = 32;
               exclusive = true;
               passthrough = false;
@@ -38,11 +38,11 @@ in
 
               modules-left =
                 [ ]
-                ++ optionals (desktop == "hyprland") [
+                ++ optionals (desktop == "hyprland-waybar") [
                   "hyprland/workspaces"
                   "hyprland/window"
                 ]
-                ++ optionals (desktop == "niri") [
+                ++ optionals (desktop == "niri-waybar") [
                   "niri/workspaces"
                   "niri/window"
                 ]
@@ -57,12 +57,12 @@ in
                 "cpu"
                 "memory"
               ]
-              ++ lib.optional (lib.match ".*integrated.*" (opts.gpu or "") == null) "custom/gpuinfo"
+              ++ lib.optional (!(lib.strings.hasInfix "integrated" (opts.gpu or ""))) "custom/gpuinfo"
               ++ [
                 "group/light"
                 "group/audio"
-                "bluetooth"
                 "network"
+                "bluetooth"
                 "battery"
                 "tray"
                 "custom/notification"

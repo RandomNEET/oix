@@ -5,8 +5,6 @@
   pkgs,
   opts,
   launcher,
-  random-wall,
-  clip-manager,
   autoclicker,
   keybinds,
   screenshot,
@@ -52,10 +50,14 @@
     "$mainMod SHIFT, j, resizeactive, 0 30"
 
     # Functional keybinds
-    ",XF86MonBrightnessDown,exec,brightnessctl set 2%-"
-    ",XF86MonBrightnessUp,exec,brightnessctl set +2%"
-    ",XF86AudioLowerVolume,exec,pamixer -d 2"
-    ",XF86AudioRaiseVolume,exec,pamixer -i 2"
+    "$mainMod, F6, exec, noctalia-shell ipc call brightness decrease"
+    "$mainMod, F7, exec, noctalia-shell ipc call brightness increase"
+    "$mainMod, F8, exec, noctalia-shell ipc call volume decrease"
+    "$mainMod, F9, exec, noctalia-shell ipc call volume increase"
+    ",XF86MonBrightnessDown, exec, noctalia-shell ipc call brightness decrease"
+    ",XF86MonBrightnessUp, exec, noctalia-shell ipc call brightness increase"
+    ",XF86AudioLowerVolume, exec, noctalia-shell ipc call volume decrease"
+    ",XF86AudioRaiseVolume, exec, noctalia-shell ipc call volume increase"
   ];
 
   bind = [
@@ -68,12 +70,12 @@
     "$mainMod, G, togglegroup" # toggle the window on focus to group
     "ALT, return, fullscreen" # toggle the window on focus to fullscreen
     "$mainMod, Q, killactive" # killactive, kill the window on focus
-    "$mainMod ALT, L, exec, hyprlock" # lock screen
-    "$mainMod, backspace, exec, pkill -x wlogout || wlogout -b 4" # logout menu
-    "$CONTROL, ESCAPE, exec, systemctl --user is-active --quiet waybar && systemctl --user stop waybar || systemctl --user start waybar" # toggle waybar
+    "$mainMod ALT, L, exec, noctalia-shell ipc call lockScreen lock" # lock screen
+    "$mainMod, backspace, exec, noctalia-shell ipc call sessionMenu toggle" # session menu
+    "$CONTROL, ESCAPE, exec, noctalia-shell ipc call bar toggle" # toggle bar
 
     # Special workspace (scratchpad)
-    "$mainMod, S, togglespecialworkspace,"
+    "$mainMod, S, togglespecialworkspace"
     "$mainMod CTRL, S, movetoworkspacesilent, special"
 
     # Applications/Programs
@@ -83,19 +85,24 @@
     "$mainMod, E, exec, $editor"
     "$mainMod, B, exec, $browser"
 
-    "$mainMod, A, exec, ${launcher} drun" # launch desktop applications
-    "$mainMod, SPACE, exec, ${launcher} drun" # launch desktop applications
-    "$mainMod CTRL, W, exec, ${launcher} wallpaper" # launch wallpaper switcher
+    "$mainMod, SPACE, exec, noctalia-shell ipc call launcher toggle" # launch desktop applications
+    "$mainMod, V, exec, noctalia-shell ipc call launcher clipboard" # Clipboard Manager
+    "$mainMod CTRL, W, exec, noctalia-shell ipc call wallpaper toggle" # launch wallpaper selector
+    "$mainMod SHIFT, W, exec, noctalia-shell ipc call wallpaper random" # random wallpaper
+    "$mainMod SHIFT, Q, exec, noctalia-shell ipc call controlCenter toggle" # control center
+    "$mainMod SHIFT, N, exec, noctalia-shell ipc call notifications toggleHistory" # notification history
     "$mainMod CTRL, T, exec, ${launcher} theme" # launch theme switcher
     "$mainMod ALT, S, exec, ${launcher} spec" # launch specialisation  switcher
-    "$mainMod, V, exec, ${clip-manager}" # Clipboard Manager
-    "$mainMod SHIFT, W, exec, ${random-wall}" # random wallpaper
-    "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
-    "$mainMod SHIFT, Q, exec, swaync-client -t -sw" # swayNC panel
-
-    "$mainMod, F1, exec, $terminal -e ${getExe pkgs.btop}" # System Monitor
-    "$mainMod, F10, exec, pkill hyprpicker || hyprpicker --autocopy --format=hex" # Colour Picker
-    "$mainMod, F11, exec, pkill hyprsunset || hyprsunset --temperature 3500" # good values: 3500, 3000, 2500
+  ]
+  ++ lib.optional config.programs.tmux.enable "$mainMod SHIFT, T, exec, ${launcher} tmux" # launch tmux sessions
+  ++ lib.optional (opts.rbw.rofi-rbw or false) "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
+  ++ lib.optionals osConfig.programs.steam.enable [
+    "$mainMod SHIFT, G, exec, ${launcher} game" # game launcher
+    "$mainMod CTRL, G, exec, ${gamemode}" # disable hypr effects for gamemode
+  ]
+  ++ [
+    "$mainMod, F10, exec, $terminal -e ${getExe pkgs.btop}" # System Monitor
+    "$mainMod, F11, exec, pkill hyprpicker || hyprpicker --autocopy --format=hex" # Colour Picker
     "$mainMod, F12, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
 
     # Screenshot/Screencapture
@@ -106,13 +113,17 @@
     "$mainMod, print, exec, ${screenshot} o" # ocr capture
 
     # Functional keybinds
-    ",xf86Sleep, exec, systemctl suspend" # Put computer into sleep mode
-    ",XF86AudioMicMute,exec,pamixer --default-source -t" # mute mic
-    ",XF86AudioMute,exec,pamixer -t" # mute audio
-    ",XF86AudioPlay,exec,playerctl play-pause" # Play/Pause media
-    ",XF86AudioPause,exec,playerctl play-pause" # Play/Pause media
-    ",xf86AudioNext,exec,playerctl next" # go to next media
-    ",xf86AudioPrev,exec,playerctl previous" # go to previous media
+    "$mainMod, F1, exec, noctalia-shell ipc call media playPause" # play/pause media
+    "$mainMod, F2, exec, noctalia-shell ipc call media next" # go to next media
+    "$mainMod, F3, exec, noctalia-shell ipc call media previous" # go to previous media
+    "$mainMod, F4, exec, noctalia-shell ipc call volume muteOutput" # mute output
+    "$mainMod, F5, exec, noctalia-shell ipc call volume muteIutput" # mute input
+    ",XF86AudioPlay, exec, noctalia-shell ipc call media play" # play media
+    ",XF86AudioPause, exec, playerctl noctalia-shell ipc call media pause" # pause media
+    ",xf86AudioNext, exec, noctalia-shell ipc call media next" # go to next media
+    ",xf86AudioPrev, exec, noctalia-shell ipc call media previous" # go to previous media
+    ",XF86AudioMute, exec, noctalia-shell ipc call volume muteOutput" # mute output
+    ",XF86AudioMicMute, exec, noctalia-shell ipc call volume muteIutput" # mute input
 
     # to switch between windows in a floating workspace
     "ALT, Tab, cyclenext"

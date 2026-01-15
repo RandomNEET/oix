@@ -5,6 +5,9 @@
   opts,
   ...
 }:
+let
+  inherit (lib) optionalString;
+in
 pkgs.writeShellScriptBin "keybinds" ''
   set -euo pipefail
 
@@ -20,39 +23,52 @@ pkgs.writeShellScriptBin "keybinds" ''
     "SUPER F" "Launch file manager" "$FILEMANAGER"
     "SUPER E" "Launch editor" "$EDITOR"
     "SUPER B" "Launch browser" "$BROWSER"
-    "SUPER A" "Launch application menu" "scripts/launcher drun"
-    "SUPER SPACE" "Launch application menu" "scripts/launcher drun"
-    "SUPER CTRL W" "Select wallpaper" "scripts/launcher wallpaper"
+
+    "SUPER SPACE" "Launch application menu" "noctalia launcher toggle"
+    "SUPER V" "Clipboard manager" "noctalia launcher clipboard"
+
     "SUPER CTRL T" "Select theme" "scripts/launcher theme"
     "SUPER ALT S" "Select specialisation" "scripts/launcher spec"
-    ${lib.optionalString config.home-manager.users.${opts.users.primary.name}.programs.tmux.enable
+    ${optionalString config.home-manager.users.${opts.users.primary.name}.programs.tmux.enable
       ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''
     }
-    ${lib.optionalString (opts.rbw.rofi-rbw or false
+    ${optionalString (opts.rbw.rofi-rbw or false
     ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
-    ${lib.optionalString config.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
-    ${lib.optionalString config.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
-    "SUPER V" "Clipboard manager" "scripts/clip-manager"
-    "SUPER SHIFT W" "Random wallpaper" "scripts/random-wall"
-    "SUPER SHIFT N" "Open notification panel" "swaync-client -t -sw"
-    "SUPER SHIFT Q" "Open notification panel" "swaync-client -t -sw"
-    "SUPER F1" "Open system monitor" "btop"
-    "SUPER F10" "Colour picker" "hyprpicker --autocopy"
-    "SUPER F11" "Toggle night mode" "hyprsunset"
+    ${optionalString config.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
+    ${optionalString config.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
+
+    "SUPER SHIFT Q" "Open control center" "noctalia controlCenter toggle"
+    "SUPER SHIFT N" "Open notification history" "noctalia notifications toggleHistory"
+    "SUPER CTRL W" "Select wallpaper" "noctalia wallpaper toggle"
+    "SUPER SHIFT W" "Random wallpaper" "noctalia wallpaper random"
+    "SUPER ALT L" "Lock screen" "noctalia lockScreen lock"
+    "SUPER Backspace" "Session menu" "noctalia sessionMenu toggle"
+    "CTRL Escape" "Toggle bar" "noctalia bar toggle"
+
+    "SUPER F1" "Play/Pause media" "noctalia media playPause"
+    "SUPER F2" "Next media track" "noctalia media next"
+    "SUPER F3" "Previous media track" "noctalia media previous"
+    "SUPER F4" "Mute output" "noctalia volume muteOutput"
+    "SUPER F5" "Mute input" "noctalia volume muteIutput"
+    "SUPER F6" "Decrease brightness" "noctalia brightness decrease"
+    "SUPER F7" "Increase brightness" "noctalia brightness increase"
+    "SUPER F8" "Lower volume" "noctalia volume decrease"
+    "SUPER F9" "Increase volume" "noctalia volume increase"
+    "SUPER F10" "Open system monitor" "btop"
+    "SUPER F11" "Colour picker" "hyprpicker --autocopy"
     "SUPER F12" "Toggle autoclicker" "scripts/autoclicker"
+
     "SUPER P" "Screenshot (select area)" "scripts/screenshot.sh s"
     "SUPER SHIFT P" "Screenshot (frozen screen)" "scripts/screenshot.sh sf"
     "SUPER CTRL P" "Screenshot (current monitor)" "scripts/screenshot.sh m"
     "SUPER ALT P" "Screenshot (all monitors)" "scripts/screenshot.sh p"
     "SUPER Print" "OCR capture (select area)" "scripts/screenshot.sh o"
+
     # "SUPER Tab" "Toggle overview" "overview:toggle"
     "SUPER W" "Toggle floating window" "togglefloating"
     "SUPER G" "Toggle group window" "togglegroup"
     "ALT Return" "Toggle fullscreen" "fullscreen"
     "SUPER Q" "Close active window" "killactive"
-    "SUPER ALT L" "Lock screen" "hyprlock"
-    "SUPER Backspace" "Power menu" "wlogout -b 4"
-    "CTRL Escape" "Toggle Waybar" "toggle waybar service"
     "SUPER S" "Toggle scratchpad workspace" "togglespecialworkspace"
     "SUPER CTRL S" "Move to scratchpad" "movetoworkspacesilent special"
     "SUPER H" "Move focus left (HJKL)" "movefocus l"
@@ -90,15 +106,16 @@ pkgs.writeShellScriptBin "keybinds" ''
     "SUPER SHIFT →" "Resize window right" "resizeactive 30 0"
     "SUPER SHIFT ↑" "Resize window up" "resizeactive 0 -30"
     "SUPER SHIFT ↓" "Resize window down" "resizeactive 0 30"
-    "XF86MonBrightnessDown" "Decrease brightness" "brightnessctl set 2%-"
-    "XF86MonBrightnessUp" "Increase brightness" "brightnessctl set +2%"
-    "XF86AudioLowerVolume" "Lower volume" "pamixer -d 2"
-    "XF86AudioRaiseVolume" "Increase volume" "pamixer -i 2%"
-    "XF86AudioMicMute" "Mute microphone" "pamixer --default-source -t"
-    "XF86AudioMute" "Mute audio" "pamixer -t"
-    "XF86AudioPlay" "Play/Pause media" "playerctl play-pause"
-    "XF86AudioNext" "Next media track" "playerctl next"
-    "XF86AudioPrev" "Previous media track" "playerctl previous"
+    "XF86AudioPlay" "Play media" "noctalia media play"
+    "XF86AudioPlay" "Pause media" "noctalia media pause"
+    "XF86AudioNext" "Next media track" "noctalia media next"
+    "XF86AudioPrev" "Previous media track" "noctalia media previous"
+    "XF86AudioMute" "Mute output" "noctalia volume muteOutput"
+    "XF86AudioMicMute" "Mute input" "noctalia volume muteIutput"
+    "XF86MonBrightnessDown" "Decrease brightness" "noctalia brightness decrease"
+    "XF86MonBrightnessUp" "Increase brightness" "noctalia brightness increase"
+    "XF86AudioLowerVolume" "Lower volume" "noctalia volume decrease"
+    "XF86AudioRaiseVolume" "Increase volume" "noctalia volume increase"
     "SUPER M" "Enter mouse mode" "submap mouse-mode"
     "(mouse-mode) H" "Mouse move left" "wlrctl pointer move -10 0"
     "(mouse-mode) L" "Mouse move right" "wlrctl pointer move 10 0"

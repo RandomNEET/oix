@@ -13,20 +13,20 @@
             after_sleep_cmd = "hyprctl dispatch dpms on";
           };
           listener =
-            lib.optionals ((opts.hypridle.time.lock or "") != "") [
+            lib.optionals ((opts.hypridle.time.lock or "600") != "") [
               {
                 timeout = opts.hypridle.time.lock;
                 on-timeout = "loginctl lock-session";
               }
             ]
-            ++ lib.optionals ((opts.hypridle.time.dpmsOff or "") != "") [
+            ++ lib.optionals ((opts.hypridle.time.dpmsOff or "1800") != "") [
               {
                 timeout = opts.hypridle.time.dpmsOff;
                 on-timeout = "hyprctl dispatch dpms off";
                 on-resume = "hyprctl dispatch dpms on";
               }
             ]
-            ++ lib.optionals ((opts.hypridle.time.sleep or "") != "") [
+            ++ lib.optionals ((opts.hypridle.time.sleep or "3600") != "") [
               (
                 if opts.hibernate then
                   {

@@ -453,14 +453,14 @@
             // (lib.optionalAttrs hasDesktop {
               ".local/share/applications/rmpc.desktop".text = ''
                 [Desktop Entry]
-                  Name=rmpc
-                  GenericName=Music Player
-                  Comment=TUI client for MPD
-                  Exec=rmpc
-                  Terminal=true
-                  Type=Application
-                  Icon=mpd
-                  Categories=Audio;Music;Player;ConsoleOnly;
+                Name=rmpc
+                GenericName=Music Player
+                Comment=TUI client for MPD
+                Categories=Audio;Music;Player;ConsoleOnly;
+                Type=Application
+                Icon=mpd
+                Terminal=true
+                Exec=rmpc
               '';
             });
           packages = with pkgs; [ cava ];

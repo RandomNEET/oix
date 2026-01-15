@@ -18,7 +18,7 @@ in
           enable = true;
           layout =
             [ ]
-            ++ (optionals (desktop == "hyprland") [
+            ++ (optionals (desktop == "hyprland-waybar") [
               {
                 label = "logout";
                 action = "hyprctl dispatch exit 0";
@@ -26,7 +26,7 @@ in
                 keybind = "e";
               }
             ])
-            ++ (optionals (desktop == "niri") [
+            ++ (optionals (desktop == "niri-waybar") [
               {
                 label = "logout";
                 action = "niri msg action quit -s";

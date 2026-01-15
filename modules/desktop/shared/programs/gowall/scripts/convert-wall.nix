@@ -8,7 +8,45 @@ let
   wallpaperDir = opts.wallpaper.dir;
   originalDir = "${wallpaperDir}/default";
 
-  themeBaseNames = map (t: builtins.head (lib.splitString "-" t)) opts.themes;
+  modifiers = [
+    "dark"
+    "light"
+    "hard"
+    "soft"
+    "medium"
+    "dim"
+    "high"
+    "low"
+    "storm"
+    "moon"
+    "night"
+    "latte"
+    "frappe"
+    "macchiato"
+    "mocha"
+    "pro"
+    "soda"
+    "classic"
+    "reloaded"
+    "alt"
+    "alternate"
+    "pale"
+    "tints"
+    "256"
+  ];
+  cleanThemeName =
+    t:
+    let
+      stripOnce = name: lib.foldl' (n: mod: lib.removeSuffix "-${mod}" n) name modifiers;
+      stripAll =
+        name:
+        let
+          nextName = stripOnce name;
+        in
+        if nextName == name then name else stripAll nextName;
+    in
+    stripAll t;
+  themeBaseNames = map cleanThemeName opts.themes;
   uniqueThemes = lib.unique themeBaseNames;
   themesArray = lib.concatStringsSep " " (map (t: ''"${t}"'') uniqueThemes);
 in

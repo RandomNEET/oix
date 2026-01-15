@@ -17,10 +17,6 @@ let
         ;
     }
   );
-  random-wall = getExe (import ../shared/scripts/random-wall.nix { inherit config pkgs opts; });
-  randomwallctl = ../shared/scripts/randomwallctl.sh;
-  powermodectl = import ../shared/scripts/powermodectl.nix { inherit config pkgs; };
-  clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs opts; });
   autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
   keybinds = getExe (
     import ./scripts/keybinds.nix {
@@ -39,13 +35,8 @@ in
   imports = [
     ../shared/programs/fcitx5
     ../shared/programs/gowall
+    ../shared/programs/noctalia
     ../shared/programs/rofi
-    ../shared/programs/swaync
-    ../shared/programs/swww
-    ../shared/programs/waybar
-    ../shared/programs/wlogout
-    ./programs/hypridle
-    ./programs/hyprlock
   ];
 
   programs.hyprland = {
@@ -67,8 +58,6 @@ in
                 pkgs
                 opts
                 launcher
-                random-wall
-                clip-manager
                 autoclicker
                 keybinds
                 screenshot
@@ -98,8 +87,6 @@ in
                   lib
                   pkgs
                   opts
-                  randomwallctl
-                  powermodectl
                   getExe
                   getExe'
                   ;
@@ -125,32 +112,6 @@ in
           };
 
         services.hyprpolkitagent.enable = true;
-        # Put inside of home-manager to auto start sservice after switching specialisation
-        systemd.user = {
-          services.random-wall = {
-            Unit = {
-              Description = "Random wallpaper";
-            };
-            Service = {
-              Type = "oneshot";
-              ExecStart = "${random-wall}";
-            };
-            Install = {
-              WantedBy = [ "default.target" ];
-            };
-          };
-          timers.random-wall = {
-            Unit = {
-              Description = "Timer for Random wallpaper";
-            };
-            Timer = {
-              OnCalendar = "hourly";
-            };
-            Install = {
-              WantedBy = [ "timers.target" ];
-            };
-          };
-        };
 
         xdg = {
           enable = true;
@@ -175,19 +136,14 @@ in
 
         home.packages = with pkgs; [
           hyprpicker
-          hyprsunset
           cliphist
           grimblast
           swappy
           libnotify
           brightnessctl
-          networkmanagerapplet
-          pamixer
-          pavucontrol
-          playerctl
           wl-clipboard
           wlrctl
-          wtype
+          xdg-terminal-exec
           yad
         ];
       }

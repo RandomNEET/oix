@@ -6,17 +6,12 @@
   ...
 }:
 let
-  inherit (lib) getExe;
+  inherit (lib) getExe optionalString;
+  desktop = opts.desktop;
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
-  themeReloadCommands = [
-    "systemctl --user restart waybar"
-    "systemctl --user restart fcitx5-daemon"
-  ];
 
-  terminal = opts.terminal;
-  displays = opts.display or [ ];
   wallpaperDir =
     opts.wallpaper.dir
       or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
@@ -25,6 +20,7 @@ let
   transitionDuration = toString (opts.wallpaper.launcher.transition.duration or 1);
   transitionFps = toString (opts.wallpaper.launcher.transition.fps or 60);
 
+  displays = opts.display or [ ];
   displayCount = builtins.length displays;
   displayListStr = lib.concatMapStringsSep "\n" (
     idx:
@@ -43,6 +39,8 @@ let
   singleDisplayOutput = if displayCount == 1 then (builtins.elemAt displays 0).output else "";
   singleDisplayOrientation =
     if displayCount == 1 then (builtins.elemAt displays 0).orientation else "";
+
+  terminal = opts.terminal;
 in
 pkgs.writeShellScriptBin "launcher" ''
   if pidof rofi >/dev/null; then
@@ -55,7 +53,12 @@ pkgs.writeShellScriptBin "launcher" ''
   if [ -f "$PALETTE_FILE" ]; then
     FULL_SLUG=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
     if [ -n "$FULL_SLUG" ]; then
-      THEME_BASE_NAME=$(echo "$FULL_SLUG" | cut -d'-' -f1)
+      MODIFIERS="dark|light|hard|soft|medium|dim|high|low|storm|moon|night|latte|frappe|macchiato|mocha|pro|soda|classic|reloaded|alt|alternate|pale|tints|256"
+      CLEANED_NAME="$FULL_SLUG"
+      while [[ "$CLEANED_NAME" =~ -($MODIFIERS)$ ]]; do
+        CLEANED_NAME=$(echo "$CLEANED_NAME" | sed -E "s/-($MODIFIERS)$//")
+      done
+      THEME_BASE_NAME="$CLEANED_NAME"
     fi
   fi
   THEME_BASE_NAME=''${THEME_BASE_NAME:-"${defaultTheme}"}
@@ -247,7 +250,36 @@ pkgs.writeShellScriptBin "launcher" ''
       "$SPEC_DIR/$SELECTED/activate"
     fi
 
-    ${lib.concatLines themeReloadCommands}
+    ${optionalString (lib.strings.hasInfix "waybar" desktop) "systemctl --user restart waybar"}
+    systemctl --user restart fcitx5-daemon
+    ${optionalString (lib.strings.hasInfix "noctalia" desktop) ''
+      THEME_BASE_NAME="${defaultTheme}"
+      PALETTE_FILE="$XDG_CONFIG_HOME/stylix/palette.json"
+      if [ -f "$PALETTE_FILE" ]; then
+        FULL_SLUG=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
+        if [ -n "$FULL_SLUG" ]; then
+          MODIFIERS="dark|light|hard|soft|medium|dim|high|low|storm|moon|night|latte|frappe|macchiato|mocha|pro|soda|classic|reloaded|alt|alternate|pale|tints|256"
+          CLEANED_NAME="$FULL_SLUG"
+          while [[ "$CLEANED_NAME" =~ -($MODIFIERS)$ ]]; do
+            CLEANED_NAME=$(echo "$CLEANED_NAME" | sed -E "s/-($MODIFIERS)$//")
+          done
+          THEME_BASE_NAME="$CLEANED_NAME"
+        fi
+      fi
+      THEME_BASE_NAME=''${THEME_BASE_NAME:-"${defaultTheme}"}
+
+      WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
+      if [ ! -f "$WALLPAPER_CONF" ]; then
+        echo "Error: $WALLPAPER_CONF not found."
+        exit 1
+      fi
+      NEW_JSON=$(${pkgs.jq}/bin/jq --arg theme "$THEME_BASE_NAME" '
+        .wallpapers |= map_values(
+          gsub("${wallpaperDir}/[^/]+/"; "${wallpaperDir}/" + $theme + "/")
+        )
+      ' "$WALLPAPER_CONF")
+      echo "$NEW_JSON" > "$WALLPAPER_CONF"
+    ''}
     ;;
   spec)
     SPEC_DIR="/nix/var/nix/profiles/system/specialisation"

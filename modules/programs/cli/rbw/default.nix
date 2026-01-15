@@ -20,7 +20,10 @@
       home.packages = [
         pkgs.pinentry-all
       ]
-      ++ lib.optionals (opts.rbw.rofi-rbw or false) [ pkgs.rofi-rbw ];
+      ++ lib.optionals (opts.rbw.rofi-rbw or false) [
+        pkgs.rofi-rbw
+        pkgs.wtype
+      ];
     }
   ];
 }

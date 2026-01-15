@@ -7,9 +7,9 @@
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
         colors = config.lib.stylix.colors;
-        displays = opts.display or [ ];
-        primaryLandscape = lib.findFirst (d: d.orientation == "landscape") (lib.head displays) displays;
-        otherDisplays = lib.filter (d: d.output != primaryLandscape.output) displays;
+        display = opts.display or [ ];
+        primaryLandscape = lib.findFirst (d: d.orientation == "landscape") (lib.head display) display;
+        otherDisplay = lib.filter (d: d.output != primaryLandscape.output) display;
 
         hexToRgb =
           hex:
@@ -53,7 +53,7 @@
             ++ (map (d: {
               monitor = d.output;
               color = "rgb(0, 0, 0)";
-            }) otherDisplays);
+            }) otherDisplay);
 
             input-field = [
               (
