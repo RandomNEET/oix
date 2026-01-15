@@ -2,8 +2,8 @@
   osConfig,
   pkgs,
   opts,
-  randomwallctl,
   powermodectl,
+  randomwallctl,
   optionalString,
   getExe,
   ...

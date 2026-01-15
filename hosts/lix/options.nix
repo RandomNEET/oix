@@ -150,7 +150,7 @@
           name = "eDP-1";
           off = false;
           mode = "1920x1080@60.008";
-          scale = 1.25;
+          scale = 1;
           transform = "normal";
           position = {
             x = 0;

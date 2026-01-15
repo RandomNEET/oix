@@ -59,13 +59,14 @@ if config.services.power-profiles-daemon.enable then
 else if config.services.tlp.enable then
   pkgs.writeShellScript "powermodectl" ''
     MODE_FILE="$XDG_STATE_HOME/${desktop}/power-mode"
+
     mkdir -p "$(dirname "$MODE_FILE")"
 
     sync() {
-      MODE=$(tlp-stat -s 2>/dev/null | awk -F'= *' '/^Mode/ {print $2}' | xargs)
+      MODE=$(tlp-stat -s 2>/dev/null | awk -F'= *' '/^Power profile/ {print $2}' | xargs)
       case "$MODE" in
-        "AC"|"battery") NEW_MODE="auto" ;;
-        "AC (manual)"|"battery (manual)") NEW_MODE="manual" ;;
+        "performance/AC"|"balanced/BAT") NEW_MODE="auto" ;;
+        "performance/AC (manual)"|"balanced/BAT (manual)") NEW_MODE="manual" ;;
       esac
       CURRENT=$(cat "$MODE_FILE" 2>/dev/null || echo "")
       if [[ "$NEW_MODE" != "$CURRENT" ]]; then

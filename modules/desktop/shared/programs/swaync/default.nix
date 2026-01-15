@@ -8,6 +8,13 @@
 let
   inherit (lib) optionals;
   desktop = opts.desktop;
+  stateDir =
+    if (lib.strings.hasInfix "hyprland" desktop) then
+      "hyprland"
+    else if (lib.strings.hasInfix "niri" desktop) then
+      "niri"
+    else
+      "";
   powermodectl = import ../../scripts/powermodectl.nix {
     inherit
       config
@@ -16,7 +23,7 @@ let
       opts
       ;
   };
-  randomwallctl = ../../scripts/randomwallctl.sh;
+  randomwallctl = import ../../scripts/randomwallctl.nix { inherit lib pkgs opts; };
 in
 {
   home-manager.sharedModules = [
@@ -189,29 +196,17 @@ in
                   update-command = "sh -c 'nmcli radio wifi | grep -q enabled && echo true || echo false'";
                 }
               ]
-              ++ lib.optional (config.services.power-profiles-daemon.enable && (desktop == "hyprland-waybar")) {
+              ++ lib.optional config.services.power-profiles-daemon.enable {
                 label = "";
                 type = "toggle";
                 command = "${powermodectl} -t";
-                update-command = "${powermodectl} -s && grep -q \"^performance$\" \"$HOME/.config/hypr/power-mode\" && echo true || echo false";
+                update-command = "${powermodectl} -s && grep -q \"^performance$\" \"$XDG_STATE_HOME/${stateDir}/power-mode\" && echo true || echo false";
               }
-              ++ lib.optional (config.services.tlp.enable && (desktop == "hyprland-waybar")) {
+              ++ lib.optional config.services.tlp.enable {
                 label = "";
                 type = "toggle";
                 command = "${powermodectl} -t";
-                update-command = "${powermodectl} -s && grep -q \"^manual$\" \"$HOME/.config/hypr/power-mode\" && echo true || echo false";
-              }
-              ++ lib.optional (config.services.power-profiles-daemon.enable && (desktop == "niri-waybar")) {
-                label = "";
-                type = "toggle";
-                command = "${powermodectl} -t";
-                update-command = "${powermodectl} -s && grep -q \"^performance$\" \"$HOME/.config/niri/power-mode\" && echo true || echo false";
-              }
-              ++ lib.optional (config.services.tlp.enable && (desktop == "niri-waybar")) {
-                label = "";
-                type = "toggle";
-                command = "${powermodectl} -t";
-                update-command = "${powermodectl} -s && grep -q \"^manual$\" \"$HOME/.config/niri/power-mode\" && echo true || echo false";
+                update-command = "${powermodectl} -s && grep -q \"^manual$\" \"$XDG_STATE_HOME/${stateDir}/power-mode\" && echo true || echo false";
               }
               ++ optionals (desktop == "hyprland-waybar") [
                 {
@@ -230,7 +225,7 @@ in
                   label = "󰸉";
                   type = "toggle";
                   command = "${randomwallctl} -t";
-                  update-command = "${randomwallctl} -s && grep -q \"^enabled$\" \"$HOME/.config/hypr/random-wall\" && echo true || echo false";
+                  update-command = "${randomwallctl} -s && grep -q \"^enabled$\" \"$XDG_STATE_HOME/${stateDir}/random-wall\" && echo true || echo false";
                 }
               ]
               ++ optionals (desktop == "niri-waybar") [
@@ -250,7 +245,7 @@ in
                   label = "󰸉";
                   type = "toggle";
                   command = "${randomwallctl} -t";
-                  update-command = "${randomwallctl} -s && grep -q \"^enabled$\" \"$HOME/.config/niri/random-wall\" && echo true || echo false";
+                  update-command = "${randomwallctl} -s && grep -q \"^enabled$\" \"$XDG_STATE_HOME/${stateDir}/random-wall\" && echo true || echo false";
                 }
               ]
               ++ lib.optional config.services.dae.enable {
