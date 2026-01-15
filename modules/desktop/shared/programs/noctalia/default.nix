@@ -1,5 +1,6 @@
 {
   inputs,
+  config,
   lib,
   opts,
   pkgs,
@@ -10,6 +11,14 @@ let
   display = opts.display or [ ];
   multiDisplay = builtins.length display > 1;
   hasExternalDisplay = builtins.any (d: d.external == true) display;
+  powermodectl = import ../../scripts/powermodectl.nix {
+    inherit
+      config
+      lib
+      pkgs
+      opts
+      ;
+  };
 in
 {
   home-manager.sharedModules = [
@@ -70,7 +79,7 @@ in
             settingsVersion = 0;
             bar = {
               position = "top";
-              monitors = [ ];
+              monitors = opts.noctalia.settings.bar.monitors or [ ];
               density = "default";
               showOutline = false;
               showCapsule = true;
@@ -113,11 +122,11 @@ in
                 ];
                 center = [
                   {
-                    id = "KeepAwake";
-                  }
-                  {
                     id = "Clock";
                     usePrimaryColor = true;
+                    formatHorizontal = "ddd MMM d HH:mm";
+                    formatVertical = "MM dd - HH mm";
+                    tooltipFormat = "yyyy-MM-dd HH:mm:ss";
                   }
                 ];
                 right = [
@@ -158,7 +167,7 @@ in
               };
             };
             general = {
-              avatarImage = opts.noctalia.settings.avatarImage or "";
+              avatarImage = opts.noctalia.settings.general.avatarImage or "";
               dimmerOpacity = 0.2;
               showScreenCorners = false;
               forceBlackScreenCorners = false;
@@ -574,19 +583,16 @@ in
               manualSunset = "18:30";
             };
             hooks = {
-              enabled = false;
+              enabled = true;
               wallpaperChange = "";
               darkModeChange = "";
               screenLock = "";
               screenUnlock = "";
               performanceModeEnabled = "";
               performanceModeDisabled = "";
+              session = "${powermodectl} -s";
             };
-            desktopWidgets = {
-              enabled = false;
-              gridSnap = false;
-              monitorWidgets = [ ];
-            };
+            desktopWidgets = opts.noctalia.settings.desktopWidgets or { };
           };
           plugins = {
             sources = [

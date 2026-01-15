@@ -17,6 +17,14 @@ let
         ;
     }
   );
+  powermodectl = import ../shared/scripts/powermodectl.nix {
+    inherit
+      config
+      lib
+      pkgs
+      opts
+      ;
+  };
   autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
   keybinds = getExe (
     import ./scripts/keybinds.nix {
@@ -87,6 +95,7 @@ in
                   lib
                   pkgs
                   opts
+                  powermodectl
                   getExe
                   getExe'
                   ;

@@ -8,7 +8,14 @@
 let
   inherit (lib) optionals;
   desktop = opts.desktop;
-  powermodectl = import ../../scripts/powermodectl.nix { inherit config pkgs; };
+  powermodectl = import ../../scripts/powermodectl.nix {
+    inherit
+      config
+      lib
+      pkgs
+      opts
+      ;
+  };
   randomwallctl = ../../scripts/randomwallctl.sh;
 in
 {

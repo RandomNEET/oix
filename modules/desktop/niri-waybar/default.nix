@@ -19,7 +19,14 @@ let
   );
   random-wall = getExe (import ../shared/scripts/random-wall.nix { inherit config pkgs opts; });
   randomwallctl = ../shared/scripts/randomwallctl.sh;
-  powermodectl = import ../shared/scripts/powermodectl.nix { inherit config pkgs; };
+  powermodectl = import ../shared/scripts/powermodectl.nix {
+    inherit
+      config
+      lib
+      pkgs
+      opts
+      ;
+  };
   clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs opts; });
   autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
 in

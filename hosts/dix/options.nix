@@ -147,7 +147,55 @@
 
     noctalia = {
       settings = {
-        avatarImage = "${xdg.userDirs.pictures}/avatars/weeb.jpg";
+        general = {
+          avatarImage = "${xdg.userDirs.pictures}/avatars/weeb.jpg";
+        };
+        bar = {
+          monitors = [ "DP-1" ];
+        };
+        desktopWidgets = {
+          enabled = true;
+          gridSnap = true;
+          monitorWidgets = [
+            {
+              name = "DP-1";
+              widgets = [ ];
+            }
+            {
+              name = "HDMI-A-1";
+              widgets = [
+                {
+                  lockStyle = "digital";
+                  format = "HH:mm\\nd MMMM yyyy";
+                  id = "Clock";
+                  showBackground = false;
+                  useCustomFont = false;
+                  usePrimaryColor = false;
+                  x = 20;
+                  y = 20;
+                }
+                {
+                  hideMode = "visible";
+                  id = "MediaPlayer";
+                  roundedCorners = true;
+                  showAlbumArt = true;
+                  showBackground = false;
+                  showButtons = true;
+                  showVisualizer = true;
+                  visualizerType = "linear";
+                  x = 500;
+                  y = 20;
+                }
+                {
+                  id = "Weather";
+                  showBackground = false;
+                  x = 1160;
+                  y = 20;
+                }
+              ];
+            }
+          ];
+        };
       };
     };
     # }}}

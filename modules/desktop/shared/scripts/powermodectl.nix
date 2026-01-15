@@ -1,69 +1,64 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
+let
+  desktop =
+    if (lib.strings.hasInfix "hyprland" opts.desktop) then
+      "hyprland"
+    else if (lib.strings.hasInfix "niri" opts.desktop) then
+      "niri"
+    else
+      "";
+in
 if config.services.power-profiles-daemon.enable then
   pkgs.writeShellScript "powermodectl" ''
-    MODE_FILE="$HOME/.config/hypr/power-mode"
+    MODE_FILE="$XDG_STATE_HOME/${desktop}/power-mode"
+
     mkdir -p "$(dirname "$MODE_FILE")"
 
-    sync() {
-      ACTIVE_MODE=$(powerprofilesctl list | grep '^\*' | awk '{print $2}' | tr -d ':')
-      case "$ACTIVE_MODE" in
-        performance) NEW_MODE="performance" ;;
-        balanced) NEW_MODE="balanced" ;;
-        power-saver) NEW_MODE="powersave" ;;
-      esac
-      CURRENT=$(cat "$MODE_FILE" 2>/dev/null || echo "")
-      if [[ "$NEW_MODE" != "$CURRENT" ]]; then
-        echo "$NEW_MODE" >"$MODE_FILE"
-      fi
+    get_current() {
+        powerprofilesctl list | grep '^\*' | awk '{print $2}' | tr -d ':'
     }
 
-    if [[ ! -s "$MODE_FILE" ]]; then
-    	sync
-    fi
-
-    CURRENT=$(cat "$MODE_FILE")
-
-    get_cmd() {
-      local mode="$1"
-      case "$mode" in
-        performance) echo "powerprofilesctl set performance" ;;
-        balanced) echo "powerprofilesctl set balanced" ;;
-        toggle)
-          if [[ "$CURRENT" == "performance" ]]; then
-            echo "powerprofilesctl set balanced"
-          else
-            echo "powerprofilesctl set performance"
-          fi
-          ;;
-      esac
-    }
-
-    toggle() {
-      CMD=$(get_cmd toggle)
-      if $CMD >/dev/null 2>&1; then
-        if [[ "$CURRENT" == "performance" ]]; then
-          echo "balanced" >"$MODE_FILE"
+    apply_and_save() {
+        local mode=$1
+        if powerprofilesctl set "$mode" >/dev/null 2>&1; then
+            echo "$mode" > "$MODE_FILE"
         else
-          echo "performance" >"$MODE_FILE"
+            exit 1
         fi
-      fi
-    }
-
-    restore() {
-      CMD=$(get_cmd "$CURRENT")
-      $CMD >/dev/null 2>&1
     }
 
     case "$1" in
-      -t|--toggle) toggle ;;
-      -r|--restore) restore ;;
-      -s|--sync) sync ;;
-      *) echo "Usage: $0 [-t|--toggle] | [-r|--restore] | [-s|--sync]" ;;
+        -t|--toggle)
+            [[ "$(get_current)" == "performance" ]] && apply_and_save "balanced" || apply_and_save "performance"
+            ;;
+            
+        -r|--restore)
+            if [[ -s "$MODE_FILE" ]]; then
+                powerprofilesctl set "$(cat "$MODE_FILE")" >/dev/null 2>&1
+            else
+                get_current > "$MODE_FILE"
+            fi
+            ;;
+            
+        -s|--sync)
+            get_current > "$MODE_FILE"
+            ;;
+
+        *)
+            echo "Usage: $0 [-t|--toggle] | [-r|--restore] | [-s|--sync]"
+            exit 1
+            ;;
     esac
   ''
 else if config.services.tlp.enable then
   pkgs.writeShellScript "powermodectl" ''
-    MODE_FILE="$HOME/.config/hypr/power-mode"
+    MODE_FILE="$XDG_STATE_HOME/${desktop}/power-mode"
     mkdir -p "$(dirname "$MODE_FILE")"
 
     sync() {
