@@ -2,6 +2,14 @@
   programs.nixvim = {
     globals.mapleader = " "; # space
     keymaps = [
+      {
+        mode = "n";
+        key = "<Esc>";
+        action = "<cmd>noh<cr>";
+        options = {
+          desc = "Clear search highlights";
+        };
+      }
       # Window navigation
       {
         mode = [
