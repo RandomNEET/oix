@@ -37,6 +37,8 @@ in
         "indent-heuristic"
         "linematch:60"
       ];
+
+      foldlevel = 99;
     };
 
     diagnostic = {

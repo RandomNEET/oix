@@ -4,8 +4,10 @@
     plugins.treesitter = {
       enable = true;
       nixvimInjections = true;
+      highlight.enable = true;
+      indent.enable = true;
+      folding.enable = true;
       nixGrammars = true;
-      folding.enable = false;
       grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
         bash
         diff
