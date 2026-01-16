@@ -5,6 +5,7 @@
   ...
 }:
 let
+  terminal = opts.terminal or "";
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
   colors = config.lib.stylix.colors;
@@ -160,7 +161,7 @@ in
             enabled = true;
           };
           image = {
-            enabled = config.programs.kitty.enable;
+            enabled = ((terminal == "kitty") || (terminal == "ghostty") || (terminal == "wezterm"));
           };
         };
       };

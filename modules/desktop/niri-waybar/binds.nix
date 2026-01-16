@@ -9,15 +9,14 @@
   clip-manager,
   autoclicker,
   getExe,
-  getExe',
   ...
 }:
 let
   terminal =
-    if (opts.terminal == "foot") then
-      if (opts.foot.server or false) then "${getExe' pkgs.foot "footclient"}" else "${getExe pkgs.foot}"
+    if ((opts.terminal == "foot") && (opts.foot.server or false)) then
+      "footclient"
     else
-      "${getExe pkgs.${opts.terminal}}";
+      "${opts.terminal}";
   fileManager =
     if (opts.terminal == "kitty") then
       ''${terminal} --class \"terminalFileManager\" -e ${opts.terminalFileManager}''

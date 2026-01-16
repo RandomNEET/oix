@@ -281,7 +281,14 @@ in
               pinnedApps = [ ];
               useApp2Unit = true;
               sortByMostUsed = true;
-              terminalCommand = "${opts.terminal} -e";
+              terminalCommand =
+                if opts ? terminal then
+                  if ((opts.terminal == "foot") && (opts.foot.server or false)) then
+                    "footclient -e"
+                  else
+                    "${opts.terminal} -e"
+                else
+                  "xterm -e";
               customLaunchPrefixEnabled = false;
               customLaunchPrefix = "";
               viewMode = "list";
