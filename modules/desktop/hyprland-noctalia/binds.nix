@@ -35,30 +35,6 @@
       ''$terminal -e ${opts.editor}'';
   "$browser" = opts.browser;
 
-  binde = [
-    # Resize windows
-    "$mainMod SHIFT, right, resizeactive, 30 0"
-    "$mainMod SHIFT, left, resizeactive, -30 0"
-    "$mainMod SHIFT, up, resizeactive, 0 -30"
-    "$mainMod SHIFT, down, resizeactive, 0 30"
-
-    # Resize windows with hjkl keys
-    "$mainMod SHIFT, l, resizeactive, 30 0"
-    "$mainMod SHIFT, h, resizeactive, -30 0"
-    "$mainMod SHIFT, k, resizeactive, 0 -30"
-    "$mainMod SHIFT, j, resizeactive, 0 30"
-
-    # Functional keybinds
-    "$mainMod, F6, exec, noctalia-shell ipc call brightness decrease"
-    "$mainMod, F7, exec, noctalia-shell ipc call brightness increase"
-    "$mainMod, F8, exec, noctalia-shell ipc call volume decrease"
-    "$mainMod, F9, exec, noctalia-shell ipc call volume increase"
-    ",XF86MonBrightnessDown, exec, noctalia-shell ipc call brightness decrease"
-    ",XF86MonBrightnessUp, exec, noctalia-shell ipc call brightness increase"
-    ",XF86AudioLowerVolume, exec, noctalia-shell ipc call volume decrease"
-    ",XF86AudioRaiseVolume, exec, noctalia-shell ipc call volume increase"
-  ];
-
   bind = [
     # Keybinds help menu
     "$mainMod SHIFT, slash, exec, ${keybinds}"
@@ -86,10 +62,10 @@
 
     "$mainMod, SPACE, exec, noctalia-shell ipc call launcher toggle" # launch desktop applications
     "$mainMod, V, exec, noctalia-shell ipc call launcher clipboard" # Clipboard Manager
+    "$mainMod SHIFT, A, exec, noctalia-shell ipc call controlCenter toggle" # control center
+    "$mainMod SHIFT, Q, exec, noctalia-shell ipc call notifications toggleHistory" # notification history
     "$mainMod CTRL, W, exec, noctalia-shell ipc call wallpaper toggle" # launch wallpaper selector
     "$mainMod SHIFT, W, exec, noctalia-shell ipc call wallpaper random" # random wallpaper
-    "$mainMod SHIFT, Q, exec, noctalia-shell ipc call controlCenter toggle" # control center
-    "$mainMod SHIFT, N, exec, noctalia-shell ipc call notifications toggleHistory" # notification history
     "$mainMod CTRL, T, exec, ${launcher} theme" # launch theme switcher
     "$mainMod ALT, S, exec, ${launcher} spec" # launch specialisation  switcher
   ]
@@ -112,17 +88,12 @@
     "$mainMod, print, exec, ${screenshot} o" # ocr capture
 
     # Functional keybinds
-    "$mainMod, F1, exec, noctalia-shell ipc call media playPause" # play/pause media
-    "$mainMod, F2, exec, noctalia-shell ipc call media next" # go to next media
-    "$mainMod, F3, exec, noctalia-shell ipc call media previous" # go to previous media
-    "$mainMod, F4, exec, noctalia-shell ipc call volume muteOutput" # mute output
-    "$mainMod, F5, exec, noctalia-shell ipc call volume muteIutput" # mute input
+    ",XF86AudioMute, exec, noctalia-shell ipc call volume muteOutput" # mute output
+    ",XF86AudioMicMute, exec, noctalia-shell ipc call volume muteIutput" # mute input
     ",XF86AudioPlay, exec, noctalia-shell ipc call media play" # play media
     ",XF86AudioPause, exec, playerctl noctalia-shell ipc call media pause" # pause media
     ",xf86AudioNext, exec, noctalia-shell ipc call media next" # go to next media
     ",xf86AudioPrev, exec, noctalia-shell ipc call media previous" # go to previous media
-    ",XF86AudioMute, exec, noctalia-shell ipc call volume muteOutput" # mute output
-    ",XF86AudioMicMute, exec, noctalia-shell ipc call volume muteIutput" # mute input
 
     # to switch between windows in a floating workspace
     "ALT, Tab, cyclenext"
@@ -197,22 +168,35 @@
       ]
     ) 10
   ))
-  ++ lib.optionals (config.programs.tmux.enable or false) [
-    "$mainMod SHIFT, T, exec, ${launcher} tmux" # launch tmux sessions
+  ++ (opts.hyprland.settings.bind or [ ]);
+
+  binde = [
+    # Resize windows
+    "$mainMod SHIFT, right, resizeactive, 30 0"
+    "$mainMod SHIFT, left, resizeactive, -30 0"
+    "$mainMod SHIFT, up, resizeactive, 0 -30"
+    "$mainMod SHIFT, down, resizeactive, 0 30"
+
+    # Resize windows with hjkl keys
+    "$mainMod SHIFT, l, resizeactive, 30 0"
+    "$mainMod SHIFT, h, resizeactive, -30 0"
+    "$mainMod SHIFT, k, resizeactive, 0 -30"
+    "$mainMod SHIFT, j, resizeactive, 0 30"
+
+    # Functional keybinds
+    ",XF86AudioLowerVolume, exec, noctalia-shell ipc call volume decrease"
+    ",XF86AudioRaiseVolume, exec, noctalia-shell ipc call volume increase"
+    ",XF86MonBrightnessDown, exec, noctalia-shell ipc call brightness decrease"
+    ",XF86MonBrightnessUp, exec, noctalia-shell ipc call brightness increase"
   ]
-  ++ lib.optionals (opts.rbw.rofi-rbw or false) [
-    "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
-  ]
-  ++ lib.optionals (osConfig.programs.steam.enable or false) [
-    "$mainMod SHIFT, G, exec, ${launcher} game" # game launcher
-    "$mainMod CTRL, G, exec, ${gamemode}" # disable hypr effects for gamemode
-  ];
+  ++ (opts.hyprland.settings.binde or [ ]);
 
   bindm = [
     # Move/Resize windows with mainMod + LMB/RMB and dragging
     "$mainMod, mouse:272, movewindow"
     "$mainMod, mouse:273, resizewindow"
-  ];
+  ]
+  ++ (opts.hyprland.settings.bindm or [ ]);
 
   submaps = {
     mouse-mode = {
@@ -239,5 +223,6 @@
         ];
       };
     };
-  };
+  }
+  // (opts.hyprland.settings.submaps or { });
 }

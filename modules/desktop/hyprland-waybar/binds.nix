@@ -37,26 +37,6 @@
       ''$terminal -e ${opts.editor}'';
   "$browser" = opts.browser;
 
-  binde = [
-    # Resize windows
-    "$mainMod SHIFT, right, resizeactive, 30 0"
-    "$mainMod SHIFT, left, resizeactive, -30 0"
-    "$mainMod SHIFT, up, resizeactive, 0 -30"
-    "$mainMod SHIFT, down, resizeactive, 0 30"
-
-    # Resize windows with hjkl keys
-    "$mainMod SHIFT, l, resizeactive, 30 0"
-    "$mainMod SHIFT, h, resizeactive, -30 0"
-    "$mainMod SHIFT, k, resizeactive, 0 -30"
-    "$mainMod SHIFT, j, resizeactive, 0 30"
-
-    # Functional keybinds
-    ",XF86MonBrightnessDown, exec, brightnessctl set 2%-"
-    ",XF86MonBrightnessUp, exec, brightnessctl set +2%"
-    ",XF86AudioLowerVolume, exec, pamixer -d 2"
-    ",XF86AudioRaiseVolume, exec, pamixer -i 2"
-  ];
-
   bind = [
     # Keybinds help menu
     "$mainMod SHIFT, slash, exec, ${keybinds}"
@@ -193,13 +173,36 @@
         "$mainMod CTRL, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
       ]
     ) 10
-  ));
+  ))
+  ++ (opts.hyprland.settings.bind or [ ]);
+
+  binde = [
+    # Resize windows
+    "$mainMod SHIFT, right, resizeactive, 30 0"
+    "$mainMod SHIFT, left, resizeactive, -30 0"
+    "$mainMod SHIFT, up, resizeactive, 0 -30"
+    "$mainMod SHIFT, down, resizeactive, 0 30"
+
+    # Resize windows with hjkl keys
+    "$mainMod SHIFT, l, resizeactive, 30 0"
+    "$mainMod SHIFT, h, resizeactive, -30 0"
+    "$mainMod SHIFT, k, resizeactive, 0 -30"
+    "$mainMod SHIFT, j, resizeactive, 0 30"
+
+    # Functional keybinds
+    ",XF86MonBrightnessDown, exec, brightnessctl set 2%-"
+    ",XF86MonBrightnessUp, exec, brightnessctl set +2%"
+    ",XF86AudioLowerVolume, exec, pamixer -d 2"
+    ",XF86AudioRaiseVolume, exec, pamixer -i 2"
+  ]
+  ++ (opts.hyprland.settings.binde or [ ]);
 
   bindm = [
     # Move/Resize windows with mainMod + LMB/RMB and dragging
     "$mainMod, mouse:272, movewindow"
     "$mainMod, mouse:273, resizewindow"
-  ];
+  ]
+  ++ (opts.hyprland.settings.bindm or [ ]);
 
   submaps = {
     mouse-mode = {
@@ -226,5 +229,6 @@
         ];
       };
     };
-  };
+  }
+  // (opts.hyprland.settings.submaps or { });
 }

@@ -137,11 +137,71 @@ rec {
         "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5"
         "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1"
       ];
+      bind = [
+        "$mainMod, F1, exec, noctalia-shell ipc call volume muteOutput"
+        "$mainMod, F4, exec, noctalia-shell ipc call volume muteIutput"
+        "$mainMod, F7, exec, noctalia-shell ipc call media previous"
+        "$mainMod, F8, exec, noctalia-shell ipc call media playPause"
+        "$mainMod, F9, exec, noctalia-shell ipc call media next"
+      ];
+      binde = [
+        "$mainMod, F2, exec, noctalia-shell ipc call volume decrease"
+        "$mainMod, F3, exec, noctalia-shell ipc call volume increase"
+        "$mainMod, F5, exec, noctalia-shell ipc call brightness decrease"
+        "$mainMod, F6, exec, noctalia-shell ipc call brightness increase"
+      ];
     };
     extraConfig = ''
       workspace = 1, monitor:desc:SAC G7u Pro 0001, default:true;
       workspace = 10, monitor:desc:KOS KOIOS K2718UD 0000000000000, default:true;
     '';
+    showKeybinds = [
+      {
+        key = "SUPER F1";
+        desc = "Mute output";
+        cmd = "noctalia volume muteOutput";
+      }
+      {
+        key = "SUPER F2";
+        desc = "Lower volume";
+        cmd = "noctalia volume decrease";
+      }
+      {
+        key = "SUPER F3";
+        desc = "Increase volume";
+        cmd = "noctalia volume increase";
+      }
+      {
+        key = "SUPER F4";
+        desc = "Mute input";
+        cmd = "noctalia volume muteIutput";
+      }
+      {
+        key = "SUPER F5";
+        desc = "Decrease brightness";
+        cmd = "noctalia brightness decrease";
+      }
+      {
+        key = "SUPER F6";
+        desc = "Increase brightness";
+        cmd = "noctalia brightness increase";
+      }
+      {
+        key = "SUPER F7";
+        desc = "Previous media track";
+        cmd = "noctalia media previous";
+      }
+      {
+        key = "SUPER F8";
+        desc = "Play/Pause media";
+        cmd = "noctalia media playPause";
+      }
+      {
+        key = "SUPER F9";
+        desc = "Next media track";
+        cmd = "noctalia media next";
+      }
+    ];
   };
 
   noctalia = {

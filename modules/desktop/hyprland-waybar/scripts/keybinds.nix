@@ -6,116 +6,514 @@
   opts,
   ...
 }:
+let
+  keybinds = [
+    # ----- Base -----
+    {
+      key = "SUPER SHIFT /";
+      desc = "Show keybinds";
+      cmd = "scripts/keybinds";
+    }
+    {
+      key = "SUPER Return";
+      desc = "Launch terminal";
+      cmd = "$TERMINAL";
+    }
+    {
+      key = "SUPER T";
+      desc = "Launch terminal (float)";
+      cmd = "$TERMINAL";
+    }
+    {
+      key = "SUPER F";
+      desc = "Launch file manager";
+      cmd = "$FILEMANAGER";
+    }
+    {
+      key = "SUPER E";
+      desc = "Launch editor";
+      cmd = "$EDITOR";
+    }
+    {
+      key = "SUPER B";
+      desc = "Launch browser";
+      cmd = "$BROWSER";
+    }
+    # ----- Launch -----
+    {
+      key = "SUPER A";
+      desc = "Launch application menu";
+      cmd = "scripts/launcher drun";
+    }
+    {
+      key = "SUPER SPACE";
+      desc = "Launch application menu";
+      cmd = "scripts/launcher drun";
+    }
+    {
+      key = "SUPER V";
+      desc = "Clipboard manager";
+      cmd = "scripts/clip-manager";
+    }
+    {
+      key = "SUPER CTRL W";
+      desc = "Select wallpaper";
+      cmd = "scripts/launcher wallpaper";
+    }
+    {
+      key = "SUPER CTRL T";
+      desc = "Select theme";
+      cmd = "scripts/launcher theme";
+    }
+    {
+      key = "SUPER ALT S";
+      desc = "Select specialisation";
+      cmd = "scripts/launcher spec";
+    }
+  ]
+  ++ lib.optionals (config.programs.tmux.enable or false) [
+    {
+      key = "SUPER SHIFT T";
+      desc = "Launch tmux sessions";
+      cmd = "scripts/launcher tmux";
+    }
+  ]
+  ++ lib.optionals (opts.rbw.rofi-rbw or false) [
+    {
+      key = "SUPER ALT U";
+      desc = "Launch password manager";
+      cmd = "scripts/launcher rbw";
+    }
+  ]
+  ++ lib.optionals (osConfig.programs.steam.enable or false) [
+    {
+      key = "SUPER SHIFT G";
+      desc = "Game launcher";
+      cmd = "scripts/launcher game";
+    }
+    {
+      key = "SUPER CTRL G";
+      desc = "Enable game mode";
+      cmd = "scripts/gamemode.sh";
+    }
+  ]
+  ++ [
+    # ----- Util -----
+    {
+      key = "SUPER SHIFT W";
+      desc = "Random wallpaper";
+      cmd = "scripts/random-wall";
+    }
+    {
+      key = "SUPER SHIFT N";
+      desc = "Open notification panel";
+      cmd = "swaync-client -t -sw";
+    }
+    {
+      key = "SUPER SHIFT Q";
+      desc = "Open notification panel";
+      cmd = "swaync-client -t -sw";
+    }
+    {
+      key = "SUPER ALT L";
+      desc = "Lock screen";
+      cmd = "hyprlock";
+    }
+    {
+      key = "SUPER Backspace";
+      desc = "Power menu";
+      cmd = "wlogout -b 4";
+    }
+    {
+      key = "CTRL Escape";
+      desc = "Toggle Waybar";
+      cmd = "toggle waybar service";
+    }
+    # ----- F keys -----
+    {
+      key = "SUPER F1";
+      desc = "Open system monitor";
+      cmd = "btop";
+    }
+    {
+      key = "SUPER F10";
+      desc = "Colour picker";
+      cmd = "hyprpicker --autocopy";
+    }
+    {
+      key = "SUPER F11";
+      desc = "Toggle night mode";
+      cmd = "hyprsunset";
+    }
+    {
+      key = "SUPER F12";
+      desc = "Toggle autoclicker";
+      cmd = "scripts/autoclicker";
+    }
+    # ----- Screenshot -----
+    {
+      key = "SUPER P";
+      desc = "Screenshot (select area)";
+      cmd = "scripts/screenshot.sh s";
+    }
+    {
+      key = "SUPER SHIFT P";
+      desc = "Screenshot (frozen screen)";
+      cmd = "scripts/screenshot.sh sf";
+    }
+    {
+      key = "SUPER CTRL P";
+      desc = "Screenshot (current monitor)";
+      cmd = "scripts/screenshot.sh m";
+    }
+    {
+      key = "SUPER ALT P";
+      desc = "Screenshot (all monitors)";
+      cmd = "scripts/screenshot.sh p";
+    }
+    {
+      key = "SUPER Print";
+      desc = "OCR capture (select area)";
+      cmd = "scripts/screenshot.sh o";
+    }
+    # ----- Window control -----
+    {
+      key = "SUPER W";
+      desc = "Toggle floating window";
+      cmd = "togglefloating";
+    }
+    {
+      key = "SUPER G";
+      desc = "Toggle group window";
+      cmd = "togglegroup";
+    }
+    {
+      key = "ALT Return";
+      desc = "Toggle fullscreen";
+      cmd = "fullscreen";
+    }
+    {
+      key = "SUPER Q";
+      desc = "Close active window";
+      cmd = "killactive";
+    }
+    # {
+    #   key = "SUPER Tab";
+    #   desc = "Toggle overview";
+    #   cmd = "overview:toggle";
+    # }
+    # ----- Focus & Workspace -----
+    {
+      key = "SUPER S";
+      desc = "Toggle scratchpad workspace";
+      cmd = "togglespecialworkspace";
+    }
+    {
+      key = "SUPER CTRL S";
+      desc = "Move to scratchpad";
+      cmd = "movetoworkspacesilent special";
+    }
+    {
+      key = "SUPER H";
+      desc = "Move focus left (HJKL)";
+      cmd = "movefocus l";
+    }
+    {
+      key = "SUPER L";
+      desc = "Move focus right (HJKL)";
+      cmd = "movefocus r";
+    }
+    {
+      key = "SUPER J";
+      desc = "Move focus up (HJKL)";
+      cmd = "movefocus u";
+    }
+    {
+      key = "SUPER K";
+      desc = "Move focus down (HJKL)";
+      cmd = "movefocus d";
+    }
+    {
+      key = "SUPER ←";
+      desc = "Move focus left";
+      cmd = "movefocus l";
+    }
+    {
+      key = "SUPER →";
+      desc = "Move focus right";
+      cmd = "movefocus r";
+    }
+    {
+      key = "SUPER ↑";
+      desc = "Move focus up";
+      cmd = "movefocus u";
+    }
+    {
+      key = "SUPER ↓";
+      desc = "Move focus down";
+      cmd = "movefocus d";
+    }
+    {
+      key = "SUPER ALT K";
+      desc = "Move group focus back";
+      cmd = "changegroupactive back";
+    }
+    {
+      key = "SUPER ALT J";
+      desc = "Move group focus forward";
+      cmd = "changegroupactive forward";
+    }
+    {
+      key = "SUPER 1-0";
+      desc = "Switch to workspace 1-10";
+      cmd = "workspace 1-10";
+    }
+    {
+      key = "SUPER SHIFT 1-0";
+      desc = "Move to workspace 1-10";
+      cmd = "movetoworkspace 1-10";
+    }
+    {
+      key = "ALT Tab";
+      desc = "Cycle next window";
+      cmd = "cyclenext";
+    }
+    {
+      key = "ALT Tab";
+      desc = "Bring active window to top";
+      cmd = "bringactivetotop";
+    }
+    {
+      key = "SUPER SHIFT CTRL H";
+      desc = "Move window left (HJKL)";
+      cmd = "movewindow l";
+    }
+    {
+      key = "SUPER SHIFT CTRL L";
+      desc = "Move window right (HJKL)";
+      cmd = "movewindow r";
+    }
+    {
+      key = "SUPER SHIFT CTRL K";
+      desc = "Move window up (HJKL)";
+      cmd = "movewindow u";
+    }
+    {
+      key = "SUPER SHIFT CTRL J";
+      desc = "Move window down (HJKL)";
+      cmd = "movewindow d";
+    }
+    {
+      key = "SUPER SHIFT CTRL ←";
+      desc = "Move window left";
+      cmd = "movewindow l";
+    }
+    {
+      key = "SUPER SHIFT CTRL →";
+      desc = "Move window right";
+      cmd = "movewindow r";
+    }
+    {
+      key = "SUPER SHIFT CTRL ↑";
+      desc = "Move window up";
+      cmd = "movewindow u";
+    }
+    {
+      key = "SUPER SHIFT CTRL ↓";
+      desc = "Move window down";
+      cmd = "movewindow d";
+    }
+    {
+      key = "SUPER CTRL →";
+      desc = "Switch to next workspace";
+      cmd = "workspace r+1";
+    }
+    {
+      key = "SUPER CTRL ←";
+      desc = "Switch to previous workspace";
+      cmd = "workspace r-1";
+    }
+    {
+      key = "SUPER CTRL ↓";
+      desc = "Go to first empty workspace";
+      cmd = "workspace empty";
+    }
+    {
+      key = "SUPER, Left Click";
+      desc = "Move window with mouse";
+      cmd = "movewindow";
+    }
+    {
+      key = "SUPER, Right Click";
+      desc = "Resize window with mouse";
+      cmd = "resizewindow";
+    }
+    {
+      key = "SUPER SHIFT H";
+      desc = "Resize window left (HJKL)";
+      cmd = "resizeactive -30 0";
+    }
+    {
+      key = "SUPER SHIFT L";
+      desc = "Resize window right (HJKL)";
+      cmd = "resizeactive 30 0";
+    }
+    {
+      key = "SUPER SHIFT K";
+      desc = "Resize window up (HJKL)";
+      cmd = "resizeactive 0 -30";
+    }
+    {
+      key = "SUPER SHIFT J";
+      desc = "Resize window down (HJKL)";
+      cmd = "resizeactive 0 30";
+    }
+    {
+      key = "SUPER SHIFT ←";
+      desc = "Resize window left";
+      cmd = "resizeactive -30 0";
+    }
+    {
+      key = "SUPER SHIFT →";
+      desc = "Resize window right";
+      cmd = "resizeactive 30 0";
+    }
+    {
+      key = "SUPER SHIFT ↑";
+      desc = "Resize window up";
+      cmd = "resizeactive 0 -30";
+    }
+    {
+      key = "SUPER SHIFT ↓";
+      desc = "Resize window down";
+      cmd = "resizeactive 0 30";
+    }
+    # ----- XF86 -----
+    {
+      key = "XF86MonBrightnessDown";
+      desc = "Decrease brightness";
+      cmd = "brightnessctl set 2%-";
+    }
+    {
+      key = "XF86MonBrightnessUp";
+      desc = "Increase brightness";
+      cmd = "brightnessctl set +2%";
+    }
+    {
+      key = "XF86AudioLowerVolume";
+      desc = "Lower volume";
+      cmd = "pamixer -d 2";
+    }
+    {
+      key = "XF86AudioRaiseVolume";
+      desc = "Increase volume";
+      cmd = "pamixer -i 2%";
+    }
+    {
+      key = "XF86AudioMicMute";
+      desc = "Mute microphone";
+      cmd = "pamixer --default-source -t";
+    }
+    {
+      key = "XF86AudioMute";
+      desc = "Mute audio";
+      cmd = "pamixer -t";
+    }
+    {
+      key = "XF86AudioPlay";
+      desc = "Play/Pause media";
+      cmd = "playerctl play-pause";
+    }
+    {
+      key = "XF86AudioNext";
+      desc = "Next media track";
+      cmd = "playerctl next";
+    }
+    {
+      key = "XF86AudioPrev";
+      desc = "Previous media track";
+      cmd = "playerctl previous";
+    }
+    # ----- Submap -----
+    {
+      key = "SUPER M";
+      desc = "Enter mouse mode";
+      cmd = "submap mouse-mode";
+    }
+    {
+      key = "(mouse-mode) H";
+      desc = "Mouse move left";
+      cmd = "wlrctl pointer move -10 0";
+    }
+    {
+      key = "(mouse-mode) L";
+      desc = "Mouse move right";
+      cmd = "wlrctl pointer move 10 0";
+    }
+    {
+      key = "(mouse-mode) K";
+      desc = "Mouse move up";
+      cmd = "wlrctl pointer move 0 -10";
+    }
+    {
+      key = "(mouse-mode) J";
+      desc = "Mouse move down";
+      cmd = "wlrctl pointer move 0 10";
+    }
+    {
+      key = "(mouse-mode) SHIFT H";
+      desc = "Mouse move left (fast)";
+      cmd = "wlrctl pointer move -100 0";
+    }
+    {
+      key = "(mouse-mode) SHIFT L";
+      desc = "Mouse move right (fast)";
+      cmd = "wlrctl pointer move 100 0";
+    }
+    {
+      key = "(mouse-mode) SHIFT K";
+      desc = "Mouse move up (fast)";
+      cmd = "wlrctl pointer move 0 -100";
+    }
+    {
+      key = "(mouse-mode) SHIFT J";
+      desc = "Mouse move down (fast)";
+      cmd = "wlrctl pointer move 0 100";
+    }
+    {
+      key = "(mouse-mode) ,";
+      desc = "Mouse left click";
+      cmd = "wlrctl pointer click left";
+    }
+    {
+      key = "(mouse-mode) .";
+      desc = "Mouse right click";
+      cmd = "wlrctl pointer click right";
+    }
+    {
+      key = "(mouse-mode) Escape";
+      desc = "Exit mouse mode";
+      cmd = "submap reset";
+    }
+    {
+      key = "(mouse-mode) Q";
+      desc = "Exit mouse mode";
+      cmd = "submap reset";
+    }
+  ]
+  ++ (opts.hyprland.showKeybinds or [ ]);
+  flattenedBinds = lib.concatLists (
+    map (item: [
+      item.key
+      item.desc
+      item.cmd
+    ]) keybinds
+  );
+  shellArrayContent = lib.concatStringsSep "\n    " (map lib.escapeShellArg flattenedBinds);
+in
 pkgs.writeShellScriptBin "keybinds" ''
   set -euo pipefail
-
-  TERMINAL=${lib.escapeShellArg opts.terminal}
-  FILEMANAGER=${lib.escapeShellArg opts.terminalFileManager}
-  EDITOR=${lib.escapeShellArg opts.editor}
-  BROWSER=${lib.escapeShellArg opts.browser}
-
-  KEYBINDERS=(
-    "SUPER SHIFT /" "Show keybinds" "scripts/keybinds"
-    "SUPER Return" "Launch terminal" "$TERMINAL"
-    "SUPER T" "Launch terminal (float)" "$TERMINAL"
-    "SUPER F" "Launch file manager" "$FILEMANAGER"
-    "SUPER E" "Launch editor" "$EDITOR"
-    "SUPER B" "Launch browser" "$BROWSER"
-
-    "SUPER A" "Launch application menu" "scripts/launcher drun"
-    "SUPER SPACE" "Launch application menu" "scripts/launcher drun"
-    "SUPER CTRL W" "Select wallpaper" "scripts/launcher wallpaper"
-    "SUPER CTRL T" "Select theme" "scripts/launcher theme"
-    "SUPER ALT S" "Select specialisation" "scripts/launcher spec"
-    ${lib.optionalString config.programs.tmux.enable ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''}
-    ${lib.optionalString (opts.rbw.rofi-rbw or false
-    ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
-    ${lib.optionalString osConfig.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
-    ${lib.optionalString osConfig.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
-
-    "SUPER V" "Clipboard manager" "scripts/clip-manager"
-    "SUPER SHIFT W" "Random wallpaper" "scripts/random-wall"
-    "SUPER SHIFT N" "Open notification panel" "swaync-client -t -sw"
-    "SUPER SHIFT Q" "Open notification panel" "swaync-client -t -sw"
-    "SUPER F1" "Open system monitor" "btop"
-    "SUPER F10" "Colour picker" "hyprpicker --autocopy"
-    "SUPER F11" "Toggle night mode" "hyprsunset"
-    "SUPER F12" "Toggle autoclicker" "scripts/autoclicker"
-    "SUPER P" "Screenshot (select area)" "scripts/screenshot.sh s"
-    "SUPER SHIFT P" "Screenshot (frozen screen)" "scripts/screenshot.sh sf"
-    "SUPER CTRL P" "Screenshot (current monitor)" "scripts/screenshot.sh m"
-    "SUPER ALT P" "Screenshot (all monitors)" "scripts/screenshot.sh p"
-    "SUPER Print" "OCR capture (select area)" "scripts/screenshot.sh o"
-
-    # "SUPER Tab" "Toggle overview" "overview:toggle"
-    "SUPER W" "Toggle floating window" "togglefloating"
-    "SUPER G" "Toggle group window" "togglegroup"
-    "ALT Return" "Toggle fullscreen" "fullscreen"
-    "SUPER Q" "Close active window" "killactive"
-    "SUPER ALT L" "Lock screen" "hyprlock"
-    "SUPER Backspace" "Power menu" "wlogout -b 4"
-    "CTRL Escape" "Toggle Waybar" "toggle waybar service"
-    "SUPER S" "Toggle scratchpad workspace" "togglespecialworkspace"
-    "SUPER CTRL S" "Move to scratchpad" "movetoworkspacesilent special"
-    "SUPER H" "Move focus left (HJKL)" "movefocus l"
-    "SUPER L" "Move focus right (HJKL)" "movefocus r"
-    "SUPER J" "Move focus up (HJKL)" "movefocus u"
-    "SUPER K" "Move focus down (HJKL)" "movefocus d"
-    "SUPER ←" "Move focus left" "movefocus l"
-    "SUPER →" "Move focus right" "movefocus r"
-    "SUPER ↑" "Move focus up" "movefocus u"
-    "SUPER ↓" "Move focus down" "movefocus d"
-    "SUPER ALT K" "Move group focus back" "changegroupactive back"
-    "SUPER ALT J" "Move group focus forward" "changegroupactive forward"
-    "SUPER 1-0" "Switch to workspace 1-10" "workspace 1-10"
-    "SUPER SHIFT 1-0" "Move to workspace 1-10" "movetoworkspace 1-10"
-    "ALT Tab" "Cycle next window" "cyclenext"
-    "ALT Tab" "Bring active window to top" "bringactivetotop"
-    "SUPER SHIFT CTRL H" "Move window left (HJKL)" "movewindow l"
-    "SUPER SHIFT CTRL L" "Move window right (HJKL)" "movewindow r"
-    "SUPER SHIFT CTRL K" "Move window up (HJKL)" "movewindow u"
-    "SUPER SHIFT CTRL J" "Move window down (HJKL)" "movewindow d"
-    "SUPER SHIFT CTRL ←" "Move window left" "movewindow l"
-    "SUPER SHIFT CTRL →" "Move window right" "movewindow r"
-    "SUPER SHIFT CTRL ↑" "Move window up" "movewindow u"
-    "SUPER SHIFT CTRL ↓" "Move window down" "movewindow d"
-    "SUPER CTRL →" "Switch to next workspace" "workspace r+1"
-    "SUPER CTRL ←" "Switch to previous workspace" "workspace r-1"
-    "SUPER CTRL ↓" "Go to first empty workspace" "workspace empty"
-    "SUPER, Left Click" "Move window with mouse" "movewindow"
-    "SUPER, Right Click" "Resize window with mouse" "resizewindow"
-    "SUPER SHIFT H" "Resize window left (HJKL)" "resizeactive -30 0"
-    "SUPER SHIFT L" "Resize window right (HJKL)" "resizeactive 30 0"
-    "SUPER SHIFT K" "Resize window up (HJKL)" "resizeactive 0 -30"
-    "SUPER SHIFT J" "Resize window down (HJKL)" "resizeactive 0 30"
-    "SUPER SHIFT ←" "Resize window left" "resizeactive -30 0"
-    "SUPER SHIFT →" "Resize window right" "resizeactive 30 0"
-    "SUPER SHIFT ↑" "Resize window up" "resizeactive 0 -30"
-    "SUPER SHIFT ↓" "Resize window down" "resizeactive 0 30"
-    "XF86MonBrightnessDown" "Decrease brightness" "brightnessctl set 2%-"
-    "XF86MonBrightnessUp" "Increase brightness" "brightnessctl set +2%"
-    "XF86AudioLowerVolume" "Lower volume" "pamixer -d 2"
-    "XF86AudioRaiseVolume" "Increase volume" "pamixer -i 2%"
-    "XF86AudioMicMute" "Mute microphone" "pamixer --default-source -t"
-    "XF86AudioMute" "Mute audio" "pamixer -t"
-    "XF86AudioPlay" "Play/Pause media" "playerctl play-pause"
-    "XF86AudioNext" "Next media track" "playerctl next"
-    "XF86AudioPrev" "Previous media track" "playerctl previous"
-    "SUPER M" "Enter mouse mode" "submap mouse-mode"
-    "(mouse-mode) H" "Mouse move left" "wlrctl pointer move -10 0"
-    "(mouse-mode) L" "Mouse move right" "wlrctl pointer move 10 0"
-    "(mouse-mode) K" "Mouse move up" "wlrctl pointer move 0 -10"
-    "(mouse-mode) J" "Mouse move down" "wlrctl pointer move 0 10"
-    "(mouse-mode) SHIFT H" "Mouse move left (fast)" "wlrctl pointer move -100 0"
-    "(mouse-mode) SHIFT L" "Mouse move right (fast)" "wlrctl pointer move 100 0"
-    "(mouse-mode) SHIFT K" "Mouse move up (fast)" "wlrctl pointer move 0 -100"
-    "(mouse-mode) SHIFT J" "Mouse move down (fast)" "wlrctl pointer move 0 100"
-    "(mouse-mode) ," "Mouse left click" "wlrctl pointer click left"
-    "(mouse-mode) ." "Mouse right click" "wlrctl pointer click right"
-    "(mouse-mode) Escape" "Exit mouse mode" "submap reset"
-    "(mouse-mode) Q" "Exit mouse mode" "submap reset"
-     )
-
+  KEYBINDERS=(${shellArrayContent})
   yad --center \
     --title="Hyprland Keybinds" \
     --no-buttons \
