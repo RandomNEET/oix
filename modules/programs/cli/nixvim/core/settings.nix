@@ -113,7 +113,7 @@ in
       				vim.api.nvim_set_hl(0, n, { bg = "none" })
       			end
 
-      			vim.notify("Theme & Highlight reloaded")
+      			vim.notify("Theme & Highlights reloaded")
       		end
       	end, 100)
       end
