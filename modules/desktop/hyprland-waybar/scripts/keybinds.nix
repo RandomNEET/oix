@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -26,13 +27,11 @@ pkgs.writeShellScriptBin "keybinds" ''
     "SUPER CTRL W" "Select wallpaper" "scripts/launcher wallpaper"
     "SUPER CTRL T" "Select theme" "scripts/launcher theme"
     "SUPER ALT S" "Select specialisation" "scripts/launcher spec"
-    ${lib.optionalString config.home-manager.users.${opts.users.primary.name}.programs.tmux.enable
-      ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''
-    }
+    ${lib.optionalString config.programs.tmux.enable ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''}
     ${lib.optionalString (opts.rbw.rofi-rbw or false
     ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
-    ${lib.optionalString config.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
-    ${lib.optionalString config.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
+    ${lib.optionalString osConfig.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
+    ${lib.optionalString osConfig.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
 
     "SUPER V" "Clipboard manager" "scripts/clip-manager"
     "SUPER SHIFT W" "Random wallpaper" "scripts/random-wall"

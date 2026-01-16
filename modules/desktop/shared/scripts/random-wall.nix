@@ -9,9 +9,7 @@ let
   hasThemes = themes != [ ];
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
 
-  wallpaperDir =
-    opts.wallpaper.dir
-      or "${config.home-manager.users.${opts.users.primary.name}.xdg.userDirs.pictures}/wallpapers";
+  wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
   transitionType = opts.wallpaper.transition.random-wall.type or "wipe";
   transitionStep = toString (opts.wallpaper.transition.random-wall.step or 90);
   transitionDuration = toString (opts.wallpaper.transition.random-wall.duration or 1);

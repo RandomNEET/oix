@@ -1,47 +1,10 @@
 {
-  config,
   lib,
   pkgs,
+  mylib,
   opts,
   ...
 }:
-let
-  inherit (lib) getExe getExe';
-  launcher = getExe (
-    import ../shared/scripts/launcher.nix {
-      inherit
-        config
-        lib
-        pkgs
-        opts
-        ;
-    }
-  );
-  powermodectl = import ../shared/scripts/powermodectl.nix {
-    inherit
-      config
-      lib
-      pkgs
-      opts
-      ;
-  };
-  random-wall = getExe (import ../shared/scripts/random-wall.nix { inherit config pkgs opts; });
-  randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
-  clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs opts; });
-  autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
-  keybinds = getExe (
-    import ./scripts/keybinds.nix {
-      inherit
-        config
-        lib
-        pkgs
-        opts
-        ;
-    }
-  );
-  screenshot = ./scripts/screenshot.sh;
-  gamemode = ./scripts/gamemode.sh;
-in
 {
   imports = [
     ../shared/programs/fcitx5
@@ -63,6 +26,54 @@ in
   home-manager.sharedModules = [
     (
       { osConfig, config, ... }:
+      let
+        inherit (lib) getExe getExe';
+        launcher = getExe (
+          import ../shared/scripts/launcher.nix {
+            inherit
+              config
+              lib
+              pkgs
+              mylib
+              opts
+              ;
+          }
+        );
+        powermodectl = import ../shared/scripts/powermodectl.nix {
+          inherit
+            osConfig
+            lib
+            pkgs
+            opts
+            ;
+        };
+        random-wall = getExe (import ../shared/scripts/random-wall.nix { inherit config pkgs opts; });
+        randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
+        clip-manager = getExe (
+          import ../shared/scripts/clip-manager.nix {
+            inherit
+              config
+              pkgs
+              mylib
+              opts
+              ;
+          }
+        );
+        autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
+        keybinds = getExe (
+          import ./scripts/keybinds.nix {
+            inherit
+              osConfig
+              config
+              lib
+              pkgs
+              opts
+              ;
+          }
+        );
+        screenshot = ./scripts/screenshot.sh;
+        gamemode = ./scripts/gamemode.sh;
+      in
       {
         wayland.windowManager.hyprland =
           let
@@ -81,7 +92,6 @@ in
                 screenshot
                 gamemode
                 getExe
-                getExe'
                 ;
             };
             plugins = import ./plugins.nix { inherit pkgs; };
@@ -107,7 +117,6 @@ in
                   powermodectl
                   randomwallctl
                   getExe
-                  getExe'
                   ;
               };
               layerrule = (import ./rules.nix).layerrule;

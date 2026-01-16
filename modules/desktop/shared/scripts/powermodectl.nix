@@ -1,5 +1,5 @@
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   opts,
@@ -14,7 +14,7 @@ let
     else
       "";
 in
-if config.services.power-profiles-daemon.enable then
+if osConfig.services.power-profiles-daemon.enable then
   pkgs.writeShellScript "powermodectl" ''
     MODE_FILE="$XDG_STATE_HOME/${desktop}/power-mode"
 
@@ -56,7 +56,7 @@ if config.services.power-profiles-daemon.enable then
             ;;
     esac
   ''
-else if config.services.tlp.enable then
+else if osConfig.services.tlp.enable then
   pkgs.writeShellScript "powermodectl" ''
     MODE_FILE="$XDG_STATE_HOME/${desktop}/power-mode"
 

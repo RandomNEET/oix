@@ -75,7 +75,6 @@ if hasThemes then
             obsidian.enable = true;
             opencode.enable = true;
             qt.enable = true;
-            spicetify.enable = true;
             spotify-player.enable = true;
             tmux.enable = true;
             vesktop.enable = true;

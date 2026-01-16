@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -29,13 +30,11 @@ pkgs.writeShellScriptBin "keybinds" ''
 
     "SUPER CTRL T" "Select theme" "scripts/launcher theme"
     "SUPER ALT S" "Select specialisation" "scripts/launcher spec"
-    ${optionalString config.home-manager.users.${opts.users.primary.name}.programs.tmux.enable
-      ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''
-    }
+    ${optionalString config.programs.tmux.enable ''"SUPER SHIFT T" "Launch tmux sessions" "scripts/launcher tmux"''}
     ${optionalString (opts.rbw.rofi-rbw or false
     ) ''"SUPER ALT U" "Launch password manager" "scripts/launcher rbw"''}
-    ${optionalString config.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
-    ${optionalString config.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
+    ${optionalString osConfig.programs.steam.enable ''"SUPER SHIFT G" "Game launcher" "scripts/launcher game"''}
+    ${optionalString osConfig.programs.steam.enable ''"SUPER CTRL G" "Enable game mode" "scripts/gamemode.sh"''}
 
     "SUPER SHIFT Q" "Open control center" "noctalia controlCenter toggle"
     "SUPER SHIFT N" "Open notification history" "noctalia notifications toggleHistory"

@@ -1,35 +1,10 @@
 {
-  config,
   lib,
   pkgs,
+  mylib,
   opts,
   ...
 }:
-let
-  inherit (lib) optionalString getExe getExe';
-  launcher = getExe (
-    import ../shared/scripts/launcher.nix {
-      inherit
-        config
-        lib
-        pkgs
-        opts
-        ;
-    }
-  );
-  powermodectl = import ../shared/scripts/powermodectl.nix {
-    inherit
-      config
-      lib
-      pkgs
-      opts
-      ;
-  };
-  random-wall = getExe (import ../shared/scripts/random-wall.nix { inherit config pkgs opts; });
-  randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
-  clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs opts; });
-  autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
-in
 {
   imports = [
     ../shared/programs/fcitx5
@@ -51,6 +26,40 @@ in
     (
       { osConfig, config, ... }:
       let
+        inherit (lib) optionalString getExe;
+        launcher = getExe (
+          import ../shared/scripts/launcher.nix {
+            inherit
+              config
+              lib
+              pkgs
+              mylib
+              opts
+              ;
+          }
+        );
+        powermodectl = import ../shared/scripts/powermodectl.nix {
+          inherit
+            osConfig
+            lib
+            pkgs
+            opts
+            ;
+        };
+        random-wall = getExe (import ../shared/scripts/random-wall.nix { inherit config pkgs opts; });
+        randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
+        clip-manager = getExe (
+          import ../shared/scripts/clip-manager.nix {
+            inherit
+              config
+              pkgs
+              mylib
+              opts
+              ;
+          }
+        );
+        autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
+
         niriConfig = ''
           ${lib.concatMapStringsSep "\n" (
             output:
@@ -123,7 +132,6 @@ in
               clip-manager
               autoclicker
               getExe
-              getExe'
               ;
           }}
         '';

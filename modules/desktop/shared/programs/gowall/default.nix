@@ -1,16 +1,16 @@
 {
   lib,
   pkgs,
+  mylib,
   opts,
   ...
 }:
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-
   wallpaperDir = opts.wallpaper.dir or "";
   hasWallpapers = wallpaperDir != "";
-  convert-wall = import ./scripts/convert-wall.nix { inherit lib pkgs opts; };
+  convert-wall = import ./scripts/convert-wall.nix { inherit pkgs mylib opts; };
 in
 {
   home-manager.sharedModules = [

@@ -59,19 +59,24 @@
       mkHost =
         name:
         let
+          lib = nixpkgs.lib;
           host = ./hosts + "/${name}";
           hardware = host + "/hardware-configuration.nix";
-          opts =
-            (import (host + "/options.nix") {
-              lib = nixpkgs.lib;
-              inherit inputs outputs;
-            }).opts;
+          mylib = import ./lib { inherit lib; };
+          opts = import (host + "/options.nix") { inherit outputs lib; };
         in
         {
           name = opts.hostname or name;
           value = nixpkgs.lib.nixosSystem {
             system = opts.system;
-            specialArgs = { inherit inputs outputs opts; };
+            specialArgs = {
+              inherit
+                inputs
+                outputs
+                mylib
+                opts
+                ;
+            };
             modules = [
               host
               hardware
@@ -79,7 +84,14 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = { inherit inputs outputs opts; };
+                home-manager.extraSpecialArgs = {
+                  inherit
+                    inputs
+                    outputs
+                    mylib
+                    opts
+                    ;
+                };
               }
               {
                 nixpkgs.overlays = import ./overlays { inherit inputs; };

@@ -20,6 +20,4 @@
   (opts.terminal == "foot") && (opts.foot.server or false)
 ) "${getExe pkgs.foot} --server"
 ++ lib.optional osConfig.services.power-profiles-daemon.enable "${powermodectl} -r"
-++ [
-  "hyprctl dispatch workspace 1"
-]
+++ [ "hyprctl dispatch workspace 1" ]

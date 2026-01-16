@@ -1,24 +1,16 @@
 {
   inputs,
-  config,
   lib,
-  opts,
   pkgs,
+  mylib,
+  opts,
   ...
 }:
 let
-  inherit (lib) optional;
+  inherit (lib) optional mkIf;
   display = opts.display or [ ];
   multiDisplay = builtins.length display > 1;
   hasExternalDisplay = builtins.any (d: d.external == true) display;
-  powermodectl = import ../../scripts/powermodectl.nix {
-    inherit
-      config
-      lib
-      pkgs
-      opts
-      ;
-  };
 in
 {
   home-manager.sharedModules = [
@@ -27,47 +19,22 @@ in
       let
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
-        colors = config.lib.stylix.colors;
-        modifiers = [
-          "dark"
-          "light"
-          "hard"
-          "soft"
-          "medium"
-          "dim"
-          "high"
-          "low"
-          "storm"
-          "moon"
-          "night"
-          "latte"
-          "frappe"
-          "macchiato"
-          "mocha"
-          "pro"
-          "soda"
-          "classic"
-          "reloaded"
-          "alt"
-          "alternate"
-          "pale"
-          "tints"
-          "256"
-        ];
-        fullThemeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
-        stripOnce = name: lib.foldl' (n: mod: lib.removeSuffix "-${mod}" n) name modifiers;
-        stripAll =
-          name:
-          let
-            nextName = stripOnce name;
-          in
-          if nextName == name then name else stripAll nextName;
-        themeBaseName = stripAll fullThemeName;
+        themeBaseName = if hasThemes then mylib.theme.getBaseName config.stylix.base16Scheme else "default";
         wallpaperDir =
           if ((opts.wallpaper.dir or "") != "") then
             if hasThemes then "${opts.wallpaper.dir}/${themeBaseName}" else opts.wallpaper.dir
           else
             "${config.xdg.userDirs.pictures}/wallpapers";
+        colors = config.lib.stylix.colors;
+
+        powermodectl = import ../../scripts/powermodectl.nix {
+          inherit
+            osConfig
+            lib
+            pkgs
+            opts
+            ;
+        };
       in
       {
         imports = [ inputs.noctalia.homeModules.default ];
@@ -153,7 +120,6 @@ in
                   {
                     id = "Tray";
                     drawerEnabled = false;
-                    colorizeIcons = true;
                   }
                   {
                     id = "NotificationHistory";
@@ -192,8 +158,8 @@ in
               telemetryEnabled = false;
             };
             ui = {
-              fontDefault = config.stylix.fonts.monospace.name;
-              fontFixed = config.stylix.fonts.monospace.name;
+              fontDefault = mkIf hasThemes config.stylix.fonts.monospace.name;
+              fontFixed = mkIf hasThemes config.stylix.fonts.monospace.name;
               fontDefaultScale = 1;
               fontFixedScale = 1;
               tooltipsEnabled = true;
@@ -251,7 +217,7 @@ in
               fillMode = "crop";
               fillColor = "#000000";
               useSolidColor = false;
-              solidColor = colors.base00;
+              solidColor = mkIf hasThemes colors.base00;
               randomEnabled = true;
               wallpaperChangeMode = "random";
               randomIntervalSec = 3600;
@@ -515,37 +481,30 @@ in
               enforceMinimum = true;
               enableDdcSupport = hasExternalDisplay;
             };
-            colors = {
-              mSurface = "#${colors.base00}";
-              mSurfaceVariant = "#${colors.base01}";
-              mHover = "#${colors.base02}";
-              mOutline = "#${colors.base03}";
-              mOnSurfaceVariant = "#${colors.base04}";
-              mOnSurface = "#${colors.base05}";
-              mTertiary = "#${colors.base06}";
-              mOnHover = "#${colors.base07}";
-              mError = "#${colors.base08}";
-              mSecondary = "#${colors.base09}";
-              mPrimary = "#${colors.base0A}";
-              mOnPrimary = "#${colors.base00}";
-              mOnSecondary = "#${colors.base00}";
-              mOnTertiary = "#${colors.base00}";
-              mOnError = "#${colors.base00}";
-              mShadow = "#${colors.base0F}";
-            };
             colorSchemes = {
               darkMode = true;
-              predefinedScheme =
-                if themeBaseName == "catppuccin" then
+              predefinedScheme = mkIf (hasThemes && opts.noctalia.predefinedScheme) (
+                if themeBaseName == "ayu" then
+                  "Ayu"
+                else if themeBaseName == "catppuccin" then
                   "Catppuccin"
+                else if themeBaseName == "dracula" then
+                  "Dracula"
+                else if themeBaseName == "eldritch" then
+                  "Eldritch"
                 else if themeBaseName == "gruvbox" then
                   "Gruvbox"
                 else if themeBaseName == "kanagawa" then
                   "Kanagawa"
                 else if themeBaseName == "nord" then
                   "Nord"
+                else if themeBaseName == "rose-pine" then
+                  "Rose Pine"
+                else if themeBaseName == "tokyo-night" then
+                  "Tokyo Night"
                 else
-                  "Noctalia (default)";
+                  "Noctalia (default)"
+              );
               useWallpaperColors = false;
               schedulingMode = "off";
               manualSunrise = "06:30";
@@ -622,6 +581,24 @@ in
               minimumThreshold = 25;
               hideBackground = true;
             };
+          };
+          colors = mkIf (hasThemes && (!opts.noctalia.predefinedScheme)) {
+            mSurface = "#${colors.base00}";
+            mSurfaceVariant = "#${colors.base01}";
+            mHover = "#${colors.base02}";
+            mOutline = "#${colors.base03}";
+            mOnSurfaceVariant = "#${colors.base04}";
+            mOnSurface = "#${colors.base05}";
+            mTertiary = "#${colors.base06}";
+            mOnHover = "#${colors.base07}";
+            mError = "#${colors.base08}";
+            mSecondary = "#${colors.base09}";
+            mPrimary = "#${colors.base0A}";
+            mOnPrimary = "#${colors.base00}";
+            mOnSecondary = "#${colors.base00}";
+            mOnTertiary = "#${colors.base00}";
+            mOnError = "#${colors.base00}";
+            mShadow = "#${colors.base0F}";
           };
         };
       }
