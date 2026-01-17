@@ -29,6 +29,7 @@
           ];
           rust = [ "rustfmt" ];
           sh = [ "shfmt" ];
+          toml = [ "taplo" ];
           typescript = [
             "prettierd"
             "prettier"

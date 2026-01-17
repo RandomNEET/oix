@@ -3,22 +3,23 @@
     plugins.lsp = {
       enable = true;
       servers = {
+        bashls.enable = true;
         clangd.enable = true;
+        html.enable = true;
         lua_ls.enable = true;
-        yamlls.enable = true;
-        nil_ls.enable = true;
         marksman.enable = true;
+        nil_ls.enable = true;
         pyright.enable = true;
         rust_analyzer = {
           enable = true;
           installCargo = true;
           installRustc = true;
         };
-        bashls.enable = true;
-        jsonls.enable = true;
+        taplo.enable = true;
         ts_ls.enable = true;
-        html.enable = true;
+        jsonls.enable = true;
         vue_ls.enable = true;
+        yamlls.enable = true;
       };
       keymaps = {
         silent = true;
