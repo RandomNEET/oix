@@ -13,23 +13,36 @@ in
 {
   programs.nixvim = {
     opts = {
-      termguicolors = true;
-
-      ignorecase = true;
-      smartcase = true;
-      hlsearch = true;
-      incsearch = true;
-
-      wildmenu = true;
-      wildmode = "longest:full,full";
-      wildignorecase = true;
-
+      # UI
       number = true;
       relativenumber = true;
+      termguicolors = true;
 
-      splitright = true;
+      # Search
+      hlsearch = true;
+      ignorecase = true;
+      incsearch = true;
+      smartcase = true;
+
+      # Indent
+      expandtab = true;
+      shiftwidth = 2;
+      softtabstop = 2;
+      tabstop = 2;
+
+      # Completion
+      wildignorecase = true;
+      wildmenu = true;
+      wildmode = "longest:full,full";
+
+      # Layout
       splitbelow = true;
+      splitright = true;
 
+      # Fold
+      foldlevel = 99;
+
+      # Diff
       diffopt = [
         "internal"
         "filler"
@@ -37,8 +50,6 @@ in
         "indent-heuristic"
         "linematch:60"
       ];
-
-      foldlevel = 99;
     };
 
     diagnostic = {

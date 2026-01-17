@@ -4,29 +4,44 @@ let
 in
 {
   programs.nixvim = {
-    autoCmd =
-      [ ]
-      # Auto inactive fcitx5 when leaving insert mode
-      ++ optionals (config.i18n.inputMethod.type == "fcitx5") [
-        {
-          event = [
-            "InsertLeave"
-            "ModeChanged"
-          ];
-          pattern = "*";
-          callback = {
-            __raw = ''
-              function()
-                vim.schedule(function()
-                  local state = tonumber(vim.fn.system("fcitx5-remote"))
-                  if state ~= 1 then
-                    vim.fn.system("fcitx5-remote -c")
-                  end
-                end)
-              end
-            '';
-          };
-        }
-      ];
+    autoCmd = [
+      # indent settings for nix
+      {
+        event = "FileType";
+        pattern = "nix";
+        callback = {
+          __raw = ''
+            function()
+              vim.opt_local.indentexpr = ""
+              vim.opt_local.autoindent = true
+              vim.opt_local.shiftwidth = 2
+              vim.opt_local.tabstop = 2
+            end
+          '';
+        };
+      }
+    ]
+    # Auto inactive fcitx5 when leaving insert mode
+    ++ optionals (config.i18n.inputMethod.type == "fcitx5") [
+      {
+        event = [
+          "InsertLeave"
+          "ModeChanged"
+        ];
+        pattern = "*";
+        callback = {
+          __raw = ''
+            function()
+              vim.schedule(function()
+                local state = tonumber(vim.fn.system("fcitx5-remote"))
+                if state ~= 1 then
+                  vim.fn.system("fcitx5-remote -c")
+                end
+              end)
+            end
+          '';
+        };
+      }
+    ];
   };
 }

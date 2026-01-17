@@ -131,6 +131,15 @@ in
           };
           indent = {
             enabled = true;
+            indent = {
+              enabled = true;
+              char = "▏";
+            };
+            scope = {
+              enabled = true;
+              underline = false;
+              char = "▎";
+            };
           };
           input = {
             enabled = true;
@@ -260,6 +269,12 @@ in
       SnacksPickerBorder = {
         fg = "#${colors.base05}";
         bg = "none";
+      };
+      SnacksIndent = {
+        fg = "#${colors.base02}";
+      };
+      SnacksIndentScope = {
+        fg = "#${colors.base0C}";
       };
     };
   };
