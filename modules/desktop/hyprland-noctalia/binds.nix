@@ -25,14 +25,14 @@
     else if (opts.terminal == "foot") then
       ''$terminal --app-id "terminalFileManager" -e ${opts.terminalFileManager}''
     else
-      ''$terminal -e ${opts.terminalFileManager}'';
+      "$terminal -e ${opts.terminalFileManager}";
   "$editor" =
     if (opts.terminal == "kitty") then
       ''$terminal --class "editor" -e ${opts.editor}''
     else if (opts.terminal == "foot") then
       ''$terminal --app-id "editor" -e ${opts.editor}''
     else
-      ''$terminal -e ${opts.editor}'';
+      "$terminal -e ${opts.editor}";
   "$browser" = opts.browser;
 
   bind = [

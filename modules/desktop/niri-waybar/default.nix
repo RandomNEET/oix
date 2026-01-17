@@ -59,12 +59,12 @@
               output "${output.name}" {
                 ${optionalString (output.off or false) "off"}
                 ${optionalString ((output.mode or "") != "") ''mode "${output.mode}"''}
-                ${optionalString ((output.scale or null) != null) ''scale ${builtins.toJSON output.scale}''}
+                ${optionalString ((output.scale or null) != null) "scale ${builtins.toJSON output.scale}"}
                 ${optionalString ((output.transform or "") != "") ''transform "${output.transform}"''}
                 ${
                   optionalString (
                     (((output.position.x or null) != null) && ((output.position.y or null) != null))
-                  ) ''position x=${toString output.position.x} y=${toString output.position.y}''
+                  ) "position x=${toString output.position.x} y=${toString output.position.y}"
                 } 
                 ${optionalString (output.variable-refresh-rate or false) "variable-refresh-rate"}
                 ${optionalString (output.focus-at-startup or false) "focus-at-startup"}

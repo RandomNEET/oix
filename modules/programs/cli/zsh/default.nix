@@ -56,7 +56,7 @@ in
             initContent = lib.mkMerge (
               [
                 # mkBefore: Early initialization
-                (mkOrder 500 '''')
+                (mkOrder 500 "")
                 # Before completion initialization
                 (mkOrder 550 ''
                   autoload -U up-line-or-beginning-search

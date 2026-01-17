@@ -27,7 +27,7 @@
             searchEngines = import ./search.nix { inherit opts; };
             perDomainSettings = import ./domains.nix { inherit opts; };
             quickmarks = import ./quickmarks.nix { inherit opts; };
-            extraConfig = '''' + (opts.qutebrowser.extraConfig or "");
+            extraConfig = "" + (opts.qutebrowser.extraConfig or "");
           };
         };
         imports = [ ./userscripts ];
