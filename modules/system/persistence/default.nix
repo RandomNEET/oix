@@ -30,6 +30,7 @@
       ++ lib.optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
       ++ lib.optional config.virtualisation.docker.enable "/var/lib/docker"
       ++ lib.optional config.virtualisation.waydroid.enable "/var/lib/waydroid"
+      ++ lib.optional config.services.power-profiles-daemon.enable "/var/lib/power-profiles-daemon"
       ++ (opts.persistence."/nix/persist".directories or [ ])
     );
     files = (

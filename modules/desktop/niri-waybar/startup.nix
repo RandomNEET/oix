@@ -2,7 +2,6 @@
   osConfig,
   pkgs,
   opts,
-  powermodectl,
   randomwallctl,
   optionalString,
   getExe,
@@ -19,8 +18,7 @@
   spawn-sh-at-startup "rm $XDG_CACHE_HOME/cliphist/db"
   spawn-sh-at-startup "nm-applet --indicator"
   spawn-sh-at-startup "${randomwallctl} -r"
-  ${optionalString osConfig.services.power-profiles-daemon.enable ''spawn-sh-at-startup "${powermodectl} -r"''}
   ${optionalString (
-    (opts.terminal == "foot") && (opts.foot.server or false)
+    ((opts.terminal or "") == "foot") && (opts.foot.server or false)
   ) ''spawn-sh-at-startup "${getExe pkgs.foot} --server"''}
 ''

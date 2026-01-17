@@ -38,14 +38,6 @@
               ;
           }
         );
-        powermodectl = import ../shared/scripts/powermodectl.nix {
-          inherit
-            osConfig
-            lib
-            pkgs
-            opts
-            ;
-        };
         random-wall = getExe (import ../shared/scripts/random-wall.nix { inherit config pkgs opts; });
         randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
         clip-manager = getExe (
@@ -114,7 +106,6 @@
               osConfig
               pkgs
               opts
-              powermodectl
               randomwallctl
               optionalString
               getExe

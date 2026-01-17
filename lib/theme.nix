@@ -1,7 +1,7 @@
 { lib }:
 rec {
   theme = {
-    stripModifiers =
+    getBaseName =
       name:
       let
         modifiers = [
@@ -40,17 +40,17 @@ rec {
       in
       stripAll name;
 
-    getBaseName =
+    getBase16Scheme =
       scheme:
       let
         fullName = lib.removeSuffix ".yaml" (builtins.baseNameOf (builtins.toString scheme));
       in
-      theme.stripModifiers fullName;
+      theme.getBaseName fullName;
 
     getThemesArray =
       themesList:
       let
-        baseNames = map theme.stripModifiers themesList;
+        baseNames = map theme.getBaseName themesList;
         uniqueThemes = lib.unique baseNames;
       in
       lib.concatStringsSep " " (map (t: ''"${t}"'') uniqueThemes);

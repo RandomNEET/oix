@@ -8,7 +8,8 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  themeBaseName = if hasThemes then mylib.theme.getBaseName config.stylix.base16Scheme else "default";
+  themeBaseName =
+    if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
 in
 pkgs.writeShellScriptBin "clip-manager" ''
   THEME_BASE_NAME="${themeBaseName}"

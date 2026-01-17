@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
+{ pkgs, ... }:
 {
   security = {
     sudo = {

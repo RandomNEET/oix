@@ -19,19 +19,19 @@ in
       let
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
-        themeBaseName = if hasThemes then mylib.theme.getBaseName config.stylix.base16Scheme else "default";
+        themeBaseName =
+          if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
         wallpaperDir =
           if ((opts.wallpaper.dir or "") != "") then
             if hasThemes then "${opts.wallpaper.dir}/${themeBaseName}" else opts.wallpaper.dir
           else
             "${config.xdg.userDirs.pictures}/wallpapers";
         colors = config.lib.stylix.colors;
-
-        powermodectl = import ../../scripts/powermodectl.nix {
+        restore-wall-theme = import ./scripts/restore-wall-theme.nix {
           inherit
-            osConfig
-            lib
+            config
             pkgs
+            mylib
             opts
             ;
         };
@@ -173,7 +173,7 @@ in
               boxBorderEnabled = false;
             };
             location = {
-              name = "";
+              name = opts.noctalia.settings.location.name or "";
               weatherEnabled = true;
               useFahrenheit = false;
               weatherShowEffects = true;
@@ -556,7 +556,7 @@ in
               screenUnlock = "";
               performanceModeEnabled = "";
               performanceModeDisabled = "";
-              session = "${powermodectl} -s";
+              session = lib.mkIf hasThemes "${restore-wall-theme}";
             };
             desktopWidgets = opts.noctalia.settings.desktopWidgets or { };
           };

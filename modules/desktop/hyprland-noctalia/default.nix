@@ -34,14 +34,6 @@
               ;
           }
         );
-        powermodectl = import ../shared/scripts/powermodectl.nix {
-          inherit
-            osConfig
-            lib
-            pkgs
-            opts
-            ;
-        };
         autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
         keybinds = getExe (
           import ./scripts/keybinds.nix {
@@ -96,7 +88,6 @@
                   lib
                   pkgs
                   opts
-                  powermodectl
                   getExe
                   getExe'
                   ;

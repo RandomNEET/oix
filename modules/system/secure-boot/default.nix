@@ -2,7 +2,6 @@
   inputs,
   lib,
   pkgs,
-  opts,
   ...
 }:
 {
@@ -18,11 +17,11 @@
   # generated at installation time. So we force it to false
   # for now.
   boot = {
-    loader.systemd-boot.enable = lib.mkIf (opts.lanzaboote.enable or false) (lib.mkForce false);
+    loader.systemd-boot.enable = lib.mkForce false;
 
     lanzaboote = {
-      enable = opts.lanzaboote.enable or false;
-      pkiBundle = opts.lanzaboote.pkiBundle or "/var/lib/sbctl";
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
       autoGenerateKeys.enable = true;
       autoEnrollKeys = {
         enable = true;

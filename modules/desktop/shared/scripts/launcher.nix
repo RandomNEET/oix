@@ -12,7 +12,8 @@ let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
-  themeBaseName = if hasThemes then mylib.theme.getBaseName config.stylix.base16Scheme else "default";
+  themeBaseName =
+    if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
 
   wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
   transitionType = opts.wallpaper.launcher.transition.type or "center";
@@ -48,40 +49,38 @@ pkgs.writeShellScriptBin "launcher" ''
     exit 0
   fi
 
-  THEME_BASE_NAME="${themeBaseName}"
-
   case $1 in
   drun)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/drun.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/drun.rasi"
     r_override="entry{placeholder:'Search...';}listview{lines:9;}"
     rofi -show drun -theme-str "$r_override" -theme "$rofi_theme"
     ;;
   window)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/window.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/window.rasi"
     r_override="entry{placeholder:'Search Windows...';}listview{lines:12;}"
     rofi -show window -theme-str "$r_override" -theme "$rofi_theme"
     ;;
   file)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/file.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/file.rasi"
     r_override="entry{placeholder:'Search Files...';}listview{lines:8;}"
     rofi -show filebrowser -theme-str "$r_override" -theme "$rofi_theme"
     ;;
   game)
     r_override="entry{placeholder:'Search Games...';}listview{lines:15;}"
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/game.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/game.rasi"
     rofi -show games -modi games -theme "''${rofi_theme}" -theme-str "$r_override"
     ;;
   emoji)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/emoji.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/emoji.rasi"
     r_override="entry{placeholder:'Search Emojis...';}listview{lines:15;}"
     rofi -modi emoji -show emoji -theme "''${rofi_theme}" -theme-str "$r_override"
     ;;
   rbw)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/rbw.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/rbw.rasi"
     rofi-rbw --selector rofi --selector-args="-theme $rofi_theme"
     ;;
   tmux)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/tmux.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/tmux.rasi"
     r_override="entry{placeholder:'Search Tmux Sessions...';}listview{lines:15;}"
     sessions=$(tmux ls -F '#{session_name}: #{session_path} (#{session_windows} windows)' |
       rofi -dmenu -i -theme-str "$r_override" -theme "$rofi_theme" | cut -d: -f1)
@@ -91,15 +90,15 @@ pkgs.writeShellScriptBin "launcher" ''
     ;;
   wallpaper)
     WALLPAPER_DIR="${wallpaperDir}"
-    LANDSCAPE_DIR="$WALLPAPER_DIR/$THEME_BASE_NAME/landscape"
-    PORTRAIT_DIR="$WALLPAPER_DIR/$THEME_BASE_NAME/portrait"
+    LANDSCAPE_DIR="$WALLPAPER_DIR/${themeBaseName}/landscape"
+    PORTRAIT_DIR="$WALLPAPER_DIR/${themeBaseName}/portrait"
     DISPLAY_COUNT=${toString displayCount}
 
     if [ "$DISPLAY_COUNT" -eq 1 ]; then
       DISPLAY_OUTPUT="${singleDisplayOutput}"
       DISPLAY_ORIENTATION="${singleDisplayOrientation}"
     else
-      rofi_theme_display="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/wallpaper-display.rasi"
+      rofi_theme_display="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-display.rasi"
       r_override_display="entry{placeholder:'Select Display...';}listview{lines:$DISPLAY_COUNT;}"
 
       DISPLAY_CHOICE=$(rofi -dmenu \
@@ -144,11 +143,11 @@ pkgs.writeShellScriptBin "launcher" ''
     fi
 
     if [ "$DISPLAY_ORIENTATION" = "landscape" ]; then
-      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/wallpaper-landscape.rasi"
+      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-landscape.rasi"
       SEARCH_DIR="$LANDSCAPE_DIR"
       THUMB_SIZE="320x180"
     else
-      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/wallpaper-portrait.rasi"
+      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-portrait.rasi"
       SEARCH_DIR="$PORTRAIT_DIR"
       THUMB_SIZE="180x320"
     fi
@@ -219,7 +218,7 @@ pkgs.writeShellScriptBin "launcher" ''
     BASE_GEN="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
     SPEC_DIR="$BASE_GEN/specialisation"
     
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/theme.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/theme.rasi"
     r_override="entry{placeholder:'Select Theme...';}listview{lines:9;}"
     
     SELECTED=$( (ls "$SPEC_DIR" 2>/dev/null; echo "${defaultTheme}") | \
@@ -277,7 +276,7 @@ pkgs.writeShellScriptBin "launcher" ''
       OPTIONS="$OPTIONS\n$(ls "$SPEC_DIR")"
     fi
 
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/$THEME_BASE_NAME/specialisation.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/specialisation.rasi"
     r_override="entry{placeholder:'Select Specialisation...';}listview{lines:9;}"
     
     SELECTED=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")

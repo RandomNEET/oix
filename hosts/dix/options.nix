@@ -16,12 +16,6 @@ rec {
   boot = {
     kernelPackages = "linuxPackages_zen"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
   };
-
-  # Secure Boot
-  lanzaboote = {
-    enable = true;
-    pkiBundle = "/nix/persist/var/lib/sbctl";
-  };
   # }}}
 
   # Network {{{
@@ -255,6 +249,9 @@ rec {
             ];
           }
         ];
+      };
+      location = {
+        name = "Jiangxi";
       };
     };
   };

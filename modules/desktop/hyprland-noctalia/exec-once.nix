@@ -3,7 +3,6 @@
   lib,
   pkgs,
   opts,
-  powermodectl,
   getExe,
   getExe',
 
@@ -17,7 +16,6 @@
   "rm '$XDG_CACHE_HOME/cliphist/db'" # Clear clipboard
 ]
 ++ lib.optional (
-  (opts.terminal == "foot") && (opts.foot.server or false)
+  ((opts.terminal or "") == "foot") && (opts.foot.server or false)
 ) "${getExe pkgs.foot} --server"
-++ lib.optional osConfig.services.power-profiles-daemon.enable "${powermodectl} -r"
 ++ [ "hyprctl dispatch workspace 1" ]

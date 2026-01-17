@@ -1,6 +1,6 @@
 {
-  lib,
   pkgs,
+  mylib,
   opts,
   ...
 }:
@@ -14,7 +14,7 @@
         };
         enableBashIntegration = true;
         enableZshIntegration = true;
-        settings = import ./settings.nix { inherit lib opts; };
+        settings = import ./settings.nix { inherit mylib opts; };
         keymap = import ./keymap.nix { inherit opts; };
         theme = import ./theme.nix;
         initLua = builtins.readFile ./init.lua; # init.lua for yazi itself

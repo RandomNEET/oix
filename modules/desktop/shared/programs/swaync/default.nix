@@ -20,15 +20,8 @@ in
     (
       { osConfig, config, ... }:
       let
-        powermodectl = import ../../scripts/powermodectl.nix {
-          inherit
-            osConfig
-            lib
-            pkgs
-            opts
-            ;
-        };
         randomwallctl = import ../../scripts/randomwallctl.nix { inherit lib pkgs opts; };
+        tlpctl = import ./scripts/tlpctl.nix { inherit pkgs stateDir; };
       in
       {
         services.swaync = {
@@ -199,17 +192,11 @@ in
                     update-command = "sh -c 'nmcli radio wifi | grep -q enabled && echo true || echo false'";
                   }
                 ]
-                ++ lib.optional osConfig.services.power-profiles-daemon.enable {
-                  label = "";
-                  type = "toggle";
-                  command = "${powermodectl} -t";
-                  update-command = "${powermodectl} -s && grep -q \"^performance$\" \"$XDG_STATE_HOME/${stateDir}/power-mode\" && echo true || echo false";
-                }
                 ++ lib.optional osConfig.services.tlp.enable {
                   label = "";
                   type = "toggle";
-                  command = "${powermodectl} -t";
-                  update-command = "${powermodectl} -s && grep -q \"^manual$\" \"$XDG_STATE_HOME/${stateDir}/power-mode\" && echo true || echo false";
+                  command = "${tlpctl} -t";
+                  update-command = "${tlpctl} -s && grep -q \"^manual$\" \"$XDG_STATE_HOME/${stateDir}/power-mode\" && echo true || echo false";
                 }
                 ++ optionals (desktop == "hyprland-waybar") [
                   {

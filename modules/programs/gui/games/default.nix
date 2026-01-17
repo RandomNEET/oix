@@ -1,12 +1,13 @@
 {
   lib,
   pkgs,
+  mylib,
   opts,
   ...
 }:
 let
   display = opts.display or [ ];
-  primaryDisplay = lib.findFirst (d: d.orientation or "" == "landscape") { } display;
+  primaryDisplay = mylib.display.getPrimary display;
 in
 {
   programs = {
@@ -62,7 +63,10 @@ in
         [Desktop Entry]
         Name=Steam (Gamescope)
         Comment=Application for managing and playing games on Steam
-        Exec=gamescope -e -O ${primaryDisplay.output} -W ${toString primaryDisplay.width} -H ${toString primaryDisplay.height} --adaptive-sync -- steam -tenfoot -pipewire-dmabuf
+        Exec=gamescope -e ${
+          lib.optionalString (primaryDisplay ? output)
+            "-O ${primaryDisplay.output} -W ${toString primaryDisplay.width} -H ${toString primaryDisplay.height}"
+        } --adaptive-sync -- steam -tenfoot -pipewire-dmabuf
         Icon=steam
         Terminal=false
         Type=Application
