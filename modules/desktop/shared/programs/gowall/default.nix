@@ -28,6 +28,11 @@ in
             tesseract
           ];
           file = {
+            ".config/gowall/config.yml".text = ''
+              EnableImagePreviewing: false
+              OutputFolder: "${picDir}/gowall"
+              ${builtins.readFile ./themes.yml}
+            '';
             ".config/gowall/schema.yml".text = ''
               schemas:
                 - name: "tes"
@@ -35,10 +40,6 @@ in
                     ocr:
                       provider: "tesseract"
                       model: "tesseract"
-            '';
-            ".config/gowall/config.yml".text = ''
-              EnableImagePreviewing: false
-              OutputFolder: "${picDir}/gowall"
             '';
           };
         };

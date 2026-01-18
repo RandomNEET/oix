@@ -244,7 +244,7 @@ pkgs.writeShellScriptBin "launcher" ''
       if [ -f "$PALETTE_FILE" ]; then
         FULL_SLUG=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
         if [ -n "$FULL_SLUG" ]; then
-          MODIFIERS="dark|light|hard|soft|medium|dim|high|low|storm|moon|night|latte|frappe|macchiato|mocha|pro|soda|classic|reloaded|alt|alternate|pale|tints|256"
+          MODIFIERS="${mylib.theme.bashModifiers}"
           CLEANED_NAME="$FULL_SLUG"
           while [[ "$CLEANED_NAME" =~ -($MODIFIERS)$ ]]; do
             CLEANED_NAME=$(echo "$CLEANED_NAME" | sed -E "s/-($MODIFIERS)$//")

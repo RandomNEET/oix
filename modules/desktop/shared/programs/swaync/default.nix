@@ -21,7 +21,7 @@ in
       { osConfig, config, ... }:
       let
         randomwallctl = import ../../scripts/randomwallctl.nix { inherit lib pkgs opts; };
-        tlpctl = import ./scripts/tlpctl.nix { inherit pkgs stateDir; };
+        tlpctl = import ./scripts/tlpctl.nix { inherit osConfig pkgs stateDir; };
       in
       {
         services.swaync = {

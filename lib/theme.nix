@@ -1,36 +1,26 @@
 { lib }:
 rec {
   theme = {
+    modifiers = [
+      "dark"
+      "light"
+      "hard"
+      "soft"
+      "medium"
+      "latte"
+      "frappe"
+      "macchiato"
+      "mocha"
+      "storm"
+      "moon"
+    ];
+
+    bashModifiers = lib.concatStringsSep "|" theme.modifiers;
+
     getBaseName =
       name:
       let
-        modifiers = [
-          "dark"
-          "light"
-          "hard"
-          "soft"
-          "medium"
-          "dim"
-          "high"
-          "low"
-          "storm"
-          "moon"
-          "latte"
-          "frappe"
-          "macchiato"
-          "mocha"
-          "pro"
-          "soda"
-          "classic"
-          "reloaded"
-          "alt"
-          "alternate"
-          "pale"
-          "tints"
-          "mirage"
-          "256"
-        ];
-        stripOnce = n: lib.foldl' (acc: mod: lib.removeSuffix "-${mod}" acc) n modifiers;
+        stripOnce = n: lib.foldl' (acc: mod: lib.removeSuffix "-${mod}" acc) n theme.modifiers;
         stripAll =
           n:
           let

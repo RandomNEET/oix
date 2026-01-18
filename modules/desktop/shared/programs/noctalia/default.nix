@@ -21,6 +21,31 @@ in
         hasThemes = themes != [ ];
         themeBaseName =
           if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
+        matchedPredefinedScheme =
+          if hasThemes then
+            if themeBaseName == "ayu" then
+              "Ayu"
+            else if themeBaseName == "catppuccin" then
+              "Catppuccin"
+            else if themeBaseName == "dracula" then
+              "Dracula"
+            else if themeBaseName == "eldritch" then
+              "Eldritch"
+            else if themeBaseName == "gruvbox" then
+              "Gruvbox"
+            else if themeBaseName == "kanagawa" then
+              "Kanagawa"
+            else if themeBaseName == "nord" then
+              "Nord"
+            else if themeBaseName == "rose-pine" then
+              "Rose Pine"
+            else if themeBaseName == "tokyo-night" then
+              "Tokyo Night"
+            else
+              ""
+          else
+            "Noctalia (default)";
+
         wallpaperDir =
           if ((opts.wallpaper.dir or "") != "") then
             if hasThemes then "${opts.wallpaper.dir}/${themeBaseName}" else opts.wallpaper.dir
@@ -43,7 +68,6 @@ in
           enable = true;
           systemd.enable = true;
           settings = {
-            settingsVersion = 0;
             bar = {
               position = "top";
               monitors = opts.noctalia.settings.bar.monitors or [ ];
@@ -483,28 +507,7 @@ in
             };
             colorSchemes = {
               darkMode = true;
-              predefinedScheme = mkIf (hasThemes && opts.noctalia.predefinedScheme) (
-                if themeBaseName == "ayu" then
-                  "Ayu"
-                else if themeBaseName == "catppuccin" then
-                  "Catppuccin"
-                else if themeBaseName == "dracula" then
-                  "Dracula"
-                else if themeBaseName == "eldritch" then
-                  "Eldritch"
-                else if themeBaseName == "gruvbox" then
-                  "Gruvbox"
-                else if themeBaseName == "kanagawa" then
-                  "Kanagawa"
-                else if themeBaseName == "nord" then
-                  "Nord"
-                else if themeBaseName == "rose-pine" then
-                  "Rose Pine"
-                else if themeBaseName == "tokyo-night" then
-                  "Tokyo Night"
-                else
-                  "Noctalia (default)"
-              );
+              predefinedScheme = matchedPredefinedScheme;
               useWallpaperColors = false;
               schedulingMode = "off";
               manualSunrise = "06:30";
@@ -574,7 +577,6 @@ in
                 sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
               };
             };
-            # version = 1;
           };
           pluginSettings = {
             catwalk = {
@@ -582,7 +584,7 @@ in
               hideBackground = true;
             };
           };
-          colors = mkIf (hasThemes && (!opts.noctalia.predefinedScheme)) {
+          colors = mkIf (matchedPredefinedScheme == "") {
             mSurface = "#${colors.base00}";
             mSurfaceVariant = "#${colors.base01}";
             mHover = "#${colors.base02}";

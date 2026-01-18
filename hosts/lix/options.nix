@@ -63,6 +63,7 @@ rec {
     "gruvbox-dark-hard"
     "kanagawa"
     "nord"
+    "tokyo-night-dark"
   ];
 
   # Use first display as primary display
