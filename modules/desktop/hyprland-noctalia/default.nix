@@ -34,6 +34,16 @@
               ;
           }
         );
+        clip-manager = getExe (
+          import ../shared/scripts/clip-manager.nix {
+            inherit
+              config
+              pkgs
+              mylib
+              opts
+              ;
+          }
+        );
         autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
         keybinds = getExe (
           import ./scripts/keybinds.nix {
@@ -60,6 +70,7 @@
                 pkgs
                 opts
                 launcher
+                clip-manager
                 autoclicker
                 keybinds
                 screenshot
@@ -144,7 +155,6 @@
           brightnessctl
           wl-clipboard
           wlrctl
-          xdg-terminal-exec
           yad
         ];
       }

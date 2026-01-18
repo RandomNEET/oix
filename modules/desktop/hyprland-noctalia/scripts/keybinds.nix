@@ -43,12 +43,12 @@ let
     {
       key = "SUPER SPACE";
       desc = "Launch application menu";
-      cmd = "noctalia launcher toggle";
+      cmd = "scripts/launcher drun";
     }
     {
       key = "SUPER V";
       desc = "Clipboard manager";
-      cmd = "noctalia launcher clipboard";
+      cmd = "scripts/clip-manager";
     }
     {
       key = "SUPER CTRL T";

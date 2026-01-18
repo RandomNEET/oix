@@ -5,6 +5,7 @@
   pkgs,
   opts,
   launcher,
+  clip-manager,
   autoclicker,
   keybinds,
   screenshot,
@@ -60,12 +61,8 @@
     "$mainMod, E, exec, $editor"
     "$mainMod, B, exec, $browser"
 
-    "$mainMod, SPACE, exec, noctalia-shell ipc call launcher toggle" # launch desktop applications
-    "$mainMod, V, exec, noctalia-shell ipc call launcher clipboard" # Clipboard Manager
-    "$mainMod SHIFT, A, exec, noctalia-shell ipc call controlCenter toggle" # control center
-    "$mainMod SHIFT, Q, exec, noctalia-shell ipc call notifications toggleHistory" # notification history
-    "$mainMod CTRL, W, exec, noctalia-shell ipc call wallpaper toggle" # launch wallpaper selector
-    "$mainMod SHIFT, W, exec, noctalia-shell ipc call wallpaper random" # random wallpaper
+    "$mainMod, SPACE, exec, ${launcher} drun" # launch desktop applications
+    "$mainMod, V, exec, ${clip-manager}" # Clipboard Manager
     "$mainMod CTRL, T, exec, ${launcher} theme" # launch theme switcher
     "$mainMod ALT, S, exec, ${launcher} spec" # launch specialisation  switcher
   ]
@@ -76,6 +73,11 @@
     "$mainMod CTRL, G, exec, ${gamemode}" # disable hypr effects for gamemode
   ]
   ++ [
+    "$mainMod SHIFT, A, exec, noctalia-shell ipc call controlCenter toggle" # control center
+    "$mainMod SHIFT, Q, exec, noctalia-shell ipc call notifications toggleHistory" # notification history
+    "$mainMod CTRL, W, exec, noctalia-shell ipc call wallpaper toggle" # launch wallpaper selector
+    "$mainMod SHIFT, W, exec, noctalia-shell ipc call wallpaper random" # random wallpaper
+
     "$mainMod, F10, exec, $terminal -e ${getExe pkgs.btop}" # System Monitor
     "$mainMod, F11, exec, pkill hyprpicker || hyprpicker --autocopy --format=hex" # Colour Picker
     "$mainMod, F12, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
