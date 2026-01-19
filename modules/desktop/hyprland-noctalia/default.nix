@@ -34,16 +34,7 @@
               ;
           }
         );
-        clip-manager = getExe (
-          import ../shared/scripts/clip-manager.nix {
-            inherit
-              config
-              pkgs
-              mylib
-              opts
-              ;
-          }
-        );
+        clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
         autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
         keybinds = getExe (
           import ./scripts/keybinds.nix {

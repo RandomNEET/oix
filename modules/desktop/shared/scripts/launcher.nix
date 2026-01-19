@@ -12,8 +12,7 @@ let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
-  themeBaseName =
-    if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
+  themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
 
   wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
   transitionType = opts.wallpaper.launcher.transition.type or "center";
@@ -51,36 +50,36 @@ pkgs.writeShellScriptBin "launcher" ''
 
   case $1 in
   drun)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/drun.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/drun.rasi"
     r_override="entry{placeholder:'Search...';}listview{lines:9;}"
     rofi -show drun -theme-str "$r_override" -theme "$rofi_theme"
     ;;
   window)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/window.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/window.rasi"
     r_override="entry{placeholder:'Search Windows...';}listview{lines:12;}"
     rofi -show window -theme-str "$r_override" -theme "$rofi_theme"
     ;;
   file)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/file.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/file.rasi"
     r_override="entry{placeholder:'Search Files...';}listview{lines:8;}"
     rofi -show filebrowser -theme-str "$r_override" -theme "$rofi_theme"
     ;;
   game)
     r_override="entry{placeholder:'Search Games...';}listview{lines:15;}"
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/game.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/game.rasi"
     rofi -show games -modi games -theme "''${rofi_theme}" -theme-str "$r_override"
     ;;
   emoji)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/emoji.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/emoji.rasi"
     r_override="entry{placeholder:'Search Emojis...';}listview{lines:15;}"
     rofi -modi emoji -show emoji -theme "''${rofi_theme}" -theme-str "$r_override"
     ;;
   rbw)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/rbw.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/rbw.rasi"
     rofi-rbw --selector rofi --selector-args="-theme $rofi_theme"
     ;;
   tmux)
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/tmux.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/tmux.rasi"
     r_override="entry{placeholder:'Search Tmux Sessions...';}listview{lines:15;}"
     sessions=$(tmux ls -F '#{session_name}: #{session_path} (#{session_windows} windows)' |
       rofi -dmenu -i -theme-str "$r_override" -theme "$rofi_theme" | cut -d: -f1)
@@ -90,15 +89,15 @@ pkgs.writeShellScriptBin "launcher" ''
     ;;
   wallpaper)
     WALLPAPER_DIR="${wallpaperDir}"
-    LANDSCAPE_DIR="$WALLPAPER_DIR/${themeBaseName}/landscape"
-    PORTRAIT_DIR="$WALLPAPER_DIR/${themeBaseName}/portrait"
+    LANDSCAPE_DIR="$WALLPAPER_DIR/${themeName}/landscape"
+    PORTRAIT_DIR="$WALLPAPER_DIR/${themeName}/portrait"
     DISPLAY_COUNT=${toString displayCount}
 
     if [ "$DISPLAY_COUNT" -eq 1 ]; then
       DISPLAY_OUTPUT="${singleDisplayOutput}"
       DISPLAY_ORIENTATION="${singleDisplayOrientation}"
     else
-      rofi_theme_display="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-display.rasi"
+      rofi_theme_display="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/wallpaper-display.rasi"
       r_override_display="entry{placeholder:'Select Display...';}listview{lines:$DISPLAY_COUNT;}"
 
       DISPLAY_CHOICE=$(rofi -dmenu \
@@ -143,11 +142,11 @@ pkgs.writeShellScriptBin "launcher" ''
     fi
 
     if [ "$DISPLAY_ORIENTATION" = "landscape" ]; then
-      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-landscape.rasi"
+      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/wallpaper-landscape.rasi"
       SEARCH_DIR="$LANDSCAPE_DIR"
       THUMB_SIZE="320x180"
     else
-      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/wallpaper-portrait.rasi"
+      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/wallpaper-portrait.rasi"
       SEARCH_DIR="$PORTRAIT_DIR"
       THUMB_SIZE="180x320"
     fi
@@ -218,7 +217,7 @@ pkgs.writeShellScriptBin "launcher" ''
     BASE_GEN="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
     SPEC_DIR="$BASE_GEN/specialisation"
     
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/theme.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/theme.rasi"
     r_override="entry{placeholder:'Select Theme...';}listview{lines:9;}"
     
     SELECTED=$( (ls "$SPEC_DIR" 2>/dev/null; echo "${defaultTheme}") | \
@@ -239,27 +238,18 @@ pkgs.writeShellScriptBin "launcher" ''
     ${optionalString (lib.strings.hasInfix "waybar" desktop) "systemctl --user restart waybar"}
     systemctl --user restart fcitx5-daemon
     ${optionalString (lib.strings.hasInfix "noctalia" desktop) ''
-      THEME_BASE_NAME="${defaultTheme}"
       PALETTE_FILE="$XDG_CONFIG_HOME/stylix/palette.json"
       if [ -f "$PALETTE_FILE" ]; then
-        FULL_SLUG=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
-        if [ -n "$FULL_SLUG" ]; then
-          MODIFIERS="${mylib.theme.bashModifiers}"
-          CLEANED_NAME="$FULL_SLUG"
-          while [[ "$CLEANED_NAME" =~ -($MODIFIERS)$ ]]; do
-            CLEANED_NAME=$(echo "$CLEANED_NAME" | sed -E "s/-($MODIFIERS)$//")
-          done
-          THEME_BASE_NAME="$CLEANED_NAME"
-        fi
+        THEME_NAME=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
       fi
-      THEME_BASE_NAME=''${THEME_BASE_NAME:-"${defaultTheme}"}
+      THEME_NAME=''${THEME_NAME:-"${defaultTheme}"}
 
       WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
       if [ ! -f "$WALLPAPER_CONF" ]; then
         echo "Error: $WALLPAPER_CONF not found."
         exit 1
       fi
-      NEW_JSON=$(${pkgs.jq}/bin/jq --arg theme "$THEME_BASE_NAME" '
+      NEW_JSON=$(${pkgs.jq}/bin/jq --arg theme "$THEME_NAME" '
         .wallpapers |= map_values(
           gsub("${wallpaperDir}/[^/]+/"; "${wallpaperDir}/" + $theme + "/")
         )
@@ -276,7 +266,7 @@ pkgs.writeShellScriptBin "launcher" ''
       OPTIONS="$OPTIONS\n$(ls "$SPEC_DIR")"
     fi
 
-    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/${themeBaseName}/specialisation.rasi"
+    rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/specialisation.rasi"
     r_override="entry{placeholder:'Select Specialisation...';}listview{lines:9;}"
     
     SELECTED=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "Theme" -theme-str "$r_override" -theme "$rofi_theme")

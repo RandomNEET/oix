@@ -140,8 +140,8 @@ element normal.active {
     text-color:                  @active;
 }
 element selected.normal {
-    background-color:            @background-alt;
-    text-color:                  @foreground;
+    background-color:            @selected;
+    text-color:                  @background;
 }
 element selected.urgent {
     background-color:            @urgent;

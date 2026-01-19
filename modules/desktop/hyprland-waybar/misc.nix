@@ -112,5 +112,5 @@
 
   xwayland.force_zero_scaling = true;
 
-  monitor = opts.hyprland.monitor or [ ];
+  monitor = opts.hyprland.settings.monitor or [ ];
 }

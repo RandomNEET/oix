@@ -1,15 +1,13 @@
 {
   config,
   pkgs,
-  mylib,
   opts,
   ...
 }:
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  defaultTheme = builtins.head opts.themes;
-  themeBaseName = if hasThemes then mylib.theme.getBaseName defaultTheme else "default";
+  defaultTheme = if hasThemes then builtins.head opts.themes else "default";
   wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
 in
 pkgs.writeShellScript "restore-wall-theme" ''
@@ -18,7 +16,7 @@ pkgs.writeShellScript "restore-wall-theme" ''
     echo "Error: $WALLPAPER_CONF not found."
     exit 1
   fi
-  NEW_JSON=$(${pkgs.jq}/bin/jq --arg theme "${themeBaseName}" '
+  NEW_JSON=$(${pkgs.jq}/bin/jq --arg theme "${defaultTheme}" '
     .wallpapers |= map_values(
       gsub("${wallpaperDir}/[^/]+/"; "${wallpaperDir}/" + $theme + "/")
     )

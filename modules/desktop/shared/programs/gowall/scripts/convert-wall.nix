@@ -10,8 +10,8 @@ let
 
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  # Available: arcdark atomdark cat-frappe cat-latte catppuccin cyberpunk dracula everforest github-light gruvbox kanagawa material melange-dark melange-light monokai night-owl nord oceanic-next onedark palenight rose-pine shades-of-purple solarized srcery sunset-aurant sunset-saffron sunset-tangerine synthwave-84 tokyo-dark tokyo-moon tokyo-storm
-  # Custom: tokyo-night
+  # List : arcdark atomdark cat-frappe cat-latte catppuccin cyberpunk dracula everforest github-light gruvbox kanagawa material melange-dark melange-light monokai night-owl nord oceanic-next onedark palenight rose-pine shades-of-purple solarized srcery sunset-aurant sunset-saffron sunset-tangerine synthwave-84 tokyo-dark tokyo-moon tokyo-storm
+  # Custom: catppuccin-mocha gruvbox-dark-hard  tokyo-night-dark
   themesArray = mylib.theme.getThemesArray themes;
 in
 if hasThemes then

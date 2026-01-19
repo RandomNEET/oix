@@ -19,27 +19,26 @@ in
       let
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
-        themeBaseName =
-          if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
+        themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
         matchedPredefinedScheme =
           if hasThemes then
-            if themeBaseName == "ayu" then
+            if themeName == "ayu" then
               "Ayu"
-            else if themeBaseName == "catppuccin" then
+            else if themeName == "catppuccin-mocha" then
               "Catppuccin"
-            else if themeBaseName == "dracula" then
+            else if themeName == "dracula" then
               "Dracula"
-            else if themeBaseName == "eldritch" then
+            else if themeName == "eldritch" then
               "Eldritch"
-            else if themeBaseName == "gruvbox" then
+            else if themeName == "gruvbox-dark-hard" then
               "Gruvbox"
-            else if themeBaseName == "kanagawa" then
+            else if themeName == "kanagawa" then
               "Kanagawa"
-            else if themeBaseName == "nord" then
+            else if themeName == "nord" then
               "Nord"
-            else if themeBaseName == "rose-pine" then
+            else if themeName == "rose-pine" then
               "Rose Pine"
-            else if themeBaseName == "tokyo-night" then
+            else if themeName == "tokyo-night-dark" then
               "Tokyo Night"
             else
               ""
@@ -48,18 +47,11 @@ in
 
         wallpaperDir =
           if ((opts.wallpaper.dir or "") != "") then
-            if hasThemes then "${opts.wallpaper.dir}/${themeBaseName}" else opts.wallpaper.dir
+            if hasThemes then "${opts.wallpaper.dir}/${themeName}" else opts.wallpaper.dir
           else
             "${config.xdg.userDirs.pictures}/wallpapers";
         colors = config.lib.stylix.colors;
-        restore-wall-theme = import ./scripts/restore-wall-theme.nix {
-          inherit
-            config
-            pkgs
-            mylib
-            opts
-            ;
-        };
+        restore-wall-theme = import ./scripts/restore-wall-theme.nix { inherit config pkgs opts; };
       in
       {
         imports = [ inputs.noctalia.homeModules.default ];

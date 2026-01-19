@@ -1,6 +1,7 @@
 {
   inputs,
   lib,
+  mylib,
   opts,
   ...
 }:
@@ -12,7 +13,7 @@
         spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
-        themeName = lib.removeSuffix ".yaml" (builtins.baseNameOf config.stylix.base16Scheme);
+        themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
         theme = "text";
         matchedTextColorScheme =
           if themeName == "catppuccin-mocha" then

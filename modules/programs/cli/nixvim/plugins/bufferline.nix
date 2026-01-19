@@ -199,12 +199,12 @@ in
 
         # --- Indicators ---
         BufferLineIndicatorVisible = {
-          fg = "#${colors.base01}"; # 隐藏或变暗
+          fg = "#${colors.base01}";
           bg = "#${colors.base01}";
         };
         BufferLineIndicatorSelected = {
-          fg = "#${colors.base09}"; # 图片中的垂直橙色条
-          bg = "#${colors.base00}"; # 确保背景与选中标签一致
+          fg = "#${colors.base09}";
+          bg = "#${colors.base00}";
         };
 
         # --- Separators ---
@@ -382,6 +382,12 @@ in
           bg = "#${colors.base01}";
         };
 
+        # --- TruncMarker ---
+        BufferLineTruncMarker = {
+          fg = "#${colors.base03}";
+          bg = "#${colors.base01}";
+        };
+
         # --- Diagnostics ---
         BufferLineError = {
           fg = "#${colors.base08}";
@@ -482,16 +488,4 @@ in
         };
       };
     };
-  #   highlightOverride = lib.mkIf hasThemes {
-  #     BufferLineNumbersSelected = {
-  #       bg = "none";
-  #     };
-  #     BufferLineMiniIconsAzureSelected = {
-  #       bg = "none";
-  #     };
-  #     BufferLineMiniIconsGreySelected = {
-  #       bg = "none";
-  #     };
-  #   };
-  # };
 }

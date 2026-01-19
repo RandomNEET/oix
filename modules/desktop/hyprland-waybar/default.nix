@@ -39,10 +39,8 @@
               ;
           }
         );
-        random-wall = getExe (import ../shared/scripts/random-wall.nix { inherit config pkgs opts; });
-        randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
-        clip-manager = getExe (
-          import ../shared/scripts/clip-manager.nix {
+        random-wall = getExe (
+          import ../shared/scripts/random-wall.nix {
             inherit
               config
               pkgs
@@ -51,6 +49,8 @@
               ;
           }
         );
+        randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
+        clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
         autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
         keybinds = getExe (
           import ./scripts/keybinds.nix {
@@ -103,6 +103,7 @@
               env = import ./env.nix { inherit lib osConfig; };
               exec-once = import ./exec-once.nix {
                 inherit
+                  osConfig
                   lib
                   pkgs
                   opts
