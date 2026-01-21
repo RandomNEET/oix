@@ -38,7 +38,16 @@
               ;
           }
         );
-        random-wall = getExe (import ../shared/scripts/random-wall.nix { inherit config pkgs opts; });
+        random-wall = getExe (
+          import ../shared/scripts/random-wall.nix {
+            inherit
+              config
+              pkgs
+              mylib
+              opts
+              ;
+          }
+        );
         randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
         clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
         autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
