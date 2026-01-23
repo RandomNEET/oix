@@ -3,6 +3,12 @@
   programs.nixvim = lib.mkIf config.programs.yazi.enable {
     plugins.yazi = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = "Yazi";
+        };
+      };
       settings = {
         enable_mouse_support = true;
         open_for_directories = true;

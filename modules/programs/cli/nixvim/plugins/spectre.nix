@@ -2,6 +2,17 @@
   programs.nixvim = {
     plugins.spectre = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = "Spectre";
+          keys = [
+            "<leader>S"
+            "<leader>sw"
+            "<leader>sp"
+          ];
+        };
+      };
       settings = {
         default = {
           find = {

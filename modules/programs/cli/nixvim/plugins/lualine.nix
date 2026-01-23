@@ -3,6 +3,12 @@
     plugins = {
       lualine = {
         enable = true;
+        lazyLoad = {
+          enable = true;
+          settings = {
+            event = "DeferredUIEnter";
+          };
+        };
         settings = {
           iconsEnabled = true;
           theme = "auto";
@@ -15,6 +21,8 @@
               statusline = [
                 "snacks_dashboard"
                 "snacks_picker_list"
+                "snacks_picker_input"
+                "snacks_picker_preview"
               ];
             };
             component_separators.left = "";

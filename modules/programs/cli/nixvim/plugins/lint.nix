@@ -1,8 +1,23 @@
-{ lib, opts, ... }:
 {
-  programs.nixvim = lib.mkIf (opts.nixvim.lint.enable or true) {
+  programs.nixvim = {
     plugins.lint = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = [
+            "BufReadPost"
+            "BufWritePost"
+          ];
+          keys = [
+            {
+              __unkeyed-1 = "<leader>lt";
+              __unkeyed-2.__raw = "function() require('lint').try_lint() end";
+              desc = "Trigger linting";
+            }
+          ];
+        };
+      };
       lintersByFt = {
         c = [ "clangtidy" ];
         cpp = [ "clangtidy" ];
@@ -24,28 +39,27 @@
       linters = { };
     };
     extraConfigLua = ''
-      -- Linting function
-      local lint = require("lint")
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
       vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-      	group = lint_augroup,
-      	callback = function()
-      		lint.try_lint()
-      	end,
+        group = lint_augroup,
+        callback = function()
+          local status, lint = pcall(require, "lint")
+          if status and lint then
+            lint.try_lint()
+          end
+        end,
       })
 
-      local lint_progress = function()
-      	local linters = require("lint").get_running()
-      	if #linters == 0 then
-      		return "󰦕"
-      	end
-      	return "󱉶 " .. table.concat(linters, ", ")
+      _G.lint_progress = function()
+        local status, lint = pcall(require, "lint")
+        if not status or not lint then return "" end
+        
+        local ok, linters = pcall(lint.get_running)
+        if not ok then return "󰦕" end
+        
+        return #linters == 0 and "󰦕" or ("󱉶 " .. table.concat(linters, ", "))
       end
-
-      vim.keymap.set("n", "<leader>lt", function()
-      	lint.try_lint()
-      end, { desc = "Trigger linting for current file" })
     '';
   };
 }

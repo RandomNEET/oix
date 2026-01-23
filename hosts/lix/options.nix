@@ -87,7 +87,7 @@ rec {
     #
     # Example:
     #  wallpapers
-    # ├──  catppuccin
+    # ├──  catppuccin-mocha
     # │   ├──  landscape
     # │   │   └──  pic.jpg
     # │   └──  portrait

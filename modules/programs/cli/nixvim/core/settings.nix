@@ -14,6 +14,7 @@ in
   programs.nixvim = {
     opts = {
       # UI
+      fillchars = "eob: ";
       number = true;
       relativenumber = true;
       termguicolors = true;

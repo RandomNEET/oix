@@ -2,6 +2,15 @@
   programs.nixvim = {
     plugins.lsp = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = [
+            "BufReadPost"
+            "BufNewFile"
+          ];
+        };
+      };
       servers = {
         bashls.enable = true;
         clangd.enable = true;

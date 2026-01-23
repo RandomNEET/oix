@@ -2,6 +2,12 @@
   programs.nixvim = {
     plugins.csvview = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          ft = "csv";
+        };
+      };
       settings = {
         parser = {
           async_chunksize = 50;

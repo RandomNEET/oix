@@ -12,6 +12,7 @@
     ./lint.nix
     ./lsp.nix
     ./lualine.nix
+    ./lz-n.nix
     ./markdown-preview.nix
     ./mini-pairs.nix
     ./mini.nix

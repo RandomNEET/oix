@@ -3,6 +3,12 @@
   programs.nixvim = lib.mkIf config.programs.lazygit.enable {
     plugins.lazygit = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = "LazyGit";
+        };
+      };
     };
     keymaps = [
       {

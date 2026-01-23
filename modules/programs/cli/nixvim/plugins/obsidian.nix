@@ -1,29 +1,33 @@
 { config, lib, ... }:
 {
   programs.nixvim = lib.mkIf config.programs.obsidian.enable {
-    plugins = {
-      obsidian = {
+    plugins.obsidian = {
+      enable = true;
+      lazyLoad = {
         enable = true;
         settings = {
-          completion = {
-            min_chars = 2;
-            blink = true;
-          };
-          new_notes_location = "current_dir";
-          workspaces =
-            let
-              vaults = config.programs.obsidian.vaults;
-              enabledVaults = lib.filterAttrs (name: value: value.enable or true) vaults;
-            in
-            lib.mapAttrsToList (name: value: {
-              inherit name;
-              path = "~/${value.target}";
-            }) enabledVaults;
-          picker = {
-            name = "snacks.pick";
-          };
-          legacy_commands = false;
+          cmd = "Obsidian";
         };
+      };
+      settings = {
+        completion = {
+          min_chars = 2;
+          blink = true;
+        };
+        new_notes_location = "current_dir";
+        workspaces =
+          let
+            vaults = config.programs.obsidian.vaults;
+            enabledVaults = lib.filterAttrs (name: value: value.enable or true) vaults;
+          in
+          lib.mapAttrsToList (name: value: {
+            inherit name;
+            path = "~/${value.target}";
+          }) enabledVaults;
+        picker = {
+          name = "snacks.pick";
+        };
+        legacy_commands = false;
       };
     };
     keymaps = [

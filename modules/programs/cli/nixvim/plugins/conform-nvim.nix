@@ -2,6 +2,13 @@
   programs.nixvim = {
     plugins.conform-nvim = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = "ConformInfo";
+          event = "BufWritePre";
+        };
+      };
       settings = {
         formatters_by_ft = {
           c = [ "astyle" ];

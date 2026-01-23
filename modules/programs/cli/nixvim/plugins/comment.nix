@@ -2,6 +2,15 @@
   programs.nixvim = {
     plugins.comment = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          keys = [
+            "gc"
+            "gb"
+          ];
+        };
+      };
       settings = {
         padding = true;
         sticky = true;

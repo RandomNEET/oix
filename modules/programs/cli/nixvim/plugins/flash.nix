@@ -2,69 +2,54 @@
   programs.nixvim = {
     plugins.flash = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          keys = [
+            {
+              __unkeyed-1 = "s";
+              __unkeyed-2.__raw = "function() require('flash').jump() end";
+              mode = [
+                "n"
+                "x"
+                "o"
+              ];
+              desc = "Flash";
+            }
+            {
+              __unkeyed-1 = "S";
+              __unkeyed-2.__raw = "function() require('flash').treesitter() end";
+              mode = [
+                "n"
+                "x"
+                "o"
+              ];
+              desc = "Flash Treesitter";
+            }
+            {
+              __unkeyed-1 = "r";
+              __unkeyed-2.__raw = "function() require('flash').remote() end";
+              mode = "o";
+              desc = "Remote Flash";
+            }
+            {
+              __unkeyed-1 = "R";
+              __unkeyed-2.__raw = "function() require('flash').treesitter_search() end";
+              mode = [
+                "o"
+                "x"
+              ];
+              desc = "Treesitter Search";
+            }
+            {
+              __unkeyed-1 = "<A-s>";
+              __unkeyed-2.__raw = "function() require('flash').toggle() end";
+              mode = "c";
+              desc = "Toggle Flash Search";
+            }
+          ];
+        };
+      };
     };
-    keymaps = [
-      {
-        mode = [
-          "n"
-          "x"
-          "o"
-        ];
-        action = "<cmd>lua require('flash').jump()<cr>";
-        key = "s";
-        options = {
-          desc = "Flash";
-          silent = true;
-          noremap = true;
-        };
-      }
-      {
-        mode = [
-          "n"
-          "x"
-          "o"
-        ];
-        action = "<cmd>lua require('flash').treesitter()<cr>";
-        key = "S";
-        options = {
-          desc = "Flash Treesitter";
-          silent = true;
-          noremap = true;
-        };
-      }
-      {
-        mode = [ "o" ];
-        action = "<cmd>lua require('flash').remote()<cr>";
-        key = "r";
-        options = {
-          desc = "Remote Flash";
-          silent = true;
-          noremap = true;
-        };
-      }
-      {
-        mode = [
-          "o"
-          "x"
-        ];
-        action = "<cmd>lua require('flash').treesitter_search()<cr>";
-        key = "R";
-        options = {
-          desc = "Treesitter Search";
-          silent = true;
-          noremap = true;
-        };
-      }
-      {
-        mode = [ "c" ];
-        action = "<cmd>lua require('flash').toggle()<cr>";
-        key = "<A-s>";
-        options = {
-          desc = "Toggle Flash Search";
-          silent = true;
-          noremap = true;
-        };
-      }
-    ];
   };
 }
