@@ -97,6 +97,8 @@ pkgs.writeText "firejail-firefox-common-profile" ''
   #dbus-user.talk org.freedesktop.Notifications
   # Add the next line to firefox-common.local to allow inhibiting screensavers.
   #dbus-user.talk org.freedesktop.ScreenSaver
+  # Add the next line to firefox-common.local to allow media playback control through mpris.
+  #dbus-user.own org.mpris.MediaPlayer2.firefox.*
   # Add the next lines to firefox-common.local for plasma browser integration.
   #dbus-user.own org.mpris.MediaPlayer2.plasma-browser-integration
   #dbus-user.talk org.kde.JobViewServer

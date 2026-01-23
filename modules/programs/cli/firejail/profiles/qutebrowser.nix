@@ -21,6 +21,15 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   noblacklist ''${HOME}/repo
   whitelist ''${HOME}/repo
 
+  # Uncomment the following lines if you want to use qute-pass.
+  # Note that using this will leave zombie processes in the sandbox when you
+  # close qutebrowser.
+  # Defaults for gpg and pass, respectively.
+  #noblacklist ''${HOME}/.gnupg
+  #noblacklist ''${HOME}/.password-store
+  #whitelist ''${HOME}/.gnupg
+  #whitelist ''${HOME}/.password-store
+
   noblacklist ''${HOME}/.cache/qutebrowser
   noblacklist ''${HOME}/.config/qutebrowser
   noblacklist ''${HOME}/.local/share/qutebrowser
@@ -51,6 +60,7 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   whitelist ''${HOME}/.config/qutebrowser
   whitelist ''${HOME}/.local/share/qutebrowser
   whitelist ''${RUNUSER}/qutebrowser
+  whitelist /usr/share/pdf.js
   whitelist /usr/share/qutebrowser
   whitelist /run/current-system/sw/bin/cat # for wl-clipboard in vim
   include whitelist-common.inc

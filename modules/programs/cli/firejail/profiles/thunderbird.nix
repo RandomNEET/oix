@@ -13,7 +13,11 @@ pkgs.writeText "firejail-thunderbird-profile" ''
   # Persistent global definitions
   include ${global}
 
+  # Ignore wruc from firefox-common.profile:
   ignore include whitelist-runuser-common.inc
+  ignore whitelist ''${RUNUSER}/app/org.keepassxc.KeePassXC
+  ignore whitelist ''${RUNUSER}/kpxc_server
+  ignore whitelist ''${RUNUSER}/org.keepassxc.KeePassXC.BrowserServer
 
   # TB stopped supporting enigmail in 2020 (v78) - let's harden D-Bus
   # https://support.mozilla.org/en-US/kb/openpgp-thunderbird-howto-and-faq
