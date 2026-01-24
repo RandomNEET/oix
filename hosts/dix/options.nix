@@ -206,48 +206,57 @@ rec {
         avatarImage = "${xdg.userDirs.pictures}/avatars/weeb.jpg";
       };
       bar = {
-        monitors = [ "DP-1" ];
-      };
-      desktopWidgets = {
-        enabled = true;
-        gridSnap = true;
-        monitorWidgets = [
+        monitors = [
+          "DP-1"
+          "HDMI-A-1"
+        ];
+        widgets = {
+          left = [
+            {
+              id = "Workspace";
+            }
+            {
+              id = "ActiveWindow";
+              maxWidth = 200;
+              showIcon = true;
+            }
+            {
+              id = "MediaMini";
+              maxWidth = 200;
+              scrollingMode = "always";
+              showArtistFirst = false;
+              showVisualizer = true;
+            }
+          ];
+        };
+        screenOverrides = [
           {
-            name = "DP-1";
-            widgets = [ ];
-          }
-          {
+            density = "default";
+            enabled = true;
             name = "HDMI-A-1";
-            widgets = [
-              {
-                lockStyle = "digital";
-                format = "HH:mm\\nd MMMM yyyy";
-                id = "Clock";
-                showBackground = false;
-                useCustomFont = false;
-                usePrimaryColor = false;
-                x = 20;
-                y = 20;
-              }
-              {
-                hideMode = "visible";
-                id = "MediaPlayer";
-                roundedCorners = true;
-                showAlbumArt = true;
-                showBackground = false;
-                showButtons = true;
-                showVisualizer = true;
-                visualizerType = "linear";
-                x = 500;
-                y = 20;
-              }
-              {
-                id = "Weather";
-                showBackground = false;
-                x = 1160;
-                y = 20;
-              }
-            ];
+            position = "top";
+            widgets = {
+              center = [
+                {
+                  id = "Clock";
+                  formatHorizontal = "ddd MMM d HH:mm";
+                  formatVertical = "MM dd - HH mm";
+                  tooltipFormat = "yyyy-MM-dd HH:mm:ss";
+                }
+              ];
+              left = [
+                {
+                  id = "Workspace";
+                  showApplications = false;
+                }
+              ];
+              right = [
+                {
+                  id = "AudioVisualizer";
+                  hideWhenIdle = true;
+                }
+              ];
+            };
           }
         ];
       };
