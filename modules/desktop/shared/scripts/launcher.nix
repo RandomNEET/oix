@@ -235,8 +235,6 @@ pkgs.writeShellScriptBin "launcher" ''
       "$SPEC_DIR/$SELECTED/activate"
     fi
 
-    ${optionalString (lib.strings.hasInfix "waybar" desktop) "systemctl --user restart waybar"}
-    systemctl --user restart fcitx5-daemon
     ${optionalString (lib.strings.hasInfix "noctalia" desktop) ''
       PALETTE_FILE="$XDG_CONFIG_HOME/stylix/palette.json"
       if [ -f "$PALETTE_FILE" ]; then
@@ -255,6 +253,12 @@ pkgs.writeShellScriptBin "launcher" ''
         )
       ' "$WALLPAPER_CONF")
       echo "$NEW_JSON" > "$WALLPAPER_CONF"
+
+      systemctl --user restart fcitx5-daemon
+    ''}
+    ${optionalString (lib.strings.hasInfix "waybar" desktop) ''
+      systemctl --user restart waybar
+      systemctl --user restart fcitx5-daemon
     ''}
     ;;
   spec)

@@ -8,9 +8,6 @@
   ...
 }:
 ''
-  spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=gnome"
-  spawn-sh-at-startup "systemctl --user stop xdg-desktop-portal.service"
-  spawn-sh-at-startup "systemctl --user start xdg-desktop-portal.service"
   spawn-sh-at-startup "systemctl --user restart lxqt-policykit-agent.service"
   spawn-sh-at-startup "wl-clipboard-history -t"
   spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
