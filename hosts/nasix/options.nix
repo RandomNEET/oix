@@ -11,14 +11,6 @@ rec {
   consoleKeymap = "us";
   # }}}
 
-  # Nix {{{
-  nixpkgs = {
-    config = {
-      cudaSupport = false;
-    };
-  };
-  # }}}
-
   # Boot {{{
   boot = {
     kernelPackages = "linuxPackages"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
