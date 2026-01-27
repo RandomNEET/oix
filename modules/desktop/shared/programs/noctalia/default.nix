@@ -317,27 +317,6 @@ in
             };
             desktopWidgets = opts.noctalia.settings.desktopWidgets or { };
           };
-          plugins = {
-            sources = [
-              {
-                enabled = true;
-                name = "Official Noctalia Plugins";
-                url = "https://github.com/noctalia-dev/noctalia-plugins";
-              }
-            ];
-            states = {
-              catwalk = {
-                enabled = true;
-                sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-              };
-            };
-          };
-          pluginSettings = {
-            catwalk = {
-              minimumThreshold = 25;
-              hideBackground = true;
-            };
-          };
           colors = mkIf (matchedPredefinedScheme == "") {
             mSurface = "#${colors.base00}";
             mSurfaceVariant = "#${colors.base01}";
