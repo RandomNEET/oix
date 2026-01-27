@@ -1,8 +1,6 @@
 {
   imports = [
     ../../modules/system/core
-    ../../modules/system/fonts
-    ../../modules/system/garbage-collect
     ../../modules/system/gpu
     ../../modules/system/persistence
     ../../modules/system/secure-boot
@@ -15,13 +13,12 @@
     ../../modules/services/kmonad
     ../../modules/services/mbsync
     ../../modules/services/mpd
+    ../../modules/services/nix-cleanup
     ../../modules/services/pipewire
     ../../modules/services/proxy
     ../../modules/services/snapper
     ../../modules/services/ssh
     ../../modules/services/tlp
-
-    ../../modules/programs/accounts
 
     ../../modules/programs/cli/aerc
     ../../modules/programs/cli/bash
@@ -70,6 +67,9 @@
     ../../modules/programs/gui/swayimg
     ../../modules/programs/gui/vscode
     ../../modules/programs/gui/zathura
+
+    ../../modules/misc/accounts
+    ../../modules/misc/fonts
 
     ../../modules/scripts
 

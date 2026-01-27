@@ -12,12 +12,12 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   # Persistent global definitions
   include ${global}
 
-  # Allow to launch terminal
+  # Edited: allow to launch terminal
   noblacklist ''${PATH}/foot
   noblacklist ''${PATH}/footclient
   noblacklist ''${PATH}/kitty
 
-  # Allow custom directory
+  # Edited: allow custom directory
   noblacklist ''${HOME}/repo
   whitelist ''${HOME}/repo
 
@@ -84,8 +84,8 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   disable-mnt
   private-cache
   private-dev
-  private-etc @tls-ca,egl # added egl for hardware acceleration
-  #private-tmp # for other programs to open html
+  private-etc @tls-ca,egl # Edited: added egl for hardware acceleration
+  #private-tmp # Edited: for other programs to open html
 
   dbus-user filter
   # qutebrowser-qt6 uses a newer chrome version which uses the name 'chromium'
@@ -94,7 +94,7 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   dbus-user.own org.mpris.MediaPlayer2.qutebrowser.*
   dbus-user.talk org.freedesktop.Notifications
 
-  # Added for userscripts/ime-off
+  # Edited: added for userscripts/ime-off
   ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") "dbus-user.talk org.fcitx.Fcitx5"}
 
   # Add the next line to allow screen sharing under wayland.

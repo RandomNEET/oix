@@ -13,7 +13,7 @@ pkgs.writeText "firejail-firefox-profile" ''
   # Persistent global definitions
   include ${global}
 
-  # Allow custom directory
+  # Edited: allow custom directory
   noblacklist ''${HOME}/repo
   whitelist ''${HOME}/repo
 

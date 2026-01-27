@@ -1,7 +1,6 @@
 {
   imports = [
     ../../modules/system/core
-    ../../modules/system/garbage-collect
     ../../modules/system/gpu
     ../../modules/system/virtualisation
 
@@ -14,6 +13,7 @@
     ../../modules/services/homepage-dashboard
     ../../modules/services/jellyfin
     ../../modules/services/mpd
+    ../../modules/services/nix-cleanup
     ../../modules/services/proxy
     ../../modules/services/qbittorrent
     ../../modules/services/samba

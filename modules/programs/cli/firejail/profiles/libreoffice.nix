@@ -33,7 +33,7 @@ pkgs.writeText "firejail-libreoffice-profile" ''
   # Allow java (blacklisted by disable-devel.inc)
   include allow-java.inc
 
-  # Added for themes
+  # Edited: added for themes
   noblacklist ''${HOME}/.config/dconf
   noblacklist ''${HOME}/.config/gtk-3.0
   noblacklist ''${HOME}/.config/gtk-4.0
@@ -77,7 +77,7 @@ pkgs.writeText "firejail-libreoffice-profile" ''
   #private-bin libreoffice,sh,uname,dirname,grep,sed,basename,ls
   private-cache
   private-dev
-  private-etc @tls-ca,@x11,cups,gnupg,libreoffice,papersize,ssh,profiles/per-user/${username}/share/themes # added profiles
+  private-etc @tls-ca,@x11,cups,gnupg,libreoffice,papersize,ssh,profiles/per-user/${username}/share/themes # Edited: added profiles
   private-tmp
 
   # Added for themes

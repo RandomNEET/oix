@@ -20,9 +20,14 @@ pkgs.writeText "firejail-newsboat-profile" ''
   noblacklist ''${HOME}/.newsbeuter
   noblacklist ''${HOME}/.newsboat
   noblacklist ''${HOME}/.w3m
+
+  # Edited: allow access browser
   noblacklist ''${RUNUSER}/qutebrowser
   noblacklist ''${RUNUSER}/*firefox*
   noblacklist ''${RUNUSER}/psd/*firefox*
+  whitelist ''${RUNUSER}/qutebrowser
+  whitelist ''${RUNUSER}/*firefox*
+  whitelist ''${RUNUSER}/psd/*firefox*
 
   include disable-common.inc
   include disable-devel.inc
@@ -41,9 +46,6 @@ pkgs.writeText "firejail-newsboat-profile" ''
   whitelist ''${HOME}/.newsbeuter
   whitelist ''${HOME}/.newsboat
   whitelist ''${HOME}/.w3m
-  whitelist ''${RUNUSER}/qutebrowser
-  whitelist ''${RUNUSER}/*firefox*
-  whitelist ''${RUNUSER}/psd/*firefox*
   include whitelist-common.inc
   include whitelist-runuser-common.inc
   include whitelist-var-common.inc
@@ -60,14 +62,14 @@ pkgs.writeText "firejail-newsboat-profile" ''
   notv
   nou2f
   novideo
-  protocol unix,inet,inet6 # added unix to open in browser
+  protocol unix,inet,inet6 # Edited: added unix to open in browser
   seccomp
 
   disable-mnt
   private-bin gzip,lynx,newsboat,sh,w3m
   private-cache
   private-dev
-  private-etc @tls-ca,lynx.cfg,lynx.lss,terminfo,profiles/per-user/${username}/bin/qutebrowser,profiles/per-user/${username}/bin/firefox # added profiles
+  private-etc @tls-ca,lynx.cfg,lynx.lss,terminfo,profiles/per-user/${username}/bin/qutebrowser,profiles/per-user/${username}/bin/firefox # Edited: added profiles
   private-tmp
 
   dbus-user none
