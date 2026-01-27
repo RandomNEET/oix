@@ -109,7 +109,7 @@ pkgs.writeText "firejail-mpv-profile" ''
   #private-cache
   private-dev
 
-  dbus-user none
+  dbus-user filter # changed from none to filter; unable to launch when set to none
   dbus-system none
 
   restrict-namespaces
