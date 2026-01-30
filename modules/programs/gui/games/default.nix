@@ -41,13 +41,14 @@ in
       enable = true;
       enable32Bit = true;
     };
-    # Xbox one controllor support
-    xpadneo.enable = true;
-    xone.enable = true;
   };
 
-  # Dualsense edge support
-  services.udev.packages = with pkgs; [ game-devices-udev-rules ];
+  # Controllor support
+  hardware = {
+    xone.enable = true;
+    xpadneo.enable = true;
+  }; # xbox one
+  services.udev.packages = with pkgs; [ game-devices-udev-rules ]; # dualsense edge
 
   environment.systemPackages =
     with pkgs;

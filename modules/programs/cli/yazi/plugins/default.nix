@@ -24,7 +24,7 @@ in
       recycle-bin = pkgs.yaziPlugins.recycle-bin;
       git = pkgs.yaziPlugins.git;
       diff = pkgs.yaziPlugins.diff;
-      # yatline = pkgs.yaziPlugins.yatline;
+      yatline = pkgs.yaziPlugins.yatline;
       full-border = pkgs.yaziPlugins.full-border;
       toggle-pane = pkgs.yaziPlugins.toggle-pane;
     }
