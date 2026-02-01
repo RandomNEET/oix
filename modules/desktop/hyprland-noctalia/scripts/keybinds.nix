@@ -411,7 +411,7 @@ let
     {
       key = "XF86AudioMicMute";
       desc = "Mute input";
-      cmd = "noctalia volume muteIutput";
+      cmd = "noctalia volume muteInput";
     }
     {
       key = "XF86MonBrightnessDown";

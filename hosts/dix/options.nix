@@ -134,7 +134,7 @@ rec {
       ];
       bind = [
         "$mainMod, F1, exec, noctalia-shell ipc call volume muteOutput"
-        "$mainMod, F4, exec, noctalia-shell ipc call volume muteIutput"
+        "$mainMod, F4, exec, noctalia-shell ipc call volume muteInput"
         "$mainMod, F7, exec, noctalia-shell ipc call media previous"
         "$mainMod, F8, exec, noctalia-shell ipc call media playPause"
         "$mainMod, F9, exec, noctalia-shell ipc call media next"
@@ -169,7 +169,7 @@ rec {
       {
         key = "SUPER F4";
         desc = "Mute input";
-        cmd = "noctalia volume muteIutput";
+        cmd = "noctalia volume muteInput";
       }
       {
         key = "SUPER F5";

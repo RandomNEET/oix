@@ -91,7 +91,7 @@
 
     # Functional keybinds
     ",XF86AudioMute, exec, noctalia-shell ipc call volume muteOutput" # mute output
-    ",XF86AudioMicMute, exec, noctalia-shell ipc call volume muteIutput" # mute input
+    ",XF86AudioMicMute, exec, noctalia-shell ipc call volume muteInput" # mute input
     ",XF86AudioPlay, exec, noctalia-shell ipc call media play" # play media
     ",XF86AudioPause, exec, playerctl noctalia-shell ipc call media pause" # pause media
     ",xf86AudioNext, exec, noctalia-shell ipc call media next" # go to next media
