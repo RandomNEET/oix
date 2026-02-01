@@ -26,6 +26,7 @@
     ./spectre.nix
     ./tmux-navigator.nix
     ./treesitter.nix
+    ./ts-context-commentstring.nix
     ./visual-multi.nix
     ./which-key.nix
     ./yanky.nix

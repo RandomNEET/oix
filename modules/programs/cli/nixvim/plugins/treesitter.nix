@@ -10,18 +10,22 @@
       nixGrammars = true;
       grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
         bash
+        css
         diff
-        python
-        regex
         gitcommit
         gitignore
         html
+        javascript
+        json
+        lua
         markdown
         markdown_inline
         nix
-        json
-        lua
+        python
+        regex
         toml
+        typescript
+        vue
         yaml
       ];
       settings = {
