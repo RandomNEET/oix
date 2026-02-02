@@ -8,7 +8,7 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  colors = config.lib.stylix.colors;
+  colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
 in
 {
@@ -29,12 +29,12 @@ in
         if hasThemes then
           ''
             * {
-                background:     #${colors.base00}CC;
-                background-alt: #${colors.base01}CC;
-                foreground:     #${colors.base05}FF;
-                selected:       #${primaryColor}FF;
-                active:         #${colors.base0B}FF;
-                urgent:         #${colors.base0F}FF;
+                background:     ${colors.base00}CC;
+                background-alt: ${colors.base01}CC;
+                foreground:     ${colors.base05}FF;
+                selected:       ${primaryColor}FF;
+                active:         ${colors.base0B}FF;
+                urgent:         ${colors.base0F}FF;
             }
           ''
         else

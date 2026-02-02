@@ -7,7 +7,7 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  colors = config.lib.stylix.colors;
+  colors = config.lib.stylix.colors.withHashtag;
 in
 {
   programs.nixvim = {
@@ -50,15 +50,15 @@ in
     };
     highlightOverride = lib.mkIf hasThemes {
       NoiceCmdlineIcon = {
-        fg = "#${colors.base0C}";
+        fg = colors.base0C;
         bg = "none";
       };
       NoiceCmdlineIconSearch = {
-        fg = "#${colors.base0E}";
+        fg = colors.base0E;
         bg = "none";
       };
       NoiceCmdlinePopupBorderSearch = {
-        fg = "#${colors.base0E}";
+        fg = colors.base0E;
         bg = "none";
       };
     };

@@ -7,7 +7,7 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  colors = config.lib.stylix.colors;
+  colors = config.lib.stylix.colors.withHashtag;
 in
 {
   programs.waybar = lib.mkIf hasThemes {
@@ -32,35 +32,35 @@ in
       }
 
       tooltip {
-        background: #${colors.base00};
+        background: ${colors.base00};
         border-radius: 8px;
       }
 
       tooltip label {
-        color: #${colors.base05};
+        color: ${colors.base05};
         margin-right: 5px;
         margin-left: 5px;
       }
 
       .modules-left {
-        background: #${colors.base00};
-        border: 1px solid #${colors.base0D};
+        background: ${colors.base00};
+        border: 1px solid ${colors.base0D};
         padding-right: 15px;
         padding-left: 2px;
         border-radius: 10px;
       }
 
       .modules-center {
-        background: #${colors.base00};
-        border: 1px solid #${colors.base04};
+        background: ${colors.base00};
+        border: 1px solid ${colors.base04};
         padding-right: 5px;
         padding-left: 5px;
         border-radius: 10px;
       }
 
       .modules-right {
-        background: #${colors.base00};
-        border: 1px solid #${colors.base0D};
+        background: ${colors.base00};
+        border: 1px solid ${colors.base0D};
         padding-right: 15px;
         padding-left: 15px;
         border-radius: 10px;
@@ -100,60 +100,60 @@ in
 
       @keyframes blink {
         to {
-          color: #${colors.base02};
+          color: ${colors.base02};
         }
       }
 
       #window {
-        color: #${colors.base05};
+        color: ${colors.base05};
       }
 
       #light,
       #backlight {
-        color: #${colors.base06};
+        color: ${colors.base06};
       }
 
       #audio
       #pulseaudio {
-        color: #${colors.base07};
+        color: ${colors.base07};
       }
 
       #pulseaudio.muted,
       #temperature.critical {
-        background-color: #${colors.base08};
+        background-color: ${colors.base08};
       }
 
       #clock,
       #cpu {
-        color: #${colors.base0A};
+        color: ${colors.base0A};
       }
 
       #battery,
       #memory {
-        color: #${colors.base0B};
+        color: ${colors.base0B};
       }
 
       #disk,
       #temperature {
-        color: #${colors.base0C};
+        color: ${colors.base0C};
       }
 
       #bluetooth,
       #idle_inhibitor,
       #language,
       #network {
-        color: #${colors.base0D};
+        color: ${colors.base0D};
       }
 
       #cava,
       #mpris,
       #pulseaudio.bluetooth {
-        color: #${colors.base0E};
+        color: ${colors.base0E};
       }
 
       #keyboard-state,
       #custom-gpuinfo {
-        color:  #${colors.base0F};
+        color:  ${colors.base0F};
       }
 
       #workspaces button {
@@ -161,7 +161,7 @@ in
         text-shadow: none;
         padding: 0px;
         border-radius: 9px;
-        background-color: #${colors.base01};
+        background-color: ${colors.base01};
         padding-left: 4px;
         padding-right: 4px;
         transition: all 0.5s cubic-bezier(0.55, -0.68, 0.48, 1.682);
@@ -169,15 +169,15 @@ in
 
       #workspaces button:hover {
         border-radius: 10px;
-        color: #${colors.base03};
-        background-color: #${colors.base02};
+        color: ${colors.base03};
+        background-color: ${colors.base02};
         padding-left: 2px;
         padding-right: 2px;
         transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
       }
 
       #workspaces button.active {
-        color: #${colors.base09};
+        color: ${colors.base09};
         border-radius: 10px;
         padding-left: 8px;
         padding-right: 8px;
@@ -185,13 +185,13 @@ in
       }
 
       #workspaces button.urgent {
-        color: #${colors.base08};
+        color: ${colors.base08};
         border-radius: 0px;
       }
 
       #battery.critical:not(.charging) {
-        background-color: #${colors.base08};
-        color: #${colors.base05};
+        background-color: ${colors.base08};
+        color: ${colors.base05};
         animation-name: blink;
         animation-duration: 0.5s;
         animation-timing-function: linear;
@@ -222,8 +222,8 @@ in
 
       #network.disconnected,
       #network.disabled {
-        background-color: #${colors.base02};
-        color: #${colors.base05};
+        background-color: ${colors.base02};
+        color: ${colors.base05};
       }
 
       #pulseaudio-slider slider {
@@ -239,13 +239,13 @@ in
         min-width: 80px;
         min-height: 5px;
         border-radius: 5px;
-        background-color: #${colors.base02};
+        background-color: ${colors.base02};
       }
 
       #pulseaudio-slider highlight {
         min-height: 10px;
         border-radius: 5px;
-        background-color: #${colors.base0E};
+        background-color: ${colors.base0E};
       }
 
       #backlight-slider slider {
@@ -261,17 +261,17 @@ in
         min-width: 80px;
         min-height: 10px;
         border-radius: 5px;
-        background-color: #${colors.base02};
+        background-color: ${colors.base02};
       }
 
       #backlight-slider highlight {
         min-width: 10px;
         border-radius: 5px;
-        background-color: #${colors.base0A};
+        background-color: ${colors.base0A};
       }
 
       #custom-notification {
-        color: #${colors.base06};
+        color: ${colors.base06};
         padding: 0px 5px;
         border-radius: 5px;
       }

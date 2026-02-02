@@ -8,7 +8,7 @@ let
   terminal = opts.terminal or "";
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  colors = config.lib.stylix.colors;
+  colors = config.lib.stylix.colors.withHashtag;
 in
 {
   programs.nixvim = {
@@ -263,18 +263,18 @@ in
     ];
     highlightOverride = lib.mkIf hasThemes {
       SnacksPicker = {
-        fg = "#${colors.base05}";
+        fg = colors.base05;
         bg = "none";
       };
       SnacksPickerBorder = {
-        fg = "#${colors.base05}";
+        fg = colors.base05;
         bg = "none";
       };
       SnacksIndent = {
-        fg = "#${colors.base02}";
+        fg = colors.base02;
       };
       SnacksIndentScope = {
-        fg = "#${colors.base0C}";
+        fg = colors.base0C;
       };
     };
   };

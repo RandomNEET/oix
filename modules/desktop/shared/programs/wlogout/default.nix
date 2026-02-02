@@ -68,7 +68,7 @@ in
             window {
               font-family: monospace;
               font-size: 14pt;
-              color: #${colors.base05}; 
+              color: ${colors.withHashtag.base05}; 
               background-color: rgba(${colors.base00-rgb-r}, ${colors.base00-rgb-g}, ${colors.base00-rgb-b}, 0.5);
             }
 
@@ -87,8 +87,8 @@ in
             }
 
             button:focus {
-              background-color: #${colors.base0E};
-              color: #${colors.base00};
+              background-color: ${colors.withHashtag.base0E};
+              color: ${colors.withHashtag.base00};
             }
 
             #lock { background-image: image(url("icons/lock.png")); }

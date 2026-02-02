@@ -6,7 +6,7 @@
       let
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
-        colors = config.lib.stylix.colors;
+        colors = config.lib.stylix.colors.withHashtag;
       in
       {
         programs.swayimg = {
@@ -23,7 +23,7 @@
               antialiasing = "mks13";
             }
             // lib.optionalAttrs hasThemes {
-              window = "#${colors.base00}80";
+              window = "${colors.base00}80";
             };
             font = {
               name = "JetBrainsMono Nerd Font";
@@ -31,9 +31,9 @@
             }
             // lib.optionalAttrs hasThemes {
               name = config.stylix.fonts.monospace.name;
-              color = "#${colors.base05}ff";
-              shadow = "#${colors.base00}d0";
-              background = "#${colors.base00}00";
+              color = "${colors.base05}ff";
+              shadow = "${colors.base00}d0";
+              background = "${colors.base00}00";
             };
             "info.viewer" = {
               top_left = "+name,+format,+filesize,+imagesize,+exif";

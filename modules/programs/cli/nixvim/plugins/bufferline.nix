@@ -7,7 +7,7 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  colors = config.lib.stylix.colors;
+  colors = config.lib.stylix.colors.withHashtag;
 in
 {
   programs.nixvim =
@@ -150,350 +150,350 @@ in
       highlightOverride = lib.mkIf hasThemes {
         # --- Buffers ---
         BufferLineBackground = {
-          bg = "#${colors.base01}";
+          bg = colors.base01;
         };
         BufferLineBufferVisible = {
-          fg = "#${colors.base03}";
-          bg = "#${colors.base01}";
+          fg = colors.base03;
+          bg = colors.base01;
         };
         BufferLineBufferSelected = {
-          fg = "#${colors.base05}";
-          bg = "#${colors.base00}";
+          fg = colors.base05;
+          bg = colors.base00;
           bold = true;
           italic = false;
         };
 
         # --- Duplicate ---
         BufferLineDuplicateSelected = {
-          fg = "#${colors.base05}";
-          bg = "#${colors.base00}";
+          fg = colors.base05;
+          bg = colors.base00;
           bold = true;
           italic = false;
         };
         BufferLineDuplicateVisible = {
-          fg = "#${colors.base03}";
-          bg = "#${colors.base01}";
+          fg = colors.base03;
+          bg = colors.base01;
           bold = true;
           italic = false;
         };
         BufferLineDuplicate = {
-          fg = "#${colors.base03}";
-          bg = "#${colors.base01}";
+          fg = colors.base03;
+          bg = colors.base01;
           bold = true;
           italic = false;
         };
 
         # --- Tabs ---
         BufferLineTab = {
-          fg = "#${colors.base03}";
-          bg = "#${colors.base01}";
+          fg = colors.base03;
+          bg = colors.base01;
         };
         BufferLineTabSelected = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base00}";
+          fg = colors.base0D;
+          bg = colors.base00;
           bold = true;
         };
         BufferLineTabSeparator = {
-          fg = "#${colors.base01}";
-          bg = "#${colors.base01}";
+          fg = colors.base01;
+          bg = colors.base01;
         };
         BufferLineTabSeparatorSelected = {
-          fg = "#${colors.base01}";
-          bg = "#${colors.base00}";
+          fg = colors.base01;
+          bg = colors.base00;
         };
         BufferLineTabClose = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base01}";
+          fg = colors.base08;
+          bg = colors.base01;
         };
 
         # --- Indicators ---
         BufferLineIndicatorVisible = {
-          fg = "#${colors.base01}";
-          bg = "#${colors.base01}";
+          fg = colors.base01;
+          bg = colors.base01;
         };
         BufferLineIndicatorSelected = {
-          fg = "#${colors.base09}";
-          bg = "#${colors.base00}";
+          fg = colors.base09;
+          bg = colors.base00;
         };
 
         # --- Separators ---
         BufferLineSeparator = {
-          fg = "#${colors.base01}";
-          bg = "#${colors.base01}";
+          fg = colors.base01;
+          bg = colors.base01;
         };
         BufferLineSeparatorVisible = {
-          fg = "#${colors.base01}";
-          bg = "#${colors.base01}";
+          fg = colors.base01;
+          bg = colors.base01;
         };
         BufferLineSeparatorSelected = {
-          fg = "#${colors.base01}";
-          bg = "#${colors.base00}";
+          fg = colors.base01;
+          bg = colors.base00;
         };
         BufferLineOffsetSeparator = {
-          fg = "#${colors.base01}";
-          bg = "#${colors.base00}";
+          fg = colors.base01;
+          bg = colors.base00;
         };
 
         # --- Close Buttons ---
         BufferLineCloseButton = {
-          fg = "#${colors.base03}";
-          bg = "#${colors.base01}";
+          fg = colors.base03;
+          bg = colors.base01;
         };
         BufferLineCloseButtonVisible = {
-          fg = "#${colors.base03}";
-          bg = "#${colors.base01}";
+          fg = colors.base03;
+          bg = colors.base01;
         };
         BufferLineCloseButtonSelected = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base00}";
+          fg = colors.base08;
+          bg = colors.base00;
         };
 
         # --- Fill ---
         BufferLineFill = {
-          bg = "#${colors.base01}";
+          bg = colors.base01;
         };
 
         # --- Numbers ---
         BufferLineNumbers = {
-          fg = "#${colors.base04}";
-          bg = "#${colors.base01}";
+          fg = colors.base04;
+          bg = colors.base01;
         };
         BufferLineNumbersVisible = {
-          fg = "#${colors.base04}";
-          bg = "#${colors.base01}";
+          fg = colors.base04;
+          bg = colors.base01;
         };
         BufferLineNumbersSelected = {
-          fg = "#${colors.base04}";
-          bg = "#${colors.base00}";
+          fg = colors.base04;
+          bg = colors.base00;
           bold = true;
           italic = false;
         };
 
         # --- Icons  ---
         BufferLineMiniIconsAzure = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base01}";
+          fg = colors.base0D;
+          bg = colors.base01;
         };
         BufferLineMiniIconsAzureSelected = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base00}";
+          fg = colors.base0D;
+          bg = colors.base00;
         };
         BufferLineMiniIconsAzureInactive = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base01}";
+          fg = colors.base0D;
+          bg = colors.base01;
         };
         BufferLineMiniIconsBlue = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base01}";
+          fg = colors.base0D;
+          bg = colors.base01;
         };
         BufferLineMiniIconsBlueSelected = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base00}";
+          fg = colors.base0D;
+          bg = colors.base00;
         };
         BufferLineMiniIconsBlueInactive = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base01}";
+          fg = colors.base0D;
+          bg = colors.base01;
         };
         BufferLineMiniIconsCyan = {
-          fg = "#${colors.base0C}";
-          bg = "#${colors.base01}";
+          fg = colors.base0C;
+          bg = colors.base01;
         };
         BufferLineMiniIconsCyanSelected = {
-          fg = "#${colors.base0C}";
-          bg = "#${colors.base00}";
+          fg = colors.base0C;
+          bg = colors.base00;
         };
         BufferLineMiniIconsCyanInactive = {
-          fg = "#${colors.base0C}";
-          bg = "#${colors.base01}";
+          fg = colors.base0C;
+          bg = colors.base01;
         };
         BufferLineMiniIconsGreen = {
-          fg = "#${colors.base0B}";
-          bg = "#${colors.base01}";
+          fg = colors.base0B;
+          bg = colors.base01;
         };
         BufferLineMiniIconsGreenSelected = {
-          fg = "#${colors.base0B}";
-          bg = "#${colors.base00}";
+          fg = colors.base0B;
+          bg = colors.base00;
         };
         BufferLineMiniIconsGreenInactive = {
-          fg = "#${colors.base0B}";
-          bg = "#${colors.base01}";
+          fg = colors.base0B;
+          bg = colors.base01;
         };
         BufferLineMiniIconsGrey = {
-          fg = "#${colors.base04}";
-          bg = "#${colors.base01}";
+          fg = colors.base04;
+          bg = colors.base01;
         };
         BufferLineMiniIconsGreySelected = {
-          fg = "#${colors.base04}";
-          bg = "#${colors.base00}";
+          fg = colors.base04;
+          bg = colors.base00;
         };
         BufferLineMiniIconsGreyInactive = {
-          fg = "#${colors.base04}";
-          bg = "#${colors.base01}";
+          fg = colors.base04;
+          bg = colors.base01;
         };
         BufferLineMiniIconsOrange = {
-          fg = "#${colors.base09}";
-          bg = "#${colors.base01}";
+          fg = colors.base09;
+          bg = colors.base01;
         };
         BufferLineMiniIconsOrangeSelected = {
-          fg = "#${colors.base09}";
-          bg = "#${colors.base00}";
+          fg = colors.base09;
+          bg = colors.base00;
         };
         BufferLineMiniIconsOrangeInactive = {
-          fg = "#${colors.base09}";
-          bg = "#${colors.base01}";
+          fg = colors.base09;
+          bg = colors.base01;
         };
         BufferLineMiniIconsPurple = {
-          fg = "#${colors.base0E}";
-          bg = "#${colors.base01}";
+          fg = colors.base0E;
+          bg = colors.base01;
         };
         BufferLineMiniIconsPurpleSelected = {
-          fg = "#${colors.base0E}";
-          bg = "#${colors.base00}";
+          fg = colors.base0E;
+          bg = colors.base00;
         };
         BufferLineMiniIconsPurpleInactive = {
-          fg = "#${colors.base0E}";
-          bg = "#${colors.base01}";
+          fg = colors.base0E;
+          bg = colors.base01;
         };
         BufferLineMiniIconsRed = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base01}";
+          fg = colors.base08;
+          bg = colors.base01;
         };
         BufferLineMiniIconsRedSelected = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base00}";
+          fg = colors.base08;
+          bg = colors.base00;
         };
         BufferLineMiniIconsRedInactive = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base01}";
+          fg = colors.base08;
+          bg = colors.base01;
         };
         BufferLineMiniIconsWhite = {
-          fg = "#${colors.base05}";
-          bg = "#${colors.base01}";
+          fg = colors.base05;
+          bg = colors.base01;
         };
         BufferLineMiniIconsWhiteSelected = {
-          fg = "#${colors.base05}";
-          bg = "#${colors.base00}";
+          fg = colors.base05;
+          bg = colors.base00;
         };
         BufferLineMiniIconsWhiteInactive = {
-          fg = "#${colors.base05}";
-          bg = "#${colors.base01}";
+          fg = colors.base05;
+          bg = colors.base01;
         };
         BufferLineMiniIconsYellow = {
-          fg = "#${colors.base0A}";
-          bg = "#${colors.base01}";
+          fg = colors.base0A;
+          bg = colors.base01;
         };
         BufferLineMiniIconsYellowSelected = {
-          fg = "#${colors.base0A}";
-          bg = "#${colors.base00}";
+          fg = colors.base0A;
+          bg = colors.base00;
         };
         BufferLineMiniIconsYellowInactive = {
-          fg = "#${colors.base0A}";
-          bg = "#${colors.base01}";
+          fg = colors.base0A;
+          bg = colors.base01;
         };
 
         # --- TruncMarker ---
         BufferLineTruncMarker = {
-          fg = "#${colors.base03}";
-          bg = "#${colors.base01}";
+          fg = colors.base03;
+          bg = colors.base01;
         };
 
         # --- Diagnostics ---
         BufferLineError = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base01}";
+          fg = colors.base08;
+          bg = colors.base01;
         };
         BufferLineErrorVisible = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base01}";
+          fg = colors.base08;
+          bg = colors.base01;
         };
         BufferLineErrorSelected = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base00}";
+          fg = colors.base08;
+          bg = colors.base00;
           bold = true;
           italic = false;
         };
         BufferLineErrorDiagnostic = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base01}";
+          fg = colors.base08;
+          bg = colors.base01;
         };
         BufferLineErrorDiagnosticVisible = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base01}";
+          fg = colors.base08;
+          bg = colors.base01;
         };
         BufferLineErrorDiagnosticSelected = {
-          fg = "#${colors.base08}";
-          bg = "#${colors.base00}";
+          fg = colors.base08;
+          bg = colors.base00;
         };
 
         BufferLineWarning = {
-          fg = "#${colors.base0A}";
-          bg = "#${colors.base01}";
+          fg = colors.base0A;
+          bg = colors.base01;
         };
         BufferLineWarningVisible = {
-          fg = "#${colors.base0A}";
-          bg = "#${colors.base01}";
+          fg = colors.base0A;
+          bg = colors.base01;
         };
         BufferLineWarningSelected = {
-          fg = "#${colors.base0A}";
-          bg = "#${colors.base00}";
+          fg = colors.base0A;
+          bg = colors.base00;
           bold = true;
           italic = false;
         };
         BufferLineWarningDiagnostic = {
-          fg = "#${colors.base0A}";
-          bg = "#${colors.base01}";
+          fg = colors.base0A;
+          bg = colors.base01;
         };
         BufferLineWarningDiagnosticVisible = {
-          fg = "#${colors.base0A}";
-          bg = "#${colors.base01}";
+          fg = colors.base0A;
+          bg = colors.base01;
         };
         BufferLineWarningDiagnosticSelected = {
-          fg = "#${colors.base0A}";
-          bg = "#${colors.base00}";
+          fg = colors.base0A;
+          bg = colors.base00;
         };
 
         BufferLineInfo = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base01}";
+          fg = colors.base0D;
+          bg = colors.base01;
         };
         BufferLineInfoVisible = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base01}";
+          fg = colors.base0D;
+          bg = colors.base01;
         };
         BufferLineInfoSelected = {
-          fg = "#${colors.base0D}";
-          bg = "#${colors.base00}";
+          fg = colors.base0D;
+          bg = colors.base00;
           bold = true;
           italic = false;
         };
 
         BufferLineHint = {
-          fg = "#${colors.base0C}";
-          bg = "#${colors.base01}";
+          fg = colors.base0C;
+          bg = colors.base01;
         };
         BufferLineHintVisible = {
-          fg = "#${colors.base0C}";
-          bg = "#${colors.base01}";
+          fg = colors.base0C;
+          bg = colors.base01;
         };
         BufferLineHintSelected = {
-          fg = "#${colors.base0C}";
-          bg = "#${colors.base00}";
+          fg = colors.base0C;
+          bg = colors.base00;
           bold = true;
           italic = false;
         };
 
         # --- Modified ---
         BufferLineModified = {
-          fg = "#${colors.base09}";
-          bg = "#${colors.base01}";
+          fg = colors.base09;
+          bg = colors.base01;
         };
         BufferLineModifiedVisible = {
-          fg = "#${colors.base09}";
-          bg = "#${colors.base01}";
+          fg = colors.base09;
+          bg = colors.base01;
         };
         BufferLineModifiedSelected = {
-          fg = "#${colors.base09}";
-          bg = "#${colors.base00}";
+          fg = colors.base09;
+          bg = colors.base00;
         };
       };
     };

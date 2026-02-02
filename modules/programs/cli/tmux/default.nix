@@ -17,7 +17,7 @@ in
 
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
-        colors = config.lib.stylix.colors;
+        colors = config.lib.stylix.colors.withHashtag;
       in
       {
         programs.tmux = {
@@ -88,11 +88,11 @@ in
                 set -g @tmux-dotbar-ssh-icon '󰌘'
               ''
               + optionalString hasThemes ''
-                set -g @tmux-dotbar-bg "#${colors.base00}"
-                set -g @tmux-dotbar-fg "#${colors.base04}"
-                set -g @tmux-dotbar-fg-current "#${colors.base05}"
-                set -g @tmux-dotbar-fg-session "#${colors.base03}"
-                set -g @tmux-dotbar-fg-prefix "#${colors.base0E}"
+                set -g @tmux-dotbar-bg "${colors.base00}"
+                set -g @tmux-dotbar-fg "${colors.base04}"
+                set -g @tmux-dotbar-fg-current "${colors.base05}"
+                set -g @tmux-dotbar-fg-session "${colors.base03}"
+                set -g @tmux-dotbar-fg-prefix "${colors.base0E}"
               '';
             }
             {
@@ -112,8 +112,8 @@ in
                 set -g @floax-bind-menu 'P'
               ''
               + optionalString hasThemes ''
-                set -g @floax-border-color "#${colors.base0B}"
-                set -g @floax-text-color "#${colors.base0D}"
+                set -g @floax-border-color "${colors.base0B}"
+                set -g @floax-text-color "${colors.base0D}"
               '';
             }
             {

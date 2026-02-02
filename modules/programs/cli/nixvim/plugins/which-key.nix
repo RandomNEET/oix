@@ -7,7 +7,7 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  colors = config.lib.stylix.colors;
+  colors = config.lib.stylix.colors.withHashtag;
 in
 {
   programs.nixvim = {
@@ -25,15 +25,15 @@ in
     };
     highlightOverride = lib.mkIf hasThemes {
       WhichkeyBorder = {
-        fg = "#${colors.base05}";
+        fg = colors.base05;
         bg = "none";
       };
       WhichkeyNormal = {
-        fg = "#${colors.base05}";
+        fg = colors.base05;
         bg = "none";
       };
       WhichkeySeparator = {
-        fg = "#${colors.base0B}";
+        fg = colors.base0B;
         bg = "none";
       };
     };
