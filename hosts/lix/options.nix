@@ -139,21 +139,34 @@ rec {
   };
 
   niri = {
-    output = [
-      {
-        name = "eDP-1";
-        off = false;
-        mode = "1920x1080@60.008";
-        scale = 1;
-        transform = "normal";
-        position = {
-          x = 0;
-          y = 0;
+    settings = {
+      outputs = {
+        "eDP-1" = {
+          enable = true;
+
+          mode = {
+            width = 1920;
+            height = 1080;
+            refresh = 60.008;
+          };
+
+          scale = 1.0;
+
+          transform = {
+            rotation = 0;
+            flipped = false;
+          };
+
+          position = {
+            x = 0;
+            y = 0;
+          };
+
+          variable-refresh-rate = false;
+          focus-at-startup = true;
         };
-        variable-refresh-rate = false;
-        focus-at-startup = true;
-      }
-    ];
+      };
+    };
   };
 
   swayidle = {

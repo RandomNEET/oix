@@ -1,30 +1,46 @@
-''
-  layer-rule {
-      match namespace="swww-daemon"
-      place-within-backdrop true
-  }
+{
+  layer-rules = [
+    {
+      matches = [ { namespace = "swww-daemon"; } ];
+      place-within-backdrop = true;
+    }
+  ];
 
-  window-rule {
-      geometry-corner-radius 10
-      clip-to-geometry true
-  }
+  window-rules = [
+    {
+      geometry-corner-radius = {
+        top-left = 10.0;
+        top-right = 10.0;
+        bottom-left = 10.0;
+        bottom-right = 10.0;
+      };
+      clip-to-geometry = true;
+    }
 
-  window-rule {
-      match app-id=r#"firefox"# title="^Picture-in-Picture$"
-      open-floating true
-  }
+    {
+      matches = [
+        {
+          app-id = "firefox";
+          title = "^Picture-in-Picture$";
+        }
+      ];
+      open-floating = true;
+    }
 
-  window-rule {
-      draw-border-with-background false
-      match app-id="kitty"
-      match app-id="foot"
-      match app-id="footclient"
-      match app-id="editor"
-      match app-id="terminalFileManager"
-      match app-id="Spotify"
-      match app-id="steam"
-      match app-id="code"
-      match app-id="obsidian"
-      opacity 0.95
-  }
-''
+    {
+      matches = [
+        { app-id = "kitty"; }
+        { app-id = "foot"; }
+        { app-id = "footclient"; }
+        { app-id = "editor"; }
+        { app-id = "terminalFileManager"; }
+        { app-id = "Spotify"; }
+        { app-id = "steam"; }
+        { app-id = "code"; }
+        { app-id = "obsidian"; }
+      ];
+      draw-border-with-background = false;
+      opacity = 0.95;
+    }
+  ];
+}

@@ -1,40 +1,61 @@
-''
-  layout {
-      gaps 10
-      background-color "transparent"
-      center-focused-column "never"
-      preset-column-widths {
-          proportion 0.33333
-          proportion 0.5
-          proportion 0.66667
-      }
-      default-column-width { proportion 0.5; }
-      focus-ring {
-          width 2
-      }
-      border {
-          off
-      }
-      shadow {
-          softness 30
-          spread 5
-          offset x=0 y=5
-      }
-  }
+{ opts, ... }:
+{
+  input = {
+    touchpad = {
+      tap = true;
+      natural-scroll = true;
+    };
+  };
 
-  overview {
-      zoom 0.5
-      workspace-shadow {
-          off
-      }
-  }
+  layout = {
+    gaps = 10;
+    background-color = "transparent";
+    center-focused-column = "never";
 
-  prefer-no-csd
+    preset-column-widths = [
+      { proportion = 1.0 / 3.0; }
+      { proportion = 0.5; }
+      { proportion = 2.0 / 3.0; }
+    ];
 
-  hotkey-overlay {
-      skip-at-startup
-      hide-not-bound
-  }
+    default-column-width = {
+      proportion = 0.5;
+    };
 
-  screenshot-path "~/pic/screenshots/screenshot from %Y-%m-%d %H-%M-%S.png"
-''
+    focus-ring = {
+      enable = true;
+      width = 2;
+    };
+
+    border = {
+      enable = false;
+    };
+
+    shadow = {
+      enable = true;
+      softness = 30;
+      spread = 5;
+      offset = {
+        x = 0;
+        y = 5;
+      };
+    };
+  };
+
+  overview = {
+    zoom = 0.5;
+    workspace-shadow = {
+      enable = false;
+    };
+  };
+
+  prefer-no-csd = true;
+
+  hotkey-overlay = {
+    skip-at-startup = true;
+    hide-not-bound = true;
+  };
+
+  screenshot-path = "~/pic/screenshots/screenshot from %Y-%m-%d %H-%M-%S.png";
+}
+// (opts.niri.settings or { })

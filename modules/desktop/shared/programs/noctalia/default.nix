@@ -53,13 +53,14 @@ in
         hasWallpaper = wallpaperDir != "";
         restore-wall-theme = import ./scripts/restore-wall-theme.nix { inherit config pkgs opts; };
 
-        colors = config.lib.stylix.colors;
+        colors = config.lib.stylix.colors.withHashtag;
       in
       {
         imports = [ inputs.noctalia.homeModules.default ];
 
         programs.noctalia-shell = {
           enable = true;
+          package = pkgs.noctalia-shell;
           systemd.enable = true;
           settings = {
             bar = {
@@ -131,11 +132,10 @@ in
             general = {
               avatarImage = opts.noctalia.settings.general.avatarImage or "";
               showHibernateOnLockScreen = opts.hibernate or false;
-              showChangelogOnStartup = false;
               telemetryEnabled = false;
             };
             ui = {
-              fontDefault = mkIf hasThemes config.stylix.fonts.monospace.name;
+              fontDefault = mkIf hasThemes config.stylix.fonts.sansSerif.name;
               fontFixed = mkIf hasThemes config.stylix.fonts.monospace.name;
             };
             location = {
@@ -159,7 +159,7 @@ in
               fillMode = "crop";
               fillColor = "#000000";
               useSolidColor = !hasWallpaper;
-              solidColor = if hasThemes then "#${colors.base00}" else "#1a1a2e";
+              solidColor = if hasThemes then colors.base00 else "#1a1a2e";
               automationEnabled = true;
               wallpaperChangeMode = "random";
               randomIntervalSec = 3600;
@@ -318,22 +318,22 @@ in
             desktopWidgets = opts.noctalia.settings.desktopWidgets or { };
           };
           colors = mkIf (matchedPredefinedScheme == "") {
-            mSurface = "#${colors.base00}";
-            mSurfaceVariant = "#${colors.base01}";
-            mHover = "#${colors.base02}";
-            mOutline = "#${colors.base03}";
-            mOnSurfaceVariant = "#${colors.base04}";
-            mOnSurface = "#${colors.base05}";
-            mTertiary = "#${colors.base06}";
-            mOnHover = "#${colors.base07}";
-            mError = "#${colors.base08}";
-            mSecondary = "#${colors.base09}";
-            mPrimary = "#${colors.base0A}";
-            mOnPrimary = "#${colors.base00}";
-            mOnSecondary = "#${colors.base00}";
-            mOnTertiary = "#${colors.base00}";
-            mOnError = "#${colors.base00}";
-            mShadow = "#${colors.base0F}";
+            mPrimary = colors.base05;
+            mOnPrimary = colors.base00;
+            mSecondary = colors.base05;
+            mOnSecondary = colors.base00;
+            mTertiary = colors.base04;
+            mOnTertiary = colors.base00;
+            mError = colors.base08;
+            mOnError = colors.base00;
+            mSurface = colors.base00;
+            mOnSurface = colors.base05;
+            mHover = colors.base04;
+            mOnHover = colors.base00;
+            mSurfaceVariant = colors.base01;
+            mOnSurfaceVariant = colors.base04;
+            mOutline = colors.base02;
+            mShadow = colors.base00;
           };
         };
       }

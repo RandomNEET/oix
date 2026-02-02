@@ -19,192 +19,402 @@ let
       "${opts.terminal}";
   fileManager =
     if (opts.terminal == "kitty") then
-      ''${terminal} --class \"terminalFileManager\" -e ${opts.terminalFileManager}''
+      [
+        terminal
+        "--class"
+        "terminalFileManager"
+        "-e"
+        opts.terminalFileManager
+      ]
     else if (opts.terminal == "foot") then
-      ''${terminal} --app-id \"terminalFileManager\" -e ${opts.terminalFileManager}''
+      [
+        terminal
+        "--app-id"
+        "terminalFileManager"
+        "-e"
+        opts.terminalFileManager
+      ]
     else
-      "${terminal} -e ${opts.terminalFileManager}";
+      [
+        terminal
+        "-e"
+        opts.terminalFileManager
+      ];
   editor =
     if (opts.terminal == "kitty") then
-      ''${terminal} --class \"editor\" -e ${opts.editor}''
+      [
+        terminal
+        "--class"
+        "editor"
+        "-e"
+        opts.editor
+      ]
     else if (opts.terminal == "foot") then
-      ''${terminal} --app-id \"editor\" -e ${opts.editor}''
+      [
+        terminal
+        "--app-id"
+        "editor"
+        "-e"
+        opts.editor
+      ]
     else
-      "${terminal} -e ${opts.editor}";
+      [
+        terminal
+        "-e"
+        opts.editor
+      ];
   browser = opts.browser;
 in
-''
-  binds {
-      Mod+Shift+Slash { show-hotkey-overlay; }
+{
+  "Mod+Shift+Slash".action."show-hotkey-overlay" = { };
 
-      Mod+Return hotkey-overlay-title="Launch terminal: ${opts.terminal}" { spawn "${terminal}"; }
-      Mod+F hotkey-overlay-title="Launch file manager: ${opts.terminalFileManager}" { spawn-sh "${fileManager}"; }
-      Mod+E hotkey-overlay-title="Launch editor: ${opts.editor}" { spawn-sh "${editor}"; }
-      Mod+B hotkey-overlay-title="Launch browser: ${opts.browser}" { spawn "${browser}"; }
+  "Mod+Return" = {
+    action.spawn = terminal;
+    hotkey-overlay.title = "Launch terminal: ${opts.terminal}";
+  };
+  "Mod+F" = {
+    action.spawn = fileManager;
+    hotkey-overlay.title = "Launch file manager: ${opts.terminalFileManager}";
+  };
+  "Mod+E" = {
+    action.spawn = editor;
+    hotkey-overlay.title = "Launch editor: ${opts.editor}";
+  };
+  "Mod+B" = {
+    action.spawn = browser;
+    hotkey-overlay.title = "Launch browser: ${opts.browser}";
+  };
 
-      Mod+Space hotkey-overlay-title="Launch application menu" { spawn-sh "${launcher} drun"; }
-      Mod+Ctrl+W hotkey-overlay-title="Select wallpaper" { spawn-sh "${launcher} wallpaper"; }
-      Mod+Ctrl+T hotkey-overlay-title="Select theme" { spawn-sh "${launcher} theme"; }
-      Mod+Alt+S hotkey-overlay-title="Select specialisation" { spawn-sh "${launcher} spec"; }
-      Mod+V hotkey-overlay-title="Clipboard manager" { spawn-sh "${clip-manager}"; }
-      ${lib.optionalString (config.programs.tmux.enable or false) ''
-        Mod+Shift+T hotkey-overlay-title="Launch tmux sessions" { spawn-sh "${launcher} tmux"; }
-      ''}
-      ${lib.optionalString (opts.rbw.rofi-rbw or false) ''
-        Mod+Alt+U hotkey-overlay-title="Launch password manager" { spawn-sh "${launcher} rbw"; }
-      ''}
-      ${lib.optionalString (osConfig.programs.steam.enable or false) ''
-        Mod+G hotkey-overlay-title="Game launcher" { spawn-sh "${launcher} game"; }
-      ''}
+  "Mod+Space" = {
+    action.spawn = [
+      "${launcher}"
+      "drun"
+    ];
+    hotkey-overlay.title = "Launch application menu";
+  };
+  "Mod+Ctrl+W" = {
+    action.spawn = [
+      "${launcher}"
+      "wallpaper"
+    ];
+    hotkey-overlay.title = "Select wallpaper";
+  };
+  "Mod+Ctrl+T" = {
+    action.spawn = [
+      "${launcher}"
+      "theme"
+    ];
+    hotkey-overlay.title = "Select theme";
+  };
+  "Mod+Alt+S" = {
+    action.spawn = [
+      "${launcher}"
+      "spec"
+    ];
+    hotkey-overlay.title = "Select specialisation";
+  };
+  "Mod+V" = {
+    action.spawn = "${clip-manager}";
+    hotkey-overlay.title = "Clipboard manager";
+  };
 
-      Mod+Shift+W hotkey-overlay-title="Random wallpaper" { spawn "${random-wall}"; }
-      Mod+Shift+Q hotkey-overlay-title="Open notification panel" { spawn-sh "swaync-client -t -sw"; }
-      Ctrl+Escape hotkey-overlay-title="Toggle waybar" { spawn-sh "systemctl --user is-active --quiet waybar && systemctl --user stop waybar || systemctl --user start waybar"; }
-      Mod+Alt+L hotkey-overlay-title="Lock screen" { spawn "swaylock"; }
-      Mod+Backspace hotkey-overlay-title="Power menu" { spawn-sh "pkill -x wlogout || wlogout -b 4"; }
+  "Mod+Shift+W" = {
+    action.spawn = "${random-wall}";
+    hotkey-overlay.title = "Random wallpaper";
+  };
+  "Mod+Shift+Q" = {
+    action.spawn = [
+      "swaync-client"
+      "-t"
+      "-sw"
+    ];
+    hotkey-overlay.title = "Open notification panel";
+  };
+  "Ctrl+Escape" = {
+    action.spawn-sh = "systemctl --user is-active --quiet waybar && systemctl --user stop waybar || systemctl --user start waybar";
+    hotkey-overlay.title = "Toggle waybar";
+  };
+  "Mod+Alt+L" = {
+    action.spawn = "swaylock";
+    hotkey-overlay.title = "Lock screen";
+  };
+  "Mod+Backspace" = {
+    action.spawn-sh = "pkill -x wlogout || wlogout -b 4";
+    hotkey-overlay.title = "Power menu";
+  };
 
-      Mod+F1 hotkey-overlay-title="Open system monitor: btop" { spawn-sh "${terminal} -e ${getExe pkgs.btop}"; }
-      Mod+F11 hotkey-overlay-title="Enable night mode" { spawn-sh "pkill wlsunset || wlsunset -T 6500"; }
-      Mod+F12 hotkey-overlay-title="Toggle autoclicker" { spawn-sh "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"; }
+  "Mod+F1" = {
+    action.spawn = [
+      "${terminal}"
+      "-e"
+      "${getExe pkgs.btop}"
+    ];
+    hotkey-overlay.title = "Open system monitor: btop";
+  };
+  "Mod+F11" = {
+    action.spawn-sh = "pkill wlsunset || wlsunset -T 6500";
+    hotkey-overlay.title = "Enable night mode";
+  };
+  "Mod+F12" = {
+    action.spawn-sh = "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40";
+    hotkey-overlay.title = "Toggle autoclicker";
+  };
 
-      XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
-      XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
-      XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-      XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+  "XF86AudioRaiseVolume" = {
+    action.spawn = [
+      "wpctl"
+      "set-volume"
+      "@DEFAULT_AUDIO_SINK@"
+      "0.1+"
+    ];
+    allow-when-locked = true;
+  };
+  "XF86AudioLowerVolume" = {
+    action.spawn = [
+      "wpctl"
+      "set-volume"
+      "@DEFAULT_AUDIO_SINK@"
+      "0.1-"
+    ];
+    allow-when-locked = true;
+  };
+  "XF86AudioMute" = {
+    action.spawn = [
+      "wpctl"
+      "set-mute"
+      "@DEFAULT_AUDIO_SINK@"
+      "toggle"
+    ];
+    allow-when-locked = true;
+  };
+  "XF86AudioMicMute" = {
+    action.spawn = [
+      "wpctl"
+      "set-mute"
+      "@DEFAULT_AUDIO_SOURCE@"
+      "toggle"
+    ];
+    allow-when-locked = true;
+  };
 
-      XF86AudioPlay        allow-when-locked=true { spawn-sh "playerctl play-pause"; }
-      XF86AudioStop        allow-when-locked=true { spawn-sh "playerctl stop"; }
-      XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
-      XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
+  "XF86AudioPlay" = {
+    action.spawn = [
+      "playerctl"
+      "play-pause"
+    ];
+    allow-when-locked = true;
+  };
+  "XF86AudioStop" = {
+    action.spawn = [
+      "playerctl"
+      "stop"
+    ];
+    allow-when-locked = true;
+  };
+  "XF86AudioPrev" = {
+    action.spawn = [
+      "playerctl"
+      "previous"
+    ];
+    allow-when-locked = true;
+  };
+  "XF86AudioNext" = {
+    action.spawn = [
+      "playerctl"
+      "next"
+    ];
+    allow-when-locked = true;
+  };
 
-      XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-      XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+  "XF86MonBrightnessUp" = {
+    action.spawn = [
+      "brightnessctl="
+      "--class=backlight"
+      "set"
+      "+10%"
+    ];
+    allow-when-locked = true;
+  };
+  "XF86MonBrightnessDown" = {
+    action.spawn = [
+      "brightnessctl="
+      "--class=backlight"
+      "set"
+      "10%-"
+    ];
+    allow-when-locked = true;
+  };
 
-      Mod+Tab repeat=false { toggle-overview; }
+  "Mod+Tab" = {
+    action."toggle-overview" = { };
+    repeat = false;
+  };
 
-      Mod+Q repeat=false { close-window; }
+  "Mod+Q" = {
+    action."close-window" = { };
+    repeat = false;
+  };
 
-      Mod+Left  { focus-column-left; }
-      Mod+Down  { focus-window-down; }
-      Mod+Up    { focus-window-up; }
-      Mod+Right { focus-column-right; }
-      Mod+H     { focus-column-left; }
-      Mod+J     { focus-window-down; }
-      Mod+K     { focus-window-up; }
-      Mod+L     { focus-column-right; }
+  "Mod+Left".action."focus-column-left" = { };
+  "Mod+Down".action."focus-window-down" = { };
+  "Mod+Up".action."focus-window-up" = { };
+  "Mod+Right".action."focus-column-right" = { };
+  "Mod+H".action."focus-column-left" = { };
+  "Mod+J".action."focus-window-down" = { };
+  "Mod+K".action."focus-window-up" = { };
+  "Mod+L".action."focus-column-right" = { };
 
-      Mod+Ctrl+Left  { move-column-left; }
-      Mod+Ctrl+Down  { move-window-down; }
-      Mod+Ctrl+Up    { move-window-up; }
-      Mod+Ctrl+Right { move-column-right; }
-      Mod+Ctrl+H     { move-column-left; }
-      Mod+Ctrl+J     { move-window-down; }
-      Mod+Ctrl+K     { move-window-up; }
-      Mod+Ctrl+L     { move-column-right; }
+  "Mod+Ctrl+Left".action."move-column-left" = { };
+  "Mod+Ctrl+Down".action."move-window-down" = { };
+  "Mod+Ctrl+Up".action."move-window-up" = { };
+  "Mod+Ctrl+Right".action."move-column-right" = { };
+  "Mod+Ctrl+H".action."move-column-left" = { };
+  "Mod+Ctrl+J".action."move-window-down" = { };
+  "Mod+Ctrl+K".action."move-window-up" = { };
+  "Mod+Ctrl+L".action."move-column-right" = { };
 
-      Mod+Home { focus-column-first; }
-      Mod+End  { focus-column-last; }
-      Mod+Ctrl+Home { move-column-to-first; }
-      Mod+Ctrl+End  { move-column-to-last; }
+  "Mod+Home".action."focus-column-first" = { };
+  "Mod+End".action."focus-column-last" = { };
+  "Mod+Ctrl+Home".action."move-column-to-first" = { };
+  "Mod+Ctrl+End".action."move-column-to-last" = { };
 
-      Mod+Shift+Left  { focus-monitor-left; }
-      Mod+Shift+Down  { focus-monitor-down; }
-      Mod+Shift+Up    { focus-monitor-up; }
-      Mod+Shift+Right { focus-monitor-right; }
-      Mod+Shift+H     { focus-monitor-left; }
-      Mod+Shift+J     { focus-monitor-down; }
-      Mod+Shift+K     { focus-monitor-up; }
-      Mod+Shift+L     { focus-monitor-right; }
+  "Mod+Shift+Left".action."focus-monitor-left" = { };
+  "Mod+Shift+Down".action."focus-monitor-down" = { };
+  "Mod+Shift+Up".action."focus-monitor-up" = { };
+  "Mod+Shift+Right".action."focus-monitor-right" = { };
+  "Mod+Shift+H".action."focus-monitor-left" = { };
+  "Mod+Shift+J".action."focus-monitor-down" = { };
+  "Mod+Shift+K".action."focus-monitor-up" = { };
+  "Mod+Shift+L".action."focus-monitor-right" = { };
 
-      Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
-      Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
-      Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
-      Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
-      Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
-      Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
-      Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
-      Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
+  "Mod+Shift+Ctrl+Left".action."move-column-to-monitor-left" = { };
+  "Mod+Shift+Ctrl+Down".action."move-column-to-monitor-down" = { };
+  "Mod+Shift+Ctrl+Up".action."move-column-to-monitor-up" = { };
+  "Mod+Shift+Ctrl+Right".action."move-column-to-monitor-right" = { };
+  "Mod+Shift+Ctrl+H".action."move-column-to-monitor-left" = { };
+  "Mod+Shift+Ctrl+J".action."move-column-to-monitor-down" = { };
+  "Mod+Shift+Ctrl+K".action."move-column-to-monitor-up" = { };
+  "Mod+Shift+Ctrl+L".action."move-column-to-monitor-right" = { };
 
-      Mod+Page_Down      { focus-workspace-down; }
-      Mod+Page_Up        { focus-workspace-up; }
-      Mod+U              { focus-workspace-down; }
-      Mod+I              { focus-workspace-up; }
-      Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
-      Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
-      Mod+Ctrl+U         { move-column-to-workspace-down; }
-      Mod+Ctrl+I         { move-column-to-workspace-up; }
+  "Mod+Page_Down".action."focus-workspace-down" = { };
+  "Mod+Page_Up".action."focus-workspace-up" = { };
+  "Mod+U".action."focus-workspace-down" = { };
+  "Mod+I".action."focus-workspace-up" = { };
+  "Mod+Ctrl+Page_Down".action."move-column-to-workspace-down" = { };
+  "Mod+Ctrl+Page_Up".action."move-column-to-workspace-up" = { };
+  "Mod+Ctrl+U".action."move-column-to-workspace-down" = { };
+  "Mod+Ctrl+I".action."move-column-to-workspace-up" = { };
 
-      Mod+Shift+Page_Down { move-workspace-down; }
-      Mod+Shift+Page_Up   { move-workspace-up; }
-      Mod+Shift+U         { move-workspace-down; }
-      Mod+Shift+I         { move-workspace-up; }
+  "Mod+Shift+Page_Down".action."move-workspace-down" = { };
+  "Mod+Shift+Page_Up".action."move-workspace-up" = { };
+  "Mod+Shift+U".action."move-workspace-down" = { };
+  "Mod+Shift+I".action."move-workspace-up" = { };
 
-      Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
-      Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
-      Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
-      Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+  "Mod+WheelScrollDown" = {
+    action."focus-workspace-down" = { };
+    cooldown-ms = 150;
+  };
+  "Mod+WheelScrollUp" = {
+    action."focus-workspace-up" = { };
+    cooldown-ms = 150;
+  };
+  "Mod+Ctrl+WheelScrollDown" = {
+    action."move-column-to-workspace-down" = { };
+    cooldown-ms = 150;
+  };
+  "Mod+Ctrl+WheelScrollUp" = {
+    action."move-column-to-workspace-up" = { };
+    cooldown-ms = 150;
+  };
 
-      Mod+WheelScrollRight      { focus-column-right; }
-      Mod+WheelScrollLeft       { focus-column-left; }
-      Mod+Ctrl+WheelScrollRight { move-column-right; }
-      Mod+Ctrl+WheelScrollLeft  { move-column-left; }
+  "Mod+WheelScrollRight".action."focus-column-right" = { };
+  "Mod+WheelScrollLeft".action."focus-column-left" = { };
+  "Mod+Ctrl+WheelScrollRight".action."move-column-right" = { };
+  "Mod+Ctrl+WheelScrollLeft".action."move-column-left" = { };
 
-      Mod+Shift+WheelScrollDown      { focus-column-right; }
-      Mod+Shift+WheelScrollUp        { focus-column-left; }
-      Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
-      Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
+  "Mod+Shift+WheelScrollDown".action."focus-column-right" = { };
+  "Mod+Shift+WheelScrollUp".action."focus-column-left" = { };
+  "Mod+Ctrl+Shift+WheelScrollDown".action."move-column-right" = { };
+  "Mod+Ctrl+Shift+WheelScrollUp".action."move-column-left" = { };
 
-      Mod+1 { focus-workspace 1; }
-      Mod+2 { focus-workspace 2; }
-      Mod+3 { focus-workspace 3; }
-      Mod+4 { focus-workspace 4; }
-      Mod+5 { focus-workspace 5; }
-      Mod+6 { focus-workspace 6; }
-      Mod+7 { focus-workspace 7; }
-      Mod+8 { focus-workspace 8; }
-      Mod+9 { focus-workspace 9; }
-      Mod+Ctrl+1 { move-column-to-workspace 1; }
-      Mod+Ctrl+2 { move-column-to-workspace 2; }
-      Mod+Ctrl+3 { move-column-to-workspace 3; }
-      Mod+Ctrl+4 { move-column-to-workspace 4; }
-      Mod+Ctrl+5 { move-column-to-workspace 5; }
-      Mod+Ctrl+6 { move-column-to-workspace 6; }
-      Mod+Ctrl+7 { move-column-to-workspace 7; }
-      Mod+Ctrl+8 { move-column-to-workspace 8; }
-      Mod+Ctrl+9 { move-column-to-workspace 9; }
+  "Mod+1".action."focus-workspace" = 1;
+  "Mod+2".action."focus-workspace" = 2;
+  "Mod+3".action."focus-workspace" = 3;
+  "Mod+4".action."focus-workspace" = 4;
+  "Mod+5".action."focus-workspace" = 5;
+  "Mod+6".action."focus-workspace" = 6;
+  "Mod+7".action."focus-workspace" = 7;
+  "Mod+8".action."focus-workspace" = 8;
+  "Mod+9".action."focus-workspace" = 9;
+  "Mod+Ctrl+1".action."move-column-to-workspace" = 1;
+  "Mod+Ctrl+2".action."move-column-to-workspace" = 2;
+  "Mod+Ctrl+3".action."move-column-to-workspace" = 3;
+  "Mod+Ctrl+4".action."move-column-to-workspace" = 4;
+  "Mod+Ctrl+5".action."move-column-to-workspace" = 5;
+  "Mod+Ctrl+6".action."move-column-to-workspace" = 6;
+  "Mod+Ctrl+7".action."move-column-to-workspace" = 7;
+  "Mod+Ctrl+8".action."move-column-to-workspace" = 8;
+  "Mod+Ctrl+9".action."move-column-to-workspace" = 9;
 
-      Mod+BracketLeft  { consume-or-expel-window-left; }
-      Mod+BracketRight { consume-or-expel-window-right; }
+  "Mod+BracketLeft".action."consume-or-expel-window-left" = { };
+  "Mod+BracketRight".action."consume-or-expel-window-right" = { };
 
-      Mod+Comma  { consume-window-into-column; }
-      Mod+Period { expel-window-from-column; }
+  "Mod+Comma".action."consume-window-into-column" = { };
+  "Mod+Period".action."expel-window-from-column" = { };
 
-      Mod+R { switch-preset-column-width; }
-      Mod+Shift+R { switch-preset-window-height; }
-      Mod+Ctrl+R { reset-window-height; }
-      Mod+M { maximize-column; }
-      Alt+Return { fullscreen-window; }
+  "Mod+R".action."switch-preset-column-width" = { };
+  "Mod+Shift+R".action."switch-preset-window-height" = { };
+  "Mod+Ctrl+R".action."reset-window-height" = { };
+  "Mod+M".action."maximize-column" = { };
+  "Alt+Return".action."fullscreen-window" = { };
 
-      Mod+Shift+M { expand-column-to-available-width; }
+  "Mod+Shift+M".action."expand-column-to-available-width" = { };
 
-      Mod+C { center-column; }
+  "Mod+C".action."center-column" = { };
 
-      Mod+Ctrl+C { center-visible-columns; }
+  "Mod+Ctrl+C".action."center-visible-columns" = { };
 
-      Mod+Minus { set-column-width "-10%"; }
-      Mod+Equal { set-column-width "+10%"; }
+  "Mod+Minus".action.set-column-width = "-10%";
+  "Mod+Equal".action.set-column-width = "+10%";
 
-      Mod+Shift+Minus { set-window-height "-10%"; }
-      Mod+Shift+Equal { set-window-height "+10%"; }
+  "Mod+Shift+Minus".action.set-window-height = "-10%";
+  "Mod+Shift+Equal".action.set-window-height = "+10%";
 
-      Mod+W       { toggle-window-floating; }
-      Mod+Shift+F { switch-focus-between-floating-and-tiling; }
+  "Mod+W".action."toggle-window-floating" = { };
+  "Mod+Shift+F".action."switch-focus-between-floating-and-tiling" = { };
 
-      Mod+T { toggle-column-tabbed-display; }
+  "Mod+T".action."toggle-column-tabbed-display" = { };
 
-      Mod+P 	 { screenshot; }
-      Mod+Ctrl+P { screenshot-screen; }
-      Mod+Alt+P  { screenshot-window; }
-      Mod+Shift+Print { spawn-sh "inotifywait -e close_write --format '%f' ~/pic/screenshots/ | (read file; gowall ocr \"$HOME/pic/screenshots/$file\" - -s tes | wl-copy && notify-send -a \"screenshot\" -u low 'OCR Success' \"Recognized: $file\") & niri msg action screenshot"; }
-  }
-''
+  "Mod+P".action."screenshot" = { };
+  "Mod+Ctrl+P".action."screenshot-screen" = { };
+  "Mod+Alt+P".action."screenshot-window" = { };
+  "Mod+Shift+Print".action.spawn-sh =
+    "inotifywait -e close_write --format '%f' ~/pic/screenshots/ | (read file; gowall ocr \"$HOME/pic/screenshots/$file\" - -s tes | wl-copy && notify-send -a \"screenshot\" -u low 'OCR Success' \"Recognized: $file\") & niri msg action screenshot";
+}
+// lib.optionalAttrs config.programs.tmux.enable {
+  "Mod+Shift+T" = {
+    action.spawn = [
+      "${launcher}"
+      "tmux"
+    ];
+    hotkey-overlay.title = "Launch tmux sessions";
+  };
+}
+// lib.optionalAttrs (opts.rbw.rofi-rbw or false) {
+  "Mod+Alt+U" = {
+    action.spawn = [
+      "${launcher}"
+      "rbw"
+    ];
+    hotkey-overlay.title = "Launch password manager";
+  };
+}
+// lib.optionalAttrs osConfig.programs.steam.enable {
+  "Mod+Shift+G" = {
+    hotkey-overlay.title = "Game launcher";
+    action.spawn = [
+      "${launcher}"
+      "game"
+    ];
+  };
+}
