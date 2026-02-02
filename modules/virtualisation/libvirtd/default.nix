@@ -4,6 +4,10 @@
   opts,
   ...
 }:
+let
+  desktop = opts.desktop or "";
+  hasDesktop = desktop != "";
+in
 {
   virtualisation = {
     libvirtd = {
@@ -27,12 +31,12 @@
             ${scriptContent}
           ''
         ) scripts
-      ) (opts.virtualisation.vm.hooks or { });
+      ) (opts.libvirtd.hooks or { });
     };
     spiceUSBRedirection.enable = true;
   };
 
-  programs.virt-manager.enable = opts.virtualisation.vm.virt-manager.enable or true;
+  programs.virt-manager.enable = hasDesktop;
 
   services = {
     qemuGuest.enable = true;
@@ -41,7 +45,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    virt-viewer
     spice
     spice-gtk
     spice-protocol

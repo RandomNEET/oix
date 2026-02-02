@@ -66,20 +66,6 @@ rec {
   };
   # }}}
 
-  # Virtualisation {{{
-  virtualisation = {
-    vm = {
-      enable = true;
-      virt-manager = {
-        enable = false;
-      };
-    };
-    docker = {
-      enable = true;
-    };
-  };
-  # }}}
-
   # Server {{{
   systemd.services = {
     xray = {

@@ -42,17 +42,6 @@ rec {
   };
   # }}}
 
-  # Virtualisation {{{
-  virtualisation = {
-    vm = {
-      enable = true;
-      virt-manager = {
-        enable = true;
-      };
-    };
-  };
-  # }}}
-
   # Desktop {{{
   desktop = "niri-waybar"; # available: hyprland-noctalia hyprland-waybar niri-waybar
 

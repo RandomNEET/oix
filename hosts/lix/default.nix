@@ -4,7 +4,6 @@
     ../../modules/system/gpu
     ../../modules/system/persistence
     ../../modules/system/secure-boot
-    ../../modules/system/virtualisation
 
     ../../modules/services/automount
     ../../modules/services/blueman
@@ -68,10 +67,11 @@
     ../../modules/programs/gui/vscode
     ../../modules/programs/gui/zathura
 
-    ../../modules/misc/accounts
-    ../../modules/misc/fonts
+    ../../modules/virtualisation/libvirtd
 
     ../../modules/scripts
+
+    ../../modules/accounts
 
     ../../modules/desktop
   ];

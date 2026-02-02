@@ -2,7 +2,6 @@
   imports = [
     ../../modules/system/core
     ../../modules/system/gpu
-    ../../modules/system/virtualisation
 
     ../../modules/services/automount
     ../../modules/services/calibre-web
@@ -39,6 +38,9 @@
     ../../modules/programs/cli/yt-dlp
     ../../modules/programs/cli/zoxide
     ../../modules/programs/cli/zsh
+
+    ../../modules/virtualisation/docker
+    ../../modules/virtualisation/libvirtd
 
     ../../modules/scripts
   ];

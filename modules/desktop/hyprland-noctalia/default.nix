@@ -7,6 +7,8 @@
 }:
 {
   imports = [
+    ../shared/fonts
+    ../shared/themes
     ../shared/programs/fcitx5
     ../shared/programs/gowall
     ../shared/programs/noctalia
