@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  mylib,
   opts,
   ...
 }:
@@ -11,9 +12,10 @@
       let
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
-        colors = config.lib.stylix.colors.withHashtag;
         desktop = opts.desktop or "";
         hasDesktop = desktop != "";
+        colors = config.lib.stylix.colors.withHashtag;
+        primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
       in
       {
         programs.rmpc = {
@@ -230,14 +232,12 @@
 
                     background_color: "${colors.base00}",
                     text_color: "${colors.base05}",
-                    header_background_color: "${colors.base01}",
-                    modal_background_color: "${colors.base01}",
 
                     preview_label_style: (fg: "${colors.base0A}"),
                     preview_metadata_group_style: (fg: "${colors.base0A}", modifiers: "Bold"),
 
                     tab_bar: (
-                        active_style: (fg: "black", bg: "${colors.base0E}", modifiers: "Bold"),
+                        active_style: (fg: "black", bg: "${primaryColor}", modifiers: "Bold"),
                         inactive_style: (fg: "${colors.base04}"),
                     ),
 
@@ -256,9 +256,8 @@
 
                     progress_bar: (
                         symbols: ["", "", "⭘", " ", " "],
-                        track_style: (bg: "${colors.base01}"),
-                        elapsed_style: (fg: "${colors.base0E}", bg: "${colors.base01}"),
-                        thumb_style: (fg: "${colors.base0E}", bg: "${colors.base01}"),
+                        elapsed_style: (fg: "${primaryColor}"),
+                        thumb_style: (fg: "${primaryColor}"),
                     ),
 
                     scrollbar: (
@@ -271,16 +270,8 @@
                     song_table_format: [
                         (
                             prop: (
-                                kind: Property(Artist),
-                                style: (fg: "${colors.base0D}"),
-                                default: (kind: Text("Unknown"), style: (fg: "${colors.base03}")),
-                            ),
-                            width: "20%",
-                        ),
-                        (
-                            prop: (
                                 kind: Property(Title),
-                                style: (fg: "${colors.base0E}"),
+                                style: (fg: "${colors.base0D}"),
                                 default: (kind: Text("Unknown"), style: (fg: "${colors.base03}")),
                             ),
                             width: "35%",
@@ -288,10 +279,18 @@
                         (
                             prop: (
                                 kind: Property(Album),
-                                style: (fg: "${colors.base0D}"),
+                                style: (fg: "${colors.base0B}"),
                                 default: (kind: Text("Unknown Album"), style: (fg: "${colors.base03}")),
                             ),
                             width: "30%",
+                        ),
+                        (
+                            prop: (
+                                kind: Property(Artist),
+                                style: (fg: "${colors.base0C}"),
+                                default: (kind: Text("Unknown"), style: (fg: "${colors.base03}")),
+                            ),
+                            width: "20%",
                         ),
                         (
                             prop: (
@@ -330,6 +329,7 @@
                             ),
                             (
                                 size: "3",
+                                borders : "TOP | BOTTOM",
                                 pane: Pane(Tabs),
                             ),
                             (
@@ -339,7 +339,7 @@
                                     panes: [
                                         (
                                             size: "100%",
-                                            borders: "NONE",
+                                            borders: "TOP | BOTTOM",
                                             pane: Pane(TabContent),
                                         ),
                                     ],
