@@ -94,6 +94,9 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   dbus-user.own org.mpris.MediaPlayer2.qutebrowser.*
   dbus-user.talk org.freedesktop.Notifications
 
+  # Edited: added for idle inhibit
+  dbus-user.talk org.freedesktop.ScreenSaver
+
   # Edited: added for userscripts/ime-off
   ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") "dbus-user.talk org.fcitx.Fcitx5"}
 
