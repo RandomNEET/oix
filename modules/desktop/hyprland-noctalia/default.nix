@@ -13,6 +13,7 @@
     ../shared/programs/gowall
     ../shared/programs/noctalia
     ../shared/programs/rofi
+    ./programs/hypridle
   ];
 
   programs.hyprland = {

@@ -131,8 +131,10 @@ in
             };
             general = {
               avatarImage = opts.noctalia.settings.general.avatarImage or "";
-              showHibernateOnLockScreen = opts.hibernate or false;
               telemetryEnabled = false;
+              lockOnSuspend = true;
+              showSessionButtonsOnLockScreen = true;
+              showHibernateOnLockScreen = opts.hibernate or false;
               enableLockScreenCountdown = true;
               lockScreenCountdownDuration = 10000;
             };

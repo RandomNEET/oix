@@ -14,23 +14,23 @@
           };
           listener = [
             {
-              timeout = opts.hypridle.time.lock or "600";
+              timeout = "600";
               on-timeout = "loginctl lock-session";
             }
             {
-              timeout = opts.hypridle.time.dpmsOff or "1800";
+              timeout = "1800";
               on-timeout = "hyprctl dispatch dpms off";
               on-resume = "hyprctl dispatch dpms on";
             }
             (
               if opts.hibernate then
                 {
-                  timeout = opts.hypridle.time.sleep or "3600";
+                  timeout = "3600";
                   on-timeout = "systemctl hibernate";
                 }
               else
                 {
-                  timeout = opts.hypridle.time.sleep or "3600";
+                  timeout = "3600";
                   on-timeout = "systemctl suspend";
                 }
             )
