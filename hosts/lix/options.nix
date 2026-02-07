@@ -115,14 +115,6 @@ rec {
     '';
   };
 
-  hypridle = {
-    time = {
-      lock = "300";
-      dpmsOff = "1800";
-      sleep = "3600";
-    };
-  };
-
   hyprlock = {
     background = "${wallpaper.dir}/default/landscape/touhou/marisa-reimu-3.jpg";
   };
@@ -155,14 +147,6 @@ rec {
           focus-at-startup = true;
         };
       };
-    };
-  };
-
-  swayidle = {
-    time = {
-      lock = 300;
-      dpmsOff = 1800;
-      sleep = 3600;
     };
   };
 
