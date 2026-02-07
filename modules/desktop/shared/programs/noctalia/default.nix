@@ -133,6 +133,8 @@ in
               avatarImage = opts.noctalia.settings.general.avatarImage or "";
               showHibernateOnLockScreen = opts.hibernate or false;
               telemetryEnabled = false;
+              enableLockScreenCountdown = true;
+              lockScreenCountdownDuration = 10000;
             };
             ui = {
               fontDefault = mkIf hasThemes config.stylix.fonts.sansSerif.name;
