@@ -19,10 +19,6 @@ rec {
   # }}}
 
   # Network {{{
-  ip = {
-    local = "192.168.0.24";
-  };
-
   firewall = {
     enable = true;
     allowedTCPPorts = [ ];
@@ -326,14 +322,14 @@ rec {
           addKeysToAgent = "yes";
         };
         "lix" = {
-          hostname = outputs.nixosConfigurations.lix._module.specialArgs.opts.ip.local;
+          hostname = "lix.local";
           port = 22;
           user = "howl";
           identityFile = "${ssh.keyDir}/lix";
           addKeysToAgent = "yes";
         };
         "nasix" = {
-          hostname = outputs.nixosConfigurations.nasix._module.specialArgs.opts.ip.local;
+          hostname = "nasix.local";
           port = 22;
           user = "howl";
           identityFile = "${ssh.keyDir}/nasix";

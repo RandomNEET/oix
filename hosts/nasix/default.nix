@@ -4,6 +4,7 @@
     ../../modules/system/gpu
 
     ../../modules/services/automount
+    ../../modules/services/avahi
     ../../modules/services/calibre-web
     ../../modules/services/cron
     ../../modules/services/freshrss

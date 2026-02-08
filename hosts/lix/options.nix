@@ -19,10 +19,6 @@ rec {
   # }}}
 
   # Network {{{
-  ip = {
-    local = "192.168.0.69";
-  };
-
   firewall = {
     enable = true;
     allowedTCPPorts = [ ];
@@ -281,14 +277,14 @@ rec {
           addKeysToAgent = "yes";
         };
         "dix" = {
-          hostname = outputs.nixosConfigurations.dix._module.specialArgs.opts.ip.local;
+          hostname = "dix.local";
           port = 22;
           user = "howl";
           identityFile = "${ssh.keyDir}/dix";
           addKeysToAgent = "yes";
         };
         "nasix" = {
-          hostname = outputs.nixosConfigurations.nasix._module.specialArgs.opts.ip.local;
+          hostname = "nasix.local";
           port = 22;
           user = "howl";
           identityFile = "${ssh.keyDir}/nasix";

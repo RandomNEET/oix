@@ -18,10 +18,6 @@ rec {
   # }}}
 
   # Network {{{
-  ip = {
-    local = "192.168.0.56";
-  };
-
   firewall = {
     enable = true;
     allowedTCPPorts = [
@@ -573,14 +569,14 @@ rec {
     client = {
       matchBlocks = {
         "dix" = {
-          hostname = outputs.nixosConfigurations.dix._module.specialArgs.opts.ip.local;
+          hostname = "dix.local";
           port = 22;
           user = "howl";
           identityFile = "${ssh.keyDir}/dix";
           addKeysToAgent = "yes";
         };
         "lix" = {
-          hostname = outputs.nixosConfigurations.lix._module.specialArgs.opts.ip.local;
+          hostname = "lix.local";
           port = 22;
           user = "howl";
           identityFile = "${ssh.keyDir}/lix";

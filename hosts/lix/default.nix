@@ -6,6 +6,7 @@
     ../../modules/system/secure-boot
 
     ../../modules/services/automount
+    ../../modules/services/avahi
     ../../modules/services/blueman
     ../../modules/services/flatpak
     ../../modules/services/greetd
