@@ -194,6 +194,7 @@ rec {
     settings = {
       general = {
         avatarImage = "${xdg.userDirs.pictures}/avatars/weeb.jpg";
+        lockScreenMonitors = [ "DP-1" ];
       };
       bar = {
         monitors = [

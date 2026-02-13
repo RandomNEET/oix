@@ -132,11 +132,26 @@ in
             general = {
               avatarImage = opts.noctalia.settings.general.avatarImage or "";
               telemetryEnabled = false;
+              animationSpeed = 1;
+              animationDisabled = false;
+              compactLockScreen = false;
+              lockScreenAnimations = true;
               lockOnSuspend = true;
               showSessionButtonsOnLockScreen = true;
               showHibernateOnLockScreen = opts.hibernate or false;
               enableLockScreenCountdown = true;
               lockScreenCountdownDuration = 10000;
+              lockScreenMonitors = opts.noctalia.settings.general.lockScreenMonitors or [ ];
+              lockScreenBlur = 0.30;
+              lockScreenTint = 0.25;
+              keybinds = {
+                keyUp = "Ctrl+K";
+                keyDown = "Ctrl+J";
+                keyLeft = "Ctrl+H";
+                keyRight = "Ctrl+L";
+                keyEnter = "Return";
+                keyEscape = "Esc";
+              };
             };
             ui = {
               fontDefault = mkIf hasThemes config.stylix.fonts.sansSerif.name;
