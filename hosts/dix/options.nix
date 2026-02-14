@@ -550,6 +550,8 @@ rec {
       "tty-clock"
       "qbittorrent"
       "libreoffice"
+      "osu-lazer"
+      "prismlauncher"
     ];
 
     flatpak = {
@@ -557,13 +559,6 @@ rec {
         "com.github.tchx84.Flatseal"
         "com.qq.QQ"
         "com.tencent.WeChat"
-      ];
-    };
-
-    games = {
-      home = [
-        "osu-lazer"
-        "prismlauncher"
       ];
     };
   };

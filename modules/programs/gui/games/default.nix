@@ -50,16 +50,8 @@ in
   }; # xbox one
   services.udev.packages = with pkgs; [ game-devices-udev-rules ]; # dualsense edge
 
-  environment.systemPackages =
-    with pkgs;
-    [ ] ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.games.system or [ ]);
-
   home-manager.sharedModules = [
     {
-      home.packages =
-        with pkgs;
-        [ ] ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.games.home or [ ]);
-
       home.file.".local/share/applications/steam-gamescope.desktop".text = ''
         [Desktop Entry]
         Name=Steam (Gamescope)
