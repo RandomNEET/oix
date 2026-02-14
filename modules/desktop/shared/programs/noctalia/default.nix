@@ -141,6 +141,7 @@ in
               showHibernateOnLockScreen = opts.hibernate or false;
               enableLockScreenCountdown = true;
               lockScreenCountdownDuration = 10000;
+              clockStyle = "digital";
               lockScreenMonitors = opts.noctalia.settings.general.lockScreenMonitors or [ ];
               lockScreenBlur = 0.30;
               lockScreenTint = 0.25;
