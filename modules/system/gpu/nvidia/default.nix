@@ -18,7 +18,6 @@ in
     WLR_NO_HARDWARE_CURSORS = "1";
     LIBVA_DRIVER_NAME = "nvidia";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    # MOZ_DISABLE_RDD_SANDBOX = 1; # Potential security risk
 
     __GL_GSYNC_ALLOWED = "1"; # GSync
   };
@@ -32,16 +31,14 @@ in
   hardware = {
     nvidia = {
       open = true;
-      # nvidiaPersistenced = true;
       nvidiaSettings = false;
       powerManagement.enable = true; # Fixes sleep/suspend
-      modesetting.enable = true; # Mmodesetting is required.
+      modesetting.enable = true; # Modesetting is required.
       package = nvidiaDriverChannel;
     }
     // (opts.hardware.nvidia or { });
     graphics = {
       enable = true;
-      # package = nvidiaDriverChannel;
       enable32Bit = true;
       extraPackages = with pkgs; [
         nvidia-vaapi-driver

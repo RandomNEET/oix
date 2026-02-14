@@ -18,6 +18,7 @@
     ../../modules/services/proxy
     ../../modules/services/snapper
     ../../modules/services/ssh
+    ../../modules/services/udev
 
     ../../modules/programs/cli/aerc
     ../../modules/programs/cli/bash
