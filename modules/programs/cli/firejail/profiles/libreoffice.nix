@@ -7,21 +7,38 @@
 }:
 let
   username = opts.users.primary.name;
+  local = pkgs.writeText "firejail-libreoffice-local" ''
+    noblacklist ${DOWNLOADS}
+
+    # themes
+    noblacklist ''${HOME}/.config/dconf
+    noblacklist ''${HOME}/.config/gtk-3.0
+    noblacklist ''${HOME}/.config/gtk-4.0
+    whitelist ''${HOME}/.config/dconf
+    whitelist ''${HOME}/.config/gtk-3.0
+    whitelist ''${HOME}/.config/gtk-4.0
+    private-etc profiles/per-user/${username}/share/themes
+    dbus-user filter
+    dbus-user.talk org.freedesktop.portal.Desktop
+  '';
 in
 pkgs.writeText "firejail-libreoffice-profile" ''
   # Firejail profile for libreoffice
   # Description: Office productivity suite
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
-  noblacklist /usr/local/sbin
   noblacklist ''${HOME}/.config/libreoffice
-  noblacklist ${DOWNLOADS}
+  noblacklist ''${HOME}/.local/share/gvfs-metadata
+  noblacklist /usr/local/sbin
 
   # libreoffice can sign documents with GPG
   noblacklist ''${HOME}/.gnupg
-  read-only ''${HOME}/.gnupg/trustdb.gpg
   read-only ''${HOME}/.gnupg/pubring.kbx
+  read-only ''${HOME}/.gnupg/trustdb.gpg
   blacklist ''${HOME}/.gnupg/crls.d
   blacklist ''${HOME}/.gnupg/openpgp-revocs.d
   blacklist ''${HOME}/.gnupg/private-keys-v1.d
@@ -33,15 +50,8 @@ pkgs.writeText "firejail-libreoffice-profile" ''
   # Allow java (blacklisted by disable-devel.inc)
   include allow-java.inc
 
-  # Edited: added for themes
-  noblacklist ''${HOME}/.config/dconf
-  noblacklist ''${HOME}/.config/gtk-3.0
-  noblacklist ''${HOME}/.config/gtk-4.0
-  whitelist ''${HOME}/.config/dconf
-  whitelist ''${HOME}/.config/gtk-3.0
-  whitelist ''${HOME}/.config/gtk-4.0
-
-  blacklist /usr/libexec
+  # uses libgdk-pixbuf and/or glycin - see #6906
+  #blacklist /usr/libexec
 
   include disable-common.inc
   include disable-devel.inc
@@ -58,6 +68,8 @@ pkgs.writeText "firejail-libreoffice-profile" ''
   #ignore protocol
   #ignore seccomp
   #ignore tracelog
+
+  # keep-hostname # require 0.9.78
 
   apparmor
   caps.drop all
@@ -77,12 +89,8 @@ pkgs.writeText "firejail-libreoffice-profile" ''
   #private-bin libreoffice,sh,uname,dirname,grep,sed,basename,ls
   private-cache
   private-dev
-  private-etc @tls-ca,@x11,cups,gnupg,libreoffice,papersize,ssh,profiles/per-user/${username}/share/themes # Edited: added profiles
+  private-etc @tls-ca,@x11,cups,gnupg,libreoffice,papersize,ssh
   private-tmp
-
-  # Added for themes
-  dbus-user filter
-  dbus-user.talk org.freedesktop.portal.Desktop
 
   dbus-system none
 

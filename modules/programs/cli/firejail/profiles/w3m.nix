@@ -4,10 +4,16 @@
   DOWNLOADS,
   ...
 }:
+let
+  local = pkgs.writeText "firejail-w3m-local" "";
+in
 pkgs.writeText "firejail-w3m-profile" ''
   # Firejail profile for w3m
   # Description: WWW browsable pager with excellent tables/frames support
+  # This file is overwritten after every install/update
   quiet
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
@@ -16,15 +22,16 @@ pkgs.writeText "firejail-w3m-profile" ''
   #ignore private-dev
   #ignore private-etc
 
+  noblacklist ''${HOME}/.mailcap
   noblacklist ''${HOME}/.w3m
-
-  blacklist ''${RUNUSER}/wayland-*
 
   # Allow /bin/sh (blacklisted by disable-shell.inc)
   include allow-bin-sh.inc
 
   # Allow perl (blacklisted by disable-interpreters.inc)
   include allow-perl.inc
+
+  blacklist ''${RUNUSER}/wayland-*
 
   include disable-common.inc
   include disable-devel.inc
@@ -36,9 +43,10 @@ pkgs.writeText "firejail-w3m-profile" ''
   include disable-xdg.inc
 
   mkdir ''${HOME}/.w3m
-  whitelist /usr/share/w3m
   whitelist ${DOWNLOADS}
+  whitelist ''${HOME}/.mailcap
   whitelist ''${HOME}/.w3m
+  whitelist /usr/share/w3m
   include whitelist-runuser-common.inc
   include whitelist-usr-share-common.inc
   include whitelist-var-common.inc

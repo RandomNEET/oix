@@ -5,10 +5,14 @@
   ...
 }:
 let
-  electron-common-profile = import ./electron-common.nix { inherit pkgs DOWNLOADS; };
+  electron-common-profile = import ./electron-common.nix { inherit pkgs global DOWNLOADS; };
+  local = pkgs.writeText "firejail-code-local" "";
 in
 pkgs.writeText "firejail-code-profile" ''
   # Firejail profile for Visual Studio Code
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 

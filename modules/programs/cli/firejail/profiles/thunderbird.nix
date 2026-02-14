@@ -5,11 +5,15 @@
   ...
 }:
 let
-  firefox-common-profile = import ./firefox-common.nix { inherit pkgs DOWNLOADS; };
+  firefox-common-profile = import ./firefox-common.nix { inherit pkgs global DOWNLOADS; };
+  local = pkgs.writeText "firejail-thunderbird-local" "";
 in
 pkgs.writeText "firejail-thunderbird-profile" ''
   # Firejail profile for thunderbird
   # Description: Email, RSS and newsgroup client with integrated spam filter
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
@@ -56,7 +60,7 @@ pkgs.writeText "firejail-thunderbird-profile" ''
   # rules below. Otherwise they will be deleted when you close Thunderbird.
   # See https://github.com/netblue30/firejail/issues/2357
   mkdir ''${HOME}/.cache/thunderbird
-  #mkdir ''${HOME}/.gnupg
+  mkdir ''${HOME}/.gnupg
   #mkdir ''${HOME}/.icedove
   mkdir ''${HOME}/.thunderbird
   whitelist ''${HOME}/.cache/thunderbird

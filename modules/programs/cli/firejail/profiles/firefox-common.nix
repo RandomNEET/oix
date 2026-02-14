@@ -1,6 +1,20 @@
-{ pkgs, DOWNLOADS, ... }:
+{
+  pkgs,
+  global,
+  DOWNLOADS,
+  ...
+}:
+let
+  local = pkgs.writeText "firejail-firefox-common-local" "";
+in
 pkgs.writeText "firejail-firefox-common-profile" ''
   # Firejail profile for firefox-common
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
+  # Persistent global definitions
+  # added by caller profile
+  #include ${global}
 
   # noexec ''${HOME} breaks DRM binaries.
   ?BROWSER_ALLOW_DRM: ignore noexec ''${HOME}
@@ -26,6 +40,7 @@ pkgs.writeText "firejail-firefox-common-profile" ''
   #include firefox-common-addons.profile
 
   noblacklist ''${HOME}/.local/share/pki
+  noblacklist ''${HOME}/.mailcap
   noblacklist ''${HOME}/.pki
 
   blacklist ''${PATH}/curl
@@ -42,6 +57,7 @@ pkgs.writeText "firejail-firefox-common-profile" ''
   mkdir ''${HOME}/.local/share/pki
   whitelist ${DOWNLOADS}
   whitelist ''${HOME}/.local/share/pki
+  whitelist ''${HOME}/.mailcap
   whitelist ''${HOME}/.pki
   whitelist /usr/share/doc
   whitelist /usr/share/gtk-doc/html

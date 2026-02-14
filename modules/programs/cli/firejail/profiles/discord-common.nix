@@ -1,9 +1,21 @@
-{ pkgs, DOWNLOADS, ... }:
+{
+  pkgs,
+  global,
+  DOWNLOADS,
+  ...
+}:
 let
-  electron-common-profile = import ./electron-common.nix { inherit pkgs DOWNLOADS; };
+  electron-common-profile = import ./electron-common.nix { inherit pkgs global DOWNLOADS; };
+  local = pkgs.writeText "firejail-discord-common-local" "";
 in
 pkgs.writeText "firejail-discord-common-profile" ''
   # Firejail profile for discord
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
+  # Persistent global definitions
+  # added by caller profile
+  #include ${global}
 
   # Disabled until someone reported positive feedback
   ignore apparmor

@@ -5,17 +5,21 @@
   ...
 }:
 let
-  firefox-common-profile = import ./firefox-common.nix { inherit pkgs DOWNLOADS; };
+  firefox-common-profile = import ./firefox-common.nix { inherit pkgs global DOWNLOADS; };
+  local = pkgs.writeText "firejail-firefox-local" ''
+    # custom directory
+    noblacklist ''${HOME}/repo
+    whitelist ''${HOME}/repo
+  '';
 in
 pkgs.writeText "firejail-firefox-profile" ''
   # Firejail profile for firefox
   # Description: Safe and easy web browser from Mozilla
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
-
-  # Edited: allow custom directory
-  noblacklist ''${HOME}/repo
-  whitelist ''${HOME}/repo
 
   # Note: Sandboxing web browsers is as important as it is complex. Users might
   # be interested in creating custom profiles depending on the use case (e.g. one
@@ -33,7 +37,8 @@ pkgs.writeText "firejail-firefox-profile" ''
   noblacklist ''${RUNUSER}/*firefox*
   noblacklist ''${RUNUSER}/psd/*firefox*
 
-  blacklist /usr/libexec
+  # uses libgdk-pixbuf and/or glycin - see #6906
+  #blacklist /usr/libexec
 
   mkdir ''${HOME}/.cache/mozilla/firefox
   mkdir ''${HOME}/.mozilla

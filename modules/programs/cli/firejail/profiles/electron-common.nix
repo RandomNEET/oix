@@ -1,10 +1,19 @@
-{ pkgs, DOWNLOADS, ... }:
+{
+  pkgs,
+  global,
+  DOWNLOADS,
+  ...
+}:
 let
-  blink-common-profile = import ./blink-common.nix { inherit pkgs DOWNLOADS; };
+  blink-common-profile = import ./blink-common.nix { inherit pkgs global DOWNLOADS; };
+  local = pkgs.writeText "firejail-electron-common-local" "";
 in
 pkgs.writeText "firejail-electron-common-profile" ''
   # Firejail profile for electron-common
   # Description: Build cross platform desktop apps with web technologies
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
 
   noblacklist ''${HOME}/.config/Electron
   noblacklist ''${HOME}/.config/electron*-flag*.conf

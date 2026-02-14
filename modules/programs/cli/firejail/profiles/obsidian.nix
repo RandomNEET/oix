@@ -6,18 +6,23 @@
   ...
 }:
 let
-  electron-common-profile = import ./electron-common.nix { inherit pkgs DOWNLOADS; };
+  electron-common-profile = import ./electron-common.nix { inherit pkgs global DOWNLOADS; };
+  local = pkgs.writeText "firejail--local" "";
+
 in
 pkgs.writeText "firejail-obsidian-profile" ''
   # Firejail profile for obsidian
   # Description: Personal knowledge base and note-taking with Markdown files.
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
   noblacklist ${DOCUMENTS}
   noblacklist ''${HOME}/.config/obsidian
 
-  #mkdir ''${HOME}/.config/obsidian
+  mkdir ''${HOME}/.config/obsidian
   whitelist ${DOCUMENTS}
   whitelist ''${HOME}/.config/obsidian
 

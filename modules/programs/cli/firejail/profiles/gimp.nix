@@ -6,9 +6,18 @@
   PICTURES,
   ...
 }:
+let
+  local = pkgs.writeText "firejail-gimp-local" ''
+    noblacklist ${DOWNLOADS}
+  '';
+in
+
 pkgs.writeText "firejail-gimp-profile" ''
   # Firejail profile for gimp
   # Description: GNU Image Manipulation Program
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
@@ -29,7 +38,6 @@ pkgs.writeText "firejail-gimp-profile" ''
   noblacklist ''${HOME}/.config/GIMP
   noblacklist ''${HOME}/.gimp*
   noblacklist ${DOCUMENTS}
-  noblacklist ${DOWNLOADS}
   noblacklist ${PICTURES}
 
   # See issue #4367, gimp 2.10.22-3: gegl:introspect broken

@@ -3,8 +3,15 @@
   global,
   ...
 }:
+let
+  local = pkgs.writeText "firejail-spotify-local" "";
+in
+
 pkgs.writeText "firejail-spotify-profile" ''
   # Firejail profile for spotify
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 

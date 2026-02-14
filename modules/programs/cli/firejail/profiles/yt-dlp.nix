@@ -6,10 +6,18 @@
   VIDEOS,
   ...
 }:
+let
+  local = pkgs.writeText "firejail-yt-dlp-local" ''
+    noblacklist ${DOWNLOADS}
+  '';
+in
 pkgs.writeText "firejail-yt-dlp-profile" ''
   # Firejail profile for yt-dlp
   # Description: Downloader of videos of various sites
+  # This file is overwritten after every install/update
   quiet
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
@@ -23,13 +31,19 @@ pkgs.writeText "firejail-yt-dlp-profile" ''
   # then run the command
   # 'sudo apparmor_parser -r /etc/apparmor.d/firejail-default'
 
+  # For age-restricted and rate-limited videos, uncomment the following line
+  # (yt-dlp needs the browser cookie):
+  #noblacklist ''${HOME}/.mozilla
+
+  noblacklist ''${PATH}/deno
+
   noblacklist ''${HOME}/.cache/yt-dlp
   noblacklist ''${HOME}/.config/yt-dlp
   noblacklist ''${HOME}/.config/yt-dlp.conf
+  noblacklist ''${HOME}/.deno
+  noblacklist ''${HOME}/.netrc
   noblacklist ''${HOME}/yt-dlp.conf
   noblacklist ''${HOME}/yt-dlp.conf.txt
-  noblacklist ''${HOME}/.netrc
-  noblacklist ${DOWNLOADS}
   noblacklist ${MUSIC}
   noblacklist ${VIDEOS}
 
@@ -70,16 +84,17 @@ pkgs.writeText "firejail-yt-dlp-profile" ''
   seccomp.block-secondary
   tracelog
 
-  private-bin env,ffmpeg,ffprobe,python*,yt-dlp
+  private-bin deno,env,ffmpeg,ffprobe,file,python*,uname,yt-dlp
   private-cache
   private-dev
-  private-etc @tls-ca,mime.types,yt-dlp.conf
+  private-etc @tls-ca,mime.types,yt-dlp,yt-dlp-plugins,yt-dlp.conf
   private-tmp
 
   dbus-user none
   dbus-system none
 
-  memory-deny-write-execute
+  # breaks deno JavaScript
+  #memory-deny-write-execute
 
   restrict-namespaces
 ''

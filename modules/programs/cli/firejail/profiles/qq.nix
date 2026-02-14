@@ -6,11 +6,15 @@
   ...
 }:
 let
-  electron-common-profile = import ./electron-common.nix { inherit pkgs DOWNLOADS; };
+  electron-common-profile = import ./electron-common.nix { inherit pkgs global DOWNLOADS; };
+  local = pkgs.writeText "firejail-qq-local" "";
 in
 pkgs.writeText "firejail-qq-profile" ''
   # Firejail profile for linuxqq
   # Description: IM client based on Electron
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 

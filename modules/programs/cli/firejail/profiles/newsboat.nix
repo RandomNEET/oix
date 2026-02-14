@@ -6,10 +6,26 @@
 }:
 let
   username = opts.users.primary.name;
+  local = pkgs.writeText "firejail-newsboat-local" ''
+    ignore mkdir ''${HOME}/.newsboat
+
+    # access browser
+    noblacklist ''${RUNUSER}/qutebrowser
+    noblacklist ''${RUNUSER}/*firefox*
+    noblacklist ''${RUNUSER}/psd/*firefox*
+    whitelist ''${RUNUSER}/qutebrowser
+    whitelist ''${RUNUSER}/*firefox*
+    whitelist ''${RUNUSER}/psd/*firefox*
+    protocol unix
+    private-etc profiles/per-user/${username}/bin/qutebrowser,profiles/per-user/${username}/bin/firefox
+  '';
 in
 pkgs.writeText "firejail-newsboat-profile" ''
   # Firejail profile for Newsboat
   # Description: RSS program
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
@@ -19,15 +35,6 @@ pkgs.writeText "firejail-newsboat-profile" ''
   noblacklist ''${HOME}/.local/share/newsboat
   noblacklist ''${HOME}/.newsbeuter
   noblacklist ''${HOME}/.newsboat
-  noblacklist ''${HOME}/.w3m
-
-  # Edited: allow access browser
-  noblacklist ''${RUNUSER}/qutebrowser
-  noblacklist ''${RUNUSER}/*firefox*
-  noblacklist ''${RUNUSER}/psd/*firefox*
-  whitelist ''${RUNUSER}/qutebrowser
-  whitelist ''${RUNUSER}/*firefox*
-  whitelist ''${RUNUSER}/psd/*firefox*
 
   include disable-common.inc
   include disable-devel.inc
@@ -36,16 +43,15 @@ pkgs.writeText "firejail-newsboat-profile" ''
   include disable-programs.inc
   include disable-xdg.inc
 
-  #mkdir ''${HOME}/.config/newsboat
+  mkdir ''${HOME}/.config/newsboat
   mkdir ''${HOME}/.local/share/newsboat
-  #mkdir ''${HOME}/.newsboat
+  mkdir ''${HOME}/.newsboat
   whitelist ''${HOME}/.config/newsbeuter
   whitelist ''${HOME}/.config/newsboat
   whitelist ''${HOME}/.local/share/newsbeuter
   whitelist ''${HOME}/.local/share/newsboat
   whitelist ''${HOME}/.newsbeuter
   whitelist ''${HOME}/.newsboat
-  whitelist ''${HOME}/.w3m
   include whitelist-common.inc
   include whitelist-runuser-common.inc
   include whitelist-var-common.inc
@@ -62,19 +68,19 @@ pkgs.writeText "firejail-newsboat-profile" ''
   notv
   nou2f
   novideo
-  protocol unix,inet,inet6 # Edited: added unix to open in browser
+  protocol inet,inet6
   seccomp
 
   disable-mnt
   private-bin gzip,lynx,newsboat,sh,w3m
   private-cache
   private-dev
-  private-etc @tls-ca,lynx.cfg,lynx.lss,terminfo,profiles/per-user/${username}/bin/qutebrowser,profiles/per-user/${username}/bin/firefox # Edited: added profiles
+  private-etc @tls-ca,lynx.cfg,lynx.lss,terminfo
   private-tmp
 
   dbus-user none
   dbus-system none
 
-  #memory-deny-write-execute # to launch browser
+  memory-deny-write-execute
   restrict-namespaces
 ''

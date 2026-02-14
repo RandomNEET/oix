@@ -5,16 +5,23 @@
   DOWNLOADS,
   ...
 }:
-pkgs.writeText "firejail-zathrua-profile" ''
+let
+  local = pkgs.writeText "firejail-zathura-local" ''
+    noblacklist ${DOWNLOADS}
+  '';
+in
+pkgs.writeText "firejail-zathura-profile" ''
   # Firejail profile for zathura
   # Description: Document viewer with a minimalistic interface
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
   noblacklist ''${HOME}/.config/zathura
   noblacklist ''${HOME}/.local/share/zathura
   noblacklist ${DOCUMENTS}
-  noblacklist ${DOWNLOADS}
 
   include disable-common.inc
   include disable-devel.inc
@@ -25,7 +32,7 @@ pkgs.writeText "firejail-zathrua-profile" ''
   include disable-write-mnt.inc
   include disable-xdg.inc
 
-  #mkdir ''${HOME}/.config/zathura
+  mkdir ''${HOME}/.config/zathura
   mkdir ''${HOME}/.local/share/zathura
   whitelist /usr/share/doc
   whitelist /usr/share/zathura

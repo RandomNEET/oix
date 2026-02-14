@@ -1,7 +1,21 @@
-{ pkgs, DOWNLOADS, ... }:
+{
+  pkgs,
+  global,
+  DOWNLOADS,
+  ...
+}:
+let
+  local = pkgs.writeText "firejail-blink-common-local" "";
+in
 pkgs.writeText "firejail-blink-common-profile" ''
   # Firejail profile for blink-common
   # Description: Common profile for Blink-based applications
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
+  # Persistent global definitions
+  # added by caller profile
+  #include ${global}
 
   include disable-common.inc
   include disable-devel.inc

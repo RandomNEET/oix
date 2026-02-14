@@ -2,26 +2,50 @@
   config,
   lib,
   pkgs,
+  opts,
   global,
   DOWNLOADS,
   ...
 }:
+let
+  local = pkgs.writeText "firejail-qutebrowser-local" ''
+    noblacklist ''${HOME}/repo
+    whitelist ''${HOME}/repo
+
+    # localtime
+    env TZ=${opts.timezone}
+
+    # launch terminal
+    noblacklist ''${PATH}/foot
+    noblacklist ''${PATH}/footclient
+    noblacklist ''${PATH}/kitty
+
+    # for wl-clipboard in vim
+    whitelist /run/current-system/sw/bin/cat
+
+    # hardware acceleration
+    private-etc egl 
+
+    # for other programs to open html
+    ignore private-tmp
+
+    # idle inhibit
+    dbus-user.talk org.freedesktop.ScreenSaver
+
+    # userscripts/ime-off
+    ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") "dbus-user.talk org.fcitx.Fcitx5"}
+  '';
+in
 pkgs.writeText "firejail-qutebrowser-profile" ''
   # Firejail profile for qutebrowser
   # Description: Keyboard-driven, vim-like browser based on PyQt5
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
-  # Edited: allow to launch terminal
-  noblacklist ''${PATH}/foot
-  noblacklist ''${PATH}/footclient
-  noblacklist ''${PATH}/kitty
-
-  # Edited: allow custom directory
-  noblacklist ''${HOME}/repo
-  whitelist ''${HOME}/repo
-
-  # Uncomment the following lines if you want to use qute-pass.
+  # Put the following lines in qutebrowser.local if you want to use qute-pass.
   # Note that using this will leave zombie processes in the sandbox when you
   # close qutebrowser.
   # Defaults for gpg and pass, respectively.
@@ -52,7 +76,7 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   include disable-shell.inc
 
   mkdir ''${HOME}/.cache/qutebrowser
-  #mkdir ''${HOME}/.config/qutebrowser
+  mkdir ''${HOME}/.config/qutebrowser
   mkdir ''${HOME}/.local/share/qutebrowser
   mkdir ''${RUNUSER}/qutebrowser
   whitelist ${DOWNLOADS}
@@ -62,7 +86,6 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   whitelist ''${RUNUSER}/qutebrowser
   whitelist /usr/share/pdf.js
   whitelist /usr/share/qutebrowser
-  whitelist /run/current-system/sw/bin/cat # for wl-clipboard in vim
   include whitelist-common.inc
   include whitelist-run-common.inc
   include whitelist-runuser-common.inc
@@ -84,8 +107,8 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   disable-mnt
   private-cache
   private-dev
-  private-etc @tls-ca,egl # Edited: added egl for hardware acceleration
-  #private-tmp # Edited: for other programs to open html
+  private-etc @tls-ca
+  private-tmp
 
   dbus-user filter
   # qutebrowser-qt6 uses a newer chrome version which uses the name 'chromium'
@@ -93,16 +116,9 @@ pkgs.writeText "firejail-qutebrowser-profile" ''
   dbus-user.own org.mpris.MediaPlayer2.chromium.*
   dbus-user.own org.mpris.MediaPlayer2.qutebrowser.*
   dbus-user.talk org.freedesktop.Notifications
-
-  # Edited: added for idle inhibit
-  dbus-user.talk org.freedesktop.ScreenSaver
-
-  # Edited: added for userscripts/ime-off
-  ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") "dbus-user.talk org.fcitx.Fcitx5"}
-
-  # Add the next line to allow screen sharing under wayland.
+  # Add the next line to your qutebrowser.local to allow screen sharing under wayland.
   #dbus-user.talk org.freedesktop.portal.Desktop
-  # Add the next line if screen sharing sharing still does not work
+  # Add the next line to your qutebrowser.local if screen sharing sharing still does not work
   # with the above lines (might depend on the portal implementation).
   #ignore noroot
   dbus-system none

@@ -4,9 +4,18 @@
   DOWNLOADS,
   ...
 }:
+let
+  local = pkgs.writeText "firejail-qbittorrent-local" ''
+    ignore mkfile ''${HOME}/.config/qBittorrentrc
+    ignore mkdir ''${HOME}/.local/share/data/qBittorrent
+  '';
+in
 pkgs.writeText "firejail-qbittorrent-profile" ''
   # Firejail profile for qbittorrent
   # Description: An advanced BitTorrent client programmed in C++, based on Qt toolkit and libtorrent-rasterbar
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
@@ -28,9 +37,9 @@ pkgs.writeText "firejail-qbittorrent-profile" ''
   include disable-shell.inc
 
   mkdir ''${HOME}/.cache/qBittorrent
-  #mkdir ''${HOME}/.config/qBittorrent
-  #mkfile ''${HOME}/.config/qBittorrentrc
-  #mkdir ''${HOME}/.local/share/data/qBittorrent
+  mkdir ''${HOME}/.config/qBittorrent
+  mkfile ''${HOME}/.config/qBittorrentrc
+  mkdir ''${HOME}/.local/share/data/qBittorrent
   mkdir ''${HOME}/.local/share/qBittorrent
   whitelist ${DOWNLOADS}
   whitelist ''${HOME}/.cache/qBittorrent
@@ -59,7 +68,7 @@ pkgs.writeText "firejail-qbittorrent-profile" ''
 
   private-bin python*,qbittorrent
   private-dev
-  #private-etc alternatives,ca-certificates,crypto-policies,fonts,pki,resolv.conf,ssl,X11,xdg
+  private-etc @tls-ca,@x11
   private-tmp
 
   # See https://github.com/netblue30/firejail/issues/3707 for tray-icon

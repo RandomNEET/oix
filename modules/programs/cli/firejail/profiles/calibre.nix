@@ -5,16 +5,23 @@
   DOWNLOADS,
   ...
 }:
+let
+  local = pkgs.writeText "firejail-calibre-local" ''
+    noblacklist ${DOWNLOADS}
+  '';
+in
 pkgs.writeText "firejail-calibre-profile" ''
   # Firejail profile for calibre
   # Description: Powerful and easy to use e-book manager
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
   noblacklist ''${HOME}/.cache/calibre
   noblacklist ''${HOME}/.config/calibre
   noblacklist ${DOCUMENTS}
-  noblacklist ${DOWNLOADS}
 
   include disable-common.inc
   include disable-devel.inc

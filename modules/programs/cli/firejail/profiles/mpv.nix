@@ -8,10 +8,31 @@
   VIDEOS,
   ...
 }:
+let
+  local = pkgs.writeText "firejail-mpv-local" ''
+    noblacklist ${DESKTOP}
+    noblacklist ${DOWNLOADS}
+    noblacklist ${MUSIC}
+    noblacklist ${PICTURES}
+    noblacklist ${VIDEOS}
+    whitelist ${DESKTOP}
+    whitelist ${DOWNLOADS}
+    whitelist ${MUSIC}
+    whitelist ${PICTURES}
+    whitelist ${VIDEOS}
+
+    # unable to launch when set to none
+    ignore dbus-user none
+    dbus-user filter 
+  '';
+in
 pkgs.writeText "firejail-mpv-profile" ''
   # Firejail profile for mpv
   # Description: Video player based on MPlayer/mplayer2
+  # This file is overwritten after every install/update
   quiet
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
@@ -32,11 +53,6 @@ pkgs.writeText "firejail-mpv-profile" ''
   #include allow-bin-sh.inc
   #private-bin sh
 
-  noblacklist ${DESKTOP}
-  noblacklist ${DOWNLOADS}
-  noblacklist ${MUSIC}
-  noblacklist ${PICTURES}
-  noblacklist ${VIDEOS}
   noblacklist ''${HOME}/.cache/mpv
   noblacklist ''${HOME}/.config/mpv
   noblacklist ''${HOME}/.config/youtube-dl
@@ -55,7 +71,8 @@ pkgs.writeText "firejail-mpv-profile" ''
   include allow-python2.inc
   include allow-python3.inc
 
-  blacklist /usr/libexec
+  # uses libgdk-pixbuf and/or glycin - see #6906
+  #blacklist /usr/libexec
 
   include disable-common.inc
   include disable-devel.inc
@@ -64,14 +81,10 @@ pkgs.writeText "firejail-mpv-profile" ''
   include disable-programs.inc
   include disable-shell.inc
 
+  read-only ${DESKTOP}
   mkdir ''${HOME}/.cache/mpv
-  #mkdir ''${HOME}/.config/mpv
+  mkdir ''${HOME}/.config/mpv
   mkdir ''${HOME}/.local/state/mpv
-  whitelist ${DESKTOP}
-  whitelist ${DOWNLOADS}
-  whitelist ${MUSIC}
-  whitelist ${PICTURES}
-  whitelist ${VIDEOS}
   whitelist ''${HOME}/.cache/mpv
   whitelist ''${HOME}/.config/mpv
   whitelist ''${HOME}/.config/youtube-dl
@@ -109,7 +122,7 @@ pkgs.writeText "firejail-mpv-profile" ''
   #private-cache
   private-dev
 
-  dbus-user filter # Edited: changed from none to filter; unable to launch when set to none
+  dbus-user none
   dbus-system none
 
   restrict-namespaces
