@@ -42,7 +42,7 @@
           (lib.optionalAttrs ((opts.terminal or "") != "") { TERMINAL = opts.terminal; })
           (lib.optionalAttrs ((opts.browser or "") != "") { BROWSER = opts.browser; })
         ];
-        stateVersion = "25.11";
+        stateVersion = "26.05";
       };
       xdg = {
         userDirs = {
