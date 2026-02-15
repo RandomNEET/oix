@@ -290,26 +290,38 @@ in
                 {
                   action = "lock";
                   enabled = true;
+                  countdownEnabled = true;
+                  keybind = "1";
                 }
                 {
                   action = "suspend";
                   enabled = true;
+                  countdownEnabled = true;
+                  keybind = "2";
                 }
                 {
                   action = "hibernate";
                   enabled = opts.hibernate or false;
+                  countdownEnabled = true;
+                  keybind = if (opts.hibernate or false) then "3" else "";
                 }
                 {
                   action = "reboot";
                   enabled = true;
+                  countdownEnabled = true;
+                  keybind = if (opts.hibernate or false) then "4" else "3";
                 }
                 {
                   action = "logout";
                   enabled = true;
+                  countdownEnabled = true;
+                  keybind = if (opts.hibernate or false) then "5" else "4";
                 }
                 {
                   action = "shutdown";
                   enabled = true;
+                  countdownEnabled = true;
+                  keybind = if (opts.hibernate or false) then "6" else "5";
                 }
               ];
             };
