@@ -7,7 +7,6 @@
 }:
 let
   nvidiaDriverChannel = config.boot.kernelPackages.nvidiaPackages.latest; # stable, latest, beta, etc.
-
   desktop = opts.desktop or "";
   hasDesktop = desktop != "";
 in
@@ -21,12 +20,14 @@ in
 
     __GL_GSYNC_ALLOWED = "1"; # GSync
   };
-
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ]; # or "nvidiaLegacy470", etc.
   boot.kernelParams = lib.optionals (lib.elem "nvidia" config.services.xserver.videoDrivers) [
     "nvidia-drm.modeset=1"
     "nvidia_drm.fbdev=1"
+    # Fixes sleep/suspend
+    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+    "nvidia.NVreg_TemporaryFilePath=/var/tmp"
   ];
   hardware = {
     nvidia = {
