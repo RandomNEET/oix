@@ -2,6 +2,7 @@
 (
   {
     gh = "https://github.com/";
+    cb = "https://codeberg.org/";
     yt = "https://www.youtube.com/";
     bi = "https://bilibili.com/";
     rd = "https://www.reddit.com/";

@@ -273,7 +273,13 @@ rec {
         "github.com" = {
           hostname = "github.com";
           user = "git";
-          identityFile = "${ssh.keyDir}/gh-randomneet";
+          identityFile = "${ssh.keyDir}/github-RandomNEET";
+          addKeysToAgent = "yes";
+        };
+        "codeberg.org" = {
+          hostname = "codeberg.org";
+          user = "git";
+          identityFile = "${ssh.keyDir}/codeberg-RandomNEET";
           addKeysToAgent = "yes";
         };
         "dix" = {
