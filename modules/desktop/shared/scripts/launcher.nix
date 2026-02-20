@@ -9,17 +9,18 @@
 let
   inherit (lib) getExe optionalString;
   desktop = opts.desktop;
+  terminal = opts.terminal;
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
-  themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
-
+  defaultWallpaperTheme = if hasThemes then builtins.head opts.themes else "original";
+  wallpaperTheme =
+    if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "original";
   wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
   transitionType = opts.wallpaper.launcher.transition.type or "center";
   transitionStep = toString (opts.wallpaper.launcher.transition.step or 90);
   transitionDuration = toString (opts.wallpaper.launcher.transition.duration or 1);
   transitionFps = toString (opts.wallpaper.launcher.transition.fps or 60);
-
   displays = opts.display or [ ];
   displayCount = builtins.length displays;
   displayListStr = lib.concatMapStringsSep "\n" (
@@ -39,8 +40,6 @@ let
   singleDisplayOutput = if displayCount == 1 then (builtins.elemAt displays 0).output else "";
   singleDisplayOrientation =
     if displayCount == 1 then (builtins.elemAt displays 0).orientation else "";
-
-  terminal = opts.terminal;
 in
 pkgs.writeShellScriptBin "launcher" ''
   if pidof rofi >/dev/null; then
@@ -89,8 +88,8 @@ pkgs.writeShellScriptBin "launcher" ''
     ;;
   wallpaper)
     WALLPAPER_DIR="${wallpaperDir}"
-    LANDSCAPE_DIR="$WALLPAPER_DIR/${themeName}/landscape"
-    PORTRAIT_DIR="$WALLPAPER_DIR/${themeName}/portrait"
+    LANDSCAPE_DIR="$WALLPAPER_DIR/${wallpaperTheme}/landscape"
+    PORTRAIT_DIR="$WALLPAPER_DIR/${wallpaperTheme}/portrait"
     DISPLAY_COUNT=${toString displayCount}
 
     if [ "$DISPLAY_COUNT" -eq 1 ]; then
@@ -240,7 +239,7 @@ pkgs.writeShellScriptBin "launcher" ''
       if [ -f "$PALETTE_FILE" ]; then
         THEME_NAME=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
       fi
-      THEME_NAME=''${THEME_NAME:-"${defaultTheme}"}
+      THEME_NAME=''${THEME_NAME:-"${defaultWallpaperTheme}"}
 
       WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
       if [ ! -f "$WALLPAPER_CONF" ]; then

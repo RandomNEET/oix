@@ -30,6 +30,8 @@
       { osConfig, config, ... }:
       let
         inherit (lib) getExe;
+        themes = opts.themes or [ ];
+        hasThemes = themes != [ ];
         launcher = getExe (
           import ../shared/scripts/launcher.nix {
             inherit
@@ -58,8 +60,8 @@
       {
         imports = [
           inputs.niri.homeModules.niri
-          inputs.niri.homeModules.stylix
-        ];
+        ]
+        ++ lib.optional hasThemes inputs.niri.homeModules.stylix;
 
         programs.niri = {
           enable = true;
@@ -94,7 +96,6 @@
           }
           // (import ./misc.nix { inherit opts; });
         };
-        stylix.targets.niri.enable = true;
 
         services.lxqt-policykit-agent.enable = true;
         # Put inside of home-manager to auto start sservice after switching specialisation
@@ -148,6 +149,9 @@
           wlsunset
           xwayland-satellite
         ];
+      }
+      // lib.optionalAttrs hasThemes {
+        stylix.targets.niri.enable = true;
       }
     )
   ];

@@ -6,8 +6,7 @@
 }:
 let
   wallpaperDir = opts.wallpaper.dir;
-  originalDir = "${wallpaperDir}/default";
-
+  originalDir = "${wallpaperDir}/original";
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
   # List : arcdark atomdark cat-frappe cat-latte catppuccin cyberpunk dracula everforest github-light gruvbox kanagawa material melange-dark melange-light monokai night-owl nord oceanic-next onedark palenight rose-pine shades-of-purple solarized srcery sunset-aurant sunset-saffron sunset-tangerine synthwave-84 tokyo-dark tokyo-moon tokyo-storm
@@ -17,8 +16,8 @@ in
 if hasThemes then
   pkgs.writeShellScript "convert-wall" ''
     # --- 1. CONFIGURATION & INITIALIZATION ---
-    ORIGINAL_DIR="${originalDir}"
     WALLPAPERS_DIR="${wallpaperDir}"
+    ORIGINAL_DIR="${originalDir}"
     THEMES=(${themesArray})
 
     if [ ! -d "$ORIGINAL_DIR" ]; then
@@ -31,7 +30,7 @@ if hasThemes then
       [ -d "$DIR_PATH" ] || continue
       DIR_NAME=$(basename "$DIR_PATH")
 
-      [ "$DIR_NAME" == "default" ] && continue
+      [ "$DIR_NAME" == "original" ] && continue
 
       IS_STALE=true
       for T in "''${THEMES[@]}"; do
@@ -49,7 +48,7 @@ if hasThemes then
 
     # --- 3. THEME ITERATION ---
     for THEME in "''${THEMES[@]}"; do
-      [ "$THEME" == "default" ] && continue
+      [ "$THEME" == "original" ] && continue
       
       THEME_ROOT="$WALLPAPERS_DIR/$THEME"
       echo "=== Syncing Theme: [$THEME] ==="

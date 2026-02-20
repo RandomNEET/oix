@@ -17,6 +17,7 @@ in
     (
       { osConfig, config, ... }:
       let
+        colors = config.lib.stylix.colors.withHashtag;
         themes = opts.themes or [ ];
         hasThemes = themes != [ ];
         themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
@@ -52,8 +53,6 @@ in
             "";
         hasWallpaper = wallpaperDir != "";
         restore-wall-theme = import ./scripts/restore-wall-theme.nix { inherit config pkgs opts; };
-
-        colors = config.lib.stylix.colors.withHashtag;
       in
       {
         imports = [ inputs.noctalia.homeModules.default ];

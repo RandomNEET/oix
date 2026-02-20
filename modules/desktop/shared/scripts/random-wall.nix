@@ -8,7 +8,8 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
-  themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
+  themeName =
+    if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "original";
 
   wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
   transitionType = opts.wallpaper.transition.random-wall.type or "wipe";

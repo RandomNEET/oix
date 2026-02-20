@@ -67,7 +67,7 @@ rec {
     # Required structure: base / <theme_name> / <orientation> / <pictures>
     #
     # Notes:
-    # - Original colored pictures belong in the "default" theme folder.
+    # - Original colored pictures belong in the "original" theme folder.
     # - Valid orientations: "landscape", "portrait".
     #
     # Example:
@@ -77,7 +77,7 @@ rec {
     # │   │   └──  pic.jpg
     # │   └──  portrait
     # │       └──  pic.jpg
-    # └──  default
+    # └──  original
     #     ├──  landscape
     #     │   └──  pic.jpg
     #     └──  portrait
