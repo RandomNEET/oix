@@ -9,6 +9,7 @@
     ../../modules/services/cron
     ../../modules/services/freshrss
     ../../modules/services/frp
+    ../../modules/services/fstrim
     ../../modules/services/glances
     ../../modules/services/homepage-dashboard
     ../../modules/services/jellyfin

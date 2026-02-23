@@ -50,6 +50,7 @@
     systemd.enable = true;
     luks.devices."enc" = {
       device = "/dev/disk/by-uuid/055580b6-24c9-4c6b-b4d8-eab81bc10224";
+      allowDiscards = true;
       crypttabExtraOpts = [ "tpm2-device=auto" ];
     };
   };
@@ -90,19 +91,18 @@
   swapDevices = [
     {
       device = "/dev/disk/by-partuuid/f661bdf4-f8b0-4e55-ac6d-f9337828786b";
-      randomEncryption.enable = true;
+      randomEncryption = {
+        enable = true;
+        allowDiscards = true;
+      };
     }
   ];
 
   fileSystems."/mnt/ssd" = {
     device = "/dev/disk/by-uuid/CC28EE4576AC5AE3";
-    fsType = "ntfs-3g";
+    fsType = "ntfs3";
     options = [
-      "uid=1000"
-      "gid=100"
-      "dmask=0022"
-      "fmask=002"
-      "exec"
+      "prealloc"
       "nofail"
       "X-mount.mkdir"
     ];

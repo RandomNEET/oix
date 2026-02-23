@@ -9,6 +9,7 @@
     ../../modules/services/avahi
     ../../modules/services/blueman
     ../../modules/services/flatpak
+    ../../modules/services/fstrim
     ../../modules/services/greetd
     ../../modules/services/kmonad
     ../../modules/services/mbsync

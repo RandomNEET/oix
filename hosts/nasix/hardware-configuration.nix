@@ -44,12 +44,9 @@
 
   fileSystems."/mnt/smb" = {
     device = "/dev/disk/by-uuid/04CEA1884141A7D0";
-    fsType = "ntfs-3g";
+    fsType = "ntfs3";
     options = [
-      "uid=1000"
-      "gid=100"
-      "umask=000"
-      "exec"
+      "prealloc"
       "nofail"
       "X-mount.mkdir"
     ];
