@@ -29,11 +29,6 @@ let
       bin = "${getBin pkgs.aerc}/bin/aerc";
       profile = profiles.aerc;
     };
-    code = {
-      enable = config.programs.vscode.enable;
-      bin = "${getBin pkgs.vscode}/bin/code";
-      profile = profiles.code;
-    };
     firefox = {
       enable = config.programs.firefox.enable;
       bin = "${getBin pkgs.firefox}/bin/firefox";

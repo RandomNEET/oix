@@ -50,7 +50,6 @@ let
 in
 {
   aerc = import ./aerc.nix env;
-  code = import ./code.nix env;
   calibre = import ./calibre.nix env;
   firefox = import ./firefox.nix env;
   gimp = import ./gimp.nix env;
