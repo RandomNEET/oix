@@ -14,32 +14,29 @@ echo "   Nix Packages Multi-Update Manager      "
 echo "   Working Directory: $SCRIPT_DIR"
 echo "=========================================="
 
-# --- Iteration ---
-for dir in */; do
-	dir_name=${dir%/}
+# --- Recursive Search ---
+while IFS= read -r update_script; do
+  pkg_dir=$(dirname "$update_script")
 
-	if [[ "$dir_name" == "hosts" || "$dir_name" == "modules" || "$dir_name" == "overlays" ]]; then
-		continue
-	fi
+  if [[ "$pkg_dir" == *"hosts"* || "$pkg_dir" == *"modules"* || "$pkg_dir" == *"overlays"* || "$pkg_dir" == "." ]]; then
+    continue
+  fi
 
-	if [ -f "${dir_name}/update.sh" ]; then
-		echo -e "\n[+] Found update script in: $dir_name"
+  echo -e "\n[+] Running update in: $pkg_dir"
 
-		(
-			cd "$dir_name" || exit
-			chmod +x update.sh
-			./update.sh
-		)
+  (
+    cd "$pkg_dir" || exit
+    chmod +x update.sh
+    ./update.sh
+  )
 
-		if [ $? -eq 0 ]; then
-			SUCCESSFUL+=("$dir_name")
-		else
-			FAILED+=("$dir_name")
-		fi
-	else
-		SKIPPED+=("$dir_name")
-	fi
-done
+  if [ $? -eq 0 ]; then
+    SUCCESSFUL+=("$pkg_dir")
+  else
+    FAILED+=("$pkg_dir")
+  fi
+
+done < <(find . -name "update.sh" -not -path "*/.*")
 
 # --- Final Summary Report ---
 echo -e "\n=========================================="
@@ -47,24 +44,24 @@ echo "             UPDATE SUMMARY               "
 echo "=========================================="
 
 if [ ${#SUCCESSFUL[@]} -ne 0 ]; then
-	echo "✅ Successfully updated:"
-	for pkg in "${SUCCESSFUL[@]}"; do
-		echo "   - $pkg"
-	done
+  echo "✅ Successfully updated:"
+  for pkg in "${SUCCESSFUL[@]}"; do
+    echo "   - $pkg"
+  done
 fi
 
 if [ ${#FAILED[@]} -ne 0 ]; then
-	echo -e "\n❌ Failed updates (check logs above):"
-	for pkg in "${FAILED[@]}"; do
-		echo "   - $pkg"
-	done
+  echo -e "\n❌ Failed updates (check logs above):"
+  for pkg in "${FAILED[@]}"; do
+    echo "   - $pkg"
+  done
 fi
 
 if [ ${#SKIPPED[@]} -ne 0 ]; then
-	echo -e "\nℹ️  Skipped (no update.sh found):"
-	for pkg in "${SKIPPED[@]}"; do
-		echo "   - $pkg"
-	done
+  echo -e "\nℹ️  Skipped (no update.sh found):"
+  for pkg in "${SKIPPED[@]}"; do
+    echo "   - $pkg"
+  done
 fi
 
 echo -e "\nAll tasks processed."

@@ -145,12 +145,25 @@ in
               lockScreenBlur = 0.30;
               lockScreenTint = 0.25;
               keybinds = {
-                keyUp = "Ctrl+K";
-                keyDown = "Ctrl+J";
-                keyLeft = "Ctrl+H";
-                keyRight = "Ctrl+L";
-                keyEnter = "Return";
-                keyEscape = "Esc";
+                keyUp = [
+                  "Ctrl+K"
+                  "Up"
+                ];
+                keyDown = [
+                  "Ctrl+J"
+                  "Down"
+                ];
+                keyLeft = [
+                  "Ctrl+H"
+                  "Left"
+                ];
+                keyRight = [
+                  "Ctrl+L"
+                  "Right"
+                ];
+                keyEnter = [ "Return" ];
+                keyEscape = [ "Esc" ];
+                keyRemove = [ "Del" ];
               };
             };
             ui = {
@@ -284,45 +297,57 @@ in
               enableDgpuMonitoring =
                 if (!(lib.strings.hasInfix "integrated" (opts.gpu or ""))) then true else false;
             };
+            dock = {
+              enabled = true;
+              position = "bottom";
+              dockType = "floating";
+            };
+            network = {
+              wifiEnabled = true;
+              airplaneModeEnabled = false;
+              bluetoothRssiPollingEnabled = false;
+              disableDiscoverability = false;
+            };
             sessionMenu = {
-              powerOptions = [
-                {
-                  action = "lock";
-                  enabled = true;
-                  countdownEnabled = true;
-                  keybind = "1";
-                }
-                {
-                  action = "suspend";
-                  enabled = true;
-                  countdownEnabled = true;
-                  keybind = "2";
-                }
-                {
-                  action = "hibernate";
-                  enabled = opts.hibernate or false;
-                  countdownEnabled = true;
-                  keybind = if (opts.hibernate or false) then "3" else "";
-                }
-                {
-                  action = "reboot";
-                  enabled = true;
-                  countdownEnabled = true;
-                  keybind = if (opts.hibernate or false) then "4" else "3";
-                }
-                {
-                  action = "logout";
-                  enabled = true;
-                  countdownEnabled = true;
-                  keybind = if (opts.hibernate or false) then "5" else "4";
-                }
-                {
-                  action = "shutdown";
-                  enabled = true;
-                  countdownEnabled = true;
-                  keybind = if (opts.hibernate or false) then "6" else "5";
-                }
-              ];
+              powerOptions =
+                opts.noctalia.settings.sessionMenu.powerOptions or [
+                  {
+                    action = "lock";
+                    enabled = true;
+                    countdownEnabled = true;
+                    keybind = "1";
+                  }
+                  {
+                    action = "suspend";
+                    enabled = true;
+                    countdownEnabled = true;
+                    keybind = "2";
+                  }
+                  {
+                    action = "hibernate";
+                    enabled = opts.hibernate or false;
+                    countdownEnabled = true;
+                    keybind = if (opts.hibernate or false) then "3" else "";
+                  }
+                  {
+                    action = "reboot";
+                    enabled = true;
+                    countdownEnabled = true;
+                    keybind = if (opts.hibernate or false) then "4" else "3";
+                  }
+                  {
+                    action = "logout";
+                    enabled = true;
+                    countdownEnabled = true;
+                    keybind = if (opts.hibernate or false) then "5" else "4";
+                  }
+                  {
+                    action = "shutdown";
+                    enabled = true;
+                    countdownEnabled = true;
+                    keybind = if (opts.hibernate or false) then "6" else "5";
+                  }
+                ];
             };
             notifications = {
               saveToHistory = {

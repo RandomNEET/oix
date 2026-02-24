@@ -1,11 +1,11 @@
 { pkgs, ... }:
 [
   {
-    pkg = pkgs.obsidian-livesync;
+    pkg = pkgs.obsidianPlugins.livesync;
     enable = true;
   }
   {
-    pkg = pkgs.obsidian-trash-explorer;
+    pkg = pkgs.obsidianPlugins.trash-explorer;
     enable = true;
   }
 ]

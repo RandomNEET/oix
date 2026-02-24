@@ -251,6 +251,47 @@ rec {
           }
         ];
       };
+      sessionMenu = {
+        powerOptions = [
+          {
+            action = "lock";
+            enabled = true;
+            countdownEnabled = true;
+            keybind = "1";
+          }
+          {
+            action = "suspend";
+            enabled = true;
+            countdownEnabled = true;
+            keybind = "2";
+          }
+          {
+            action = "reboot";
+            enabled = true;
+            countdownEnabled = true;
+            keybind = "3";
+          }
+
+          {
+            action = "logout";
+            enabled = true;
+            countdownEnabled = true;
+            keybind = "4";
+          }
+          {
+            action = "shutdown";
+            enabled = true;
+            countdownEnabled = true;
+            keybind = "5";
+          }
+          {
+            action = "rebootToUefi";
+            enabled = true;
+            countdownEnabled = true;
+            keybind = "6";
+          }
+        ];
+      };
       location = {
         name = "Jiangxi";
       };
