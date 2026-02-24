@@ -112,7 +112,7 @@ rec {
   };
 
   hyprlock = {
-    background = "${wallpaper.dir}/default/landscape/touhou/marisa-reimu-3.jpg";
+    background = "${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
   };
 
   niri = {
@@ -147,7 +147,7 @@ rec {
   };
 
   swaylock = {
-    image = "eDP-1:${wallpaper.dir}/default/landscape/touhou/marisa-reimu-3.jpg";
+    image = "eDP-1:${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
   };
   # }}}
 
