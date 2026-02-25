@@ -119,8 +119,8 @@ rec {
   hyprland = {
     settings = {
       monitor = [
-        "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5"
-        "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1"
+        "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5, bitdepth, 10, cm, hdr, sdrbrightness, 1.5, sdrsaturation, 1.1"
+        "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1, bitdepth, 10, cm, hdr, sdrbrightness, 1.2, sdrsaturation, 1.1"
       ];
       bind = [
         "$mainMod, F1, exec, noctalia-shell ipc call volume muteOutput"
@@ -200,10 +200,6 @@ rec {
             refresh = 144.00;
           };
           scale = 1.5;
-          transform = {
-            rotation = 0;
-            flipped = false;
-          };
           position = {
             x = 0;
             y = 0;
@@ -221,13 +217,11 @@ rec {
           scale = 1.5;
           transform = {
             rotation = 90;
-            flipped = false;
           };
           position = {
             x = 2560;
             y = -600;
           };
-          variable-refresh-rate = false;
         };
       };
       binds = {

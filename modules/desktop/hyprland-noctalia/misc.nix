@@ -109,8 +109,9 @@
     enable_swallow = true;
     swallow_regex = "^(kitty|foot|footclient)$";
     vfr = true; # always keep on
-    vrr = 1; # enable variable refresh rate (0=off, 1=on, 2=fullscreen only)
-  };
+    vrr = 3; # enable variable refresh rate (0=off, 1=on, 2=fullscreen only, 3=fullscreen with video or game content type)
+  }
+  // opts.hyprland.settings.misc or { };
 
   xwayland.force_zero_scaling = true;
 

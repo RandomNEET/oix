@@ -121,17 +121,7 @@ rec {
             height = 1080;
             refresh = 60.008;
           };
-          scale = 1.0;
-          transform = {
-            rotation = 0;
-            flipped = false;
-          };
-          position = {
-            x = 0;
-            y = 0;
-          };
-          variable-refresh-rate = false;
-          focus-at-startup = true;
+          scale = 1.25;
         };
       };
     };
