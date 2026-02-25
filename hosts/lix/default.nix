@@ -16,10 +16,11 @@
     ../../modules/services/mpd
     ../../modules/services/nix-cleanup
     ../../modules/services/pipewire
+    ../../modules/services/power-profiles-daemon
     ../../modules/services/proxy
     ../../modules/services/snapper
     ../../modules/services/ssh
-    ../../modules/services/tlp
+    ../../modules/services/upower
 
     ../../modules/programs/cli/aerc
     ../../modules/programs/cli/bash
