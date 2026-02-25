@@ -53,6 +53,7 @@
         );
         randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
         clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
+        screenshot = getExe (import ../shared/scripts/screenshot.nix { inherit config pkgs; });
         autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
         keybinds = getExe (
           import ./scripts/keybinds.nix {
@@ -65,7 +66,6 @@
               ;
           }
         );
-        screenshot = ./scripts/screenshot.sh;
         gamemode = ./scripts/gamemode.sh;
       in
       {
@@ -81,9 +81,9 @@
                 launcher
                 random-wall
                 clip-manager
+                screenshot
                 autoclicker
                 keybinds
-                screenshot
                 gamemode
                 getExe
                 ;
@@ -184,17 +184,18 @@
         };
 
         home.packages = with pkgs; [
+          brightnessctl
+          cliphist
+          grim
           hyprpicker
           hyprsunset
-          cliphist
-          grimblast
-          swappy
           libnotify
-          brightnessctl
           networkmanagerapplet
           pamixer
           pavucontrol
           playerctl
+          slurp
+          swappy
           wl-clipboard
           wlrctl
           yad

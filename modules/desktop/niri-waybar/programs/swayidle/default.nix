@@ -1,35 +1,35 @@
-{ pkgs, opts, ... }:
+{ opts, ... }:
 {
   home-manager.sharedModules = [
     {
       services.swayidle = {
         enable = true;
         events = {
-          lock = "${pkgs.swaylock}/bin/swaylock &";
-          unlock = "${pkgs.procps}/bin/pkill --signal SIGUSR1 swaylock";
-          before-sleep = "${pkgs.systemd}/bin/loginctl lock-session";
-          after-resume = "${pkgs.niri}/bin/niri msg action power-on-monitors";
+          lock = "swaylock &";
+          unlock = "pkill --signal SIGUSR1 swaylock";
+          before-sleep = "loginctl lock-session";
+          after-resume = "niri msg action power-on-monitors";
         };
         timeouts = [
           {
             timeout = 600;
-            command = "${pkgs.systemd}/bin/loginctl lock-session";
+            command = "loginctl lock-session";
           }
           {
             timeout = 1800;
-            command = "${pkgs.niri}/bin/niri msg action power-off-monitors";
-            resumeCommand = "${pkgs.niri}/bin/niri msg action power-on-monitors";
+            command = "niri msg action power-off-monitors";
+            resumeCommand = "niri msg action power-on-monitors";
           }
           (
-            if opts.hibernate then
+            if (opts.hibernate or false) then
               {
                 timeout = 3600;
-                command = "${pkgs.systemd}/bin/systemctl hibernate";
+                command = "systemctl hibernate";
               }
             else
               {
                 timeout = 3600;
-                command = "${pkgs.systemd}/bin/systemctl suspend";
+                command = "systemctl suspend";
               }
           )
         ];

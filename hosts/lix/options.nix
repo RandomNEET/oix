@@ -9,7 +9,7 @@ rec {
   timezone = "Asia/Shanghai";
   kbdLayout = "us";
   consoleKeymap = "us";
-  hibernate = false; # set to true if this machine supports hibernate
+  hibernate = true; # set to true if this machine supports hibernate
   # }}}
 
   # Boot {{{
@@ -39,7 +39,7 @@ rec {
   # }}}
 
   # Desktop {{{
-  desktop = "niri-waybar"; # available: hyprland-noctalia hyprland-waybar niri-waybar
+  desktop = "niri-noctalia"; # available: hyprland-noctalia hyprland-waybar niri-noctalia niri-waybar
 
   # https://github.com/tinted-theming/schemes
   # Default to the first theme
@@ -111,39 +111,45 @@ rec {
     '';
   };
 
-  hyprlock = {
-    background = "${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
-  };
-
   niri = {
     settings = {
       outputs = {
         "eDP-1" = {
           enable = true;
-
           mode = {
             width = 1920;
             height = 1080;
             refresh = 60.008;
           };
-
           scale = 1.0;
-
           transform = {
             rotation = 0;
             flipped = false;
           };
-
           position = {
             x = 0;
             y = 0;
           };
-
           variable-refresh-rate = false;
           focus-at-startup = true;
         };
       };
     };
+  };
+
+  noctalia = {
+    settings = {
+      general = {
+        avatarImage = "${xdg.userDirs.pictures}/avatars/weeb.jpg";
+      };
+      location = {
+        name = "Jiangxi";
+      };
+    };
+  };
+
+  hyprlock = {
+    background = "${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
   };
 
   swaylock = {

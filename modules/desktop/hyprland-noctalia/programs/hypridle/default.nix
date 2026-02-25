@@ -22,7 +22,7 @@
               on-resume = "hyprctl dispatch dpms on";
             }
             (
-              if opts.hibernate then
+              if (opts.hibernate or false) then
                 {
                   timeout = "3600";
                   on-timeout = "systemctl hibernate";

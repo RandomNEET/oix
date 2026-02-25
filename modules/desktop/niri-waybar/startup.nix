@@ -7,7 +7,6 @@
   ...
 }:
 [
-  { sh = "systemctl --user restart lxqt-policykit-agent.service"; }
   { sh = "wl-clipboard-history -t"; }
   { sh = "wl-paste --type text --watch cliphist store"; }
   { sh = "wl-paste --type image --watch cliphist store"; }

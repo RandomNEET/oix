@@ -63,7 +63,7 @@ rec {
   # }}}
 
   # Desktop {{{
-  desktop = "hyprland-noctalia"; # available: hyprland-noctalia hyprland-waybar niri-waybar
+  desktop = "hyprland-noctalia"; # available: hyprland-noctalia hyprland-waybar niri-noctalia niri-waybar
 
   # https://github.com/tinted-theming/schemes
   # Default to the first theme
@@ -189,8 +189,143 @@ rec {
     ];
   };
 
+  niri = {
+    settings = {
+      outputs = {
+        "DP-1" = {
+          enable = true;
+          mode = {
+            width = 3840;
+            height = 2160;
+            refresh = 144.00;
+          };
+          scale = 1.5;
+          transform = {
+            rotation = 0;
+            flipped = false;
+          };
+          position = {
+            x = 0;
+            y = 0;
+          };
+          variable-refresh-rate = "on-demand";
+          focus-at-startup = true;
+        };
+        "HDMI-A-1" = {
+          enable = true;
+          mode = {
+            width = 3840;
+            height = 2160;
+            refresh = 60.00;
+          };
+          scale = 1.5;
+          transform = {
+            rotation = 90;
+            flipped = false;
+          };
+          position = {
+            x = 2560;
+            y = -600;
+          };
+          variable-refresh-rate = false;
+        };
+      };
+      binds = {
+        "Mod+F1" = {
+          action.spawn = [
+            "noctalia-shell"
+            "ipc"
+            "call"
+            "volume"
+            "muteOutput"
+          ];
+          allow-when-locked = true;
+        };
+        "Mod+F2" = {
+          action.spawn = [
+            "noctalia-shell"
+            "ipc"
+            "call"
+            "volume"
+            "decrease"
+          ];
+          allow-when-locked = true;
+        };
+        "Mod+F3" = {
+          action.spawn = [
+            "noctalia-shell"
+            "ipc"
+            "call"
+            "volume"
+            "increase"
+          ];
+          allow-when-locked = true;
+        };
+        "Mod+F4" = {
+          action.spawn = [
+            "noctalia-shell"
+            "ipc"
+            "call"
+            "volume"
+            "muteInput"
+          ];
+          allow-when-locked = true;
+        };
+        "Mod+F5" = {
+          action.spawn = [
+            "noctalia-shell"
+            "ipc"
+            "call"
+            "brightness"
+            "decrease"
+          ];
+          allow-when-locked = true;
+        };
+        "Mod+F6" = {
+          action.spawn = [
+            "noctalia-shell"
+            "ipc"
+            "call"
+            "brightness"
+            "increase"
+          ];
+          allow-when-locked = true;
+        };
+        "Mod+F7" = {
+          action.spawn = [
+            "noctalia-shell"
+            "ipc"
+            "call"
+            "media"
+            "previous"
+          ];
+          allow-when-locked = true;
+        };
+        "Mod+F8" = {
+          action.spawn = [
+            "noctalia-shell"
+            "ipc"
+            "call"
+            "media"
+            "playPause"
+          ];
+          allow-when-locked = true;
+        };
+        "Mod+F9" = {
+          action.spawn = [
+            "noctalia-shell"
+            "ipc"
+            "call"
+            "media"
+            "next"
+          ];
+          allow-when-locked = true;
+        };
+      };
+    };
+  };
+
   noctalia = {
-    predefinedScheme = true;
     settings = {
       general = {
         avatarImage = "${xdg.userDirs.pictures}/avatars/weeb.jpg";
@@ -296,6 +431,14 @@ rec {
         name = "Jiangxi";
       };
     };
+  };
+
+  hyprlock = {
+    background = "${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
+  };
+
+  swaylock = {
+    image = "eDP-1:${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
   };
   # }}}
 

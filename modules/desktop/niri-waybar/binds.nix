@@ -7,6 +7,7 @@
   launcher,
   random-wall,
   clip-manager,
+  screenshot,
   autoclicker,
   getExe,
   ...
@@ -385,11 +386,27 @@ in
 
   "Mod+T".action."toggle-column-tabbed-display" = { };
 
-  "Mod+P".action."screenshot" = { };
-  "Mod+Ctrl+P".action."screenshot-screen" = { };
-  "Mod+Alt+P".action."screenshot-window" = { };
-  "Mod+Shift+Print".action.spawn-sh =
-    "inotifywait -e close_write --format '%f' ~/pic/screenshots/ | (read file; gowall ocr \"$HOME/pic/screenshots/$file\" - -s tes | wl-copy && notify-send -a \"screenshot\" -u low 'OCR Success' \"Recognized: $file\") & niri msg action screenshot";
+  "Mod+P" = {
+    action.spawn = [
+      "${screenshot}"
+      "s"
+    ];
+    hotkey-overlay.title = "Screenshot (select area)";
+  };
+  "Mod+Shift+P" = {
+    action.spawn = [
+      "${screenshot}"
+      "a"
+    ];
+    hotkey-overlay.title = "Screenshot (all monitors)";
+  };
+  "Mod+Ctrl+P" = {
+    action.spawn = [
+      "${screenshot}"
+      "o"
+    ];
+    hotkey-overlay.title = "OCR capture (select area)";
+  };
 }
 // lib.optionalAttrs config.programs.tmux.enable {
   "Mod+Shift+T" = {
@@ -418,3 +435,4 @@ in
     ];
   };
 }
+// opts.niri.settings.binds or { }

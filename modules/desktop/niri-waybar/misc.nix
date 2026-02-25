@@ -7,6 +7,8 @@
     };
   };
 
+  outputs = opts.niri.settings.outputs or { };
+
   layout = {
     gaps = 10;
     background-color = "transparent";
@@ -58,4 +60,3 @@
 
   screenshot-path = "~/pic/screenshots/screenshot from %Y-%m-%d %H-%M-%S.png";
 }
-// (opts.niri.settings or { })

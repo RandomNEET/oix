@@ -6,9 +6,9 @@
   opts,
   launcher,
   clip-manager,
+  screenshot,
   autoclicker,
   keybinds,
-  screenshot,
   gamemode,
   getExe,
   ...
@@ -79,15 +79,13 @@
     "$mainMod SHIFT, W, exec, noctalia-shell ipc call wallpaper random" # random wallpaper
 
     "$mainMod, F10, exec, $terminal -e ${getExe pkgs.btop}" # System Monitor
-    "$mainMod, F11, exec, pkill hyprpicker || hyprpicker --autocopy --format=hex" # Colour Picker
+    "$mainMod, F11, exec, pkill hyprpicker || hyprpicker --autocopy --format=hex" # Color Picker
     "$mainMod, F12, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
 
     # Screenshot/Screencapture
     "$mainMod, P, exec, ${screenshot} s" # drag to snip an area / click on a window to print it
-    "$mainMod SHIFT, P, exec, ${screenshot} sf" # frozen screen, drag to snip an area / click on a window to print it
-    "$mainMod CTRL, P, exec, ${screenshot} m" # print focused monitor
-    "$mainMod ALT, P, exec, ${screenshot} p" # print all monitor outputs
-    "$mainMod, print, exec, ${screenshot} o" # ocr capture
+    "$mainMod SHIFT, P, exec, ${screenshot} a" # print all monitor outputs
+    "$mainMod CTRL, P, exec, ${screenshot} o" # ocr capture
 
     # Functional keybinds
     ",XF86AudioMute, exec, noctalia-shell ipc call volume muteOutput" # mute output

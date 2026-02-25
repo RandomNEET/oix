@@ -9,7 +9,6 @@
 let
   inherit (lib) optional mkIf;
   display = opts.display or [ ];
-  hasMultiDisplay = builtins.length display > 1;
   hasExternalDisplay = builtins.any (d: d.external == true) display;
 in
 {
@@ -177,14 +176,14 @@ in
             wallpaper = {
               enabled = true;
               directory = wallpaperDir;
-              monitorDirectories = mkIf (hasWallpaper && hasMultiDisplay) (
+              monitorDirectories = mkIf hasWallpaper (
                 map (d: {
                   directory = "${wallpaperDir}/${d.orientation}";
                   name = d.output;
                   wallpaper = "";
                 }) opts.display
               );
-              enableMultiMonitorDirectories = hasMultiDisplay;
+              enableMultiMonitorDirectories = true;
               showHiddenFiles = false;
               viewMode = "recursive";
               setWallpaperOnAllMonitors = false;

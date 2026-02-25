@@ -55,6 +55,7 @@
         );
         randomwallctl = import ../shared/scripts/randomwallctl.nix { inherit lib pkgs opts; };
         clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
+        screenshot = getExe (import ../shared/scripts/screenshot.nix { inherit config pkgs; });
         autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
       in
       {
@@ -67,7 +68,7 @@
           enable = true;
           package = pkgs.niri;
           settings = {
-            environment = import ./environment.nix { inherit osConfig config lib; };
+            environment = import ./environment.nix;
             spawn-at-startup = import ./startup.nix {
               inherit
                 lib
@@ -87,6 +88,7 @@
                 launcher
                 random-wall
                 clip-manager
+                screenshot
                 autoclicker
                 getExe
                 ;
@@ -100,6 +102,11 @@
         services.lxqt-policykit-agent.enable = true;
         # Put inside of home-manager to auto start sservice after switching specialisation
         systemd.user = {
+          services.lxqt-policykit-agent = {
+            Unit = {
+              After = [ "graphical-session.target" ];
+            };
+          };
           services.random-wall = {
             Unit = {
               Description = "Random wallpaper";
@@ -139,12 +146,15 @@
         home.packages = with pkgs; [
           brightnessctl
           cliphist
+          grim
           inotify-tools
           libnotify
           networkmanagerapplet
           pamixer
           pavucontrol
           playerctl
+          slurp
+          swappy
           wl-clipboard
           wlsunset
           xwayland-satellite

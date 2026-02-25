@@ -48,7 +48,7 @@ in
                 keybind = "r";
               }
               (
-                if opts.hibernate then
+                if (opts.hibernate or false) then
                   {
                     label = "hibernate";
                     action = "systemctl hibernate";

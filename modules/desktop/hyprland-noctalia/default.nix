@@ -38,6 +38,7 @@
           }
         );
         clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
+        screenshot = getExe (import ../shared/scripts/screenshot.nix { inherit config pkgs; });
         autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
         keybinds = getExe (
           import ./scripts/keybinds.nix {
@@ -50,7 +51,6 @@
               ;
           }
         );
-        screenshot = ./scripts/screenshot.sh;
         gamemode = ./scripts/gamemode.sh;
       in
       {
@@ -65,9 +65,9 @@
                 opts
                 launcher
                 clip-manager
+                screenshot
                 autoclicker
                 keybinds
-                screenshot
                 gamemode
                 getExe
                 ;
@@ -141,12 +141,13 @@
         };
 
         home.packages = with pkgs; [
-          hyprpicker
-          cliphist
-          grimblast
-          swappy
-          libnotify
           brightnessctl
+          cliphist
+          grim
+          hyprpicker
+          libnotify
+          slurp
+          swappy
           wl-clipboard
           wlrctl
           yad

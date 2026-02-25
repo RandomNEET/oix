@@ -132,7 +132,7 @@ let
     }
     {
       key = "SUPER F11";
-      desc = "Colour picker";
+      desc = "Color picker";
       cmd = "hyprpicker --autocopy";
     }
     {
@@ -148,21 +148,11 @@ let
     }
     {
       key = "SUPER SHIFT P";
-      desc = "Screenshot (frozen screen)";
-      cmd = "scripts/screenshot.sh sf";
+      desc = "Screenshot (all monitors)";
+      cmd = "scripts/screenshot.sh a";
     }
     {
       key = "SUPER CTRL P";
-      desc = "Screenshot (current monitor)";
-      cmd = "scripts/screenshot.sh m";
-    }
-    {
-      key = "SUPER ALT P";
-      desc = "Screenshot (all monitors)";
-      cmd = "scripts/screenshot.sh p";
-    }
-    {
-      key = "SUPER Print";
       desc = "OCR capture (select area)";
       cmd = "scripts/screenshot.sh o";
     }

@@ -19,28 +19,33 @@
 
     {
       matches = [
-        {
-          app-id = "firefox";
-          title = "^Picture-in-Picture$";
-        }
+        { app-id = "^(org\.qutebrowser\.qutebrowser)$"; }
+        { app-id = "^(firefox)$"; }
       ];
-      open-floating = true;
+      opacity = 1.00;
     }
 
     {
       matches = [
-        { app-id = "kitty"; }
-        { app-id = "foot"; }
-        { app-id = "footclient"; }
-        { app-id = "editor"; }
-        { app-id = "terminalFileManager"; }
-        { app-id = "Spotify"; }
-        { app-id = "steam"; }
-        { app-id = "code"; }
-        { app-id = "obsidian"; }
+        { app-id = "^(kitty|foot|footclient)$"; }
+        { app-id = "^(editor)$"; }
+        { app-id = "^(terminalFileManager)$"; }
+        { app-id = "^(code)$"; }
+        { app-id = "^(spotify)$"; }
+        { app-id = "^(steam)$"; }
+        { app-id = "^(org\.gnupg\.pinentry-qt)$"; }
       ];
-      draw-border-with-background = false;
       opacity = 0.95;
+    }
+
+    {
+      matches = [
+        {
+          app-id = "^(firefox)$";
+          title = "^Picture-in-Picture$";
+        }
+      ];
+      open-floating = true;
     }
   ];
 }
