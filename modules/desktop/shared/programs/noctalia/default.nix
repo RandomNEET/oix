@@ -168,6 +168,7 @@ in
             ui = {
               fontDefault = mkIf hasThemes config.stylix.fonts.sansSerif.name;
               fontFixed = mkIf hasThemes config.stylix.fonts.monospace.name;
+              panelBackgroundOpacity = 0.9;
             };
             location = {
               name = opts.noctalia.settings.location.name or "";
@@ -252,13 +253,13 @@ in
                 };
                 right = [
                   {
-                    id = "Notifications";
-                  }
-                  {
                     id = "KeepAwake";
                   }
                   {
                     id = "NightLight";
+                  }
+                  {
+                    id = "Notifications";
                   }
                   {
                     id = "WallpaperSelector";
@@ -317,34 +318,28 @@ in
                     keybind = "1";
                   }
                   {
-                    action = "suspend";
+                    action = if (opts.hibernate or false) then "hibernate" else "suspend";
                     enabled = true;
                     countdownEnabled = true;
                     keybind = "2";
                   }
                   {
-                    action = "hibernate";
-                    enabled = opts.hibernate or false;
-                    countdownEnabled = true;
-                    keybind = if (opts.hibernate or false) then "3" else "";
-                  }
-                  {
                     action = "reboot";
                     enabled = true;
                     countdownEnabled = true;
-                    keybind = if (opts.hibernate or false) then "4" else "3";
+                    keybind = "3";
                   }
                   {
                     action = "logout";
                     enabled = true;
                     countdownEnabled = true;
-                    keybind = if (opts.hibernate or false) then "5" else "4";
+                    keybind = "4";
                   }
                   {
                     action = "shutdown";
                     enabled = true;
                     countdownEnabled = true;
-                    keybind = if (opts.hibernate or false) then "6" else "5";
+                    keybind = "5";
                   }
                 ];
             };
