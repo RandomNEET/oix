@@ -165,12 +165,16 @@ in
           };
           terminal = {
             enabled = true;
+            win = {
+              position = "bottom";
+              height = 0.4;
+            };
           };
           words = {
             enabled = true;
           };
           image = {
-            enabled = ((terminal == "kitty") || (terminal == "ghostty") || (terminal == "wezterm"));
+            enabled = terminal == "kitty" || terminal == "ghostty" || terminal == "wezterm";
           };
         };
       };

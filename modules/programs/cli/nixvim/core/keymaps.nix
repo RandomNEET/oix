@@ -55,6 +55,51 @@
           desc = "Cycle to left window";
         };
       }
+      # Window resize
+      {
+        mode = [
+          "n"
+          "t"
+        ];
+        key = "<A-=>";
+        action = "<cmd>resize +2<cr>";
+        options = {
+          desc = "Increase window height";
+        };
+      }
+      {
+        mode = [
+          "n"
+          "t"
+        ];
+        key = "<A-->";
+        action = "<cmd>resize -2<cr>";
+        options = {
+          desc = "Decrease window height";
+        };
+      }
+      {
+        mode = [
+          "n"
+          "t"
+        ];
+        key = "<A-.>";
+        action = "<cmd>vertical resize +2<cr>";
+        options = {
+          desc = "Increase window width";
+        };
+      }
+      {
+        mode = [
+          "n"
+          "t"
+        ];
+        key = "<A-,>";
+        action = "<cmd>vertical resize -2<cr>";
+        options = {
+          desc = "Decrease window width";
+        };
+      }
       # Buffer
       {
         mode = "n";
