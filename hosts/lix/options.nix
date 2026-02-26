@@ -495,6 +495,11 @@ rec {
     home = [
       "ffmpeg"
       "imagemagick"
+      "md2pdf"
+
+      "qbittorrent"
+      "libreoffice"
+
       "lolcat"
       "figlet"
       "fortune"
@@ -504,13 +509,12 @@ rec {
       "cmatrix"
       "pipes"
       "tty-clock"
-      "qbittorrent"
-      "libreoffice"
     ];
 
     flatpak = {
       home = [
         "com.github.tchx84.Flatseal"
+
         "com.qq.QQ"
         "com.tencent.WeChat"
       ];

@@ -639,6 +639,9 @@ rec {
     home = [
       "mediainfo"
       "flac"
+
+      "qq"
+
       "lolcat"
       "figlet"
       "fortune"
@@ -648,7 +651,6 @@ rec {
       "cmatrix"
       "pipes"
       "tty-clock"
-      "qq"
     ];
   };
   # }}}
