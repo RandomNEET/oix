@@ -32,20 +32,22 @@ in
           terminal = "tmux-256color";
           extraConfig = ''
             # Options
-            set -g allow-rename off
-            set -g status-position bottom
-            set -g base-index 1
-            set -g pane-base-index 1
-            set -g renumber-windows on
-            set-window-option -g pane-base-index 1
+            set -s set-clipboard on
+            set -as terminal-features ',xterm-kitty:clipboard'
             set -ga terminal-overrides ",*:Tc"
             set -g allow-passthrough on
             set -ga update-environment TERM
             set -ga update-environment TERM_PROGRAM
+            set -g base-index 1
+            set -g pane-base-index 1
+            set-window-option -g pane-base-index 1
+            set -g renumber-windows on
+            set -g allow-rename off
+            set -g status-position bottom
 
             # Tmux binds
             bind r command-prompt "rename-window %%"
-            bind R source-file ~/.config/tmux/tmux.conf
+            bind R source-file ${config.xdg.configHome}/tmux/tmux.conf
             bind w list-windows
             bind * setw synchronize-panes
             bind -n C-M-c kill-pane
