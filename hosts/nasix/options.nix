@@ -490,7 +490,7 @@ rec {
         ];
       }
     ];
-    environmentFile = "/home/${users.primary.name}/.vault/env/homepage-dashboard.env";
+    environmentFiles = [ "/home/${users.primary.name}/.vault/env/homepage-dashboard.env" ];
   };
 
   mpd = {

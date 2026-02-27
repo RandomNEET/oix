@@ -11,7 +11,7 @@
     services = opts.homepage-dashboard.services or [ ];
     widgets = opts.homepage-dashboard.widgets or [ ];
     bookmarks = opts.homepage-dashboard.bookmarks or [ ];
-    environmentFile = opts.homepage-dashboard.environmentFile or "";
+    environmentFiles = opts.homepage-dashboard.environmentFiles or [ ];
 
     docker = opts.homepage-dashboard.docker or { };
     kubernetes = opts.homepage-dashboard.kubernetes or { };
