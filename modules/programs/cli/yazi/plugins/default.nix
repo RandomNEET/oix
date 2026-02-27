@@ -13,59 +13,61 @@ in
 {
   programs.yazi = {
     initLua = builtins.readFile ./init.lua; # init.lua for plugins
-    plugins = {
-      piper = pkgs.yaziPlugins.piper;
-      ouch = pkgs.yaziPlugins.ouch;
-      mediainfo = pkgs.yaziPlugins.mediainfo;
-      relative-motions = pkgs.yaziPlugins.relative-motions;
-      smart-filter = pkgs.yaziPlugins.smart-filter;
-      sudo = pkgs.yaziPlugins.sudo;
-      chmod = pkgs.yaziPlugins.chmod;
-      recycle-bin = pkgs.yaziPlugins.recycle-bin;
-      git = pkgs.yaziPlugins.git;
-      diff = pkgs.yaziPlugins.diff;
-      yatline = pkgs.yaziPlugins.yatline;
-      full-border = pkgs.yaziPlugins.full-border;
-      toggle-pane = pkgs.yaziPlugins.toggle-pane;
-    }
-    // lib.optionalAttrs config.programs.lazygit.enable {
-      lazygit = pkgs.yaziPlugins.lazygit;
-    }
-    // lib.optionalAttrs hasDesktop {
-      wl-clipboard = pkgs.yaziPlugins.wl-clipboard;
-    };
+    plugins =
+      with pkgs.yaziPlugins;
+      {
+        inherit
+          bookmarks
+          chmod
+          compress
+          diff
+          full-border
+          git
+          mediainfo
+          ouch
+          piper
+          recycle-bin
+          restore
+          smart-filter
+          sudo
+          toggle-pane
+          yatline
+          ;
+      }
+      // lib.optionalAttrs config.programs.lazygit.enable {
+        lazygit = pkgs.yaziPlugins.lazygit;
+      }
+      // lib.optionalAttrs hasDesktop {
+        wl-clipboard = pkgs.yaziPlugins.wl-clipboard;
+      };
     settings = {
-      prepend_fetchers = [
-        # git
-        {
-          id = "git";
-          url = "*";
-          run = "git";
-        }
-        {
-          id = "git";
-          url = "*/";
-          run = "git";
-        }
-      ];
       plugin = {
-        prepend_previewers = [
-          # piper
+        prepend_fetchers = [
+          # git
           {
+            id = "git";
+            url = "*";
+            run = "git";
+          }
+          {
+            id = "git";
             url = "*/";
-            run = ''piper -- ${getExe pkgs.eza} -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
+            run = "git";
+          }
+        ];
+        prepend_previewers = [
+          # mediainfo
+          {
+            mime = "{audio,video,image}/*";
+            run = "mediainfo";
           }
           {
-            url = "*.md";
-            run = ''piper -- CLICOLOR_FORCE=1 ${getExe pkgs.glow} -w=$w -s=dark "$1"'';
+            mime = "application/subrip";
+            run = "mediainfo";
           }
           {
-            url = "*.csv";
-            run = ''piper -- ${getExe pkgs.bat} -p --color=always "$1"'';
-          }
-          {
-            mime = "application/sqlite3";
-            run = ''piper -- ${getExe pkgs.sqlite} "$1" ".schema --indent"'';
+            mime = "application/postscript";
+            run = "mediainfo";
           }
           # ouch
           {
@@ -112,14 +114,22 @@ in
             mime = "application/java-archive";
             run = "ouch";
           }
-          # mediainfo
+          # piper
           {
-            mime = "{audio,video,image}/*";
-            run = "mediainfo";
+            url = "*/";
+            run = ''piper -- ${getExe pkgs.eza} -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
           }
           {
-            mime = "application/subrip";
-            run = "mediainfo";
+            url = "*.md";
+            run = ''piper -- CLICOLOR_FORCE=1 ${getExe pkgs.glow} -w=$w -s=dark "$1"'';
+          }
+          {
+            url = "*.csv";
+            run = ''piper -- ${getExe pkgs.bat} -p --color=always "$1"'';
+          }
+          {
+            mime = "application/sqlite3";
+            run = ''piper -- ${getExe pkgs.sqlite} "$1" ".schema --indent"'';
           }
         ];
         append_previewers = [
@@ -129,7 +139,7 @@ in
             run = ''piper -- ${getExe pkgs.hexyl} --border=none --terminal-width=$w "$1"'';
           }
         ];
-        repend_preloaders = [
+        prepend_preloaders = [
           # mediainfo
           {
             mime = "{audio,video,image}/*";
@@ -139,114 +149,42 @@ in
             mime = "application/subrip";
             run = "mediainfo";
           }
+          {
+            mime = "application/postscript";
+            run = "mediainfo";
+          }
         ];
       };
     };
     keymap = {
       mgr = {
         prepend_keymap = [
-          # relative-motions
+          # bookmarks
           {
-            on = "m";
-            run = "plugin relative-motions";
-            desc = "Trigger a new relative motion";
+            on = [ "m" ];
+            run = "plugin bookmarks save";
+            desc = "Save current position as a bookmark";
           }
-          # smart-filter
           {
-            on = "F";
-            run = "plugin smart-filter";
-            desc = "Smart filter";
-          }
-          # ouch
-          {
-            on = "C";
-            run = "plugin ouch";
-            desc = "Compress with ouch";
-          }
-          # sudo
-          {
-            on = [
-              "R"
-              "p"
-              "p"
-            ];
-            run = "plugin sudo -- paste";
-            desc = "sudo paste";
+            on = [ "'" ];
+            run = "plugin bookmarks jump";
+            desc = "Jump to a bookmark";
           }
           {
             on = [
-              "R"
-              "P"
-            ];
-            run = "plugin sudo -- paste --force";
-            desc = "sudo paste";
-          }
-          {
-            on = [
-              "R"
-              "r"
-            ];
-            run = "plugin sudo -- rename";
-            desc = "sudo rename";
-          }
-          {
-            on = [
-              "R"
-              "p"
-              "l"
-            ];
-            run = "plugin sudo -- link";
-            desc = "sudo link";
-          }
-          {
-            on = [
-              "R"
-              "p"
-              "r"
-            ];
-            run = "plugin sudo -- link --relative";
-            desc = "sudo link relative path";
-          }
-          {
-            on = [
-              "R"
-              "p"
-              "L"
-            ];
-            run = "plugin sudo -- hardlink";
-            desc = "sudo hardlink";
-          }
-          {
-            on = [
-              "R"
-              "a"
-            ];
-            run = "plugin sudo -- create";
-            desc = "sudo create";
-          }
-          {
-            on = [
-              "R"
+              "b"
               "d"
             ];
-            run = "plugin sudo -- remove";
-            desc = "sudo trash";
+            run = "plugin bookmarks delete";
+            desc = "Delete a bookmark";
           }
           {
             on = [
-              "R"
+              "b"
               "D"
             ];
-            run = "plugin sudo -- remove --permanently";
-            desc = "sudo delete";
-          }
-          {
-            on = [
-              "R"
-              "m"
-            ];
-            run = "plugin sudo -- chmod";
-            desc = "sudo chmod";
+            run = "plugin bookmarks delete_all";
+            desc = "Delete all bookmarks";
           }
           # chmod
           {
@@ -257,6 +195,58 @@ in
             run = "plugin chmod";
             desc = "Chmod on selected files";
           }
+          # compress
+          {
+            on = [
+              "c"
+              "a"
+              "a"
+            ];
+            run = "plugin compress";
+            desc = "Archive selected files";
+          }
+          {
+            on = [
+              "c"
+              "a"
+              "p"
+            ];
+            run = "plugin compress -p";
+            desc = "Archive selected files (password)";
+          }
+          {
+            on = [
+              "c"
+              "a"
+              "h"
+            ];
+            run = "plugin compress -ph";
+            desc = "Archive selected files (password+header)";
+          }
+          {
+            on = [
+              "c"
+              "a"
+              "l"
+            ];
+            run = "plugin compress -l";
+            desc = "Archive selected files (compression level)";
+          }
+          {
+            on = [
+              "c"
+              "a"
+              "u"
+            ];
+            run = "plugin compress -phl";
+            desc = "Archive selected files (password+header+level)";
+          }
+          # diff
+          {
+            on = "<C-d>";
+            run = "plugin diff";
+            desc = "Diff the selected with the hovered file";
+          }
           # recycle-bin
           {
             on = [
@@ -266,11 +256,113 @@ in
             run = "plugin recycle-bin";
             desc = "Open Recycle Bin menu";
           }
-          # diff
+          # restore
           {
-            on = "<C-d>";
-            run = "plugin diff";
-            desc = "Diff the selected with the hovered file";
+            on = [
+              "R"
+              "u"
+            ];
+            run = "plugin restore";
+            desc = "Restore last deleted files/folders";
+          }
+          {
+            on = [
+              "R"
+              "U"
+            ];
+            run = "plugin restore -- --interactive";
+            desc = "Restore deleted files/folders (Interactive)";
+          }
+          # smart-filter
+          {
+            on = "F";
+            run = "plugin smart-filter";
+            desc = "Smart filter";
+          }
+          # sudo
+          {
+            on = [
+              "S"
+              "p"
+              "p"
+            ];
+            run = "plugin sudo -- paste";
+            desc = "sudo paste";
+          }
+          {
+            on = [
+              "S"
+              "P"
+            ];
+            run = "plugin sudo -- paste --force";
+            desc = "sudo paste";
+          }
+          {
+            on = [
+              "S"
+              "r"
+            ];
+            run = "plugin sudo -- rename";
+            desc = "sudo rename";
+          }
+          {
+            on = [
+              "S"
+              "p"
+              "l"
+            ];
+            run = "plugin sudo -- link";
+            desc = "sudo link";
+          }
+          {
+            on = [
+              "S"
+              "p"
+              "r"
+            ];
+            run = "plugin sudo -- link --relative";
+            desc = "sudo link relative path";
+          }
+          {
+            on = [
+              "S"
+              "p"
+              "L"
+            ];
+            run = "plugin sudo -- hardlink";
+            desc = "sudo hardlink";
+          }
+          {
+            on = [
+              "S"
+              "a"
+            ];
+            run = "plugin sudo -- create";
+            desc = "sudo create";
+          }
+          {
+            on = [
+              "S"
+              "d"
+            ];
+            run = "plugin sudo -- remove";
+            desc = "sudo trash";
+          }
+          {
+            on = [
+              "S"
+              "D"
+            ];
+            run = "plugin sudo -- remove --permanently";
+            desc = "sudo delete";
+          }
+          {
+            on = [
+              "S"
+              "m"
+            ];
+            run = "plugin sudo -- chmod";
+            desc = "sudo chmod";
           }
           # toggle-pane
           {

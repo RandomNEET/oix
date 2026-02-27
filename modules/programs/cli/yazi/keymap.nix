@@ -2,55 +2,6 @@
 {
   mgr = {
     prepend_keymap = [
-      # Linemode
-      {
-        on = [
-          "M"
-          "s"
-        ];
-        run = "linemode size";
-        desc = "Linemode: size";
-      }
-      {
-        on = [
-          "M"
-          "p"
-        ];
-        run = "linemode permissions";
-        desc = "Linemode: permissions";
-      }
-      {
-        on = [
-          "M"
-          "b"
-        ];
-        run = "linemode btime";
-        desc = "Linemode: btime";
-      }
-      {
-        on = [
-          "M"
-          "m"
-        ];
-        run = "linemode mtime";
-        desc = "Linemode: mtime";
-      }
-      {
-        on = [
-          "M"
-          "o"
-        ];
-        run = "linemode owner";
-        desc = "Linemode: owner";
-      }
-      {
-        on = [
-          "M"
-          "n"
-        ];
-        run = "linemode none";
-        desc = "Linemode: none";
-      }
       # Goto
       {
         on = [
