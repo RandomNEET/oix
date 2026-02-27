@@ -19,6 +19,7 @@
     ../../modules/services/qbittorrent
     ../../modules/services/samba
     ../../modules/services/ssh
+    ../../modules/services/tlp
     ../../modules/services/vaultwarden
 
     ../../modules/programs/cli/bash
