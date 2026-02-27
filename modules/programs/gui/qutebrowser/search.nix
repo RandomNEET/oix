@@ -11,6 +11,8 @@
     nw = "https://wiki.nixos.org/index.php?search={}";
     mn = "https://mynixos.com/search?q={}";
     ng = "https://noogle.dev/q?term={}";
+    nou = "https://search.nixos.org/options?channel=unstable&query={}";
+    nos = "https://search.nixos.org/options?channel=25.11&query={}";
     npu = "https://search.nixos.org/packages?channel=unstable&query={}";
     nps = "https://search.nixos.org/packages?channel=25.11&query={}";
     hmu = "https://home-manager-options.extranix.com/?query={}&release=master";
