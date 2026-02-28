@@ -109,6 +109,19 @@ rec {
       after = [ "network-online.target" ];
       wants = [ "network-online.target" ];
     };
+    qbot = {
+      description = "NapCat Draw Bot";
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        Type = "simple";
+        User = "${users.primary.name}";
+        WorkingDirectory = "/home/howl/repo/qbot";
+        ExecStart = "/etc/profiles/per-user/howl/bin/direnv exec /home/howl/repo/qbot python /home/howl/repo/qbot/draw-listen.py";
+        Restart = "always";
+        RestartSec = "5s";
+      };
+    };
   };
 
   samba = {
