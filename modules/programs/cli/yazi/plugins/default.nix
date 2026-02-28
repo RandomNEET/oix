@@ -161,7 +161,7 @@ in
         prepend_keymap = [
           # bookmarks
           {
-            on = [ "m" ];
+            on = [ "M" ];
             run = "plugin bookmarks save";
             desc = "Save current position as a bookmark";
           }

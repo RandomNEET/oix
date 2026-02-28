@@ -5,12 +5,15 @@ let
 in
 {
   mgr = {
+    sort_by = "natural";
+    sort_sensitive = false;
+    sort_reverse = false;
+    sort_dir_first = true;
+    sort_translit = false;
+    linemode = "mtime";
     show_hidden = false;
     show_symlink = true;
-    sort_dir_first = true;
-    linemode = "size"; # or size, permissions, owner, mtime
     ratio = [
-      # or 0 3 4
       1
       3
       4
