@@ -41,7 +41,7 @@
     "$mainMod SHIFT, slash, exec, ${keybinds}"
 
     # Window/Session actions
-    # "$mainMod, Tab, overview:toggle" # toggle overview
+    "$mainMod, Tab, overview:toggle" # toggle overview
     "$mainMod, W, togglefloating" # toggle the window on focus to float
     "$mainMod, G, togglegroup" # toggle the window on focus to group
     "ALT, return, fullscreen" # toggle the window on focus to fullscreen

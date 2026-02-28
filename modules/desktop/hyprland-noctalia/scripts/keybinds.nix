@@ -187,11 +187,11 @@ let
       desc = "Move to scratchpad";
       cmd = "movetoworkspacesilent special";
     }
-    # {
-    #   key = "SUPER Tab";
-    #   desc = "Toggle overview";
-    #   cmd = "overview:toggle";
-    # }
+    {
+      key = "SUPER Tab";
+      desc = "Toggle overview";
+      cmd = "overview:toggle";
+    }
     # ----- Focus & Workspace -----
     {
       key = "SUPER H";
