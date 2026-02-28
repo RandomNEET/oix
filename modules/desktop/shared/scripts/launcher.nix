@@ -235,24 +235,17 @@ pkgs.writeShellScriptBin "launcher" ''
     fi
 
     ${optionalString (lib.strings.hasInfix "noctalia" desktop) ''
-      PALETTE_FILE="$XDG_CONFIG_HOME/stylix/palette.json"
-      if [ -f "$PALETTE_FILE" ]; then
-        THEME_NAME=$(${pkgs.jq}/bin/jq -r '.slug // empty' "$PALETTE_FILE")
-      fi
-      THEME_NAME=''${THEME_NAME:-"${defaultWallpaperTheme}"}
-
       WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
-      if [ ! -f "$WALLPAPER_CONF" ]; then
-        echo "Error: $WALLPAPER_CONF not found."
-        exit 1
+      if [ -f "$WALLPAPER_CONF" ]; then
+        NEW_JSON=$(${pkgs.jq}/bin/jq --arg theme "$SELECTED" '
+          .wallpapers |= map_values(
+            gsub("${wallpaperDir}/[^/]+/"; "${wallpaperDir}/" + $theme + "/")
+          )
+        ' "$WALLPAPER_CONF")
+        echo "$NEW_JSON" > "$WALLPAPER_CONF"
       fi
-      NEW_JSON=$(${pkgs.jq}/bin/jq --arg theme "$THEME_NAME" '
-        .wallpapers |= map_values(
-          gsub("${wallpaperDir}/[^/]+/"; "${wallpaperDir}/" + $theme + "/")
-        )
-      ' "$WALLPAPER_CONF")
-      echo "$NEW_JSON" > "$WALLPAPER_CONF"
 
+      noctalia-shell kill && noctalia-shell --daemonize
       systemctl --user restart fcitx5-daemon
     ''}
     ${optionalString (lib.strings.hasInfix "waybar" desktop) ''

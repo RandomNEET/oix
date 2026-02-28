@@ -59,7 +59,6 @@ in
         programs.noctalia-shell = {
           enable = true;
           package = pkgs.noctalia-shell;
-          systemd.enable = true;
           settings = {
             bar = {
               position = "top";
@@ -204,7 +203,6 @@ in
             };
             appLauncher = {
               enableClipboardHistory = true;
-              useApp2Unit = true;
               terminalCommand =
                 if opts ? terminal then
                   if ((opts.terminal == "foot") && (opts.foot.server or false)) then

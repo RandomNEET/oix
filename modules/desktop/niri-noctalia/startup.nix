@@ -6,7 +6,7 @@
   ...
 }:
 [
-  { sh = "dbus-update-activation-environment --systemd --all"; }
+  { sh = "noctalia-shell"; }
   { sh = "wl-clipboard-history -t"; }
   { sh = "wl-paste --type text --watch cliphist store"; }
   { sh = "wl-paste --type image --watch cliphist store"; }
