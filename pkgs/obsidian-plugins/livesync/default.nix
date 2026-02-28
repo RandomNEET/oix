@@ -1,3 +1,4 @@
+# https://github.com/vrtmrz/obsidian-livesync
 { pkgs }:
 pkgs.stdenv.mkDerivation rec {
   pname = "obsidian-livesync";

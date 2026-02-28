@@ -1,3 +1,4 @@
+# https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/applications/window-managers/hyprwm/hyprland-plugins/default.nix
 {
   config,
   lib,

@@ -1,3 +1,4 @@
+# https://github.com/proog/obsidian-trash-explorer
 { pkgs }:
 pkgs.stdenv.mkDerivation rec {
   pname = "obsidian-trash-explorer";

@@ -1,5 +1,7 @@
 # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/tools/inputmethods/fcitx5/fcitx5-rime.nix
 # https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ri/rime-ice/package.nix
+# https://github.com/fcitx/fcitx5-rime
+# https://github.com/iDvel/rime-ice
 {
   lib,
   stdenv,
