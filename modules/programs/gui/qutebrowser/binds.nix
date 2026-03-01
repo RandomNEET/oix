@@ -78,7 +78,6 @@ in
     "J" = "tab-next";
     "K" = "tab-prev";
     "L" = "forward";
-    "M" = "bookmark-add";
     "N" = "search-prev";
     "O" = "cmd-set-text -s :open -t";
     "PP" = "open -t -- {primary}";
@@ -129,7 +128,7 @@ in
     "j" = "scroll down";
     "k" = "scroll up";
     "l" = "scroll right";
-    "m" = "quickmark-save";
+    "m" = "bookmark-add";
     "n" = "search-next";
     "o" = "cmd-set-text -s :open";
     "pP" = "open -- {primary}";
