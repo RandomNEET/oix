@@ -1,7 +1,7 @@
-{ opts, ... }:
+{ config, opts, ... }:
 {
   networking = {
-    hostName = opts.hostname;
+    hostName = opts.hostname or config.system.nixos.distroId;
     networkmanager.enable = true;
     firewall = {
       enable = opts.firewall.enable or true;

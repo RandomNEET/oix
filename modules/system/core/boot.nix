@@ -6,12 +6,12 @@
       efi.canTouchEfiVariables = true;
     };
     supportedFilesystems = [
-      "ntfs"
+      "btrfs"
       "exfat"
       "ext4"
       "fat32"
-      "btrfs"
+      "ntfs"
     ];
-    kernelPackages = pkgs.${opts.boot.kernelPackages} or pkgs.linuxPackages;
+    kernelPackages = pkgs.${opts.boot.kernelPackages or "linuxPackages"};
   };
 }

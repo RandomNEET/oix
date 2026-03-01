@@ -21,6 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     impermanence.url = "github:nix-community/impermanence";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nix-flatpak.url = "github:gmodena/nix-flatpak?ref=latest";
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
@@ -44,6 +45,7 @@
       self,
       nixpkgs,
       home-manager,
+      nixos-wsl,
       ...
     }@inputs:
     let
@@ -53,24 +55,32 @@
         "aarch64-linux"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
+      isWsl =
+        name:
+        builtins.elem name [
+          "wsl"
+          "wix"
+        ];
       hosts = builtins.filter (
-        n:
-        (builtins.readDir ./hosts).${n} == "directory"
-        && builtins.pathExists (./hosts + "/${n}/default.nix")
-        && builtins.pathExists (./hosts + "/${n}/hardware-configuration.nix")
-        && builtins.pathExists (./hosts + "/${n}/options.nix")
+        name:
+        let
+          hostPath = ./hosts + "/${name}";
+          hasBase =
+            builtins.pathExists (hostPath + "/default.nix") && builtins.pathExists (hostPath + "/options.nix");
+          hasHardware = builtins.pathExists (hostPath + "/hardware-configuration.nix");
+        in
+        (builtins.readDir ./hosts).${name} == "directory" && hasBase && (hasHardware || isWsl name)
       ) (builtins.attrNames (builtins.readDir ./hosts));
       mkHost =
         name:
         let
           lib = nixpkgs.lib;
           host = ./hosts + "/${name}";
-          hardware = host + "/hardware-configuration.nix";
           mylib = import ./lib { inherit lib; };
           opts = import (host + "/options.nix") { inherit outputs lib; };
         in
         {
-          name = opts.hostname or name;
+          inherit name;
           value = nixpkgs.lib.nixosSystem {
             system = opts.system;
             specialArgs = {
@@ -83,7 +93,6 @@
             };
             modules = [
               host
-              hardware
               home-manager.nixosModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;
@@ -100,7 +109,18 @@
               {
                 nixpkgs.overlays = import ./overlays { inherit inputs; };
               }
-            ];
+            ]
+            ++ (
+              if (isWsl name) then
+                [
+                  nixos-wsl.nixosModules.default
+                  { wsl.enable = true; }
+                ]
+              else
+                [
+                  (host + "/hardware-configuration.nix")
+                ]
+            );
           };
         };
     in
