@@ -20,10 +20,6 @@
               settings = import ./settings.nix { inherit lib opts; };
               search = import ./search.nix;
               extraConfig = ''
-                ${builtins.readFile "${inputs.betterfox}/Fastfox.js"}
-                ${builtins.readFile "${inputs.betterfox}/Peskyfox.js"}
-                ${builtins.readFile "${inputs.betterfox}/Securefox.js"}
-                ${builtins.readFile "${inputs.betterfox}/Smoothfox.js"}
                 lockPref("extensions.activeThemeID", "{76aabc99-c1a8-4c1e-832b-d4f2941d5a7a}");
                 lockPref("extensions.formautofill.addresses.enabled", false);
                 lockPref("extensions.formautofill.creditCards.enabled", false);
