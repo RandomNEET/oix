@@ -2,6 +2,8 @@
   lib,
   pkgs,
   opts,
+  hostname,
+  isExt,
   ...
 }:
 let
@@ -111,7 +113,11 @@ in
 
             shellAliases = {
               "_" = "sudo ";
-              update = "sudo nixos-rebuild switch";
+              update =
+                if isExt then
+                  ''home-manager switch --flake "${config.xdg.configHome}/home-manager#${hostname}"''
+                else
+                  ''sudo nixos-rebuild switch --flake "/etc/nixos#${hostname}"'';
             }
             // (opts.zsh.shellAliases or { });
           };

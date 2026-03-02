@@ -1,6 +1,7 @@
 {
   inputs,
   config,
+  options,
   lib,
   opts,
   ...
@@ -15,10 +16,9 @@
         "/var/log"
         "/var/tmp"
         "/var/lib/nixos"
+        "/var/lib/bluetooth"
         "/var/lib/systemd/coredump"
         "/var/lib/systemd/timers"
-        "/var/lib/bluetooth"
-        "/etc/nixos"
         "/etc/NetworkManager/system-connections"
         {
           directory = "/var/lib/colord";
@@ -27,11 +27,11 @@
           mode = "u=rwx,g=rx,o=";
         }
       ]
-      ++ lib.optional (config.boot.lanzaboote.enable or false) "/var/lib/sbctl"
+      ++ lib.optional (options.boot ? lanzaboote && config.boot.lanzaboote.enable) "/var/lib/sbctl"
+      ++ lib.optional config.services.power-profiles-daemon.enable "/var/lib/power-profiles-daemon"
       ++ lib.optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
       ++ lib.optional config.virtualisation.docker.enable "/var/lib/docker"
       ++ lib.optional config.virtualisation.waydroid.enable "/var/lib/waydroid"
-      ++ lib.optional config.services.power-profiles-daemon.enable "/var/lib/power-profiles-daemon"
       ++ (opts.persistence."/nix/persist".directories or [ ])
     );
     files = (
@@ -52,5 +52,19 @@
       ]
       ++ (opts.persistence."/nix/persist".files or [ ])
     );
+  };
+  system.activationScripts.oix-link = {
+    text = ''
+      SRC="/home/${opts.users.primary.name}/oix"
+      DEST="/etc/nixos"
+
+      rm -rf "$DEST"
+      mkdir -p "$(dirname "$DEST")"
+      ln -sfnT "$SRC" "$DEST"
+    '';
+    deps = [
+      "users"
+      "groups"
+    ];
   };
 }

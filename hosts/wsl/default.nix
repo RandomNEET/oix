@@ -28,5 +28,7 @@
     ../../modules/programs/cli/yazi
     ../../modules/programs/cli/zoxide
     ../../modules/programs/cli/zsh
+
+    ../../modules/scripts
   ];
 }

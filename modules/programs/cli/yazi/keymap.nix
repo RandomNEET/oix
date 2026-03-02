@@ -32,8 +32,8 @@
           "g"
           "n"
         ];
-        run = "cd ~/nixos";
-        desc = "Go ~/nixos";
+        run = "cd ~/oix";
+        desc = "Go ~/oix";
       }
       {
         on = [

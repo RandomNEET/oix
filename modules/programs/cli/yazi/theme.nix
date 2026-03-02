@@ -99,7 +99,7 @@
         text = "";
       }
       {
-        name = "nixos";
+        name = "oix";
         text = "";
       }
     ];

@@ -573,6 +573,13 @@ rec {
       publicShare = "/home/${users.primary.name}/pub";
     };
   };
+
+  # For standalone home-manager
+  home = {
+    username = users.primary.name;
+    homeDirectory = "/home/${users.primary.name}";
+    stateVersion = "26.05";
+  };
   # }}}
 
   # Shell {{{

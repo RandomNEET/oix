@@ -1,5 +1,5 @@
-{ pkgs, opts, ... }:
-if (opts.hostname or "") == "dix" then
+{ pkgs, hostname, ... }:
+if hostname == "dix" then
   pkgs.writeShellScriptBin "backup" ''
     set -euo pipefail
     cd ~/
@@ -10,7 +10,7 @@ if (opts.hostname or "") == "dix" then
     mv -v ~/vault.tar.gz.gpg /mnt/hdd2/backup
 
     echo "==> Backing up user directories..."
-    for dir in nixos doc pic pkg repo vid .local/share/zsh; do
+    for dir in oix doc pic pkg repo vid .local/share/zsh; do
       echo "--> $dir"
       rsync -aAXH --delete --no-links --human-readable --quiet \
         --info=NAME,REMOVE,DEL \
@@ -19,14 +19,14 @@ if (opts.hostname or "") == "dix" then
 
     echo "==> Backup complete."
   ''
-else if opts.hostname != null && opts.hostname == "nasix" then
+else if hostname == "nasix" then
   pkgs.writeShellScriptBin "backup" ''
     set -euo pipefail
 
-    echo "==> Backing up nixos configs..."
+    echo "==> Backing up configs..."
     rsync -aAXH --delete --no-links --human-readable --quiet \
       --info=NAME,REMOVE,DEL \
-      ~/nixos /mnt/ssd/backup/nixos
+      ~/oix /mnt/ssd/backup/oix
 
     echo "==> Backing up docker data..."
     sudo rsync -aAXH --delete --no-links --human-readable --quiet \

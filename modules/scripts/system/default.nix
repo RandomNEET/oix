@@ -3,6 +3,9 @@
   lib,
   pkgs,
   opts,
+  hostname,
+  isExt,
+  isWsl,
   ...
 }:
 let
@@ -53,6 +56,9 @@ let
               lib
               pkgs
               opts
+              hostname
+              isExt
+              isWsl
               ;
           };
 

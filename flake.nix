@@ -1,5 +1,5 @@
 {
-  description = "I use nixos btw";
+  description = "All in Nix";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-25.11";
@@ -49,17 +49,26 @@
     }@inputs:
     let
       inherit (self) outputs;
+
+      lib = nixpkgs.lib;
+      mylib = import ./lib { inherit lib; };
+
       systems = [
         "x86_64-linux"
         "aarch64-linux"
       ];
-      forAllSystems = nixpkgs.lib.genAttrs systems;
-      isWsl =
+      forAllSystems = lib.genAttrs systems;
+
+      isExt = name: lib.hasPrefix "ext" name;
+      isWsl = name: lib.hasPrefix "wsl" name;
+
+      getOptions =
         name:
-        builtins.elem name [
-          "wsl"
-          "wix"
-        ];
+        let
+          hostPath = ./hosts + "/${name}";
+        in
+        import (hostPath + "/options.nix") { inherit outputs lib; };
+
       hosts = builtins.filter (
         name:
         let
@@ -68,19 +77,20 @@
             builtins.pathExists (hostPath + "/default.nix") && builtins.pathExists (hostPath + "/options.nix");
           hasHardware = builtins.pathExists (hostPath + "/hardware-configuration.nix");
         in
-        (builtins.readDir ./hosts).${name} == "directory" && hasBase && (hasHardware || isWsl name)
+        (builtins.readDir ./hosts).${name} == "directory"
+        && hasBase
+        && (hasHardware || isWsl name || isExt name)
       ) (builtins.attrNames (builtins.readDir ./hosts));
+
       mkHost =
         name:
         let
-          lib = nixpkgs.lib;
           host = ./hosts + "/${name}";
-          mylib = import ./lib { inherit lib; };
-          opts = import (host + "/options.nix") { inherit outputs lib; };
+          opts = getOptions name;
         in
         {
           inherit name;
-          value = nixpkgs.lib.nixosSystem {
+          value = lib.nixosSystem {
             system = opts.system;
             specialArgs = {
               inherit
@@ -89,6 +99,9 @@
                 mylib
                 opts
                 ;
+              hostname = name;
+              isExt = isExt name;
+              isWsl = isWsl name;
             };
             modules = [
               host
@@ -103,28 +116,96 @@
                     mylib
                     opts
                     ;
+                  hostname = name;
+                  isExt = isExt name;
+                  isWsl = isWsl name;
                 };
               }
-              {
-                nixpkgs.overlays = import ./overlays { inherit inputs; };
-              }
+              { nixpkgs.overlays = import ./overlays { inherit inputs; }; }
             ]
-            ++ (
-              if (isWsl name) then
-                [
-                  nixos-wsl.nixosModules.default
-                  { wsl.enable = true; }
-                ]
+            ++ lib.optionals (isWsl name) [
+              nixos-wsl.nixosModules.default
+              { wsl.enable = true; }
+            ]
+            ++ lib.optionals (builtins.pathExists (host + "/hardware-configuration.nix")) [
+              (host + "/hardware-configuration.nix")
+            ];
+          };
+        };
+
+      mkHome =
+        name:
+        let
+          nixosConfig = self.nixosConfigurations.${name} or null;
+          opts = getOptions name;
+        in
+        {
+          inherit name;
+          value = home-manager.lib.homeManagerConfiguration {
+            pkgs =
+              if nixosConfig != null then
+                nixosConfig.pkgs
               else
-                [
-                  (host + "/hardware-configuration.nix")
-                ]
-            );
+                import nixpkgs {
+                  system = opts.system;
+                  config.allowUnfree = true;
+                  overlays = import ./overlays { inherit inputs; };
+                };
+            extraSpecialArgs = {
+              osConfig = if nixosConfig != null then nixosConfig.config else (opts.osConfig or { });
+              inherit
+                inputs
+                outputs
+                mylib
+                opts
+                ;
+              hostname = name;
+              isExt = isExt name;
+              isWsl = isWsl name;
+            };
+            modules =
+              (
+                if nixosConfig != null then
+                  nixosConfig.config.home-manager.sharedModules
+                else
+                  (lib.nixosSystem {
+                    inherit (opts) system;
+                    specialArgs = {
+                      inherit
+                        inputs
+                        outputs
+                        mylib
+                        opts
+                        ;
+                      hostname = name;
+                      isWsl = isWsl name;
+                      isExt = isExt name;
+                    };
+                    modules = [
+                      (./hosts + "/${name}")
+                      home-manager.nixosModules.home-manager
+                      { nixpkgs.config.allowUnfree = true; }
+                    ];
+                  }).config.home-manager.sharedModules
+              )
+              ++ [
+                (
+                  { lib, pkgs, ... }:
+                  {
+                    programs.home-manager.enable = true;
+                    home = opts.home or { };
+                    nix.package = lib.mkDefault pkgs.nix;
+                    nixpkgs.overlays = lib.mkForce null;
+                    nixpkgs.config.allowUnfree = lib.mkForce true;
+                  }
+                )
+              ];
           };
         };
     in
     {
-      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkHost hosts);
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
+      nixosConfigurations = lib.listToAttrs (map mkHost (builtins.filter (name: !isExt name) hosts));
+      homeConfigurations = lib.listToAttrs (map mkHome hosts);
+      formatter = forAllSystems (system: lib.nixos-tree or nixpkgs.legacyPackages.${system}.nixfmt-tree);
     };
 }
