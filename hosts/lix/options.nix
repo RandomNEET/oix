@@ -82,7 +82,7 @@ rec {
     #     │   └──  pic.jpg
     #     └──  portrait
     #         └──  pic.jpg
-    dir = "${xdg.userDirs.pictures}/wallpapers";
+    dir = "${users.primary.xdg.userDirs.pictures}/wallpapers";
     # Transition effects for swww
     transition = {
       launcher = {
@@ -130,7 +130,7 @@ rec {
   noctalia = {
     settings = {
       general = {
-        avatarImage = "${xdg.userDirs.pictures}/avatars/weeb.jpg";
+        avatarImage = "${users.primary.xdg.userDirs.pictures}/avatars/weeb.jpg";
       };
       location = {
         name = "Jiangxi";
@@ -211,11 +211,11 @@ rec {
 
   # user {{{
   users = {
-    mutableUsers = false;
     root = {
       initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
     };
-    primary = {
+    primary = rec {
+      # User config
       name = "howl";
       initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
       isNormalUser = true;
@@ -226,7 +226,22 @@ rec {
         "libvirtd"
       ];
       shell = "zsh";
+      # Home-manager config
+      home-manager = true; # whether to enable home-manager for this user
+      xdg = {
+        userDirs = {
+          desktop = null; # no need for wm
+          documents = "/home/${name}/doc";
+          download = "/home/${name}/dls";
+          music = "/home/${name}/mus";
+          pictures = "/home/${name}/pic";
+          videos = "/home/${name}/vid";
+          templates = "/home/${name}/tpl";
+          publicShare = "/home/${name}/pub";
+        };
+      };
     };
+    mutableUsers = false;
   };
 
   # Define default programs
@@ -234,26 +249,6 @@ rec {
   terminal = "foot";
   terminalFileManager = "yazi";
   browser = "qutebrowser";
-
-  xdg = {
-    userDirs = {
-      desktop = null; # no need for wm
-      documents = "/home/${users.primary.name}/doc";
-      download = "/home/${users.primary.name}/dls";
-      music = "/home/${users.primary.name}/mus";
-      pictures = "/home/${users.primary.name}/pic";
-      videos = "/home/${users.primary.name}/vid";
-      templates = "/home/${users.primary.name}/tpl";
-      publicShare = "/home/${users.primary.name}/pub";
-    };
-  };
-
-  # For standalone home-manager
-  home = {
-    username = users.primary.name;
-    homeDirectory = "/home/${users.primary.name}";
-    stateVersion = "26.05";
-  };
   # }}}
 
   # Shell {{{
