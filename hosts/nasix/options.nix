@@ -74,7 +74,7 @@ rec {
   # }}}
 
   # Server {{{
-  systemd.services = {
+  systemd.system.services = {
     xray = {
       after = [
         "docker.service"

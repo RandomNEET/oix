@@ -1,9 +1,11 @@
 { opts, ... }:
 {
-  systemd = { } // (opts.systemd or { });
+  systemd = { } // (opts.systemd.system or { });
 
   home-manager.sharedModules = [
     {
+      systemd = { } // (opts.systemd.home or { });
+
       home.shellAliases = {
         # User commands (no sudo)
         sc-cat = "systemctl cat";
