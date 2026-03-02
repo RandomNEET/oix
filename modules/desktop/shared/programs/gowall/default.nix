@@ -40,6 +40,7 @@ in
                     ocr:
                       provider: "tesseract"
                       model: "tesseract"
+                      language: "eng+chi_sim"
             '';
           };
         };
