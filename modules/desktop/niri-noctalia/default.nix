@@ -103,14 +103,15 @@
         };
 
         home.packages = with pkgs; [
-          brightnessctl
+          libnotify # notification
+          xwayland-satellite # xwayland
+          # clipboard
           cliphist
+          wl-clipboard
+          # screenshot
           grim
-          libnotify
           slurp
           swappy
-          wl-clipboard
-          xwayland-satellite
         ];
       }
       // lib.optionalAttrs hasThemes {

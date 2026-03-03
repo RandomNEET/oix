@@ -141,16 +141,17 @@
         };
 
         home.packages = with pkgs; [
-          brightnessctl
+          hyprpicker # color picker
+          libnotify # notification
+          wlrctl # mouse control
+          yad # keybinds script
+          # clipboard
           cliphist
+          wl-clipboard
+          # screenshot
           grim
-          hyprpicker
-          libnotify
           slurp
           swappy
-          wl-clipboard
-          wlrctl
-          yad
         ];
       }
     )
