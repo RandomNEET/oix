@@ -4,6 +4,7 @@
     with pkgs;
     [
       _7zz-rar
+      dust
       lsof
       openssl
       rsync

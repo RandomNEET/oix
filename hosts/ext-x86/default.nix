@@ -8,6 +8,7 @@
     ../../modules/programs/cli/direnv
     ../../modules/programs/cli/eza
     ../../modules/programs/cli/fastfetch
+    ../../modules/programs/cli/fd
     ../../modules/programs/cli/fzf
     ../../modules/programs/cli/gh
     ../../modules/programs/cli/git
