@@ -95,9 +95,7 @@ in
                   }
                 '')
                 # mkAfter: Last to run configuration
-                (mkOrder 1500 ''
-                  ${optionalString config.programs.git.enable (builtins.readFile ./init/git.zsh)}
-                '')
+                (mkOrder 1500 "")
               ]
               ++ (opts.zsh.initContent or [ ])
             );

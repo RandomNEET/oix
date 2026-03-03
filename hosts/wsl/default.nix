@@ -7,6 +7,7 @@
     ../../modules/programs/cli/bat
     ../../modules/programs/cli/btop
     ../../modules/programs/cli/cava
+    ../../modules/programs/cli/delta
     ../../modules/programs/cli/direnv
     ../../modules/programs/cli/eza
     ../../modules/programs/cli/fastfetch
