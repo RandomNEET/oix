@@ -168,6 +168,9 @@ in
             win = {
               position = "bottom";
               height = 0.4;
+              wo = {
+                winhighlight = "Normal:Normal,FloatBorder:FloatBorder";
+              };
             };
           };
           words = {
