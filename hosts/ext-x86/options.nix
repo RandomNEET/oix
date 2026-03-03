@@ -2,7 +2,8 @@
 { outputs, lib, ... }:
 rec {
   # Base {{{
-  system = "x86_64-linux";
+  system = "x86_64-linux"; # x86_64-linux aarch64-linux
+  flake = "/home/${home.username}/oix"; # flake path
   home = {
     username = "howl";
     homeDirectory = "/home/howl";

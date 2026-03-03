@@ -3,13 +3,14 @@
 rec {
   # Base {{{
   hostname = "lix";
-  system = "x86_64-linux";
+  system = "x86_64-linux"; # x86_64-linux aarch64-linux
+  flake = "/home/${users.primary.name}/oix"; # flake path
   gpu = "intel-integrated"; # available: amd nvidia intel-intergrated
+  hibernate = true; # set to true if this machine supports hibernate
   locale = "en_US.UTF-8";
   timezone = "Asia/Shanghai";
   kbdLayout = "us";
   consoleKeymap = "us";
-  hibernate = true; # set to true if this machine supports hibernate
   # }}}
 
   # Boot {{{

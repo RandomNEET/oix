@@ -13,7 +13,6 @@
     ../../modules/services/greetd
     ../../modules/services/mbsync
     ../../modules/services/mpd
-    ../../modules/services/nix-cleanup
     ../../modules/services/pipewire
     ../../modules/services/power-profiles-daemon
     ../../modules/services/proxy
@@ -41,6 +40,7 @@
     ../../modules/programs/cli/lazygit
     ../../modules/programs/cli/mbsync
     ../../modules/programs/cli/newsboat
+    ../../modules/programs/cli/nh
     ../../modules/programs/cli/nixvim
     ../../modules/programs/cli/opencode
     ../../modules/programs/cli/password-store

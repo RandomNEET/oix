@@ -14,7 +14,7 @@
     ../../modules/programs/cli/glow
     ../../modules/programs/cli/jq
     ../../modules/programs/cli/lazygit
-    ../../modules/programs/cli/mbsync
+    ../../modules/programs/cli/nh
     ../../modules/programs/cli/nixvim
     ../../modules/programs/cli/opencode
     ../../modules/programs/cli/rigprep

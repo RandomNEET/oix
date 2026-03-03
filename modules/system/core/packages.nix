@@ -3,10 +3,11 @@
   environment.systemPackages =
     with pkgs;
     [
-      openssl
-      wget
-      rsync
       _7zz-rar
+      lsof
+      openssl
+      rsync
+      wget
     ]
     ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.system or [ ]);
   home-manager.sharedModules = [

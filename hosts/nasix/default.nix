@@ -8,7 +8,6 @@
     ../../modules/services/cron
     ../../modules/services/fstrim
     ../../modules/services/mpd
-    ../../modules/services/nix-cleanup
     ../../modules/services/proxy
     ../../modules/services/ssh
     ../../modules/services/tlp
@@ -34,6 +33,7 @@
     ../../modules/programs/cli/htop
     ../../modules/programs/cli/jq
     ../../modules/programs/cli/lazygit
+    ../../modules/programs/cli/nh
     ../../modules/programs/cli/nixvim
     ../../modules/programs/cli/rigprep
     ../../modules/programs/cli/tmux

@@ -3,7 +3,8 @@
 rec {
   # Base {{{
   hostname = "nasix";
-  system = "x86_64-linux";
+  system = "x86_64-linux"; # x86_64-linux aarch64-linux
+  flake = "/home/${users.primary.name}/oix"; # flake path
   gpu = "nvidia"; # available: amd nvidia intel-intergrated
   locale = "en_US.UTF-8";
   timezone = "Asia/Shanghai";

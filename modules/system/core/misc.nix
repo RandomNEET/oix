@@ -2,7 +2,6 @@
 {
   nix = {
     settings = {
-      auto-optimise-store = true;
       substituters = [ "https://nix-community.cachix.org" ] ++ (opts.nix.settings.substituters or [ ]);
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
@@ -13,8 +12,13 @@
         "flakes"
       ];
     };
+    optimise = {
+      automatic = true;
+      dates = "weekly";
+      persistent = true;
+      randomizedDelaySec = "60min";
+    };
   };
-  time.timeZone = opts.timezone;
   i18n = {
     defaultLocale = opts.locale;
     extraLocaleSettings = {
@@ -29,6 +33,7 @@
       LC_TIME = opts.locale;
     };
   };
+  time.timeZone = opts.timezone;
   console.keyMap = opts.consoleKeymap;
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "26.05";

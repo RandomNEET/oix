@@ -3,13 +3,14 @@
 rec {
   # Base {{{
   hostname = "dix";
-  system = "x86_64-linux";
+  system = "x86_64-linux"; # x86_64-linux aarch64-linux
+  flake = "/home/${users.primary.name}/oix"; # flake path
   gpu = "nvidia"; # available: amd nvidia intel-intergrated
+  hibernate = false; # set to true if this machine supports hibernate
   locale = "en_US.UTF-8";
   timezone = "Asia/Shanghai";
   kbdLayout = "us";
   consoleKeymap = "us";
-  hibernate = false; # set to true if this machine supports hibernate
   # }}}
 
   # Boot {{{

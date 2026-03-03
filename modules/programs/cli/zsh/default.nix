@@ -15,7 +15,7 @@ in
   };
   home-manager.sharedModules = [
     (
-      { config, ... }:
+      { osConfig, config, ... }:
       {
         programs = {
           zsh = {
@@ -113,7 +113,12 @@ in
               "_" = "sudo ";
               update =
                 if isExt then
-                  ''home-manager switch --flake "${config.xdg.configHome}/home-manager#${hostname}"''
+                  if config.programs.nh.enable then
+                    "nh home switch -H ${hostname}"
+                  else
+                    ''home-manager switch --flake "${config.xdg.configHome}/home-manager#${hostname}"''
+                else if osConfig.programs.nh.enable then
+                  "nh os switch -H ${hostname}"
                 else
                   ''sudo nixos-rebuild switch --flake "/etc/nixos#${hostname}"'';
             }
