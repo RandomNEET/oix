@@ -7,6 +7,8 @@
 let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
+  desktop = opts.desktop or "";
+  hasDesktop = desktop != "";
 in
 {
   home-manager.sharedModules = [
@@ -54,6 +56,21 @@ in
         browser = opts.browser or "${pkgs.xdg-utils}/bin/xdg-open";
         queries = { } // (opts.newsboat.queries or { });
         urls = [ ] ++ (opts.newsboat.urls or [ ]);
+
+      };
+      home.file = lib.mkIf hasDesktop {
+        ".local/share/applications/newsboat.desktop".text = ''
+          [Desktop Entry]
+          Name=Newsboat
+          GenericName=RSS/Atom Reader
+          Comment=Read RSS and Atom feeds in the terminal
+          Keywords=RSS;Atom;Feed;Reader;News
+          Categories=Network;ConsoleOnly;
+          Type=Application
+          Icon=newsboat
+          Terminal=true
+          Exec=newsboat
+        '';
       };
     }
   ];

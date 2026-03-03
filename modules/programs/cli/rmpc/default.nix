@@ -456,6 +456,7 @@
                 Name=rmpc
                 GenericName=Music Player
                 Comment=TUI client for MPD
+                Keywords=Music;Player;MPD;Audio;MusicPlayer;
                 Categories=Audio;Music;Player;ConsoleOnly;
                 Type=Application
                 Icon=mpd

@@ -55,7 +55,7 @@ let
       profile = profiles.qutebrowser;
     };
     spotify = {
-      enable = config.programs.spicetify.enable;
+      enable = (config.programs ? spicetify && config.programs.spicetify.enable);
       bin =
         if hasThemes then
           "${config.programs.spicetify.spicedSpotify}/bin/spotify"
