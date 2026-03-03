@@ -5,22 +5,23 @@
 
     ../../modules/services/automount
     ../../modules/services/avahi
-    ../../modules/services/calibre-web
     ../../modules/services/cron
-    ../../modules/services/freshrss
-    ../../modules/services/frp
     ../../modules/services/fstrim
-    ../../modules/services/glances
-    ../../modules/services/homepage-dashboard
-    ../../modules/services/jellyfin
     ../../modules/services/mpd
     ../../modules/services/nix-cleanup
     ../../modules/services/proxy
-    ../../modules/services/qbittorrent
-    ../../modules/services/samba
     ../../modules/services/ssh
     ../../modules/services/tlp
-    ../../modules/services/vaultwarden
+
+    ../../modules/services/server/calibre-web
+    ../../modules/services/server/freshrss
+    ../../modules/services/server/frp
+    ../../modules/services/server/glances
+    ../../modules/services/server/homepage-dashboard
+    ../../modules/services/server/jellyfin
+    ../../modules/services/server/qbittorrent
+    ../../modules/services/server/samba
+    ../../modules/services/server/vaultwarden
 
     ../../modules/programs/cli/bash
     ../../modules/programs/cli/bat
