@@ -23,7 +23,7 @@
     ../../modules/programs/cli/nix-index
     ../../modules/programs/cli/nixvim
     ../../modules/programs/cli/opencode
-    ../../modules/programs/cli/rigprep
+    ../../modules/programs/cli/ripgrep
     ../../modules/programs/cli/starship
     ../../modules/programs/cli/tealdeer
     ../../modules/programs/cli/tmux

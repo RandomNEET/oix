@@ -37,7 +37,7 @@
     ../../modules/programs/cli/nh
     ../../modules/programs/cli/nix-index
     ../../modules/programs/cli/nixvim
-    ../../modules/programs/cli/rigprep
+    ../../modules/programs/cli/ripgrep
     ../../modules/programs/cli/tmux
     ../../modules/programs/cli/trash-cli
     ../../modules/programs/cli/yazi

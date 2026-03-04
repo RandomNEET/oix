@@ -245,7 +245,7 @@ pkgs.writeShellScriptBin "launcher" ''
         echo "$NEW_JSON" > "$WALLPAPER_CONF"
       fi
 
-      noctalia-shell kill && noctalia-shell --daemonize
+      noctalia-shell kill && noctalia-shell
       systemctl --user restart fcitx5-daemon
     ''}
     ${optionalString (lib.strings.hasInfix "waybar" desktop) ''

@@ -47,7 +47,7 @@
     ../../modules/programs/cli/opencode
     ../../modules/programs/cli/password-store
     ../../modules/programs/cli/rbw
-    ../../modules/programs/cli/rigprep
+    ../../modules/programs/cli/ripgrep
     ../../modules/programs/cli/rmpc
     ../../modules/programs/cli/spotify-player
     ../../modules/programs/cli/starship

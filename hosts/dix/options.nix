@@ -324,7 +324,6 @@ rec {
     settings = {
       general = {
         avatarImage = "${users.primary.xdg.userDirs.pictures}/avatars/weeb.jpg";
-        lockScreenMonitors = [ "DP-1" ];
       };
       bar = {
         monitors = [
@@ -426,14 +425,6 @@ rec {
         name = "Jiangxi";
       };
     };
-  };
-
-  hyprlock = {
-    background = "${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
-  };
-
-  swaylock = {
-    image = "eDP-1:${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
   };
   # }}}
 
