@@ -2,7 +2,7 @@
   imports = [
     ../../modules/system/core
     ../../modules/system/gpu
-    ../../modules/system/persistence
+    ../../modules/system/impermanence
     ../../modules/system/secure-boot
 
     ../../modules/services/automount
@@ -43,6 +43,7 @@
     ../../modules/programs/cli/mbsync
     ../../modules/programs/cli/newsboat
     ../../modules/programs/cli/nh
+    ../../modules/programs/cli/nix-index
     ../../modules/programs/cli/nixvim
     ../../modules/programs/cli/opencode
     ../../modules/programs/cli/password-store
