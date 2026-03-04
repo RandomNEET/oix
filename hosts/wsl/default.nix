@@ -25,6 +25,7 @@
     ../../modules/programs/cli/opencode
     ../../modules/programs/cli/rigprep
     ../../modules/programs/cli/starship
+    ../../modules/programs/cli/tealdeer
     ../../modules/programs/cli/tmux
     ../../modules/programs/cli/trash-cli
     ../../modules/programs/cli/ttyper

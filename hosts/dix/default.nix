@@ -51,6 +51,7 @@
     ../../modules/programs/cli/rmpc
     ../../modules/programs/cli/spotify-player
     ../../modules/programs/cli/starship
+    ../../modules/programs/cli/tealdeer
     ../../modules/programs/cli/tmux
     ../../modules/programs/cli/trash-cli
     ../../modules/programs/cli/ttyper
