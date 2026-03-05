@@ -431,7 +431,7 @@ rec {
   # Hardware {{{
   udev = {
     extraRules = ''
-      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c547", ATTR{power/wakeup}="disabled"
+      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c547", ENV{DEVTYPE}=="usb_device", ATTR{power/wakeup}="disabled"
     '';
   };
   # }}}
