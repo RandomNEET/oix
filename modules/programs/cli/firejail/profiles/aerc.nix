@@ -122,7 +122,7 @@ pkgs.writeText "firejail-aerc-profile" ''
   #disable-mnt
   private-cache
   private-dev
-  private-etc @tls-ca,@x11,gnupg,host.conf,mail,mailname,msmtprc,nntpserver,profiles/per-user/${username}/bin/nvim,profiles/per-user/${username}/bin/qutebrowser,profiles/per-user/${username}/bin/firefox,profiles/per-user/${username}/bin/swayimg,profiles/per-user/${username}/bin/zathura,profiles/per-user/${username}/bin/thunderbird
+  private-etc @tls-ca,@x11,gnupg,host.conf,mail,mailname,msmtprc,nntpserver,profiles/per-user/${username}/bin/nvim,profiles/per-user/howl/bin/foot,profiles/per-user/${username}/bin/qutebrowser,profiles/per-user/${username}/bin/firefox,profiles/per-user/${username}/bin/swayimg,profiles/per-user/${username}/bin/zathura,profiles/per-user/${username}/bin/thunderbird
   #private-tmp # to open in browser
 
   dbus-user none
