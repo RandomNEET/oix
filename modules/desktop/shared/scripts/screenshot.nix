@@ -65,7 +65,7 @@ pkgs.writeShellScriptBin "screenshot" ''
       fi
       rm -f "$TEMP_OCR_FILE"
     else
-      notify-send "OCR Cancelled" "No area selected"
+      notify-send -u low "OCR Cancelled" "No area selected"
     fi
     ;;
   *)
