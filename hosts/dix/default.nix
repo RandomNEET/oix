@@ -4,6 +4,7 @@
     ../../modules/system/gpu
     ../../modules/system/impermanence
     ../../modules/system/secure-boot
+    ../../modules/system/sops
 
     ../../modules/services/automount
     ../../modules/services/avahi

@@ -58,9 +58,10 @@ rec {
       enable = true;
       role = "client";
       method = "redirect";
-      settingsFile = "/home/${users.primary.name}/.vault/proxy/xray/${proxy.xray.role}/${proxy.xray.method}/outsider/docker.json";
+      settingsFile = "/run/secrets/xray";
     };
   };
+  sops.secrets.xray.sopsFile = ./secrets.yaml;
   # }}}
 
   # Hhardware {{{
@@ -78,6 +79,7 @@ rec {
   systemd.system.services = {
     xray = {
       after = [
+        "sops-nix.service"
         "docker.service"
       ];
     };
@@ -107,8 +109,21 @@ rec {
     };
     homepage-dashboard = {
       wantedBy = [ "multi-user.target" ];
-      after = [ "network-online.target" ];
+      after = [
+        "sops-nix.service"
+        "network-online.target"
+      ];
       wants = [ "network-online.target" ];
+    };
+    frp = {
+      after = [
+        "sops-nix.service"
+      ];
+    };
+    vaultwarden = {
+      after = [
+        "sops-nix.service"
+      ];
     };
     qbot = {
       description = "NapCat Draw Bot";
@@ -154,14 +169,21 @@ rec {
           serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
           serverPort = 20000;
           auth.token = "{{.Envs.FRP_TOKEN}}";
-          transport.tls.certFile = "/etc/frp/cert/client.crt";
-          transport.tls.keyFile = "/etc/frp/cert/client.key";
-          transport.tls.trustedCaFile = "/etc/frp/cert/ca.crt";
-          includes = [ "/etc/frp/proxies.toml" ];
+          transport.tls.certFile = "/run/secrets/frp/cert";
+          transport.tls.keyFile = "/run/secrets/frp/key";
+          transport.tls.trustedCaFile = "/run/secrets/frp/ca";
+          includes = [ "/run/secrets/frp/proxies" ];
         };
-        environmentFiles = [ "/home/${users.primary.name}/.vault/env/frp.env" ];
+        environmentFiles = [ "/run/secrets/frp/env" ];
       };
     };
+  };
+  sops.secrets = {
+    "frp/env".sopsFile = ./secrets.yaml;
+    "frp/proxies".sopsFile = ./secrets.yaml;
+    "frp/cert".sopsFile = ./secrets.yaml;
+    "frp/key".sopsFile = ./secrets.yaml;
+    "frp/ca".sopsFile = ./secrets.yaml;
   };
 
   vaultwarden = {
@@ -169,7 +191,11 @@ rec {
       ROCKET_ADDRESS = "0.0.0.0";
       ROCKET_PORT = 10300;
     };
-    environmentFile = "/home/${users.primary.name}/.vault/env/vaultwarden.env";
+    environmentFile = "/run/secrets/vaultwarden";
+  };
+  sops.secrets.vaultwarden = {
+    sopsFile = ./secrets.yaml;
+    owner = "vaultwarden";
   };
 
   calibre-web = {
@@ -192,7 +218,11 @@ rec {
     };
     baseUrl = "https://freshrss.scaphium.xyz";
     defaultUser = users.primary.name;
-    passwordFile = "/var/lib/freshrss/password";
+    passwordFile = "/run/secrets/freshrss";
+  };
+  sops.secrets.freshrss = {
+    sopsFile = ./secrets.yaml;
+    owner = "freshrss";
   };
 
   qbittorrent = {
@@ -504,7 +534,11 @@ rec {
         ];
       }
     ];
-    environmentFiles = [ "/home/${users.primary.name}/.vault/env/homepage-dashboard.env" ];
+    environmentFiles = [ "/run/secrets/homepage-dashboard" ];
+    sops.secrets.homepage-dashboard = {
+      sopsFile = ./secrets.yaml;
+      owner = "homepage-dashboard";
+    };
   };
 
   mpd = {
@@ -599,17 +633,27 @@ rec {
           hostname = "dix.local";
           port = 22;
           user = "howl";
-          identityFile = "${ssh.keyDir}/dix";
+          identityFile = "/run/secrets/ssh/dix";
           addKeysToAgent = "yes";
         };
         "lix" = {
           hostname = "lix.local";
           port = 22;
           user = "howl";
-          identityFile = "${ssh.keyDir}/lix";
+          identityFile = "/run/secrets/ssh/lix";
           addKeysToAgent = "yes";
         };
       };
+    };
+  };
+  sops.secrets = {
+    "ssh/dix" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
+    };
+    "ssh/lix" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
     };
   };
 

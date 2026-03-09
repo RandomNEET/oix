@@ -2,6 +2,7 @@
   imports = [
     ../../modules/system/core
     ../../modules/system/gpu
+    ../../modules/system/sops
 
     ../../modules/services/automount
     ../../modules/services/avahi

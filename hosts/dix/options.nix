@@ -30,13 +30,15 @@ rec {
   proxy = {
     dae = {
       enable = true;
-      configFile = "/home/${users.primary.name}/.vault/proxy/dae/default.dae";
+      configFile = "/run/secrets/dae";
       openFirewall = {
         enable = true;
         port = 12345;
       };
     };
   };
+  sops.secrets.dae.sopsFile = ./secrets.yaml;
+  systemd.system.services.dae.after = [ "sops-nix.service" ];
   # }}}
 
   # Virtualisation {{{
@@ -499,30 +501,48 @@ rec {
         "github.com" = {
           hostname = "github.com";
           user = "git";
-          identityFile = "${ssh.keyDir}/github-RandomNEET";
+          identityFile = "/run/secrets/ssh/github-RandomNEET";
           addKeysToAgent = "yes";
         };
         "codeberg.org" = {
           hostname = "codeberg.org";
           user = "git";
-          identityFile = "${ssh.keyDir}/codeberg-RandomNEET";
+          identityFile = "/run/secrets/ssh/codeberg-RandomNEET";
           addKeysToAgent = "yes";
         };
         "lix" = {
           hostname = "lix.local";
           port = 22;
           user = "howl";
-          identityFile = "${ssh.keyDir}/lix";
+          identityFile = "/run/secrets/ssh/lix";
           addKeysToAgent = "yes";
         };
         "nasix" = {
           hostname = "nasix.local";
           port = 22;
           user = "howl";
-          identityFile = "${ssh.keyDir}/nasix";
+          identityFile = "/run/secrets/ssh/nasix";
           addKeysToAgent = "yes";
         };
       };
+    };
+  };
+  sops.secrets = {
+    "ssh/github-RandomNEET" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
+    };
+    "ssh/codeberg-RandomNEET" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
+    };
+    "ssh/lix" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
+    };
+    "ssh/nasix" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
     };
   };
   # }}}
@@ -647,7 +667,7 @@ rec {
       };
     };
     service = {
-      configFile = "/home/${users.primary.name}/.vault/mail/mbsync/neet";
+      configFile = "/run/secrets/mbsync";
       # Desktop notification script settings
       notify = {
         enable = true;
@@ -657,6 +677,11 @@ rec {
       trigger.enable = true; # whether to enable mbsync-trigger service
     };
   };
+  sops.secrets.mbsync = {
+    sopsFile = ./secrets.yaml;
+    owner = users.primary.name;
+  };
+  systemd.home.user.services.mbsync.Unit.After = [ "sops-nix.service" ];
   # }}}
 
   # Media {{{

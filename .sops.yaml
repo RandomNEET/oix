@@ -1,0 +1,29 @@
+---
+keys:
+  - &RandomNEET 0xBFA119DF465BFBB1
+  - &dix age1g7g79yts0sgsazsy3e7t8njpaaeczc5mtnm6lxdxmvuh6cdnwu9q9jwj97
+  - &lix age157sewn98hhcgfp92mt4erxkymh4d3vmykj9d9ca9j46n5ksuyu2q34c6kq
+  - &nasix age1zeaa40ja0shttzfmug5u4xzmqhyc7vjpdkjt2fafq3zn293xe3xq53h3es
+creation_rules:
+  - path_regex: hosts/dix/secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *RandomNEET
+        age:
+          - *dix
+  - path_regex: hosts/lix/secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *RandomNEET
+        age:
+          - *lix
+  - path_regex: hosts/secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *RandomNEET
+        age:
+          - *nasix
+  - path_regex: hosts/.*secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *RandomNEET
