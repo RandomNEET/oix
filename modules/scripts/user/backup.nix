@@ -5,7 +5,7 @@ if hostname == "dix" then
     cd ~/
 
     echo "==> Encrypting vault..."
-    sudo tar czf vault.tar.gz ~/.vault
+    tar czf vault.tar.gz ~/.vault
     gpg -e -r neet@randomneet.me vault.tar.gz && rm -f vault.tar.gz
     mv -v ~/vault.tar.gz.gpg /mnt/hdd2/backup
 
@@ -35,6 +35,7 @@ else if hostname == "nasix" then
 
     echo "==> Backing up service data..."
     for dir in \
+      /etc/frp \
       /var/lib/vaultwarden \
       /var/lib/jellyfin \
       /var/lib/qBittorrent \
