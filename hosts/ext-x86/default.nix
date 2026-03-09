@@ -15,6 +15,7 @@
     ../../modules/programs/cli/glow
     ../../modules/programs/cli/jq
     ../../modules/programs/cli/lazygit
+    ../../modules/programs/cli/man
     ../../modules/programs/cli/nh
     ../../modules/programs/cli/nix-index
     ../../modules/programs/cli/nixvim
