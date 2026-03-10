@@ -35,9 +35,9 @@ in
 
   # Use cloudflare for better security/privacy
   "network.trr.mode" = opts.firefox.network.trr.mode or 3; # 0 - Off (default), 1 - Reserved, 2 - First, 3 - Only
-  "network.trr.uri" = opts.firefox.network.trr.uri or "https://cloudflare-dns.com/dns-query";
+  "network.trr.uri" = opts.firefox.network.trr.uri or "https://dns.alidns.com/dns-query";
   "network.trr.custom_uri" =
-    opts.firefox.network.trr.custom_uri or "https://cloudflare-dns.com/dns-query";
+    opts.firefox.network.trr.custom_uri or "https://dns.alidns.com/dns-query";
 
   # Remove trackers
   "privacy.purge_trackers.enabled" = lock-true;

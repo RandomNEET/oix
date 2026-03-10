@@ -107,6 +107,22 @@ rec {
         "mnt-smb.mount"
       ];
     };
+    qbittorrent = {
+      after = [
+        "mnt-smb.mount"
+      ];
+      requires = [
+        "mnt-smb.mount"
+      ];
+    };
+    frp-outsider = {
+      after = [
+        "sops-nix.service"
+      ];
+      serviceConfig = {
+        SupplementaryGroups = [ "keys" ];
+      };
+    };
     homepage-dashboard = {
       wantedBy = [ "multi-user.target" ];
       after = [
@@ -114,11 +130,6 @@ rec {
         "network-online.target"
       ];
       wants = [ "network-online.target" ];
-    };
-    frp = {
-      after = [
-        "sops-nix.service"
-      ];
     };
     vaultwarden = {
       after = [
@@ -179,11 +190,31 @@ rec {
     };
   };
   sops.secrets = {
-    "frp/env".sopsFile = ./secrets.yaml;
-    "frp/proxies".sopsFile = ./secrets.yaml;
-    "frp/cert".sopsFile = ./secrets.yaml;
-    "frp/key".sopsFile = ./secrets.yaml;
-    "frp/ca".sopsFile = ./secrets.yaml;
+    "frp/env" = {
+      sopsFile = ./secrets.yaml;
+      mode = "0440";
+      group = "keys";
+    };
+    "frp/proxies" = {
+      sopsFile = ./secrets.yaml;
+      mode = "0440";
+      group = "keys";
+    };
+    "frp/cert" = {
+      sopsFile = ./secrets.yaml;
+      mode = "0440";
+      group = "keys";
+    };
+    "frp/key" = {
+      sopsFile = ./secrets.yaml;
+      mode = "0440";
+      group = "keys";
+    };
+    "frp/ca" = {
+      sopsFile = ./secrets.yaml;
+      mode = "0440";
+      group = "keys";
+    };
   };
 
   vaultwarden = {
@@ -535,11 +566,8 @@ rec {
       }
     ];
     environmentFiles = [ "/run/secrets/homepage-dashboard" ];
-    sops.secrets.homepage-dashboard = {
-      sopsFile = ./secrets.yaml;
-      owner = "homepage-dashboard";
-    };
   };
+  sops.secrets.homepage-dashboard.sopsFile = ./secrets.yaml;
 
   mpd = {
     dataDir = "/mnt/smb/media/.mpd";

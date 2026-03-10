@@ -17,7 +17,7 @@ creation_rules:
           - *RandomNEET
         age:
           - *lix
-  - path_regex: hosts/secrets\.(yaml|json|env|ini)$
+  - path_regex: hosts/nasix/secrets\.(yaml|json|env|ini)$
     key_groups:
       - pgp:
           - *RandomNEET

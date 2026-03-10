@@ -747,6 +747,9 @@ rec {
 
   # Package {{{
   packages = {
+    system = [
+      "veracrypt"
+    ];
     home = [
       "ffmpeg"
       "imagemagick"

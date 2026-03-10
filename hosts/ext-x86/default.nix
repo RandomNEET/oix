@@ -1,5 +1,7 @@
 {
   imports = [
+    ../../modules/system/core
+
     ../../modules/programs/cli/bash
     ../../modules/programs/cli/bat
     ../../modules/programs/cli/btop

@@ -51,7 +51,7 @@
     "opacity 0.80 0.70, match:class ^(org.kde.polkit-kde-authentication-agent-1)$"
 
     "content game, match:tag games"
-    "tag +games, match:content game"
+    "tag +games, match:content 3" # none = 0, photo = 1, video = 2, game = 3
     "tag +games, match:class ^(steam_app.*|steam_app_d+)$"
     "tag +games, match:class ^(gamescope)$"
     "tag +games, match:class (Waydroid)"

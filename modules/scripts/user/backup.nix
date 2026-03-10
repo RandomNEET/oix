@@ -35,7 +35,6 @@ else if hostname == "nasix" then
 
     echo "==> Backing up service data..."
     for dir in \
-      /etc/frp \
       /var/lib/vaultwarden \
       /var/lib/jellyfin \
       /var/lib/qBittorrent \

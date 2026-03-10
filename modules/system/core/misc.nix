@@ -19,22 +19,26 @@
       randomizedDelaySec = "60min";
     };
   };
-  i18n = {
-    defaultLocale = opts.locale;
-    extraLocaleSettings = {
-      LC_ADDRESS = opts.locale;
-      LC_IDENTIFICATION = opts.locale;
-      LC_MEASUREMENT = opts.locale;
-      LC_MONETARY = opts.locale;
-      LC_NAME = opts.locale;
-      LC_NUMERIC = opts.locale;
-      LC_PAPER = opts.locale;
-      LC_TELEPHONE = opts.locale;
-      LC_TIME = opts.locale;
+  i18n =
+    let
+      locale = opts.locale or "en_US.UTF-8";
+    in
+    {
+      defaultLocale = locale;
+      extraLocaleSettings = {
+        LC_ADDRESS = locale;
+        LC_IDENTIFICATION = locale;
+        LC_MEASUREMENT = locale;
+        LC_MONETARY = locale;
+        LC_NAME = locale;
+        LC_NUMERIC = locale;
+        LC_PAPER = locale;
+        LC_TELEPHONE = locale;
+        LC_TIME = locale;
+      };
     };
-  };
-  time.timeZone = opts.timezone;
-  console.keyMap = opts.consoleKeymap;
+  time.timeZone = opts.timezone or "Asia/Shanghai";
+  console.keyMap = opts.consoleKeymap or "us";
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "26.05";
 }
