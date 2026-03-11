@@ -8,8 +8,6 @@
 }:
 let
   inherit (lib) optional mkIf;
-  display = opts.display or [ ];
-  hasExternalDisplay = builtins.any (d: d.external == true) display;
 in
 {
   home-manager.sharedModules = [
@@ -351,9 +349,7 @@ in
                 enabled = false;
               };
             };
-            brightness = {
-              enableDdcSupport = hasExternalDisplay;
-            };
+            brightness = { } // (opts.noctalia.settings.brightness or { });
             colorSchemes = {
               darkMode = true;
               predefinedScheme = matchedPredefinedScheme;
@@ -387,5 +383,4 @@ in
       }
     )
   ];
-  environment.systemPackages = [ ] ++ lib.optionals hasExternalDisplay [ pkgs.ddcutil ];
 }

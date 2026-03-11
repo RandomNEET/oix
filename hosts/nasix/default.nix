@@ -1,16 +1,17 @@
 {
   imports = [
     ../../modules/system/core
-    ../../modules/system/gpu
     ../../modules/system/sops
+
+    ../../modules/hardware/gpu
 
     ../../modules/services/automount
     ../../modules/services/avahi
     ../../modules/services/cron
     ../../modules/services/fstrim
     ../../modules/services/mpd
+    ../../modules/services/openssh
     ../../modules/services/proxy
-    ../../modules/services/ssh
     ../../modules/services/tlp
 
     ../../modules/services/server/calibre-web
@@ -40,6 +41,7 @@
     ../../modules/programs/cli/nix-index
     ../../modules/programs/cli/nixvim
     ../../modules/programs/cli/ripgrep
+    ../../modules/programs/cli/ssh
     ../../modules/programs/cli/tmux
     ../../modules/programs/cli/trash-cli
     ../../modules/programs/cli/yazi

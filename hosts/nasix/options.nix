@@ -1,11 +1,10 @@
-# vim:fileencoding=utf-8:foldmethod=marker:foldlevel=0
+# vim:foldmethod=marker:foldlevel=0
 { outputs, lib, ... }:
 rec {
-  # Base {{{
+  # System {{{
+  # Core {{{
   hostname = "nasix";
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
-  flake = "/home/${users.primary.name}/oix"; # flake path
-  gpu = "nvidia"; # available: amd nvidia intel-intergrated
   locale = "en_US.UTF-8";
   timezone = "Asia/Shanghai";
   kbdLayout = "us";
@@ -64,18 +63,83 @@ rec {
   sops.secrets.xray.sopsFile = ./secrets.yaml;
   # }}}
 
-  # Hhardware {{{
-  tlp = {
-    settings = {
-      START_CHARGE_THRESH_BAT0 = 40;
-      STOP_CHARGE_THRESH_BAT0 = 80;
-      START_CHARGE_THRESH_BAT1 = 40;
-      STOP_CHARGE_THRESH_BAT1 = 80;
+  # Users {{{
+  users = {
+    root = {
+      initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
     };
+    primary = rec {
+      # User config
+      name = "howl";
+      initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
+      isNormalUser = true;
+      uid = 1000;
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "libvirtd"
+        "docker"
+      ];
+      shell = "zsh";
+      # Home-manager config
+      home-manager = true; # whether to enable home-manager for this user
+      xdg = {
+        userDirs = {
+          desktop = null; # no need for wm
+          documents = "/home/${name}/doc";
+          download = "/home/${name}/dls";
+          music = "/home/${name}/mus";
+          pictures = "/home/${name}/pic";
+          videos = "/home/${name}/vid";
+          templates = "/home/${name}/tpl";
+          publicShare = "/home/${name}/pub";
+        };
+      };
+    };
+    mutableUsers = false;
   };
+
+  # Define default programs
+  editor = "nvim";
+  terminalFileManager = "yazi";
   # }}}
 
-  # Server {{{
+  # Packages {{{
+  packages = {
+    system = [
+      "iptables"
+      "xray"
+    ];
+    home = [
+      "mediainfo"
+      "flac"
+
+      "qq"
+
+      "lolcat"
+      "figlet"
+      "fortune"
+      "cowsay"
+      "asciiquarium-transparent"
+      "cbonsai"
+      "cmatrix"
+      "pipes"
+      "tty-clock"
+    ];
+  };
+  # }}}
+  # }}}
+
+  # Hardware {{{
+  gpu = "nvidia"; # available: amd nvidia intel-intergrated
+  # }}}
+
+  # Services {{{
+  openssh = {
+    ports = [ 22 ];
+    authorizedKeysFiles = [ "/home/${users.primary.name}/.vault/ssh/${hostname}.pub" ];
+  };
+
   systemd.system.services = {
     xray = {
       after = [
@@ -586,91 +650,33 @@ rec {
     };
     outputType = "httpd";
   };
-  # }}}
 
-  # Hardware {{{
-  hardware = {
-    nvidia = {
-      prime = {
-        nvidiaBusId = "PCI:07:0:0";
-        amdgpuBusId = "PCI:01:0:0";
-      };
+  tlp = {
+    settings = {
+      START_CHARGE_THRESH_BAT0 = 40;
+      STOP_CHARGE_THRESH_BAT0 = 80;
+      START_CHARGE_THRESH_BAT1 = 40;
+      STOP_CHARGE_THRESH_BAT1 = 80;
     };
   };
   # }}}
 
-  # User {{{
-  users = {
-    root = {
-      initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
-    };
-    primary = rec {
-      # User config
-      name = "howl";
-      initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
-      isNormalUser = true;
-      uid = 1000;
-      extraGroups = [
-        "wheel"
-        "networkmanager"
-        "libvirtd"
-        "docker"
-      ];
-      shell = "zsh";
-      # Home-manager config
-      home-manager = true; # whether to enable home-manager for this user
-      xdg = {
-        userDirs = {
-          desktop = null; # no need for wm
-          documents = "/home/${name}/doc";
-          download = "/home/${name}/dls";
-          music = "/home/${name}/mus";
-          pictures = "/home/${name}/pic";
-          videos = "/home/${name}/vid";
-          templates = "/home/${name}/tpl";
-          publicShare = "/home/${name}/pub";
-        };
-      };
-    };
-    mutableUsers = false;
-  };
-
-  # Define default programs
-  editor = "nvim";
-  terminalFileManager = "yazi";
-  # }}}
-
-  # Shell {{{
+  # Programs {{{
   ssh = {
-    keyDir = "/home/${users.primary.name}/.vault/ssh";
-
-    server = {
-      enable = true;
-      ports = [
-        22
-      ];
-      settings = {
-        PasswordAuthentication = false;
+    matchBlocks = {
+      "dix" = {
+        hostname = "dix.local";
+        port = 22;
+        user = "howl";
+        identityFile = "/run/secrets/ssh/dix";
+        addKeysToAgent = "yes";
       };
-      authorizedKeysFiles = [ "${ssh.keyDir}/nasix.pub" ];
-    };
-
-    client = {
-      matchBlocks = {
-        "dix" = {
-          hostname = "dix.local";
-          port = 22;
-          user = "howl";
-          identityFile = "/run/secrets/ssh/dix";
-          addKeysToAgent = "yes";
-        };
-        "lix" = {
-          hostname = "lix.local";
-          port = 22;
-          user = "howl";
-          identityFile = "/run/secrets/ssh/lix";
-          addKeysToAgent = "yes";
-        };
+      "lix" = {
+        hostname = "lix.local";
+        port = 22;
+        user = "howl";
+        identityFile = "/run/secrets/ssh/lix";
+        addKeysToAgent = "yes";
       };
     };
   };
@@ -727,30 +733,9 @@ rec {
       '')
     ];
   };
-  # }}}
 
-  # Package {{{
-  packages = {
-    system = [
-      "iptables"
-      "xray"
-    ];
-    home = [
-      "mediainfo"
-      "flac"
-
-      "qq"
-
-      "lolcat"
-      "figlet"
-      "fortune"
-      "cowsay"
-      "asciiquarium-transparent"
-      "cbonsai"
-      "cmatrix"
-      "pipes"
-      "tty-clock"
-    ];
+  nh = {
+    flake = "/home/${users.primary.name}/oix"; # flake path
   };
   # }}}
 }

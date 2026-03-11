@@ -1,7 +1,7 @@
 { pkgs, opts, ... }:
 pkgs.writeShellScript "mbsync-notify" ''
-  MAILDIR="${opts.mbsync.service.notify.mailDir}"
-  COUNT_FILE="${opts.mbsync.service.notify.countFile}"
+  MAILDIR="${opts.mbsync.service.mailDir}"
+  COUNT_FILE="${opts.mbsync.service.countFile}"
 
   if [ ! -f "$COUNT_FILE" ]; then
     echo 0 > "$COUNT_FILE"

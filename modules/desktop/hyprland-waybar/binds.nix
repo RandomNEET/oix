@@ -69,7 +69,7 @@
     "$mainMod ALT, S, exec, ${launcher} spec" # launch specialisation  switcher
   ]
   ++ lib.optional config.programs.tmux.enable "$mainMod SHIFT, T, exec, ${launcher} tmux" # launch tmux sessions
-  ++ lib.optional (opts.rbw.rofi-rbw or false) "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
+  ++ lib.optional config.programs.rbw.enable "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
   ++ lib.optionals osConfig.programs.steam.enable [
     "$mainMod SHIFT, G, exec, ${launcher} game" # game launcher
     "$mainMod CTRL, G, exec, ${gamemode}" # disable hypr effects for gamemode

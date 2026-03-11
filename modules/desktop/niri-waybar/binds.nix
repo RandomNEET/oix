@@ -417,7 +417,7 @@ in
     hotkey-overlay.title = "Launch tmux sessions";
   };
 }
-// lib.optionalAttrs (opts.rbw.rofi-rbw or false) {
+// lib.optionalAttrs config.programs.rbw.enable {
   "Mod+Alt+U" = {
     action.spawn = [
       "${launcher}"

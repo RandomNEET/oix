@@ -1,12 +1,10 @@
-# vim:fileencoding=utf-8:foldmethod=marker:foldlevel=0
+# vim:foldmethod=marker:foldlevel=0
 { outputs, lib, ... }:
 rec {
-  # Base {{{
+  # System {{{
+  # Core {{{
   hostname = "lix";
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
-  flake = "/home/${users.primary.name}/oix"; # flake path
-  gpu = "intel-integrated"; # available: amd nvidia intel-intergrated
-  hibernate = true; # set to true if this machine supports hibernate
   locale = "en_US.UTF-8";
   timezone = "Asia/Shanghai";
   kbdLayout = "us";
@@ -41,116 +39,82 @@ rec {
   systemd.system.services.dae.after = [ "sops-nix.service" ];
   # }}}
 
-  # Desktop {{{
-  desktop = "niri-noctalia"; # available: hyprland-noctalia hyprland-waybar niri-noctalia niri-waybar
-
-  # https://github.com/tinted-theming/schemes
-  # Default to the first theme
-  themes = [
-    "catppuccin-mocha"
-    "gruvbox-dark-hard"
-    "kanagawa"
-    "nord"
-    "tokyo-night-dark"
-  ];
-
-  # Use first display as primary display
-  display = [
-    {
-      output = "eDP-1";
-      external = false;
-      width = 1920;
-      height = 1080;
-      orientation = "landscape";
-    }
-  ];
-
-  wallpaper = {
-    # Base directory for wallpapers
-    # Required structure: base / <theme_name> / <orientation> / <pictures>
-    #
-    # Notes:
-    # - Original colored pictures belong in the "original" theme folder.
-    # - Valid orientations: "landscape", "portrait".
-    #
-    # Example:
-    #  wallpapers
-    # ├──  catppuccin-mocha
-    # │   ├──  landscape
-    # │   │   └──  pic.jpg
-    # │   └──  portrait
-    # │       └──  pic.jpg
-    # └──  original
-    #     ├──  landscape
-    #     │   └──  pic.jpg
-    #     └──  portrait
-    #         └──  pic.jpg
-    dir = "${users.primary.xdg.userDirs.pictures}/wallpapers";
-    # Transition effects for swww
-    transition = {
-      launcher = {
-        type = "center";
-        step = 90;
-        duration = 1;
-        fps = 60;
-      };
-      random-wall = {
-        type = "wipe";
-        step = 90;
-        duration = 1;
-        fps = 60;
-      };
+  # Users {{{
+  users = {
+    root = {
+      initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
     };
-  };
-
-  hyprland = {
-    settings = {
-      monitor = [
-        "desc:Chimei Innolux Corporation 0x14C9, 1920x1080@60, 0x0, 1"
+    primary = rec {
+      # User config
+      name = "howl";
+      initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
+      isNormalUser = true;
+      uid = 1000;
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "libvirtd"
+        "i2c"
       ];
-    };
-    extraConfig = ''
-      workspace = 1, monitor:desc:Chimei Innolux Corporation 0x14C9, default:true;
-    '';
-  };
-
-  niri = {
-    settings = {
-      outputs = {
-        "eDP-1" = {
-          enable = true;
-          mode = {
-            width = 1920;
-            height = 1080;
-            refresh = 60.008;
-          };
-          scale = 1.25;
+      shell = "zsh";
+      # Home-manager config
+      home-manager = true; # whether to enable home-manager for this user
+      xdg = {
+        userDirs = {
+          desktop = null; # no need for wm
+          documents = "/home/${name}/doc";
+          download = "/home/${name}/dls";
+          music = "/home/${name}/mus";
+          pictures = "/home/${name}/pic";
+          videos = "/home/${name}/vid";
+          templates = "/home/${name}/tpl";
+          publicShare = "/home/${name}/pub";
         };
       };
     };
+    mutableUsers = false;
   };
 
-  noctalia = {
-    settings = {
-      general = {
-        avatarImage = "${users.primary.xdg.userDirs.pictures}/avatars/weeb.jpg";
-      };
-      location = {
-        name = "Jiangxi";
-      };
-    };
-  };
+  # Define default programs
+  editor = "nvim";
+  terminal = "foot";
+  terminalFileManager = "yazi";
+  browser = "qutebrowser";
+  # }}}
 
-  hyprlock = {
-    background = "${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
-  };
+  # Packages {{{
+  packages = {
+    system = [
+      "veracrypt"
+    ];
+    home = [
+      "ffmpeg"
+      "imagemagick"
+      "md2pdf"
 
-  swaylock = {
-    image = "eDP-1:${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
+      "qbittorrent"
+      "libreoffice"
+
+      "lolcat"
+      "figlet"
+      "fortune"
+      "cowsay"
+      "asciiquarium-transparent"
+      "cbonsai"
+      "cmatrix"
+      "pipes"
+      "tty-clock"
+    ];
+
   };
+  # }}}
   # }}}
 
   # Hardware {{{
+  gpu = "intel-integrated"; # available: amd nvidia intel-intergrated
+  # }}}
+
+  # Services {{{
   tlp = {
     settings = {
       START_CHARGE_THRESH_BAT0 = 40;
@@ -210,93 +174,86 @@ rec {
       };
     };
   };
-  # }}}
 
-  # user {{{
-  users = {
-    root = {
-      initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
-    };
-    primary = rec {
-      # User config
-      name = "howl";
-      initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
-      isNormalUser = true;
-      uid = 1000;
-      extraGroups = [
-        "wheel"
-        "networkmanager"
-        "libvirtd"
-      ];
-      shell = "zsh";
-      # Home-manager config
-      home-manager = true; # whether to enable home-manager for this user
-      xdg = {
-        userDirs = {
-          desktop = null; # no need for wm
-          documents = "/home/${name}/doc";
-          download = "/home/${name}/dls";
-          music = "/home/${name}/mus";
-          pictures = "/home/${name}/pic";
-          videos = "/home/${name}/vid";
-          templates = "/home/${name}/tpl";
-          publicShare = "/home/${name}/pub";
-        };
-      };
-    };
-    mutableUsers = false;
+  openssh = {
+    ports = [ 22 ];
+    authorizedKeysFiles = [ "/home/${users.primary.name}/.vault/ssh/${hostname}.pub" ];
   };
 
-  # Define default programs
-  editor = "nvim";
-  terminal = "foot";
-  terminalFileManager = "yazi";
-  browser = "qutebrowser";
+  mbsync.service = {
+    configFile = "/run/secrets/mbsync";
+    mailDir = "/home/${users.primary.name}/${email.maildirBasePath}";
+    countFile = "${mbsync.service.mailDir}/.new";
+    triggerFile = "${mbsync.service.mailDir}/.trigger";
+  };
+  sops.secrets.mbsync = {
+    sopsFile = ./secrets.yaml;
+    owner = users.primary.name;
+  };
+  systemd.home.user.services.mbsync.Unit.After = [ "sops-nix.service" ];
+
+  mpd = {
+    dataDir = "/home/${users.primary.name}/.local/share/mpd";
+    startWhenNeeded = true;
+    settings = {
+      music_directory = "/home/${users.primary.name}/mus";
+      audio_output = [
+        {
+          type = "pipewire";
+          name = "PipeWire Sound Server";
+        }
+        {
+          type = "fifo";
+          name = "my_fifo";
+          path = "/tmp/mpd.fifo";
+          format = "44100:16:2";
+        }
+      ];
+      auto_update = "yes";
+    };
+    pipewire = true; # set to true to enable pipewire extra tweaks
+  };
+
+  flatpak = {
+    packages = {
+      home = [
+        "com.github.tchx84.Flatseal"
+
+        "com.qq.QQ"
+        "com.tencent.WeChat"
+      ];
+    };
+  };
   # }}}
 
-  # Shell {{{
+  # Programs {{{
   ssh = {
-    keyDir = "/home/${users.primary.name}/.vault/ssh";
-
-    server = {
-      enable = true;
-      ports = [
-        22
-      ];
-      settings = {
-        PasswordAuthentication = false;
+    matchBlocks = {
+      "github.com" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "/run/secrets/ssh/github-RandomNEET";
+        addKeysToAgent = "yes";
       };
-      authorizedKeysFiles = [ "${ssh.keyDir}/lix.pub" ];
-    };
-
-    client = {
-      matchBlocks = {
-        "github.com" = {
-          hostname = "github.com";
-          user = "git";
-          identityFile = "/run/secrets/ssh/github-RandomNEET";
-          addKeysToAgent = "yes";
-        };
-        "codeberg.org" = {
-          hostname = "codeberg.org";
-          user = "git";
-          identityFile = "/run/secrets/ssh/codeberg-RandomNEET";
-          addKeysToAgent = "yes";
-        };
-        "dix" = {
-          hostname = "dix.local";
-          port = 22;
-          user = "howl";
-          identityFile = "/run/secrets/ssh/dix";
-          addKeysToAgent = "yes";
-        };
-        "nasix" = {
-          hostname = "nasix.local";
-          port = 22;
-          user = "howl";
-          identityFile = "/run/secrets/ssh/nasix";
-          addKeysToAgent = "yes";
-        };
+      "codeberg.org" = {
+        hostname = "codeberg.org";
+        user = "git";
+        identityFile = "/run/secrets/ssh/codeberg-RandomNEET";
+        addKeysToAgent = "yes";
+      };
+      "lix" = {
+        hostname = "dix.local";
+        port = 22;
+        user = "howl";
+        identityFile = "/run/secrets/ssh/dix";
+        addKeysToAgent = "yes";
+      };
+      "nasix" = {
+        hostname = "nasix.local";
+        port = 22;
+        user = "howl";
+        identityFile = "/run/secrets/ssh/nasix";
+        addKeysToAgent = "yes";
       };
     };
   };
@@ -318,15 +275,7 @@ rec {
       owner = users.primary.name;
     };
   };
-  # }}}
 
-  # Terminal {{{
-  foot = {
-    server = true; # set true to launch foot server on startup;
-  };
-  # }}}
-
-  # File Manager {{{
   yazi = {
     keymap = {
       mgr = {
@@ -359,17 +308,40 @@ rec {
       };
     };
   };
-  # }}}
 
-  # Browser {{{
+  git = {
+    settings = {
+      user = {
+        name = "RandomNEET";
+        email = "dev@randomneet.me";
+      };
+    };
+  };
+
+  rbw = {
+    settings = {
+      base_url = "https://vaultwarden.scaphium.xyz";
+      email = "selfhost@randomneet.me";
+      lock_timeout = 3600;
+    };
+  };
+
+  nh = {
+    flake = "/home/${users.primary.name}/oix"; # flake path
+  };
+
+  foot = {
+    server = true; # set true to launch foot server on startup;
+  };
+
   qutebrowser = {
     theme = {
-      opacity0 = 1.0;
-      opacity1 = 1.0;
+      opacity0 = 0.9;
+      opacity1 = 0.1;
     };
     window = {
       hide_decoration = true;
-      transparent = false;
+      transparent = true;
     };
     completion = {
       height = "30%";
@@ -385,9 +357,18 @@ rec {
       ld = "https://linkding.scaphium.xyz/";
     };
   };
+
+  obsidian = {
+    vaults = {
+      default = {
+        enable = true;
+        target = "doc/notes";
+      };
+    };
+  };
   # }}}
 
-  # Mail {{{
+  # Accounts {{{
   email = {
     maildirBasePath = ".mail";
 
@@ -422,134 +403,115 @@ rec {
       };
     };
   };
+  # }}}
 
-  mbsync = {
-    program = {
-      groups = {
-        inboxes = {
-          RandomNEET = [
-            "INBOX"
-            "INBOX/dev"
-            "INBOX/contact"
-            "INBOX/selfhost"
-            "INBOX/bill"
-            "INBOX/cert"
-            "INBOX/temp"
-          ];
+  # Desktop {{{
+  desktop = "niri-noctalia"; # available: hyprland-noctalia hyprland-waybar niri-noctalia niri-waybar
+
+  # https://github.com/tinted-theming/schemes
+  # Default to the first theme
+  themes = [
+    "catppuccin-mocha"
+    "gruvbox-dark-hard"
+    "kanagawa"
+    "nord"
+    "tokyo-night-dark"
+  ];
+
+  # Use first display as primary display
+  display = [
+    {
+      output = "eDP-1";
+      width = 1920;
+      height = 1080;
+      orientation = "landscape";
+    }
+  ];
+
+  wallpaper = {
+    # Base directory for wallpapers
+    # Required structure: base / <theme_name> / <orientation> / <pictures>
+    #
+    # Notes:
+    # - Original colored pictures belong in the "original" theme folder.
+    # - Valid orientations: "landscape", "portrait".
+    #
+    # Example:
+    #  wallpapers
+    # ├──  catppuccin-mocha
+    # │   ├──  landscape
+    # │   │   └──  pic.jpg
+    # │   └──  portrait
+    # │       └──  pic.jpg
+    # └──  original
+    #     ├──  landscape
+    #     │   └──  pic.jpg
+    #     └──  portrait
+    #         └──  pic.jpg
+    dir = "${users.primary.xdg.userDirs.pictures}/wallpapers";
+    # Transition effects for swww
+    transition = {
+      launcher = {
+        type = "center";
+        step = 90;
+        duration = 1;
+        fps = 60;
+      };
+      random-wall = {
+        type = "wipe";
+        step = 90;
+        duration = 1;
+        fps = 60;
+      };
+    };
+  };
+
+  hibernate = true; # set to true if this machine supports hibernate
+
+  hyprland = {
+    settings = {
+      monitor = [
+        "desc:Chimei Innolux Corporation 0x14C9, 1920x1080@60, 0x0, 1"
+      ];
+    };
+    extraConfig = ''
+      workspace = 1, monitor:desc:Chimei Innolux Corporation 0x14C9, default:true;
+    '';
+  };
+
+  niri = {
+    settings = {
+      outputs = {
+        "eDP-1" = {
+          enable = true;
+          mode = {
+            width = 1920;
+            height = 1080;
+            refresh = 60.008;
+          };
+          scale = 1.25;
         };
       };
     };
-    service = {
-      configFile = "/run/secrets/mbsync";
-      # Desktop notification script settings
-      notify = {
-        enable = true;
-        mailDir = "/home/${users.primary.name}/.mail/neet";
-        countFile = "${mbsync.service.notify.mailDir}/.new";
+  };
+
+  noctalia = {
+    settings = {
+      general = {
+        avatarImage = "${users.primary.xdg.userDirs.pictures}/avatars/weeb.jpg";
       };
-      trigger.enable = true; # whether to enable mbsync-trigger service
-    };
-  };
-  sops.secrets.mbsync = {
-    sopsFile = ./secrets.yaml;
-    owner = users.primary.name;
-  };
-  systemd.home.user.services.mbsync.Unit.After = [ "sops-nix.service" ];
-  # }}}
-
-  # Media {{{
-  mpd = {
-    dataDir = "/home/${users.primary.name}/.local/share/mpd";
-    startWhenNeeded = true;
-    settings = {
-      music_directory = "/home/${users.primary.name}/mus";
-      audio_output = [
-        {
-          type = "pipewire";
-          name = "PipeWire Sound Server";
-        }
-        {
-          type = "fifo";
-          name = "my_fifo";
-          path = "/tmp/mpd.fifo";
-          format = "44100:16:2";
-        }
-      ];
-      auto_update = "yes";
-    };
-    pipewire = true; # set to true to enable pipewire extra tweaks
-  };
-
-  rmpc = {
-    config = {
-      address = "127.0.0.1:6600";
-      password = "None";
-      notify = true; # whether to enable desktop notification
-    };
-  };
-  # }}}
-
-  # Misc {{{
-  git = {
-    settings = {
-      user = {
-        name = "RandomNEET";
-        email = "dev@randomneet.me";
+      location = {
+        name = "Jiangxi";
       };
     };
   };
 
-  obsidian = {
-    vaults = {
-      default = {
-        enable = true;
-        target = "doc/notes";
-      };
-    };
+  hyprlock = {
+    background = "${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
   };
 
-  rbw = {
-    settings = {
-      base_url = "https://vaultwarden.scaphium.xyz";
-      email = "selfhost@randomneet.me";
-      lock_timeout = 3600;
-    };
-    rofi-rbw = true; # install rofi-rbw, add related keybind to wm and use graphical pinentry if set to true
-  };
-  # }}}
-
-  # Package {{{
-  packages = {
-    system = [
-      "veracrypt"
-    ];
-    home = [
-      "ffmpeg"
-      "imagemagick"
-      "md2pdf"
-
-      "qbittorrent"
-      "libreoffice"
-
-      "lolcat"
-      "figlet"
-      "fortune"
-      "cowsay"
-      "asciiquarium-transparent"
-      "cbonsai"
-      "cmatrix"
-      "pipes"
-      "tty-clock"
-    ];
-
-    flatpak = {
-      home = [
-        "com.github.tchx84.Flatseal"
-
-        "com.qq.QQ"
-        "com.tencent.WeChat"
-      ];
-    };
+  swaylock = {
+    image = "eDP-1:${wallpaper.dir}/original/landscape/touhou/marisa-reimu-3.jpg";
   };
   # }}}
 }

@@ -1,10 +1,14 @@
 {
   imports = [
     ../../modules/system/core
-    ../../modules/system/gpu
     ../../modules/system/impermanence
     ../../modules/system/secure-boot
     ../../modules/system/sops
+
+    ../../modules/hardware/gpu
+    ../../modules/hardware/i2c
+
+    ../../modules/virtualisation/libvirtd
 
     ../../modules/services/automount
     ../../modules/services/avahi
@@ -14,11 +18,11 @@
     ../../modules/services/greetd
     ../../modules/services/mbsync
     ../../modules/services/mpd
+    ../../modules/services/openssh
     ../../modules/services/pipewire
     ../../modules/services/power-profiles-daemon
     ../../modules/services/proxy
     ../../modules/services/snapper
-    ../../modules/services/ssh
     ../../modules/services/udev
 
     ../../modules/programs/cli/aerc
@@ -52,6 +56,7 @@
     ../../modules/programs/cli/ripgrep
     ../../modules/programs/cli/rmpc
     ../../modules/programs/cli/spotify-player
+    ../../modules/programs/cli/ssh
     ../../modules/programs/cli/starship
     ../../modules/programs/cli/tealdeer
     ../../modules/programs/cli/tmux
@@ -74,8 +79,6 @@
     ../../modules/programs/gui/swayimg
     ../../modules/programs/gui/vscode
     ../../modules/programs/gui/zathura
-
-    ../../modules/virtualisation/libvirtd
 
     ../../modules/scripts
 

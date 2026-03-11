@@ -1,12 +1,10 @@
-# vim:fileencoding=utf-8:foldmethod=marker:foldlevel=0
+# vim:foldmethod=marker:foldlevel=0
 { outputs, lib, ... }:
 rec {
-  # Base {{{
+  # System {{{
+  # Core {{{
   hostname = "dix";
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
-  flake = "/home/${users.primary.name}/oix"; # flake path
-  gpu = "nvidia"; # available: amd nvidia intel-intergrated
-  hibernate = false; # set to true if this machine supports hibernate
   locale = "en_US.UTF-8";
   timezone = "Asia/Shanghai";
   kbdLayout = "us";
@@ -41,6 +39,85 @@ rec {
   systemd.system.services.dae.after = [ "sops-nix.service" ];
   # }}}
 
+  # Users {{{
+  users = {
+    root = {
+      initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
+    };
+    primary = rec {
+      # User config
+      name = "howl";
+      initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
+      isNormalUser = true;
+      uid = 1000;
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "libvirtd"
+        "i2c"
+      ];
+      shell = "zsh";
+      # Home-manager config
+      home-manager = true; # whether to enable home-manager for this user
+      xdg = {
+        userDirs = {
+          desktop = null; # no need for wm
+          documents = "/home/${name}/doc";
+          download = "/home/${name}/dls";
+          music = "/home/${name}/mus";
+          pictures = "/home/${name}/pic";
+          videos = "/home/${name}/vid";
+          templates = "/home/${name}/tpl";
+          publicShare = "/home/${name}/pub";
+        };
+      };
+    };
+    mutableUsers = false;
+  };
+
+  # Define default programs
+  editor = "nvim";
+  terminal = "kitty";
+  terminalFileManager = "yazi";
+  browser = "qutebrowser";
+  # }}}
+
+  # Packages {{{
+  packages = {
+    system = [
+      "ddcutil"
+      "veracrypt"
+    ];
+    home = [
+      "ffmpeg"
+      "imagemagick"
+      "md2pdf"
+
+      "qbittorrent"
+      "libreoffice"
+
+      "lolcat"
+      "figlet"
+      "fortune"
+      "cowsay"
+      "asciiquarium-transparent"
+      "cbonsai"
+      "cmatrix"
+      "pipes"
+      "tty-clock"
+
+      "osu-lazer"
+      "prismlauncher"
+    ];
+
+  };
+  # }}}
+  # }}}
+
+  # Hardware {{{
+  gpu = "nvidia"; # available: amd nvidia intel-intergrated
+  # }}}
+
   # Virtualisation {{{
   libvirtd = {
     hooks = {
@@ -65,6 +142,239 @@ rec {
   };
   # }}}
 
+  # Services {{{
+  udev = {
+    extraRules = ''
+      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c547", ENV{DEVTYPE}=="usb_device", ATTR{power/wakeup}="disabled"
+    '';
+  };
+
+  openssh = {
+    ports = [ 22 ];
+    authorizedKeysFiles = [ "/home/${users.primary.name}/.vault/ssh/${hostname}.pub" ];
+  };
+
+  mbsync.service = {
+    configFile = "/run/secrets/mbsync";
+    mailDir = "/home/${users.primary.name}/${email.maildirBasePath}";
+    countFile = "${mbsync.service.mailDir}/.new";
+    triggerFile = "${mbsync.service.mailDir}/.trigger";
+  };
+  sops.secrets.mbsync = {
+    sopsFile = ./secrets.yaml;
+    owner = users.primary.name;
+  };
+  systemd.home.user.services.mbsync.Unit.After = [ "sops-nix.service" ];
+
+  mpd = {
+    dataDir = "/mnt/hdd1/media/.mpd";
+    startWhenNeeded = true;
+    settings = {
+      music_directory = "/mnt/hdd1/media/music";
+      audio_output = [
+        {
+          type = "pipewire";
+          name = "PipeWire Sound Server";
+        }
+        {
+          type = "fifo";
+          name = "my_fifo";
+          path = "/tmp/mpd.fifo";
+          format = "44100:16:2";
+        }
+      ];
+      auto_update = "yes";
+    };
+    pipewire = true; # set to true to enable pipewire extra tweaks
+  };
+
+  flatpak = {
+    packages = {
+      home = [
+        "com.github.tchx84.Flatseal"
+
+        "com.qq.QQ"
+        "com.tencent.WeChat"
+      ];
+    };
+  };
+  # }}}
+
+  # Programs {{{
+  ssh = {
+    matchBlocks = {
+      "github.com" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "/run/secrets/ssh/github-RandomNEET";
+        addKeysToAgent = "yes";
+      };
+      "codeberg.org" = {
+        hostname = "codeberg.org";
+        user = "git";
+        identityFile = "/run/secrets/ssh/codeberg-RandomNEET";
+        addKeysToAgent = "yes";
+      };
+      "lix" = {
+        hostname = "lix.local";
+        port = 22;
+        user = "howl";
+        identityFile = "/run/secrets/ssh/lix";
+        addKeysToAgent = "yes";
+      };
+      "nasix" = {
+        hostname = "nasix.local";
+        port = 22;
+        user = "howl";
+        identityFile = "/run/secrets/ssh/nasix";
+        addKeysToAgent = "yes";
+      };
+    };
+  };
+  sops.secrets = {
+    "ssh/github-RandomNEET" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
+    };
+    "ssh/codeberg-RandomNEET" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
+    };
+    "ssh/lix" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
+    };
+    "ssh/nasix" = {
+      sopsFile = ./secrets.yaml;
+      owner = users.primary.name;
+    };
+  };
+
+  yazi = {
+    keymap = {
+      mgr = {
+        prepend_keymap = [
+          {
+            on = [
+              "g"
+              "d"
+            ];
+            run = "cd ~/dls";
+            desc = "Go ~/dls";
+          }
+          {
+            on = [
+              "g"
+              "r"
+            ];
+            run = "cd ~/repo";
+            desc = "Go ~/repo";
+          }
+          {
+            on = [
+              "g"
+              "u"
+            ];
+            run = "cd /run/media/$USER";
+            desc = "Go /run/media/$USER";
+          }
+        ];
+      };
+    };
+  };
+
+  git = {
+    settings = {
+      user = {
+        name = "RandomNEET";
+        email = "dev@randomneet.me";
+      };
+    };
+  };
+
+  rbw = {
+    settings = {
+      base_url = "https://vaultwarden.scaphium.xyz";
+      email = "selfhost@randomneet.me";
+      lock_timeout = 3600;
+    };
+  };
+
+  nh = {
+    flake = "/home/${users.primary.name}/oix"; # flake path
+  };
+
+  qutebrowser = {
+    theme = {
+      opacity0 = 0.9;
+      opacity1 = 0.1;
+    };
+    window = {
+      hide_decoration = true;
+      transparent = true;
+    };
+    completion = {
+      height = "30%";
+      shrink = true;
+    };
+    url = {
+      default_page = "https://startpage.randomneet.me/";
+      start_pages = "https://startpage.randomneet.me/";
+    };
+    quickmarks = {
+      sp = "https://startpage.randomneet.me/";
+      hp = "https://homepage.scaphium.xyz/";
+      ld = "https://linkding.scaphium.xyz/";
+    };
+  };
+
+  obsidian = {
+    vaults = {
+      default = {
+        enable = true;
+        target = "doc/notes";
+      };
+    };
+  };
+  # }}}
+
+  # Accounts {{{
+  email = {
+    maildirBasePath = ".mail";
+
+    primary = {
+      name = "RandomNEET";
+      primary = true;
+      maildir.path = "/neet";
+      address = "neet@randomneet.me";
+      userName = "neet@randomneet.me";
+      passwordCommand = "pass migadu/neet";
+      realName = "RandomNEET";
+      gpg = {
+        key = "0xBFA119DF465BFBB1";
+        signByDefault = true;
+        encryptByDefault = false;
+      };
+      flavor = "migadu.com";
+
+      aerc = {
+        enable = true;
+        extraAccounts = {
+          default = "Inbox";
+          folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
+          check-mail = "5m";
+          check-mail-cmd = "touch /home/${users.primary.name}/${email.maildirBasePath}/.trigger && sleep 1";
+        };
+      };
+
+      mbsync = {
+        enable = true;
+        create = "maildir";
+      };
+    };
+  };
+  # }}}
+
   # Desktop {{{
   desktop = "hyprland-noctalia"; # available: hyprland-noctalia hyprland-waybar niri-noctalia niri-waybar
 
@@ -82,14 +392,12 @@ rec {
   display = [
     {
       output = "DP-1";
-      external = true;
       width = 3840;
       height = 2160;
       orientation = "landscape";
     }
     {
       output = "HDMI-A-1";
-      external = true;
       width = 2160;
       height = 3840;
       orientation = "portrait";
@@ -118,6 +426,8 @@ rec {
     #         └──  pic.jpg
     dir = "${users.primary.xdg.userDirs.pictures}/wallpapers";
   };
+
+  hibernate = false; # set to true if this machine supports hibernate
 
   hyprland = {
     settings = {
@@ -426,359 +736,9 @@ rec {
       location = {
         name = "Jiangxi";
       };
-    };
-  };
-  # }}}
-
-  # Hardware {{{
-  udev = {
-    extraRules = ''
-      ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c547", ENV{DEVTYPE}=="usb_device", ATTR{power/wakeup}="disabled"
-    '';
-  };
-  # }}}
-
-  # User {{{
-  users = {
-    root = {
-      initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
-    };
-    primary = rec {
-      # User config
-      name = "howl";
-      initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
-      isNormalUser = true;
-      uid = 1000;
-      extraGroups = [
-        "wheel"
-        "networkmanager"
-        "libvirtd"
-        "i2c"
-      ];
-      shell = "zsh";
-      # Home-manager config
-      home-manager = true; # whether to enable home-manager for this user
-      xdg = {
-        userDirs = {
-          desktop = null; # no need for wm
-          documents = "/home/${name}/doc";
-          download = "/home/${name}/dls";
-          music = "/home/${name}/mus";
-          pictures = "/home/${name}/pic";
-          videos = "/home/${name}/vid";
-          templates = "/home/${name}/tpl";
-          publicShare = "/home/${name}/pub";
-        };
+      brightness = {
+        enableDdcSupport = true;
       };
-    };
-    mutableUsers = false;
-  };
-
-  # Define default programs
-  editor = "nvim";
-  terminal = "kitty";
-  terminalFileManager = "yazi";
-  browser = "qutebrowser";
-  # }}}
-
-  # Shell {{{
-  ssh = {
-    keyDir = "/home/${users.primary.name}/.vault/ssh";
-
-    server = {
-      enable = true;
-      ports = [
-        22
-      ];
-      settings = {
-        PasswordAuthentication = false;
-      };
-      authorizedKeysFiles = [ "${ssh.keyDir}/dix.pub" ];
-    };
-
-    client = {
-      matchBlocks = {
-        "github.com" = {
-          hostname = "github.com";
-          user = "git";
-          identityFile = "/run/secrets/ssh/github-RandomNEET";
-          addKeysToAgent = "yes";
-        };
-        "codeberg.org" = {
-          hostname = "codeberg.org";
-          user = "git";
-          identityFile = "/run/secrets/ssh/codeberg-RandomNEET";
-          addKeysToAgent = "yes";
-        };
-        "lix" = {
-          hostname = "lix.local";
-          port = 22;
-          user = "howl";
-          identityFile = "/run/secrets/ssh/lix";
-          addKeysToAgent = "yes";
-        };
-        "nasix" = {
-          hostname = "nasix.local";
-          port = 22;
-          user = "howl";
-          identityFile = "/run/secrets/ssh/nasix";
-          addKeysToAgent = "yes";
-        };
-      };
-    };
-  };
-  sops.secrets = {
-    "ssh/github-RandomNEET" = {
-      sopsFile = ./secrets.yaml;
-      owner = users.primary.name;
-    };
-    "ssh/codeberg-RandomNEET" = {
-      sopsFile = ./secrets.yaml;
-      owner = users.primary.name;
-    };
-    "ssh/lix" = {
-      sopsFile = ./secrets.yaml;
-      owner = users.primary.name;
-    };
-    "ssh/nasix" = {
-      sopsFile = ./secrets.yaml;
-      owner = users.primary.name;
-    };
-  };
-  # }}}
-
-  # Terminal {{{
-  foot = {
-    server = true; # set true to launch foot server on startup;
-  };
-  # }}}
-
-  # File Manager {{{
-  yazi = {
-    keymap = {
-      mgr = {
-        prepend_keymap = [
-          {
-            on = [
-              "g"
-              "d"
-            ];
-            run = "cd ~/dls";
-            desc = "Go ~/dls";
-          }
-          {
-            on = [
-              "g"
-              "r"
-            ];
-            run = "cd ~/repo";
-            desc = "Go ~/repo";
-          }
-          {
-            on = [
-              "g"
-              "u"
-            ];
-            run = "cd /run/media/$USER";
-            desc = "Go /run/media/$USER";
-          }
-        ];
-      };
-    };
-  };
-  # }}}
-
-  # Browser {{{
-  qutebrowser = {
-    theme = {
-      opacity0 = 0.9;
-      opacity1 = 0.1;
-    };
-    window = {
-      hide_decoration = true;
-      transparent = true;
-    };
-    completion = {
-      height = "30%";
-      shrink = true;
-    };
-    url = {
-      default_page = "https://startpage.randomneet.me/";
-      start_pages = "https://startpage.randomneet.me/";
-    };
-    quickmarks = {
-      sp = "https://startpage.randomneet.me/";
-      hp = "https://homepage.scaphium.xyz/";
-      ld = "https://linkding.scaphium.xyz/";
-    };
-  };
-  # }}}
-
-  # Mail {{{
-  email = {
-    maildirBasePath = ".mail";
-
-    primary = {
-      name = "RandomNEET";
-      primary = true;
-      maildir.path = "/neet";
-      address = "neet@randomneet.me";
-      userName = "neet@randomneet.me";
-      passwordCommand = "pass migadu/neet";
-      realName = "RandomNEET";
-      gpg = {
-        key = "0xBFA119DF465BFBB1";
-        signByDefault = true;
-        encryptByDefault = false;
-      };
-      flavor = "migadu.com";
-
-      aerc = {
-        enable = true;
-        extraAccounts = {
-          default = "Inbox";
-          folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
-          check-mail = "5m";
-          check-mail-cmd = "touch /home/${users.primary.name}/${email.maildirBasePath}/.trigger && sleep 1";
-        };
-      };
-
-      mbsync = {
-        enable = true;
-        create = "maildir";
-      };
-    };
-  };
-
-  mbsync = {
-    program = {
-      groups = {
-        inboxes = {
-          RandomNEET = [
-            "INBOX"
-            "INBOX/dev"
-            "INBOX/contact"
-            "INBOX/selfhost"
-            "INBOX/bill"
-            "INBOX/cert"
-            "INBOX/temp"
-          ];
-        };
-      };
-    };
-    service = {
-      configFile = "/run/secrets/mbsync";
-      # Desktop notification script settings
-      notify = {
-        enable = true;
-        mailDir = "/home/${users.primary.name}/.mail/neet";
-        countFile = "${mbsync.service.notify.mailDir}/.new";
-      };
-      trigger.enable = true; # whether to enable mbsync-trigger service
-    };
-  };
-  sops.secrets.mbsync = {
-    sopsFile = ./secrets.yaml;
-    owner = users.primary.name;
-  };
-  systemd.home.user.services.mbsync.Unit.After = [ "sops-nix.service" ];
-  # }}}
-
-  # Media {{{
-  mpd = {
-    dataDir = "/mnt/hdd1/media/.mpd";
-    startWhenNeeded = true;
-    settings = {
-      music_directory = "/mnt/hdd1/media/music";
-      audio_output = [
-        {
-          type = "pipewire";
-          name = "PipeWire Sound Server";
-        }
-        {
-          type = "fifo";
-          name = "my_fifo";
-          path = "/tmp/mpd.fifo";
-          format = "44100:16:2";
-        }
-      ];
-      auto_update = "yes";
-    };
-    pipewire = true; # set to true to enable pipewire extra tweaks
-  };
-
-  rmpc = {
-    config = {
-      address = "127.0.0.1:6600";
-      password = "None";
-      notify = true; # whether to enable desktop notification
-    };
-  };
-  # }}}
-
-  # Misc {{{
-  git = {
-    settings = {
-      user = {
-        name = "RandomNEET";
-        email = "dev@randomneet.me";
-      };
-    };
-  };
-
-  obsidian = {
-    vaults = {
-      default = {
-        enable = true;
-        target = "doc/notes";
-      };
-    };
-  };
-
-  rbw = {
-    settings = {
-      base_url = "https://vaultwarden.scaphium.xyz";
-      email = "selfhost@randomneet.me";
-      lock_timeout = 3600;
-    };
-    rofi-rbw = true; # install rofi-rbw, add related keybind to wm and use graphical pinentry if set to true
-  };
-  # }}}
-
-  # Package {{{
-  packages = {
-    system = [
-      "veracrypt"
-    ];
-    home = [
-      "ffmpeg"
-      "imagemagick"
-      "md2pdf"
-
-      "qbittorrent"
-      "libreoffice"
-
-      "lolcat"
-      "figlet"
-      "fortune"
-      "cowsay"
-      "asciiquarium-transparent"
-      "cbonsai"
-      "cmatrix"
-      "pipes"
-      "tty-clock"
-
-      "osu-lazer"
-      "prismlauncher"
-    ];
-
-    flatpak = {
-      home = [
-        "com.github.tchx84.Flatseal"
-
-        "com.qq.QQ"
-        "com.tencent.WeChat"
-      ];
     };
   };
   # }}}

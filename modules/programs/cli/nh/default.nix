@@ -2,7 +2,7 @@
 {
   programs.nh = {
     enable = true;
-    flake = opts.flake or null;
+    flake = opts.nh.flake or null;
     clean = {
       enable = true;
       dates = "weekly";
@@ -13,8 +13,8 @@
     {
       programs.nh = {
         enable = isExt;
-        osFlake = opts.flake or null;
-        homeFlake = opts.flake or null;
+        osFlake = opts.nh.flake or null;
+        homeFlake = opts.nh.flake or null;
         clean = {
           enable = true;
           dates = "weekly";

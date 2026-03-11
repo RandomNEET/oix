@@ -61,21 +61,21 @@ let
       cmd = "scripts/launcher spec";
     }
   ]
-  ++ lib.optionals (config.programs.tmux.enable or false) [
+  ++ lib.optionals config.programs.tmux.enable [
     {
       key = "SUPER SHIFT T";
       desc = "Launch tmux sessions";
       cmd = "scripts/launcher tmux";
     }
   ]
-  ++ lib.optionals (opts.rbw.rofi-rbw or false) [
+  ++ lib.optionals config.programs.rbw.enable [
     {
       key = "SUPER ALT U";
       desc = "Launch password manager";
       cmd = "scripts/launcher rbw";
     }
   ]
-  ++ lib.optionals (osConfig.programs.steam.enable or false) [
+  ++ lib.optionals osConfig.programs.steam.enable [
     {
       key = "SUPER SHIFT G";
       desc = "Game launcher";

@@ -28,8 +28,7 @@
                 address: "${opts.rmpc.config.address or "127.0.0.1:6600"}",
                 password: ${opts.rmpc.config.password or "None"},
                 cache_dir: None,
-                ${lib.optionalString (opts.rmpc.config.notify or false
-                ) "on_song_change: [\"${./scripts/notify.sh}\"],"}
+                ${lib.optionalString hasDesktop "on_song_change: [\"${./scripts/notify.sh}\"],"}
                 volume_step: 5,
                 max_fps: 30,
                 scrolloff: 0,

@@ -4,6 +4,10 @@
   opts,
   ...
 }:
+let
+  desktop = opts.desktop or "";
+  hasDesktop = desktop != "";
+in
 {
   home-manager.sharedModules = [
     {
@@ -14,13 +18,13 @@
           email = opts.rbw.settings.email or "";
           identity_url = opts.rbw.settings.identity_url or null;
           lock_timeout = opts.rbw.settings.lock_timeout or 3600;
-          pinentry = if (opts.rbw.rofi-rbw or false) then pkgs.pinentry-qt else pkgs.pinentry-curses;
+          pinentry = if hasDesktop then pkgs.pinentry-qt else pkgs.pinentry-curses;
         };
       };
       home.packages = [
         pkgs.pinentry-all
       ]
-      ++ lib.optionals (opts.rbw.rofi-rbw or false) [
+      ++ lib.optionals hasDesktop [
         pkgs.rofi-rbw
         pkgs.wtype
       ];

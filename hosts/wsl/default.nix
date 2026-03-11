@@ -25,6 +25,7 @@
     ../../modules/programs/cli/nixvim
     ../../modules/programs/cli/opencode
     ../../modules/programs/cli/ripgrep
+    ../../modules/programs/cli/ssh
     ../../modules/programs/cli/starship
     ../../modules/programs/cli/tealdeer
     ../../modules/programs/cli/tmux

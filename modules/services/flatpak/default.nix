@@ -6,12 +6,12 @@
     update = {
       onActivation = false;
     };
-    packages = opts.packages.flatpak.system or [ ];
+    packages = opts.flatpak.packages.system or [ ];
   };
   home-manager.sharedModules = [
     {
       imports = [ inputs.nix-flatpak.homeManagerModules.nix-flatpak ];
-      services.flatpak.packages = opts.packages.flatpak.home or [ ];
+      services.flatpak.packages = opts.flatpak.packages.home or [ ];
     }
   ];
 }

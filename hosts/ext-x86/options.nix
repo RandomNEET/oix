@@ -1,18 +1,20 @@
-# vim:fileencoding=utf-8:foldmethod=marker:foldlevel=0
+# vim:foldmethod=marker:foldlevel=0
 { outputs, lib, ... }:
 rec {
   # Base {{{
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
-  flake = "/home/${home.username}/oix"; # flake path
-  home = {
-    username = "howl";
-    homeDirectory = "/home/howl";
-    stateVersion = "26.05";
-  };
   osConfig = {
     programs = {
       htop.enable = false;
     };
+  };
+  # }}}
+
+  # Home {{{
+  home = {
+    username = "howl";
+    homeDirectory = "/home/howl";
+    stateVersion = "26.05";
   };
   # }}}
 
@@ -35,7 +37,13 @@ rec {
   };
   # }}}
 
-  # Package {{{
+  # Programs {{{
+  nh = {
+    flake = "/home/${home.username}/oix"; # flake path
+  };
+  # }}}
+
+  # Packages {{{
   packages = {
     home = [
       "lolcat"
