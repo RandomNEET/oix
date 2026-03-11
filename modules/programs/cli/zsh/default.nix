@@ -114,7 +114,7 @@ in
               update =
                 if isExt then
                   if config.programs.nh.enable then
-                    "nh home switch -H ${hostname}"
+                    "nh home switch -c ${hostname}"
                   else
                     ''home-manager switch --flake "${config.xdg.configHome}/home-manager#${hostname}"''
                 else if osConfig.programs.nh.enable then
