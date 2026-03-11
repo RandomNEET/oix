@@ -6,7 +6,10 @@
     ports = opts.ssh.ports or [ 22 ];
     authorizedKeysFiles = [ ] ++ (opts.openssh.authorizedKeysFiles or [ ]);
     settings = {
-      PasswordAuthentication = opts.openssh.settings.PasswordAuthentication or false;
-    };
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+    }
+    // (opts.openssh.settings or { });
   };
 }
