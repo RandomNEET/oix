@@ -29,9 +29,14 @@ let
       bin = "${getBin pkgs.aerc}/bin/aerc";
       profile = profiles.aerc;
     };
+    chromium = {
+      enable = config.programs.chromium.enable;
+      bin = "${config.programs.chromium.finalPackage}/bin/chromium";
+      profile = profiles.chromium;
+    };
     firefox = {
       enable = config.programs.firefox.enable;
-      bin = "${getBin pkgs.firefox}/bin/firefox";
+      bin = "${config.programs.firefox.finalPackage}/bin/firefox";
       profile = profiles.firefox;
     };
     mpv = {

@@ -10,7 +10,23 @@ let
   };
 in
 {
-  # enable custom userchrome
+  # AI stuff
+  "browser.ml.chat.enabled" = false;
+  "browser.ml.chat.page" = false;
+  "browser.ml.linkPreview.enabled" = false;
+  "browser.tabs.groups.smart.enabled" = false;
+  "browser.tabs.groups.smart.userEnabled" = false;
+  "browser.translations.enable" = false;
+  "extensions.ml.enabled" = false;
+  "pdfjs.enableAltText" = false;
+  "browser.ai.control.default" = "blocked";
+  "browser.ai.control.linkPreviewKeyPoints" = "blocked";
+  "browser.ai.control.pdfjsAltText" = "blocked";
+  "browser.ai.control.sidebarChatbot" = "blocked";
+  "browser.ai.control.smartTabGroups" = "blocked";
+  "browser.ai.control.translations" = "blocked";
+
+  # Userchrome
   "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
   "svg.context-properties.content.enabled" = true;
   "layout.css.color-mix.enabled" = true;
@@ -159,14 +175,12 @@ in
   "browser.protections_panel.infoMessage.seen" = true;
   "browser.ssb.enabled" = true;
   "browser.toolbars.bookmarks.visibility" = "never"; # always, never, newtab
-  #"browser.urlbar.placeholderName" = "google";
   "browser.urlbar.suggest.openpage" = false;
   "datareporting.policy.dataSubmissionEnable" = false;
   "datareporting.policy.dataSubmissionPolicyAcceptedVersion" = 2;
 
   "extensions.getAddons.showPane" = lock-false;
   "extensions.htmlaboutaddons.recommendations.enabled" = lock-false;
-  "extensions.extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
   # "extensions.update.enabled" = false;
   "extensions.webcompat.enable_picture_in_picture_overrides" = true;
   "extensions.webcompat.enable_shims" = true;
@@ -201,26 +215,17 @@ in
     placements = {
       widget-overflow-fixed-list = [ ];
       unified-extensions-area = [
-        "_61a05c39-ad45-4086-946f-32adb0a40a9d_-browser-action"
-        "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
-        "_036a55b4-5e72-4d05-a06c-cba2dfcc134a_-browser-action"
-        "addon_darkreader_org-browser-action"
-        "_7a7a4a92-a2a0-41d1-9fd7-1e92480d612d_-browser-action"
-        "ublock0_raymondhill_net-browser-action"
-        "newtaboverride_agenedia_com-browser-action"
+        "_036a55b4-5e72-4d05-a06c-cba2dfcc134a_-browser-action" # TWP - Translate Web Pages
+        "addon_darkreader_org-browser-action" # Dark Reader
+        "ublock0_raymondhill_net-browser-action" # uBlock Origin
       ];
       nav-bar = [
         "back-button"
         "forward-button"
         "stop-reload-button"
         "urlbar-container"
-        # "developer-button"
         "downloads-button"
         "unified-extensions-button"
-
-        # Extensions
-        # "ublock0_raymondhill_net-browser-action"
-        # "addon_darkreader_org-browser-action"
       ];
       toolbar-menubar = [ "menubar-items" ];
       TabsToolbar = [

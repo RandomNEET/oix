@@ -12,7 +12,7 @@
   BlockAboutSupport = false;
   #Containers = { };
   DisableAppUpdate = true;
-  DisableFirefoxAccounts = opts.firefox.DisableFirefoxAccounts or true;
+  DisableFirefoxAccounts = true;
   DisableFirefoxScreenshots = false;
   DisableFirefoxStudies = true;
   DisableFormHistory = true;
@@ -50,7 +50,7 @@
   };
   HardwareAcceleration = true;
   ManualAppUpdateOnly = true;
-  NoDefaultBookmarks = opts.firefox.DisableFirefoxAccounts or false;
+  NoDefaultBookmarks = false;
   OfferToSaveLogins = false;
   PasswordManagerEnabled = false;
   PictureInPicture = {
@@ -75,3 +75,4 @@
   };
   ExtensionSettings = import ./extensions.nix;
 }
+// (opts.firefox.policies or { })

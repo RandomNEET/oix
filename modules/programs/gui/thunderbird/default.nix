@@ -52,6 +52,7 @@
               "browser.download.manager.addToRecentDocs" = false;
               "browser.download.always_ask_before_handling_new_types" = true;
             };
+            withExternalGnupg = true;
           };
         };
       };

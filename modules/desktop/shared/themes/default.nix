@@ -51,7 +51,10 @@ if hasThemes then
             btop.enable = true;
             cava.enable = true;
             fcitx5.enable = true;
-            firefox.enable = true;
+            firefox = {
+              enable = true;
+              profileNames = [ "default" ];
+            };
             font-packages.enable = true;
             fontconfig.enable = true;
             foot.enable = true;

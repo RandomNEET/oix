@@ -6,63 +6,86 @@
       toolbar = true;
       bookmarks = [
         {
-          name = "Github";
-          url = "https://github.com/";
-        }
-        {
-          name = "ChatGPT";
-          url = "https://chatgpt.com/";
-        }
-        {
-          name = "bilibili";
-          url = "https://www.bilibili.com";
-        }
-        {
-          name = "Youtube";
-          url = "https://www.youtube.com";
-        }
-        {
-          name = "NixOS";
+          name = "dev";
           bookmarks = [
             {
-              name = "Search NixOS";
+              name = "github";
+              url = "https://github.com/";
+            }
+            {
+              name = "codeberg";
+              url = "https://codeberg.org/";
+            }
+          ];
+        }
+        {
+          name = "media";
+          bookmarks = [
+            {
+              name = "youtube";
+              url = "https://www.youtube.com";
+            }
+            {
+              name = "bilibili";
+              url = "https://www.bilibili.com";
+            }
+            {
+              name = "reddit";
+              url = "https://www.reddit.com/";
+            }
+            {
+              name = "twitter";
+              url = "https://twitter.com/";
+            }
+            {
+              name = "steam";
+              url = "https://store.steampowered.com/";
+            }
+            {
+              name = "migadu";
+              url = "https://webmail.migadu.com/";
+            }
+          ];
+        }
+        {
+          name = "ai";
+          bookmarks = [
+            {
+              name = "gemini";
+              url = "https://gemini.google.com/";
+            }
+            {
+              name = "claude";
+              url = "https://claude.ai/";
+            }
+            {
+              name = "chatGPT";
+              url = "https://chatgpt.com/";
+            }
+            {
+              name = "copilot";
+              url = "https://copilot.github.com/";
+            }
+          ];
+        }
+        {
+          name = "nix";
+          bookmarks = [
+            {
+              name = "mynix";
               url = "https://mynixos.com/";
             }
             {
-              name = "NixOS Wiki";
-              url = "https://wiki.nixos.org/wiki/NixOS_Wiki";
-            }
-            {
-              name = "NixOS Packages";
+              name = "nixos-packages";
               url = "https://search.nixos.org/packages";
             }
             {
-              name = "NixOS Options";
+              name = "nixos-options";
               url = "https://search.nixos.org/options";
             }
             {
-              name = "NixOS Configs";
-              url = "https://wiki.nixos.org/wiki/Configuration_Collection";
-            }
-            {
-              name = "Nix Docs";
+              name = "noogle";
               url = "https://noogle.dev/";
-            }
-            {
-              name = "Learn Nix";
-              url = "https://nix.dev/";
-            }
-            {
-              name = "NixOS & Flakes Book";
-              url = "https://nixos-and-flakes.thiscute.world/";
-            }
-            {
-              name = "Interactive Nix Lessons";
-              url = "https://nixcloud.io/tour/?id=introduction/nix";
-            }
-            {
-              name = "Nixpkgs Issue Tracker";
-              url = "https://nixpkgs-tracker.ocfox.me/";
             }
           ];
         }

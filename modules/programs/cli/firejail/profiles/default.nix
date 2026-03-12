@@ -51,6 +51,7 @@ in
 {
   aerc = import ./aerc.nix env;
   calibre = import ./calibre.nix env;
+  chromium = import ./chromium.nix env;
   firefox = import ./firefox.nix env;
   gimp = import ./gimp.nix env;
   libreoffice = import ./libreoffice.nix env;

@@ -67,6 +67,7 @@
     ../../modules/programs/cli/zoxide
     ../../modules/programs/cli/zsh
 
+    ../../modules/programs/gui/chromium
     ../../modules/programs/gui/discord
     ../../modules/programs/gui/games
     ../../modules/programs/gui/kitty

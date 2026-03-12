@@ -8,7 +8,6 @@
     rd = "https://www.reddit.com/";
     tw = "https://twitter.com/";
     st = "https://store.steampowered.com/";
-    em = "https://webmail.migadu.com/";
     gmn = "https://gemini.google.com/";
     cld = "https://claude.ai/";
     gpt = "https://chatgpt.com/";
