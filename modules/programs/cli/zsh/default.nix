@@ -47,13 +47,7 @@ in
               "EXTENDED_GLOB"
               "GLOB_DOTS"
             ];
-            plugins = [
-              {
-                name = "vi-mode";
-                src = pkgs.zsh-vi-mode;
-                file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-              }
-            ];
+            plugins = [ ];
 
             initContent = lib.mkMerge (
               [
@@ -65,15 +59,6 @@ in
                   autoload -U down-line-or-beginning-search
                   zle -N up-line-or-beginning-search
                   zle -N down-line-or-beginning-search
-                  function zvm_config() {
-                    ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
-                    ZVM_SYSTEM_CLIPBOARD_ENABLED=true
-                    ZVM_VI_HIGHLIGHT_FOREGROUND=black
-                    ZVM_VI_HIGHLIGHT_BACKGROUND=white
-                  }
-                '')
-                # default: General configuration
-                (mkOrder 1000 ''
                   function search_keybinds() {
                     bindkey -M emacs "^[[A" up-line-or-beginning-search
                     bindkey -M viins "^[[A" up-line-or-beginning-search
@@ -82,17 +67,33 @@ in
                     bindkey -M viins "^[[B" down-line-or-beginning-search
                     bindkey -M vicmd "^[[B" down-line-or-beginning-search
                   }
-                  zvm_after_init_commands+=(search_keybinds)
-                  ${optionalString config.programs.fzf.enable ''
-                    function fzf_init() {
-                      ${builtins.readFile ./init/fzf.zsh}
+                '')
+                # default: General configuration
+                (mkOrder 1000 ''
+                  if [[ -n "$NVIM" ]]; then
+                    bindkey -e
+                    search_keybinds
+                    ${optionalString config.programs.fzf.enable (builtins.readFile ./init/fzf.zsh)}
+                  else
+                    function zvm_config() {
+                      ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+                      ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+                      ZVM_VI_HIGHLIGHT_FOREGROUND=black
+                      ZVM_VI_HIGHLIGHT_BACKGROUND=white
                     }
-                    zvm_after_init_commands+=(fzf_init)
-                  ''}
-                  function zvm_after_lazy_keybindings() {
-                    zvm_bindkey vicmd 'k' up-line-or-beginning-search
-                    zvm_bindkey vicmd 'j' down-line-or-beginning-search
-                  }
+                    source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+                    zvm_after_init_commands+=(search_keybinds)
+                    function zvm_after_lazy_keybindings() {
+                      zvm_bindkey vicmd 'k' up-line-or-beginning-search
+                      zvm_bindkey vicmd 'j' down-line-or-beginning-search
+                    }
+                    ${optionalString config.programs.fzf.enable ''
+                      function fzf_init() {
+                        ${builtins.readFile ./init/fzf.zsh}
+                      }
+                      zvm_after_init_commands+=(fzf_init)
+                    ''}
+                  fi
                 '')
                 # mkAfter: Last to run configuration
                 (mkOrder 1500 "")
