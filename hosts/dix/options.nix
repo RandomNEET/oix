@@ -432,8 +432,8 @@ rec {
   hyprland = {
     settings = {
       monitor = [
-        "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5, bitdepth, 10, cm, hdr, sdrbrightness, 1.5, sdrsaturation, 1.1"
-        "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1, bitdepth, 10, cm, hdr, sdrbrightness, 1.2, sdrsaturation, 1.1"
+        "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5"
+        "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1"
       ];
       bind = [
         "$mainMod, F1, exec, noctalia-shell ipc call volume muteOutput"

@@ -12,6 +12,19 @@
       "fat32"
       "ntfs"
     ];
-    kernelPackages = pkgs.${opts.boot.kernelPackages or "linuxPackages"};
+    kernelPackages =
+      let
+        baseKernel = pkgs.${opts.boot.kernelPackages or "linuxPackages"};
+        hasPatches = (opts.boot ? kernelPatches) && (opts.boot.kernelPatches != [ ]);
+      in
+      if hasPatches then
+        pkgs.linuxPackagesFor (
+          baseKernel.kernel.override {
+            ignoreConfigErrors = true;
+          }
+        )
+      else
+        baseKernel;
+    kernelPatches = [ ] ++ (opts.boot.kernelPatches or [ ]);
   };
 }
