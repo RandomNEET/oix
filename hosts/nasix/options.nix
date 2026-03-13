@@ -137,7 +137,11 @@ rec {
   # Services {{{
   openssh = {
     ports = [ 22 ];
-    authorizedKeysFiles = [ "/home/${users.primary.name}/.vault/ssh/${hostname}.pub" ];
+    authorizedKeysFiles = [ "/run/secrets/ssh/${users.primary.name}@${hostname}" ];
+  };
+  sops.secrets."ssh/${users.primary.name}@${hostname}" = {
+    sopsFile = ./secrets.yaml;
+    owner = users.primary.name;
   };
 
   systemd.system.services = {

@@ -177,7 +177,11 @@ rec {
 
   openssh = {
     ports = [ 22 ];
-    authorizedKeysFiles = [ "/home/${users.primary.name}/.vault/ssh/${hostname}.pub" ];
+    authorizedKeysFiles = [ "/run/secrets/ssh/${users.primary.name}@${hostname}" ];
+  };
+  sops.secrets."ssh/${users.primary.name}@${hostname}" = {
+    sopsFile = ./secrets.yaml;
+    owner = users.primary.name;
   };
 
   mbsync.service = {
@@ -241,7 +245,7 @@ rec {
         identityFile = "/run/secrets/ssh/codeberg-RandomNEET";
         addKeysToAgent = "yes";
       };
-      "lix" = {
+      "dix" = {
         hostname = "dix.local";
         port = 22;
         user = "howl";
