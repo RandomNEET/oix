@@ -14,7 +14,9 @@
     ./lualine.nix
     ./lz-n.nix
     ./markdown-preview.nix
+    ./mini-ai.nix
     ./mini-pairs.nix
+    ./mini-surround.nix
     ./mini.nix
     ./noice.nix
     ./obsession.nix
