@@ -2,7 +2,7 @@
   programs.nixvim = {
     plugins.mini-pairs = {
       enable = true;
-      settins = {
+      settings = {
         modes = {
           insert = true;
           command = false;
