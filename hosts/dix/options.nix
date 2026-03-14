@@ -308,21 +308,11 @@ rec {
   };
 
   qutebrowser = {
-    theme = {
-      opacity0 = 0.9;
-      opacity1 = 0.1;
-    };
-    window = {
-      hide_decoration = true;
-      transparent = true;
-    };
-    completion = {
-      height = "30%";
-      shrink = true;
-    };
-    url = {
-      default_page = "https://startpage.randomneet.me/";
-      start_pages = "https://startpage.randomneet.me/";
+    settings = {
+      url = {
+        default_page = "https://startpage.randomneet.me/";
+        start_pages = "https://startpage.randomneet.me/";
+      };
     };
     quickmarks = {
       sp = "https://startpage.randomneet.me/";
