@@ -1,6 +1,1 @@
-{ opts, ... }:
-(
-  {
-  }
-  // opts.qutebrowser.perDomainSettings or { }
-)
+{ opts, ... }: { } // (opts.qutebrowser.perDomainSettings or { })

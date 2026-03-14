@@ -27,11 +27,11 @@ let
 in
 {
   completion = {
-    shrink = opts.qutebrowser.completion.shrink or false;
-    height = opts.qutebrowser.completion.height or "50%";
+    shrink = opts.qutebrowser.settings.completion.shrink or true;
+    height = opts.qutebrowser.settings.completion.height or "30%";
     web_history = {
-      exclude = [ ] ++ (opts.qutebrowser.completion.web_history.exclude or [ ]);
-      max_items = opts.qutebrowser.completion.web_history.max_items or (-1);
+      exclude = [ ] ++ (opts.qutebrowser.settings.completion.web_history.exclude or [ ]);
+      max_items = opts.qutebrowser.settings.completion.web_history.max_items or (-1);
     };
   };
   editor = {
@@ -65,32 +65,32 @@ in
         ];
   };
   window = {
-    hide_decoration = opts.qutebrowser.window.hide_decoration or false;
-    transparent = opts.qutebrowser.window.transparent or false;
+    hide_decoration = opts.qutebrowser.settings.window.hide_decoration or true;
+    transparent = opts.qutebrowser.settings.window.transparent or true;
   };
   tabs = {
-    show = opts.qutebrowser.tabs.show or "always";
+    show = opts.qutebrowser.settings.tabs.show or "always";
   };
   scrolling = {
     smooth = true;
   };
   content = {
     blocking = {
-      enabled = opts.qutebrowser.content.blocking.enabled or true;
-      method = opts.qutebrowser.content.blocking.method or "auto";
+      enabled = opts.qutebrowser.settings.content.blocking.enabled or true;
+      method = opts.qutebrowser.settings.content.blocking.method or "auto";
       hosts = {
-        block_subdomains = opts.qutebrowser.content.blocking.block_subdomains or true;
+        block_subdomains = opts.qutebrowser.settings.content.blocking.block_subdomains or true;
         lists = [
           "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
         ]
-        ++ (opts.qutebrowser.content.blocking.hosts.lists or [ ]);
+        ++ (opts.qutebrowser.settings.content.blocking.hosts.lists or [ ]);
       };
-      whitelist = [ ] ++ (opts.qutebrowser.content.blocking.whitelist or [ ]);
+      whitelist = [ ] ++ (opts.qutebrowser.settings.content.blocking.whitelist or [ ]);
     };
   };
   url = {
-    default_page = opts.qutebrowser.url.default_page or "https://start.duckduckgo.com/";
-    start_pages = opts.qutebrowser.url.start_pages or "https://start.duckduckgo.com/";
+    default_page = opts.qutebrowser.settings.url.default_page or "https://start.duckduckgo.com/";
+    start_pages = opts.qutebrowser.settings.url.start_pages or "https://start.duckduckgo.com/";
   };
   colors = {
     webpage = {

@@ -22,10 +22,10 @@
               ;
           };
           keyBindings = import ./binds.nix { inherit config lib; };
-          greasemonkey = import ./greasemonkey.nix { inherit pkgs; };
+          quickmarks = import ./quickmarks.nix { inherit opts; };
           searchEngines = import ./search.nix { inherit opts; };
           perDomainSettings = import ./domains.nix { inherit opts; };
-          quickmarks = import ./quickmarks.nix { inherit opts; };
+          greasemonkey = import ./greasemonkey.nix { inherit pkgs opts; };
           extraConfig = "" + (opts.qutebrowser.extraConfig or "");
         };
         imports = [ ./userscripts ];
