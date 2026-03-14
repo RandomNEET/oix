@@ -1,5 +1,6 @@
 {
   inputs,
+  config,
   lib,
   pkgs,
   opts,
@@ -58,7 +59,7 @@
                   home = {
                     username = realName;
                     homeDirectory = "/home/${realName}";
-                    stateVersion = "26.05";
+                    stateVersion = config.system.stateVersion;
                     sessionVariables = lib.mkMerge [
                       (lib.optionalAttrs ((opts.editor or "") != "") { EDITOR = opts.editor; })
                       (lib.optionalAttrs ((opts.terminal or "") != "") { TERMINAL = opts.terminal; })

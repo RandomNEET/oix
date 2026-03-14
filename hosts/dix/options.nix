@@ -2,13 +2,10 @@
 { outputs, lib, ... }:
 rec {
   # System {{{
-  # Core {{{
+  # Base {{{
   hostname = "dix";
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
-  locale = "en_US.UTF-8";
-  timezone = "Asia/Shanghai";
-  kbdLayout = "us";
-  consoleKeymap = "us";
+  flake = "/home/${users.primary.name}/oix"; # flake path
   # }}}
 
   # Boot {{{
@@ -109,8 +106,14 @@ rec {
       "osu-lazer"
       "prismlauncher"
     ];
-
   };
+  # }}}
+
+  # Misc {{{
+  locale = "en_US.UTF-8";
+  timezone = "Asia/Shanghai";
+  kbdLayout = "us";
+  consoleKeymap = "us";
   # }}}
   # }}}
 
@@ -302,10 +305,6 @@ rec {
       email = "selfhost@randomneet.me";
       lock_timeout = 3600;
     };
-  };
-
-  nh = {
-    flake = "/home/${users.primary.name}/oix"; # flake path
   };
 
   qutebrowser = {

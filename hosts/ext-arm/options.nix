@@ -3,6 +3,7 @@
 rec {
   # System {{{
   system = "aarch64-linux"; # x86_64-linux aarch64-linux
+  flake = "/home/${home.username}/oix"; # flake path
   osConfig = {
     programs = {
       htop.enable = false;
@@ -34,12 +35,6 @@ rec {
       templates = "${home.homeDirectory}/tpl";
       publicShare = "${home.homeDirectory}/pub";
     };
-  };
-  # }}}
-
-  # Programs {{{
-  nh = {
-    flake = "/home/${home.username}/oix"; # flake path
   };
   # }}}
 
