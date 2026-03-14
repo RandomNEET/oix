@@ -2,13 +2,10 @@
 { outputs, lib, ... }:
 rec {
   # System {{{
-  # Core {{{
+  # Base {{{
   hostname = "nasix";
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
-  locale = "en_US.UTF-8";
-  timezone = "Asia/Shanghai";
-  kbdLayout = "us";
-  consoleKeymap = "us";
+  flake = "/home/${users.primary.name}/oix"; # flake path
   # }}}
 
   # Boot {{{
@@ -127,6 +124,13 @@ rec {
       "tty-clock"
     ];
   };
+  # }}}
+
+  # Misc {{{
+  locale = "en_US.UTF-8";
+  timezone = "Asia/Shanghai";
+  kbdLayout = "us";
+  consoleKeymap = "us";
   # }}}
   # }}}
 
@@ -736,10 +740,6 @@ rec {
         fi
       '')
     ];
-  };
-
-  nh = {
-    flake = "/home/${users.primary.name}/oix"; # flake path
   };
   # }}}
 }

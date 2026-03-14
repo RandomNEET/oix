@@ -212,10 +212,21 @@
               ];
           };
         };
+
+      devShells =
+        system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = import ./overlays { inherit inputs; };
+          };
+        in
+        import ./shells { inherit pkgs; };
     in
     {
       nixosConfigurations = lib.listToAttrs (map mkHost (builtins.filter (name: !isExt name) hosts));
       homeConfigurations = lib.listToAttrs (map mkHome hosts);
-      formatter = forAllSystems (system: lib.nixos-tree or nixpkgs.legacyPackages.${system}.nixfmt-tree);
+      devShells = forAllSystems devShells;
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
     };
 }
