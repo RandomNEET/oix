@@ -277,15 +277,6 @@ in
           desc = "Toggle terminal";
         };
       }
-      # Dashboard
-      {
-        mode = "n";
-        action = "<cmd>lua require('snacks').dashboard()<cr>";
-        key = "<leader>gh";
-        options = {
-          desc = "Dashboard";
-        };
-      }
     ];
     highlightOverride = lib.mkIf hasThemes {
       SnacksPicker = {

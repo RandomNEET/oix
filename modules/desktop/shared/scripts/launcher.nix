@@ -251,6 +251,22 @@ pkgs.writeShellScriptBin "launcher" ''
       systemctl --user restart waybar
       systemctl --user restart fcitx5-daemon
     ''}
+    ${
+      optionalString (config.programs ? nixvim && config.programs.nixvim.enable) ''
+        RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+        if pgrep -x "nvim" >/dev/null; then
+          for server in "$RUNTIME_DIR"/nvim.*.0; do
+            [ -e "$server" ] || continue
+            pid=$(basename "$server" | cut -d. -f2)
+            if kill -0 "$pid" 2>/dev/null; then
+              nvim --server "$server" --remote-expr "execute('lua if _G.reload_theme then _G.reload_theme() end')" >/dev/null 2>&1 &
+            else
+              rm -f "$server"
+            fi
+          done
+        fi
+      ''
+    } 
     ${optionalString config.programs.tmux.enable ''
       if tmux ls > /dev/null 2>&1; then
         tmux source-file ${config.xdg.configHome}/tmux/tmux.conf
