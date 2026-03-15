@@ -11,6 +11,7 @@
     ./lazygit.nix
     ./lint.nix
     ./lsp.nix
+    ./gitsigns.nix
     ./lualine.nix
     ./lz-n.nix
     ./markdown-preview.nix
