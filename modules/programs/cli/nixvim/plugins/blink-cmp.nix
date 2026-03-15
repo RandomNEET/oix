@@ -1,3 +1,4 @@
+{ config, lib, ... }:
 {
   programs.nixvim = {
     plugins.blink-cmp = {
@@ -27,8 +28,7 @@
           enabled = true;
         };
         sources = {
-          default = [
-            "lsp"
+          default = (lib.optional config.programs.nixvim.plugins.lsp.enable "lsp") ++ [
             "buffer"
             "snippets"
             "path"

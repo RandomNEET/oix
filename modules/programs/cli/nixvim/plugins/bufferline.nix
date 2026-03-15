@@ -19,6 +19,7 @@ in
           event = [
             "BufReadPost"
             "BufNewFile"
+            "BufWritePre"
           ];
         };
       };

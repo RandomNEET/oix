@@ -1,3 +1,4 @@
+{ config, lib, ... }:
 {
   programs.nixvim = {
     plugins.comment = {
@@ -5,10 +6,7 @@
       lazyLoad = {
         enable = true;
         settings = {
-          keys = [
-            "gc"
-            "gb"
-          ];
+          event = "DeferredUIEnter";
         };
       };
       settings = {
@@ -32,6 +30,8 @@
           basic = true;
           extra = true;
         };
+      }
+      // lib.optionalAttrs config.programs.nixvim.plugins.ts-context-commentstring.enable {
         pre_hook = ''
           require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
         '';

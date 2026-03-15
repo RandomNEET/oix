@@ -2,6 +2,12 @@
   programs.nixvim = {
     plugins.mini-ai = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "DeferredUIEnter";
+        };
+      };
       settings = {
         n_lines = 500;
         custom_textobjects = {

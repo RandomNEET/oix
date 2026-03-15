@@ -7,18 +7,18 @@
     ./copilot-lua.nix
     ./csvview.nix
     ./flash.nix
+    ./gitsigns.nix
     ./kitty-scrollback.nix
     ./lazygit.nix
     ./lint.nix
     ./lsp.nix
-    ./gitsigns.nix
     ./lualine.nix
     ./lz-n.nix
     ./markdown-preview.nix
     ./mini-ai.nix
+    ./mini-icons.nix
     ./mini-pairs.nix
     ./mini-surround.nix
-    ./mini.nix
     ./noice.nix
     ./obsession.nix
     ./obsidian.nix

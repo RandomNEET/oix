@@ -2,6 +2,12 @@
   programs.nixvim = {
     plugins.mini-pairs = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "DeferredUIEnter";
+        };
+      };
       settings = {
         modes = {
           insert = true;

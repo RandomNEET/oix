@@ -6,9 +6,23 @@
         enable = true;
         settings = {
           event = [
-            "BufReadPost"
+            "BufReadPre"
             "BufNewFile"
           ];
+        };
+      };
+      keymaps = {
+        silent = true;
+        diagnostic = {
+          "<leader>k" = "goto_prev";
+          "<leader>j" = "goto_next";
+        };
+        lspBuf = {
+          K = "hover";
+          gD = "references";
+          gd = "definition";
+          gi = "implementation";
+          gt = "type_definition";
         };
       };
       servers = {
@@ -29,20 +43,6 @@
         jsonls.enable = true;
         vue_ls.enable = true;
         yamlls.enable = true;
-      };
-      keymaps = {
-        silent = true;
-        diagnostic = {
-          "<leader>k" = "goto_prev";
-          "<leader>j" = "goto_next";
-        };
-        lspBuf = {
-          K = "hover";
-          gD = "references";
-          gd = "definition";
-          gi = "implementation";
-          gt = "type_definition";
-        };
       };
     };
   };

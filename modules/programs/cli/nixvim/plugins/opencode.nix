@@ -1,12 +1,16 @@
 { config, lib, ... }:
 {
   programs.nixvim = lib.mkIf config.programs.opencode.enable {
-    plugins = {
-      opencode = {
+    plugins.opencode = {
+      enable = true;
+      lazyLoad = {
         enable = true;
         settings = {
-          auto_reload = false;
+          event = "DeferredUIEnter";
         };
+      };
+      settings = {
+        auto_reload = false;
       };
     };
     keymaps = [

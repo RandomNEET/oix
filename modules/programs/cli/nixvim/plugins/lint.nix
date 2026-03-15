@@ -7,14 +7,8 @@
         settings = {
           event = [
             "BufReadPost"
-            "BufWritePost"
-          ];
-          keys = [
-            {
-              __unkeyed-1 = "<leader>lt";
-              __unkeyed-2.__raw = "function() require('lint').try_lint() end";
-              desc = "Trigger linting";
-            }
+            "BufNewFile"
+            "BufWritePre"
           ];
         };
       };

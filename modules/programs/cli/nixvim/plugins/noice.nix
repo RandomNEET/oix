@@ -11,38 +11,42 @@ let
 in
 {
   programs.nixvim = {
-    plugins = {
-      noice = {
+    plugins.noice = {
+      enable = true;
+      lazyLoad = {
         enable = true;
         settings = {
-          views = {
-            cmdline_popup = {
-              position = {
-                row = 3;
-                col = "50%";
-              };
-              size = {
-                width = 60;
-                height = "auto";
-              };
+          event = "DeferredUIEnter";
+        };
+      };
+      settings = {
+        views = {
+          cmdline_popup = {
+            position = {
+              row = 3;
+              col = "50%";
             };
-            popupmenu = {
-              relative = "editor";
-              position = {
-                row = 6;
-                col = "50%";
-              };
-              size = {
-                width = 60;
-                height = 10;
-              };
-              border = {
-                style = "rounded";
-                padding = [
-                  0
-                  1
-                ];
-              };
+            size = {
+              width = 60;
+              height = "auto";
+            };
+          };
+          popupmenu = {
+            relative = "editor";
+            position = {
+              row = 6;
+              col = "50%";
+            };
+            size = {
+              width = 60;
+              height = 10;
+            };
+            border = {
+              style = "rounded";
+              padding = [
+                0
+                1
+              ];
             };
           };
         };

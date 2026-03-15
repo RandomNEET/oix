@@ -2,6 +2,20 @@
   programs.nixvim = {
     plugins.mini-surround = {
       enable = true;
+      lazyLoad = {
+        enable = true;
+        settings = {
+          keys = [
+            "gsa"
+            "gsd"
+            "gsf"
+            "gsF"
+            "gsh"
+            "gsr"
+            "gsn"
+          ];
+        };
+      };
       settings = {
         mappings = {
           add = "gsa";

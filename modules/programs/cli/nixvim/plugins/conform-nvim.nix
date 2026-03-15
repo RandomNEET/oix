@@ -7,6 +7,26 @@
         settings = {
           cmd = "ConformInfo";
           event = "BufWritePre";
+          keys = [
+            {
+              __unkeyed-1 = "<leader>cf";
+              __unkeyed-2 = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true })<cr>";
+              mode = [
+                "n"
+                "v"
+              ];
+              desc = "Format buffer";
+            }
+            {
+              __unkeyed-1 = "<leader>cF";
+              __unkeyed-2 = "<cmd>lua require('conform').format({ formatters = { 'injected' }, timeout_ms = 3000 })<cr>";
+              mode = [
+                "n"
+                "v"
+              ];
+              desc = "Format Injected Langs";
+            }
+          ];
         };
       };
       settings = {
@@ -48,22 +68,18 @@
             "prettier"
           ];
         };
-        formatters = { };
+        formatters = {
+          injected = {
+            options = {
+              ignore_errors = true;
+            };
+          };
+        };
         format_on_save = {
           lsp_format = "fallback";
-          timeou_ms = 500;
+          timeout_ms = 500;
         };
       };
     };
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>fm";
-        action = "<cmd>lua require('conform').format({ aync = true, lsp_fallback = true })<cr>";
-        options = {
-          desc = "Format buffer";
-        };
-      }
-    ];
   };
 }
