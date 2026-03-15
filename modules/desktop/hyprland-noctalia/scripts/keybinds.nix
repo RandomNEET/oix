@@ -20,11 +20,6 @@ let
       cmd = opts.terminal;
     }
     {
-      key = "SUPER T";
-      desc = "Launch terminal (float)";
-      cmd = opts.terminal;
-    }
-    {
       key = "SUPER F";
       desc = "Launch file manager";
       cmd = opts.terminalFileManager;
@@ -62,6 +57,11 @@ let
     }
   ]
   ++ lib.optionals config.programs.tmux.enable [
+    {
+      key = "SUPER T";
+      desc = "Launch tmux";
+      cmd = "${opts.terminal} tmux";
+    }
     {
       key = "SUPER SHIFT T";
       desc = "Launch tmux sessions";

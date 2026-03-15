@@ -6,7 +6,7 @@ rec {
   flake = "/home/${home.username}/oix"; # flake path
   osConfig = {
     programs = {
-      htop.enable = false;
+      htop.enable = true;
     };
   };
   # }}}

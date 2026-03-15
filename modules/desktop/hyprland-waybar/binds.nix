@@ -57,24 +57,14 @@
 
     # Applications/Programs
     "$mainMod, Return, exec, $terminal"
-    "$mainMod, T, exec, [float;center;size (monitor_w*0.8) (monitor_h*0.8)] $terminal"
     "$mainMod, F, exec, $fileManager"
     "$mainMod, E, exec, $editor"
     "$mainMod, B, exec, $browser"
 
-    "$mainMod, A, exec, ${launcher} drun" # launch desktop applications
     "$mainMod, SPACE, exec, ${launcher} drun" # launch desktop applications
     "$mainMod CTRL, W, exec, ${launcher} wallpaper" # launch wallpaper selector
     "$mainMod CTRL, T, exec, ${launcher} theme" # launch theme switcher
     "$mainMod ALT, S, exec, ${launcher} spec" # launch specialisation  switcher
-  ]
-  ++ lib.optional config.programs.tmux.enable "$mainMod SHIFT, T, exec, ${launcher} tmux" # launch tmux sessions
-  ++ lib.optional config.programs.rbw.enable "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
-  ++ lib.optionals osConfig.programs.steam.enable [
-    "$mainMod SHIFT, G, exec, ${launcher} game" # game launcher
-    "$mainMod CTRL, G, exec, ${gamemode}" # disable hypr effects for gamemode
-  ]
-  ++ [
     "$mainMod, V, exec, ${clip-manager}" # Clipboard Manager
     "$mainMod SHIFT, W, exec, ${random-wall}" # random wallpaper
     "$mainMod SHIFT, N, exec, swaync-client -t -sw" # swayNC panel
@@ -172,6 +162,15 @@
       ]
     ) 10
   ))
+  ++ lib.optionals config.programs.tmux.enable [
+    "$mainMod, T, exec, $terminal -e tmux" # launch tmux
+    "$mainMod SHIFT, T, exec, ${launcher} tmux" # launch tmux sessions
+  ]
+  ++ lib.optional config.programs.rbw.enable "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
+  ++ lib.optionals osConfig.programs.steam.enable [
+    "$mainMod SHIFT, G, exec, ${launcher} game" # game launcher
+    "$mainMod CTRL, G, exec, ${gamemode}" # disable hypr effects for gamemode
+  ]
   ++ (opts.hyprland.settings.bind or [ ]);
 
   binde = [

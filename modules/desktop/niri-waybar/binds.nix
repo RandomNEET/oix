@@ -409,6 +409,14 @@ in
   };
 }
 // lib.optionalAttrs config.programs.tmux.enable {
+  "Mod+T" = {
+    action.spawn = [
+      "${terminal}"
+      "-e"
+      "tmux"
+    ];
+    hotkey-overlay.title = "Launch tmux";
+  };
   "Mod+Shift+T" = {
     action.spawn = [
       "${launcher}"
