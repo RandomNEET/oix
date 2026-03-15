@@ -13,7 +13,6 @@ let
   themes = opts.themes or [ ];
   hasThemes = themes != [ ];
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
-  defaultWallpaperTheme = if hasThemes then builtins.head opts.themes else "original";
   wallpaperTheme =
     if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "original";
   wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
@@ -252,6 +251,11 @@ pkgs.writeShellScriptBin "launcher" ''
       systemctl --user restart waybar
       systemctl --user restart fcitx5-daemon
     ''}
+    ${optionalString config.programs.tmux.enable ''
+      if tmux ls > /dev/null 2>&1; then
+        tmux source-file ${config.xdg.configHome}/tmux/tmux.conf
+      fi
+    ''} 
     ;;
   spec)
     SPEC_DIR="/nix/var/nix/profiles/system/specialisation"

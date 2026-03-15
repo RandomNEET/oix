@@ -80,7 +80,7 @@ if hasThemes then
             qt.enable = true;
             spicetify.enable = true;
             spotify-player.enable = true;
-            tmux.enable = true;
+            tmux.enable = false;
             vesktop.enable = true;
             vscode.enable = true;
             waybar.enable = true;
