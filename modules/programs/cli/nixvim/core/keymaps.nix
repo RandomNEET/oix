@@ -2,6 +2,7 @@
   programs.nixvim = {
     globals.mapleader = " "; # space
     keymaps = [
+      # Essentials
       {
         mode = "n";
         key = "<Esc>";
@@ -10,158 +11,246 @@
           desc = "Clear search highlights";
         };
       }
-      # Window navigation
+
+      # Better up/down (handles wrapped lines unless a count is given)
       {
         mode = [
           "n"
-          "t"
+          "x"
         ];
-        key = "<C-k>";
-        action = "<cmd>wincmd k<cr>";
+        key = "j";
+        action = "v:count == 0 ? 'gj' : 'j'";
         options = {
-          desc = "Cycle to top window";
+          expr = true;
+          silent = true;
+          desc = "Down";
         };
       }
       {
         mode = [
           "n"
-          "t"
+          "x"
         ];
-        key = "<C-j>";
-        action = "<cmd>wincmd j<cr>";
+        key = "<Down>";
+        action = "v:count == 0 ? 'gj' : 'j'";
         options = {
-          desc = "Cycle to bottom window";
+          expr = true;
+          silent = true;
+          desc = "Down";
         };
       }
       {
         mode = [
           "n"
-          "t"
+          "x"
         ];
-        key = "<C-l>";
-        action = "<cmd>wincmd l<cr>";
+        key = "k";
+        action = "v:count == 0 ? 'gk' : 'k'";
         options = {
-          desc = "Cycle to right window";
+          expr = true;
+          silent = true;
+          desc = "Up";
         };
       }
       {
         mode = [
           "n"
-          "t"
+          "x"
         ];
+        key = "<Up>";
+        action = "v:count == 0 ? 'gk' : 'k'";
+        options = {
+          expr = true;
+          silent = true;
+          desc = "Up";
+        };
+      }
+
+      # Window navigation (Ctrl + hjkl)
+      {
+        mode = "n";
         key = "<C-h>";
-        action = "<cmd>wincmd h<cr>";
+        action = "<C-w>h";
         options = {
-          desc = "Cycle to left window";
+          remap = true;
+          desc = "Go to Left Window";
         };
       }
-      # Window resize
       {
-        mode = [
-          "n"
-          "t"
-        ];
-        key = "<A-=>";
+        mode = "n";
+        key = "<C-j>";
+        action = "<C-w>j";
+        options = {
+          remap = true;
+          desc = "Go to Lower Window";
+        };
+      }
+      {
+        mode = "n";
+        key = "<C-k>";
+        action = "<C-w>k";
+        options = {
+          remap = true;
+          desc = "Go to Upper Window";
+        };
+      }
+      {
+        mode = "n";
+        key = "<C-l>";
+        action = "<C-w>l";
+        options = {
+          remap = true;
+          desc = "Go to Right Window";
+        };
+      }
+
+      # Resize window using <ctrl> arrow keys
+      {
+        mode = "n";
+        key = "<C-Up>";
         action = "<cmd>resize +2<cr>";
         options = {
-          desc = "Increase window height";
+          desc = "Increase Window Height";
         };
       }
       {
-        mode = [
-          "n"
-          "t"
-        ];
-        key = "<A-->";
+        mode = "n";
+        key = "<C-Down>";
         action = "<cmd>resize -2<cr>";
         options = {
-          desc = "Decrease window height";
+          desc = "Decrease Window Height";
         };
       }
       {
-        mode = [
-          "n"
-          "t"
-        ];
-        key = "<A-.>";
-        action = "<cmd>vertical resize +2<cr>";
-        options = {
-          desc = "Increase window width";
-        };
-      }
-      {
-        mode = [
-          "n"
-          "t"
-        ];
-        key = "<A-,>";
+        mode = "n";
+        key = "<C-Left>";
         action = "<cmd>vertical resize -2<cr>";
         options = {
-          desc = "Decrease window width";
+          desc = "Decrease Window Width";
         };
       }
-      # Buffer
+      {
+        mode = "n";
+        key = "<C-Right>";
+        action = "<cmd>vertical resize +2<cr>";
+        options = {
+          desc = "Increase Window Width";
+        };
+      }
+
+      # Move Lines (Alt + jk)
+      {
+        mode = "n";
+        key = "<A-j>";
+        action = "<cmd>execute 'move .+' . v:count1<cr>==";
+        options = {
+          desc = "Move Down";
+        };
+      }
+      {
+        mode = "n";
+        key = "<A-k>";
+        action = "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==";
+        options = {
+          desc = "Move Up";
+        };
+      }
+      {
+        mode = "i";
+        key = "<A-j>";
+        action = "<esc><cmd>m .+1<cr>==gi";
+        options = {
+          desc = "Move Down";
+        };
+      }
+      {
+        mode = "i";
+        key = "<A-k>";
+        action = "<esc><cmd>m .-2<cr>==gi";
+        options = {
+          desc = "Move Up";
+        };
+      }
+      {
+        mode = "v";
+        key = "<A-j>";
+        action = ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv";
+        options = {
+          desc = "Move Down";
+        };
+      }
+      {
+        mode = "v";
+        key = "<A-k>";
+        action = ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv";
+        options = {
+          desc = "Move Up";
+        };
+      }
+
+      # Buffers management
+      {
+        mode = "n";
+        key = "<S-h>";
+        action = "<cmd>bprevious<cr>";
+        options = {
+          desc = "Prev Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "<S-l>";
+        action = "<cmd>bnext<cr>";
+        options = {
+          desc = "Next Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "[b";
+        action = "<cmd>bprevious<cr>";
+        options = {
+          desc = "Prev Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "]b";
+        action = "<cmd>bnext<cr>";
+        options = {
+          desc = "Next Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>bb";
+        action = "<cmd>e #<cr>";
+        options = {
+          desc = "Switch to Other Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>`";
+        action = "<cmd>e #<cr>";
+        options = {
+          desc = "Switch to Other Buffer";
+        };
+      }
       {
         mode = "n";
         key = "<leader>bd";
         action = "<cmd>bdelete<cr>";
         options = {
-          desc = "Delete buffer";
-        };
-      }
-      # Move text up and down
-      {
-        mode = "n";
-        key = "<A-k>";
-        action = "<cmd>m .-2<cr>==";
-        options = {
-          desc = "Move text up";
+          desc = "Delete Buffer";
         };
       }
       {
         mode = "n";
-        key = "<A-j>";
-        action = "<cmd>m .+1<cr>==";
+        key = "<leader>bD";
+        action = "<cmd>:bd<cr>";
         options = {
-          desc = "Move text down";
-        };
-      }
-      {
-        mode = [
-          "v"
-          "x"
-        ];
-        key = "<A-k>";
-        action = "<cmd>m '<-2<cr>gv=gv";
-        options = {
-          desc = "Move text up";
-        };
-      }
-      {
-        mode = [
-          "v"
-          "x"
-        ];
-        key = "<A-j>";
-        action = "<cmd>m '>+1<cr>gv=gv";
-        options = {
-          desc = "Move text down";
-        };
-      }
-      {
-        mode = "x";
-        key = "K";
-        action = "<cmd>m '<-2<cr>gv=gv";
-        options = {
-          desc = "Move text up";
-        };
-      }
-      {
-        mode = "x";
-        key = "J";
-        action = "<cmd>m '>+1<cr>gv=gv";
-        options = {
-          desc = "Move text down";
+          desc = "Delete Buffer and Window";
         };
       }
     ];

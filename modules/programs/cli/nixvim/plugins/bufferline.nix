@@ -88,50 +88,10 @@ in
     keymaps = [
       {
         mode = "n";
-        key = "<S-l>";
-        action = "<cmd>BufferLineCycleNext<cr>";
-        options = {
-          desc = "Cycle to next buffer";
-        };
-      }
-      {
-        mode = "n";
-        key = "<S-h>";
-        action = "<cmd>BufferLineCyclePrev<cr>";
-        options = {
-          desc = "Cycle to previous buffer";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bo";
-        action = "<cmd>BufferLineCloseOthers<cr>";
-        options = {
-          desc = "Delete other buffers";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>br";
-        action = "<cmd>BufferLineCloseRight<cr>";
-        options = {
-          desc = "Delete buffers to the right";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>bl";
-        action = "<cmd>BufferLineCloseLeft<cr>";
-        options = {
-          desc = "Delete buffers to the left";
-        };
-      }
-      {
-        mode = "n";
         key = "<leader>bp";
         action = "<cmd>BufferLineTogglePin<cr>";
         options = {
-          desc = "Toggle pin";
+          desc = "Toggle Pin";
         };
       }
       {
@@ -139,7 +99,79 @@ in
         key = "<leader>bP";
         action = "<cmd>BufferLineGroupClose ungrouped<cr>";
         options = {
-          desc = "Delete non-pinned buffers";
+          desc = "Delete Non-Pinned Buffers";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>br";
+        action = "<cmd>BufferLineCloseRight<cr>";
+        options = {
+          desc = "Delete Buffers to the Right";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>bl";
+        action = "<cmd>BufferLineCloseLeft<cr>";
+        options = {
+          desc = "Delete Buffers to the Left";
+        };
+      }
+      {
+        mode = "n";
+        key = "<S-h>";
+        action = "<cmd>BufferLineCyclePrev<cr>";
+        options = {
+          desc = "Prev Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "<S-l>";
+        action = "<cmd>BufferLineCycleNext<cr>";
+        options = {
+          desc = "Next Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "[b";
+        action = "<cmd>BufferLineCyclePrev<cr>";
+        options = {
+          desc = "Prev Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "]b";
+        action = "<cmd>BufferLineCycleNext<cr>";
+        options = {
+          desc = "Next Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "[B";
+        action = "<cmd>BufferLineMovePrev<cr>";
+        options = {
+          desc = "Move buffer prev";
+        };
+      }
+      {
+        mode = "n";
+        key = "]B";
+        action = "<cmd>BufferLineMoveNext<cr>";
+        options = {
+          desc = "Move buffer next";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>bj";
+        action = "<cmd>BufferLinePick<cr>";
+        options = {
+          desc = "Pick Buffer";
         };
       }
     ];

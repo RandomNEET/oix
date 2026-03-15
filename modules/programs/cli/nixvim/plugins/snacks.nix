@@ -185,6 +185,23 @@ in
       };
     };
     keymaps = [
+      # Buffers
+      {
+        mode = "n";
+        key = "<leader>bd";
+        action = "<cmd>lua require('snacks').bufdelete()<cr>";
+        options = {
+          desc = "Delete Buffer";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>bo";
+        action = "<cmd>lua require('snacks').bufdelete.other()<cr>";
+        options = {
+          desc = "Delete Other Buffers";
+        };
+      }
       # Picker
       {
         mode = "n";
