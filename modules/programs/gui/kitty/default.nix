@@ -23,34 +23,43 @@ in
                 "kitten ${pkgs.vimPlugins.kitty-scrollback-nvim}/python/kitty_scrollback_nvim.py --config readonly --nvim-args -n -c 'nnoremap q ZQ'";
             };
           settings = {
-            cursor_trail = 3; # Fancy cursor movements (especially in nixvim)
-            cursor_trail_decay = "0.08 0.3"; # Animation speed
-            cursor_trail_start_threshold = "4";
-            strip_trailing_spaces = "smart";
-            copy_on_select = "yes";
+            kitty_mod = "ctrl+shift";
+            clear_all_shortcuts = true;
             confirm_os_window_close = 0;
-            scrollback_lines = 10000;
+            close_on_child_death = true;
+            mouse_hide_wait = 3;
             enable_audio_bell = false;
-            mouse_hide_wait = 60;
             update_check_interval = 0;
+            # Cursor
+            cursor_trail = 1;
+            cursor_trail_decay = "0.1 0.4";
+            cursor_trail_start_threshold = "4";
             # Remote control
-            allow_remote_control = "yes";
+            allow_remote_control = true;
             listen_on = "unix:/run/user/${toString opts.users.primary.uid}/kitty";
-            # Tabs
-            tab_title_template = "{index}";
-            active_tab_font_style = "normal";
-            inactive_tab_font_style = "normal";
-            tab_bar_style = "powerline";
-            tab_powerline_style = "round";
+          }
+          // (opts.kitty.settings or { });
+          keybindings = {
+            "kitty_mod+c" = "copy_to_clipboard";
+            "kitty_mod+v" = "paste_from_clipboard";
+            "kitty_mod+up" = "scroll_line_up";
+            "kitty_mod+k" = "scroll_line_up";
+            "kitty_mod+page_up" = "scroll_page_up";
+            "kitty_mod+page_down" = "scroll_page_down";
+            "kitty_mod+home" = "scroll_home";
+            "kitty_mod+end" = "scroll_end";
+            "kitty_mod+/" = "search_scrollback";
+            "kitty_mod+equal" = "change_font_size all +2.0";
+            "kitty_mod+minus" = "change_font_size all -2.0";
+            "kitty_mod+backspace" = "change_font_size all 0";
+            "kitty_mod+e" = "open_url_with_hints";
+          }
+          // optionalAttrs config.programs.tmux.enable {
+            "kitty_mod+t" = "launch --type=overlay --cwd=current tmux";
+          }
+          // optionalAttrs ((opts.editor or "") == "nvim") {
+            "kitty_mod+h" = "kitty_scrollback_nvim";
           };
-          keybindings =
-            { }
-            // optionalAttrs config.programs.tmux.enable {
-              "ctrl+alt+t" = "launch --type=overlay --cwd=current tmux";
-            }
-            // optionalAttrs ((opts.editor or "") == "nvim") {
-              "kitty_mod+h" = "kitty_scrollback_nvim";
-            };
         };
       }
     )
