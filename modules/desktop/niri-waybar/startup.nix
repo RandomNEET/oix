@@ -14,6 +14,6 @@
   { sh = "nm-applet --indicator"; }
   { sh = "${randomwallctl} -r"; }
 ]
-++ lib.optional (((opts.terminal or "") == "foot") && (opts.foot.server or false)) {
+++ lib.optional (((opts ? terminal) && (opts.terminal == "foot")) && (opts.foot.server or false)) {
   sh = "${getExe pkgs.foot} --server";
 }

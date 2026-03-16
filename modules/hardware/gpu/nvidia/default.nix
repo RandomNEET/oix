@@ -7,8 +7,7 @@
 }:
 let
   nvidiaDriverChannel = config.boot.kernelPackages.nvidiaPackages.latest; # stable, latest, beta, etc.
-  desktop = opts.desktop or "";
-  hasDesktop = desktop != "";
+  hasDesktop = opts ? desktop;
 in
 {
   environment.sessionVariables = lib.optionalAttrs hasDesktop {

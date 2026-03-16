@@ -1,4 +1,4 @@
 { lib, opts, ... }:
 {
-  imports = lib.optional ((opts.proxy.xray.role or "") != "") ./${opts.proxy.xray.role};
+  imports = lib.optional (lib.hasAttrByPath [ "proxy" "xray" "role" ] opts) ./${opts.proxy.xray.role};
 }

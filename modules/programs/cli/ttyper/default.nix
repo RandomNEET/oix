@@ -9,8 +9,7 @@
     (
       { config, ... }:
       let
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        hasThemes = opts ? themes;
         colors = config.lib.stylix.colors;
 
         base = ''

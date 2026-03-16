@@ -6,10 +6,8 @@
   ...
 }:
 let
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
-  wallpaperDir = opts.wallpaper.dir or "";
-  hasWallpapers = wallpaperDir != "";
+  hasThemes = opts ? themes;
+  hasWallpapers = lib.hasAttrByPath [ "wallpaper" "dir" ] opts;
   convert-wall = import ./scripts/convert-wall.nix { inherit pkgs mylib opts; };
 in
 {

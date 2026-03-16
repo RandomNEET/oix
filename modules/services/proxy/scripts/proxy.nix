@@ -14,9 +14,10 @@ let
   coresStr = lib.concatStringsSep " " enabledCores;
 
   xrayTProxy =
-    config.services.xray.enable
-    && ((opts.proxy.xray.role or "") == "client")
-    && ((opts.proxy.xray.method or "") == "tproxy");
+    let
+      xray = opts.proxy.xray;
+    in
+    config.services.xray.enable && ((xray.role or "") == "client") && ((xray.method or "") == "tproxy");
 in
 pkgs.writeShellScriptBin "proxy" ''
   # Helper Functions for Xray TProxy

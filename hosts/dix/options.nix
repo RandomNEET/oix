@@ -10,7 +10,7 @@ rec {
 
   # Boot {{{
   boot = {
-    kernelPackages = "linuxPackages_zen"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
+    kernelPackages = pkgs: with pkgs; linuxPackages_zen; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
   };
   # }}}
 
@@ -80,33 +80,34 @@ rec {
   # }}}
 
   # Packages {{{
-  packages = {
-    system = [
-      "ddcutil"
-      "veracrypt"
-    ];
-    home = [
-      "ffmpeg"
-      "imagemagick"
-      "md2pdf"
+  packages =
+    pkgs: with pkgs; {
+      system = [
+        ddcutil
+        veracrypt
+      ];
+      home = [
+        ffmpeg
+        imagemagick
+        md2pdf
 
-      "qbittorrent"
-      "libreoffice"
+        qbittorrent
+        libreoffice
 
-      "lolcat"
-      "figlet"
-      "fortune"
-      "cowsay"
-      "asciiquarium-transparent"
-      "cbonsai"
-      "cmatrix"
-      "pipes"
-      "tty-clock"
+        lolcat
+        figlet
+        fortune
+        cowsay
+        asciiquarium-transparent
+        cbonsai
+        cmatrix
+        pipes
+        tty-clock
 
-      "osu-lazer"
-      "prismlauncher"
-    ];
-  };
+        osu-lazer
+        prismlauncher
+      ];
+    };
   # }}}
 
   # Misc {{{

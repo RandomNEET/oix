@@ -16,6 +16,6 @@
   "rm '$XDG_CACHE_HOME/cliphist/db'" # Clear clipboard
 ]
 ++ lib.optional (
-  ((opts.terminal or "") == "foot") && (opts.foot.server or false)
+  ((opts ? terminal) && (opts.terminal == "foot")) && (opts.foot.server or false)
 ) "${getExe pkgs.foot} --server"
 ++ [ "hyprctl dispatch workspace 1" ]

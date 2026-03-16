@@ -1,4 +1,9 @@
-{ pkgs, opts, ... }:
+{
+  lib,
+  pkgs,
+  opts,
+  ...
+}:
 {
   boot = {
     loader = {
@@ -14,8 +19,9 @@
     ];
     kernelPackages =
       let
-        baseKernel = pkgs.${opts.boot.kernelPackages or "linuxPackages"};
-        hasPatches = (opts.boot ? kernelPatches) && (opts.boot.kernelPatches != [ ]);
+        baseKernel = (opts.boot.kernelPackages or (p: p.linuxPackages)) pkgs;
+        hasPatches =
+          (lib.hasAttrByPath [ "boot" "kernelPatches" ] opts) && (opts.boot.kernelPatches != [ ]);
       in
       if hasPatches then
         pkgs.linuxPackagesFor (

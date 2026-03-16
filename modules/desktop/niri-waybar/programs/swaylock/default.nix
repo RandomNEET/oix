@@ -4,8 +4,7 @@
     (
       { config, ... }:
       let
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        hasThemes = opts ? themes;
         colors = config.lib.stylix.colors;
       in
       {
@@ -20,7 +19,7 @@
             indicator-idle-visible = true;
             show-failed-attempts = true;
           }
-          // lib.optionalAttrs ((opts.swaylock.image or "") != "") {
+          // lib.optionalAttrs lib.hasAttrByPath [ "swaylock" "image" ] opts {
             image = opts.swaylock.image;
           }
           // lib.optionalAttrs hasThemes {

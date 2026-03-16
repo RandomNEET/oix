@@ -3,19 +3,18 @@
   environment.systemPackages =
     with pkgs;
     [
-      _7zz-rar
       dust
       lsof
-      openssl
       rsync
       wget
+      _7zz-rar
+      openssl
+      nix-diff
     ]
-    ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.system or [ ]);
+    ++ (opts.packages pkgs).system or [ ];
   home-manager.sharedModules = [
     {
-      home.packages =
-        with pkgs;
-        [ ] ++ builtins.map (name: builtins.getAttr name pkgs) (opts.packages.home or [ ]);
+      home.packages = with pkgs; [ ] ++ (opts.packages pkgs).home or [ ];
     }
   ];
 }

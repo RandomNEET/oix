@@ -10,7 +10,7 @@ rec {
 
   # Boot {{{
   boot = {
-    kernelPackages = "linuxPackages"; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
+    kernelPackages = pkgs: with pkgs; linuxPackages; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
   };
   # }}}
 
@@ -102,28 +102,29 @@ rec {
   # }}}
 
   # Packages {{{
-  packages = {
-    system = [
-      "iptables"
-      "xray"
-    ];
-    home = [
-      "mediainfo"
-      "flac"
+  packages =
+    pkgs: with pkgs; {
+      system = [
+        iptables
+        xray
+      ];
+      home = [
+        mediainfo
+        flac
 
-      "qq"
+        qq
 
-      "lolcat"
-      "figlet"
-      "fortune"
-      "cowsay"
-      "asciiquarium-transparent"
-      "cbonsai"
-      "cmatrix"
-      "pipes"
-      "tty-clock"
-    ];
-  };
+        lolcat
+        figlet
+        fortune
+        cowsay
+        asciiquarium-transparent
+        cbonsai
+        cmatrix
+        pipes
+        tty-clock
+      ];
+    };
   # }}}
 
   # Misc {{{

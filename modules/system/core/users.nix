@@ -61,9 +61,9 @@
                     homeDirectory = "/home/${realName}";
                     stateVersion = config.system.stateVersion;
                     sessionVariables = lib.mkMerge [
-                      (lib.optionalAttrs ((opts.editor or "") != "") { EDITOR = opts.editor; })
-                      (lib.optionalAttrs ((opts.terminal or "") != "") { TERMINAL = opts.terminal; })
-                      (lib.optionalAttrs ((opts.browser or "") != "") { BROWSER = opts.browser; })
+                      (lib.optionalAttrs (opts ? editor) { EDITOR = opts.editor; })
+                      (lib.optionalAttrs (opts ? terminal) { TERMINAL = opts.terminal; })
+                      (lib.optionalAttrs (opts ? browser) { BROWSER = opts.browser; })
                     ];
                   };
                   xdg = {

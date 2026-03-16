@@ -11,8 +11,7 @@
       { config, pkgs, ... }:
       let
         spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        hasThemes = opts ? themes;
         themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
         theme = "text";
         matchedTextColorScheme =

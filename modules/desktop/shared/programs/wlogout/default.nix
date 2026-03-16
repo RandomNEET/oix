@@ -1,15 +1,11 @@
 { lib, opts, ... }:
-let
-  inherit (lib) optionals;
-  desktop = opts.desktop;
-in
 {
   home-manager.sharedModules = [
     (
       { config, ... }:
       let
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        inherit (lib) optionals;
+        hasThemes = opts ? themes;
         colors = config.lib.stylix.colors;
       in
       {
@@ -18,7 +14,7 @@ in
           enable = true;
           layout =
             [ ]
-            ++ (optionals (desktop == "hyprland-waybar") [
+            ++ (optionals (lib.strings.hasInfix "hyprland" opts.desktop) [
               {
                 label = "logout";
                 action = "hyprctl dispatch exit 0";
@@ -26,7 +22,7 @@ in
                 keybind = "e";
               }
             ])
-            ++ (optionals (desktop == "niri-waybar") [
+            ++ (optionals (lib.strings.hasInfix "niri" opts.desktop) [
               {
                 label = "logout";
                 action = "niri msg action quit -s";

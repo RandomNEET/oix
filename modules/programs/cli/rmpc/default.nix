@@ -10,10 +10,8 @@
     (
       { config, ... }:
       let
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
-        desktop = opts.desktop or "";
-        hasDesktop = desktop != "";
+        hasThemes = opts ? themes;
+        hasDesktop = opts ? desktop;
         colors = config.lib.stylix.colors.withHashtag;
         primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
       in

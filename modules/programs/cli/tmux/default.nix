@@ -16,8 +16,7 @@ in
         resurrectDir = "${config.xdg.stateHome}/tmux/resurrect";
         resurrect-cmd-fix = import ./scripts/resurrect-cmd-fix.nix { inherit pkgs resurrectDir; };
 
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        hasThemes = opts ? themes;
         colors = config.lib.stylix.colors.withHashtag;
         primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
       in
@@ -126,7 +125,7 @@ in
                 set -g @resurrect-dir '${resurrectDir}'
                 set -g @resurrect-hook-post-save-layout '${resurrect-cmd-fix}'
                 set -g @resurrect-processes '
-                  ${optionalString ((opts.editor or "") == "nvim") ''"~nvim->nvim"''}
+                  ${optionalString ((opts ? editor) && (opts.editor == "nvim")) ''"~nvim->nvim"''}
                   ${optionalString config.programs.yazi.enable ''"~yazi->yazi"''}
                   ${optionalString config.programs.opencode.enable ''"~opencode->opencode"''}
                   ${optionalString config.programs.aerc.enable ''"~aerc->aerc"''}
@@ -136,7 +135,9 @@ in
                   "~man"
                   less more tail top ssh
                 '
-                ${optionalString ((opts.editor or "") == "nvim") "set -g @resurrect-strategy-nvim 'session'"}
+                ${optionalString (
+                  (opts ? editor) && (opts.editor == "nvim")
+                ) "set -g @resurrect-strategy-nvim 'session'"}
               '';
             }
             vim-tmux-navigator

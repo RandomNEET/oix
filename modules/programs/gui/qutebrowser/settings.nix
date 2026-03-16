@@ -6,8 +6,7 @@
   ...
 }:
 let
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
+  hasThemes = opts ? themes;
   colors = config.lib.stylix.colors;
 
   opacity = {
@@ -37,7 +36,7 @@ in
   editor = {
     command =
       # auto generate command based on options.nix
-      if (((opts.terminal or "") != "") && (opts.editor == "nvim")) then
+      if ((opts ? terminal) && (opts ? editor) && (opts.editor == "nvim")) then
         if config.programs.nixvim.enable then
           [
             "${pkgs.${opts.terminal}}/bin/${opts.terminal}"

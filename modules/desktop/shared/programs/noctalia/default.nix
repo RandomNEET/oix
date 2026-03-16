@@ -15,8 +15,7 @@ in
       { osConfig, config, ... }:
       let
         colors = config.lib.stylix.colors.withHashtag;
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        hasThemes = opts ? themes;
         themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
         matchedPredefinedScheme =
           if hasThemes then
@@ -44,7 +43,7 @@ in
             "Noctalia (default)";
 
         wallpaperDir =
-          if ((opts.wallpaper.dir or "") != "") then
+          if lib.hasAttrByPath [ "wallpaper" "dir" ] opts then
             if hasThemes then "${opts.wallpaper.dir}/${themeName}" else opts.wallpaper.dir
           else
             "";
@@ -89,7 +88,8 @@ in
                 right = [
                   {
                     id = "SystemMonitor";
-                    showGpuTemp = if (!(lib.strings.hasInfix "integrated" (opts.gpu or ""))) then true else false;
+                    showGpuTemp =
+                      if ((opts ? gpu) && !(lib.strings.hasInfix "integrated" opts.gpu)) then true else false;
                   }
                   {
                     id = "Network";
@@ -294,7 +294,7 @@ in
             };
             systemMonitor = {
               enableDgpuMonitoring =
-                if (!(lib.strings.hasInfix "integrated" (opts.gpu or ""))) then true else false;
+                if ((opts ? gpu) && !(lib.strings.hasInfix "integrated" opts.gpu)) then true else false;
             };
             dock = {
               enabled = true;

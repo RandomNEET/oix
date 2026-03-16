@@ -5,8 +5,7 @@
   ...
 }:
 let
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
+  hasThemes = opts ? themes;
   defaultTheme = if hasThemes then builtins.head opts.themes else "original";
   wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
 in

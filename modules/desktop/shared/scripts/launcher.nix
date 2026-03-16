@@ -10,8 +10,7 @@ let
   inherit (lib) getExe optionalString;
   desktop = opts.desktop;
   terminal = opts.terminal;
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
+  hasThemes = opts ? themes;
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
   wallpaperTheme =
     if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "original";

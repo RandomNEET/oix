@@ -7,8 +7,7 @@
 }:
 let
   inherit (lib) getExe;
-  desktop = opts.desktop or "";
-  hasDesktop = desktop != "";
+  hasDesktop = opts ? desktop;
 in
 {
   programs.yazi = {

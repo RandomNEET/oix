@@ -5,7 +5,7 @@
   ...
 }:
 {
-  programs.nixvim = lib.mkIf ((opts.browser or "") != "" && config.programs.${opts.browser}.enable) {
+  programs.nixvim = lib.mkIf ((opts ? browser) && config.programs.${opts.browser}.enable) {
     plugins.markdown-preview = {
       enable = true;
       lazyLoad = {

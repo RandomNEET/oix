@@ -57,7 +57,7 @@ in
                 "cpu"
                 "memory"
               ]
-              ++ lib.optional (!(lib.strings.hasInfix "integrated" (opts.gpu or ""))) "custom/gpuinfo"
+              ++ lib.optional ((opts ? gpu) && !(lib.strings.hasInfix "integrated" opts.gpu)) "custom/gpuinfo"
               ++ [
                 "group/light"
                 "group/audio"

@@ -1,8 +1,8 @@
 { opts, ... }:
 {
   input = {
-    kb_layout = "${opts.kbdLayout}";
-    kb_variant = "${opts.kbdVariant or ""}";
+    kb_layout = opts.kbdLayout or "us";
+    kb_variant = opts.kbdVariant or "";
 
     repeat_delay = 300;
     repeat_rate = 30;

@@ -48,19 +48,20 @@ rec {
   # }}}
 
   # Packages {{{
-  packages = {
-    home = [
-      "lolcat"
-      "figlet"
-      "fortune"
-      "cowsay"
-      "asciiquarium-transparent"
-      "cbonsai"
-      "cmatrix"
-      "pipes"
-      "tty-clock"
-    ];
-  };
+  packages =
+    pkgs: with pkgs; {
+      home = [
+        lolcat
+        figlet
+        fortune
+        cowsay
+        asciiquarium-transparent
+        cbonsai
+        cmatrix
+        pipes
+        tty-clock
+      ];
+    };
   # }}}
 
   # Misc {{{

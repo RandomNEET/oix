@@ -18,7 +18,7 @@ in
           shellIntegration.enableZshIntegration = true;
           actionAliases =
             { }
-            // optionalAttrs ((opts.editor or "") == "nvim") {
+            // optionalAttrs ((opts ? editor) && (opts.editor == "nvim")) {
               "kitty_scrollback_nvim" =
                 "kitten ${pkgs.vimPlugins.kitty-scrollback-nvim}/python/kitty_scrollback_nvim.py --config readonly --nvim-args -n -c 'nnoremap q ZQ'";
             };
@@ -57,7 +57,7 @@ in
           // optionalAttrs config.programs.tmux.enable {
             "kitty_mod+t" = "launch --type=overlay --cwd=current tmux";
           }
-          // optionalAttrs ((opts.editor or "") == "nvim") {
+          // optionalAttrs ((opts ? editor) && (opts.editor == "nvim")) {
             "kitty_mod+h" = "kitty_scrollback_nvim";
           };
         };

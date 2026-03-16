@@ -5,8 +5,7 @@
   ...
 }:
 let
-  desktop = opts.desktop or "";
-  hasDesktop = desktop != "";
+  hasDesktop = opts ? desktop;
 in
 {
   home-manager.sharedModules = [
@@ -14,8 +13,7 @@ in
       { config, ... }:
       let
         inherit (lib) optionalAttrs getExe getExe';
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        hasThemes = opts ? themes;
         colors = config.lib.stylix.colors.withHashtag;
       in
       {

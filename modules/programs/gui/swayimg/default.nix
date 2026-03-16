@@ -4,8 +4,7 @@
     (
       { config, ... }:
       let
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        hasThemes = opts ? themes;
         colors = config.lib.stylix.colors.withHashtag;
       in
       {
@@ -15,7 +14,7 @@
             general = {
               mode = "viewer";
             }
-            // lib.optionalAttrs ((opts.desktop or "") == "hyprland") {
+            // lib.optionalAttrs ((opts ? desktop) && (lib.strings.hasInfix "hyprland" opts.desktop)) {
               overlay = "yes";
             };
             viewer = {

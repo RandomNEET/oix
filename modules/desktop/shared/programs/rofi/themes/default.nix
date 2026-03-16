@@ -6,8 +6,7 @@
   ...
 }:
 let
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
+  hasThemes = opts ? themes;
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
 in

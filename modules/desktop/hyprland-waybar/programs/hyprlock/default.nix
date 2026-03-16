@@ -4,8 +4,7 @@
     (
       { config, ... }:
       let
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        hasThemes = opts ? themes;
         colors = config.lib.stylix.colors;
         display = opts.display or [ ];
         primaryLandscape = lib.findFirst (d: d.orientation == "landscape") (lib.head display) display;
@@ -34,7 +33,7 @@
                 {
                   monitor = primaryLandscape.output;
                 }
-                // lib.optionalAttrs ((opts.hyprlock.background or "") != "") {
+                // lib.optionalAttrs lib.hasAttrByPath [ "hyprlock" "background" ] opts {
                   path = opts.hyprlock.background;
                   new_optimizations = true;
                   blur_size = "3";

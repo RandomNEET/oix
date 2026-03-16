@@ -1,4 +1,8 @@
 { lib, opts, ... }:
 {
-  imports = lib.optional ((opts.proxy.sing-box.role or "") != "") ./${opts.proxy.sing-box.role};
+  imports = lib.optional (lib.hasAttrByPath [
+    "proxy"
+    "sing-box"
+    "role"
+  ] opts) ./${opts.proxy.sing-box.role};
 }

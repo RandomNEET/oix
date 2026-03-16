@@ -5,10 +5,8 @@
   ...
 }:
 let
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
-  desktop = opts.desktop or "";
-  hasDesktop = desktop != "";
+  hasThemes = opts ? themes;
+  hasDesktop = opts ? desktop;
 in
 {
   programs.nixvim = {

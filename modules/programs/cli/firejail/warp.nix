@@ -20,8 +20,7 @@ let
   check =
     pname: builtins.any (p: (builtins.isAttrs p) && (lib.getName p == pname)) config.home.packages;
 
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
+  hasThemes = opts ? themes;
 
   packages = {
     aerc = {

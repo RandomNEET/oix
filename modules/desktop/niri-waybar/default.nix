@@ -30,8 +30,7 @@
       { osConfig, config, ... }:
       let
         inherit (lib) getExe;
-        themes = opts.themes or [ ];
-        hasThemes = themes != [ ];
+        hasThemes = opts ? themes;
         launcher = getExe (
           import ../shared/scripts/launcher.nix {
             inherit

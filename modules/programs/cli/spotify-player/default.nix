@@ -1,7 +1,6 @@
 { lib, opts, ... }:
 let
-  desktop = opts.desktop or "";
-  hasDesktop = desktop != "";
+  hasDesktop = opts ? desktop;
 in
 {
   home-manager.sharedModules = [

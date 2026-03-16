@@ -6,10 +6,9 @@
   ...
 }:
 let
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
-  defaultTheme = if hasThemes then builtins.head themes else "";
-  otherThemes = if hasThemes then builtins.tail themes else [ ];
+  hasThemes = opts ? themes;
+  defaultTheme = if hasThemes then builtins.head opts.themes else "";
+  otherThemes = if hasThemes then builtins.tail opts.themes else [ ];
 in
 if hasThemes then
   {

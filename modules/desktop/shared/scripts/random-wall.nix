@@ -6,8 +6,7 @@
   ...
 }:
 let
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
+  hasThemes = opts ? themes;
   themeName =
     if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "original";
 

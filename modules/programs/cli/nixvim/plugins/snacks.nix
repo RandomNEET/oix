@@ -5,9 +5,7 @@
   ...
 }:
 let
-  terminal = opts.terminal or "";
-  themes = opts.themes or [ ];
-  hasThemes = themes != [ ];
+  hasThemes = opts ? themes;
   colors = config.lib.stylix.colors.withHashtag;
 in
 {
@@ -180,7 +178,11 @@ in
           enabled = true;
         };
         image = {
-          enabled = terminal == "kitty" || terminal == "ghostty" || terminal == "wezterm";
+          enabled = builtins.elem (opts.terminal or "") [
+            "kitty"
+            "ghostty"
+            "wezterm"
+          ];
         };
       };
     };
