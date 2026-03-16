@@ -208,8 +208,6 @@ pkgs.writeShellScriptBin "launcher" ''
       --transition-step "${transitionStep}" \
       --transition-duration "${transitionDuration}" \
       --transition-fps "${transitionFps}"
-
-    echo "Set wallpaper for Display $DISPLAY_OUTPUT ($DISPLAY_ORIENTATION): $WALLPAPER_PATH"
     ;;
   theme)
     BASE_GEN="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
@@ -225,35 +223,24 @@ pkgs.writeShellScriptBin "launcher" ''
       exit 0
     fi
     
+    notify-send  -u low -i "preferences-desktop-theme" "Theme Switcher" "Switching to $SELECTED"
+
     if [ "$SELECTED" = "${defaultTheme}" ]; then
-      echo "Switching to $SELECTED..."
       "$BASE_GEN/activate"
     else
-      echo "Switching to $SELECTED..."
       "$SPEC_DIR/$SELECTED/activate"
     fi
 
-    ${optionalString (lib.strings.hasInfix "noctalia" desktop) ''
-      WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
-      if [ -f "$WALLPAPER_CONF" ]; then
-        NEW_JSON=$(${pkgs.jq}/bin/jq --arg theme "$SELECTED" '
-          .wallpapers |= map_values(
-            gsub("${wallpaperDir}/[^/]+/"; "${wallpaperDir}/" + $theme + "/")
-          )
-        ' "$WALLPAPER_CONF")
-        echo "$NEW_JSON" > "$WALLPAPER_CONF"
-      fi
+    sleep 0.1
 
-      noctalia-shell kill && noctalia-shell
-      systemctl --user restart fcitx5-daemon
-    ''}
-    ${optionalString (lib.strings.hasInfix "waybar" desktop) ''
-      systemctl --user restart waybar
-      systemctl --user restart fcitx5-daemon
-    ''}
+    ${optionalString config.programs.tmux.enable ''
+      if tmux ls > /dev/null 2>&1; then
+        tmux source-file ${config.xdg.configHome}/tmux/tmux.conf
+      fi
+    ''} 
     ${
       optionalString (config.programs ? nixvim && config.programs.nixvim.enable) ''
-        RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+        RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}"
         if pgrep -x "nvim" >/dev/null; then
           for server in "$RUNTIME_DIR"/nvim.*.0; do
             [ -e "$server" ] || continue
@@ -267,11 +254,24 @@ pkgs.writeShellScriptBin "launcher" ''
         fi
       ''
     } 
-    ${optionalString config.programs.tmux.enable ''
-      if tmux ls > /dev/null 2>&1; then
-        tmux source-file ${config.xdg.configHome}/tmux/tmux.conf
+    ${optionalString (lib.strings.hasInfix "noctalia" desktop) ''
+      WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
+      if [ -f "$WALLPAPER_CONF" ]; then
+        NEW_JSON=$(jq --arg theme "$SELECTED" '
+          .wallpapers |= map_values(
+            gsub("${wallpaperDir}/[^/]+/"; "${wallpaperDir}/" + $theme + "/")
+          )
+        ' "$WALLPAPER_CONF")
+        echo "$NEW_JSON" > "$WALLPAPER_CONF"
       fi
-    ''} 
+
+      noctalia-shell kill && (noctalia-shell >/dev/null 2>&1 &)
+      systemctl --user restart fcitx5-daemon
+    ''}
+    ${optionalString (lib.strings.hasInfix "waybar" desktop) ''
+      systemctl --user restart waybar
+      systemctl --user restart fcitx5-daemon
+    ''}
     ;;
   spec)
     SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
