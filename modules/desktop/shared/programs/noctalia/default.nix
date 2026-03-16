@@ -159,7 +159,10 @@ in
                 ];
                 keyEnter = [ "Return" ];
                 keyEscape = [ "Esc" ];
-                keyRemove = [ "Del" ];
+                keyRemove = [
+                  "Del"
+                  "Backspace"
+                ];
               };
             };
             ui = {
