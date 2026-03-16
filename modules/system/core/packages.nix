@@ -9,12 +9,17 @@
       wget
       _7zz-rar
       openssl
-      nix-diff
     ]
     ++ (opts.packages pkgs).system or [ ];
   home-manager.sharedModules = [
     {
-      home.packages = with pkgs; [ ] ++ (opts.packages pkgs).home or [ ];
+      home.packages =
+        with pkgs;
+        [
+          nix-diff
+          nvd
+        ]
+        ++ (opts.packages pkgs).home or [ ];
     }
   ];
 }

@@ -4,7 +4,6 @@
   pkgs,
   opts,
   hostname,
-  isExt,
   isWsl,
   ...
 }:
@@ -57,7 +56,6 @@ let
               pkgs
               opts
               hostname
-              isExt
               isWsl
               ;
           };
