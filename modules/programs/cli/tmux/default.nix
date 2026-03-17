@@ -82,9 +82,8 @@ in
             {
               plugin = dotbar;
               extraConfig = ''
-                set -g @tmux-dotbar-position "bottom"
-                set -g @tmux-dotbar-justify "absolute-centre"
-                set -g @tmux-dotbar-left "true"
+                set -g @tmux-dotbar-justify absolute-centre
+                set -g @tmux-dotbar-left true
                 set -g @tmux-dotbar-right true
                 set -g @tmux-dotbar-ssh-enabled true
                 set -g @tmux-dotbar-ssh-icon-only true
