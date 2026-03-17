@@ -1,5 +1,4 @@
+{ mylib, ... }:
 {
-  imports = builtins.map (f: ./${f}) (
-    builtins.filter (f: f != "default.nix") (builtins.attrNames (builtins.readDir ./.))
-  );
+  imports = mylib.utils.scanAndImport ./. (name: type: name != "default.nix");
 }

@@ -1,38 +1,4 @@
+{ mylib, ... }:
 {
-  imports = [
-    ./blink-cmp.nix
-    ./bufferline.nix
-    ./comment.nix
-    ./conform-nvim.nix
-    ./copilot-lua.nix
-    ./csvview.nix
-    ./flash.nix
-    ./gitsigns.nix
-    ./kitty-scrollback.nix
-    ./lazygit.nix
-    ./lint.nix
-    ./lsp.nix
-    ./lualine.nix
-    ./lz-n.nix
-    ./markdown-preview.nix
-    ./mini-ai.nix
-    ./mini-icons.nix
-    ./mini-pairs.nix
-    ./mini-surround.nix
-    ./noice.nix
-    ./obsession.nix
-    ./obsidian.nix
-    ./opencode.nix
-    ./persistence.nix
-    ./render-markdown.nix
-    ./snacks.nix
-    ./spectre.nix
-    ./tmux-navigator.nix
-    ./treesitter.nix
-    ./ts-context-commentstring.nix
-    ./visual-multi.nix
-    ./which-key.nix
-    ./yanky.nix
-    ./yazi.nix
-  ];
+  imports = mylib.utils.scanAndImport ./. (name: type: name != "default.nix");
 }
