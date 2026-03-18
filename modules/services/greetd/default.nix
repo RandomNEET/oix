@@ -18,9 +18,9 @@ in
         command = "${tuigreetPrefix} ${
           if hasDesktop then
             if (lib.strings.hasInfix "hyprland" opts.desktop) then
-              "start-hyprland"
+              "'systemd-cat -t hyprland start-hyprland'"
             else if (lib.strings.hasInfix "niri" opts.desktop) then
-              "niri-session"
+              "'systemd-cat -t niri niri-session'"
             else if config.programs.zsh.enable then
               "zsh"
             else
