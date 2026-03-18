@@ -222,7 +222,7 @@ pkgs.writeShellScriptBin "launcher" ''
       exit 0
     fi
     
-    notify-send  -u low -i "preferences-desktop-theme" "Theme Switcher" "Switching to $SELECTED"
+    notify-send -a "Theme Switcher" -u low -i "preferences-desktop-theme" "Switching to $SELECTED"
 
     if [ "$SELECTED" = "${defaultTheme}" ]; then
       "$BASE_GEN/activate"

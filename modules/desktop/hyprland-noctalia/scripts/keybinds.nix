@@ -78,13 +78,13 @@ let
   ++ lib.optionals osConfig.programs.steam.enable [
     {
       key = "SUPER SHIFT G";
-      desc = "Game launcher";
-      cmd = "scripts/launcher game";
+      desc = "Toggle gamespace";
+      cmd = "scripts/gamespace";
     }
     {
       key = "SUPER CTRL G";
-      desc = "Enable game mode";
-      cmd = "scripts/gamemode.sh";
+      desc = "Game launcher";
+      cmd = "scripts/launcher game";
     }
   ]
   ++ [

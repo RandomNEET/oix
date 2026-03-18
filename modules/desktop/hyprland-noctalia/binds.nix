@@ -9,7 +9,7 @@
   screenshot,
   autoclicker,
   keybinds,
-  gamemode,
+  gamespace,
   getExe,
   ...
 }:
@@ -166,8 +166,8 @@
   ]
   ++ lib.optional config.programs.rbw.enable "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
   ++ lib.optionals osConfig.programs.steam.enable [
-    "$mainMod SHIFT, G, exec, ${launcher} game" # game launcher
-    "$mainMod CTRL, G, exec, ${gamemode}" # disable hypr effects for gamemode
+    "$mainMod SHIFT, G, exec, ${gamespace}" # toggle specialworkspace for games
+    "$mainMod CTRL, G, exec, ${launcher} game" # game launcher
   ]
   ++ (opts.hyprland.settings.bind or [ ]);
 

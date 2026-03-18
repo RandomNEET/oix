@@ -435,7 +435,7 @@ in
   };
 }
 // lib.optionalAttrs osConfig.programs.steam.enable {
-  "Mod+Shift+G" = {
+  "Mod+Ctrl+G" = {
     hotkey-overlay.title = "Game launcher";
     action.spawn = [
       "${launcher}"

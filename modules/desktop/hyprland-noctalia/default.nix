@@ -51,7 +51,7 @@
               ;
           }
         );
-        gamemode = ./scripts/gamemode.sh;
+        gamespace = getExe (pkgs.callPackage ../shared/scripts/gamespace.nix { inherit pkgs; });
       in
       {
         wayland.windowManager.hyprland =
@@ -68,7 +68,7 @@
                 screenshot
                 autoclicker
                 keybinds
-                gamemode
+                gamespace
                 getExe
                 ;
             };
