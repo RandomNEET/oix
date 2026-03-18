@@ -114,7 +114,7 @@ in
                 set -g @floax-bind-menu 'P'
               ''
               + optionalString hasThemes ''
-                set -g @floax-border-color "${colors.base0B}"
+                set -g @floax-border-color "${primaryColor}"
                 set -g @floax-text-color "${colors.base0D}"
               '';
             }
@@ -141,15 +141,23 @@ in
             }
             vim-tmux-navigator
           ];
+          tmuxinator.enable = true;
         };
 
         home.shellAliases = {
+          # tmux
           ta = "tmux attach -t";
           tad = "tmux attach -d -t";
           tkss = "tmux kill-session -t";
           tksv = "tmux kill-server";
           tl = "tmux list-sessions";
+          to = "tmux new-session -A -s";
           ts = "tmux new-session -s";
+          # tmuxinator
+          txs = "tmuxinator start";
+          txo = "tmuxinator open";
+          txn = "tmuxinator new";
+          txl = "tmuxinator list";
         };
       }
     )
