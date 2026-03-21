@@ -165,6 +165,12 @@ rec {
       };
     };
     jellyfin = {
+      after = [
+        "mnt-smb.mount"
+      ];
+      requires = [
+        "mnt-smb.mount"
+      ];
       serviceConfig = {
         Environment = [
           "http_proxy=http://127.0.0.1:9998"
@@ -172,7 +178,7 @@ rec {
         ];
       };
     };
-    mpd = {
+    qbittorrent = {
       after = [
         "mnt-smb.mount"
       ];
@@ -180,7 +186,15 @@ rec {
         "mnt-smb.mount"
       ];
     };
-    qbittorrent = {
+    calibre-web = {
+      after = [
+        "mnt-smb.mount"
+      ];
+      requires = [
+        "mnt-smb.mount"
+      ];
+    };
+    mpd = {
       after = [
         "mnt-smb.mount"
       ];
