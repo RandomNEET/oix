@@ -20,5 +20,5 @@
     };
   time.timeZone = opts.timezone or "Asia/Shanghai";
   console.keyMap = opts.consoleKeymap or "us";
-  system.stateVersion = "26.05";
+  system.stateVersion = if (opts.channel or "unstable") == "stable" then "25.11" else "26.05";
 }

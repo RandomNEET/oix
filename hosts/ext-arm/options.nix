@@ -4,6 +4,7 @@ rec {
   # System {{{
   system = "aarch64-linux"; # x86_64-linux aarch64-linux
   flake = "/home/${home.username}/oix"; # flake path
+  channel = "unstable"; # nixpkgs channel; unstable or stable
   osConfig = {
     programs = {
       htop.enable = true;
@@ -15,7 +16,6 @@ rec {
   home = {
     username = "howl";
     homeDirectory = "/home/howl";
-    stateVersion = "26.05";
   };
   # }}}
 

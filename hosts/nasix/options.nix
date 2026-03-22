@@ -6,6 +6,7 @@ rec {
   hostname = "nasix";
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
   flake = "/home/${users.primary.name}/oix"; # flake path
+  channel = "stable"; # nixpkgs channel; unstable or stable
   # }}}
 
   # Boot {{{
@@ -202,12 +203,13 @@ rec {
         "mnt-smb.mount"
       ];
     };
-    frp-outsider = {
+    frp = {
       after = [
         "sops-nix.service"
       ];
       serviceConfig = {
         SupplementaryGroups = [ "keys" ];
+        EnvironmentFile = "/run/secrets/frp/env";
       };
     };
     homepage-dashboard = {
@@ -259,21 +261,16 @@ rec {
   };
 
   frp = {
-    instances = {
-      "outsider" = {
-        enable = true;
-        role = "client";
-        settings = {
-          serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
-          serverPort = 20000;
-          auth.token = "{{.Envs.FRP_TOKEN}}";
-          transport.tls.certFile = "/run/secrets/frp/cert";
-          transport.tls.keyFile = "/run/secrets/frp/key";
-          transport.tls.trustedCaFile = "/run/secrets/frp/ca";
-          includes = [ "/run/secrets/frp/proxies" ];
-        };
-        environmentFiles = [ "/run/secrets/frp/env" ];
-      };
+    enable = true;
+    role = "client";
+    settings = {
+      serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
+      serverPort = 20000;
+      auth.token = "{{.Envs.FRP_TOKEN}}";
+      transport.tls.certFile = "/run/secrets/frp/cert";
+      transport.tls.keyFile = "/run/secrets/frp/key";
+      transport.tls.trustedCaFile = "/run/secrets/frp/ca";
+      includes = [ "/run/secrets/frp/proxies" ];
     };
   };
   sops.secrets = {
@@ -652,26 +649,22 @@ rec {
         ];
       }
     ];
-    environmentFiles = [ "/run/secrets/homepage-dashboard" ];
+    environmentFile = "/run/secrets/homepage-dashboard";
   };
   sops.secrets.homepage-dashboard.sopsFile = ./secrets.yaml;
 
   mpd = {
     dataDir = "/mnt/smb/media/.mpd";
-    startWhenNeeded = false;
-    settings = {
-      music_directory = "/mnt/smb/media/music";
-      audio_output = [
-        {
-          type = "httpd";
-          name = "MPD HTTP Stream";
-          encoder = "vorbis";
-          port = "8000";
-          quality = "5.0";
-        }
-      ];
-    };
-    outputType = "httpd";
+    musicDirectory = "/mnt/smb/media/music";
+    extraConfig = ''
+      audio_output {
+          type        "httpd"
+          name        "MPD HTTP Stream"
+          encoder     "vorbis"
+          port        "8000"
+          quality     "5.0"
+      }
+    '';
   };
 
   tlp = {

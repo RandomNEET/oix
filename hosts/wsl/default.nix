@@ -1,7 +1,6 @@
 {
   imports = [
     ../../modules/system/core
-    ../../modules/system/wsl
 
     ../../modules/programs/cli/bash
     ../../modules/programs/cli/bat

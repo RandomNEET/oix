@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -7,7 +6,6 @@
   ...
 }:
 {
-  imports = [ inputs.home-manager.nixosModules.home-manager ];
   users = {
     mutableUsers = opts.users.mutableUsers or true;
     users = builtins.listToAttrs (

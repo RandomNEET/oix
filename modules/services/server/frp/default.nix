@@ -1,4 +1,4 @@
 { opts, ... }:
 {
-  services.frp.instances = opts.frp.instances or { };
+  services.frp = opts.frp or { };
 }

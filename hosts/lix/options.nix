@@ -6,6 +6,7 @@ rec {
   hostname = "lix";
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
   flake = "/home/${users.primary.name}/oix"; # flake path
+  channel = "unstable"; # nixpkgs channel; unstable or stable
   # }}}
 
   # Boot {{{
@@ -219,7 +220,6 @@ rec {
       ];
       auto_update = "yes";
     };
-    pipewire = true; # set to true to enable pipewire extra tweaks
   };
 
   flatpak = {
