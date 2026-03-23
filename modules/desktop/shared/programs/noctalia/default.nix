@@ -127,19 +127,6 @@ in
             general = {
               avatarImage = opts.noctalia.settings.general.avatarImage or "";
               telemetryEnabled = false;
-              animationSpeed = 1;
-              animationDisabled = false;
-              compactLockScreen = false;
-              lockScreenAnimations = true;
-              lockOnSuspend = true;
-              showSessionButtonsOnLockScreen = true;
-              showHibernateOnLockScreen = opts.hibernate or false;
-              enableLockScreenCountdown = true;
-              lockScreenCountdownDuration = 10000;
-              clockStyle = "digital";
-              lockScreenMonitors = opts.noctalia.settings.general.lockScreenMonitors or [ ];
-              lockScreenBlur = 0.30;
-              lockScreenTint = 0.25;
               keybinds = {
                 keyUp = [
                   "Ctrl+K"
@@ -157,13 +144,29 @@ in
                   "Ctrl+L"
                   "Right"
                 ];
-                keyEnter = [ "Return" ];
+                keyEnter = [
+                  "Return"
+                  "Enter"
+                ];
                 keyEscape = [ "Esc" ];
                 keyRemove = [
                   "Del"
                   "Backspace"
                 ];
               };
+              # Lock Screen
+              clockStyle = "digital";
+              compactLockScreen = false;
+              enableLockScreenCountdown = true;
+              enableLockScreenMediaControls = false;
+              lockOnSuspend = true;
+              lockScreenAnimations = true;
+              lockScreenBlur = 0.30;
+              lockScreenCountdownDuration = 10000;
+              lockScreenMonitors = opts.noctalia.settings.general.lockScreenMonitors or [ ];
+              lockScreenTint = 0.25;
+              showHibernateOnLockScreen = opts.hibernate or false;
+              showSessionButtonsOnLockScreen = true;
             };
             ui = {
               fontDefault = mkIf hasThemes config.stylix.fonts.sansSerif.name;
@@ -299,7 +302,7 @@ in
             dock = {
               enabled = true;
               position = "bottom";
-              dockType = "floating";
+              dockType = "static";
             };
             network = {
               wifiEnabled = true;
@@ -362,6 +365,14 @@ in
               enabled = true;
               session = lib.mkIf hasThemes "${restore-wall-theme}";
             };
+            idle = {
+              enabled = true;
+              screenOffTimeout = 600;
+              lockTimeout = 1800;
+              suspendTimeout = 3600;
+              fadeDuration = 5;
+            }
+            // (opts.noctalia.settings.idle or { });
             desktopWidgets = opts.noctalia.settings.desktopWidgets or { };
           };
           colors = mkIf (matchedPredefinedScheme == "") {

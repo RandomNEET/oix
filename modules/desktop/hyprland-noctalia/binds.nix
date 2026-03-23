@@ -68,7 +68,7 @@
     "$mainMod SHIFT, A, exec, noctalia-shell ipc call controlCenter toggle" # control center
     "$mainMod SHIFT, Q, exec, noctalia-shell ipc call notifications toggleHistory" # notification history
     "$mainMod CTRL, W, exec, noctalia-shell ipc call wallpaper toggle" # launch wallpaper selector
-    "$mainMod SHIFT, W, exec, noctalia-shell ipc call wallpaper random" # random wallpaper
+    "$mainMod SHIFT, W, exec, noctalia-shell ipc call wallpaper random all" # random wallpaper
 
     "$mainMod, F10, exec, $terminal -e ${getExe pkgs.btop}" # System Monitor
     "$mainMod, F11, exec, pkill hyprpicker || hyprpicker --autocopy --format=hex" # Color Picker

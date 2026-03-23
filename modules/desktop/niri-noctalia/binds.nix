@@ -148,6 +148,7 @@ in
       "call"
       "wallpaper"
       "random"
+      "all"
     ];
     hotkey-overlay.title = "Random wallpaper";
   };
