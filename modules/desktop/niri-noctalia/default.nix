@@ -14,6 +14,7 @@
     ../shared/programs/gowall
     ../shared/programs/noctalia
     ../shared/programs/rofi
+    ../shared/services/wayland-pipewire-idle-inhibit
   ];
 
   programs.niri = {

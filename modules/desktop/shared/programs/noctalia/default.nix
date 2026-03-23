@@ -368,8 +368,8 @@ in
             idle = {
               enabled = true;
               screenOffTimeout = 600;
-              lockTimeout = 1800;
-              suspendTimeout = 3600;
+              lockTimeout = 660;
+              suspendTimeout = 1800;
               fadeDuration = 5;
             }
             // (opts.noctalia.settings.idle or { });
