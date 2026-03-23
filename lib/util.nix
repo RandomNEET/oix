@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  utils = {
+  util = {
     scanAndImport =
       path: filterFunc:
       let
@@ -9,7 +9,5 @@
       builtins.map (name: path + "/${name}") (
         lib.attrsets.mapAttrsToList (name: type: name) (lib.attrsets.filterAttrs filterFunc content)
       );
-    unstableOnly = lib.optionalAttrs (lib.versionAtLeast lib.version "26.05");
-    stableOnly = lib.optionalAttrs (!lib.versionAtLeast lib.version "26.05");
   };
 }

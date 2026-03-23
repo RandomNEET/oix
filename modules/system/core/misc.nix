@@ -1,4 +1,4 @@
-{ opts, ... }:
+{ mylib, opts, ... }:
 {
   i18n =
     let
@@ -20,5 +20,5 @@
     };
   time.timeZone = opts.timezone or "Asia/Shanghai";
   console.keyMap = opts.consoleKeymap or "us";
-  system.stateVersion = if (opts.channel or "unstable") == "stable" then "25.11" else "26.05";
+  system.stateVersion = mylib.channel.getStateVersion opts;
 }

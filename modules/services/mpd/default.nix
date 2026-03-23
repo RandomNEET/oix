@@ -13,7 +13,7 @@
     dataDir = "/var/lib/mpd";
     startWhenNeeded = true;
   }
-  // mylib.utils.unstableOnly {
+  // mylib.channel.unstableOnly {
     settings = {
       bind_to_address = "127.0.0.1";
       port = 6600;
@@ -23,7 +23,7 @@
     }
     // (opts.mpd.settings or { });
   }
-  // mylib.utils.stableOnly {
+  // mylib.channel.stableOnly {
     network = {
       listenAddress = "127.0.0.1";
       port = 6600;

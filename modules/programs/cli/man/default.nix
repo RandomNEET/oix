@@ -5,7 +5,7 @@
     man = {
       enable = true;
     }
-    // mylib.utils.unstableOnly {
+    // mylib.channel.unstableOnly {
       cache = {
         enable = true;
         generateAtRuntime = true;

@@ -1,5 +1,6 @@
 {
   lib,
+  mylib,
   opts,
   isExt,
   ...
@@ -17,7 +18,7 @@ lib.optionalAttrs isExt {
       home =
         (opts.home or { })
         // {
-          stateVersion = if (opts.channel or "unstable") == "stable" then "25.11" else "26.05";
+          stateVersion = mylib.channel.getStateVersion opts;
         }
         // (opts.home or { });
       programs.home-manager.enable = mkForce true;

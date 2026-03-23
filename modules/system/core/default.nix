@@ -1,4 +1,4 @@
 { mylib, ... }:
 {
-  imports = mylib.utils.scanAndImport ./. (name: type: name != "default.nix");
+  imports = mylib.util.scanAndImport ./. (name: type: name != "default.nix");
 }

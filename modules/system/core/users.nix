@@ -1,7 +1,7 @@
 {
-  config,
   lib,
   pkgs,
+  mylib,
   opts,
   ...
 }:
@@ -57,7 +57,7 @@
                   home = {
                     username = realName;
                     homeDirectory = "/home/${realName}";
-                    stateVersion = config.system.stateVersion;
+                    stateVersion = mylib.channel.getStateVersion opts;
                     sessionVariables = lib.mkMerge [
                       (lib.optionalAttrs (opts ? editor) { EDITOR = opts.editor; })
                       (lib.optionalAttrs (opts ? terminal) { TERMINAL = opts.terminal; })
