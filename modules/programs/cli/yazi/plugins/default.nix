@@ -28,7 +28,6 @@ in
           recycle-bin
           restore
           smart-filter
-          sudo
           toggle-pane
           yatline
           ;
@@ -277,91 +276,6 @@ in
             on = "F";
             run = "plugin smart-filter";
             desc = "Smart filter";
-          }
-          # sudo
-          {
-            on = [
-              "S"
-              "p"
-              "p"
-            ];
-            run = "plugin sudo -- paste";
-            desc = "sudo paste";
-          }
-          {
-            on = [
-              "S"
-              "P"
-            ];
-            run = "plugin sudo -- paste --force";
-            desc = "sudo paste";
-          }
-          {
-            on = [
-              "S"
-              "r"
-            ];
-            run = "plugin sudo -- rename";
-            desc = "sudo rename";
-          }
-          {
-            on = [
-              "S"
-              "p"
-              "l"
-            ];
-            run = "plugin sudo -- link";
-            desc = "sudo link";
-          }
-          {
-            on = [
-              "S"
-              "p"
-              "r"
-            ];
-            run = "plugin sudo -- link --relative";
-            desc = "sudo link relative path";
-          }
-          {
-            on = [
-              "S"
-              "p"
-              "L"
-            ];
-            run = "plugin sudo -- hardlink";
-            desc = "sudo hardlink";
-          }
-          {
-            on = [
-              "S"
-              "a"
-            ];
-            run = "plugin sudo -- create";
-            desc = "sudo create";
-          }
-          {
-            on = [
-              "S"
-              "d"
-            ];
-            run = "plugin sudo -- remove";
-            desc = "sudo trash";
-          }
-          {
-            on = [
-              "S"
-              "D"
-            ];
-            run = "plugin sudo -- remove --permanently";
-            desc = "sudo delete";
-          }
-          {
-            on = [
-              "S"
-              "m"
-            ];
-            run = "plugin sudo -- chmod";
-            desc = "sudo chmod";
           }
           # toggle-pane
           {
