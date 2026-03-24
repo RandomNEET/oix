@@ -3,8 +3,10 @@ pkgs.writeShellScriptBin "gamespace" ''
   CLIENTS_JSON=$(hyprctl clients -j)
   ACTIVE_WINDOW=$(hyprctl activewindow -j)
 
-  readarray -t ALL_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select(.class == "steam") | .address')
-  readarray -t STRAY_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select(.class == "steam" and .workspace.name != "special:steam") | .address')
+  readarray -t ALL_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select(.class == "steam" or (.class == "gamescope" and .title == "Steam Big Picture Mode")) | .address')
+
+  readarray -t STRAY_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select((.class == "steam" or (.class == "gamescope" and .title == "Steam Big Picture Mode")) and .workspace.name != "special:steam") | .address')
+
   FOCUSED_ADDR=$(echo "$ACTIVE_WINDOW" | jq -r '.address')
 
   if [ "''${#ALL_STEAM[@]}" -eq 0 ]; then
@@ -18,12 +20,12 @@ pkgs.writeShellScriptBin "gamespace" ''
           sleep 0.1
           NEW_CLIENTS=$(hyprctl clients -j)
           
-          MAIN_STEAM_READY=$(echo "$NEW_CLIENTS" | jq '[.[] | select(.class == "steam" and .title == "Steam")] | length')
+          MAIN_STEAM_READY=$(echo "$NEW_CLIENTS" | jq '[.[] | select((.class == "steam" and .title == "Steam") or (.class == "gamescope" and .title == "Steam Big Picture Mode"))] | length')
           
           if [ "$MAIN_STEAM_READY" -gt 0 ]; then
               CLIENTS_JSON=$NEW_CLIENTS
-              readarray -t ALL_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select(.class == "steam") | .address')
-              readarray -t STRAY_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select(.class == "steam" and .workspace.name != "special:steam") | .address')
+              readarray -t ALL_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select(.class == "steam" or (.class == "gamescope" and .title == "Steam Big Picture Mode")) | .address')
+              readarray -t STRAY_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select((.class == "steam" or (.class == "gamescope" and .title == "Steam Big Picture Mode")) and .workspace.name != "special:steam") | .address')
               notify-send -a "gamespace" -i input-gaming -u low "Steam" "Main interface loaded, moving to gamespace."
               break
           fi
@@ -52,7 +54,7 @@ pkgs.writeShellScriptBin "gamespace" ''
       
       CLIENTS_JSON=$(hyprctl clients -j)
       
-      readarray -t GROUPABLE_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select(.class == "steam" and .title != "Sign in to Steam" and .workspace.name == "special:steam") | .address')
+      readarray -t GROUPABLE_STEAM < <(echo "$CLIENTS_JSON" | jq -r '.[] | select((.class == "steam" or (.class == "gamescope" and .title == "Steam Big Picture Mode")) and .title != "Sign in to Steam" and .workspace.name == "special:steam") | .address')
 
       if [ "''${#GROUPABLE_STEAM[@]}" -gt 0 ]; then
       
