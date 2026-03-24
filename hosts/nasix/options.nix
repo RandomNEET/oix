@@ -233,7 +233,7 @@ rec {
         Type = "simple";
         User = "${users.primary.name}";
         WorkingDirectory = "/home/howl/repo/qbot";
-        ExecStart = "/etc/profiles/per-user/howl/bin/direnv exec /home/howl/repo/qbot python /home/howl/repo/qbot/draw-listen.py";
+        ExecStart = "/etc/profiles/per-user/howl/bin/direnv exec /home/howl/repo/qbot python /home/howl/repo/qbot/qbot-listen.py";
         Restart = "always";
         RestartSec = "5s";
       };
