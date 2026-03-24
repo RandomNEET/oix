@@ -102,6 +102,8 @@
     device = "/dev/disk/by-uuid/CC28EE4576AC5AE3";
     fsType = "ntfs3";
     options = [
+      "uid=1000"
+      "gid=100"
       "prealloc"
       "nofail"
       "X-mount.mkdir"
