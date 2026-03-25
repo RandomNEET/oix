@@ -66,14 +66,14 @@ in
                     id = "Workspace";
                   }
                   {
-                    id = "ActiveWindow";
-                    showIcon = true;
+                    id = "Taskbar";
                   }
                   {
                     id = "MediaMini";
                     scrollingMode = "always";
                     showArtistFirst = false;
                     showVisualizer = true;
+                    maxWidth = 200;
                   }
                 ];
                 center = [

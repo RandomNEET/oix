@@ -632,35 +632,12 @@ rec {
         avatarImage = "${users.primary.xdg.userDirs.pictures}/avatars/weeb.jpg";
       };
       bar = {
-        monitors = [
-          "DP-1"
-          "HDMI-A-1"
-        ];
-        widgets = {
-          left = [
-            {
-              id = "Workspace";
-            }
-            {
-              id = "ActiveWindow";
-              maxWidth = 200;
-              showIcon = true;
-            }
-            {
-              id = "MediaMini";
-              maxWidth = 200;
-              scrollingMode = "always";
-              showArtistFirst = false;
-              showVisualizer = true;
-            }
-          ];
-        };
         screenOverrides = [
           {
-            density = "default";
             enabled = true;
             name = "HDMI-A-1";
             position = "top";
+            density = "default";
             widgets = {
               center = [
                 {
@@ -673,7 +650,6 @@ rec {
               left = [
                 {
                   id = "Workspace";
-                  showApplications = false;
                 }
               ];
               right = [
