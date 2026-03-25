@@ -11,13 +11,9 @@ rec {
 
   # Users {{{
   users = {
-    root = {
-      initialHashedPassword = "$6$1bNtqKFsObhMC1OG$THnog0HqmR/GnN.0IwndZzuijVMiV0cZIPUjmCvDs6gsjHAc.FYfcIlKmiMx2hy2gbd814Br1uNAhiyKl4W9g.";
-    };
     primary = rec {
       # User config
       name = "howl";
-      initialHashedPassword = "$6$.FVrKngH1eXjNYi9$lsTAUQvvJyB209fhkf3g5E12iCcgNdDZKW0XTwCp7i3lNwM8gjNq3kRgjW4WIBV68YETysoDCHhKtSIncPT3n1";
       isNormalUser = true;
       uid = 1000;
       extraGroups = [
@@ -40,7 +36,7 @@ rec {
         };
       };
     };
-    mutableUsers = false;
+    mutableUsers = true;
   };
 
   # Define default programs
