@@ -1,5 +1,5 @@
 { pkgs, hostname, ... }:
-if hostname == "dix" then
+if hostname == "zenith" then
   pkgs.writeShellScriptBin "backup" ''
     set -euo pipefail
     cd ~/
@@ -19,7 +19,7 @@ if hostname == "dix" then
 
     echo "==> Backup complete."
   ''
-else if hostname == "nasix" then
+else if hostname == "voile" then
   pkgs.writeShellScriptBin "backup" ''
     set -euo pipefail
 

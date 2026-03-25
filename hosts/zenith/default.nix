@@ -51,7 +51,6 @@
     ../../modules/programs/cli/nix-index
     ../../modules/programs/cli/nixvim
     ../../modules/programs/cli/opencode
-    ../../modules/programs/cli/password-store
     ../../modules/programs/cli/rbw
     ../../modules/programs/cli/ripgrep
     ../../modules/programs/cli/rmpc

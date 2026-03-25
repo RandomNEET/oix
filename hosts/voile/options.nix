@@ -3,7 +3,7 @@
 rec {
   # System {{{
   # Base {{{
-  hostname = "nasix";
+  hostname = "voile";
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
   flake = "/home/${users.primary.name}/oix"; # flake path
   channel = "stable"; # nixpkgs channel; unstable or stable
@@ -680,28 +680,28 @@ rec {
   # Programs {{{
   ssh = {
     matchBlocks = {
-      "dix" = {
-        hostname = "dix.local";
+      zenith = {
+        hostname = "zenith.local";
         port = 22;
-        user = "howl";
-        identityFile = "/run/secrets/ssh/dix";
+        user = users.primary.name;
+        identityFile = "/run/secrets/ssh/zenith";
         addKeysToAgent = "yes";
       };
-      "lix" = {
-        hostname = "lix.local";
+      gale = {
+        hostname = "gale.local";
         port = 22;
-        user = "howl";
-        identityFile = "/run/secrets/ssh/lix";
+        user = users.primary.name;
+        identityFile = "/run/secrets/ssh/gale";
         addKeysToAgent = "yes";
       };
     };
   };
   sops.secrets = {
-    "ssh/dix" = {
+    "ssh/zenith" = {
       sopsFile = ./secrets.yaml;
       owner = users.primary.name;
     };
-    "ssh/lix" = {
+    "ssh/gale" = {
       sopsFile = ./secrets.yaml;
       owner = users.primary.name;
     };

@@ -3,7 +3,7 @@
 rec {
   # System {{{
   # Base {{{
-  hostname = "lix";
+  hostname = "gale";
   system = "x86_64-linux"; # x86_64-linux aarch64-linux
   flake = "/home/${users.primary.name}/oix"; # flake path
   channel = "unstable"; # nixpkgs channel; unstable or stable
@@ -249,18 +249,18 @@ rec {
         identityFile = "/run/secrets/ssh/codeberg-RandomNEET";
         addKeysToAgent = "yes";
       };
-      "dix" = {
-        hostname = "dix.local";
+      zenith = {
+        hostname = "zenith.local";
         port = 22;
-        user = "howl";
-        identityFile = "/run/secrets/ssh/dix";
+        user = users.primary.name;
+        identityFile = "/run/secrets/ssh/zenith";
         addKeysToAgent = "yes";
       };
-      "nasix" = {
-        hostname = "nasix.local";
+      voile = {
+        hostname = "voile.local";
         port = 22;
-        user = "howl";
-        identityFile = "/run/secrets/ssh/nasix";
+        user = users.primary.name;
+        identityFile = "/run/secrets/ssh/voile";
         addKeysToAgent = "yes";
       };
     };
@@ -274,11 +274,11 @@ rec {
       sopsFile = ./secrets.yaml;
       owner = users.primary.name;
     };
-    "ssh/dix" = {
+    "ssh/zenith" = {
       sopsFile = ./secrets.yaml;
       owner = users.primary.name;
     };
-    "ssh/nasix" = {
+    "ssh/voile" = {
       sopsFile = ./secrets.yaml;
       owner = users.primary.name;
     };
@@ -372,7 +372,7 @@ rec {
       maildir.path = "/neet";
       address = "neet@randomneet.me";
       userName = "neet@randomneet.me";
-      passwordCommand = "pass migadu/neet";
+      passwordCommand = "cat /run/secrets/email/${email.primary.name}/password";
       realName = "RandomNEET";
       gpg = {
         key = "0xBFA119DF465BFBB1";
@@ -387,7 +387,8 @@ rec {
           default = "Inbox";
           folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
           check-mail = "5m";
-          check-mail-cmd = "touch /home/${users.primary.name}/${email.maildirBasePath}/.trigger && sleep 1";
+          check-mail-cmd = "mbsync ${email.primary.name}";
+          check-mail-timeout = "30s";
         };
       };
 
@@ -396,6 +397,10 @@ rec {
         create = "maildir";
       };
     };
+  };
+  sops.secrets."email/${email.primary.name}/password" = {
+    sopsFile = ./secrets.yaml;
+    owner = users.primary.name;
   };
   # }}}
 
