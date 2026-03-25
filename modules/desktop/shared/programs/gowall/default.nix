@@ -8,7 +8,7 @@
 let
   hasThemes = opts ? themes;
   hasWallpapers = lib.hasAttrByPath [ "wallpaper" "dir" ] opts;
-  convert-wall = import ./scripts/convert-wall.nix { inherit pkgs mylib opts; };
+  gowall-autoconvert = import ./scripts/gowall-autoconvert.nix { inherit pkgs mylib opts; };
 in
 {
   home-manager.sharedModules = [
@@ -21,10 +21,13 @@ in
       in
       {
         home = {
-          packages = with pkgs; [
-            gowall
-            tesseract
-          ];
+          packages =
+            with pkgs;
+            [
+              gowall
+              tesseract
+            ]
+            ++ lib.optional (hasThemes && hasWallpapers) gowall-autoconvert;
           file = {
             ".config/gowall/config.yml".text = ''
               EnableImagePreviewing: false
@@ -45,23 +48,4 @@ in
       }
     )
   ];
-  # Put outside of home-manager to prevent triggering the service when switching specialisation
-  systemd.user = lib.mkIf (hasThemes && hasWallpapers) {
-    services.convert-wall = {
-      description = "Auto convert wallpaper";
-      script = "${convert-wall}";
-      serviceConfig = {
-        Type = "oneshot";
-      };
-    };
-    timers.convert-wall = {
-      description = "Auto convert wallpaper timer";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "weekly";
-        Persistent = true;
-        RandomizedDelaySec = "60min";
-      };
-    };
-  };
 }
