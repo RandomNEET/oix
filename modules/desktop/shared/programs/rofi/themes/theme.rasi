@@ -80,7 +80,7 @@ entry {
     background-color:            transparent;
     text-color:                  inherit;
     cursor:                      text;
-    placeholder:                 "Search Emojis...";
+    placeholder:                 "Search Themes...";
     placeholder-color:           inherit;
 }
 
@@ -94,7 +94,7 @@ listview {
     scrollbar:                   false;
     layout:                      vertical;
     reverse:                     false;
-    fixed-height:                true;
+    fixed-height:                false;
     fixed-columns:               true;
     
     spacing:                     0px;

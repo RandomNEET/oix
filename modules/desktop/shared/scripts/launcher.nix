@@ -84,6 +84,60 @@ pkgs.writeShellScriptBin "launcher" ''
       ${terminal} --hold -e tmux attach -t $sessions
     fi
     ;;
+  translate)
+  rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/translate.rasi"
+    display_result=""
+
+    while true; do
+      if [[ -z "$display_result" ]]; then
+        query=$(rofi -dmenu -p " " \
+          -theme "$rofi_theme" \
+          -theme-str 'mainbox{children:[inputbar];}')
+      else
+        query=$(rofi -dmenu -p " " \
+          -mesg "$display_result" \
+          -theme "$rofi_theme" \
+          -theme-str 'mainbox{children:[inputbar,message];} textbox{margin:0px 0px 30px 0px;}')
+      fi
+
+      [[ -z "$query" ]] && break
+
+      rofi -dmenu -p " " \
+        -mesg "Translating: $query" \
+        -theme "$rofi_theme" \
+        -theme-str 'mainbox{children:[inputbar,message];}' \
+        < /dev/null > /dev/null 2>&1 &
+      
+      loading_pid=$!
+
+      if [[ "$query" =~ ^([a-zA-Z-]*:[a-zA-Z-]+)[[:space:]]+(.*)$ ]]; then
+        lang_pair="''${BASH_REMATCH[1]}"
+        text_to_trans="''${BASH_REMATCH[2]}"
+        result=$(trans -v -no-ansi \
+        -show-translation n \
+        -show-translation-phonetics n \
+        -show-prompt-message n \
+        -show-languages n \
+        "$lang_pair" "$text_to_trans" 2>/dev/null)
+      else
+        result=$(trans -v -no-ansi \
+        -show-translation n \
+        -show-translation-phonetics n \
+        -show-prompt-message n \
+        -show-languages n \
+        "$query" 2>/dev/null)
+      fi
+
+      kill $loading_pid 2>/dev/null
+      wait $loading_pid 2>/dev/null
+
+      if [[ -n "$result" ]]; then
+        display_result="$result"
+      else
+        display_result="Translation failed."
+      fi
+    done
+    ;;
   wallpaper)
     WALLPAPER_DIR="${wallpaperDir}"
     LANDSCAPE_DIR="$WALLPAPER_DIR/${wallpaperTheme}/landscape"
@@ -313,6 +367,7 @@ pkgs.writeShellScriptBin "launcher" ''
     echo "  emoji                  Search and insert emojis"
     echo "  rbw                    Browse and search passwords"
     echo "  tmux                   Search active tmux sessions"
+    echo "  translate              Quick translator"
     echo "  wallpaper              Select display and set wallpaper"
     echo "  theme                  Select and set theme"
     echo "  spec                   Select and switch specialisation "

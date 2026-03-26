@@ -56,6 +56,20 @@ let
       cmd = "scripts/launcher spec";
     }
   ]
+  ++ lib.optionals config.programs.rbw.enable [
+    {
+      key = "SUPER ALT U";
+      desc = "Launch password manager";
+      cmd = "scripts/launcher rbw";
+    }
+  ]
+  ++ lib.optionals config.programs.translate-shell.enable [
+    {
+      key = "SUPER ALT T";
+      desc = "Quick translator";
+      cmd = "scripts/launcher translate";
+    }
+  ]
   ++ lib.optionals config.programs.tmux.enable [
     {
       key = "SUPER T";
@@ -66,13 +80,6 @@ let
       key = "SUPER SHIFT T";
       desc = "Launch tmux sessions";
       cmd = "scripts/launcher tmux";
-    }
-  ]
-  ++ lib.optionals config.programs.rbw.enable [
-    {
-      key = "SUPER ALT U";
-      desc = "Launch password manager";
-      cmd = "scripts/launcher rbw";
     }
   ]
   ++ lib.optionals osConfig.programs.steam.enable [

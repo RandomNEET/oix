@@ -160,11 +160,14 @@
       ]
     ) 10
   ))
+  ++ lib.optional config.programs.rbw.enable "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
+  ++
+    lib.optional config.programs.translate-shell.enable
+      "$mainMod ALT, T, exec, ${launcher} translate" # quick translator
   ++ lib.optionals config.programs.tmux.enable [
     "$mainMod, T, exec, $terminal -e tmux" # launch tmux
     "$mainMod SHIFT, T, exec, ${launcher} tmux" # launch tmux sessions
   ]
-  ++ lib.optional config.programs.rbw.enable "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
   ++ lib.optionals osConfig.programs.steam.enable [
     "$mainMod SHIFT, G, exec, ${gamespace}" # toggle specialworkspace for games
     "$mainMod CTRL, G, exec, ${launcher} game" # game launcher

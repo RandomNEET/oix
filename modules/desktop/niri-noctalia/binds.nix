@@ -465,6 +465,33 @@ in
     hotkey-overlay.title = "OCR capture (select area)";
   };
 }
+// lib.optionalAttrs config.programs.rbw.enable {
+  "Mod+Alt+U" = {
+    action.spawn = [
+      "${launcher}"
+      "rbw"
+    ];
+    hotkey-overlay.title = "Launch password manager";
+  };
+}
+// lib.optionalAttrs config.programs.translate-shell.enable {
+  "Mod+Alt+T" = {
+    action.spawn = [
+      "${launcher}"
+      "translate"
+    ];
+    hotkey-overlay.title = "Quick trnslator";
+  };
+}
+// lib.optionalAttrs osConfig.programs.steam.enable {
+  "Mod+Ctrl+G" = {
+    hotkey-overlay.title = "Game launcher";
+    action.spawn = [
+      "${launcher}"
+      "game"
+    ];
+  };
+}
 // lib.optionalAttrs config.programs.tmux.enable {
   "Mod+T" = {
     action.spawn = [
@@ -480,24 +507,6 @@ in
       "tmux"
     ];
     hotkey-overlay.title = "Launch tmux sessions";
-  };
-}
-// lib.optionalAttrs config.programs.rbw.enable {
-  "Mod+Alt+U" = {
-    action.spawn = [
-      "${launcher}"
-      "rbw"
-    ];
-    hotkey-overlay.title = "Launch password manager";
-  };
-}
-// lib.optionalAttrs osConfig.programs.steam.enable {
-  "Mod+Ctrl+G" = {
-    hotkey-overlay.title = "Game launcher";
-    action.spawn = [
-      "${launcher}"
-      "game"
-    ];
   };
 }
 // opts.niri.settings.binds or { }
