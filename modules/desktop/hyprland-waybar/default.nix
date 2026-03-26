@@ -16,6 +16,7 @@
     ../shared/programs/swww
     ../shared/programs/waybar
     ../shared/programs/wlogout
+    ../shared/services/cliphist
     ./programs/hypridle
     ./programs/hyprlock
   ];

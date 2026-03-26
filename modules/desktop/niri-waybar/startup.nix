@@ -7,10 +7,6 @@
   ...
 }:
 [
-  { sh = "wl-clipboard-history -t"; }
-  { sh = "wl-paste --type text --watch cliphist store"; }
-  { sh = "wl-paste --type image --watch cliphist store"; }
-  { sh = "rm $XDG_CACHE_HOME/cliphist/db"; }
   { sh = "nm-applet --indicator"; }
   { sh = "${randomwallctl} -r"; }
 ]
