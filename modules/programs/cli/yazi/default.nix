@@ -14,6 +14,7 @@
         };
         enableBashIntegration = true;
         enableZshIntegration = true;
+        shellWrapperName = "y";
         settings = import ./settings.nix { inherit mylib opts; };
         keymap = import ./keymap.nix { inherit opts; };
         theme = import ./theme.nix;
