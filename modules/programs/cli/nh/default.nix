@@ -7,7 +7,8 @@
       enable = true;
       dates = "weekly";
       extraArgs = "--keep 5 --keep-since 3d";
-    };
+    }
+    // (opts.nh.clean or { });
   };
   home-manager.sharedModules = [
     {
@@ -19,7 +20,8 @@
           enable = true;
           dates = "weekly";
           extraArgs = "--keep 5 --keep-since 3d";
-        };
+        }
+        // (opts.nh.clean or { });
       };
     }
   ];

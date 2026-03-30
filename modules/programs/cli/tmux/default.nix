@@ -11,7 +11,7 @@ in
 {
   home-manager.sharedModules = [
     (
-      { osConfig, config, ... }:
+      { config, ... }:
       let
         resurrectDir = "${config.xdg.stateHome}/tmux/resurrect";
         resurrect-cmd-fix = import ./scripts/resurrect-cmd-fix.nix { inherit pkgs resurrectDir; };
@@ -131,7 +131,7 @@ in
                   ${optionalString config.programs.aerc.enable ''"~aerc->aerc"''}
                   ${optionalString config.programs.lazygit.enable ''"lazygit"''}
                   ${optionalString config.programs.btop.enable ''"btop"''}
-                  ${optionalString osConfig.programs.htop.enable ''"htop"''}
+                  ${optionalString config.programs.htop.enable ''"htop"''}
                   "~man"
                   less more tail top ssh
                 '
