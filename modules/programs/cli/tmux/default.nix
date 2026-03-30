@@ -102,8 +102,9 @@ in
               plugin = tmux-sessionx;
               extraConfig = ''
                 set -g @sessionx-bind 'o'
-                set -g @sessionx-prefix on
+                set -g @sessionx-prefix 'on'
                 set -g @sessionx-x-path '${config.home.homeDirectory}/repo'
+                set -g @sessionx-tmuxinator-mode 'on'
                 ${optionalString config.programs.fzf.enable "set -g @sessionx-fzf-builtin-tmux 'on'"}
                 ${optionalString config.programs.zoxide.enable "set -g @sessionx-zoxide-mode 'on'"}
               '';
