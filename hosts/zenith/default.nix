@@ -24,6 +24,7 @@
     ../../modules/services/proxy
     ../../modules/services/snapper
     ../../modules/services/udev
+    ../../modules/services/upower
 
     ../../modules/programs/cli/aerc
     ../../modules/programs/cli/bash
