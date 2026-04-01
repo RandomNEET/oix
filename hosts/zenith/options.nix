@@ -160,6 +160,7 @@ rec {
   # Services {{{
   udev = {
     extraRules = ''
+      # Disable wake-on-USB for Logitech G502X Receiver to prevent accidental wakeups from sleep/suspend
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c547", ENV{DEVTYPE}=="usb_device", ATTR{power/wakeup}="disabled"
     '';
   };

@@ -365,11 +365,11 @@ in
               enabled = true;
               session = lib.mkIf hasThemes "${restore-wall-theme}";
             };
-            idle = {
+            idle = rec {
               enabled = true;
-              screenOffTimeout = 600;
-              lockTimeout = 660;
-              suspendTimeout = 1800;
+              lockTimeout = 600;
+              screenOffTimeout = 1800 - lockTimeout;
+              suspendTimeout = 3600 - screenOffTimeout - lockTimeout;
               fadeDuration = 5;
             }
             // (opts.noctalia.settings.idle or { });
