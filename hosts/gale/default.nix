@@ -10,6 +10,7 @@
     ../../modules/services/automount
     ../../modules/services/avahi
     ../../modules/services/blueman
+    ../../modules/services/dae
     ../../modules/services/flatpak
     ../../modules/services/fstrim
     ../../modules/services/greetd
@@ -19,7 +20,6 @@
     ../../modules/services/openssh
     ../../modules/services/pipewire
     ../../modules/services/power-profiles-daemon
-    ../../modules/services/proxy
     ../../modules/services/snapper
     ../../modules/services/upower
 

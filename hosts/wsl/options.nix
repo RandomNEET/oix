@@ -22,17 +22,20 @@ rec {
       ];
       shell = "zsh";
       # Home-manager config
-      home-manager = true; # whether to enable home-manager for this user
-      xdg = {
-        userDirs = {
-          desktop = null; # no need for wm
-          documents = "/home/${name}/doc";
-          download = "/home/${name}/dls";
-          music = "/home/${name}/mus";
-          pictures = "/home/${name}/pic";
-          videos = "/home/${name}/vid";
-          templates = "/home/${name}/tpl";
-          publicShare = "/home/${name}/pub";
+      home-manager = {
+        enable = true; # whether to enable home-manager for this user
+        xdg = {
+          userDirs = {
+            enable = true;
+            desktop = null; # no need for wm
+            documents = "/home/${name}/doc";
+            download = "/home/${name}/dls";
+            music = "/home/${name}/mus";
+            pictures = "/home/${name}/pic";
+            videos = "/home/${name}/vid";
+            templates = "/home/${name}/tpl";
+            publicShare = "/home/${name}/pub";
+          };
         };
       };
     };

@@ -22,17 +22,7 @@ rec {
     allowedUDPPorts = [ ];
   };
 
-  # Available cores: dae sing-box xray
-  proxy = {
-    dae = {
-      enable = true;
-      configFile = "/run/secrets/dae";
-      openFirewall = {
-        enable = true;
-        port = 12345;
-      };
-    };
-  };
+  dae.configFile = "/run/secrets/dae";
   sops.secrets.dae.sopsFile = ./secrets.yaml;
   systemd.system.services.dae.after = [ "sops-nix.service" ];
   # }}}
@@ -56,17 +46,20 @@ rec {
       ];
       shell = "zsh";
       # Home-manager config
-      home-manager = true; # whether to enable home-manager for this user
-      xdg = {
-        userDirs = {
-          desktop = null; # no need for wm
-          documents = "/home/${name}/doc";
-          download = "/home/${name}/dls";
-          music = "/home/${name}/mus";
-          pictures = "/home/${name}/pic";
-          videos = "/home/${name}/vid";
-          templates = "/home/${name}/tpl";
-          publicShare = "/home/${name}/pub";
+      home-manager = {
+        enable = true; # whether to enable home-manager for this user
+        xdg = {
+          userDirs = {
+            enable = true;
+            desktop = null; # no need for wm
+            documents = "/home/${name}/doc";
+            download = "/home/${name}/dls";
+            music = "/home/${name}/mus";
+            pictures = "/home/${name}/pic";
+            videos = "/home/${name}/vid";
+            templates = "/home/${name}/tpl";
+            publicShare = "/home/${name}/pub";
+          };
         };
       };
     };
@@ -458,7 +451,7 @@ rec {
     #     │   └──  pic.jpg
     #     └──  portrait
     #         └──  pic.jpg
-    dir = "${users.primary.xdg.userDirs.pictures}/wallpapers";
+    dir = "${users.primary.home-manager.xdg.userDirs.pictures}/wallpapers";
     # Transition effects for swww
     transition = {
       launcher = {
@@ -508,7 +501,7 @@ rec {
   noctalia = {
     settings = {
       general = {
-        avatarImage = "${users.primary.xdg.userDirs.pictures}/avatars/weeb.jpg";
+        avatarImage = "${users.primary.home-manager.xdg.userDirs.pictures}/avatars/weeb.jpg";
       };
       location = {
         name = "Jiangxi";

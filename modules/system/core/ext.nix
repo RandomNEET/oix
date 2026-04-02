@@ -15,13 +15,9 @@ lib.optionalAttrs isExt {
         overlays = mkForce [ ];
         config.allowUnfree = mkForce true;
       };
-      home =
-        (opts.home or { })
-        // {
-          stateVersion = mylib.channel.getStateVersion opts;
-        }
-        // (opts.home or { });
+      home.stateVersion = mylib.channel.getStateVersion opts;
       programs.home-manager.enable = mkForce true;
     }
+    { config = lib.mkForce (builtins.removeAttrs (opts.home-manager or { }) [ "enable" ]); }
   ];
 }

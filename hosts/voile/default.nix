@@ -1,5 +1,7 @@
 {
   imports = [
+    ./selfhost.nix
+
     ../../modules/system/core
     ../../modules/system/sops
 
@@ -11,18 +13,8 @@
     ../../modules/services/fstrim
     ../../modules/services/mpd
     ../../modules/services/openssh
-    ../../modules/services/proxy
     ../../modules/services/tlp
-
-    ../../modules/services/server/calibre-web
-    ../../modules/services/server/freshrss
-    ../../modules/services/server/frp
-    ../../modules/services/server/glances
-    ../../modules/services/server/homepage-dashboard
-    ../../modules/services/server/jellyfin
-    ../../modules/services/server/qbittorrent
-    ../../modules/services/server/samba
-    ../../modules/services/server/vaultwarden
+    ../../modules/services/xray
 
     ../../modules/programs/cli/bash
     ../../modules/programs/cli/bat

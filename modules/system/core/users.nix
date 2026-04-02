@@ -45,7 +45,7 @@
           (
             key:
             let
-              isHmEnabled = userData.home-manager or false;
+              isHmEnabled = userData.home-manager.enable or false;
               userData = opts.users.${key};
               realName = userData.name or key;
               uXdg = userData.xdg.userDirs or { };
@@ -54,31 +54,22 @@
               {
                 name = realName;
                 value = {
-                  home = {
-                    username = realName;
-                    homeDirectory = "/home/${realName}";
-                    stateVersion = mylib.channel.getStateVersion opts;
-                    sessionVariables = lib.mkMerge [
-                      (lib.optionalAttrs (opts ? editor) { EDITOR = opts.editor; })
-                      (lib.optionalAttrs (opts ? terminal) { TERMINAL = opts.terminal; })
-                      (lib.optionalAttrs (opts ? browser) { BROWSER = opts.browser; })
-                    ];
-                  };
-                  xdg = {
-                    userDirs = {
-                      enable = true;
-                      createDirectories = false;
-                      desktop = uXdg.desktop or "/home/${realName}/dsk";
-                      documents = uXdg.documents or "/home/${realName}/doc";
-                      download = uXdg.download or "/home/${realName}/dls";
-                      music = uXdg.music or "/home/${realName}/mus";
-                      pictures = uXdg.pictures or "/home/${realName}/pic";
-                      videos = uXdg.videos or "/home/${realName}/vid";
-                      templates = uXdg.templates or "/home/${realName}/tpl";
-                      publicShare = uXdg.publicShare or "/home/${realName}/pub";
-                    };
-                  };
-                  programs.home-manager.enable = true;
+                  imports = [
+                    {
+                      home = {
+                        username = realName;
+                        homeDirectory = "/home/${realName}";
+                        stateVersion = mylib.channel.getStateVersion opts;
+                        sessionVariables = lib.mkMerge [
+                          (lib.optionalAttrs (opts ? editor) { EDITOR = opts.editor; })
+                          (lib.optionalAttrs (opts ? terminal) { TERMINAL = opts.terminal; })
+                          (lib.optionalAttrs (opts ? browser) { BROWSER = opts.browser; })
+                        ];
+                      };
+                      programs.home-manager.enable = true;
+                    }
+                    { config = lib.mkForce (builtins.removeAttrs (userData.home-manager or { }) [ "enable" ]); }
+                  ];
                 };
               }
             else

@@ -1,12 +1,4 @@
-{
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
-let
-  inherit (lib) optionalAttrs;
-in
+{ lib, opts, ... }:
 {
   home-manager.sharedModules = [
     (
@@ -30,9 +22,9 @@ in
             cursor_trail_start_threshold = "4";
             # Remote control
             allow_remote_control = true;
-            listen_on = "unix:/run/user/${toString opts.users.primary.uid}/kitty";
+            listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty";
           }
-          // optionalAttrs ((opts ? editor) && (opts.editor == "nvim")) {
+          // lib.optionalAttrs ((opts ? editor) && (opts.editor == "nvim")) {
             scrollback_pager = "nvim --cmd 'set eventignore=FileType' +'nnoremap q ZQ' +'call nvim_open_term(0, {})' +'set nomodified nolist' +'$' -";
           }
           // (opts.kitty.settings or { });
@@ -52,7 +44,7 @@ in
             "kitty_mod+backspace" = "change_font_size all 0";
             "kitty_mod+e" = "open_url_with_hints";
           }
-          // optionalAttrs config.programs.tmux.enable {
+          // lib.optionalAttrs config.programs.tmux.enable {
             "kitty_mod+t" = "launch --type=overlay --cwd=current tmux";
           };
         };

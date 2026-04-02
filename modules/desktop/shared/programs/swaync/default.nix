@@ -244,12 +244,6 @@ in
                   command = "systemctl is-active --quiet dae.service && pkexec systemctl stop dae.service || pkexec systemctl start dae.service";
                   update-command = "pgrep -x dae > /dev/null && echo true || echo false";
                 }
-                ++ lib.optional osConfig.services.sing-box.enable {
-                  label = "󰴴";
-                  type = "toggle";
-                  command = "systemctl is-active --quiet sing-box.service && pkexec systemctl stop sing-box.service || pkexec systemctl start sing-box.service";
-                  update-command = "pgrep -x sing-box > /dev/null && echo true || echo false";
-                }
                 ++ lib.optional osConfig.services.xray.enable {
                   label = "󰴴";
                   type = "toggle";

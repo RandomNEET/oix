@@ -8,29 +8,29 @@ rec {
   # }}}
 
   # Home {{{
-  home = {
-    username = "howl";
-    homeDirectory = "/home/howl";
+  home-manager = rec {
+    home = {
+      username = "howl";
+      homeDirectory = "/home/howl";
+    };
+    xdg = {
+      userDirs = {
+        enable = true;
+        desktop = null; # no need for wm
+        documents = "${home.homeDirectory}/doc";
+        download = "${home.homeDirectory}/dls";
+        music = "${home.homeDirectory}/mus";
+        pictures = "${home.homeDirectory}/pic";
+        videos = "${home.homeDirectory}/vid";
+        templates = "${home.homeDirectory}/tpl";
+        publicShare = "${home.homeDirectory}/pub";
+      };
+    };
   };
-  # }}}
 
-  # User {{{
   # Define default programs
   editor = "nvim";
   terminalFileManager = "yazi";
-
-  xdg = {
-    userDirs = {
-      desktop = null; # no need for wm
-      documents = "${home.homeDirectory}/doc";
-      download = "${home.homeDirectory}/dls";
-      music = "${home.homeDirectory}/mus";
-      pictures = "${home.homeDirectory}/pic";
-      videos = "${home.homeDirectory}/vid";
-      templates = "${home.homeDirectory}/tpl";
-      publicShare = "${home.homeDirectory}/pub";
-    };
-  };
   # }}}
 
   # Packages {{{

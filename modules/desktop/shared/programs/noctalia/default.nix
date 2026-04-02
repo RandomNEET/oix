@@ -237,14 +237,6 @@ in
                   enableOnStateLogic = true;
                   stateChecksJson = "[{\"command\":\"pgrep -x dae > /dev/null\",\"icon\":\"shield-check\"}]";
                 }
-                ++ optional osConfig.services.sing-box.enable {
-                  id = "CustomButton";
-                  onClicked = "systemctl is-active --quiet sing-box.service && pkexec systemctl stop sing-box.service || pkexec systemctl start sing-box.service";
-                  generalTooltipText = "Proxy";
-                  icon = "shield-cancel";
-                  enableOnStateLogic = true;
-                  stateChecksJson = "[{\"command\":\"pgrep -x sing-box > /dev/null\",\"icon\":\"shield-check\"}]";
-                }
                 ++ optional osConfig.services.xray.enable {
                   id = "CustomButton";
                   onClicked = "systemctl is-active --quiet xray.service && pkexec systemctl stop xray.service || pkexec systemctl start xray.service";
