@@ -103,6 +103,7 @@ rec {
 
         qbittorrent
         libreoffice
+        tor-browser
 
         lolcat
         figlet
