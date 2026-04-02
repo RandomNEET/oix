@@ -16,12 +16,6 @@ in
           enable = true;
           shellIntegration.enableBashIntegration = true;
           shellIntegration.enableZshIntegration = true;
-          actionAliases =
-            { }
-            // optionalAttrs ((opts ? editor) && (opts.editor == "nvim")) {
-              "kitty_scrollback_nvim" =
-                "kitten ${pkgs.vimPlugins.kitty-scrollback-nvim}/python/kitty_scrollback_nvim.py --config readonly --nvim-args -n -c 'nnoremap q ZQ'";
-            };
           settings = {
             kitty_mod = "ctrl+shift";
             clear_all_shortcuts = true;
@@ -38,6 +32,9 @@ in
             allow_remote_control = true;
             listen_on = "unix:/run/user/${toString opts.users.primary.uid}/kitty";
           }
+          // optionalAttrs ((opts ? editor) && (opts.editor == "nvim")) {
+            scrollback_pager = "nvim --cmd 'set eventignore=FileType' +'nnoremap q ZQ' +'call nvim_open_term(0, {})' +'set nomodified nolist' +'$' -";
+          }
           // (opts.kitty.settings or { });
           keybindings = {
             "kitty_mod+c" = "copy_to_clipboard";
@@ -49,6 +46,7 @@ in
             "kitty_mod+home" = "scroll_home";
             "kitty_mod+end" = "scroll_end";
             "kitty_mod+/" = "search_scrollback";
+            "kitty_mod+h" = "show_scrollback";
             "kitty_mod+equal" = "change_font_size all +2.0";
             "kitty_mod+minus" = "change_font_size all -2.0";
             "kitty_mod+backspace" = "change_font_size all 0";
@@ -56,9 +54,6 @@ in
           }
           // optionalAttrs config.programs.tmux.enable {
             "kitty_mod+t" = "launch --type=overlay --cwd=current tmux";
-          }
-          // optionalAttrs ((opts ? editor) && (opts.editor == "nvim")) {
-            "kitty_mod+h" = "kitty_scrollback_nvim";
           };
         };
       }
