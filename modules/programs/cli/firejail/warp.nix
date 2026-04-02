@@ -113,6 +113,11 @@ let
       bin = "${getBin pkgs.qq}/bin/qq";
       profile = profiles.qq;
     };
+    tor-browser = {
+      enable = check "tor-browser";
+      bin = "${getBin pkgs.tor-browser}/bin/tor-browser";
+      profile = profiles.tor-browser;
+    };
     w3m = {
       enable = check "w3m";
       bin = "${getBin pkgs.w3m}/bin/w3m";

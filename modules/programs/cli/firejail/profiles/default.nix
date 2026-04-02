@@ -63,6 +63,7 @@ in
   qutebrowser = import ./qutebrowser.nix env;
   spotify = import ./spotify.nix env;
   thunderbird = import ./thunderbird.nix env;
+  tor-browser = import ./tor-browser.nix env;
   vesktop = import ./vesktop.nix env;
   w3m = import ./w3m.nix env;
   yt-dlp = import ./yt-dlp.nix env;
