@@ -2,7 +2,7 @@
 { pkgs }:
 pkgs.stdenv.mkDerivation rec {
   pname = "obsidian-livesync";
-  version = "0.25.54";
+  version = "0.25.56";
   src = null;
   dontUnpack = true;
 
@@ -11,14 +11,14 @@ pkgs.stdenv.mkDerivation rec {
     cp ${
       pkgs.fetchurl {
         url = "https://github.com/vrtmrz/obsidian-livesync/releases/download/${version}/main.js";
-        sha256 = "sha256-BH3o8jWDv9mpVkeGILz+ILCc15MTTJcO3ns+6yvR498=";
+        sha256 = "sha256-cuvvN24GCMC/V2w292TrGkypPlzcrzcDUeJc7e1cvRM=";
       }
     } $out/main.js
 
     cp ${
       pkgs.fetchurl {
         url = "https://github.com/vrtmrz/obsidian-livesync/releases/download/${version}/manifest.json";
-        sha256 = "sha256-sz/Z1SuCWoNWYl3B0UZ+ERPM4JAh56qH1zQMrCCfFGQ=";
+        sha256 = "sha256-PE6kuSkKJIYUsoEbhu4ENC6WumruT7Hp1Pf9BdKJx0c=";
       }
     } $out/manifest.json
 

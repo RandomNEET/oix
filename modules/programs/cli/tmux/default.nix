@@ -13,12 +13,11 @@ in
     (
       { config, ... }:
       let
-        resurrectDir = "${config.xdg.stateHome}/tmux/resurrect";
-        resurrect-cmd-fix = import ./scripts/resurrect-cmd-fix.nix { inherit pkgs resurrectDir; };
-
         hasThemes = opts ? themes;
         colors = config.lib.stylix.colors.withHashtag;
         primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
+        resurrectDir = "${config.xdg.stateHome}/tmux/resurrect";
+        resurrect-cmd-fix = import ./scripts/resurrect-cmd-fix.nix { inherit pkgs resurrectDir; };
       in
       {
         programs.tmux = {

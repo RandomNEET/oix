@@ -302,7 +302,7 @@ in
             dock = {
               enabled = true;
               position = "bottom";
-              dockType = "static";
+              dockType = "attached";
             };
             network = {
               wifiEnabled = true;
