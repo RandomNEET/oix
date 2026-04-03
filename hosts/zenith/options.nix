@@ -721,6 +721,9 @@ rec {
       brightness = {
         enableDdcSupport = true;
       };
+      idle = {
+        suspendTimeout = 0;
+      };
     };
   };
   # }}}
