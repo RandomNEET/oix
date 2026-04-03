@@ -231,10 +231,8 @@
         import ./shells { inherit pkgs; };
     in
     {
-      nixosConfigurations = nixpkgs.lib.listToAttrs (
-        map mkHost (builtins.filter (name: !isExt name) hosts)
-      );
-      homeConfigurations = nixpkgs.lib.listToAttrs (map mkHome hosts);
+      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkHost (builtins.filter (n: !(isExt n)) hosts));
+      homeConfigurations = nixpkgs.lib.listToAttrs (map mkHome (builtins.filter isExt hosts));
       devShells = forAllSystems devShells;
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
     };

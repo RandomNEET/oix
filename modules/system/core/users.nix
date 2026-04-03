@@ -48,7 +48,6 @@
               isHmEnabled = userData.home-manager.enable or false;
               userData = opts.users.${key};
               realName = userData.name or key;
-              uXdg = userData.xdg.userDirs or { };
             in
             if isHmEnabled then
               {

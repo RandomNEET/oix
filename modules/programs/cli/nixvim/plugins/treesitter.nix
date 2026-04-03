@@ -12,7 +12,12 @@
             "BufWritePre"
             "DeferredUIEnter"
           ];
-          cmd = ["TSUpdate" "TSInstall" "TSLog" "TSUninstall"  ];
+          cmd = [
+            "TSUpdate"
+            "TSInstall"
+            "TSLog"
+            "TSUninstall"
+          ];
           after.__raw = ''
             function()
               vim.opt.foldmethod = "expr"
