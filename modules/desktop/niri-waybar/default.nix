@@ -141,6 +141,14 @@
             configPackages = [ pkgs.xdg-desktop-portal-gtk ];
             config.common.default = "gtk";
           };
+          terminal-exec = {
+            enable = true;
+            settings = {
+              default = lib.mkIf (opts ? terminal) [
+                "${opts.terminal}.desktop"
+              ];
+            };
+          };
         };
 
         home.packages = with pkgs; [
