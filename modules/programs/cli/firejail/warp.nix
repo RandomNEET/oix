@@ -143,10 +143,13 @@ let
     '';
 in
 {
-  home.file = lib.genAttrs toWarp (name: {
-    target = ".local/bin/${name}";
-    executable = true;
-    text = warpCmd name;
-  });
-  home.sessionPath = [ "$HOME/.local/bin" ];
+  home = {
+    file = lib.genAttrs toWarp (name: {
+      target = ".local/bin/${name}";
+      executable = true;
+      text = warpCmd name;
+    });
+    sessionPath = [ "$HOME/.local/bin" ];
+    packages = with pkgs; [ firejail ];
+  };
 }
