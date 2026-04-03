@@ -409,6 +409,14 @@
         "mnt-smb.mount"
       ];
     };
+    freshrss-updater = {
+      serviceConfig = {
+        Environment = [
+          "http_proxy=http://127.0.0.1:9998"
+          "https_proxy=http://127.0.0.1:9998"
+        ];
+      };
+    };
     frp = {
       after = [
         "sops-nix.service"
