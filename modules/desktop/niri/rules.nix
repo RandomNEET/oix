@@ -29,7 +29,7 @@
       matches = [
         { app-id = "^(kitty|foot|footclient)$"; }
         { app-id = "^(editor)$"; }
-        { app-id = "^(terminalFileManager)$"; }
+        { app-id = "^(fileManager)$"; }
         { app-id = "^(code)$"; }
         { app-id = "^(spotify)$"; }
         { app-id = "^(steam)$"; }

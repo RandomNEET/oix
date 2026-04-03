@@ -104,7 +104,7 @@ rec {
 
   # Define default programs
   editor = "nvim";
-  terminalFileManager = "yazi";
+  fileManager = "yazi";
   # }}}
 
   # Packages {{{

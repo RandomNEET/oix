@@ -7,6 +7,7 @@
 let
   wallpaperDir = opts.wallpaper.dir;
   originalDir = "${wallpaperDir}/original";
+  themedDir = "${wallpaperDir}/themed";
   # List : arcdark atomdark cat-frappe cat-latte catppuccin cyberpunk dracula everforest github-light gruvbox kanagawa material melange-dark melange-light monokai night-owl nord oceanic-next onedark palenight rose-pine shades-of-purple solarized srcery sunset-aurant sunset-saffron sunset-tangerine synthwave-84 tokyo-dark tokyo-moon tokyo-storm
   # Custom: catppuccin-mocha gruvbox-dark-hard  tokyo-night-dark
   themesArray = mylib.theme.getThemesArray opts.themes;
@@ -15,6 +16,7 @@ pkgs.writeShellScriptBin "gowall-autoconvert" ''
   # --- 1. CONFIGURATION & INITIALIZATION ---
   WALLPAPERS_DIR="${wallpaperDir}"
   ORIGINAL_DIR="${originalDir}"
+  THEMED_DIR="${themedDir}"
   THEMES=(${themesArray})
 
   if [ ! -d "$ORIGINAL_DIR" ]; then
@@ -22,12 +24,12 @@ pkgs.writeShellScriptBin "gowall-autoconvert" ''
     exit 1
   fi
 
-  # --- 2. CLEANUP: STALE THEME DIRECTORIES  ---
-  for DIR_PATH in "$WALLPAPERS_DIR"/*; do
+  mkdir -p "$THEMED_DIR"
+
+  # --- 2. CLEANUP: STALE THEME DIRECTORIES ---
+  for DIR_PATH in "$THEMED_DIR"/*; do
     [ -d "$DIR_PATH" ] || continue
     DIR_NAME=$(basename "$DIR_PATH")
-
-    [ "$DIR_NAME" == "original" ] && continue
 
     IS_STALE=true
     for T in "''${THEMES[@]}"; do
@@ -47,7 +49,7 @@ pkgs.writeShellScriptBin "gowall-autoconvert" ''
   for THEME in "''${THEMES[@]}"; do
     [ "$THEME" == "original" ] && continue
     
-    THEME_ROOT="$WALLPAPERS_DIR/$THEME"
+    THEME_ROOT="$THEMED_DIR/$THEME"
     echo "=== Syncing Theme: [$THEME] ==="
 
     # --- 4. ORIENTATION LOOP (landscape/portrait) ---
@@ -97,7 +99,6 @@ pkgs.writeShellScriptBin "gowall-autoconvert" ''
           [[ -f "$img" ]] || continue
           IMG_NAME=$(basename "$img")
           
-          # Only process valid image extensions
           [[ "$IMG_NAME" =~ \.(png|jpg|jpeg|webp)$ ]] || continue
           
           [ -f "$TARGET_DIR/$IMG_NAME" ] && continue
@@ -105,8 +106,7 @@ pkgs.writeShellScriptBin "gowall-autoconvert" ''
           IMAGES_TO_CONVERT="$IMAGES_TO_CONVERT,$img"
         done
 
-        # Use gowall to convert the collected images in one batch for better performance
-        IMAGES_TO_CONVERT="''${IMAGES_TO_CONVERT#,}" # Remove leading comma
+        IMAGES_TO_CONVERT="''${IMAGES_TO_CONVERT#,}"
         if [ -n "$IMAGES_TO_CONVERT" ]; then
           echo "Processing new images: [$THEME] -> [$ORIENT] -> [$CAT_NAME]"
           ${pkgs.gowall}/bin/gowall convert \

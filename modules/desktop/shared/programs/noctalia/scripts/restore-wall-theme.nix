@@ -12,11 +12,18 @@ in
 pkgs.writeShellScript "restore-wall-theme" ''
   WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
   if [ -f "$WALLPAPER_CONF" ]; then
-    NEW_JSON=$(${pkgs.jq}/bin/jq --arg theme "${defaultTheme}" '
+    NEW_JSON=$(jq --arg theme "${defaultTheme}" '
+      def get_target_path: 
+        if $theme == "original" 
+        then "original" 
+        else "themed/" + $theme 
+        end;
+
       .wallpapers |= map_values(
-        gsub("${wallpaperDir}/[^/]+/"; "${wallpaperDir}/" + $theme + "/")
+        gsub("${wallpaperDir}/[^/]+(/[^/]+)?/"; "${wallpaperDir}/" + get_target_path + "/")
       )
     ' "$WALLPAPER_CONF")
+    
     echo "$NEW_JSON" > "$WALLPAPER_CONF"
   fi
 ''

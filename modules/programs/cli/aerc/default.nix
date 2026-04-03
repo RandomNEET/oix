@@ -49,10 +49,10 @@ in
               { }
               // optionalAttrs hasDesktop { use-terminal-pinentry = "true"; }
               // optionalAttrs hasDesktop { "x-scheme-handler/http*" = "xdg-open {}"; }
-              // optionalAttrs hasDesktop {
+              // optionalAttrs ((opts ? terminal) && (opts ? editor)) {
                 "text/plain" = "${opts.terminal} -e ${opts.editor} {}";
               }
-              // optionalAttrs hasDesktop {
+              // optionalAttrs (opts ? browser) {
                 "text/html" = "${opts.browser} {}";
               }
               // optionalAttrs config.programs.swayimg.enable { "image/*" = "swayimg {}"; }

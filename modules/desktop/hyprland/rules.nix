@@ -11,7 +11,7 @@
     "opacity 0.90 0.90, match:title ^(Hyprland Polkit Agent)$"
     "opacity 0.80 0.80, match:class ^(kitty|foot|footclient)$"
     "opacity 0.80 0.80, match:class ^(editor)$"
-    "opacity 0.80 0.80, match:class ^(terminalFileManager)$"
+    "opacity 0.80 0.80, match:class ^(fileManager)$"
     "opacity 0.80 0.80, match:class ^(code)$"
     "opacity 0.80 0.80, match:class ^(spotify)$"
     "opacity 0.80 0.80, match:class ^(steam)$"

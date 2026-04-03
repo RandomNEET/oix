@@ -7,6 +7,11 @@
   ...
 }:
 let
+  terminal = if (opts ? terminal) then opts.terminal else "kitty";
+  fileManager = if (opts ? fileManager) then opts.fileManager else "yazi";
+  editor = if (opts ? editor) then opts.editor else "nvim";
+  browser = if (opts ? browser) then opts.browser else "qutebrowser";
+
   keybinds = [
     # ----- Base -----
     {
@@ -17,22 +22,22 @@ let
     {
       key = "SUPER Return";
       desc = "Launch terminal";
-      cmd = opts.terminal;
+      cmd = terminal;
     }
     {
       key = "SUPER F";
       desc = "Launch file manager";
-      cmd = opts.terminalFileManager;
+      cmd = fileManager;
     }
     {
       key = "SUPER E";
       desc = "Launch editor";
-      cmd = opts.editor;
+      cmd = editor;
     }
     {
       key = "SUPER B";
       desc = "Launch browser";
-      cmd = opts.browser;
+      cmd = browser;
     }
     # ----- Launch -----
     {
@@ -74,7 +79,7 @@ let
     {
       key = "SUPER T";
       desc = "Launch tmux";
-      cmd = "${opts.terminal} tmux";
+      cmd = "${terminal} tmux";
     }
     {
       key = "SUPER SHIFT T";

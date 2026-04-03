@@ -13,76 +13,92 @@
 }:
 let
   terminal =
-    if ((opts.terminal == "foot") && (opts.foot.server or false)) then
-      "footclient"
+    if (opts ? terminal) then
+      if ((opts.terminal == "foot") && (opts.foot.server or false)) then "footclient" else opts.terminal
     else
-      "${opts.terminal}";
+      "kitty";
   fileManager =
-    if (opts.terminal == "kitty") then
-      [
-        terminal
-        "--class"
-        "terminalFileManager"
-        "-e"
-        opts.terminalFileManager
-      ]
-    else if (opts.terminal == "foot") then
-      [
-        terminal
-        "--app-id"
-        "terminalFileManager"
-        "-e"
-        opts.terminalFileManager
-      ]
+    if (opts ? fileManager) then
+      if (opts.terminal == "kitty") then
+        [
+          terminal
+          "--class"
+          "fileManager"
+          "-e"
+          opts.fileManager
+        ]
+      else if (opts.terminal == "foot") then
+        [
+          terminal
+          "--app-id"
+          "fileManager"
+          "-e"
+          opts.fileManager
+        ]
+      else
+        [
+          terminal
+          "-e"
+          opts.fileManager
+        ]
     else
       [
         terminal
         "-e"
-        opts.terminalFileManager
+        "kitty"
       ];
   editor =
-    if (opts.terminal == "kitty") then
-      [
-        terminal
-        "--class"
-        "editor"
-        "-e"
-        opts.editor
-      ]
-    else if (opts.terminal == "foot") then
-      [
-        terminal
-        "--app-id"
-        "editor"
-        "-e"
-        opts.editor
-      ]
+    if (opts ? editor) then
+      if (opts.terminal == "kitty") then
+        [
+          terminal
+          "--class"
+          "editor"
+          "-e"
+          opts.editor
+        ]
+      else if (opts.terminal == "foot") then
+        [
+          terminal
+          "--app-id"
+          "editor"
+          "-e"
+          opts.editor
+        ]
+      else
+        [
+          terminal
+          "-e"
+          opts.editor
+        ]
     else
       [
         terminal
         "-e"
-        opts.editor
+        "nvim"
       ];
-  browser = opts.browser;
+  browser = if (opts ? browser) then opts.browser else "qutebrwoser";
 in
 {
   "Mod+Shift+Slash".action."show-hotkey-overlay" = { };
 
   "Mod+Return" = {
     action.spawn = terminal;
-    hotkey-overlay.title = "Launch terminal: ${opts.terminal}";
+    hotkey-overlay.title = "Launch terminal: ${terminal}";
   };
   "Mod+F" = {
     action.spawn = fileManager;
-    hotkey-overlay.title = "Launch file manager: ${opts.terminalFileManager}";
+    hotkey-overlay.title = "Launch file manager: ${
+      if (opts ? fileManager) then opts.fileManager else "yazi"
+    }";
   };
   "Mod+E" = {
     action.spawn = editor;
-    hotkey-overlay.title = "Launch editor: ${opts.editor}";
+    hotkey-overlay.title = "Launch editor: ${if (opts ? editor) then opts.editor else "nvim"}";
   };
   "Mod+B" = {
     action.spawn = browser;
-    hotkey-overlay.title = "Launch browser: ${opts.browser}";
+    hotkey-overlay.title = "Launch browser: ${browser}";
   };
 
   "Mod+Space" = {

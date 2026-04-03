@@ -44,7 +44,7 @@ in
 
         wallpaperDir =
           if lib.hasAttrByPath [ "wallpaper" "dir" ] opts then
-            if hasThemes then "${opts.wallpaper.dir}/${themeName}" else opts.wallpaper.dir
+            if hasThemes then "${opts.wallpaper.dir}/themed/${themeName}" else opts.wallpaper.dir
           else
             "";
         hasWallpaper = wallpaperDir != "";

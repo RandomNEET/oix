@@ -77,9 +77,9 @@ rec {
   };
 
   # Define default programs
-  editor = "nvim";
   terminal = "kitty";
-  terminalFileManager = "yazi";
+  editor = "nvim";
+  fileManager = "yazi";
   browser = "qutebrowser";
   # }}}
 
@@ -382,7 +382,7 @@ rec {
   # }}}
 
   # Desktop {{{
-  desktop = "hyprland-noctalia"; # available: hyprland-noctalia hyprland-waybar niri-noctalia niri-waybar
+  desktop = "hyprland"; # available: hyprland niri
 
   # https://github.com/tinted-theming/schemes
   # Default to the first theme
@@ -411,25 +411,25 @@ rec {
   ];
 
   wallpaper = {
-    # Base directory for wallpapers
-    # Required structure: base / <theme_name> / <orientation> / <pictures>
+    # --- Wallpaper Directory Structure ---
+    # Hierarchy Rules:
+    # 1. Source: "original/" is the source of truth. Place new wallpapers here.
+    # 2. Generated: "themed/" is managed by the autoconvert script. Do not manually edit.
+    # 3. Path Logic:
+    #    - Original: base / original / <orientation> / <file>
+    #    - Themed:   base / themed   / <theme_name> / <orientation> / <file>
     #
-    # Notes:
-    # - Original colored pictures belong in the "original" theme folder.
-    # - Valid orientations: "landscape", "portrait".
+    # Valid Orientations: "landscape", "portrait"
     #
-    # Example:
-    #  wallpapers
-    # ├──  catppuccin-mocha
-    # │   ├──  landscape
-    # │   │   └──  pic.jpg
-    # │   └──  portrait
-    # │       └──  pic.jpg
-    # └──  original
-    #     ├──  landscape
-    #     │   └──  pic.jpg
-    #     └──  portrait
-    #         └──  pic.jpg
+    # Example Tree:
+    # wallpapers
+    # ├── original                  # Source files
+    # │   └── landscape
+    # │       └── image.jpg
+    # └── themed                    # Auto-generated files
+    #     └── catppuccin-mocha      # <--- Theme level
+    #         └── landscape
+    #             └── image.jpg
     dir = "${users.primary.home-manager.xdg.userDirs.pictures}/wallpapers";
   };
 

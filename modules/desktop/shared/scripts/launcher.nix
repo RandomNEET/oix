@@ -2,42 +2,18 @@
   config,
   lib,
   pkgs,
-  mylib,
   opts,
   ...
 }:
 let
-  inherit (lib) getExe optionalString;
-  desktop = opts.desktop;
-  terminal = opts.terminal;
+  terminal =
+    if (opts ? terminal) then
+      if ((opts.terminal == "foot") && (opts.foot.server or false)) then "footclient" else opts.terminal
+    else
+      "kitty";
   hasThemes = opts ? themes;
   defaultTheme = if hasThemes then builtins.head opts.themes else "default";
-  wallpaperTheme =
-    if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "original";
   wallpaperDir = opts.wallpaper.dir or "${config.xdg.userDirs.pictures}/wallpapers";
-  transitionType = opts.wallpaper.launcher.transition.type or "center";
-  transitionStep = toString (opts.wallpaper.launcher.transition.step or 90);
-  transitionDuration = toString (opts.wallpaper.launcher.transition.duration or 1);
-  transitionFps = toString (opts.wallpaper.launcher.transition.fps or 60);
-  displays = opts.display or [ ];
-  displayCount = builtins.length displays;
-  displayListStr = lib.concatMapStringsSep "\n" (
-    idx:
-    let
-      display = builtins.elemAt displays idx;
-    in
-    "${toString (idx + 1)}: ${display.output} - ${toString display.width}x${toString display.height} (${display.orientation})"
-  ) (lib.range 0 (displayCount - 1));
-  displayCaseStr = lib.concatMapStringsSep "\n" (
-    idx:
-    let
-      display = builtins.elemAt displays idx;
-    in
-    "${toString (idx + 1)})\n DISPLAY_OUTPUT=\"${display.output}\"\n DISPLAY_ORIENTATION=\"${display.orientation}\"\n ;;"
-  ) (lib.range 0 (displayCount - 1));
-  singleDisplayOutput = if displayCount == 1 then (builtins.elemAt displays 0).output else "";
-  singleDisplayOrientation =
-    if displayCount == 1 then (builtins.elemAt displays 0).orientation else "";
 in
 pkgs.writeShellScriptBin "launcher" ''
   if pidof rofi >/dev/null; then
@@ -138,130 +114,6 @@ pkgs.writeShellScriptBin "launcher" ''
       fi
     done
     ;;
-  wallpaper)
-    WALLPAPER_DIR="${wallpaperDir}"
-    LANDSCAPE_DIR="$WALLPAPER_DIR/${wallpaperTheme}/landscape"
-    PORTRAIT_DIR="$WALLPAPER_DIR/${wallpaperTheme}/portrait"
-    DISPLAY_COUNT=${toString displayCount}
-
-    if [ "$DISPLAY_COUNT" -eq 1 ]; then
-      DISPLAY_OUTPUT="${singleDisplayOutput}"
-      DISPLAY_ORIENTATION="${singleDisplayOrientation}"
-    else
-      rofi_theme_display="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/wallpaper-display.rasi"
-      r_override_display="entry{placeholder:'Select Display...';}listview{lines:$DISPLAY_COUNT;}"
-
-      DISPLAY_CHOICE=$(rofi -dmenu \
-        -i \
-        -theme-str "$r_override_display" \
-        -theme "$rofi_theme_display" \
-        -format 'i:s' <<< "${displayListStr}")
-
-      [ -z "$DISPLAY_CHOICE" ] && exit 0
-
-      TARGET_DISPLAY=$(echo "$DISPLAY_CHOICE" | cut -d':' -f2 | cut -d':' -f1 | tr -d ' ')
-      case "$TARGET_DISPLAY" in
-        ${displayCaseStr}
-        *)
-          echo "Invalid display selection"
-          exit 1
-          ;;
-      esac
-    fi
-
-    CACHE_DIR="''${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper-thumbnails"
-
-    if [ -d "$CACHE_DIR" ]; then
-      find "$CACHE_DIR" -type f -name "*.jpg" | while read -r thumb; do
-        rel_thumb="''${thumb#$CACHE_DIR/}"
-        source_base="$WALLPAPER_DIR/''${rel_thumb%.*}"
-        
-        found=false
-        for ext in jpg jpeg png webp jxl gif; do
-          if [ -f "$source_base.$ext" ]; then
-            found=true
-            break
-          fi
-        done
-
-        if [ "$found" = false ]; then
-          echo "Removing stale thumbnail: $rel_thumb"
-          rm "$thumb"
-          rmdir -p "$(dirname "$thumb")" 2>/dev/null || true
-        fi
-      done
-    fi
-
-    if [ "$DISPLAY_ORIENTATION" = "landscape" ]; then
-      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/wallpaper-landscape.rasi"
-      SEARCH_DIR="$LANDSCAPE_DIR"
-      THUMB_SIZE="320x180"
-    else
-      rofi_theme="''${XDG_CONFIG_HOME:-$HOME/.config}/rofi/themes/wallpaper-portrait.rasi"
-      SEARCH_DIR="$PORTRAIT_DIR"
-      THUMB_SIZE="180x320"
-    fi
-
-    r_override="entry{placeholder:'Search Wallpapers for $DISPLAY_OUTPUT ($DISPLAY_ORIENTATION)...';}"
-
-    generate_thumbnail() {
-      local wallpaper="$1"
-      local thumb_size="$2"
-      local relative_path="''${wallpaper#$WALLPAPER_DIR/}"
-      local wallpaper_name="''${relative_path%.*}"
-      local thumbnail="$CACHE_DIR/''${wallpaper_name}.jpg"
-      mkdir -p "$(dirname "$thumbnail")"
-      ${getExe pkgs.imagemagick} "$wallpaper[0]" \
-        -strip -gravity center \
-        -thumbnail "$thumb_size^" \
-        -extent "$thumb_size" \
-        "$thumbnail" 2>/dev/null || true
-    }
-    
-    MISSING_THUMBS=()
-    while read -r wallpaper; do
-      relative_path="''${wallpaper#$WALLPAPER_DIR/}"
-      wallpaper_name="''${relative_path%.*}"
-      thumbnail="$CACHE_DIR/''${wallpaper_name}.jpg"
-      if [ !  -f "$thumbnail" ]; then
-        MISSING_THUMBS+=("$wallpaper")
-      fi
-    done < <(${getExe pkgs.fd} --type f \
-      -e jpg -e jpeg -e png -e webp -e jxl -e gif \
-      . "$SEARCH_DIR")
-    
-    if [ ''${#MISSING_THUMBS[@]} -gt 0 ]; then
-      mkdir -p "$CACHE_DIR"
-      for wallpaper in "''${MISSING_THUMBS[@]}"; do
-        generate_thumbnail "$wallpaper" "$THUMB_SIZE" &
-        (( $(jobs -r | wc -l) >= 4 )) && wait -n
-      done
-      wait
-    fi
-
-    CHOICE=$(${getExe pkgs.fd} --type f \
-      -e jpg -e jpeg -e png -e webp -e jxl -e gif \
-      . "$SEARCH_DIR" \
-      | sed "s|$WALLPAPER_DIR/||" \
-      | while read -r A; do
-          thumb_path="''${A%.*}.jpg"
-          echo -en "$A\x00icon\x1f$CACHE_DIR/$thumb_path\n"
-        done \
-      | rofi -dmenu \
-        -i \
-        -theme-str "$r_override" \
-        -theme "$rofi_theme")
-
-    [ -z "$CHOICE" ] && exit 0
-
-    WALLPAPER_PATH="$WALLPAPER_DIR/$CHOICE"
-
-    swww img --outputs "$DISPLAY_OUTPUT" "$WALLPAPER_PATH" \
-      --transition-type "${transitionType}" \
-      --transition-step "${transitionStep}" \
-      --transition-duration "${transitionDuration}" \
-      --transition-fps "${transitionFps}"
-    ;;
   theme)
     BASE_GEN="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
     SPEC_DIR="$BASE_GEN/specialisation"
@@ -286,13 +138,13 @@ pkgs.writeShellScriptBin "launcher" ''
 
     sleep 0.1
 
-    ${optionalString config.programs.tmux.enable ''
+    ${lib.optionalString config.programs.tmux.enable ''
       if tmux ls > /dev/null 2>&1; then
         tmux source-file ${config.xdg.configHome}/tmux/tmux.conf
       fi
     ''} 
     ${
-      optionalString (config.programs ? nixvim && config.programs.nixvim.enable) ''
+      lib.optionalString (config.programs ? nixvim && config.programs.nixvim.enable) ''
         RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}"
         if pgrep -x "nvim" >/dev/null; then
           for server in "$RUNTIME_DIR"/nvim.*.0; do
@@ -307,29 +159,34 @@ pkgs.writeShellScriptBin "launcher" ''
         fi
       ''
     } 
-    ${optionalString (lib.strings.hasInfix "noctalia" desktop) ''
-      WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
-      if [ -f "$WALLPAPER_CONF" ]; then
-        NEW_JSON=$(jq --arg theme "$SELECTED" '
-          .wallpapers |= map_values(
-            gsub("${wallpaperDir}/[^/]+/"; "${wallpaperDir}/" + $theme + "/")
-          )
-        ' "$WALLPAPER_CONF")
-        echo "$NEW_JSON" > "$WALLPAPER_CONF"
-      fi
+    ${lib.optionalString (config.programs ? noctalia-shell && config.programs.noctalia-shell.enable)
+      ''
+        WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
+        if [ -f "$WALLPAPER_CONF" ]; then
+          NEW_JSON=$(jq --arg theme "$SELECTED" '
+            def get_target_path: 
+              if $theme == "original" 
+              then "original" 
+              else "themed/" + $theme 
+              end;
 
-      noctalia-shell kill
-      for i in {1..20}; do 
-          noctalia-shell list --all | grep -q "No running" && break || sleep 0.2
-      done
-      noctalia-shell -d
+            .wallpapers |= map_values(
+              gsub("${wallpaperDir}/[^/]+(/[^/]+)?/"; "${wallpaperDir}/" + get_target_path + "/")
+            )
+          ' "$WALLPAPER_CONF")
+          
+          echo "$NEW_JSON" > "$WALLPAPER_CONF"
+        fi
 
-      systemctl --user restart fcitx5-daemon
-    ''}
-    ${optionalString (lib.strings.hasInfix "waybar" desktop) ''
-      systemctl --user restart waybar
-      systemctl --user restart fcitx5-daemon
-    ''}
+        noctalia-shell kill
+        for i in {1..20}; do 
+            noctalia-shell list --all | grep -q "No running" && break || sleep 0.2
+        done
+        noctalia-shell -d
+
+        systemctl --user restart fcitx5-daemon
+      ''
+    }
     ;;
   spec)
     SPEC_DIR="/nix/var/nix/profiles/system/specialisation"
@@ -368,7 +225,6 @@ pkgs.writeShellScriptBin "launcher" ''
     echo "  rbw                    Browse and search passwords"
     echo "  tmux                   Search active tmux sessions"
     echo "  translate              Quick translator"
-    echo "  wallpaper              Select display and set wallpaper"
     echo "  theme                  Select and set theme"
     echo "  spec                   Select and switch specialisation "
     echo "  help                   Display this help message"
