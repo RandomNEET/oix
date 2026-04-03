@@ -190,6 +190,10 @@ rec {
   };
 
   mpd = {
+    network = {
+      listenAddress = "0.0.0.0";
+      startWhenNeeded = true;
+    };
     dataDir = "/mnt/smb/media/.mpd";
     musicDirectory = "/mnt/smb/media/music";
     extraConfig = ''

@@ -23,7 +23,10 @@
             #![enable(unwrap_newtypes)]
             #![enable(unwrap_variant_newtypes)]
             (
-                address: "${opts.rmpc.config.address or "127.0.0.1:6600"}",
+                address: "${
+                  opts.rmpc.config.address
+                    or "${config.services.mpd.network.listenAddress}:${toString config.services.mpd.network.port}"
+                }",
                 password: ${opts.rmpc.config.password or "None"},
                 cache_dir: None,
                 ${lib.optionalString hasDesktop "on_song_change: [\"${./scripts/notify.sh}\"],"}

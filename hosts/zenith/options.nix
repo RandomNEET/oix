@@ -181,24 +181,26 @@ rec {
   systemd.home.user.services.mbsync.Unit.After = [ "sops-nix.service" ];
 
   mpd = {
-    dataDir = "/mnt/hdd1/media/.mpd";
-    startWhenNeeded = true;
-    settings = {
-      music_directory = "/mnt/hdd1/media/music";
-      audio_output = [
-        {
-          type = "pipewire";
-          name = "PipeWire Sound Server";
-        }
-        {
-          type = "fifo";
-          name = "my_fifo";
-          path = "/tmp/mpd.fifo";
-          format = "44100:16:2";
-        }
-      ];
-      auto_update = "yes";
+    network = {
+      listenAddress = "127.0.0.1";
+      port = 6600;
+      startWhenNeeded = true;
     };
+    dataDir = "/mnt/hdd1/media/.mpd";
+    musicDirectory = "/mnt/hdd1/media/music";
+    extraConfig = ''
+      audio_output {
+         type   "pipewire"
+         name   "PipeWire Sound Server"
+      }
+      audio_output {
+         type   "fifo"
+         name   "my_fifo"
+         path   "/tmp/mpd.fifo"
+         format "44100:16:2"
+      }
+      auto_update "yes"
+    '';
   };
 
   flatpak = {
