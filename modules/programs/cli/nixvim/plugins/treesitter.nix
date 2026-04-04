@@ -46,6 +46,8 @@
         nix
         python
         regex
+        ron
+        rust
         toml
         typescript
         vue
