@@ -19,7 +19,9 @@
         ];
         key = "s";
         action = "<cmd>lua require('flash').jump()<cr>";
-        options.desc = "Flash";
+        options = {
+          desc = "Flash";
+        };
       }
       {
         mode = [
@@ -29,13 +31,17 @@
         ];
         key = "S";
         action = "<cmd>lua require('flash').treesitter()<cr>";
-        options.desc = "Flash Treesitter";
+        options = {
+          desc = "Flash Treesitter";
+        };
       }
       {
         mode = "o";
         key = "r";
         action = "<cmd>lua require('flash').remote()<cr>";
-        options.desc = "Remote Flash";
+        options = {
+          desc = "Remote Flash";
+        };
       }
       {
         mode = [
@@ -44,13 +50,17 @@
         ];
         key = "R";
         action = "<cmd>lua require('flash').treesitter_search()<cr>";
-        options.desc = "Treesitter Search";
+        options = {
+          desc = "Treesitter Search";
+        };
       }
       {
         mode = "c";
         key = "<c-s>";
         action = "<cmd>lua require('flash').toggle()<cr>";
-        options.desc = "Toggle Flash Search";
+        options = {
+          desc = "Toggle Flash Search";
+        };
       }
 
       # Simulate nvim-treesitter incremental selection
@@ -71,7 +81,9 @@
             }) 
           end
         '';
-        options.desc = "Treesitter Incremental Selection";
+        options = {
+          desc = "Treesitter Incremental Selection";
+        };
       }
     ];
   };

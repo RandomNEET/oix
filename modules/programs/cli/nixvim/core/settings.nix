@@ -12,16 +12,16 @@ in
   programs.nixvim = {
     opts = {
       # UI
-      fillchars = "eob: ";
       number = true;
       relativenumber = true;
       termguicolors = true;
+      cursorline = true;
+      scrolloff = 8;
+      fillchars = "eob: ";
 
-      # Search
-      hlsearch = true;
-      ignorecase = true;
-      incsearch = true;
-      smartcase = true;
+      # Layout
+      splitbelow = true;
+      splitright = true;
 
       # Indent
       expandtab = true;
@@ -34,12 +34,11 @@ in
       wildmenu = true;
       wildmode = "longest:full,full";
 
-      # Layout
-      splitbelow = true;
-      splitright = true;
-
-      # Fold
-      foldlevel = 99;
+      # Search
+      hlsearch = true;
+      ignorecase = true;
+      incsearch = true;
+      smartcase = true;
 
       # Diff
       diffopt = [
@@ -49,6 +48,14 @@ in
         "indent-heuristic"
         "linematch:60"
       ];
+
+      # Fold
+      foldlevel = 99;
+
+      # Undo
+      undofile = true;
+      undolevels = 10000;
+      undoreload = 10000;
     };
 
     diagnostic = {

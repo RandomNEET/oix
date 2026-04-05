@@ -16,6 +16,7 @@
         diagnostic = {
           "<leader>k" = "goto_prev";
           "<leader>j" = "goto_next";
+          "<leader>cd" = "open_float";
         };
         lspBuf = {
           K = "hover";
