@@ -231,16 +231,16 @@ in
                 ]
                 ++ optional osConfig.services.dae.enable {
                   id = "CustomButton";
-                  onClicked = "systemctl is-active --quiet dae.service && pkexec systemctl stop dae.service || pkexec systemctl start dae.service";
-                  generalTooltipText = "Proxy";
+                  generalTooltipText = "Dae";
+                  onClicked = "sh -c 'if systemctl is-active --quiet dae.service; then pkexec systemctl stop dae.service; else pkexec systemctl start dae.service; fi'";
                   icon = "shield-cancel";
                   enableOnStateLogic = true;
                   stateChecksJson = "[{\"command\":\"pgrep -x dae > /dev/null\",\"icon\":\"shield-check\"}]";
                 }
                 ++ optional osConfig.services.xray.enable {
                   id = "CustomButton";
-                  onClicked = "systemctl is-active --quiet xray.service && pkexec systemctl stop xray.service || pkexec systemctl start xray.service";
-                  generalTooltipText = "Proxy";
+                  generalTooltipText = "Xray";
+                  onClicked = "sh -c 'if systemctl is-active --quiet xray.service; then pkexec systemctl stop xray.service; else pkexec systemctl start xray.service; fi'";
                   icon = "shield-cancel";
                   enableOnStateLogic = true;
                   stateChecksJson = "[{\"command\":\"pgrep -x xray > /dev/null\",\"icon\":\"shield-check\"}]";
