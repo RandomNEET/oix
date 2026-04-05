@@ -1,15 +1,11 @@
 {
   config,
   pkgs,
-  opts,
   global,
   DOCUMENTS,
   DOWNLOADS,
   ...
 }:
-let
-  username = opts.users.primary.name;
-in
 pkgs.writeText "firejail-aerc-profile" ''
   # Firejail profile for aerc
   # Description: A pretty good email client that runs in your terminal
@@ -26,6 +22,8 @@ pkgs.writeText "firejail-aerc-profile" ''
   noblacklist ''${HOME}/.config/bat
   noblacklist ''${HOME}/.config/msmtp
   noblacklist ''${HOME}/.config/isyncrc
+  noblacklist ''${HOME}/.config/kitty
+  noblacklist ''${HOME}/.config/foot
   noblacklist ''${HOME}/.local/state/aerc
   noblacklist ''${HOME}/.elinks
   noblacklist ''${HOME}/.emacs
@@ -61,7 +59,7 @@ pkgs.writeText "firejail-aerc-profile" ''
   include disable-x11.inc
   include disable-xdg.inc
 
-  #mkdir ''${HOME}/.config/aerc
+  mkdir ''${HOME}/.config/aerc
   mkdir ''${HOME}/.local/state/aerc
   whitelist ${DOCUMENTS}
   whitelist ${DOWNLOADS}
@@ -73,6 +71,8 @@ pkgs.writeText "firejail-aerc-profile" ''
   whitelist ''${HOME}/.config/bat
   whitelist ''${HOME}/.config/msmtp
   whitelist ''${HOME}/.config/isyncrc
+  whitelist ''${HOME}/.config/kitty
+  whitelist ''${HOME}/.config/foot
   whitelist ''${HOME}/.local/state/aerc
   whitelist ''${HOME}/.elinks
   whitelist ''${HOME}/.emacs
@@ -124,8 +124,7 @@ pkgs.writeText "firejail-aerc-profile" ''
   #disable-mnt
   private-cache
   private-dev
-  private-etc @tls-ca,@x11,gnupg,host.conf,mail,mailname,msmtprc,nntpserver,profiles/per-user/${username}/bin/nvim,profiles/per-user/howl/bin/foot,profiles/per-user/${username}/bin/qutebrowser,profiles/per-user/${username}/bin/firefox,profiles/per-user/${username}/bin/swayimg,profiles/per-user/${username}/bin/mbsync,profiles/per-user/${username}/bin/zathura,profiles/per-user/${username}/bin/thunderbird
-  #private-tmp # to open in browser
+  private-etc @tls-ca,@x11,gnupg,host.conf,mail,mailname,msmtprc,nntpserver
 
   dbus-user none
   dbus-system none

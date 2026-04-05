@@ -3,6 +3,9 @@
   home-manager.sharedModules = [
     (
       { config, ... }:
+      let
+        isNvimEnabled = config.programs ? nixvim && config.programs.nixvim.enable;
+      in
       {
         programs.git = {
           enable = true;
@@ -16,13 +19,11 @@
             diff = {
               algorithm = "histogram";
               colorMoved = "plain";
-              tool = lib.mkIf (config.programs ? nixvim && config.programs.nixvim.enable) "nvim";
+              tool = lib.mkIf isNvimEnabled "nvim";
             };
             difftool = {
               prompt = false;
-              nvim.cmd = lib.mkIf (
-                config.programs ? nixvim && config.programs.nixvim.enable
-              ) ''nvim -c "packadd nvim.difftool" -c "nnoremap q ZQ" -c "DiffTool $LOCAL $REMOTE"'';
+              nvim.cmd = lib.mkIf isNvimEnabled ''nvim -c "packadd nvim.difftool" -c "nnoremap q ZQ" -c "DiffTool $LOCAL $REMOTE"'';
             };
             merge.conflictstyle = "zdiff3";
 

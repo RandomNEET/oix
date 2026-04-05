@@ -9,25 +9,34 @@
 }:
 let
   local = pkgs.writeText "firejail-qutebrowser-local" ''
-    noblacklist ''${HOME}/repo
-    whitelist ''${HOME}/repo
+    # config
+    noblacklist ''${HOME}/.config/nvim
+    noblacklist ''${HOME}/.config/kitty
+    noblacklist ''${HOME}/.config/foot
+    whitelist ''${HOME}/.config/nvim
+    whitelist ''${HOME}/.config/kitty
+    whitelist ''${HOME}/.config/foot
 
     # localtime
     env TZ=${opts.timezone}
 
-    # launch terminal
+    # terminal
     noblacklist ''${PATH}/foot
     noblacklist ''${PATH}/footclient
     noblacklist ''${PATH}/kitty
 
-    # for wl-clipboard in vim
+    # wl-clipboard dependency
     whitelist /run/current-system/sw/bin/cat
 
     # hardware acceleration
     # private-etc egl # 2026.04.02: unable to launch qutebrowser with nvidia gpu
 
-    # for other programs to open html
+    # let other programs to open html
     ignore private-tmp
+
+    # xdg-open
+    ignore noroot
+    dbus-user.talk org.freedesktop.portal.Desktop
 
     # idle inhibit
     dbus-user.talk org.freedesktop.ScreenSaver

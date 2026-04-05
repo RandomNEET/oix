@@ -44,6 +44,8 @@ let
       else
         "${config.home.homeDirectory}/Videos";
     global = pkgs.writeText "firejail-global-profile" ''
+      blacklist /nix/persist
+      blacklist /nix/var
       blacklist ''${HOME}/.vault
     '';
   };

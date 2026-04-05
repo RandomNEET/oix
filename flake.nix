@@ -27,7 +27,7 @@
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
 
     niri = {
       url = "github:sodiboo/niri-flake";
@@ -46,7 +46,7 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-flatpak.url = "github:gmodena/nix-flatpak?ref=latest";
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

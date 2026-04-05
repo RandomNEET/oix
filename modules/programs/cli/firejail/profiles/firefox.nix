@@ -6,11 +6,7 @@
 }:
 let
   firefox-common-profile = import ./firefox-common.nix { inherit pkgs global DOWNLOADS; };
-  local = pkgs.writeText "firejail-firefox-local" ''
-    # custom directory
-    noblacklist ''${HOME}/repo
-    whitelist ''${HOME}/repo
-  '';
+  local = pkgs.writeText "firejail-firefox-local" "";
 in
 pkgs.writeText "firejail-firefox-profile" ''
   # Firejail profile for firefox

@@ -51,10 +51,9 @@ in
           highlight article "https?://[^ ]+" color4 default
           highlight article "\[[0-9]+\]" color6 default bold
         '';
-        browser = opts.browser or "${pkgs.xdg-utils}/bin/xdg-open";
+        browser = lib.mkIf (opts ? browser) "${lib.getExe pkgs.${opts.browser}}";
         queries = { } // (opts.newsboat.queries or { });
         urls = [ ] ++ (opts.newsboat.urls or [ ]);
-
       };
       home.file = lib.mkIf hasDesktop {
         ".local/share/applications/newsboat.desktop".text = ''

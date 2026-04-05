@@ -6,11 +6,7 @@
 }:
 let
   chromium-common-profile = import ./chromium-common.nix { inherit pkgs global DOWNLOADS; };
-  local = pkgs.writeText "firejail-chromium-local" ''
-    # custom directory
-    noblacklist ''${HOME}/repo
-    whitelist ''${HOME}/repo
-  '';
+  local = pkgs.writeText "firejail-chromium-local" "";
 in
 pkgs.writeText "firejail-chromium-profile" ''
   # Firejail profile for chromium

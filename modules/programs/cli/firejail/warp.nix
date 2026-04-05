@@ -150,6 +150,5 @@ in
       text = warpCmd name;
     });
     sessionPath = [ "$HOME/.local/bin" ];
-    packages = with pkgs; [ firejail ];
   };
 }

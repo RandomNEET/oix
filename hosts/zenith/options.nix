@@ -172,7 +172,7 @@ rec {
     configFile = "/run/secrets/mbsync";
     mailDir = "/home/${users.primary.name}/${email.maildirBasePath}";
     countFile = "${mbsync.service.mailDir}/.new";
-    triggerFile = "${mbsync.service.mailDir}/.trigger";
+    trigger.enable = true; # whether to enable mbsync-trigger service
   };
   sops.secrets.mbsync = {
     sopsFile = ./secrets.yaml;
@@ -364,8 +364,7 @@ rec {
           default = "Inbox";
           folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
           check-mail = "5m";
-          check-mail-cmd = "mbsync ${email.primary.name}";
-          check-mail-timeout = "30s";
+          check-mail-cmd = "touch /home/${users.primary.name}/${email.maildirBasePath}/.trigger && sleep 1";
         };
       };
 

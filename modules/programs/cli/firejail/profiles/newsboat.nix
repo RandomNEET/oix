@@ -1,11 +1,5 @@
-{
-  pkgs,
-  opts,
-  global,
-  ...
-}:
+{ pkgs, global, ... }:
 let
-  username = opts.users.primary.name;
   local = pkgs.writeText "firejail-newsboat-local" ''
     ignore mkdir ''${HOME}/.newsboat
 
@@ -17,7 +11,6 @@ let
     whitelist ''${RUNUSER}/*firefox*
     whitelist ''${RUNUSER}/psd/*firefox*
     protocol unix
-    private-etc profiles/per-user/${username}/bin/qutebrowser,profiles/per-user/${username}/bin/firefox
   '';
 in
 pkgs.writeText "firejail-newsboat-profile" ''

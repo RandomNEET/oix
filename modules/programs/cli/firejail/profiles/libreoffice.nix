@@ -1,13 +1,11 @@
 {
   pkgs,
-  opts,
   global,
   DOCUMENTS,
   DOWNLOADS,
   ...
 }:
 let
-  username = opts.users.primary.name;
   local = pkgs.writeText "firejail-libreoffice-local" ''
     noblacklist ${DOCUMENTS}
     noblacklist ${DOWNLOADS}
@@ -16,7 +14,6 @@ let
     noblacklist ''${HOME}/.config/dconf
     noblacklist ''${HOME}/.config/gtk-3.0
     noblacklist ''${HOME}/.config/gtk-4.0
-    private-etc profiles/per-user/${username}/share/themes
     dbus-user filter
     dbus-user.talk org.freedesktop.portal.Desktop
   '';

@@ -35,26 +35,31 @@ in
   };
   editor = {
     command =
-      # auto generate command based on options.nix
-      if ((opts ? terminal) && (opts ? editor) && (opts.editor == "nvim")) then
-        if config.programs.nixvim.enable then
-          [
-            "${pkgs.${opts.terminal}}/bin/${opts.terminal}"
-            "-e"
-            "${config.programs.nixvim.build.package}/bin/nvim"
-            "--cmd"
-            "set clipboard=unnamedplus | syntax on | nnoremap q ZQ"
-            "{file}"
-          ]
-        else
-          [
-            "${pkgs.${opts.terminal}}/bin/${opts.terminal}"
-            "-e"
-            "${pkgs.neovim}/bin/nvim"
-            "--cmd"
-            "set clipboard=unnamedplus | syntax on | nnoremap q ZQ"
-            "{file}"
-          ]
+      if ((opts ? terminal) && (opts ? editor)) then
+        lib.flatten [
+          (if opts.terminal == "foot" then "${pkgs.foot}/bin/foot" else lib.getExe pkgs.${opts.terminal})
+          "-e"
+          (
+            if opts.editor == "nvim" then
+              [
+                (
+                  if config.programs.nixvim.enable then
+                    "${config.programs.nixvim.build.package}/bin/nvim"
+                  else
+                    lib.getExe pkgs.neovim
+                )
+                "--cmd"
+                "nnoremap q ZQ"
+              ]
+            else
+              [
+                (lib.getExe pkgs.${opts.editor})
+                "--cmd"
+                "nnoremap q ZQ"
+              ]
+          )
+          "{file}"
+        ]
       else
         [
           "gvim"

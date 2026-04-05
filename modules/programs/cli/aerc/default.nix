@@ -48,16 +48,28 @@ in
             openers =
               { }
               // optionalAttrs hasDesktop { use-terminal-pinentry = "true"; }
-              // optionalAttrs hasDesktop { "x-scheme-handler/http*" = "xdg-open {}"; }
               // optionalAttrs ((opts ? terminal) && (opts ? editor)) {
-                "text/plain" = "${opts.terminal} -e ${opts.editor} {}";
+                "text/plain" = "${
+                  if opts.terminal == "foot" then "${pkgs.foot}/bin/foot" else getExe pkgs.${opts.terminal}
+                } -e ${
+                  if opts.editor == "nvim" then
+                    if (config.programs ? nixvim && config.programs.nixvim.enable) then
+                      "${config.programs.nixvim.build.package}/bin/nvim"
+                    else
+                      getExe pkgs.neovim
+                  else
+                    getExe pkgs.neovim
+                } -c 'nnoremap q ZQ' {}";
               }
               // optionalAttrs (opts ? browser) {
-                "text/html" = "${opts.browser} {}";
+                "x-scheme-handler/http*" = "${getExe pkgs.${opts.browser}} {}";
               }
-              // optionalAttrs config.programs.swayimg.enable { "image/*" = "swayimg {}"; }
-              // optionalAttrs config.programs.zathura.enable { "application/pdf" = "zathura {}"; }
-              // optionalAttrs config.programs.thunderbird.enable { "message/rfc822" = "thunderbird"; };
+              // optionalAttrs (opts ? browser) { "text/html" = "${getExe pkgs.${opts.browser}} {}"; }
+              // optionalAttrs config.programs.swayimg.enable { "image/*" = "${getExe pkgs.swayimg} {}"; }
+              // optionalAttrs config.programs.zathura.enable { "application/pdf" = "${getExe pkgs.zathura} {}"; }
+              // optionalAttrs config.programs.thunderbird.enable {
+                "message/rfc822" = "${getExe pkgs.thunderbird}";
+              };
             hooks =
               { }
               // optionalAttrs (config.services.mbsync.enable && (opts.mbsync.service.notify.enable or false)) {
