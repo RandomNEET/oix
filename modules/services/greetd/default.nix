@@ -1,12 +1,6 @@
-{
-  config,
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
+{ config, pkgs, ... }:
 let
-  hasDesktop = opts ? desktop;
+  hasDesktop = config.desktop.enable;
   tuigreetPrefix = "tuigreet --time --theme 'border=lightblue;text=white;prompt=lightcyan;time=lightyellow;action=white;button=lightred;container=black;input=white' --sessions /etc/greetd/sessions --cmd";
 in
 {
@@ -17,9 +11,9 @@ in
       default_session = {
         command = "${tuigreetPrefix} ${
           if hasDesktop then
-            if (lib.strings.hasInfix "hyprland" opts.desktop) then
+            if config.desktop.hyprland.primary then
               "'systemd-cat -t hyprland start-hyprland'"
-            else if (lib.strings.hasInfix "niri" opts.desktop) then
+            else if config.desktop.niri.primary then
               "'systemd-cat -t niri niri-session'"
             else if config.programs.zsh.enable then
               "zsh"
@@ -32,8 +26,7 @@ in
         }";
         user = "greeter";
       };
-    }
-    // (opts.greetd.settings or { });
+    };
   };
   environment.systemPackages = with pkgs; [ tuigreet ];
   imports = [ ./sessions.nix ];

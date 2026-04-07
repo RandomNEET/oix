@@ -1,0 +1,1 @@
+[ { sh = "noctalia-shell"; } ]

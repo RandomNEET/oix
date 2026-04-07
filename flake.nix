@@ -4,7 +4,6 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-25.11";
     nur.url = "github:nix-community/NUR";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,6 +12,7 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -72,38 +72,51 @@
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
 
-      isExt = name: nixpkgs.lib.hasPrefix "ext" name;
-      isWsl = name: nixpkgs.lib.hasPrefix "wsl" name;
-
-      getOptions =
-        name:
+      getMeta = hostname: import (./hosts + "/${hostname}/meta.nix");
+      getHosts = builtins.filter (
+        hostname:
         let
-          hostPath = ./hosts + "/${name}";
-        in
-        import (hostPath + "/options.nix") {
-          inherit outputs;
-          lib = nixpkgs.lib;
-        };
-
-      hosts = builtins.filter (
-        name:
-        let
-          hostPath = ./hosts + "/${name}";
+          hostPath = ./hosts + "/${hostname}";
           hasBase =
-            builtins.pathExists (hostPath + "/default.nix") && builtins.pathExists (hostPath + "/options.nix");
-          hasHardware = builtins.pathExists (hostPath + "/hardware-configuration.nix");
+            builtins.pathExists (hostPath + "/imports.nix") && builtins.pathExists (hostPath + "/meta.nix");
         in
-        (builtins.readDir ./hosts).${name} == "directory"
-        && hasBase
-        && (hasHardware || isWsl name || isExt name)
+        (builtins.readDir ./hosts).${hostname} == "directory" && hasBase
       ) (builtins.attrNames (builtins.readDir ./hosts));
+      getUsers =
+        hostPath:
+        let
+          usersDir = hostPath + "/users";
+        in
+        if builtins.pathExists usersDir then
+          builtins.filter (
+            username:
+            let
+              userPath = usersDir + "/${username}";
+              hasBase = builtins.pathExists (userPath + "/imports.nix");
+            in
+            (builtins.readDir usersDir).${username} == "directory" && hasBase
+          ) (builtins.attrNames (builtins.readDir usersDir))
+        else
+          [ ];
+      getHomes = nixpkgs.lib.concatLists (
+        map (
+          hostname:
+          let
+            hostPath = ./hosts + "/${hostname}";
+            users = getUsers hostPath;
+          in
+          map (username: { inherit hostname username; }) users
+        ) getHosts
+      );
 
       mkHost =
-        name:
+        hostname:
         let
-          host = ./hosts + "/${name}";
-          opts = getOptions name;
-          isStable = (opts.channel or "unstable") == "stable";
+          hostPath = ./hosts + "/${hostname}";
+          baseMeta = (getMeta hostname) // {
+            inherit hostname;
+          };
+          isStable = baseMeta.channel == "stable";
           channel = if isStable then nixpkgs-stable else nixpkgs;
           lib = channel.lib;
           mylib = import ./lib { inherit lib; };
@@ -112,111 +125,109 @@
               home-manager-stable.nixosModules.home-manager
             else
               home-manager.nixosModules.home-manager;
+          hostUsers = getUsers hostPath;
         in
         {
-          inherit name;
+          name = hostname;
           value = lib.nixosSystem {
-            system = opts.system;
+            system = baseMeta.system;
             specialArgs = {
               inherit
                 inputs
                 outputs
                 mylib
-                opts
                 ;
-              hostname = name;
-              isExt = isExt name;
-              isWsl = isWsl name;
+              meta = baseMeta;
             };
             modules = [
-              host
+              (hostPath + "/imports.nix")
               hmModule
               {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
                 home-manager.extraSpecialArgs = {
                   inherit
                     inputs
                     outputs
                     mylib
-                    opts
                     ;
-                  hostname = name;
-                  isExt = isExt name;
-                  isWsl = isWsl name;
+                };
+                home-manager.users = lib.genAttrs hostUsers (username: {
+                  imports = [
+                    (hostPath + "/users/${username}/imports.nix")
+                  ]
+                  ++ lib.optionals (builtins.pathExists (hostPath + "/users/${username}/options.nix")) [
+                    (hostPath + "/users/${username}/options.nix")
+                  ];
+                  home = {
+                    username = username;
+                    homeDirectory = "/home/${username}";
+                    stateVersion = baseMeta.stateVersion;
+                  };
+                  programs.home-manager.enable = true;
+                  _module.args.meta = baseMeta // {
+                    inherit username;
+                  };
+                });
+                system.stateVersion = baseMeta.stateVersion;
+              }
+              {
+                nixpkgs = {
+                  overlays = import ./overlays { inherit inputs; };
+                  config.allowUnfree = true;
                 };
               }
-              { nixpkgs.overlays = import ./overlays { inherit inputs; }; }
             ]
-            ++ lib.optionals (builtins.pathExists (host + "/hardware-configuration.nix")) [
-              (host + "/hardware-configuration.nix")
+            ++ lib.optionals (builtins.pathExists (hostPath + "/options.nix")) [ (hostPath + "/options.nix") ]
+            ++ lib.optionals (builtins.pathExists (hostPath + "/hardware-configuration.nix")) [
+              (hostPath + "/hardware-configuration.nix")
             ];
           };
         };
 
       mkHome =
-        name:
+        { hostname, username }:
         let
-          nixosConfig = self.nixosConfigurations.${name} or null;
-          opts = getOptions name;
-          isStable = (opts.channel or "unstable") == "stable";
+          hostPath = ./hosts + "/${hostname}";
+          userPath = hostPath + "/users/${username}";
+          meta = (getMeta hostname) // {
+            inherit hostname username;
+          };
+          isStable = meta.channel == "stable";
           channel = if isStable then nixpkgs-stable else nixpkgs;
           lib = channel.lib;
           mylib = import ./lib { inherit lib; };
-          hmLib = if isStable then inputs.home-manager-stable.lib else inputs.home-manager.lib;
-          hmModule =
-            if isStable then
-              home-manager-stable.nixosModules.home-manager
-            else
-              home-manager.nixosModules.home-manager;
+          pkgs = import channel {
+            inherit (meta) system;
+            overlays = import ./overlays { inherit inputs; };
+          };
+          hmLib = if isStable then home-manager-stable.lib else home-manager.lib;
+          nixosConfig = outputs.nixosConfigurations.${hostname} or null;
+          osConfig = if nixosConfig != null then nixosConfig.config else null;
         in
         {
-          inherit name;
+          name = "${username}-${hostname}";
           value = hmLib.homeManagerConfiguration {
-            pkgs =
-              if nixosConfig != null then
-                nixosConfig.pkgs
-              else
-                import channel {
-                  system = opts.system;
-                  config.allowUnfree = true;
-                  overlays = import ./overlays { inherit inputs; };
-                };
+            inherit pkgs;
             extraSpecialArgs = {
-              osConfig = if nixosConfig != null then nixosConfig.config else (opts.osConfig or { });
               inherit
                 inputs
                 outputs
+                meta
                 mylib
-                opts
+                osConfig
                 ;
-              hostname = name;
-              isExt = isExt name;
-              isWsl = isWsl name;
             };
-            modules =
-              if nixosConfig != null then
-                nixosConfig.config.home-manager.sharedModules
-              else
-                (lib.nixosSystem {
-                  inherit (opts) system;
-                  specialArgs = {
-                    inherit
-                      inputs
-                      outputs
-                      mylib
-                      opts
-                      ;
-                    hostname = name;
-                    isWsl = isWsl name;
-                    isExt = isExt name;
-                  };
-                  modules = [
-                    (./hosts + "/${name}")
-                    hmModule
-                    { nixpkgs.config.allowUnfree = true; }
-                  ];
-                }).config.home-manager.sharedModules;
+            modules = [
+              (userPath + "/imports.nix")
+              {
+                home = {
+                  inherit username;
+                  homeDirectory = "/home/${username}";
+                  stateVersion = meta.stateVersion;
+                };
+                programs.home-manager.enable = true;
+              }
+            ]
+            ++ lib.optionals (builtins.pathExists (userPath + "/options.nix")) [ (userPath + "/options.nix") ];
           };
         };
 
@@ -231,8 +242,8 @@
         import ./shells { inherit pkgs; };
     in
     {
-      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkHost (builtins.filter (n: !(isExt n)) hosts));
-      homeConfigurations = nixpkgs.lib.listToAttrs (map mkHome (builtins.filter isExt hosts));
+      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkHost getHosts);
+      homeConfigurations = nixpkgs.lib.listToAttrs (map mkHome getHomes);
       devShells = forAllSystems devShells;
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
     };

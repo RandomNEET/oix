@@ -1,7 +1,7 @@
 { config, lib, ... }:
 {
   environment.etc = lib.mkMerge [
-    (lib.optionalAttrs config.programs.hyprland.enable {
+    (lib.optionalAttrs config.desktop.hyprland.enable {
       "greetd/sessions/hyprland.desktop".text = ''
         [Desktop Entry]
         Name=hyprland
@@ -9,7 +9,7 @@
         Type=Application
       '';
     })
-    (lib.optionalAttrs config.programs.niri.enable {
+    (lib.optionalAttrs config.desktop.niri.enable {
       "greetd/sessions/niri.desktop".text = ''
         [Desktop Entry]
         Name=niri

@@ -1,293 +1,632 @@
-# vim:foldmethod=marker:foldlevel=0
-{ outputs, lib, ... }:
-rec {
-  # System {{{
-  # Base {{{
-  hostname = "voile";
-  system = "x86_64-linux"; # x86_64-linux aarch64-linux
-  flake = "/home/${users.primary.name}/oix"; # flake path
-  channel = "stable"; # nixpkgs channel; unstable or stable
-  # }}}
-
-  # Boot {{{
+{
+  lib,
+  pkgs,
+  meta,
+  ...
+}:
+let
+  username = "howl";
+in
+{
   boot = {
-    kernelPackages = pkgs: with pkgs; linuxPackages; # linuxPackages_(latest|zen|lts|hardened|rt|rt_latest)
+    kernelPackages = pkgs.linuxPackages;
   };
-  # }}}
-
-  # Network {{{
-  firewall = {
-    enable = true;
-    allowedTCPPorts = [
-      5900
-      6600
-      6881
-      7102
-      8000
-      9997
-      9998
-      9999
-      10000
-      10090
-      10100
-      10110
-      10120
-      10200
-      10225
-      10230
-      10240
-      10250
-      10300
-      10310
-      10320
-      10330
-      10340
-      10400
-      10500
-      61208
-    ];
-    allowedUDPPorts = [ 6881 ];
-  };
-
-  xray.settingsFile = "/run/secrets/xray";
-  sops.secrets.xray.sopsFile = ./secrets.yaml;
-  # }}}
-
-  # Users {{{
-  users = {
-    root = {
-      hashedPasswordFile = "/run/secrets-for-users/users/root/password";
-    };
-    primary = rec {
-      # User config
-      name = "howl";
-      hashedPasswordFile = "/run/secrets-for-users/users/${name}/password";
-      isNormalUser = true;
-      uid = 1000;
-      extraGroups = [
-        "wheel"
-        "networkmanager"
-        "libvirtd"
-        "docker"
+  networking = {
+    hostName = meta.hostname;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [
+        5900
+        6600
+        6881
+        7102
+        8000
+        9997
+        9998
+        9999
+        10000
+        10090
+        10100
+        10110
+        10120
+        10200
+        10225
+        10230
+        10240
+        10250
+        10300
+        10310
+        10320
+        10330
+        10340
+        10400
+        10500
+        61208
       ];
-      shell = "zsh";
-      # Home-manager config
-      home-manager = {
-        enable = true; # whether to enable home-manager for this user
-        xdg = {
-          userDirs = {
-            enable = true;
-            desktop = null; # no need for wm
-            documents = "/home/${name}/doc";
-            download = "/home/${name}/dls";
-            music = "/home/${name}/mus";
-            pictures = "/home/${name}/pic";
-            videos = "/home/${name}/vid";
-            templates = "/home/${name}/tpl";
-            publicShare = "/home/${name}/pub";
-          };
-        };
+      allowedUDPPorts = [ 6881 ];
+    };
+  };
+  users = {
+    users = {
+      root = {
+        hashedPasswordFile = "/run/secrets-for-users/users/root/password";
+      };
+      "${username}" = {
+        hashedPasswordFile = "/run/secrets-for-users/users/${username}/password";
+        isNormalUser = true;
+        uid = 1000;
+        extraGroups = [
+          "wheel"
+          "networkmanager"
+          "libvirtd"
+          "docker"
+        ];
+        shell = pkgs.zsh;
       };
     };
-    mutableUsers = false;
   };
-  sops.secrets = {
-    "users/root/password" = {
-      sopsFile = ./secrets.yaml;
-      neededForUsers = true;
+  environment = {
+    systemPackages = with pkgs; [ ntfs3g ];
+  };
+  services = {
+    openssh = {
+      authorizedKeysFiles = [ "/run/secrets/ssh/${username}@${meta.hostname}" ];
     };
-    "users/${users.primary.name}/password" = {
-      sopsFile = ./secrets.yaml;
-      neededForUsers = true;
-    };
-  };
-
-  # Define default programs
-  editor = "nvim";
-  fileManager = "yazi";
-  # }}}
-
-  # Packages {{{
-  packages =
-    pkgs: with pkgs; {
-      home = [
-        mediainfo
-        flac
-
-        qq
-
-        lolcat
-        figlet
-        fortune
-        cowsay
-        asciiquarium-transparent
-        cbonsai
-        cmatrix
-        pipes
-        tty-clock
-      ];
-    };
-  # }}}
-
-  # Misc {{{
-  locale = "en_US.UTF-8";
-  timezone = "Asia/Shanghai";
-  kbdLayout = "us";
-  consoleKeymap = "us";
-  # }}}
-  # }}}
-
-  # Hardware {{{
-  gpu = "nvidia"; # available: amd nvidia intel-intergrated
-  # }}}
-
-  # Services {{{
-  openssh = {
-    ports = [ 22 ];
-    authorizedKeysFiles = [ "/run/secrets/ssh/${users.primary.name}@${hostname}" ];
-  };
-  sops.secrets."ssh/${users.primary.name}@${hostname}" = {
-    sopsFile = ./secrets.yaml;
-    owner = users.primary.name;
-  };
-
-  systemd.system.services = {
     xray = {
-      after = [
-        "sops-nix.service"
-        "docker.service"
-      ];
+      settingsFile = "/run/secrets/xray";
     };
-    docker = {
-      serviceConfig = {
-        Environment = [
-          "http_proxy=http://127.0.0.1:9998"
-          "https_proxy=http://127.0.0.1:9998"
+    calibre-web = {
+      enable = true;
+      openFirewall = true;
+      listen = {
+        ip = "0.0.0.0";
+        port = 10100;
+      };
+      options = {
+        calibreLibrary = "/mnt/smb/media/library";
+        enableBookUploading = true;
+        enableBookConversion = true;
+        enableKepubify = true;
+      };
+    };
+    freshrss = {
+      enable = true;
+      webserver = "nginx";
+      virtualHost = "freshrss";
+      baseUrl = "https://freshrss.scaphium.xyz";
+      defaultUser = username;
+      passwordFile = "/run/secrets/freshrss";
+    };
+    frp = {
+      enable = true;
+      role = "client";
+      settings = {
+        serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
+        serverPort = 20000;
+        auth.token = "{{.Envs.FRP_TOKEN}}";
+        transport.tls.certFile = "/run/secrets/frp/cert";
+        transport.tls.keyFile = "/run/secrets/frp/key";
+        transport.tls.trustedCaFile = "/run/secrets/frp/ca";
+        includes = [ "/run/secrets/frp/proxies" ];
+      };
+    };
+    glances = {
+      enable = true;
+      openFirewall = true;
+      port = 61208;
+      extraArgs = [ "--webserver" ];
+    };
+    homepage-dashboard = {
+      enable = true;
+      openFirewall = true;
+      listenPort = 10000;
+      allowedHosts = "homepage.scaphium.xyz";
+      settings = {
+        layout = [
+          {
+            "Media" = {
+              style = "row";
+              columns = 4;
+            };
+          }
+          {
+            "Downloads" = {
+              style = "column";
+              columns = 4;
+            };
+          }
+          {
+            "Games" = {
+              style = "column";
+              columns = 4;
+            };
+          }
+          {
+            "Utilities" = {
+              style = "column";
+              columns = 4;
+            };
+          }
+          {
+            "Status" = {
+              style = "row";
+              columns = 3;
+            };
+          }
+        ];
+        useEqualHeights = true;
+        cardBlur = "sm"; # sm, "", md, etc...
+        background = {
+          image = "https://gruvbox-wallpapers.pages.dev/wallpapers/anime/sushi.jpg";
+          # blur = "sm"; # sm, "", md, xl...
+          saturate = 50;
+          brightness = 50;
+          opacity = 80;
+        };
+        headerStyle = "underlined";
+        hideVersion = true;
+        theme = "dark";
+        title = "Homepage";
+        language = "en";
+        quicklaunch = {
+          searchDescriptions = true;
+          hideInternetSearch = true;
+          showSearchSuggestions = true;
+          hideVisitURL = true;
+          provider = "duckduckgo";
+        };
+      };
+      services = [
+        {
+          "Media" = [
+            {
+              "Jellyfin" = {
+                href = "http://{{HOMEPAGE_VAR_ADDR}}:8096/";
+                widget = {
+                  type = "jellyfin";
+                  url = "http://127.0.0.1:8096";
+                  key = "{{HOMEPAGE_VAR_JELLYFIN_KEY}}";
+                  enableBlocks = true;
+                  enableNowPlaying = false;
+                  enableUser = true;
+                  showEpisodeNumber = true;
+                  expandOneStreamToTwoRows = false;
+                };
+                icon = "jellyfin";
+              };
+            }
+            {
+              "Calibre" = {
+                href = "https://calibre.scaphium.xyz/";
+                widget = {
+                  type = "calibreweb";
+                  url = "http://127.0.0.1:10100";
+                  username = "{{HOMEPAGE_VAR_CALIBRE_USERNAME}}";
+                  password = "{{HOMEPAGE_VAR_CALIBRE_PASSWORD}}";
+                };
+                icon = "calibre";
+              };
+            }
+            {
+              "FreshRSS" = {
+                href = "https://freshrss.scaphium.xyz/";
+                widget = {
+                  type = "freshrss";
+                  url = "http://127.0.0.1:10110";
+                  username = "{{HOMEPAGE_VAR_FRESHRSS_USERNAME}}";
+                  password = "{{HOMEPAGE_VAR_FRESHRSS_PASSWORD}}";
+                };
+                icon = "freshrss";
+              };
+            }
+            {
+              "Spotify" = {
+                href = "https://myspotify.scaphium.xyz/";
+                widget = {
+                  type = "yourspotify";
+                  url = "https://spotifyapi.scaphium.xyz/";
+                  key = "{{HOMEPAGE_VAR_SPOTIFY_KEY}}";
+                  interval = "week";
+                };
+                icon = "spotify";
+              };
+            }
+          ];
+        }
+        {
+          "Downloads" = [
+            {
+              "qBittorrent" = {
+                href = "https://qBittorrent.scaphium.xyz/";
+                icon = "qbittorrent";
+                widget = {
+                  type = "qbittorrent";
+                  url = "http://127.0.0.1:10200";
+                  username = "{{HOMEPAGE_VAR_QBITTORRENT_USERNAME}}";
+                  password = "{{HOMEPAGE_VAR_QBITTORRENT_PASSWORD}}";
+                };
+              };
+            }
+            {
+              "PeerBanHelper" = {
+                href = "https://peerbanhelper.scaphium.xyz/";
+                icon = "https://peerbanhelper.scaphium.xyz/favicon.ico";
+              };
+            }
+            {
+              "ANI-RSS" = {
+                href = "https://anirss.scaphium.xyz/";
+                icon = "https://anirss.scaphium.xyz/favicon.ico";
+              };
+            }
+          ];
+        }
+        {
+          "Utilities" = [
+            {
+              "Vaultwarden" = {
+                href = "https://vaultwarden.scaphium.xyz/";
+                icon = "bitwarden";
+              };
+            }
+            {
+              "Linkding" = {
+                href = "https://linkding.scaphium.xyz/";
+                icon = "linkding";
+              };
+            }
+            {
+              "NapcatQQ" = {
+                href = "http://{{HOMEPAGE_VAR_ADDR}}:6099/";
+                icon = "https://raw.githubusercontent.com/NapNeko/NapCatQQ/refs/heads/main/packages/napcat-webui-frontend/public/favicon.ico";
+              };
+            }
+          ];
+        }
+        {
+          "Games" = [
+            {
+              "Minecraft" = {
+                icon = "minecraft";
+                widget = {
+                  type = "minecraft";
+                  url = "{{HOMEPAGE_VAR_MINECRAFT_URL}}";
+                };
+              };
+            }
+          ];
+        }
+        {
+          "Status" = [
+            {
+              "Glances" = {
+                href = "https://glances.scaphium.xyz/";
+                widget = {
+                  type = "glances";
+                  url = "http://127.0.0.1:61208";
+                  version = 4;
+                  metric = "info";
+                };
+              };
+            }
+            {
+              "Speedtest" = {
+                href = "https://speedtest.scaphium.xyz/admin/";
+                widget = {
+                  type = "speedtest";
+                  url = "http://127.0.0.1:10400";
+                  bitratePrecision = 3;
+                };
+              };
+            }
+            {
+              "Watchtower" = {
+                widget = {
+                  type = "watchtower";
+                  url = "http://127.0.0.1:10090";
+                  key = "{{HOMEPAGE_VAR_WATCHATOWER_KEY}}";
+                };
+              };
+            }
+          ];
+        }
+      ];
+      widgets = [
+        {
+          resources = {
+            label = "System";
+            cpu = true;
+            cputemp = true;
+            units = "metric";
+            memory = true;
+            uptime = true;
+          };
+        }
+        {
+          resources = {
+            label = "Storage";
+            disk = [
+              "/"
+              "/mnt/smb"
+              "/mnt/ssd"
+            ];
+          };
+        }
+        {
+          search = {
+            provider = "duckduckgo";
+            target = "_blank";
+          };
+        }
+      ];
+      bookmarks = [
+        {
+          Dev = [
+            {
+              Github = [
+                {
+                  href = "https://github.com/";
+                  icon = "github";
+                }
+              ];
+            }
+            {
+              Copilot = [
+                {
+                  href = "https://copilot.github.com/";
+                  icon = "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-copilot-icon.svg";
+                }
+              ];
+            }
+          ];
+        }
+        {
+          Social = [
+            {
+              Reddit = [
+                {
+                  href = "https://reddit.com/";
+                  icon = "reddit";
+                }
+              ];
+            }
+            {
+              X = [
+                {
+                  href = "https://twitter.com/";
+                  icon = "x";
+                }
+              ];
+            }
+
+          ];
+        }
+        {
+          Watch = [
+            {
+              YouTube = [
+                {
+                  href = "https://youtube.com/";
+                  icon = "youtube";
+                }
+              ];
+            }
+            {
+              bilibili = [
+                {
+                  href = "https://bilibili.com/";
+                  icon = "https://bilibili.com/favicon.ico";
+                }
+              ];
+            }
+          ];
+        }
+      ];
+      environmentFile = "/run/secrets/homepage-dashboard";
+    };
+    jellyfin = {
+      enable = true;
+      openFirewall = true;
+    };
+    nginx = {
+      virtualHosts."freshrss" = {
+        listen = [
+          {
+            addr = "0.0.0.0";
+            port = 10110;
+          }
         ];
       };
     };
-    mpd = {
-      after = [
-        "mnt-smb.mount"
-      ];
-      requires = [
-        "mnt-smb.mount"
-      ];
+    qbittorrent = {
+      enable = true;
+      openFirewall = true;
+      webuiPort = 10200;
+      torrentingPort = 6881;
     };
-    qbot = {
-      description = "NapCat Draw Bot";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "simple";
-        User = "${users.primary.name}";
-        WorkingDirectory = "/home/howl/repo/qbot";
-        ExecStart = "/etc/profiles/per-user/howl/bin/direnv exec /home/howl/repo/qbot python /home/howl/repo/qbot/qbot-listen.py";
-        Restart = "always";
-        RestartSec = "5s";
+    samba = {
+      enable = true;
+      openFirewall = true;
+      settings = {
+        global = {
+          "invalid users" = [
+            "root"
+          ];
+          "passwd program" = "/run/wrappers/bin/passwd %u";
+          security = "user";
+        };
+        private = {
+          browseable = "yes";
+          comment = "Private samba share.";
+          path = "/mnt/smb";
+          "valid users" = [ "${username}" ];
+          "read only" = "no";
+          "writable" = "yes";
+        };
+      };
+    };
+    vaultwarden = {
+      enable = true;
+      config = {
+        ROCKET_ADDRESS = "0.0.0.0";
+        ROCKET_PORT = 10300;
+      };
+      environmentFile = "/run/secrets/vaultwarden";
+    };
+  };
+  systemd = {
+    services = {
+      xray = {
+        after = [
+          "sops-nix.service"
+          "docker.service"
+        ];
+      };
+      docker = {
+        serviceConfig = {
+          Environment = [
+            "http_proxy=http://127.0.0.1:9998"
+            "https_proxy=http://127.0.0.1:9998"
+          ];
+        };
+      };
+      mpd = {
+        after = [
+          "mnt-smb.mount"
+        ];
+        requires = [
+          "mnt-smb.mount"
+        ];
+      };
+      qbot = {
+        description = "NapCat Draw Bot";
+        after = [ "network.target" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "simple";
+          User = "${username}";
+          WorkingDirectory = "/home/howl/repo/qbot";
+          ExecStart = "/etc/profiles/per-user/howl/bin/direnv exec /home/howl/repo/qbot python /home/howl/repo/qbot/qbot-listen.py";
+          Restart = "always";
+          RestartSec = "5s";
+        };
+      };
+      calibre-web = {
+        after = [
+          "mnt-smb.mount"
+        ];
+        requires = [
+          "mnt-smb.mount"
+        ];
+      };
+      freshrss-updater = {
+        serviceConfig = {
+          Environment = [
+            "http_proxy=http://127.0.0.1:9998"
+            "https_proxy=http://127.0.0.1:9998"
+          ];
+        };
+      };
+      frp = {
+        after = [
+          "sops-nix.service"
+        ];
+        serviceConfig = {
+          SupplementaryGroups = [ "keys" ];
+          EnvironmentFile = "/run/secrets/frp/env";
+        };
+      };
+      homepage-dashboard = {
+        wantedBy = [ "multi-user.target" ];
+        after = [
+          "sops-nix.service"
+          "network-online.target"
+        ];
+        wants = [ "network-online.target" ];
+      };
+      jellyfin = {
+        after = [
+          "mnt-smb.mount"
+        ];
+        requires = [
+          "mnt-smb.mount"
+        ];
+        serviceConfig = {
+          Environment = [
+            "http_proxy=http://127.0.0.1:9998"
+            "https_proxy=http://127.0.0.1:9998"
+          ];
+        };
+      };
+      qbittorrent = {
+        after = [
+          "mnt-smb.mount"
+        ];
+        requires = [
+          "mnt-smb.mount"
+        ];
+      };
+      vaultwarden = {
+        after = [
+          "sops-nix.service"
+        ];
       };
     };
   };
-
-  mpd = {
-    network = {
-      listenAddress = "0.0.0.0";
-      startWhenNeeded = true;
-    };
-    dataDir = "/mnt/smb/media/.mpd";
-    musicDirectory = "/mnt/smb/media/music";
-    extraConfig = ''
-      audio_output {
-          type        "httpd"
-          name        "MPD HTTP Stream"
-          encoder     "vorbis"
-          port        "8000"
-          quality     "5.0"
-      }
-    '';
-  };
-
-  tlp = {
-    settings = {
-      START_CHARGE_THRESH_BAT0 = 40;
-      STOP_CHARGE_THRESH_BAT0 = 80;
-      START_CHARGE_THRESH_BAT1 = 40;
-      STOP_CHARGE_THRESH_BAT1 = 80;
-    };
-  };
-  # }}}
-
-  # Programs {{{
-  ssh = {
-    matchBlocks = {
-      zenith = {
-        hostname = "zenith.local";
-        port = 22;
-        user = users.primary.name;
-        identityFile = "/run/secrets/ssh/zenith";
-        addKeysToAgent = "yes";
+  sops = {
+    secrets = {
+      "users/root/password" = {
+        sopsFile = ./secrets.yaml;
+        neededForUsers = true;
       };
-      gale = {
-        hostname = "gale.local";
-        port = 22;
-        user = users.primary.name;
-        identityFile = "/run/secrets/ssh/gale";
-        addKeysToAgent = "yes";
+      "users/${username}/password" = {
+        sopsFile = ./secrets.yaml;
+        neededForUsers = true;
       };
+      "ssh/${username}@${meta.hostname}" = {
+        sopsFile = ./secrets.yaml;
+        owner = username;
+      };
+      xray.sopsFile = ./secrets.yaml;
+      "frp/env" = {
+        sopsFile = ./secrets.yaml;
+        mode = "0440";
+        group = "keys";
+      };
+      "frp/proxies" = {
+        sopsFile = ./secrets.yaml;
+        mode = "0440";
+        group = "keys";
+      };
+      "frp/cert" = {
+        sopsFile = ./secrets.yaml;
+        mode = "0440";
+        group = "keys";
+      };
+      "frp/key" = {
+        sopsFile = ./secrets.yaml;
+        mode = "0440";
+        group = "keys";
+      };
+      "frp/ca" = {
+        sopsFile = ./secrets.yaml;
+        mode = "0440";
+        group = "keys";
+      };
+      vaultwarden = {
+        sopsFile = ./secrets.yaml;
+        owner = "vaultwarden";
+      };
+      freshrss = {
+        sopsFile = ./secrets.yaml;
+        owner = "freshrss";
+      };
+      homepage-dashboard.sopsFile = ./secrets.yaml;
     };
   };
-  sops.secrets = {
-    "ssh/zenith" = {
-      sopsFile = ./secrets.yaml;
-      owner = users.primary.name;
-    };
-    "ssh/gale" = {
-      sopsFile = ./secrets.yaml;
-      owner = users.primary.name;
-    };
+  base = {
+    gpu = "nvidia";
   };
-
-  zsh = {
-    initContent = [
-      (lib.mkOrder 500 ''
-        if [[ -z "$TMUX" ]]; then
-          local host_name=$(hostname)
-          
-          local raw_uptime=$(cat /proc/uptime | awk '{print int($1)}')
-          local days=$((raw_uptime / 86400))
-          local hours=$(( (raw_uptime % 86400) / 3600 ))
-          local mins=$(( (raw_uptime % 3600) / 60 ))
-          local up_time="''${days}d ''${hours}h ''${mins}m"
-
-          local cpu_cores=$(nproc)
-          local load_1=$(awk '{print $1}' /proc/loadavg)
-          local usage_pct=$(printf "%.1f" $(( load_1 * 100.0 / cpu_cores )))
-
-          local mem_total=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
-          local mem_avail=$(awk '/MemAvailable/ {print $2}' /proc/meminfo)
-          local mem_usage=$(( 100 - (mem_avail * 100 / mem_total) ))
-
-          local disk_root=$(df -h / | awk 'NR==2 {print $5}')
-          local disk_smb=$(df -h /mnt/smb | awk 'NR==2 {print $5}')
-
-          local cyan="\e[1;36m"
-          local green="\e[1;32m"
-          local yellow="\e[1;33m"
-          local blue="\e[1;34m"
-          local magenta="\e[1;35m"
-          local reset="\e[0m"
-          local dim="\e[2m"
-
-          echo -e "''${blue}╭──────────────────────────────────────────────────╮''${reset}"
-          echo -e "''${blue}│''${reset}  ''${cyan}󰒄  Host:''${reset} ''${green}''${host_name}''${reset} (Ryzen 7 5800H)"
-          echo -e "''${blue}│''${reset}  ''${cyan}󱎫  Up:''${reset}   ''${yellow}''${up_time}''${reset}"
-          echo -e "''${blue}│''${reset}  ''${cyan}󰓅  Load:''${reset}  ''${green}''${load_1}''${reset} ''${dim}(Usage: ''${usage_pct}% of ''${cpu_cores} cores)''${reset}"
-          echo -e "''${blue}│''${reset}  ''${cyan}󰍛  Mem:''${reset}   ''${magenta}''${mem_usage}%''${reset} ''${dim}used''${reset}"
-          echo -e "''${blue}│''${reset}  ''${cyan}󰋊  Disk:''${reset}  ''${blue}/: ''${disk_root}''${reset} ''${dim}|''${reset} ''${blue}SMB: ''${disk_smb}''${reset}"
-          echo -e "''${blue}╰──────────────────────────────────────────────────╯''${reset}"
-        fi
-      '')
-    ];
-  };
-  # }}}
+  # Force nixpkgs.overlays to null to suppress HM evaluation warnings when useGlobalPkgs is enabled
+  home-manager.sharedModules = [ { nixpkgs.overlays = lib.mkForce null; } ];
 }

@@ -1,11 +1,6 @@
-{
-  lib,
-  pkgs,
-  opts,
-  ...
-}:
+{ config, pkgs, ... }:
 let
-  hasDesktop = opts ? desktop;
+  hasDesktop = config.desktop.enable;
 in
 {
   virtualisation = {
@@ -16,21 +11,6 @@ in
         runAsRoot = true;
         swtpm.enable = true;
       };
-      hooks = lib.mapAttrs (
-        type: scripts:
-        lib.mapAttrs (
-          name: scriptContent:
-          pkgs.writeShellScript name ''
-            export PATH="${
-              lib.makeBinPath [
-                pkgs.util-linux
-                pkgs.coreutils
-              ]
-            }:$PATH"
-            ${scriptContent}
-          ''
-        ) scripts
-      ) (opts.libvirtd.hooks or { });
     };
     spiceUSBRedirection.enable = true;
   };

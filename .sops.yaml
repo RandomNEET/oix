@@ -2,8 +2,11 @@
 keys:
   - &RandomNEET 0xBFA119DF465BFBB1
   - &zenith age1g7g79yts0sgsazsy3e7t8njpaaeczc5mtnm6lxdxmvuh6cdnwu9q9jwj97
-  - &glae age157sewn98hhcgfp92mt4erxkymh4d3vmykj9d9ca9j46n5ksuyu2q34c6kq
+  - &howl-zenith age1j42vr7w92zhedq8fx27k9esftuc0hws6advxdh8sey8vnp0j5v5qxkmerx
+  - &gale age157sewn98hhcgfp92mt4erxkymh4d3vmykj9d9ca9j46n5ksuyu2q34c6kq
+  - &howl-gale age1msljc3422d569cgg6rylmx87w22yqe2ljq6kq5zpstuyd6exss2q0gzjh9
   - &voile age1zeaa40ja0shttzfmug5u4xzmqhyc7vjpdkjt2fafq3zn293xe3xq53h3es
+  - &howl-voile age12y5rnnwk3sphg6hgnyt9dqyzehszk0ehghvjzr4ltft2xvphf4mqstqqqw
 creation_rules:
   - path_regex: hosts/zenith/secrets\.(yaml|json|env|ini)$
     key_groups:
@@ -11,18 +14,36 @@ creation_rules:
           - *RandomNEET
         age:
           - *zenith
-  - path_regex: hosts/glae/secrets\.(yaml|json|env|ini)$
+  - path_regex: hosts/zenith/users/howl/secrets\.(yaml|json|env|ini)$
     key_groups:
       - pgp:
           - *RandomNEET
         age:
-          - *glae
+          - *howl-zenith
+  - path_regex: hosts/gale/secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *RandomNEET
+        age:
+          - *gale
+  - path_regex: hosts/gale/users/howl/secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *RandomNEET
+        age:
+          - *howl-gale
   - path_regex: hosts/voile/secrets\.(yaml|json|env|ini)$
     key_groups:
       - pgp:
           - *RandomNEET
         age:
           - *voile
+  - path_regex: hosts/voile/users/howl/secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *RandomNEET
+        age:
+          - *howl-voile
   - path_regex: hosts/.*secrets\.(yaml|json|env|ini)$
     key_groups:
       - pgp:
