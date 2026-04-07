@@ -1,6 +1,24 @@
 patch:
   schema/name: "拼音-雾凇"
 
+  # 开关
+  switches:
+    - name: ascii_mode
+      states: [中, Ａ]
+    - name: ascii_punct # 中英标点
+      states: [¥, $]
+      reset: 1
+    - name: traditionalization
+      states: [简, 繁]
+    - name: emoji
+      states: [💀, 😄]
+      reset: 0
+    - name: full_shape
+      states: [半角, 全角]
+    - name: search_single_char # search.lua 的功能开关，辅码查词时是否单字优先
+      states: [正常, 单字]
+      abbrev: [词, 单]
+
   # 自定义短语
   custom_phrase:
     dictionary: ""
@@ -39,8 +57,8 @@ patch:
     # - derive/^g/k/
     # - derive/^k/g/
     # 韵母
-    - derive/ang$/an/
-    - derive/an$/ang/
+    # - derive/ang$/an/
+    # - derive/an$/ang/
     - derive/eng$/en/
     - derive/en$/eng/
     - derive/in$/ing/
