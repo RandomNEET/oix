@@ -1,5 +1,10 @@
 { pkgs, ... }:
 {
+  defaultPrograms = {
+    editor = "nvim";
+    fileManager = "yazi";
+  };
+
   home = {
     packages = with pkgs; [
       lolcat
@@ -12,9 +17,5 @@
       pipes
       tty-clock
     ];
-  };
-  defaultPrograms = {
-    editor = "nvim";
-    fileManager = "yazi";
   };
 }

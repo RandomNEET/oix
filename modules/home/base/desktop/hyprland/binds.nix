@@ -18,8 +18,12 @@
       "footclient"
     else
       config.defaultPrograms.terminal;
-  "$fileManager" = ''$terminal --class "fileManager" -e ${config.defaultPrograms.fileManager}'';
-  "$editor" = ''$terminal --class "editor" -e ${config.defaultPrograms.editor}'';
+  "$fileManager" = ''$terminal ${
+    if (config.defaultPrograms.terminal == "foot") then "--app-id" else "--class"
+  } "fileManager" -e ${config.defaultPrograms.fileManager}'';
+  "$editor" = ''$terminal ${
+    if (config.defaultPrograms.terminal == "foot") then "--app-id" else "--class"
+  } "editor" -e ${config.defaultPrograms.editor}'';
   "$browser" = config.defaultPrograms.browser;
 
   bind = [

@@ -1,10 +1,6 @@
+{ config, lib, ... }:
 {
-  config,
-  lib,
-  ...
-}:
-{
-  programs.nixvim = lib.mkIf config.programs.${config.defaultPrograms.browser}.enable {
+  programs.nixvim = lib.mkIf config.desktop.enable {
     plugins.markdown-preview = {
       enable = true;
       lazyLoad = {

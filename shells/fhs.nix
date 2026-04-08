@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 let
   baseUtils = with pkgs; [
     bash

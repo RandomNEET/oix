@@ -71,31 +71,27 @@
         "aarch64-linux"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
+      allowUnfree = true;
 
       getMeta = hostname: import (./hosts + "/${hostname}/meta.nix");
       getHosts = builtins.filter (
         hostname:
         let
           hostPath = ./hosts + "/${hostname}";
-          hasBase =
-            builtins.pathExists (hostPath + "/imports.nix") && builtins.pathExists (hostPath + "/meta.nix");
+          hasBase = builtins.pathExists (hostPath + "/meta.nix");
         in
         (builtins.readDir ./hosts).${hostname} == "directory" && hasBase
       ) (builtins.attrNames (builtins.readDir ./hosts));
       getUsers =
         hostPath:
         let
-          usersDir = hostPath + "/users";
+          usersPath = hostPath + "/users";
         in
-        if builtins.pathExists usersDir then
-          builtins.filter (
-            username:
-            let
-              userPath = usersDir + "/${username}";
-              hasBase = builtins.pathExists (userPath + "/imports.nix");
-            in
-            (builtins.readDir usersDir).${username} == "directory" && hasBase
-          ) (builtins.attrNames (builtins.readDir usersDir))
+        if builtins.pathExists usersPath then
+          let
+            contents = builtins.readDir usersPath;
+          in
+          builtins.filter (username: contents.${username} == "directory") (builtins.attrNames contents)
         else
           [ ];
       getHomes = nixpkgs.lib.concatLists (
@@ -108,6 +104,11 @@
           map (username: { inherit hostname username; }) users
         ) getHosts
       );
+
+      baseModule = {
+        os = ./modules/base;
+        home = ./modules/home/base;
+      };
 
       mkHost =
         hostname:
@@ -140,7 +141,7 @@
               meta = baseMeta;
             };
             modules = [
-              (hostPath + "/imports.nix")
+              baseModule.os
               hmModule
               {
                 home-manager.extraSpecialArgs = {
@@ -152,6 +153,9 @@
                 };
                 home-manager.users = lib.genAttrs hostUsers (username: {
                   imports = [
+                    baseModule.home
+                  ]
+                  ++ lib.optionals (builtins.pathExists (hostPath + "/users/${username}/imports.nix")) [
                     (hostPath + "/users/${username}/imports.nix")
                   ]
                   ++ lib.optionals (builtins.pathExists (hostPath + "/users/${username}/options.nix")) [
@@ -172,10 +176,11 @@
               {
                 nixpkgs = {
                   overlays = import ./overlays { inherit inputs; };
-                  config.allowUnfree = true;
+                  config.allowUnfree = allowUnfree;
                 };
               }
             ]
+            ++ lib.optionals (builtins.pathExists (hostPath + "/imports.nix")) [ (hostPath + "/imports.nix") ]
             ++ lib.optionals (builtins.pathExists (hostPath + "/options.nix")) [ (hostPath + "/options.nix") ]
             ++ lib.optionals (builtins.pathExists (hostPath + "/hardware-configuration.nix")) [
               (hostPath + "/hardware-configuration.nix")
@@ -198,6 +203,7 @@
           pkgs = import channel {
             inherit (meta) system;
             overlays = import ./overlays { inherit inputs; };
+            config.allowUnfree = allowUnfree;
           };
           hmLib = if isStable then home-manager-stable.lib else home-manager.lib;
           nixosConfig = outputs.nixosConfigurations.${hostname} or null;
@@ -217,7 +223,7 @@
                 ;
             };
             modules = [
-              (userPath + "/imports.nix")
+              baseModule.home
               {
                 home = {
                   inherit username;
@@ -227,6 +233,7 @@
                 programs.home-manager.enable = true;
               }
             ]
+            ++ lib.optionals (builtins.pathExists (userPath + "/imports.nix")) [ (userPath + "/imports.nix") ]
             ++ lib.optionals (builtins.pathExists (userPath + "/options.nix")) [ (userPath + "/options.nix") ];
           };
         };

@@ -68,7 +68,7 @@ in
             "$browser"
             ;
           inherit (binds) binde bind bindm;
-          env = import ./env.nix { inherit lib osConfig; };
+          env = import ./env.nix;
           exec-once = import ./exec-once.nix;
           layerrule = (import ./rules.nix).layerrule;
           windowrule = (import ./rules.nix).windowrule;

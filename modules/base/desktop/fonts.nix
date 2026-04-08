@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  fonts = config.desktop.theme.fonts;
+  fonts = config.desktop.fonts;
 in
 {
   config = lib.mkIf config.desktop.enable {

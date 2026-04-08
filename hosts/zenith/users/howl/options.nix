@@ -4,121 +4,30 @@
   meta,
   ...
 }:
-{
-  home = {
-    packages = with pkgs; [
-      ffmpeg
-      imagemagick
-      md2pdf
-
-      localsend
-      qbittorrent
-      libreoffice
-      tor-browser
-
-      lolcat
-      figlet
-      fortune
-      cowsay
-      asciiquarium-transparent
-      cbonsai
-      cmatrix
-      pipes
-      tty-clock
-
-      osu-lazer
-      prismlauncher
-    ];
+rec {
+  defaultPrograms = {
+    editor = "nvim";
+    fileManager = "yazi";
+    terminal = "kitty";
+    browser = "qutebrowser";
   };
-  xdg = {
-    userDirs = {
-      enable = true;
-      desktop = null; # no need for wm
-      documents = "/home/${meta.username}/doc";
-      download = "/home/${meta.username}/dls";
-      music = "/home/${meta.username}/mus";
-      pictures = "/home/${meta.username}/pic";
-      videos = "/home/${meta.username}/vid";
-      templates = "/home/${meta.username}/tpl";
-      publicShare = "/home/${meta.username}/pub";
-    };
-  };
-  accounts = {
-    email = rec {
-      maildirBasePath = ".mail";
-      accounts = {
-        RandomNEET = {
-          primary = true;
-          maildir.path = "/neet";
-          address = "neet@randomneet.me";
-          userName = "neet@randomneet.me";
-          passwordCommand = "cat /home/${meta.username}/.config/sops-nix/secrets/email/RandomNEET/password";
-          realName = "RandomNEET";
-          gpg = {
-            key = "0xBFA119DF465BFBB1";
-            signByDefault = true;
-            encryptByDefault = false;
-          };
-          flavor = "migadu.com";
-          aerc = {
-            enable = true;
-            extraAccounts = {
-              default = "Inbox";
-              folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
-              check-mail = "5m";
-              check-mail-cmd = "touch /home/${meta.username}/${maildirBasePath}/.trigger && sleep 1";
-            };
-          };
-          mbsync = {
-            enable = true;
-            create = "maildir";
-          };
-        };
-      };
-    };
-  };
-  services = {
-    flatpak = {
-      packages = [
-        "com.github.tchx84.Flatseal"
-        "com.qq.QQ"
-        "com.tencent.WeChat"
+  desktop = {
+    hibernate = false;
+    themes = {
+      list = [
+        "catppuccin-mocha"
+        "gruvbox-dark-hard"
+        "kanagawa"
+        "nord"
+        "tokyo-night-dark"
       ];
     };
-    mbsync = {
-      configFile = "/home/${meta.username}/.config/sops-nix/secrets/mbsync";
-      trigger.enable = true;
-    };
-    mpd = {
-      network = {
-        listenAddress = "127.0.0.1";
-        port = 6600;
-        startWhenNeeded = true;
-      };
-      dataDir = "/mnt/hdd1/media/.mpd";
-      musicDirectory = "/mnt/hdd1/media/music";
-      extraConfig = ''
-        audio_output {
-           type   "pipewire"
-           name   "PipeWire Sound Server"
-        }
-        audio_output {
-           type   "fifo"
-           name   "my_fifo"
-           path   "/tmp/mpd.fifo"
-           format "44100:16:2"
-        }
-        auto_update "yes"
-      '';
+    wallpaper = {
+      enable = true;
+      dir = "/home/${meta.username}/pic/wallpapers";
     };
   };
-  systemd = {
-    user = {
-      services.mbsync = {
-        Unit.After = [ "sops-nix.service" ];
-      };
-    };
-  };
+
   programs = {
     ssh = {
       matchBlocks = {
@@ -462,6 +371,122 @@
       };
     };
   };
+  services = {
+    flatpak = {
+      packages = [
+        "com.github.tchx84.Flatseal"
+        "com.qq.QQ"
+        "com.tencent.WeChat"
+      ];
+    };
+    mbsync = {
+      configFile = "/home/${meta.username}/.config/sops-nix/secrets/mbsync";
+      trigger.enable = true;
+    };
+    mpd = {
+      network = {
+        listenAddress = "127.0.0.1";
+        port = 6600;
+        startWhenNeeded = true;
+      };
+      dataDir = "/mnt/hdd1/media/.mpd";
+      musicDirectory = "/mnt/hdd1/media/music";
+      extraConfig = ''
+        audio_output {
+           type   "pipewire"
+           name   "PipeWire Sound Server"
+        }
+        audio_output {
+           type   "fifo"
+           name   "my_fifo"
+           path   "/tmp/mpd.fifo"
+           format "44100:16:2"
+        }
+        auto_update "yes"
+      '';
+    };
+  };
+  systemd = {
+    user = {
+      services.mbsync = {
+        Unit.After = [ "sops-nix.service" ];
+      };
+    };
+  };
+  home = {
+    packages = with pkgs; [
+      ffmpeg
+      imagemagick
+      md2pdf
+
+      localsend
+      qbittorrent
+      libreoffice
+      tor-browser
+
+      lolcat
+      figlet
+      fortune
+      cowsay
+      asciiquarium-transparent
+      cbonsai
+      cmatrix
+      pipes
+      tty-clock
+
+      osu-lazer
+      prismlauncher
+    ];
+  };
+
+  accounts = {
+    email = {
+      maildirBasePath = ".mail";
+      accounts = {
+        RandomNEET = {
+          primary = true;
+          maildir.path = "/neet";
+          address = "neet@randomneet.me";
+          userName = "neet@randomneet.me";
+          passwordCommand = "cat /home/${meta.username}/.config/sops-nix/secrets/email/RandomNEET/password";
+          realName = "RandomNEET";
+          gpg = {
+            key = "0xBFA119DF465BFBB1";
+            signByDefault = true;
+            encryptByDefault = false;
+          };
+          flavor = "migadu.com";
+          aerc = {
+            enable = true;
+            extraAccounts = {
+              default = "Inbox";
+              folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
+              check-mail = "5m";
+              check-mail-cmd = "touch /home/${meta.username}/${accounts.email.maildirBasePath}/.trigger && sleep 1";
+            };
+          };
+          mbsync = {
+            enable = true;
+            create = "maildir";
+          };
+        };
+      };
+    };
+  };
+  xdg = {
+    userDirs = {
+      enable = true;
+      desktop = null; # no need for wm
+      documents = "/home/${meta.username}/doc";
+      download = "/home/${meta.username}/dls";
+      music = "/home/${meta.username}/mus";
+      pictures = "/home/${meta.username}/pic";
+      videos = "/home/${meta.username}/vid";
+      templates = "/home/${meta.username}/tpl";
+      publicShare = "/home/${meta.username}/pub";
+    };
+  };
+
   sops = {
     secrets = {
       "ssh/github-RandomNEET".sopsFile = ./secrets.yaml;
@@ -470,28 +495,6 @@
       "ssh/voile".sopsFile = ./secrets.yaml;
       "email/RandomNEET/password".sopsFile = ./secrets.yaml;
       mbsync.sopsFile = ./secrets.yaml;
-    };
-  };
-  defaultPrograms = {
-    editor = "nvim";
-    fileManager = "yazi";
-    terminal = "kitty";
-    browser = "qutebrowser";
-  };
-  desktop = {
-    hibernate = false;
-    themes = {
-      list = [
-        "catppuccin-mocha"
-        "gruvbox-dark-hard"
-        "kanagawa"
-        "nord"
-        "tokyo-night-dark"
-      ];
-    };
-    wallpaper = {
-      enable = true;
-      dir = "/home/${meta.username}/pic/wallpapers";
     };
   };
 }

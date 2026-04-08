@@ -64,39 +64,39 @@ in
             while 'light' or 'dark' overrides the color scheme preference.
           '';
         };
-        fonts = {
-          monospace = mkOption {
-            type = fontModule;
-            default = {
-              package = pkgs.nerd-fonts.jetbrains-mono;
-              name = "JetBrainsMono Nerd Font";
-            };
-            description = "The default monospace (fixed-width) font used in terminals and code editors.";
+      };
+      fonts = {
+        monospace = mkOption {
+          type = fontModule;
+          default = {
+            package = pkgs.nerd-fonts.jetbrains-mono;
+            name = "JetBrainsMono Nerd Font";
           };
-          sansSerif = mkOption {
-            type = fontModule;
-            default = {
-              package = pkgs.noto-fonts-cjk-sans;
-              name = "Noto Sans CJK SC";
-            };
-            description = "The default proportional font without serifs, used for UI elements and general text.";
+          description = "The default monospace (fixed-width) font used in terminals and code editors.";
+        };
+        sansSerif = mkOption {
+          type = fontModule;
+          default = {
+            package = pkgs.noto-fonts-cjk-sans;
+            name = "Noto Sans CJK SC";
           };
-          serif = mkOption {
-            type = fontModule;
-            default = {
-              package = pkgs.noto-fonts-cjk-serif;
-              name = "Noto Serif CJK SC";
-            };
-            description = "The default proportional font with serifs, used for documents and formal reading.";
+          description = "The default proportional font without serifs, used for UI elements and general text.";
+        };
+        serif = mkOption {
+          type = fontModule;
+          default = {
+            package = pkgs.noto-fonts-cjk-serif;
+            name = "Noto Serif CJK SC";
           };
-          emoji = mkOption {
-            type = fontModule;
-            default = {
-              package = pkgs.noto-fonts-color-emoji;
-              name = "Noto Color Emoji";
-            };
-            description = "The font package providing emoji support across the system.";
+          description = "The default proportional font with serifs, used for documents and formal reading.";
+        };
+        emoji = mkOption {
+          type = fontModule;
+          default = {
+            package = pkgs.noto-fonts-color-emoji;
+            name = "Noto Color Emoji";
           };
+          description = "The font package providing emoji support across the system.";
         };
       };
     };

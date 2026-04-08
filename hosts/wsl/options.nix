@@ -15,13 +15,6 @@ in
     defaultUser = username;
   };
 
-  boot.loader.systemd-boot.enable = mkForce false;
-  networking.wireless.enable = mkForce false;
-  security = {
-    apparmor.enable = mkForce false;
-    protectKernelImage = mkForce false;
-  };
-
   users = {
     users = {
       "${username}" = {
@@ -34,5 +27,11 @@ in
         shell = pkgs.zsh;
       };
     };
+  };
+  boot.loader.systemd-boot.enable = mkForce false;
+  networking.wireless.enable = mkForce false;
+  security = {
+    apparmor.enable = mkForce false;
+    protectKernelImage = mkForce false;
   };
 }

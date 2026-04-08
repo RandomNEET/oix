@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 let
   hasThemes = config.desktop.themes.enable;
   defaultTheme = if hasThemes then builtins.head config.desktop.themes.list else "original";

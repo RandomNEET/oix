@@ -2,6 +2,7 @@
   osConfig,
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -12,6 +13,18 @@ let
     mkForce
     mkIf
     ;
+  fontModule = types.submodule {
+    options = {
+      package = mkOption {
+        type = types.package;
+        description = "The font package to be installed and used.";
+      };
+      name = mkOption {
+        type = types.str;
+        description = "The specific font family name used for configuration files.";
+      };
+    };
+  };
 in
 {
   options = {
@@ -31,6 +44,40 @@ in
           type = types.bool;
           default = false;
           description = "Designate niri as the primary window manager. Only one compositor can be primary at a time.";
+        };
+      };
+      fonts = {
+        monospace = mkOption {
+          type = fontModule;
+          default = {
+            package = pkgs.nerd-fonts.jetbrains-mono;
+            name = "JetBrainsMono Nerd Font";
+          };
+          description = "The default monospace (fixed-width) font used in terminals and code editors.";
+        };
+        sansSerif = mkOption {
+          type = fontModule;
+          default = {
+            package = pkgs.noto-fonts-cjk-sans;
+            name = "Noto Sans CJK SC";
+          };
+          description = "The default proportional font without serifs, used for UI elements and general text.";
+        };
+        serif = mkOption {
+          type = fontModule;
+          default = {
+            package = pkgs.noto-fonts-cjk-serif;
+            name = "Noto Serif CJK SC";
+          };
+          description = "The default proportional font with serifs, used for documents and formal reading.";
+        };
+        emoji = mkOption {
+          type = fontModule;
+          default = {
+            package = pkgs.noto-fonts-color-emoji;
+            name = "Noto Color Emoji";
+          };
+          description = "The font package providing emoji support across the system.";
         };
       };
       hibernate = mkOption {
@@ -87,6 +134,7 @@ in
       desktop.niri.enable = mkForce osConfig.desktop.niri.enable;
       desktop.hyprland.primary = mkForce osConfig.desktop.hyprland.primary;
       desktop.niri.primary = mkForce osConfig.desktop.niri.primary;
+      desktop.fonts = mkForce osConfig.desktop.fonts;
     })
     (mkIf (!config.desktop.enable) {
       desktop.hyprland.enable = mkForce false;

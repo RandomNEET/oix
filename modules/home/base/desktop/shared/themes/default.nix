@@ -14,8 +14,8 @@ in
     ./options.nix
   ];
 
-  config = mkIf config.desktop.enable (mkMerge [
-    (mkIf config.desktop.themes.enable (
+  config = mkMerge [
+    (mkIf (config.desktop.enable && config.desktop.themes.enable) (
       let
         defaultTheme = builtins.head config.desktop.themes.list;
         otherThemes = builtins.tail config.desktop.themes.list;
@@ -26,10 +26,10 @@ in
           base16Scheme = "${pkgs.base16-schemes}/share/themes/${defaultTheme}.yaml";
           polarity = config.desktop.themes.polarity;
           fonts = {
-            monospace = config.desktop.themes.fonts.monospace;
-            sansSerif = config.desktop.themes.fonts.sansSerif;
-            serif = config.desktop.themes.fonts.serif;
-            emoji = config.desktop.themes.fonts.emoji;
+            monospace = config.desktop.fonts.monospace;
+            sansSerif = config.desktop.fonts.sansSerif;
+            serif = config.desktop.fonts.serif;
+            emoji = config.desktop.fonts.emoji;
           };
           autoEnable = false;
           targets = {
@@ -130,7 +130,7 @@ in
         '';
       }
     ))
-    (lib.mkIf (!config.desktop.themes.enable) {
+    (mkIf (config.desktop.enable && !config.desktop.themes.enable) {
       home.activation.saveHmBasePath = ''
         LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
 
@@ -141,5 +141,12 @@ in
         fi
       '';
     })
-  ]);
+    (mkIf (!config.desktop.enable) {
+      stylix = {
+        enable = false;
+        autoEnable = false;
+        overlays.enable = false;
+      };
+    })
+  ];
 }

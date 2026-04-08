@@ -1,11 +1,5 @@
 {
   imports = [
-    ../../../../modules/home/base
-
-    ../../../../modules/home/services/flatpak
-    ../../../../modules/home/services/mbsync
-    ../../../../modules/home/services/mpd
-
     ../../../../modules/home/programs/cli/aerc
     ../../../../modules/home/programs/cli/cava
     ../../../../modules/home/programs/cli/delta
@@ -33,6 +27,10 @@
     ../../../../modules/home/programs/gui/swayimg
     ../../../../modules/home/programs/gui/vscode
     ../../../../modules/home/programs/gui/zathura
+
+    ../../../../modules/home/services/flatpak
+    ../../../../modules/home/services/mbsync
+    ../../../../modules/home/services/mpd
 
     ../../../../modules/home/scripts/backup.nix
   ];

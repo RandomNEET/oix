@@ -51,18 +51,23 @@ in
     '';
     browser = "${lib.getExe pkgs.${config.defaultPrograms.browser}}";
   };
-  home.file = lib.mkIf hasDesktop {
-    ".local/share/applications/newsboat.desktop".text = ''
-      [Desktop Entry]
-      Name=Newsboat
-      GenericName=RSS/Atom Reader
-      Comment=Read RSS and Atom feeds in the terminal
-      Keywords=RSS;Atom;Feed;Reader;News
-      Categories=Network;ConsoleOnly;
-      Type=Application
-      Icon=newsboat
-      Terminal=true
-      Exec=newsboat
-    '';
-  };
+  home.packages = lib.optionals hasDesktop [
+    (pkgs.makeDesktopItem {
+      name = "newsboat";
+      desktopName = "Newsboat";
+      genericName = "RSS/Atom Reader";
+      comment = "Read RSS and Atom feeds in the terminal";
+      icon = "newsboat";
+      exec = "newsboat";
+      terminal = true;
+      type = "Application";
+      categories = [
+        "Network"
+        "ConsoleOnly"
+      ];
+      extraConfig = {
+        Keywords = "RSS;Atom;Feed;Reader;News";
+      };
+    })
+  ];
 }

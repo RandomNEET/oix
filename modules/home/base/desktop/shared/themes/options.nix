@@ -2,7 +2,6 @@
   osConfig,
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -14,18 +13,6 @@ let
     mkIf
     mkForce
     ;
-  fontModule = types.submodule {
-    options = {
-      package = mkOption {
-        type = types.package;
-        description = "The font package to be installed and used.";
-      };
-      name = mkOption {
-        type = types.str;
-        description = "The specific font family name used for configuration files.";
-      };
-    };
-  };
 in
 {
   options = {
@@ -61,40 +48,6 @@ in
             while 'light' or 'dark' overrides the color scheme preference.
           '';
         };
-        fonts = {
-          monospace = mkOption {
-            type = fontModule;
-            default = {
-              package = pkgs.nerd-fonts.jetbrains-mono;
-              name = "JetBrainsMono Nerd Font";
-            };
-            description = "The default monospace (fixed-width) font used in terminals and code editors.";
-          };
-          sansSerif = mkOption {
-            type = fontModule;
-            default = {
-              package = pkgs.noto-fonts-cjk-sans;
-              name = "Noto Sans CJK SC";
-            };
-            description = "The default proportional font without serifs, used for UI elements and general text.";
-          };
-          serif = mkOption {
-            type = fontModule;
-            default = {
-              package = pkgs.noto-fonts-cjk-serif;
-              name = "Noto Serif CJK SC";
-            };
-            description = "The default proportional font with serifs, used for documents and formal reading.";
-          };
-          emoji = mkOption {
-            type = fontModule;
-            default = {
-              package = pkgs.noto-fonts-color-emoji;
-              name = "Noto Color Emoji";
-            };
-            description = "The font package providing emoji support across the system.";
-          };
-        };
       };
     };
   };
@@ -102,7 +55,6 @@ in
     (mkIf (osConfig != null) {
       desktop.themes.enable = mkForce osConfig.desktop.theme.enable;
       desktop.themes.polarity = mkForce osConfig.desktop.theme.polarity;
-      desktop.themes.fonts = mkForce osConfig.desktop.theme.fonts;
     })
     (mkIf (!config.desktop.themes.enable) {
       desktop.themes.list = mkForce [ ];

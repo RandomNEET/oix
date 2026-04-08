@@ -2,7 +2,6 @@
   osConfig,
   config,
   lib,
-  pkgs,
   mylib,
   ...
 }:
@@ -210,254 +209,238 @@ in
     '';
   };
   home = {
-    file =
-      (lib.optionalAttrs hasThemes {
-        ".config/rmpc/themes/stylix.ron".text = ''
-          #![enable(implicit_some)]
-          #![enable(unwrap_newtypes)]
-          #![enable(unwrap_variant_newtypes)]
+    file = lib.optionalAttrs hasThemes {
+      ".config/rmpc/themes/stylix.ron".text = ''
+        #![enable(implicit_some)]
+        #![enable(unwrap_newtypes)]
+        #![enable(unwrap_variant_newtypes)]
 
-          (
-              default_album_art_path: None,
-              show_song_table_header: true,
-              draw_borders: true,
-              format_tag_separator: " | ",
-              browser_column_widths: [20, 38, 42],
+        (
+            default_album_art_path: None,
+            show_song_table_header: true,
+            draw_borders: true,
+            format_tag_separator: " | ",
+            browser_column_widths: [20, 38, 42],
 
-              background_color: "${colors.base00}",
-              text_color: "${colors.base05}",
+            background_color: "${colors.base00}",
+            text_color: "${colors.base05}",
 
-              preview_label_style: (fg: "${colors.base0A}"),
-              preview_metadata_group_style: (fg: "${colors.base0A}", modifiers: "Bold"),
+            preview_label_style: (fg: "${colors.base0A}"),
+            preview_metadata_group_style: (fg: "${colors.base0A}", modifiers: "Bold"),
 
-              tab_bar: (
-                  active_style: (fg: "black", bg: "${primaryColor}", modifiers: "Bold"),
-                  inactive_style: (fg: "${colors.base04}"),
-              ),
+            tab_bar: (
+                active_style: (fg: "black", bg: "${primaryColor}", modifiers: "Bold"),
+                inactive_style: (fg: "${colors.base04}"),
+            ),
 
-              highlighted_item_style: (fg: "${colors.base0A}", modifiers: "Bold"),
-              current_item_style: (fg: "black", bg: "${colors.base07}", modifiers: "Bold"),
-              borders_style: (fg: "${colors.base04}"),
-              highlight_border_style: (fg: "${colors.base0A}"),
+            highlighted_item_style: (fg: "${colors.base0A}", modifiers: "Bold"),
+            current_item_style: (fg: "black", bg: "${colors.base07}", modifiers: "Bold"),
+            borders_style: (fg: "${colors.base04}"),
+            highlight_border_style: (fg: "${colors.base0A}"),
 
-              symbols: (
-                  song: "󰝚",
-                  dir: "",
-                  playlist: "󰲸",
-                  marker: "\u{e0b0}",
-                  ellipsis: "...",
-              ),
+            symbols: (
+                song: "󰝚",
+                dir: "",
+                playlist: "󰲸",
+                marker: "\u{e0b0}",
+                ellipsis: "...",
+            ),
 
-              progress_bar: (
-                  symbols: ["", "", "⭘", " ", " "],
-                  elapsed_style: (fg: "${primaryColor}"),
-                  thumb_style: (fg: "${primaryColor}"),
-              ),
+            progress_bar: (
+                symbols: ["", "", "⭘", " ", " "],
+                elapsed_style: (fg: "${primaryColor}"),
+                thumb_style: (fg: "${primaryColor}"),
+            ),
 
-              scrollbar: (
-                  symbols: ["│", "█", "▲", "▼"],
-                  track_style: (),
-                  ends_style: (),
-                  thumb_style: (fg: "${colors.base07}"),
-              ),
+            scrollbar: (
+                symbols: ["│", "█", "▲", "▼"],
+                track_style: (),
+                ends_style: (),
+                thumb_style: (fg: "${colors.base07}"),
+            ),
 
-              song_table_format: [
-                  (
-                      prop: (
-                          kind: Property(Title),
-                          style: (fg: "${colors.base0D}"),
-                          default: (kind: Text("Unknown"), style: (fg: "${colors.base03}")),
-                      ),
-                      width: "35%",
-                  ),
-                  (
-                      prop: (
-                          kind: Property(Album),
-                          style: (fg: "${colors.base0B}"),
-                          default: (kind: Text("Unknown Album"), style: (fg: "${colors.base03}")),
-                      ),
-                      width: "30%",
-                  ),
-                  (
-                      prop: (
-                          kind: Property(Artist),
-                          style: (fg: "${colors.base0C}"),
-                          default: (kind: Text("Unknown"), style: (fg: "${colors.base03}")),
-                      ),
-                      width: "20%",
-                  ),
-                  (
-                      prop: (
-                          kind: Property(Duration),
-                          style: (fg: "${colors.base04}"),
-                          default: (kind: Text("-")),
-                      ),
-                      width: "15%",
-                      alignment: Right,
-                  ),
-              ],
+            song_table_format: [
+                (
+                    prop: (
+                        kind: Property(Title),
+                        style: (fg: "${colors.base0D}"),
+                        default: (kind: Text("Unknown"), style: (fg: "${colors.base03}")),
+                    ),
+                    width: "35%",
+                ),
+                (
+                    prop: (
+                        kind: Property(Album),
+                        style: (fg: "${colors.base0B}"),
+                        default: (kind: Text("Unknown Album"), style: (fg: "${colors.base03}")),
+                    ),
+                    width: "30%",
+                ),
+                (
+                    prop: (
+                        kind: Property(Artist),
+                        style: (fg: "${colors.base0C}"),
+                        default: (kind: Text("Unknown"), style: (fg: "${colors.base03}")),
+                    ),
+                    width: "20%",
+                ),
+                (
+                    prop: (
+                        kind: Property(Duration),
+                        style: (fg: "${colors.base04}"),
+                        default: (kind: Text("-")),
+                    ),
+                    width: "15%",
+                    alignment: Right,
+                ),
+            ],
 
-              layout: Split(
-                  direction: Vertical,
-                  panes: [
-                      (
-                          size: "4",
-                          pane: Split(
-                              direction: Horizontal,
-                              panes: [
-                                  (
-                                      size: "100%",
-                                      pane: Split(
-                                          direction: Vertical,
-                                          panes: [
-                                              (
-                                                  size: "4",
-                                                  borders: "ALL",
-                                                  pane: Pane(Header),
-                                              ),
-                                          ],
-                                      ),
-                                  ),
-                              ],
-                          ),
-                      ),
-                      (
-                          size: "3",
-                          borders : "TOP | BOTTOM",
-                          pane: Pane(Tabs),
-                      ),
-                      (
-                          size: "100%",
-                          pane: Split(
-                              direction: Horizontal,
-                              panes: [
-                                  (
-                                      size: "100%",
-                                      borders: "TOP | BOTTOM",
-                                      pane: Pane(TabContent),
-                                  ),
-                              ],
-                          ),
-                      ),
-                      (
-                          size: "3",
-                          borders: "TOP | BOTTOM",
-                          pane: Pane(ProgressBar),
-                      ),
-                  ],
-              ),
+            layout: Split(
+                direction: Vertical,
+                panes: [
+                    (
+                        size: "4",
+                        pane: Split(
+                            direction: Horizontal,
+                            panes: [
+                                (
+                                    size: "100%",
+                                    pane: Split(
+                                        direction: Vertical,
+                                        panes: [
+                                            (
+                                                size: "4",
+                                                borders: "ALL",
+                                                pane: Pane(Header),
+                                            ),
+                                        ],
+                                    ),
+                                ),
+                            ],
+                        ),
+                    ),
+                    (
+                        size: "3",
+                        borders : "TOP | BOTTOM",
+                        pane: Pane(Tabs),
+                    ),
+                    (
+                        size: "100%",
+                        pane: Split(
+                            direction: Horizontal,
+                            panes: [
+                                (
+                                    size: "100%",
+                                    borders: "TOP | BOTTOM",
+                                    pane: Pane(TabContent),
+                                ),
+                            ],
+                        ),
+                    ),
+                    (
+                        size: "3",
+                        borders: "TOP | BOTTOM",
+                        pane: Pane(ProgressBar),
+                    ),
+                ],
+            ),
 
-              header: (
-                  rows: [
-                      (
-                          left: [
-                              (kind: Text("["), style: (fg: "${colors.base07}", modifiers: "Bold")),
-                              (kind: Property(Status(State)), style: (fg: "${colors.base07}", modifiers: "Bold")),
-                              (kind: Text("]"), style: (fg: "${colors.base07}", modifiers: "Bold")),
-                          ],
-                          center: [
-                              (
-                                  kind: Property(Song(Title)),
-                                  style: (fg: "${colors.base0D}", modifiers: "Bold"),
-                                  default: (kind: Text("No Song"), style: (fg: "${colors.base0D}", modifiers: "Bold")),
-                              ),
-                          ],
-                          right: [
-                              (kind: Property(Widget(ScanStatus)), style: (fg: "${colors.base07}")),
-                              (kind: Property(Widget(Volume)), style: (fg: "${colors.base07}")),
-                          ],
-                      ),
-                      (
-                          left: [
-                              (kind: Property(Status(Elapsed)), style: (fg: "${colors.base05}")),
-                              (kind: Text(" / "), style: (fg: "${colors.base04}")),
-                              (kind: Property(Status(Duration)), style: (fg: "${colors.base05}")),
-                              (kind: Text(" ("), style: (fg: "${colors.base03}")),
-                              (kind: Property(Status(Bitrate)), style: (fg: "${colors.base05}")),
-                              (kind: Text(" kbps)"), style: (fg: "${colors.base03}")),
-                          ],
-                          center: [
-                              (
-                                  kind: Property(Song(Artist)),
-                                  style: (fg: "${colors.base0A}", modifiers: "Bold"),
-                                  default: (kind: Text("Unknown"), style: (fg: "${colors.base0A}", modifiers: "Bold")),
-                              ),
-                              (kind: Text(" - "), style: (fg: "${colors.base03}")),
-                              (
-                                  kind: Property(Song(Album)),
-                                  style: (fg: "${colors.base0D}"),
-                                  default: (kind: Text("Unknown Album"), style: (fg: "${colors.base0D}")),
-                              ),
-                          ],
-                          right: [
-                              (
-                                  kind: Property(
-                                      Widget(
-                                          States(
-                                              active_style: (fg: "${colors.base05}", modifiers: "Bold"),
-                                              separator_style: (fg: "${colors.base03}"),
-                                          ),
-                                      ),
-                                  ),
-                                  style: (fg: "${colors.base03}"),
-                              ),
-                          ],
-                      ),
-                  ],
-              ),
+            header: (
+                rows: [
+                    (
+                        left: [
+                            (kind: Text("["), style: (fg: "${colors.base07}", modifiers: "Bold")),
+                            (kind: Property(Status(State)), style: (fg: "${colors.base07}", modifiers: "Bold")),
+                            (kind: Text("]"), style: (fg: "${colors.base07}", modifiers: "Bold")),
+                        ],
+                        center: [
+                            (
+                                kind: Property(Song(Title)),
+                                style: (fg: "${colors.base0D}", modifiers: "Bold"),
+                                default: (kind: Text("No Song"), style: (fg: "${colors.base0D}", modifiers: "Bold")),
+                            ),
+                        ],
+                        right: [
+                            (kind: Property(Widget(ScanStatus)), style: (fg: "${colors.base07}")),
+                            (kind: Property(Widget(Volume)), style: (fg: "${colors.base07}")),
+                        ],
+                    ),
+                    (
+                        left: [
+                            (kind: Property(Status(Elapsed)), style: (fg: "${colors.base05}")),
+                            (kind: Text(" / "), style: (fg: "${colors.base04}")),
+                            (kind: Property(Status(Duration)), style: (fg: "${colors.base05}")),
+                            (kind: Text(" ("), style: (fg: "${colors.base03}")),
+                            (kind: Property(Status(Bitrate)), style: (fg: "${colors.base05}")),
+                            (kind: Text(" kbps)"), style: (fg: "${colors.base03}")),
+                        ],
+                        center: [
+                            (
+                                kind: Property(Song(Artist)),
+                                style: (fg: "${colors.base0A}", modifiers: "Bold"),
+                                default: (kind: Text("Unknown"), style: (fg: "${colors.base0A}", modifiers: "Bold")),
+                            ),
+                            (kind: Text(" - "), style: (fg: "${colors.base03}")),
+                            (
+                                kind: Property(Song(Album)),
+                                style: (fg: "${colors.base0D}"),
+                                default: (kind: Text("Unknown Album"), style: (fg: "${colors.base0D}")),
+                            ),
+                        ],
+                        right: [
+                            (
+                                kind: Property(
+                                    Widget(
+                                        States(
+                                            active_style: (fg: "${colors.base05}", modifiers: "Bold"),
+                                            separator_style: (fg: "${colors.base03}"),
+                                        ),
+                                    ),
+                                ),
+                                style: (fg: "${colors.base03}"),
+                            ),
+                        ],
+                    ),
+                ],
+            ),
 
-              browser_song_format: [
-                  (
-                      kind: Group([
-                          (kind: Property(Track)),
-                          (kind: Text(" ")),
-                      ]),
-                  ),
-                  (
-                      kind: Group([
-                          (kind: Property(Artist)),
-                          (kind: Text(" - ")),
-                          (kind: Property(Title)),
-                      ]),
-                      default: (kind: Property(Filename)),
-                  ),
-              ],
+            browser_song_format: [
+                (
+                    kind: Group([
+                        (kind: Property(Track)),
+                        (kind: Text(" ")),
+                    ]),
+                ),
+                (
+                    kind: Group([
+                        (kind: Property(Artist)),
+                        (kind: Text(" - ")),
+                        (kind: Property(Title)),
+                    ]),
+                    default: (kind: Property(Filename)),
+                ),
+            ],
 
-              cava: (
-                  bar_symbols: ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'],
-                  inverted_bar_symbols: ['▔', '🮂', '🮃', '▀', '🮄', '🮅', '🮆', '█'],
-                  bg_color: "${colors.base00}",
-                  bar_width: 1,
-                  bar_spacing: 1,
-                  orientation: Bottom,
-                  bar_color: Gradient({
-                        0:   "${colors.base0C}",
-                       15:   "${colors.base0C}",
-                       30:   "${colors.base0D}",
-                       45:   "${colors.base0D}",
-                       60:   "${colors.base0E}",
-                       75:   "${colors.base0E}",
-                       90:   "${colors.base08}",
-                      100:   "${colors.base08}",
-                  }),
-              ),
-          )
-        '';
-      })
-      // (lib.optionalAttrs hasDesktop {
-        ".local/share/applications/rmpc.desktop".text = ''
-          [Desktop Entry]
-          Name=rmpc
-          GenericName=Music Player
-          Comment=TUI client for MPD
-          Keywords=Music;Player;MPD;Audio;MusicPlayer;
-          Categories=Audio;Music;Player;ConsoleOnly;
-          Type=Application
-          Icon=mpd
-          Terminal=true
-          Exec=rmpc
-        '';
-      });
-    packages = with pkgs; [ cava ];
+            cava: (
+                bar_symbols: ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'],
+                inverted_bar_symbols: ['▔', '🮂', '🮃', '▀', '🮄', '🮅', '🮆', '█'],
+                bg_color: "${colors.base00}",
+                bar_width: 1,
+                bar_spacing: 1,
+                orientation: Bottom,
+                bar_color: Gradient({
+                      0:   "${colors.base0C}",
+                     15:   "${colors.base0C}",
+                     30:   "${colors.base0D}",
+                     45:   "${colors.base0D}",
+                     60:   "${colors.base0E}",
+                     75:   "${colors.base0E}",
+                     90:   "${colors.base08}",
+                    100:   "${colors.base08}",
+                }),
+            ),
+        )
+      '';
+    };
   };
 }

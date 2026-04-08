@@ -1,4 +1,12 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  hasDesktop = config.desktop.enable;
+in
 {
   programs.spotify-player = {
     enable = true;
@@ -15,20 +23,25 @@
       notify_transient = true;
     };
   };
-  home =
-    { }
-    // lib.optionalAttrs config.desktop.enable {
-      file.".local/share/applications/spotify-player.desktop".text = ''
-        [Desktop Entry]
-        Name=spotify-player
-        GenericName=Music Player
-        Comment=A Spotify player in the terminal with full feature parity
-        Categories=Audio;Music;Player;ConsoleOnly;
-        Type=Application
-        Icon=spotify-client
-        Terminal=true
-        Exec=spotify_player
-        Keywords=music;spotify;player;tui;
-      '';
-    };
+  home.packages = lib.optionals hasDesktop [
+    (pkgs.makeDesktopItem {
+      name = "spotify-player";
+      desktopName = "spotify-player";
+      genericName = "Music Player";
+      comment = "A Spotify player in the terminal with full feature parity";
+      icon = "spotify-client";
+      exec = "spotify_player";
+      terminal = true;
+      type = "Application";
+      categories = [
+        "Audio"
+        "Music"
+        "Player"
+        "ConsoleOnly"
+      ];
+      extraConfig = {
+        Keywords = "music;spotify;player;tui;";
+      };
+    })
+  ];
 }

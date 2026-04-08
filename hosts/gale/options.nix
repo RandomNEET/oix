@@ -3,33 +3,60 @@ let
   username = "howl";
 in
 {
-  boot = {
-    kernelPackages = pkgs.linuxPackages_zen;
+  base = {
+    gpu = "intel-integrated";
+    display = {
+      info = [
+        {
+          output = "eDP-1";
+          width = 1920;
+          height = 1080;
+          orientation = "landscape";
+        }
+      ];
+    };
+    audio.enable = true;
+    bluetooth.enable = true;
+    power.enable = true;
+    impermanence.enable = true;
+    secure-boot.enable = true;
+    gaming.enable = true;
   };
-  networking = {
-    hostName = meta.hostname;
-  };
-  users = {
-    users = {
-      root = {
-        hashedPasswordFile = "/run/secrets-for-users/users/root/password";
+  desktop = {
+    enable = true;
+    hyprland = {
+      enable = true;
+      primary = false;
+    };
+    niri = {
+      enable = true;
+      primary = true;
+    };
+    theme = {
+      enable = true;
+      baseTheme = "catppuccin-mocha";
+      polarity = "dark";
+    };
+    fonts = {
+      monospace = {
+        package = pkgs.nerd-fonts.jetbrains-mono;
+        name = "JetBrainsMono Nerd Font";
       };
-      "${username}" = {
-        hashedPasswordFile = "/run/secrets-for-users/users/${username}/password";
-        isNormalUser = true;
-        uid = 1000;
-        extraGroups = [
-          "wheel"
-          "networkmanager"
-          "libvirtd"
-        ];
-        shell = pkgs.zsh;
+      sansSerif = {
+        package = pkgs.noto-fonts-cjk-sans;
+        name = "Noto Sans CJK SC";
+      };
+      serif = {
+        package = pkgs.noto-fonts-cjk-serif;
+        name = "Noto Serif CJK SC";
+      };
+      emoji = {
+        package = pkgs.noto-fonts-color-emoji;
+        name = "Noto Color Emoji";
       };
     };
   };
-  environment = {
-    systemPackages = with pkgs; [ veracrypt ];
-  };
+
   services = {
     snapper = {
       configs = {
@@ -103,6 +130,43 @@ in
       dae.after = [ "sops-nix.service" ];
     };
   };
+  environment = {
+    systemPackages = with pkgs; [ veracrypt ];
+  };
+
+  users = {
+    users = {
+      root = {
+        hashedPasswordFile = "/run/secrets-for-users/users/root/password";
+      };
+      "${username}" = {
+        hashedPasswordFile = "/run/secrets-for-users/users/${username}/password";
+        isNormalUser = true;
+        uid = 1000;
+        extraGroups = [
+          "wheel"
+          "networkmanager"
+          "libvirtd"
+        ];
+        shell = pkgs.zsh;
+      };
+    };
+  };
+  networking = {
+    firewall = {
+      allowedTCPPorts = [ 53317 ];
+    };
+    hostName = meta.hostname;
+  };
+  nix = {
+    settings = {
+      allowed-users = [ username ];
+    };
+  };
+  boot = {
+    kernelPackages = pkgs.linuxPackages_zen;
+  };
+
   sops = {
     secrets = {
       "users/root/password" = {
@@ -118,53 +182,6 @@ in
         owner = username;
       };
       dae.sopsFile = ./secrets.yaml;
-    };
-  };
-  base = {
-    gpu = "intel-integrated";
-    display = {
-      info = [
-        {
-          output = "eDP-1";
-          width = 1920;
-          height = 1080;
-          orientation = "landscape";
-        }
-      ];
-    };
-  };
-  desktop = {
-    enable = true;
-    hyprland = {
-      enable = true;
-      primary = false;
-    };
-    niri = {
-      enable = true;
-      primary = true;
-    };
-    theme = {
-      enable = true;
-      baseTheme = "catppuccin-mocha";
-      polarity = "dark";
-      fonts = {
-        monospace = {
-          package = pkgs.nerd-fonts.jetbrains-mono;
-          name = "JetBrainsMono Nerd Font";
-        };
-        sansSerif = {
-          package = pkgs.noto-fonts-cjk-sans;
-          name = "Noto Sans CJK SC";
-        };
-        serif = {
-          package = pkgs.noto-fonts-cjk-serif;
-          name = "Noto Serif CJK SC";
-        };
-        emoji = {
-          package = pkgs.noto-fonts-color-emoji;
-          name = "Noto Color Emoji";
-        };
-      };
     };
   };
 }

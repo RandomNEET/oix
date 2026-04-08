@@ -5,43 +5,11 @@
   ...
 }:
 {
-  home = {
-    packages = with pkgs; [
-      mediainfo
-      flac
-
-      lolcat
-      figlet
-      fortune
-      cowsay
-      asciiquarium-transparent
-      cbonsai
-      cmatrix
-      pipes
-      tty-clock
-
-      qq
-    ];
+  defaultPrograms = {
+    editor = "nvim";
+    fileManager = "yazi";
   };
-  services = {
-    mpd = {
-      network = {
-        listenAddress = "0.0.0.0";
-        startWhenNeeded = true;
-      };
-      dataDir = "/mnt/smb/media/.mpd";
-      musicDirectory = "/mnt/smb/media/music";
-      extraConfig = ''
-        audio_output {
-            type        "httpd"
-            name        "MPD HTTP Stream"
-            encoder     "vorbis"
-            port        "8000"
-            quality     "5.0"
-        }
-      '';
-    };
-  };
+
   programs = {
     ssh = {
       matchBlocks = {
@@ -102,14 +70,48 @@
       '';
     };
   };
+  services = {
+    mpd = {
+      network = {
+        listenAddress = "0.0.0.0";
+        startWhenNeeded = true;
+      };
+      dataDir = "/mnt/smb/media/.mpd";
+      musicDirectory = "/mnt/smb/media/music";
+      extraConfig = ''
+        audio_output {
+            type        "httpd"
+            name        "MPD HTTP Stream"
+            encoder     "vorbis"
+            port        "8000"
+            quality     "5.0"
+        }
+      '';
+    };
+  };
+  home = {
+    packages = with pkgs; [
+      mediainfo
+      flac
+
+      lolcat
+      figlet
+      fortune
+      cowsay
+      asciiquarium-transparent
+      cbonsai
+      cmatrix
+      pipes
+      tty-clock
+
+      qq
+    ];
+  };
+
   sops = {
     secrets = {
       "ssh/zenith".sopsFile = ./secrets.yaml;
       "ssh/gale".sopsFile = ./secrets.yaml;
     };
-  };
-  defaultPrograms = {
-    editor = "nvim";
-    fileManager = "yazi";
   };
 }
