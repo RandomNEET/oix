@@ -537,17 +537,26 @@ in
 
       # Prevent Accidental Triggers
       {
-        mode = "n";
+        mode = [
+          "n"
+          "v"
+        ];
         key = "q:";
         action = "<nop>";
       }
       {
-        mode = "n";
+        mode = [
+          "n"
+          "v"
+        ];
         key = "q/";
         action = "<nop>";
       }
       {
-        mode = "n";
+        mode = [
+          "n"
+          "v"
+        ];
         key = "q?";
         action = "<nop>";
       }
