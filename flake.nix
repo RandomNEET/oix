@@ -238,6 +238,25 @@
           };
         };
 
+      mkCheck =
+        system:
+        let
+          hosts = builtins.filter (h: (getMeta h).system == system) getHosts;
+          homes = builtins.filter (h: (getMeta h.hostname).system == system) getHomes;
+        in
+        (nixpkgs.lib.listToAttrs (
+          map (hostname: {
+            name = "nixosConfigurations:${hostname}";
+            value = self.nixosConfigurations.${hostname}.config.system.build.toplevel;
+          }) hosts
+        ))
+        // (nixpkgs.lib.listToAttrs (
+          map (home: {
+            name = "homeConfigurations:${home.username}-${home.hostname}";
+            value = self.homeConfigurations."${home.username}-${home.hostname}".activationPackage;
+          }) homes
+        ));
+
       devShells =
         system:
         let
@@ -251,6 +270,7 @@
     {
       nixosConfigurations = nixpkgs.lib.listToAttrs (map mkHost getHosts);
       homeConfigurations = nixpkgs.lib.listToAttrs (map mkHome getHomes);
+      checks = forAllSystems mkCheck;
       devShells = forAllSystems devShells;
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
     };
