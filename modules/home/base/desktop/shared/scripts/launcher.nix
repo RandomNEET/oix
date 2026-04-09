@@ -141,22 +141,20 @@ pkgs.writeShellScriptBin "launcher" ''
         tmux source-file ${config.xdg.configHome}/tmux/tmux.conf
       fi
     ''} 
-    ${
-      lib.optionalString (config.programs ? nixvim && config.programs.nixvim.enable) ''
-        RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}"
-        if pgrep -x "nvim" >/dev/null; then
-          for server in "$RUNTIME_DIR"/nvim.*.0; do
-            [ -e "$server" ] || continue
-            pid=$(basename "$server" | cut -d. -f2)
-            if kill -0 "$pid" 2>/dev/null; then
-              nvim --server "$server" --remote-expr "execute('lua if _G.reload_theme then _G.reload_theme() end')" >/dev/null 2>&1 &
-            else
-              rm -f "$server"
-            fi
-          done
-        fi
-      ''
-    } 
+    ${lib.optionalString config.programs.nixvim.enable ''
+      RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}"
+      if pgrep -x "nvim" >/dev/null; then
+        for server in "$RUNTIME_DIR"/nvim.*.0; do
+          [ -e "$server" ] || continue
+          pid=$(basename "$server" | cut -d. -f2)
+          if kill -0 "$pid" 2>/dev/null; then
+            nvim --server "$server" --remote-expr "execute('lua if _G.reload_theme then _G.reload_theme() end')" >/dev/null 2>&1 &
+          else
+            rm -f "$server"
+          fi
+        done
+      fi
+    ''} 
     ${lib.optionalString (config.programs ? noctalia-shell && config.programs.noctalia-shell.enable)
       ''
         ${lib.optionalString config.desktop.wallpaper.enable ''

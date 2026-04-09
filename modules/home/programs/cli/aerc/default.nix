@@ -47,7 +47,7 @@ in
             getExe pkgs.${config.defaultPrograms.terminal}
         } -e ${
           if config.defaultPrograms.editor == "nvim" then
-            if (config.programs ? nixvim && config.programs.nixvim.enable) then
+            if config.programs.nixvim.enable then
               "${config.programs.nixvim.build.package}/bin/nvim"
             else
               getExe pkgs.neovim

@@ -11,21 +11,6 @@
           ];
         };
       };
-      keymaps = {
-        silent = true;
-        diagnostic = {
-          "<leader>k" = "goto_prev";
-          "<leader>j" = "goto_next";
-          "<leader>cd" = "open_float";
-        };
-        lspBuf = {
-          K = "hover";
-          gD = "references";
-          gd = "definition";
-          gi = "implementation";
-          gt = "type_definition";
-        };
-      };
       servers = {
         bashls.enable = true;
         clangd.enable = true;

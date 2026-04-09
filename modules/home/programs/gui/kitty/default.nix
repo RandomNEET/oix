@@ -20,7 +20,7 @@
       allow_remote_control = true;
       listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty";
     }
-    // lib.optionalAttrs ((config.programs ? nixvim) && config.programs.nixvim.enable) {
+    // lib.optionalAttrs config.programs.nixvim.enable {
       scrollback_pager = "nvim --cmd 'set eventignore=FileType' +'nnoremap q ZQ' +'call nvim_open_term(0, {})' +'set nomodified nolist' +'$' -";
     };
     keybindings = {
