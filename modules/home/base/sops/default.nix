@@ -10,7 +10,9 @@
 
   sops = {
     age = {
-      sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/id_ed25519" ];
+      keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
+      # age-keygen -o ~/.config/sops/age/keys.txt
+      # age-keygen -y ~/.config/sops/age/keys.txt
     };
   };
 
@@ -21,12 +23,12 @@
       ssh-to-age
     ];
     activation = {
-      setupSshKey = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
-        SSH_DIR="${config.home.homeDirectory}/.ssh"
-        KEY_FILE="$SSH_DIR/id_ed25519"
+      setupAgeKey = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
+        AGE_DIR="${config.xdg.configHome}/sops/age"
+        KEY_FILE="$AGE_DIR/keys.txt"
         if [ ! -f "$KEY_FILE" ]; then
-          $DRY_RUN_CMD mkdir -p "$SSH_DIR"
-          $DRY_RUN_CMD ${pkgs.openssh}/bin/ssh-keygen -t ed25519 -f "$KEY_FILE" -N "" -q
+          $DRY_RUN_CMD mkdir -p "$AGE_DIR"
+          $DRY_RUN_CMD ${pkgs.age}/bin/age-keygen -o "$KEY_FILE"
         fi
       '';
     };

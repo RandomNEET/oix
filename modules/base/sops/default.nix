@@ -17,6 +17,7 @@
             "/etc/ssh/ssh_host_ed25519_key"
         )
       ];
+      # cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age
     };
   };
 
