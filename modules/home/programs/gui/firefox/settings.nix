@@ -1,3 +1,4 @@
+{ lib, isWm, ... }:
 let
   lock-false = {
     Value = false;
@@ -176,7 +177,6 @@ in
   "browser.urlbar.suggest.openpage" = false;
   "datareporting.policy.dataSubmissionEnable" = false;
   "datareporting.policy.dataSubmissionPolicyAcceptedVersion" = 2;
-  "full-screen-api.ignore-widgets" = true;
 
   "extensions.getAddons.showPane" = lock-false;
   "extensions.htmlaboutaddons.recommendations.enabled" = lock-false;
@@ -239,4 +239,7 @@ in
       ];
     };
   };
+}
+// lib.optionalAttrs isWm {
+  "full-screen-api.ignore-widgets" = true;
 }

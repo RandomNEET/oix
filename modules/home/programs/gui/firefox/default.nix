@@ -1,3 +1,7 @@
+{ config, lib, ... }:
+let
+  isWm = config.desktop.hyprland.primary || config.desktop.niri.primary;
+in
 {
   programs.firefox = {
     enable = true;
@@ -8,12 +12,12 @@
         id = 0; # 0 is the default profile; see also option "isDefault"
         name = "default"; # name as listed in about:profiles
         isDefault = true; # can be omitted; true if profile ID is 0
-        settings = import ./settings.nix;
+        settings = import ./settings.nix { inherit lib isWm; };
         search = import ./search.nix;
         bookmarks = import ./bookmarks.nix;
       };
     };
   };
-  # whether disable titlebar buttons for wm
-  home.file.".mozilla/firefox/default/chrome".source = ./chrome/titlebar-buttons-disable;
+  home.file.".mozilla/firefox/default/chrome".source =
+    if isWm then ./chrome/titlebar-buttons-disable else ./chrome/titlebar-buttons-enable;
 }
