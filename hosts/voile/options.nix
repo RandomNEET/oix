@@ -438,7 +438,7 @@ in
         ];
       };
       qbot = {
-        description = "NapCat Draw Bot";
+        description = "QQ Bot";
         after = [ "network.target" ];
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
@@ -446,6 +446,7 @@ in
           User = "${username}";
           WorkingDirectory = "/home/howl/repo/qbot";
           ExecStart = "/etc/profiles/per-user/howl/bin/direnv exec /home/howl/repo/qbot python /home/howl/repo/qbot/qbot-listen.py";
+          Environment = "PYTHONUNBUFFERED=1";
           Restart = "always";
           RestartSec = "5s";
         };

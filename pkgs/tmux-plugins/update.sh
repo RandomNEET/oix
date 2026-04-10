@@ -49,7 +49,7 @@ update_plugin() {
   fi
 
   local sri_hash
-  sri_hash=$(nix --extra-experimental-features nix-command hash convert --to sri --hash-algo sha256 "$raw_hash")
+  sri_hash=$(nix hash to-sri --type sha256 "$raw_hash")
 
   # 3. Targeted Update using sed
   # This searches for the block starting with pluginName = "$NAME"

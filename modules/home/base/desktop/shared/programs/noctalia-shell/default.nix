@@ -163,7 +163,10 @@ in
           panelBackgroundOpacity = 0.9;
         };
         location = {
+          autoLocate = true;
           hideWeatherCityName = true;
+          useFahrenheit = false;
+          use12hourFormat = false;
         };
         wallpaper = {
           enabled = true;

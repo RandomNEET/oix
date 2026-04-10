@@ -54,7 +54,7 @@ update_repo() {
   fi
 
   local sri_hash
-  sri_hash=$(nix --extra-experimental-features nix-command hash convert --to sri --hash-algo sha256 "$raw_hash")
+  sri_hash=$(nix hash to-sri --type sha256 "$raw_hash")
 
   # 3. Apply changes to the .nix file using sed
   echo " [i] Writing to $TARGET_FILE..."

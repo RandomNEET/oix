@@ -14,7 +14,9 @@ pkgs.writeShellScript "restore-wall-theme" ''
         end;
 
       .wallpapers |= map_values(
-        gsub("${config.desktop.wallpaper.dir}/[^/]+(/[^/]+)?/"; "${config.desktop.wallpaper.dir}/" + get_target_path + "/")
+        map_values(
+          gsub("${config.desktop.wallpaper.dir}/[^/]+(/[^/]+)?/"; "${config.desktop.wallpaper.dir}/" + get_target_path + "/")
+        )
       )
     ' "$WALLPAPER_CONF")
     

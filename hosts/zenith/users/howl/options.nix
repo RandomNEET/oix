@@ -333,9 +333,6 @@ rec {
             }
           ];
         };
-        location = {
-          name = "Jiangxi";
-        };
         idle = {
           suspendTimeout = lib.mkForce 0;
         };

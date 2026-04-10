@@ -145,9 +145,6 @@ rec {
         general = {
           avatarImage = "/home/${meta.username}/pic/avatars/weeb.jpg";
         };
-        location = {
-          name = "Jiangxi";
-        };
       };
     };
   };
