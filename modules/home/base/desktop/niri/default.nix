@@ -11,6 +11,7 @@ let
   hasThemes = config.desktop.themes.enable;
   launcher = getExe (import ../shared/scripts/launcher.nix { inherit config lib pkgs; });
   clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
+  file-manager = getExe (import ../shared/scripts/file-manager.nix { inherit config pkgs; });
   screenshot = getExe (import ../shared/scripts/screenshot.nix { inherit config pkgs; });
   autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
 in
@@ -43,6 +44,7 @@ in
             pkgs
             launcher
             clip-manager
+            file-manager
             screenshot
             autoclicker
             getExe

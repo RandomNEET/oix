@@ -5,25 +5,21 @@
   pkgs,
   launcher,
   clip-manager,
+  file-manager,
   screenshot,
   autoclicker,
   keybinds,
   gamespace,
   ...
 }:
+let
+  terminal = import ../shared/misc/terminal.nix { inherit config; };
+in
 {
   "$mainMod" = "SUPER";
-  "$terminal" =
-    if ((config.defaultPrograms.terminal == "foot") && config.programs.foot.server.enable) then
-      "footclient"
-    else
-      config.defaultPrograms.terminal;
-  "$fileManager" = ''$terminal ${
-    if (config.defaultPrograms.terminal == "foot") then "--app-id" else "--class"
-  } "fileManager" -e ${config.defaultPrograms.fileManager}'';
-  "$editor" = ''$terminal ${
-    if (config.defaultPrograms.terminal == "foot") then "--app-id" else "--class"
-  } "editor" -e ${config.defaultPrograms.editor}'';
+  "$terminal" = terminal.exe;
+  "$fileManager" = "${file-manager} ${config.defaultPrograms.fileManager}";
+  "$editor" = ''$terminal ${terminal.classFlag} "editor" -e ${config.defaultPrograms.editor}'';
   "$browser" = config.defaultPrograms.browser;
 
   bind = [

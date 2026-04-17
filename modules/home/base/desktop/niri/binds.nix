@@ -5,43 +5,31 @@
   pkgs,
   launcher,
   clip-manager,
+  file-manager,
   screenshot,
   autoclicker,
   getExe,
   ...
 }:
 let
-  terminal =
-    if ((config.defaultPrograms.terminal == "foot") && config.programs.foot.server.enable) then
-      "footclient"
-    else
-      config.defaultPrograms.terminal;
-
-  fileManager = [
-    terminal
-    "-e"
-    config.defaultPrograms.fileManager
-  ];
-  editor = [
-    terminal
-    "-e"
-    config.defaultPrograms.editor
-  ];
+  terminal = import ../shared/misc/terminal.nix { inherit config; };
+  fileManager = "${file-manager} ${config.defaultPrograms.fileManager}";
+  editor = ''${terminal.exe} ${terminal.classFlag} "editor" -e ${config.defaultPrograms.editor}'';
   browser = config.defaultPrograms.browser;
 in
 {
   "Mod+Shift+Slash".action."show-hotkey-overlay" = { };
 
   "Mod+Return" = {
-    action.spawn = terminal;
-    hotkey-overlay.title = "Launch terminal: ${terminal}";
+    action.spawn = terminal.exe;
+    hotkey-overlay.title = "Launch terminal: ${terminal.exe}";
   };
   "Mod+F" = {
-    action.spawn = fileManager;
+    action.spawn-sh = fileManager;
     hotkey-overlay.title = "Launch file manager: ${config.defaultPrograms.fileManager}";
   };
   "Mod+E" = {
-    action.spawn = editor;
+    action.spawn-sh = editor;
     hotkey-overlay.title = "Launch editor: ${config.defaultPrograms.editor}";
   };
   "Mod+B" = {
@@ -149,7 +137,7 @@ in
 
   "Mod+F10" = {
     action.spawn = [
-      "${terminal}"
+      "${terminal.exe}"
       "-e"
       "${getExe pkgs.btop}"
     ];
@@ -459,7 +447,7 @@ in
 // lib.optionalAttrs config.programs.tmux.enable {
   "Mod+T" = {
     action.spawn = [
-      "${terminal}"
+      "${terminal.exe}"
       "-e"
       "tmux"
     ];

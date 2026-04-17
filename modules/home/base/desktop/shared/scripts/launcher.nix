@@ -7,11 +7,7 @@
 let
   hasThemes = config.desktop.themes.enable;
   defaultTheme = if hasThemes then builtins.head config.desktop.themes.list else "default";
-  terminal =
-    if ((config.defaultPrograms.terminal == "foot") && config.programs.foot.server.enable) then
-      "footclient"
-    else
-      config.defaultPrograms.terminal;
+  terminal = (import ../misc/terminal.nix { inherit config; }).exe;
 in
 pkgs.writeShellScriptBin "launcher" ''
   if pidof rofi >/dev/null; then

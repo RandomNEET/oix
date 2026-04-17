@@ -1,5 +1,8 @@
 {
   input = {
+    keyboard = {
+      repeat-delay = 300;
+    };
     touchpad = {
       tap = true;
       natural-scroll = true;
