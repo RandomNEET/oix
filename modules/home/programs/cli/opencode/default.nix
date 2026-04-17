@@ -4,10 +4,10 @@
     settings = {
       autoshare = false;
       autoupdate = true;
-      tui = {
-        keybinds = {
-          leader = "ctrl+x";
-        };
+    };
+    tui = {
+      keybinds = {
+        leader = "ctrl+x";
       };
     };
   };
