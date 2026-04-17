@@ -1,17 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.lint = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = [
-            "BufReadPost"
-            "BufNewFile"
-            "BufWritePre"
-          ];
-        };
-      };
       lintersByFt = {
         c = [ "clangtidy" ];
         cpp = [ "clangtidy" ];
@@ -55,5 +46,17 @@
         return #linters == 0 and "󰦕" or ("󱉶 " .. table.concat(linters, ", "))
       end
     '';
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = [
+          "BufReadPost"
+          "BufNewFile"
+          "BufWritePre"
+        ];
+      };
+    };
   };
 }

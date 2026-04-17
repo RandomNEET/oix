@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  meta,
+  ...
+}:
 let
   hasThemes = config.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
@@ -7,16 +12,6 @@ in
   programs.nixvim = {
     plugins.bufferline = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = [
-            "BufReadPost"
-            "BufNewFile"
-            "BufWritePre"
-          ];
-        };
-      };
       settings = {
         options = {
           mode = "buffers";
@@ -517,6 +512,18 @@ in
       BufferLineModifiedSelected = {
         fg = colors.base09;
         bg = colors.base00;
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = [
+          "BufReadPost"
+          "BufNewFile"
+          "BufWritePre"
+        ];
       };
     };
   };

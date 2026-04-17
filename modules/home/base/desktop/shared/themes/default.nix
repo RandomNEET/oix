@@ -1,5 +1,4 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
@@ -9,11 +8,7 @@ let
   inherit (lib) mkMerge mkIf;
 in
 {
-  imports = [
-    inputs.stylix.homeModules.stylix
-    ./options.nix
-  ];
-
+  imports = [ ./options.nix ];
   config = mkMerge [
     (mkIf (config.desktop.enable && config.desktop.themes.enable) (
       let

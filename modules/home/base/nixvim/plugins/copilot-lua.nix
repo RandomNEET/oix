@@ -1,13 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.copilot-lua = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = "InsertEnter";
-        };
-      };
       settings = {
         panel = {
           enabled = true;
@@ -38,6 +33,14 @@
           svn = false;
           yaml = true;
         };
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = "InsertEnter";
       };
     };
   };

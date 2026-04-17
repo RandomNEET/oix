@@ -1,13 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.csvview = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          ft = "csv";
-        };
-      };
       settings = {
         parser = {
           async_chunksize = 50;
@@ -30,5 +25,13 @@
         };
       }
     ];
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        ft = "csv";
+      };
+    };
   };
 }

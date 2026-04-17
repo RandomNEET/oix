@@ -1,13 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.mini-ai = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = "DeferredUIEnter";
-        };
-      };
       settings = {
         n_lines = 500;
         custom_textobjects = {
@@ -43,6 +38,14 @@
           u.__raw = "require('mini.ai').gen_spec.function_call()";
           U.__raw = "require('mini.ai').gen_spec.function_call({ name_pattern = '[%w_]' })";
         };
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = "DeferredUIEnter";
       };
     };
   };

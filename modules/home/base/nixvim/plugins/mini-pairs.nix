@@ -1,13 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.mini-pairs = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = "DeferredUIEnter";
-        };
-      };
       settings = {
         modes = {
           insert = true;
@@ -18,6 +13,14 @@
         skip_ts = [ "string" ];
         skip_unbalanced = true;
         markdown = true;
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = "DeferredUIEnter";
       };
     };
   };

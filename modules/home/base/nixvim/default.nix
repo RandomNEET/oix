@@ -1,7 +1,6 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 {
   imports = [
-    inputs.nixvim.homeModules.nixvim
     ./core
     ./plugins
   ];

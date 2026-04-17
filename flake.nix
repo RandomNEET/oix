@@ -17,9 +17,17 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix-stable = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    stylix-stable = {
+      url = "github:nix-community/stylix/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     impermanence.url = "github:nix-community/impermanence";
 
@@ -27,30 +35,54 @@
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lanzaboote-stable = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
 
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri-stable = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    noctalia-stable = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim-stable = {
+      url = "github:nix-community/nixvim/nixos-25.11";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    spicetify-nix-stable = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-index-database-stable = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
   };
   outputs =
@@ -60,7 +92,22 @@
       nixpkgs-stable,
       home-manager,
       home-manager-stable,
-      nixos-wsl,
+      sops-nix,
+      sops-nix-stable,
+      stylix,
+      stylix-stable,
+      lanzaboote,
+      lanzaboote-stable,
+      niri,
+      niri-stable,
+      noctalia,
+      noctalia-stable,
+      nixvim,
+      nixvim-stable,
+      spicetify-nix,
+      spicetify-nix-stable,
+      nix-index-database,
+      nix-index-database-stable,
       ...
     }@inputs:
     let
@@ -105,10 +152,42 @@
         ) getHosts
       );
 
-      baseModule = {
+      baseModules = {
         os = ./modules/base;
         home = ./modules/home/base;
       };
+      osUnstableModules = [
+        home-manager.nixosModules.home-manager
+        sops-nix.nixosModules.sops
+        stylix.nixosModules.stylix
+        lanzaboote.nixosModules.lanzaboote
+      ];
+      osStableModules = [
+        home-manager-stable.nixosModules.home-manager
+        sops-nix-stable.nixosModules.sops
+        stylix-stable.nixosModules.stylix
+        lanzaboote-stable.nixosModules.lanzaboote
+      ];
+      hmUnstableModules = [
+        sops-nix.homeManagerModules.sops
+        stylix.homeModules.stylix
+        niri.homeModules.niri
+        niri.homeModules.stylix
+        noctalia.homeModules.default
+        nixvim.homeModules.nixvim
+        spicetify-nix.homeManagerModules.default
+        nix-index-database.homeModules.nix-index
+      ];
+      hmStableModules = [
+        sops-nix-stable.homeManagerModules.sops
+        stylix-stable.homeModules.stylix
+        niri-stable.homeModules.niri
+        niri-stable.homeModules.stylix
+        noctalia-stable.homeModules.default
+        nixvim-stable.homeModules.nixvim
+        spicetify-nix-stable.homeManagerModules.default
+        nix-index-database-stable.homeModules.nix-index
+      ];
 
       mkHost =
         hostname:
@@ -121,11 +200,6 @@
           channel = if isStable then nixpkgs-stable else nixpkgs;
           lib = channel.lib;
           mylib = import ./lib { inherit lib; };
-          hmModule =
-            if isStable then
-              home-manager-stable.nixosModules.home-manager
-            else
-              home-manager.nixosModules.home-manager;
           hostUsers = getUsers hostPath;
         in
         {
@@ -141,8 +215,7 @@
               meta = baseMeta;
             };
             modules = [
-              baseModule.os
-              hmModule
+              baseModules.os
               {
                 home-manager.extraSpecialArgs = {
                   inherit
@@ -153,8 +226,9 @@
                 };
                 home-manager.users = lib.genAttrs hostUsers (username: {
                   imports = [
-                    baseModule.home
+                    baseModules.home
                   ]
+                  ++ (if isStable then hmStableModules else hmUnstableModules)
                   ++ lib.optionals (builtins.pathExists (hostPath + "/users/${username}/imports.nix")) [
                     (hostPath + "/users/${username}/imports.nix")
                   ]
@@ -180,6 +254,7 @@
                 };
               }
             ]
+            ++ (if isStable then osStableModules else osUnstableModules)
             ++ lib.optionals (builtins.pathExists (hostPath + "/imports.nix")) [ (hostPath + "/imports.nix") ]
             ++ lib.optionals (builtins.pathExists (hostPath + "/options.nix")) [ (hostPath + "/options.nix") ]
             ++ lib.optionals (builtins.pathExists (hostPath + "/hardware-configuration.nix")) [
@@ -223,7 +298,7 @@
                 ;
             };
             modules = [
-              baseModule.home
+              baseModules.home
               {
                 home = {
                   inherit username;
@@ -233,6 +308,7 @@
                 programs.home-manager.enable = true;
               }
             ]
+            ++ (if isStable then hmStableModules else hmUnstableModules)
             ++ lib.optionals (builtins.pathExists (userPath + "/imports.nix")) [ (userPath + "/imports.nix") ]
             ++ lib.optionals (builtins.pathExists (userPath + "/options.nix")) [ (userPath + "/options.nix") ];
           };

@@ -1,16 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.lsp = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = [
-            "BufReadPre"
-            "BufNewFile"
-          ];
-        };
-      };
       servers = {
         bashls.enable = true;
         clangd.enable = true;
@@ -29,6 +21,17 @@
         jsonls.enable = true;
         vue_ls.enable = true;
         yamlls.enable = true;
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = [
+          "BufReadPre"
+          "BufNewFile"
+        ];
       };
     };
   };

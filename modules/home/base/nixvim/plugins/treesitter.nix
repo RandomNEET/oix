@@ -1,35 +1,15 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  meta,
+  ...
+}:
 {
   programs.nixvim = {
-    plugins.treesitter = rec {
+    plugins.treesitter = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = [
-            "BufReadPost"
-            "BufNewFile"
-            "BufWritePre"
-            "DeferredUIEnter"
-          ];
-          cmd = [
-            "TSUpdate"
-            "TSInstall"
-            "TSLog"
-            "TSUninstall"
-          ];
-          after.__raw = ''
-            function()
-              vim.opt.foldmethod = "expr"
-              vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-            end
-          '';
-        };
-      };
-      folding.enable = !lazyLoad.enable; # enable after lazyload
       nixvimInjections = true;
-      highlight.enable = true;
-      indent.enable = true;
       nixGrammars = true;
       grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
         bash
@@ -53,10 +33,35 @@
         vue
         yaml
       ];
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      folding.enable = !config.programs.nixvim.plugins.treesitter.lazyLoad.enable; # enable after lazyload
+      highlight.enable = true;
+      indent.enable = true;
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
       settings = {
-        highlight.enable = true;
-        incremental_selection.enable = true;
-        indent.enable = true;
+        event = [
+          "BufReadPost"
+          "BufNewFile"
+          "BufWritePre"
+          "DeferredUIEnter"
+        ];
+        cmd = [
+          "TSUpdate"
+          "TSInstall"
+          "TSLog"
+          "TSUninstall"
+        ];
+        after.__raw = ''
+          function()
+            vim.opt.foldmethod = "expr"
+            vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+          end
+        '';
       };
     };
   };

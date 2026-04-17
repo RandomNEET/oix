@@ -1,5 +1,4 @@
 {
-  inputs,
   osConfig,
   config,
   lib,
@@ -17,8 +16,6 @@ let
 in
 {
   imports = [
-    inputs.niri.homeModules.niri
-    inputs.niri.homeModules.stylix
     ../shared/fonts
     ../shared/themes
     ../shared/programs/fcitx5

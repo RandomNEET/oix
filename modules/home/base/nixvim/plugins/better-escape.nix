@@ -1,17 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.better-escape = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = [
-            "BufReadPost"
-            "BufNewFile"
-            "BufWritePre"
-          ];
-        };
-      };
       settings = {
         mappings = {
           i = {
@@ -43,6 +34,18 @@
           };
         };
         timeout = 300;
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = [
+          "BufReadPost"
+          "BufNewFile"
+          "BufWritePre"
+        ];
       };
     };
   };

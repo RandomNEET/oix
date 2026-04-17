@@ -1,21 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.mini-surround = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          keys = [
-            "gsa"
-            "gsd"
-            "gsf"
-            "gsF"
-            "gsh"
-            "gsr"
-            "gsn"
-          ];
-        };
-      };
       settings = {
         mappings = {
           add = "gsa";
@@ -26,6 +13,22 @@
           replace = "gsr";
           update_n_lines = "gsn";
         };
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        keys = [
+          "gsa"
+          "gsd"
+          "gsf"
+          "gsF"
+          "gsh"
+          "gsr"
+          "gsn"
+        ];
       };
     };
   };

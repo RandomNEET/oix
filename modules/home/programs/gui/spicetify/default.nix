@@ -48,8 +48,6 @@ let
       "";
 in
 {
-  imports = [ inputs.spicetify-nix.homeManagerModules.default ];
-
   programs.spicetify = {
     enable = true;
     enabledExtensions = with spicePkgs.extensions; [

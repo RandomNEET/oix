@@ -1,14 +1,13 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  meta,
+  ...
+}:
 {
   programs.nixvim = {
     plugins.comment = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = "DeferredUIEnter";
-        };
-      };
       settings = {
         padding = true;
         sticky = true;
@@ -35,6 +34,14 @@
         pre_hook = ''
           require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
         '';
+      }
+      // lib.optionalAttrs (meta.channel == "unstable") {
+        lazyLoad = {
+          enable = true;
+          settings = {
+            event = "DeferredUIEnter";
+          };
+        };
       };
     };
   };

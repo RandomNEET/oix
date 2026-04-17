@@ -1,5 +1,4 @@
 {
-  inputs,
   osConfig,
   config,
   lib,
@@ -46,7 +45,6 @@ let
   restore-wall-theme = import ./scripts/restore-wall-theme.nix { inherit config pkgs; };
 in
 {
-  imports = [ inputs.noctalia.homeModules.default ];
   config = lib.mkIf config.desktop.enable {
     programs.noctalia-shell = {
       enable = true;

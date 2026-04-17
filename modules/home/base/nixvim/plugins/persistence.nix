@@ -1,13 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.persistence = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = "BufReadPre";
-        };
-      };
       settings = {
         dir.__raw = ''vim.fn.stdpath("state") .. "/sessions/"'';
         need = 1;
@@ -48,5 +43,13 @@
         };
       }
     ];
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = "BufReadPre";
+      };
+    };
   };
 }

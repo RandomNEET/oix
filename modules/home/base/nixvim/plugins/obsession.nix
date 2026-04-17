@@ -1,9 +1,7 @@
 { pkgs, ... }:
 {
   programs.nixvim = {
-    extraPlugins = with pkgs.vimPlugins; [
-      vim-obsession
-    ];
+    extraPlugins = with pkgs.vimPlugins; [ vim-obsession ];
     keymaps = [
       {
         mode = "n";

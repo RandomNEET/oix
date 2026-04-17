@@ -1,15 +1,11 @@
 {
-  inputs,
   config,
   lib,
   pkgs,
   ...
 }:
 {
-  imports = [
-    inputs.lanzaboote.nixosModules.lanzaboote
-    ./options.nix
-  ];
+  imports = [ ./options.nix ];
   config = lib.mkIf config.base.secure-boot.enable {
     environment.systemPackages = [
       # For debugging and troubleshooting Secure Boot.

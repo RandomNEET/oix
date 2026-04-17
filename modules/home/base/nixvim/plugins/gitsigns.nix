@@ -1,17 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.gitsigns = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = [
-            "BufReadPost"
-            "BufNewFile"
-            "BufWritePre"
-          ];
-        };
-      };
       settings = {
         signs = {
           add.text = "▎";
@@ -72,6 +63,18 @@
             map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
           end
         '';
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = [
+          "BufReadPost"
+          "BufNewFile"
+          "BufWritePre"
+        ];
       };
     };
   };

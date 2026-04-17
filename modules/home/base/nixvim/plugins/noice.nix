@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  meta,
+  ...
+}:
 let
   hasThemes = config.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
@@ -7,12 +12,6 @@ in
   programs.nixvim = {
     plugins.noice = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = "DeferredUIEnter";
-        };
-      };
       settings = {
         views = {
           cmdline_popup = {
@@ -58,6 +57,14 @@ in
       NoiceCmdlinePopupBorderSearch = {
         fg = colors.base0E;
         bg = "none";
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = "DeferredUIEnter";
       };
     };
   };

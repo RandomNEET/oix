@@ -1,18 +1,8 @@
-{ lib, ... }:
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.lualine = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          event = [
-            "BufReadPost"
-            "BufNewFile"
-            "BufWritePre"
-          ];
-        };
-      };
       settings = {
         iconsEnabled = true;
         theme = "auto";
@@ -88,5 +78,17 @@
       };
     };
     opts.laststatus = lib.mkForce 0; # hide statusline on startup; overridden by lualine after loading
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        event = [
+          "BufReadPost"
+          "BufNewFile"
+          "BufWritePre"
+        ];
+      };
+    };
   };
 }

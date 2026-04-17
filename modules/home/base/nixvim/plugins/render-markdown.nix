@@ -1,13 +1,8 @@
+{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.render-markdown = {
       enable = true;
-      lazyLoad = {
-        enable = true;
-        settings = {
-          ft = "markdown";
-        };
-      };
       settings = {
         bullet = {
           icons = [
@@ -46,6 +41,14 @@
         signs = {
           enabled = false;
         };
+      };
+    };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    lazyLoad = {
+      enable = true;
+      settings = {
+        ft = "markdown";
       };
     };
   };
