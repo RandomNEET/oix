@@ -1,6 +1,5 @@
 {
   imports = [
-    ../../modules/services/cron
     ../../modules/services/fstrim
     ../../modules/services/xray
 
