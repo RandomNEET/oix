@@ -40,8 +40,16 @@ let
     # idle inhibit
     dbus-user.talk org.freedesktop.ScreenSaver
 
-    # userscripts/ime-off
-    ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") "dbus-user.talk org.fcitx.Fcitx5"}
+    ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") ''
+      # userscripts/ime-off
+      dbus-user.talk org.fcitx.Fcitx5
+    ''}
+
+    ${lib.optionalString config.programs.nixvim.plugins.obsidian.enable ''
+      # obsidian.nvim
+      tmpfs ''${HOME}/${config.programs.obsidian.vaults.default.target}
+      whitelist ''${HOME}/${config.programs.obsidian.vaults.default.target}
+    ''}
   '';
 in
 pkgs.writeText "firejail-qutebrowser-profile" ''
