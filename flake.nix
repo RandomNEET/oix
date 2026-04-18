@@ -86,31 +86,15 @@
     };
   };
   outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-stable,
-      home-manager,
-      home-manager-stable,
-      sops-nix,
-      sops-nix-stable,
-      stylix,
-      stylix-stable,
-      lanzaboote,
-      lanzaboote-stable,
-      niri,
-      niri-stable,
-      noctalia,
-      noctalia-stable,
-      nixvim,
-      nixvim-stable,
-      spicetify-nix,
-      spicetify-nix-stable,
-      nix-index-database,
-      nix-index-database-stable,
-      ...
-    }@inputs:
+    inputs:
     let
+      inherit (inputs)
+        self
+        nixpkgs
+        nixpkgs-stable
+        home-manager
+        home-manager-stable
+        ;
       inherit (self) outputs;
 
       systems = [
@@ -156,19 +140,19 @@
         os = ./modules/base;
         home = ./modules/home/base;
       };
-      osUnstableModules = [
+      osUnstableModules = with inputs; [
         home-manager.nixosModules.home-manager
         sops-nix.nixosModules.sops
         stylix.nixosModules.stylix
         lanzaboote.nixosModules.lanzaboote
       ];
-      osStableModules = [
+      osStableModules = with inputs; [
         home-manager-stable.nixosModules.home-manager
         sops-nix-stable.nixosModules.sops
         stylix-stable.nixosModules.stylix
         lanzaboote-stable.nixosModules.lanzaboote
       ];
-      hmUnstableModules = [
+      hmUnstableModules = with inputs; [
         sops-nix.homeManagerModules.sops
         stylix.homeModules.stylix
         niri.homeModules.niri
@@ -178,7 +162,7 @@
         spicetify-nix.homeManagerModules.default
         nix-index-database.homeModules.nix-index
       ];
-      hmStableModules = [
+      hmStableModules = with inputs; [
         sops-nix-stable.homeManagerModules.sops
         stylix-stable.homeModules.stylix
         niri-stable.homeModules.niri
