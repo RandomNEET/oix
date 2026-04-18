@@ -48,35 +48,55 @@ in
       };
       fonts = {
         monospace = mkOption {
-          type = fontModule;
-          default = {
-            package = pkgs.nerd-fonts.jetbrains-mono;
-            name = "JetBrainsMono Nerd Font";
-          };
+          type = types.listOf fontModule;
+          default = [
+            {
+              package = pkgs.nerd-fonts.jetbrains-mono;
+              name = "JetBrainsMono Nerd Font";
+            }
+            {
+              package = pkgs.sarasa-gothic;
+              name = "Sarasa Mono SC";
+            }
+          ];
           description = "The default monospace (fixed-width) font used in terminals and code editors.";
         };
         sansSerif = mkOption {
-          type = fontModule;
-          default = {
-            package = pkgs.noto-fonts-cjk-sans;
-            name = "Noto Sans CJK SC";
-          };
+          type = types.listOf fontModule;
+          default = [
+            {
+              package = pkgs.ibm-plex;
+              name = "IBM Plex Sans";
+            }
+            {
+              package = pkgs.sarasa-gothic;
+              name = "Sarasa Gothic SC";
+            }
+          ];
           description = "The default proportional font without serifs, used for UI elements and general text.";
         };
         serif = mkOption {
-          type = fontModule;
-          default = {
-            package = pkgs.noto-fonts-cjk-serif;
-            name = "Noto Serif CJK SC";
-          };
+          type = types.listOf fontModule;
+          default = [
+            {
+              package = pkgs.ibm-plex;
+              name = "IBM Plex Serif";
+            }
+            {
+              package = pkgs.sarasa-gothic;
+              name = "Sarasa Gothic SC";
+            }
+          ];
           description = "The default proportional font with serifs, used for documents and formal reading.";
         };
         emoji = mkOption {
-          type = fontModule;
-          default = {
-            package = pkgs.noto-fonts-color-emoji;
-            name = "Noto Color Emoji";
-          };
+          type = types.listOf fontModule;
+          default = [
+            {
+              package = pkgs.noto-fonts-color-emoji;
+              name = "Noto Color Emoji";
+            }
+          ];
           description = "The font package providing emoji support across the system.";
         };
       };

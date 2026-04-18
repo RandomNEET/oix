@@ -7,17 +7,17 @@ in
     fonts.fontconfig = {
       enable = true;
       defaultFonts = {
-        monospace = [ fonts.monospace.name ];
-        sansSerif = [ fonts.sansSerif.name ];
-        serif = [ fonts.serif.name ];
-        emoji = [ fonts.emoji.name ];
+        monospace = map (f: f.name) fonts.monospace;
+        sansSerif = map (f: f.name) fonts.sansSerif;
+        serif = map (f: f.name) fonts.serif;
+        emoji = map (f: f.name) fonts.emoji;
       };
     };
-    home.packages = [
-      fonts.monospace.package
-      fonts.sansSerif.package
-      fonts.serif.package
-      fonts.emoji.package
+    home.packages = builtins.concatLists [
+      (map (f: f.package) fonts.monospace)
+      (map (f: f.package) fonts.sansSerif)
+      (map (f: f.package) fonts.serif)
+      (map (f: f.package) fonts.emoji)
     ];
   };
 }

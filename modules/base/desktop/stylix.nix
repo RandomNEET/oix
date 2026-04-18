@@ -16,10 +16,10 @@ in
         base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.desktop.theme.baseTheme}.yaml";
         polarity = config.desktop.theme.polarity;
         fonts = {
-          monospace = config.desktop.fonts.monospace;
-          sansSerif = config.desktop.fonts.sansSerif;
-          serif = config.desktop.fonts.serif;
-          emoji = config.desktop.fonts.emoji;
+          monospace = builtins.head config.desktop.fonts.monospace;
+          sansSerif = builtins.head config.desktop.fonts.sansSerif;
+          serif = builtins.head config.desktop.fonts.serif;
+          emoji = builtins.head config.desktop.fonts.emoji;
         };
         autoEnable = false;
         targets = {

@@ -53,22 +53,42 @@ in
       polarity = "dark";
     };
     fonts = {
-      monospace = {
-        package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "JetBrainsMono Nerd Font";
-      };
-      sansSerif = {
-        package = pkgs.noto-fonts-cjk-sans;
-        name = "Noto Sans CJK SC";
-      };
-      serif = {
-        package = pkgs.noto-fonts-cjk-serif;
-        name = "Noto Serif CJK SC";
-      };
-      emoji = {
-        package = pkgs.noto-fonts-color-emoji;
-        name = "Noto Color Emoji";
-      };
+      monospace = [
+        {
+          package = pkgs.nerd-fonts.jetbrains-mono;
+          name = "JetBrainsMono Nerd Font";
+        }
+        {
+          package = pkgs.sarasa-gothic;
+          name = "Sarasa Mono SC";
+        }
+      ];
+      sansSerif = [
+        {
+          package = pkgs.ibm-plex;
+          name = "IBM Plex Sans";
+        }
+        {
+          package = pkgs.sarasa-gothic;
+          name = "Sarasa Gothic SC";
+        }
+      ];
+      serif = [
+        {
+          package = pkgs.ibm-plex;
+          name = "IBM Plex Serif";
+        }
+        {
+          package = pkgs.sarasa-gothic;
+          name = "Sarasa Gothic SC";
+        }
+      ];
+      emoji = [
+        {
+          package = pkgs.noto-fonts-color-emoji;
+          name = "Noto Color Emoji";
+        }
+      ];
     };
   };
 
