@@ -10,13 +10,13 @@
         show_warnings = 1;
         silent_exit = 0;
       };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = "DeferredUIEnter";
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "DeferredUIEnter";
+        };
       };
     };
   };

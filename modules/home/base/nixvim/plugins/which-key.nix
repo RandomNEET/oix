@@ -16,6 +16,14 @@ in
       settings = {
         preset = "helix";
       };
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "DeferredUIEnter";
+        };
+      };
     };
     highlightOverride = lib.mkIf hasThemes {
       WhichkeyBorder = {
@@ -29,14 +37,6 @@ in
       WhichkeySeparator = {
         fg = colors.base0B;
         bg = "none";
-      };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = "DeferredUIEnter";
       };
     };
   };

@@ -14,13 +14,13 @@
         skip_unbalanced = true;
         markdown = true;
       };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = "DeferredUIEnter";
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "DeferredUIEnter";
+        };
       };
     };
   };

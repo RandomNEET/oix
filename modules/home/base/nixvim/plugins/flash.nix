@@ -3,6 +3,14 @@
   programs.nixvim = {
     plugins.flash = {
       enable = true;
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "DeferredUIEnter";
+        };
+      };
     };
     keymaps = [
       # Flash Navigation
@@ -81,13 +89,5 @@
         };
       }
     ];
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = "DeferredUIEnter";
-      };
-    };
   };
 }

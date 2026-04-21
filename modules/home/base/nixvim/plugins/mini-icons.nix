@@ -4,13 +4,13 @@
     plugins.mini-icons = {
       enable = true;
       mockDevIcons = true;
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = "DeferredUIEnter";
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "DeferredUIEnter";
+        };
       };
     };
   };

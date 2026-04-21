@@ -12,6 +12,14 @@
           spacing = 2;
         };
       };
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          ft = "csv";
+        };
+      };
     };
     keymaps = [
       {
@@ -25,13 +33,5 @@
         };
       }
     ];
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        ft = "csv";
-      };
-    };
   };
 }

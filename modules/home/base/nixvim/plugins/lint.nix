@@ -22,6 +22,18 @@
         vue = [ "eslint_d" ];
       };
       linters = { };
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = [
+            "BufReadPost"
+            "BufNewFile"
+            "BufWritePre"
+          ];
+        };
+      };
     };
     extraConfigLua = ''
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -46,17 +58,5 @@
         return #linters == 0 and "󰦕" or ("󱉶 " .. table.concat(linters, ", "))
       end
     '';
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = [
-          "BufReadPost"
-          "BufNewFile"
-          "BufWritePre"
-        ];
-      };
-    };
   };
 }

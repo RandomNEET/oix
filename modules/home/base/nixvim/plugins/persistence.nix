@@ -8,6 +8,14 @@
         need = 1;
         branch = true;
       };
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "BufReadPre";
+        };
+      };
     };
     keymaps = [
       {
@@ -43,13 +51,5 @@
         };
       }
     ];
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = "BufReadPre";
-      };
-    };
   };
 }

@@ -45,6 +45,14 @@ in
           };
         };
       };
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = "DeferredUIEnter";
+        };
+      };
     };
     highlightOverride = lib.mkIf hasThemes {
       NoiceCmdlineIcon = {
@@ -58,14 +66,6 @@ in
       NoiceCmdlinePopupBorderSearch = {
         fg = colors.base0E;
         bg = "none";
-      };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = "DeferredUIEnter";
       };
     };
   };

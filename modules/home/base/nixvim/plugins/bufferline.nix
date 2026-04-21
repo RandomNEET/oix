@@ -75,6 +75,18 @@ in
           separator_style = "thin"; # “slant”, “padded_slant”, “slope”, “padded_slope”, “thick”, “thin”
         };
       };
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = [
+            "BufReadPost"
+            "BufNewFile"
+            "BufWritePre"
+          ];
+        };
+      };
     };
     keymaps = [
       {
@@ -513,18 +525,6 @@ in
       BufferLineModifiedSelected = {
         fg = colors.base09;
         bg = colors.base00;
-      };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = [
-          "BufReadPost"
-          "BufNewFile"
-          "BufWritePre"
-        ];
       };
     };
   };

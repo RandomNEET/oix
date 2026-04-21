@@ -22,16 +22,16 @@
         vue_ls.enable = true;
         yamlls.enable = true;
       };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = [
-          "BufReadPre"
-          "BufNewFile"
-        ];
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = [
+            "BufReadPre"
+            "BufNewFile"
+          ];
+        };
       };
     };
   };

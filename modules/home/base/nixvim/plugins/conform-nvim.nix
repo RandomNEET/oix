@@ -54,34 +54,34 @@
           timeout_ms = 500;
         };
       };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        cmd = "ConformInfo";
-        event = "BufWritePre";
-        keys = [
-          {
-            __unkeyed-1 = "<leader>cf";
-            __unkeyed-2 = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true })<cr>";
-            mode = [
-              "n"
-              "v"
-            ];
-            desc = "Format buffer";
-          }
-          {
-            __unkeyed-1 = "<leader>cF";
-            __unkeyed-2 = "<cmd>lua require('conform').format({ formatters = { 'injected' }, timeout_ms = 3000 })<cr>";
-            mode = [
-              "n"
-              "v"
-            ];
-            desc = "Format Injected Langs";
-          }
-        ];
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = "ConformInfo";
+          event = "BufWritePre";
+          keys = [
+            {
+              __unkeyed-1 = "<leader>cf";
+              __unkeyed-2 = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true })<cr>";
+              mode = [
+                "n"
+                "v"
+              ];
+              desc = "Format buffer";
+            }
+            {
+              __unkeyed-1 = "<leader>cF";
+              __unkeyed-2 = "<cmd>lua require('conform').format({ formatters = { 'injected' }, timeout_ms = 3000 })<cr>";
+              mode = [
+                "n"
+                "v"
+              ];
+              desc = "Format Injected Langs";
+            }
+          ];
+        };
       };
     };
   };

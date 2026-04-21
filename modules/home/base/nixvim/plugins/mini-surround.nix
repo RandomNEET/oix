@@ -14,21 +14,21 @@
           update_n_lines = "gsn";
         };
       };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        keys = [
-          "gsa"
-          "gsd"
-          "gsf"
-          "gsF"
-          "gsh"
-          "gsr"
-          "gsn"
-        ];
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          keys = [
+            "gsa"
+            "gsd"
+            "gsf"
+            "gsF"
+            "gsh"
+            "gsr"
+            "gsn"
+          ];
+        };
       };
     };
   };

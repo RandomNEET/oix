@@ -53,6 +53,19 @@
         is_insert_mode = false;
         live_update = true;
       };
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          cmd = "Spectre";
+          keys = [
+            "<leader>S"
+            "<leader>sw"
+            "<leader>sp"
+          ];
+        };
+      };
     };
     keymaps = [
       {
@@ -88,18 +101,5 @@
         };
       }
     ];
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        cmd = "Spectre";
-        keys = [
-          "<leader>S"
-          "<leader>sw"
-          "<leader>sp"
-        ];
-      };
-    };
   };
 }

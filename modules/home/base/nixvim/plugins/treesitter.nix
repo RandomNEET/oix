@@ -38,30 +38,28 @@
       folding.enable = !config.programs.nixvim.plugins.treesitter.lazyLoad.enable; # enable after lazyload
       highlight.enable = true;
       indent.enable = true;
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = [
-          "BufReadPost"
-          "BufNewFile"
-          "BufWritePre"
-          "DeferredUIEnter"
-        ];
-        cmd = [
-          "TSUpdate"
-          "TSInstall"
-          "TSLog"
-          "TSUninstall"
-        ];
-        after.__raw = ''
-          function()
-            vim.opt.foldmethod = "expr"
-            vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-          end
-        '';
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = [
+            "BufReadPost"
+            "BufNewFile"
+            "BufWritePre"
+            "DeferredUIEnter"
+          ];
+          cmd = [
+            "TSUpdate"
+            "TSInstall"
+            "TSLog"
+            "TSUninstall"
+          ];
+          after.__raw = ''
+            function()
+              vim.opt.foldmethod = "expr"
+              vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+            end
+          '';
+        };
       };
     };
   };

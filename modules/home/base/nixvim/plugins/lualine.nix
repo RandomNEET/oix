@@ -76,19 +76,21 @@
         winbar = { };
         inactive_winbar = { };
       };
-    };
-    opts.laststatus = lib.mkForce 0; # hide statusline on startup; overridden by lualine after loading
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = [
-          "BufReadPost"
-          "BufNewFile"
-          "BufWritePre"
-        ];
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = [
+            "BufReadPost"
+            "BufNewFile"
+            "BufWritePre"
+          ];
+        };
       };
     };
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    opts.laststatus = lib.mkForce 0; # hide statusline on startup; overridden by lualine after loading
   };
 }

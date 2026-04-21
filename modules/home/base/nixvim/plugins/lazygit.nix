@@ -5,23 +5,9 @@
   ...
 }:
 {
-  programs.nixvim =
-    lib.mkIf config.programs.lazygit.enable {
-      plugins.lazygit = {
-        enable = true;
-      };
-      keymaps = [
-        {
-          mode = [
-            "n"
-          ];
-          key = "<leader>lg";
-          action = "<cmd>LazyGit<cr>";
-          options = {
-            desc = "Open lazygit";
-          };
-        }
-      ];
+  programs.nixvim = lib.mkIf config.programs.lazygit.enable {
+    plugins.lazygit = {
+      enable = true;
     }
     // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
@@ -31,4 +17,17 @@
         };
       };
     };
+    keymaps = [
+      {
+        mode = [
+          "n"
+        ];
+        key = "<leader>lg";
+        action = "<cmd>LazyGit<cr>";
+        options = {
+          desc = "Open lazygit";
+        };
+      }
+    ];
+  };
 }

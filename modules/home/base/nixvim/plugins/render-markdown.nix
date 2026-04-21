@@ -42,13 +42,13 @@
           enabled = false;
         };
       };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        ft = "markdown";
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          ft = "markdown";
+        };
       };
     };
   };

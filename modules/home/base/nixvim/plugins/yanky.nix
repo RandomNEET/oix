@@ -10,17 +10,17 @@
           timer = 100;
         };
       };
-    };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
-    lazyLoad = {
-      enable = true;
-      settings = {
-        event = [
-          "BufReadPost"
-          "BufNewFile"
-          "BufWritePre"
-        ];
+    }
+    // lib.optionalAttrs (meta.channel == "unstable") {
+      lazyLoad = {
+        enable = true;
+        settings = {
+          event = [
+            "BufReadPost"
+            "BufNewFile"
+            "BufWritePre"
+          ];
+        };
       };
     };
   };
