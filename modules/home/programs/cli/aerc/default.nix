@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -6,8 +7,8 @@
 }:
 let
   inherit (lib) optionalAttrs getExe getExe';
-  hasDesktop = config.desktop.enable;
-  hasThemes = config.desktop.themes.enable;
+  hasDesktop = osConfig.desktop.enable;
+  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
 in
 {

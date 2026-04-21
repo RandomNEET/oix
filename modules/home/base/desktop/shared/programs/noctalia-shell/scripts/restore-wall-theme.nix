@@ -1,7 +1,12 @@
-{ config, pkgs, ... }:
+{
+  osConfig,
+  config,
+  pkgs,
+  ...
+}:
 let
-  hasThemes = config.desktop.themes.enable;
-  defaultTheme = if hasThemes then builtins.head config.desktop.themes.list else "original";
+  hasThemes = osConfig.desktop.themes.enable;
+  defaultTheme = if hasThemes then builtins.head osConfig.desktop.themes.list else "original";
 in
 pkgs.writeShellScript "restore-wall-theme" ''
   WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"

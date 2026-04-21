@@ -1,12 +1,13 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
   ...
 }:
 let
-  hasThemes = config.desktop.themes.enable;
-  defaultTheme = if hasThemes then builtins.head config.desktop.themes.list else "default";
+  hasThemes = osConfig.desktop.themes.enable;
+  defaultTheme = if hasThemes then builtins.head osConfig.desktop.themes.list else "default";
   terminal = (import ../misc/terminal.nix { inherit config; }).exe;
 in
 pkgs.writeShellScriptBin "launcher" ''
@@ -121,8 +122,6 @@ pkgs.writeShellScriptBin "launcher" ''
     if [ -z "$SELECTED" ]; then
       exit 0
     fi
-    
-    notify-send -a "Theme Switcher" -u low -i "preferences-desktop-theme" "Switching to $SELECTED"
 
     if [ "$SELECTED" = "${defaultTheme}" ]; then
       "$BASE_GEN/activate"
@@ -130,8 +129,48 @@ pkgs.writeShellScriptBin "launcher" ''
       "$SPEC_DIR/$SELECTED/activate"
     fi
 
-    sleep 0.1
+    ${lib.optionalString config.programs.noctalia-shell.enable ''
+      case "$SELECTED" in
+        "ayu")               NOCTALIA_THEME="Ayu" ;;
+        "catppuccin-mocha")  NOCTALIA_THEME="Catppuccin" ;;
+        "dracula")           NOCTALIA_THEME="Dracula" ;;
+        "eldritch")          NOCTALIA_THEME="Eldritch" ;;
+        "gruvbox-dark-hard") NOCTALIA_THEME="Gruvbox" ;;
+        "kanagawa")          NOCTALIA_THEME="Kanagawa" ;;
+        "nord")              NOCTALIA_THEME="Nord" ;;
+        "rose-pine")         NOCTALIA_THEME="Rose Pine" ;;
+        "tokyo-night-dark")  NOCTALIA_THEME="Tokyo Night" ;;
+        *)                   NOCTALIA_THEME="Noctalia (default)" ;;
+      esac
 
+      noctalia-shell ipc call colorScheme set "$NOCTALIA_THEME"
+
+      ${lib.optionalString (config.desktop.wallpaper.enable && osConfig.base.display.info != [ ]) (
+        let
+          genWallpaperCmd = m: ''
+            CURRENT_WP=$(noctalia-shell ipc call wallpaper get "${m.output}")
+
+            if [ -n "$CURRENT_WP" ]; then
+              if [ "$SELECTED" = "${defaultTheme}" ]; then
+                NEW_WP=$(echo "$CURRENT_WP" | sed -E "s@/themed/[^/]+/@/original/@")
+              else
+                NEW_WP=$(echo "$CURRENT_WP" | sed -E "s@/(themed/[^/]+|original)/@/themed/$SELECTED/@")
+              fi
+
+              if [ -f "$NEW_WP" ]; then
+                noctalia-shell ipc call wallpaper set "$NEW_WP" "${m.output}"
+              else
+                notify-send -a "Theme Switcher" -u normal "Wallpaper not found" "Path: $NEW_WP"
+              fi
+            fi
+          '';
+        in
+        lib.concatMapStringsSep "\n" genWallpaperCmd osConfig.base.display.info
+      )}
+    ''}
+    ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") ''
+      systemctl --user restart fcitx5-daemon
+    ''}
     ${lib.optionalString config.programs.tmux.enable ''
       if tmux ls > /dev/null 2>&1; then
         tmux source-file ${config.xdg.configHome}/tmux/tmux.conf
@@ -151,38 +190,6 @@ pkgs.writeShellScriptBin "launcher" ''
         done
       fi
     ''} 
-    ${lib.optionalString (config.programs ? noctalia-shell && config.programs.noctalia-shell.enable)
-      ''
-        ${lib.optionalString config.desktop.wallpaper.enable ''
-          WALLPAPER_CONF="$HOME/.cache/noctalia/wallpapers.json"
-          if [ -f "$WALLPAPER_CONF" ]; then
-            NEW_JSON=$(jq --arg theme "$SELECTED" '
-              def get_target_path: 
-                if $theme == "original" 
-                then "original" 
-                else "themed/" + $theme 
-                end;
-
-              .wallpapers |= map_values(
-                map_values(
-                  gsub("${config.desktop.wallpaper.dir}/[^/]+(/[^/]+)?/"; "${config.desktop.wallpaper.dir}/" + get_target_path + "/")
-                )
-              )
-            ' "$WALLPAPER_CONF")
-            
-            echo "$NEW_JSON" > "$WALLPAPER_CONF"
-          fi
-        ''}
-
-        noctalia-shell kill
-        for i in {1..20}; do 
-            noctalia-shell list --all | grep -q "No running" && break || sleep 0.2
-        done
-        noctalia-shell -d
-
-        systemctl --user restart fcitx5-daemon
-      ''
-    }
     ;;
   spec)
     SPEC_DIR="/nix/var/nix/profiles/system/specialisation"

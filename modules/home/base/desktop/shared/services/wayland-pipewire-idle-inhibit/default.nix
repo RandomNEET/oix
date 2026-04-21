@@ -1,11 +1,11 @@
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   ...
 }:
 {
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf osConfig.desktop.enable {
     systemd.user = {
       services.wayland-pipewire-idle-inhibit = {
         Unit = {

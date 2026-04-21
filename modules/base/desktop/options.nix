@@ -9,6 +9,7 @@ let
     mkOption
     mkEnableOption
     types
+    mkMerge
     mkForce
     mkIf
     ;
@@ -45,12 +46,20 @@ in
           description = "Whether to designate niri as the primary window manager for the system session.";
         };
       };
-      theme = {
+      hibernate = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable system hibernation features and related power management hooks.";
+      };
+      themes = {
         enable = mkEnableOption "the centralized desktop ricing and theming system";
-        baseTheme = mkOption {
-          type = types.nullOr types.str;
-          default = null;
-          description = "The base16-scheme to apply across the desktop.";
+        list = mkOption {
+          type = types.listOf types.str;
+          default = [ ];
+          description = ''
+            A list of base16-scheme names to be used by the desktop. 
+            The first element (index 0) is treated as the primary active theme.
+          '';
         };
         polarity = mkOption {
           type = types.enum [
@@ -121,7 +130,7 @@ in
       };
     };
   };
-  config = lib.mkMerge [
+  config = mkMerge [
     {
       assertions = [
         {
@@ -143,8 +152,8 @@ in
     (mkIf (!config.desktop.niri.enable) {
       desktop.niri.primary = mkForce false;
     })
-    (mkIf (!config.desktop.theme.enable) {
-      desktop.theme.baseTheme = mkForce null;
+    (mkIf (!config.desktop.themes.enable) {
+      desktop.themes.list = mkForce [ ];
     })
   ];
 }

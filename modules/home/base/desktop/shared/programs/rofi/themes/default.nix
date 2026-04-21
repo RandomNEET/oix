@@ -1,11 +1,12 @@
 {
+  osConfig,
   config,
   lib,
   mylib,
   ...
 }:
 let
-  hasThemes = config.desktop.themes.enable;
+  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
 in

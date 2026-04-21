@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -6,7 +7,7 @@
 }:
 let
   inherit (lib) getExe;
-  hasDesktop = config.desktop.enable;
+  hasDesktop = osConfig.desktop.enable;
 in
 {
   programs.yazi = {

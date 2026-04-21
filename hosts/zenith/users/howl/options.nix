@@ -12,16 +12,6 @@ rec {
     browser = "qutebrowser";
   };
   desktop = {
-    hibernate = false;
-    themes = {
-      list = [
-        "catppuccin-mocha"
-        "gruvbox-dark-hard"
-        "kanagawa"
-        "nord"
-        "tokyo-night-dark"
-      ];
-    };
     wallpaper = {
       enable = true;
       dir = "/home/${meta.username}/pic/wallpapers";

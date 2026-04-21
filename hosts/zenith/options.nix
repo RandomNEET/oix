@@ -47,9 +47,16 @@ in
       enable = true;
       primary = false;
     };
-    theme = {
+    hibernate = false;
+    themes = {
       enable = true;
-      baseTheme = "catppuccin-mocha";
+      list = [
+        "catppuccin-mocha"
+        "gruvbox-dark-hard"
+        "kanagawa"
+        "nord"
+        "tokyo-night-dark"
+      ];
       polarity = "dark";
     };
     fonts = {

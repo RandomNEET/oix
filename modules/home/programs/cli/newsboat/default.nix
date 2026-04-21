@@ -1,12 +1,13 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
   ...
 }:
 let
-  hasDesktop = config.desktop.enable;
-  hasThemes = config.desktop.themes.enable;
+  hasDesktop = osConfig.desktop.enable;
+  hasThemes = osConfig.desktop.themes.enable;
 in
 {
   programs.newsboat = {

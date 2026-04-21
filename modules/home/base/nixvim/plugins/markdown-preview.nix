@@ -1,12 +1,12 @@
 {
-  config,
+  osConfig,
   lib,
   meta,
   ...
 }:
 {
   programs.nixvim =
-    lib.mkIf config.desktop.enable {
+    lib.mkIf osConfig.desktop.enable {
       plugins.markdown-preview = {
         enable = true;
         settings = {

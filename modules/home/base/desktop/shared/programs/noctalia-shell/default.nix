@@ -9,7 +9,7 @@
 let
   inherit (lib) optional mkIf;
   colors = config.lib.stylix.colors.withHashtag;
-  hasThemes = config.desktop.themes.enable;
+  hasThemes = osConfig.desktop.themes.enable;
   themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
   matchedPredefinedScheme =
     if hasThemes then
@@ -42,10 +42,10 @@ let
       "${config.desktop.wallpaper.dir}/themed/${themeName}"
     else
       config.desktop.wallpaper.dir;
-  restore-wall-theme = import ./scripts/restore-wall-theme.nix { inherit config pkgs; };
+  restore-wall-theme = import ./scripts/restore-wall-theme.nix { inherit osConfig config pkgs; };
 in
 {
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf osConfig.desktop.enable {
     programs.noctalia-shell = {
       enable = true;
       package = pkgs.noctalia-shell;
@@ -152,7 +152,7 @@ in
           lockScreenBlur = 0.30;
           lockScreenCountdownDuration = 10000;
           lockScreenTint = 0.25;
-          showHibernateOnLockScreen = config.desktop.hibernate;
+          showHibernateOnLockScreen = osConfig.desktop.hibernate;
           showSessionButtonsOnLockScreen = true;
         };
         ui = {

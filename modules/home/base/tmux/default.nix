@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -7,7 +8,7 @@
 }:
 let
   inherit (lib) optionalString;
-  hasThemes = config.desktop.themes.enable;
+  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
   resurrectDir = "${config.xdg.stateHome}/tmux/resurrect";

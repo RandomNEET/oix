@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -6,13 +7,14 @@
   ...
 }:
 let
-  hasThemes = config.desktop.themes.enable;
+  hasThemes = osConfig.desktop.themes.enable;
   hasWallpaper = config.desktop.wallpaper.enable;
   picDir =
     lib.replaceStrings [ "${config.home.homeDirectory}" "$HOME/" ] [ "" "" ]
       config.xdg.userDirs.pictures;
   gowall-autoconvert = import ./scripts/gowall-autoconvert.nix {
     inherit
+      osConfig
       config
       pkgs
       mylib
@@ -20,7 +22,7 @@ let
   };
 in
 {
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf osConfig.desktop.enable {
     home = {
       packages =
         with pkgs;

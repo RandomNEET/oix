@@ -1,11 +1,12 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
   ...
 }:
 let
-  hasThemes = config.desktop.themes.enable;
+  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors;
 
   base = ''

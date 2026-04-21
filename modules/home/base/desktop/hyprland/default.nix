@@ -7,7 +7,16 @@
 }:
 let
   inherit (lib) getExe;
-  launcher = getExe (import ../shared/scripts/launcher.nix { inherit config lib pkgs; });
+  launcher = getExe (
+    import ../shared/scripts/launcher.nix {
+      inherit
+        osConfig
+        config
+        lib
+        pkgs
+        ;
+    }
+  );
   clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
   file-manager = getExe (import ../shared/scripts/file-manager.nix { inherit config pkgs; });
   screenshot = getExe (import ../shared/scripts/screenshot.nix { inherit config pkgs; });
@@ -37,7 +46,7 @@ in
     ../shared/services/wayland-pipewire-idle-inhibit
   ];
 
-  config = lib.mkIf config.desktop.hyprland.enable {
+  config = lib.mkIf osConfig.desktop.hyprland.enable {
     wayland.windowManager.hyprland =
       let
         binds = import ./binds.nix {

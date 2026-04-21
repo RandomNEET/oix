@@ -1,6 +1,11 @@
-{ config, pkgs, ... }:
+{
+  osConfig,
+  config,
+  pkgs,
+  ...
+}:
 let
-  hasDesktop = config.desktop.enable;
+  hasDesktop = osConfig.desktop.enable;
 in
 {
   programs.gpg = {

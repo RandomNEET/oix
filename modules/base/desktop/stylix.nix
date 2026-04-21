@@ -12,8 +12,8 @@ in
   config = mkMerge [
     (mkIf config.desktop.enable {
       stylix = {
-        enable = config.desktop.theme.enable;
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.desktop.theme.baseTheme}.yaml";
+        enable = true;
+        base16Scheme = "${pkgs.base16-schemes}/share/themes/${builtins.head config.desktop.themes.list}.yaml";
         polarity = config.desktop.theme.polarity;
         fonts = {
           monospace = builtins.head config.desktop.fonts.monospace;

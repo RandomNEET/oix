@@ -32,9 +32,16 @@ in
       enable = true;
       primary = true;
     };
-    theme = {
+    hibernate = true;
+    themes = {
       enable = true;
-      baseTheme = "catppuccin-mocha";
+      list = [
+        "catppuccin-mocha"
+        "gruvbox-dark-hard"
+        "kanagawa"
+        "nord"
+        "tokyo-night-dark"
+      ];
       polarity = "dark";
     };
     fonts = {

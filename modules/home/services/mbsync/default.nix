@@ -1,11 +1,12 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
   ...
 }:
 let
-  hasDesktop = config.desktop.enable;
+  hasDesktop = osConfig.desktop.enable;
 in
 {
   imports = [ ./options.nix ];

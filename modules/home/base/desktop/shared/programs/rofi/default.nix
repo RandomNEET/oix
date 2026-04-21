@@ -1,11 +1,12 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
   ...
 }:
 {
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf osConfig.desktop.enable {
     programs.rofi = {
       enable = true;
       terminal = "${lib.getExe' pkgs.${config.defaultPrograms.terminal}

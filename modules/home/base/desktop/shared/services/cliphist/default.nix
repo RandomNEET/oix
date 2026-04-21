@@ -1,6 +1,6 @@
-{ config, lib, ... }:
+{ osConfig, lib, ... }:
 {
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf osConfig.desktop.enable {
     services.cliphist = {
       enable = true;
       allowImages = true;

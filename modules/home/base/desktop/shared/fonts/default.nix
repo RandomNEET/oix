@@ -1,9 +1,9 @@
-{ config, lib, ... }:
+{ osConfig, lib, ... }:
 let
-  fonts = config.desktop.fonts;
+  fonts = osConfig.desktop.fonts;
 in
 {
-  config = lib.mkIf config.desktop.enable {
+  config = lib.mkIf osConfig.desktop.enable {
     fonts.fontconfig = {
       enable = true;
       defaultFonts = {

@@ -1,11 +1,11 @@
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   ...
 }:
 let
-  hasDesktop = config.desktop.enable;
+  hasDesktop = osConfig.desktop.enable;
 in
 {
   programs.spotify-player = {

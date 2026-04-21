@@ -1,6 +1,11 @@
-{ config, lib, ... }:
+{
+  osConfig,
+  config,
+  lib,
+  ...
+}:
 let
-  hasThemes = config.desktop.themes.enable;
+  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
 in
 {
@@ -10,7 +15,7 @@ in
       general = {
         mode = "viewer";
       }
-      // lib.optionalAttrs config.desktop.hyprland.primary {
+      // lib.optionalAttrs osConfig.desktop.hyprland.primary {
         overlay = "yes";
       };
       viewer = {

@@ -1,5 +1,5 @@
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   ...
@@ -8,23 +8,22 @@ let
   inherit (lib) mkMerge mkIf;
 in
 {
-  imports = [ ./options.nix ];
   config = mkMerge [
-    (mkIf (config.desktop.enable && config.desktop.themes.enable) (
+    (mkIf (osConfig.desktop.enable && osConfig.desktop.themes.enable) (
       let
-        defaultTheme = builtins.head config.desktop.themes.list;
-        otherThemes = builtins.tail config.desktop.themes.list;
+        defaultTheme = builtins.head osConfig.desktop.themes.list;
+        otherThemes = builtins.tail osConfig.desktop.themes.list;
       in
       {
         stylix = {
           enable = true;
           base16Scheme = "${pkgs.base16-schemes}/share/themes/${defaultTheme}.yaml";
-          polarity = config.desktop.themes.polarity;
+          polarity = osConfig.desktop.themes.polarity;
           fonts = {
-            monospace = builtins.head config.desktop.fonts.monospace;
-            sansSerif = builtins.head config.desktop.fonts.sansSerif;
-            serif = builtins.head config.desktop.fonts.serif;
-            emoji = builtins.head config.desktop.fonts.emoji;
+            monospace = builtins.head osConfig.desktop.fonts.monospace;
+            sansSerif = builtins.head osConfig.desktop.fonts.sansSerif;
+            serif = builtins.head osConfig.desktop.fonts.serif;
+            emoji = builtins.head osConfig.desktop.fonts.emoji;
           };
           autoEnable = false;
           targets = {
@@ -125,7 +124,7 @@ in
         '';
       }
     ))
-    (mkIf (config.desktop.enable && !config.desktop.themes.enable) {
+    (mkIf (osConfig.desktop.enable && !osConfig.desktop.themes.enable) {
       home.activation.saveHmBasePath = ''
         LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
 
@@ -136,7 +135,7 @@ in
         fi
       '';
     })
-    (mkIf (!config.desktop.enable) {
+    (mkIf (!osConfig.desktop.enable) {
       stylix = {
         enable = false;
         autoEnable = false;
