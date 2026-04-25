@@ -29,6 +29,10 @@
       pull.rebase = true;
       rebase.autoStash = true;
     };
+    lfs = {
+      enable = true;
+      skipSmudge = false;
+    };
   };
 
   home.shellAliases = {
