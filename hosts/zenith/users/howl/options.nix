@@ -402,24 +402,10 @@ rec {
   };
   home = {
     packages = with pkgs; [
-      ffmpeg
-      imagemagick
-      md2pdf
-
       localsend
       qbittorrent
       libreoffice
       tor-browser
-
-      lolcat
-      figlet
-      fortune
-      cowsay
-      asciiquarium-transparent
-      cbonsai
-      cmatrix
-      pipes
-      tty-clock
 
       osu-lazer
       prismlauncher
