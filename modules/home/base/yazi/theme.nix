@@ -87,20 +87,20 @@
         text = "";
       }
       {
-        name = "tmp";
-        text = "󰪺";
+        name = "oix";
+        text = "";
       }
       {
-        name = "pkg";
-        text = "";
+        name = "tmp";
+        text = "󰪺";
       }
       {
         name = "repo";
         text = "";
       }
       {
-        name = "oix";
-        text = "";
+        name = "misc";
+        text = "󰮍";
       }
     ];
   };

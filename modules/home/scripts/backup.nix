@@ -17,7 +17,15 @@ let
         mv -v ~/vault.tar.gz.gpg /mnt/hdd2/backup
 
         echo "==> Backing up user directories..."
-        for dir in oix doc pic pkg repo vid .local/share/zsh; do
+        for dir in \
+          doc \
+          pic \
+          vid \
+          oix \
+          repo \
+          misc \
+          .local/share/zsh
+        do
           echo "--> $dir"
           rsync -aAXH --delete --no-links --human-readable --quiet \
             --info=NAME,REMOVE,DEL \
@@ -46,7 +54,8 @@ let
           /var/lib/jellyfin \
           /var/lib/qBittorrent \
           /var/lib/freshrss \
-          /var/lib/calibre-web; do
+          /var/lib/calibre-web
+        do
           echo "--> $dir"
           sudo rsync -aAXH --delete --no-links --human-readable --quiet \
             --info=NAME,REMOVE,DEL \
