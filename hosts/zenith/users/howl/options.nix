@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   meta,
@@ -14,7 +15,7 @@ rec {
   desktop = {
     wallpaper = {
       enable = true;
-      dir = "/home/${meta.username}/pic/wallpapers";
+      dir = "${config.home.homeDirectory}/pic/wallpapers";
     };
   };
 
@@ -24,27 +25,27 @@ rec {
         "github.com" = {
           hostname = "github.com";
           user = "git";
-          identityFile = "/home/${meta.username}/.config/sops-nix/secrets/ssh/github-RandomNEET";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/github-RandomNEET";
           addKeysToAgent = "yes";
         };
         "codeberg.org" = {
           hostname = "codeberg.org";
           user = "git";
-          identityFile = "/home/${meta.username}/.config/sops-nix/secrets/ssh/codeberg-RandomNEET";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/codeberg-RandomNEET";
           addKeysToAgent = "yes";
         };
         gale = {
           hostname = "gale.local";
           port = 22;
           user = meta.username;
-          identityFile = "/home/${meta.username}/.config/sops-nix/secrets/ssh/gale";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/gale";
           addKeysToAgent = "yes";
         };
         voile = {
           hostname = "voile.local";
           port = 22;
           user = meta.username;
-          identityFile = "/home/${meta.username}/.config/sops-nix/secrets/ssh/voile";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
           addKeysToAgent = "yes";
         };
       };
@@ -249,7 +250,7 @@ rec {
     noctalia-shell = {
       settings = {
         general = {
-          avatarImage = "/home/${meta.username}/pic/avatars/weeb.jpg";
+          avatarImage = "${config.home.homeDirectory}/pic/avatars/weeb.jpg";
         };
         bar = {
           screenOverrides = [
@@ -367,7 +368,7 @@ rec {
       ];
     };
     mbsync = {
-      configFile = "/home/${meta.username}/.config/sops-nix/secrets/mbsync";
+      configFile = "${config.xdg.configHome}/sops-nix/secrets/mbsync";
       trigger.enable = true;
     };
     mpd = {
@@ -421,7 +422,7 @@ rec {
           maildir.path = "/neet";
           address = "neet@randomneet.me";
           userName = "neet@randomneet.me";
-          passwordCommand = "cat /home/${meta.username}/.config/sops-nix/secrets/email/RandomNEET/password";
+          passwordCommand = "cat ${config.xdg.configHome}/sops-nix/secrets/email/RandomNEET/password";
           realName = "RandomNEET";
           gpg = {
             key = "0xBFA119DF465BFBB1";
@@ -435,7 +436,7 @@ rec {
               default = "Inbox";
               folders-sort = "Inbox,Inbox/dev,Inbox/contact,Inbox/selfhost,Inbox/bill,Inbox/cert,Inbox/temp,Archive,Drafts,Sent,Junk,Trash";
               check-mail = "5m";
-              check-mail-cmd = "touch /home/${meta.username}/${accounts.email.maildirBasePath}/.trigger && sleep 1";
+              check-mail-cmd = "touch ${config.home.homeDirectory}/${accounts.email.maildirBasePath}/.trigger && sleep 1";
             };
           };
           mbsync = {
@@ -450,13 +451,13 @@ rec {
     userDirs = {
       enable = true;
       desktop = null; # no need for wm
-      documents = "/home/${meta.username}/doc";
-      download = "/home/${meta.username}/dls";
-      music = "/home/${meta.username}/mus";
-      pictures = "/home/${meta.username}/pic";
-      videos = "/home/${meta.username}/vid";
-      templates = "/home/${meta.username}/tpl";
-      publicShare = "/home/${meta.username}/pub";
+      documents = "${config.home.homeDirectory}/doc";
+      download = "${config.home.homeDirectory}/dls";
+      music = "${config.home.homeDirectory}/mus";
+      pictures = "${config.home.homeDirectory}/pic";
+      videos = "${config.home.homeDirectory}/vid";
+      templates = "${config.home.homeDirectory}/tpl";
+      publicShare = "${config.home.homeDirectory}/pub";
     };
   };
 

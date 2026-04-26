@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   meta,
@@ -17,14 +18,14 @@
           hostname = "zenith.local";
           port = 22;
           user = meta.username;
-          identityFile = "/home/${meta.username}/.config/sops-nix/secrets/ssh/zenith";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/zenith";
           addKeysToAgent = "yes";
         };
         gale = {
           hostname = "gale.local";
           port = 22;
           user = meta.username;
-          identityFile = "/home/${meta.username}/.config/sops-nix/secrets/ssh/gale";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/gale";
           addKeysToAgent = "yes";
         };
       };
@@ -90,6 +91,9 @@
     };
   };
   home = {
+    file = {
+      ".docker/docker-compose.yaml".source = ./docker-compose.yaml;
+    };
     packages = with pkgs; [
       mediainfo
       flac
@@ -112,6 +116,10 @@
     secrets = {
       "ssh/zenith".sopsFile = ./secrets.yaml;
       "ssh/gale".sopsFile = ./secrets.yaml;
+      "docker/env" = {
+        sopsFile = ./secrets.yaml;
+        path = "${config.home.homeDirectory}/.docker/.env";
+      };
     };
   };
 }

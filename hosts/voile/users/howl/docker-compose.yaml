@@ -1,0 +1,602 @@
+services:
+  # homepage:
+  #   image: ghcr.io/gethomepage/homepage:latest
+  #   container_name: homepage
+  #   environment:
+  #     - PUID=${UID} # optional, your user id
+  #     - PGID=${GID} # optional, your group id
+  #     - HOMEPAGE_ALLOWED_HOSTS=*
+  #     - HTTP_PROXY=${PROXY_BRIDGE}
+  #     - HTTPS_PROXY=${PROXY_BRIDGE}
+  #   ports:
+  #     - 10000:3000
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/homepage/config:/app/config # Make sure your local config directory exists
+  #     - ${DOCKER_VOLUME}/homepage/images:/app/public/images
+  #     - ${DOCKER_VOLUME}/homepage/icons:/app/public/icons
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
+  #     - type: bind
+  #       source: /mnt/smb
+  #       target: /mnt/smb
+  #   restart: unless-stopped
+  #
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "10090:8080"
+    environment:
+      - HTTP_PROXY=${PROXY_BRIDGE}
+      - HTTPS_PROXY=${PROXY_BRIDGE}
+      # - WATCHTOWER_NOTIFICATIONS=email
+      # - WATCHTOWER_NOTIFICATION_EMAIL_FROM=${EMAIL_FROM}
+      # - WATCHTOWER_NOTIFICATION_EMAIL_TO=${EMAIL_TO}
+      # - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=${EMAIL_SERVER}
+      # - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=${EMAIL_SERVER_PORT}
+      # - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${EMAIL_SERVER_USER}
+      # - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${EMAIL_SERVER_PASSPORT}
+      - WATCHTOWER_HTTP_API_UPDATE=true
+      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
+      - WATCHTOWER_HTTP_API_METRICS=true
+      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_HTTP_API_TOKEN}
+      - TZ=Asia/Shanghai
+      - WATCHTOWER_SCHEDULE=0 0 0 * * *
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_REMOVE_VOLUMES=true
+      # - DOCKER_API_VERSION=1.52
+
+  # jellyfin:
+  #   image: jellyfin/jellyfin
+  #   container_name: jellyfin
+  #   user: "${UID}:${GID}"
+  #   network_mode: "host"
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/jellyfin/config:/config
+  #     - ${DOCKER_VOLUME}/jellyfin/cache:/cache
+  #     - type: bind
+  #       source: /mnt/Passport/Anime
+  #       target: /Anime
+  #     - type: bind
+  #       source: /mnt/Passport/Movies
+  #       target: /Movies
+  #     - type: bind
+  #       source: /mnt/Passport/Shows
+  #       target: /Shows
+  #     - type: bind
+  #       source: /mnt/Passport/Library
+  #       target: /Library
+  #     - type: bind
+  #       source: /mnt/Passport/Music
+  #       target: /Music
+  #     - type: bind
+  #       source: /mnt/Passport/Downloads/auto
+  #       target: /mnt/Passport/Downloads/auto
+  #   restart: unless-stopped
+  #   environment:
+  #     - HTTP_PROXY=http://127.0.0.1:9998
+  #     - HTTPS_PROXY=http://127.0.0.1:9998
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: cdi
+  #             capabilities:
+  #               - gpu
+  #             device_ids:
+  #               - nvidia.com/gpu=all
+  # extra_hosts:
+  #   - "host.docker.internal:host-gateway"
+
+  # calibre-web:
+  #   image: lscr.io/linuxserver/calibre-web:latest
+  #   container_name: calibre-web
+  #   environment:
+  #     - PUID=${UID}
+  #     - PGID=${GID}
+  #     - TZ=Asia/Chongqing
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/calibre/config:/config
+  #     - /mnt/smb/media/library:/books
+  #   ports:
+  #     - 10100:8083
+  #   restart: unless-stopped
+  #
+  # freshrss:
+  #   image: freshrss/freshrss
+  #   container_name: freshrss
+  #   restart: unless-stopped
+  #   ports:
+  #     - "10110:80"
+  #   environment:
+  #     - HTTP_PROXY=${PROXY_BRIDGE}
+  #     - HTTPS_PROXY=${PROXY_BRIDGE}
+  #     # - DB_TYPE=pgsql
+  #     # - DB_HOST=freshrss-db
+  #     # - DB_PORT=5432
+  #     # - DB_NAME=freshrss
+  #     # - DB_USER=freshrss
+  #     # - DB_PASSWORD=t@Q1ndeSH0k8
+  #     - CRON_MIN=*/30
+  #     - TZ=Asia/Chongqing
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/freshrss/data:/var/www/FreshRSS/data
+  #     - ${DOCKER_VOLUME}/freshrss/extensions:/var/www/FreshRSS/extensions
+
+  rsshub:
+    # two ways to enable puppeteer:
+    # * comment out marked lines, then use this image instead: diygod/rsshub:chromium-bundled
+    # * (consumes more disk space and memory) leave everything unchanged
+    image: diygod/rsshub
+    container_name: rsshub
+    restart: unless-stopped
+    ports:
+      - "10120:1200"
+    environment:
+      PROXY_URI: ${PROXY_BRIDGE}
+      NODE_ENV: production
+      CACHE_TYPE: redis
+      REDIS_URL: "redis://redis:6379/"
+      PUPPETEER_WS_ENDPOINT: "ws://browserless:3000" # marked
+      PIXIV_REFRESHTOKEN: ${PIXIV_REFRESHTOKEN}
+      PIXIV_BYPASS_CDN: 1
+      PIXIV_BYPASS_HOSTNAME: "public-api.secure.pixiv.net"
+      PIXIV_BYPASS_DOH: "https://1.1.1.1/dns-query"
+      PIXIV_IMG_PROXY: "https://i.pixiv.re"
+    depends_on:
+      - redis
+      - browserless # marked
+
+  browserless: # marked
+    image: browserless/chrome # marked
+    container_name: browserless
+    restart: unless-stopped
+    ulimits: # marked
+      core: # marked
+        hard: 0 # marked
+        soft: 0 # marked
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/pressure"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_VOLUME}/rsshub/redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+
+  # qbittorrent:
+  #   image: lscr.io/linuxserver/qbittorrent:latest
+  #   container_name: qbittorrent
+  #   network_mode: "host"
+  #   environment:
+  #     - PUID=${UID}
+  #     - PGID=${GID}
+  #     - TZ=Asia/Shanghai
+  #     - WEBUI_PORT=10200
+  #     - TORRENTING_PORT=6881
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/qbittorrent:/config
+  #     - /mnt/smb/downloads:/downloads
+  #     - /mnt/smb/media/anime:/anime
+  #     - /mnt/smb/media/movies:/movie
+  #     - /mnt/smb/media/shows:/show
+  #     - /mnt/smb/media/library:/library
+  #     - /mnt/smb/media/music:/music
+  #   # ports:
+  #   #   - 6881:6881
+  #   #   - 6881:6881/udp
+  #   #   - 10200:8080
+  #   restart: unless-stopped
+
+  # Aria2-Pro:
+  #     container_name: aria2-pro
+  #     image: p3terx/aria2-pro
+  #     environment:
+  #       - PUID=${UID}
+  #       - PGID=${GID}
+  #       - UMASK_SET=022
+  #       - RPC_SECRET=${ARIA2_RPC_SECRET}
+  #       - RPC_PORT=10210
+  #       - LISTEN_PORT=10215
+  #       - DISK_CACHE=64M
+  #       - IPV6_MODE=false
+  #       - UPDATE_TRACKERS=true
+  #       - TZ=Asia/Shanghai
+  #     volumes:
+  #       - ${DOCKER_VOLUME}/aria2-config:/config
+  #       - /mnt/Passport/Downloads/manual:/downloads
+  #       - /mnt/Passport/Downloads/auto:/auto
+  #       - /mnt/Passport/Anime:/anime
+  #       - /mnt/Passport/Movies:/movie
+  #       - /mnt/Passport/Shows:/show
+  #       - /mnt/Passport/Library:/library
+  #       - /mnt/Passport/Music:/music
+  #       - /home/Pi:/pi
+  # # If you use host network mode, then no port mapping is required.
+  # # This is the easiest way to use IPv6 networks.
+  # #    network_mode: host
+  #     network_mode: bridge
+  #     ports:
+  #       - 10210:10210
+  #       - 10215:10215
+  #       - 10215:10215/udp
+  #     restart: unless-stopped
+  # # Since Aria2 will continue to generate logs, limit the log size to 1M to prevent your hard disk from running out of space.
+  #     logging:
+  #       driver: json-file
+  #       options:
+  #         max-size: 1m
+  #
+  # AriaNg:
+  #     container_name: ariang
+  #     image: p3terx/ariang
+  #     command: --port 6880 --ipv6
+  # #    network_mode: host
+  #     network_mode: bridge
+  #     ports:
+  #       - 10220:6880
+  #     restart: unless-stopped
+  #     logging:
+  #       driver: json-file
+  #       options:
+  #         max-size: 1m
+
+  peerbanhelper:
+    image: "ghostchu/peerbanhelper:latest"
+    restart: unless-stopped
+    container_name: "peerbanhelper"
+    volumes:
+      - ${DOCKER_VOLUME}/peerbanhelper:/app/data
+    ports:
+      - "10225:9898"
+    environment:
+      - PUID=${UID}
+      - PGID=${GID}
+      - TZ=Asia/Shanghai
+
+  ani-rss:
+    container_name: ani-rss
+    volumes:
+      - ${DOCKER_VOLUME}/ani-rss/config:/config
+      - /mnt/smb/downloads/auto:/downloads/auto
+      - /mnt/smb/downloads/manual:/downloads/manual
+      - /mnt/smb/media/anime:/anime
+      - /mnt/smb/media/movies:/movie
+      - /mnt/smb/media/shows:/show
+    ports:
+      - 10230:7789
+    environment:
+      - PORT=7789
+      - CONFIG=/config
+      - TZ=Asia/Shanghai
+    restart: unless-stopped
+    image: wushuo894/ani-rss
+
+  # AutoBangumi:
+  #   image: "ghcr.io/estrellaxd/auto_bangumi:latest"
+  #   container_name: AutoBangumi
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/auto_bangumi/config:/app/config
+  #     - ${DOCKER_VOLUME}/auto_bangumi/data:/app/data
+  #   ports:
+  #     - "10240:7892"
+  #   network_mode: bridge
+  #   restart: unless-stopped
+  #   dns:
+  #     - 223.5.5.5
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #     - PUID=${UID}
+  #     - PGID=${GID}
+  #     - UMASK=022
+  #
+  # moviepilot:
+  #   stdin_open: true
+  #   tty: true
+  #   container_name: moviepilot-v2
+  #   hostname: moviepilot-v2
+  #   ports:
+  #     - target: 3000
+  #       published: 10250
+  #       protocol: tcp
+  #   volumes:
+  #     - /mnt/smb/downloads:/downloads
+  #     - /mnt/smb/media/anime:/anime
+  #     - /mnt/smb/media/movies:/movie
+  #     - /mnt/smb/media/shows:/show
+  #     - /mnt/smb/media/library:/library
+  #     - /mnt/smb/media/music:/music
+  #     - "${DOCKER_VOLUME}/moviepilot-v2/config:/config"
+  #     - "${DOCKER_VOLUME}/moviepilot-v2/core:/moviepilot/.cache/ms-playwright"
+  #     - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  #   environment:
+  #     - PUID=${UID}
+  #     - PGID=${GID}
+  #     - UMASK=022
+  #     - PROXY_HOST=http://172.17.0.1:9997
+  #     - "NGINX_PORT=3000"
+  #     - "PORT=3001"
+  #     - "TZ=Asia/Shanghai"
+  #     #- 'AUTH_SITE=iyuu'
+  #     #- 'IYUU_SIGN=xxxx'
+  #     # - "SUPERUSER=howl"
+  #     # - 'API_TOKEN=无需手动配置，系统会自动生成。如果需要自定义配置，必须为16位以上的复杂字符串'
+  #   restart: unless-stopped
+  #   image: jxxghp/moviepilot-v2:latest
+
+  # pihole:
+  #   container_name: pihole
+  #   image: pihole/pihole:latest
+  #   # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+  #   network_mode: "host"
+  #   # ports:
+  #   #   - "53:53/tcp"
+  #   #   - "53:53/udp"
+  #   #   - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+  #   #   - "80:80/tcp"
+  #   environment:
+  #     - TZ=Asia/Chongqing
+  #     - WEBPASSWORD=123456
+  #     - INTERFACE=wlan0
+  #     - HTTP_PROXY=http://127.0.0.1:9998
+  #     - HTTPS_PROXY=http://127.0.0.1:9998
+  #   # Volumes store your data between container upgrades
+  #   volumes:
+  #     - "${DOCKER_VOLUME}/pihole/etc-pihole:/etc/pihole"
+  #     - "${DOCKER_VOLUME}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"
+  #   #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+  #   cap_add:
+  #     - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
+  #   restart: unless-stopped
+
+  # vaultwarden:
+  #   image: vaultwarden/server:latest
+  #   container_name: vaultwarden
+  #   restart: unless-stopped
+  #   ports:
+  #     - "10300:80"
+  #   environment:
+  #     DATABASE_URL: ${VAULTWARDEN_DATABASE_URL}
+  #     SMTP_FROM: ${EMAIL_FROM}
+  #     SMTP_HOST: ${EMAIL_SERVER}
+  #     SMTP_PORT: ${EMAIL_SERVER_PORT}
+  #     SMTP_USERNAME: ${EMAIL_SERVER_USER}
+  #     SMTP_PASSWORD: ${EMAIL_SERVER_PASSPORT}
+  #     SMTP_SECURITY: ${EMAIL_SECURITY}
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/vaultwarden:/data
+  #   networks:
+  #     - vaultwarden-net
+  #
+  # vaultwarden-db:
+  #   image: postgres:15
+  #   container_name: vaultwarden-db
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_USER: ${VAULTWARDEN_POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${VAULTWARDEN_POSTGRES_PASSWORD}
+  #     POSTGRES_DB: ${VAULTWARDEN_POSTGRES_POSTGRES_DB}
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/vaultwarden/vaultwarden-db:/var/lib/postgresql/data
+  #   networks:
+  #     - vaultwarden-net
+
+  linkding:
+    container_name: linkding
+    image: sissbruecker/linkding:latest
+    ports:
+      - 10310:9090
+    volumes:
+      - ${DOCKER_VOLUME}/linkding:/etc/linkding/data
+    environment:
+      - HTTP_PROXY=${PROXY_BRIDGE}
+      - HTTPS_PROXY=${PROXY_BRIDGE}
+    #env_file:
+    #  - .env
+    restart: unless-stopped
+
+  # note-mark:
+  #   image: ghcr.io/enchant97/note-mark-aio:0.14.1
+  #   container_name: note-mark
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/note-mark/data:/data
+  #   environment:
+  #     # !!! REPLACE These !!!
+  #     JWT_SECRET: ${NOTE_MARK_JWT_SECRET}
+  #     CORS_ORIGINS: ${NOTE_MARK_CORS_ORIGINS}
+  #   ports:
+  #     - 10320:8000
+  #
+  # drawio:
+  #   image: jgraph/drawio
+  #   container_name: drawio
+  #   restart: unless-stopped
+  #   ports:
+  #     - 10330:8080
+  #     # - 10325:8443
+  #   # environment:
+  #   # PUBLIC_DNS: domain
+  #   # ORGANISATION_UNIT: unit
+  #   # ORGANISATION: org
+  #   # CITY: city
+  #   # STATE: state
+  #   # COUNTRY_CODE: country
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "curl -f http://172.17.0.1:10320 || exit 1"]
+  #     interval: 1m30s
+  #     timeout: 10s
+  #     retries: 5
+  #     start_period: 10s
+
+  couchdb:
+    image: couchdb
+    container_name: obsidian-livesync
+    user: ${UID}:${GID}
+    environment:
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    volumes:
+      - ${DOCKER_VOLUME}/obsidian-livesync/data:/opt/couchdb/data
+      - ${DOCKER_VOLUME}/obsidian-livesync/local.ini:/opt/couchdb/etc/local.ini
+    ports:
+      - 10340:5984
+    restart: unless-stopped
+
+  # glances:
+  #   container_name: glances
+  #   image: nicolargo/glances:latest-full
+  #   restart: always
+  #   network_mode: "host"
+  #   environment:
+  #     - TZ=Asia/Chongqing
+  #     - GLANCES_OPT=-w
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - /etc/os-release:/etc/os-release:ro
+  #   pid: "host"
+
+  speedtest-tracker:
+    container_name: speedtest-tracker
+    ports:
+      - 10400:80
+    environment:
+      - HTTP_PROXY=${PROXY_BRIDGE}
+      - HTTPS_PROXY=${PROXY_BRIDGE}
+      - PUID=${UID}
+      - PGID=${GID}
+      - APP_KEY=${SPEEDTEST_TRACKER_APP_KEY}
+      - APP_URL=http://localhost
+      - DB_CONNECTION=mysql
+      - DB_HOST=speedtest-db
+      - DB_PORT=3306
+      - DB_DATABASE=${SPEEDTEST_TRACKER_DB_DATABASE}
+      - DB_USERNAME=${SPEEDTEST_TRACKER_DB_USERNAME}
+      - DB_PASSWORD=${SPEEDTEST_TRACKER_DB_PASSWORD}
+      - SPEEDTEST_SCHEDULE="0 * * * *"
+      - SPEEDTEST_SERVERS=
+      - PRUNE_RESULTS_OLDER_THAN=
+      - CHART_DATETIME_FORMAT=
+      - DATETIME_FORMAT=
+      - APP_TIMEZONE=Asia/Chongqing
+      - DISPLAY_TIMEZONE=Asia/Chongqing
+    volumes:
+      - ${DOCKER_VOLUME}/speedtest-tracker/config:/config
+      #- /path/to-custom-ssl-keys:/config/keys
+    image: lscr.io/linuxserver/speedtest-tracker:latest
+    restart: unless-stopped
+    depends_on:
+      - speedtest-db
+    networks:
+      - speedtest-net
+
+  speedtest-db:
+    image: mariadb:10
+    container_name: speedtest-db
+    restart: unless-stopped
+    environment:
+      - MARIADB_DATABASE=${SPEEDTEST_TRACKER_DB_DATABASE}
+      - MARIADB_USER=${SPEEDTEST_TRACKER_DB_USERNAME}
+      - MARIADB_PASSWORD=${SPEEDTEST_TRACKER_DB_PASSWORD}
+      - MARIADB_RANDOM_ROOT_PASSWORD=true
+    volumes:
+      - ${DOCKER_VOLUME}/speedtest-tracker/speedtest-db:/var/lib/mysql
+    networks:
+      - speedtest-net
+
+  mc:
+    container_name: mc
+    image: itzg/minecraft-server
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    ports:
+      - "11000:25565"
+    environment:
+      EULA: "TRUE"
+      # ONLINE_MODE: false
+      TYPE: PAPER
+      VERSION: 1.20.1
+      # HTTP_PROXY=${PROXY_BRIDGE}
+      # HTTPS_PROXY=${PROXY_BRIDGE}
+    volumes:
+      # attach the relative directory 'data' to the container's /data path
+      - ${DOCKER_VOLUME}/mc/paper-1.20.1-vanilla/data:/data
+
+  natfrp-service:
+    image: natfrp.com/launcher
+    container_name: natfrp-service
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ${DOCKER_VOLUME}/natfrp-service:/run
+    environment:
+      NATFRP_TOKEN: ${NATFRP_TOKEN}
+      NATFRP_REMOTE: ${NATFRP_REMOTE}
+      TZ: Asia/Shanghai
+
+  apcat:
+    environment:
+      - NAPCAT_UID=${UID}
+      - NAPCAT_GID=${GID}
+    network_mode: bridge
+    ports:
+      - 3000:3000
+      - 3001:3001
+      - 6099:6099
+    volumes:
+      - ${DOCKER_VOLUME}/napcat/config:/app/napcat/config
+      - /home/howl/repo/qbot/downloads:/home/howl/repo/qbot/downloads
+    container_name: napcat
+    restart: unless-stopped
+    image: mlikiowa/napcat-docker:latest
+
+  your-spotify-server:
+    container_name: your-spotify-server
+    image: yooooomi/your_spotify_server
+    restart: unless-stopped
+    ports:
+      - "10500:8080"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    environment:
+      API_ENDPOINT: https://spotifyapi.scaphium.xyz # This MUST be included as a valid URL in the spotify dashboard (see below)
+      CLIENT_ENDPOINT: https://myspotify.scaphium.xyz
+      SPOTIFY_PUBLIC: ${SPOTIFY_PUBLIC}
+      SPOTIFY_SECRET: ${SPOTIFY_SECRET}
+      TIMEZONE: Asia/Shanghai
+  mongo:
+    container_name: mongo
+    image: mongo:6
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_VOLUME}/your_spotify_db:/data/db
+
+  your-spotify-client:
+    container_name: your-spotify-client
+    image: yooooomi/your_spotify_client
+    restart: unless-stopped
+    ports:
+      - "10520:3000"
+    environment:
+      API_ENDPOINT: https://spotifyapi.scaphium.xyz
+
+networks:
+  # vaultwarden-net:
+  #   driver: bridge
+  speedtest-net:
+    driver: bridge
