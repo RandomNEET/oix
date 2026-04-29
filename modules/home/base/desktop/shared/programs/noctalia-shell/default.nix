@@ -8,6 +8,7 @@
 }:
 let
   inherit (lib) optional mkIf;
+
   colors = config.lib.stylix.colors.withHashtag;
   hasThemes = osConfig.desktop.themes.enable;
   themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
@@ -42,7 +43,9 @@ let
       "${config.desktop.wallpaper.dir}/themed/${themeName}"
     else
       config.desktop.wallpaper.dir;
+
   restore-wall-theme = import ./scripts/restore-wall-theme.nix { inherit osConfig config pkgs; };
+  terminal = import ../../misc/terminal.nix { inherit config; };
 in
 {
   config = lib.mkIf osConfig.desktop.enable {
@@ -196,11 +199,7 @@ in
         };
         appLauncher = {
           enableClipboardHistory = true;
-          terminalCommand =
-            if ((config.defaultPrograms.terminal == "foot") && config.programs.foot.server.enable) then
-              "footclient -e"
-            else
-              "${config.defaultPrograms.terminal} -e";
+          terminalCommand = "${terminal.exe} -e";
         };
         controlCenter = {
           shortcuts = {

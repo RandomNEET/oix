@@ -10,5 +10,6 @@
         scrollback-down-half-page = "Control+Shift+j";
       };
     };
+    server.enable = true;
   };
 }

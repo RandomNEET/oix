@@ -96,9 +96,6 @@ rec {
         lock_timeout = 3600;
       };
     };
-    foot = {
-      server.enable = true;
-    };
     qutebrowser = {
       settings = {
         url = {
