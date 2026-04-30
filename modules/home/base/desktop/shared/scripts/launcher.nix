@@ -151,11 +151,7 @@ pkgs.writeShellScriptBin "launcher" ''
             CURRENT_WP=$(noctalia-shell ipc call wallpaper get "${m.output}")
 
             if [ -n "$CURRENT_WP" ]; then
-              if [ "$SELECTED" = "${defaultTheme}" ]; then
-                NEW_WP=$(echo "$CURRENT_WP" | sed -E "s@/themed/[^/]+/@/original/@")
-              else
-                NEW_WP=$(echo "$CURRENT_WP" | sed -E "s@/(themed/[^/]+|original)/@/themed/$SELECTED/@")
-              fi
+              NEW_WP=$(echo "$CURRENT_WP" | sed -E "s@/(themed/[^/]+|original)/@/themed/$SELECTED/@")
 
               if [ -f "$NEW_WP" ]; then
                 noctalia-shell ipc call wallpaper set "$NEW_WP" "${m.output}"
