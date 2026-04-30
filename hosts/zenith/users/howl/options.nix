@@ -403,9 +403,10 @@ rec {
   };
   home = {
     packages = with pkgs; [
+      cherry-studio
+      libreoffice
       localsend
       qbittorrent
-      libreoffice
       tor-browser
 
       osu-lazer

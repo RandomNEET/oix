@@ -27,7 +27,6 @@ in
         enableUpdateCheck = false;
         enableExtensionUpdateCheck = true;
         extensions = with pkgs.vscode-extensions; [
-          github.copilot
           asvetliakov.vscode-neovim
 
           ms-vscode-remote.remote-ssh
