@@ -6,15 +6,21 @@
 
   windowrule = [
     "opacity 1.00 1.00, match:class ^(org\.qutebrowser\.qutebrowser)$"
-    "opacity 1.00 1.00, match:class ^(firefox)$"
+    "opacity 1.00 1.00, match:class ^([Ff]irefox)$"
+
     "opacity 0.90 0.90, match:class ^(org\.gnupg\.pinentry-qt)$"
     "opacity 0.90 0.90, match:title ^(Hyprland Polkit Agent)$"
+
     "opacity 0.80 0.80, match:class ^(kitty|foot|footclient)$"
     "opacity 0.80 0.80, match:class ^(editor)$"
     "opacity 0.80 0.80, match:class ^(fileManager)$"
     "opacity 0.80 0.80, match:class ^(code)$"
-    "opacity 0.80 0.80, match:class ^(spotify)$"
-    "opacity 0.80 0.80, match:class ^(steam)$"
+    "opacity 0.80 0.80, match:class ^([Ss]potify)$"
+    "opacity 0.80 0.80, match:class ^([Ss]team)$"
+
+    "float on, match:title ^(Picture-in-Picture)$, match:class ^([Ff]irefox)$"
+    "pin on, match:title ^(Picture-in-Picture)$, match:class ^([Ff]irefox)$"
+    "float on, center on, size 800 1000, match:title Hyprland Keybinds"
 
     "content game, match:tag games"
     "tag +games, match:content 3" # none = 0, photo = 1, video = 2, game = 3
@@ -29,9 +35,5 @@
     "no_shadow on, match:tag games"
     "no_blur on, match:tag games"
     "no_anim on, match:tag games"
-
-    "float on, match:title ^(Picture-in-Picture)$, match:class ^(firefox)$"
-    "pin on, match:title ^(Picture-in-Picture)$, match:class ^(firefox)$"
-    "float on, center on, size 800 1000, match:title Hyprland Keybinds"
   ];
 }

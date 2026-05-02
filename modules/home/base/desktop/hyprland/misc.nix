@@ -75,7 +75,7 @@
   };
 
   cursor = {
-    inactive_timeout = 5;
+    inactive_timeout = 10;
   };
 
   gestures = {
