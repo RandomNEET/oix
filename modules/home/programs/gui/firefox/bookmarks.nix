@@ -62,10 +62,6 @@
               name = "chatGPT";
               url = "https://chatgpt.com/";
             }
-            {
-              name = "copilot";
-              url = "https://copilot.github.com/";
-            }
           ];
         }
         {

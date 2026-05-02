@@ -9,5 +9,4 @@
   gmn = "https://gemini.google.com/";
   cld = "https://claude.ai/";
   gpt = "https://chatgpt.com/";
-  cop = "https://copilot.github.com/";
 }
