@@ -437,11 +437,11 @@ in
 }
 // lib.optionalAttrs osConfig.programs.steam.enable {
   "Mod+Ctrl+G" = {
-    hotkey-overlay.title = "Game launcher";
     action.spawn = [
       "${launcher}"
       "game"
     ];
+    hotkey-overlay.title = "Game launcher";
   };
 }
 // lib.optionalAttrs config.programs.tmux.enable {

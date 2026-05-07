@@ -47,6 +47,7 @@ in
             kitty.enable = true;
             lazygit.enable = true;
             mpv.enable = true;
+            niri.enable = true;
             nixvim = {
               enable = true;
               transparentBackground = {
