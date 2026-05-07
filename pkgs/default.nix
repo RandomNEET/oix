@@ -13,7 +13,7 @@ lib.mergeAttrsList [
   (import ./obsidian-plugins { inherit pkgs; })
   {
     tmuxPlugins = prev.tmuxPlugins // {
-      dotbar = (pkgs.callPackage ./tmux-plugins { }).dotbar;
+      # dotbar = (pkgs.callPackage ./tmux-plugins { }).dotbar;
     };
   }
 ]

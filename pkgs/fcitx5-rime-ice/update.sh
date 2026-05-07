@@ -5,8 +5,8 @@ BRANCH="nixos-unstable"
 TARGET_FILE=$(ls *.nix | head -n 1)
 
 if [ -z "$TARGET_FILE" ]; then
-	echo "Error: No .nix file found in the current directory."
-	exit 1
+  echo "Error: No .nix file found in the current directory."
+  exit 1
 fi
 
 echo "Target file: $TARGET_FILE"
@@ -19,8 +19,8 @@ RICE_URL="https://raw.githubusercontent.com/NixOS/nixpkgs/$BRANCH/pkgs/by-name/r
 RICE_CONTENT=$(curl -s "$RICE_URL")
 
 if [ -z "$RICE_CONTENT" ]; then
-	echo "Error: Could not fetch rime-ice data from Nixpkgs."
-	exit 1
+  echo "Error: Could not fetch rime-ice data from Nixpkgs."
+  exit 1
 fi
 
 RICE_VER=$(echo "$RICE_CONTENT" | grep -oP 'version = "\K[^"]+')
@@ -30,12 +30,12 @@ echo "Found rime-ice: $RICE_VER"
 
 # --- 2. Sync fcitx5-rime ---
 echo "[2/2] Fetching fcitx5-rime metadata..."
-FCITX_URL="https://raw.githubusercontent.com/NixOS/nixpkgs/$BRANCH/pkgs/tools/inputmethods/fcitx5/fcitx5-rime.nix"
+FCITX_URL="https://raw.githubusercontent.com/NixOS/nixpkgs/$BRANCH/pkgs/by-name/fc/fcitx5-rime/package.nix"
 FCITX_CONTENT=$(curl -s "$FCITX_URL")
 
 if [ -z "$FCITX_CONTENT" ]; then
-	echo "Error: Could not fetch fcitx5-rime data from Nixpkgs."
-	exit 1
+  echo "Error: Could not fetch fcitx5-rime data from Nixpkgs."
+  exit 1
 fi
 
 FCITX_VER=$(echo "$FCITX_CONTENT" | grep -oP 'version = "\K[^"]+')

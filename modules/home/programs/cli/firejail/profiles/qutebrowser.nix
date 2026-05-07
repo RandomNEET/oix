@@ -28,7 +28,7 @@ let
     whitelist /run/current-system/sw/bin/cat
 
     # hardware acceleration
-    # private-etc egl # 2026.04.02: unable to launch qutebrowser with nvidia gpu
+    private-etc egl
 
     # let other programs to open html
     ignore private-tmp

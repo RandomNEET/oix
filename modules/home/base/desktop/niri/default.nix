@@ -7,7 +7,6 @@
 }:
 let
   inherit (lib) getExe;
-  hasThemes = osConfig.desktop.themes.enable;
   launcher = getExe (
     import ../shared/scripts/launcher.nix {
       inherit
@@ -103,10 +102,5 @@ in
       slurp
       swappy
     ];
-    stylix.targets =
-      { }
-      // lib.optionalAttrs hasThemes {
-        niri.enable = true;
-      };
   };
 }
