@@ -49,18 +49,18 @@ in
       "${launcher}"
       "theme"
     ];
-    hotkey-overlay.title = "Select theme";
+    hotkey-overlay.hidden = true;
   };
   "Mod+Alt+S" = {
     action.spawn = [
       "${launcher}"
       "spec"
     ];
-    hotkey-overlay.title = "Select specialisation";
+    hotkey-overlay.hidden = true;
   };
   "Mod+V" = {
     action.spawn = "${clip-manager}";
-    hotkey-overlay.title = "Clipboard manager";
+    hotkey-overlay.hidden = true;
   };
 
   "Mod+Shift+A" = {
@@ -71,7 +71,7 @@ in
       "controlCenter"
       "toggle"
     ];
-    hotkey-overlay.title = "Open control center";
+    hotkey-overlay.title = "Toggle control center";
   };
   "Mod+Shift+Q" = {
     action.spawn = [
@@ -81,7 +81,7 @@ in
       "notifications"
       "toggleHistory"
     ];
-    hotkey-overlay.title = "Open notification panel";
+    hotkey-overlay.title = "Toggle notification history";
   };
   "Mod+Ctrl+W" = {
     action.spawn = [
@@ -91,7 +91,7 @@ in
       "wallpaper"
       "toggle"
     ];
-    hotkey-overlay.title = "Select wallpaper";
+    hotkey-overlay.hidden = true;
   };
   "Mod+Shift+W" = {
     action.spawn = [
@@ -102,7 +102,7 @@ in
       "random"
       "all"
     ];
-    hotkey-overlay.title = "Random wallpaper";
+    hotkey-overlay.hidden = true;
   };
   "Ctrl+Escape" = {
     action.spawn = [
@@ -112,7 +112,7 @@ in
       "bar"
       "toggle"
     ];
-    hotkey-overlay.title = "Toggle bar";
+    hotkey-overlay.hidden = true;
   };
   "Mod+Alt+L" = {
     action.spawn = [
@@ -122,7 +122,7 @@ in
       "lockScreen"
       "lock"
     ];
-    hotkey-overlay.title = "Lock screen";
+    hotkey-overlay.hidden = true;
   };
   "Mod+Backspace" = {
     action.spawn = [
@@ -132,7 +132,7 @@ in
       "sessionMenu"
       "toggle"
     ];
-    hotkey-overlay.title = "Session menu";
+    hotkey-overlay.title = "Toggle session menu";
   };
 
   "Mod+F10" = {
@@ -141,15 +141,15 @@ in
       "-e"
       "${getExe pkgs.btop}"
     ];
-    hotkey-overlay.title = "Open system monitor: btop";
+    hotkey-overlay.hidden = true;
   };
   "Mod+F11" = {
     action.spawn-sh = "pkill hyprpicker || hyprpicker --autocopy --format=hex";
-    hotkey-overlay.title = "Color picker";
+    hotkey-overlay.hidden = true;
   };
   "Mod+F12" = {
     action.spawn-sh = "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40";
-    hotkey-overlay.title = "Toggle autoclicker";
+    hotkey-overlay.hidden = true;
   };
 
   "XF86AudioRaiseVolume" = {
@@ -423,7 +423,7 @@ in
       "${launcher}"
       "rbw"
     ];
-    hotkey-overlay.title = "Launch password manager";
+    hotkey-overlay.hidden = true;
   };
 }
 // lib.optionalAttrs config.programs.translate-shell.enable {
@@ -432,7 +432,7 @@ in
       "${launcher}"
       "translate"
     ];
-    hotkey-overlay.title = "Quick trnslator";
+    hotkey-overlay.hidden = true;
   };
 }
 // lib.optionalAttrs osConfig.programs.steam.enable {
@@ -441,7 +441,7 @@ in
       "${launcher}"
       "game"
     ];
-    hotkey-overlay.title = "Game launcher";
+    hotkey-overlay.hidden = true;
   };
 }
 // lib.optionalAttrs config.programs.tmux.enable {
@@ -451,13 +451,13 @@ in
       "-e"
       "tmux"
     ];
-    hotkey-overlay.title = "Launch tmux";
+    hotkey-overlay.hidden = true;
   };
   "Mod+Shift+T" = {
     action.spawn = [
       "${launcher}"
       "tmux"
     ];
-    hotkey-overlay.title = "Launch tmux sessions";
+    hotkey-overlay.hidden = true;
   };
 }
