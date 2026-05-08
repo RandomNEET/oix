@@ -44,6 +44,14 @@
     };
   };
 
+  prefer-no-csd = true;
+
+  screenshot-path = "~/pic/screenshots/screenshot from %Y-%m-%d %H-%M-%S.png";
+
+  cursor = {
+    hide-after-inactive-ms = 10000;
+  };
+
   overview = {
     zoom = 0.5;
     workspace-shadow = {
@@ -51,14 +59,10 @@
     };
   };
 
-  prefer-no-csd = true;
-
   hotkey-overlay = {
     skip-at-startup = true;
     hide-not-bound = true;
   };
-
-  screenshot-path = "~/pic/screenshots/screenshot from %Y-%m-%d %H-%M-%S.png";
 
   debug = {
     honor-xdg-activation-with-invalid-serial = { };
