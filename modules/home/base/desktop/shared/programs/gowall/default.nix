@@ -9,9 +9,6 @@
 let
   hasThemes = osConfig.desktop.themes.enable;
   hasWallpaper = config.desktop.wallpaper.enable;
-  picDir =
-    lib.replaceStrings [ "${config.home.homeDirectory}" "$HOME/" ] [ "" "" ]
-      config.xdg.userDirs.pictures;
   gowall-autoconvert = import ./scripts/gowall-autoconvert.nix {
     inherit
       osConfig
@@ -34,7 +31,7 @@ in
       file = {
         ".config/gowall/config.yml".text = ''
           EnableImagePreviewing: false
-          OutputFolder: "${picDir}/gowall"
+          OutputFolder: "${config.xdg.userDirs.pictures}/gowall"
           ${builtins.readFile ./themes.yml}
         '';
         ".config/gowall/schema.yml".text = ''
