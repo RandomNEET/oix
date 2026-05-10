@@ -4,7 +4,7 @@
 # Format: "OWNER/REPO:TARGET_FILE:BRANCH"
 # If BRANCH is omitted, it defaults to 'master'.
 REPOS=(
-  "KZDKM/hyprspace:hyprspace.nix:main"
+  "KZDKM/hyprspace:default.nix:main"
 )
 
 # --- Function: Update a single repository ---

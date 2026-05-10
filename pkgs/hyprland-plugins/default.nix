@@ -37,7 +37,7 @@ let
   };
 
   plugins = lib.mergeAttrsList [
-    { hyprspace = import ./hyprspace.nix; }
+    { hyprspace = import ./hyprspace; }
   ];
 in
 (lib.mapAttrs (name: plugin: callPackage plugin { inherit mkHyprlandPlugin; }) plugins)

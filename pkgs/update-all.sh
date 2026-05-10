@@ -22,6 +22,12 @@ while IFS= read -r update_script; do
     continue
   fi
 
+  if [[ -f "$pkg_dir/.ignore" ]]; then
+    echo "[-] Ignoring directory: $pkg_dir (found .ignore)"
+    SKIPPED+=("$pkg_dir (.ignore)")
+    continue
+  fi
+
   echo -e "\n[+] Running update in: $pkg_dir"
 
   (
