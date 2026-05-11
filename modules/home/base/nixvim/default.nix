@@ -35,5 +35,6 @@
       shellcheck
       yamllint
     ];
+    nixpkgs.config.allowUnfree = true;
   };
 }
