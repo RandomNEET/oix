@@ -22,19 +22,19 @@ in
 
   "Mod+Return" = {
     action.spawn = terminal.exe;
-    hotkey-overlay.title = "Launch terminal: ${terminal.exe}";
+    hotkey-overlay.title = "Launch Terminal: ${terminal.exe}";
   };
   "Mod+F" = {
     action.spawn-sh = fileManager;
-    hotkey-overlay.title = "Launch file manager: ${config.defaultPrograms.fileManager}";
+    hotkey-overlay.title = "Launch File Manager: ${config.defaultPrograms.fileManager}";
   };
   "Mod+E" = {
     action.spawn-sh = editor;
-    hotkey-overlay.title = "Launch editor: ${config.defaultPrograms.editor}";
+    hotkey-overlay.title = "Launch Editor: ${config.defaultPrograms.editor}";
   };
   "Mod+B" = {
     action.spawn = browser;
-    hotkey-overlay.title = "Launch browser: ${browser}";
+    hotkey-overlay.title = "Launch Browser: ${browser}";
   };
 
   "Mod+Space" = {
@@ -42,7 +42,7 @@ in
       "${launcher}"
       "drun"
     ];
-    hotkey-overlay.title = "Launch application menu";
+    hotkey-overlay.title = "Launch Application Menu";
   };
   "Mod+Ctrl+T" = {
     action.spawn = [
@@ -60,7 +60,7 @@ in
   };
   "Mod+V" = {
     action.spawn = "${clip-manager}";
-    hotkey-overlay.hidden = true;
+    hotkey-overlay.title = "Clipboard Manager";
   };
 
   "Mod+Shift+A" = {
@@ -71,7 +71,7 @@ in
       "controlCenter"
       "toggle"
     ];
-    hotkey-overlay.title = "Toggle control center";
+    hotkey-overlay.title = "Toggle Control Center";
   };
   "Mod+Shift+Q" = {
     action.spawn = [
@@ -81,7 +81,7 @@ in
       "notifications"
       "toggleHistory"
     ];
-    hotkey-overlay.title = "Toggle notification history";
+    hotkey-overlay.title = "Toggle Notification History";
   };
   "Mod+Ctrl+W" = {
     action.spawn = [
@@ -132,7 +132,7 @@ in
       "sessionMenu"
       "toggle"
     ];
-    hotkey-overlay.title = "Toggle session menu";
+    hotkey-overlay.title = "Toggle Session Menu";
   };
 
   "Mod+F10" = {
@@ -141,10 +141,6 @@ in
       "-e"
       "${getExe pkgs.btop}"
     ];
-    hotkey-overlay.hidden = true;
-  };
-  "Mod+F11" = {
-    action.spawn-sh = "pkill hyprpicker || hyprpicker --autocopy --format=hex";
     hotkey-overlay.hidden = true;
   };
   "Mod+F12" = {
@@ -414,7 +410,7 @@ in
       "${screenshot}"
       "o"
     ];
-    hotkey-overlay.title = "OCR capture (select area)";
+    hotkey-overlay.title = "OCR Capture (select area)";
   };
 }
 // lib.optionalAttrs config.programs.rbw.enable {
