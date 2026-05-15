@@ -2,6 +2,7 @@
   osConfig,
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -10,6 +11,10 @@ let
 in
 {
   programs.nixvim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+
     opts = {
       # UI
       number = true;
@@ -71,6 +76,7 @@ in
         xclip.enable = true;
       };
     };
+
     # Use OSC 52 for clipboard sync when connected via ssh
     extraConfigLua = ''
       local function is_ssh()
@@ -142,5 +148,34 @@ in
         end, 100)
       end
     '';
+
+    extraPackages = with pkgs; [
+      fd
+      ghostscript
+      lsof
+      lynx
+      ripgrep
+      # Formatters
+      astyle
+      black
+      isort
+      nixfmt
+      prettier
+      prettierd
+      rustfmt
+      shfmt
+      stylua
+      # Linters
+      commitlint
+      eslint_d
+      jq
+      luajitPackages.luacheck
+      markdownlint-cli
+      ruff
+      shellcheck
+      yamllint
+    ];
+
+    nixpkgs.config.allowUnfree = true;
   };
 }
