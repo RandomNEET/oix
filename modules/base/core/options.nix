@@ -24,6 +24,13 @@ in
         default = "unstable";
         description = "The Nixpkgs release stream this host should follow. ";
       };
+      allowUnfree = mkOption {
+        type = types.bool;
+        default = true;
+        description = ''
+          Whether to allow the installation of software with non-free or proprietary licenses.
+        '';
+      };
       stateVersion = mkOption {
         type = types.str;
         default = "26.05";

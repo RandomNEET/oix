@@ -102,7 +102,6 @@
         "aarch64-linux"
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
-      allowUnfree = true;
 
       getMeta = hostname: import (./hosts + "/${hostname}/meta.nix");
       getHosts = builtins.filter (
@@ -234,7 +233,7 @@
               {
                 nixpkgs = {
                   overlays = import ./overlays { inherit inputs; };
-                  config.allowUnfree = allowUnfree;
+                  config.allowUnfree = baseMeta.allowUnfree;
                 };
               }
             ]
@@ -262,7 +261,7 @@
           pkgs = import channel {
             inherit (meta) system;
             overlays = import ./overlays { inherit inputs; };
-            config.allowUnfree = allowUnfree;
+            config.allowUnfree = meta.allowUnfree;
           };
           hmLib = if isStable then home-manager-stable.lib else home-manager.lib;
           nixosConfig = outputs.nixosConfigurations.${hostname} or null;
