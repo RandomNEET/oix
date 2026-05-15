@@ -78,6 +78,14 @@
           desc = "Rename note";
         };
       }
+      {
+        mode = "n";
+        action = "<cmd>Obsidian toggle_checkbox<cr>";
+        key = "<leader>obc";
+        options = {
+          desc = "Cycle through checkbox options";
+        };
+      }
     ];
   };
 }
