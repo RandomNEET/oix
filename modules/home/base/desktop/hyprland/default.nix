@@ -70,6 +70,7 @@ in
         enable = true;
         systemd.enable = true;
         xwayland.enable = true;
+        configType = "hyprlang";
         settings = {
           inherit (binds)
             "$mainMod"
