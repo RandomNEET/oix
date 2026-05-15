@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  meta,
   ...
 }:
 let
@@ -176,6 +177,6 @@ in
       yamllint
     ];
 
-    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowUnfree = meta.allowUnfree;
   };
 }
