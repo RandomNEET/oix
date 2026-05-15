@@ -441,19 +441,19 @@ services:
   #     retries: 5
   #     start_period: 10s
 
-  couchdb:
-    image: couchdb
-    container_name: obsidian-livesync
-    user: ${UID}:${GID}
-    environment:
-      - COUCHDB_USER=${COUCHDB_USER}
-      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
-    volumes:
-      - ${DOCKER_VOLUME}/obsidian-livesync/data:/opt/couchdb/data
-      - ${DOCKER_VOLUME}/obsidian-livesync/local.ini:/opt/couchdb/etc/local.ini
-    ports:
-      - 10340:5984
-    restart: unless-stopped
+  # couchdb:
+  #   image: couchdb
+  #   container_name: obsidian-livesync
+  #   user: ${UID}:${GID}
+  #   environment:
+  #     - COUCHDB_USER=${COUCHDB_USER}
+  #     - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/obsidian-livesync/data:/opt/couchdb/data
+  #     - ${DOCKER_VOLUME}/obsidian-livesync/local.ini:/opt/couchdb/etc/local.ini
+  #   ports:
+  #     - 10340:5984
+  #   restart: unless-stopped
 
   # glances:
   #   container_name: glances

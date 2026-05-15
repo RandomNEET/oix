@@ -10,7 +10,12 @@ lib.mergeAttrsList [
       # hyprspace = (pkgs.callPackage ./hyprland-plugins { }).hyprspace;
     };
   }
-  (import ./obsidian-plugins { inherit pkgs; })
+  {
+    obsidianPlugins = {
+      # livesync = pkgs.callPackage ./obsidian-plugins/livesync { };
+      trash-explorer = pkgs.callPackage ./obsidian-plugins/trash-explorer { };
+    };
+  }
   {
     tmuxPlugins = prev.tmuxPlugins // {
       # dotbar = (pkgs.callPackage ./tmux-plugins { }).dotbar;
