@@ -1,7 +1,12 @@
+{ mylib, ... }:
 {
-  imports = [
-    ./autocmds.nix
-    ./keymaps.nix
-    ./settings.nix
-  ];
+  imports = mylib.util.scanPaths ./. {
+    types = [
+      "directory"
+      "regular"
+    ];
+    extension = ".nix";
+    exclude = [ "default.nix" ];
+    depth = 1;
+  };
 }
