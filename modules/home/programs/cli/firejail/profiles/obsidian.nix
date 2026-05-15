@@ -7,8 +7,9 @@
 }:
 let
   electron-common-profile = import ./electron-common.nix { inherit pkgs global DOWNLOADS; };
-  local = pkgs.writeText "firejail--local" "";
-
+  local = pkgs.writeText "firejail-obsidian-local" ''
+    ignore include whitelist-runuser-common.inc
+  '';
 in
 pkgs.writeText "firejail-obsidian-profile" ''
   # Firejail profile for obsidian

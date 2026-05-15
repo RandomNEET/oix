@@ -9,10 +9,6 @@
     plugins.obsidian = {
       enable = true;
       settings = {
-        completion = {
-          min_chars = 2;
-          blink = true;
-        };
         new_notes_location = "current_dir";
         workspaces =
           let
@@ -23,8 +19,16 @@
             inherit name;
             path = "~/${value.target}";
           }) enabledVaults;
+        completion = {
+          min_chars = 2;
+          blink = true;
+        };
         picker = {
           name = "snacks.pick";
+        };
+        sync = {
+          enabled = true;
+          configs = config.lib.nixvim.mkRaw "{}";
         };
         legacy_commands = false;
       };
