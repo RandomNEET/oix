@@ -12,5 +12,6 @@
     ../../modules/scripts/snapper-list.nix
 
     ../../modules/virtualisation/libvirtd
+    ../../modules/virtualisation/podman
   ];
 }

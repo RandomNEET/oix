@@ -179,6 +179,7 @@ in
           "wheel"
           "networkmanager"
           "libvirtd"
+          "podman"
         ];
         shell = pkgs.zsh;
       };

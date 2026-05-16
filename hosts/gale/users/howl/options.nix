@@ -89,6 +89,18 @@ rec {
         };
       };
     };
+    distrobox = {
+      containers = {
+        arch = {
+          image = "archlinux:latest";
+          home = "${config.home.homeDirectory}/.distrobox/arch";
+          pre_init_hooks = [
+            "pacman-key --init"
+            "pacman-key --populate archlinux"
+          ];
+        };
+      };
+    };
     rbw = {
       settings = {
         base_url = "https://vaultwarden.scaphium.xyz";
