@@ -49,6 +49,7 @@ in
   config = lib.mkIf osConfig.desktop.hyprland.enable {
     wayland.windowManager.hyprland =
       let
+        mkLuaInline = lib.generators.mkLuaInline;
         binds = import ./binds.nix {
           inherit
             osConfig
@@ -64,41 +65,24 @@ in
             gamespace
             ;
         };
+        rules = import ./rules.nix;
         plugins = import ./plugins.nix { inherit pkgs; };
       in
       {
         enable = true;
+        package = pkgs.hyprland;
+        portalPackage = pkgs.xdg-desktop-portal-hyprland;
         systemd.enable = true;
         xwayland.enable = true;
-        configType = "hyprlang";
         settings = {
-          inherit (binds)
-            "$mainMod"
-            "$terminal"
-            "$fileManager"
-            "$editor"
-            "$browser"
-            ;
-          inherit (binds) binde bind bindm;
           env = import ./env.nix;
-          exec-once = import ./exec-once.nix;
-          layerrule = (import ./rules.nix).layerrule;
-          windowrule = (import ./rules.nix).windowrule;
-          inherit (plugins) plugin;
+          on = import ./autostart.nix { inherit lib mkLuaInline; };
+          inherit (binds) bind define_submap;
+          inherit (rules) layer_rule window_rule;
+          inherit (plugins) config;
         }
         // import ./misc.nix;
-
-        inherit (binds) submaps;
         inherit (plugins) plugins;
-
-        extraConfig = ''
-          monitor=,preferred,auto,1
-          binds {
-              workspace_back_and_forth = 0
-              #allow_workspace_cycles = 1
-              #pass_mouse_when_bound = 0
-            }
-        '';
       };
 
     services.hyprpolkitagent.enable = true;
@@ -107,15 +91,8 @@ in
       enable = true;
       portal = {
         enable = true;
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-gtk
-          xdg-desktop-portal-hyprland
-        ];
+        extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
         xdgOpenUsePortal = true;
-        configPackages = with pkgs; [
-          xdg-desktop-portal-gtk
-          xdg-desktop-portal-hyprland
-        ];
         config = {
           common = {
             default = "gtk";
