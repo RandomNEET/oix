@@ -13,120 +13,176 @@
   ...
 }:
 let
-  terminal = import ../shared/misc/terminal.nix { inherit config; };
+  inherit (lib.generators) mkLuaInline;
+  mkBind = keys: action: {
+    _args = [
+      keys
+      (mkLuaInline action)
+    ];
+  };
+  mkBindRepeat = keys: action: {
+    _args = [
+      keys
+      (mkLuaInline action)
+      { repeating = true; }
+    ];
+  };
+  mkBindLocked = keys: action: {
+    _args = [
+      keys
+      (mkLuaInline action)
+      { locked = true; }
+    ];
+  };
+  mkBindLockedRepeat = keys: action: {
+    _args = [
+      keys
+      (mkLuaInline action)
+      {
+        locked = true;
+        repeating = true;
+      }
+    ];
+  };
+  mkBindMouse = keys: action: {
+    _args = [
+      keys
+      (mkLuaInline action)
+      { mouse = true; }
+    ];
+  };
+
+  termInfo = import ../shared/misc/terminal.nix { inherit config; };
+  terminal = termInfo.exe;
+  fileManager = "${file-manager} ${config.defaultPrograms.fileManager}";
+  editor = "${terminal} ${termInfo.classFlag} editor -e ${config.defaultPrograms.editor}";
+  browser = config.defaultPrograms.browser;
 in
 {
-  "$mainMod" = "SUPER";
-  "$terminal" = terminal.exe;
-  "$fileManager" = "${file-manager} ${config.defaultPrograms.fileManager}";
-  "$editor" = ''$terminal ${terminal.classFlag} "editor" -e ${config.defaultPrograms.editor}'';
-  "$browser" = config.defaultPrograms.browser;
-
   bind = [
     # Keybinds help menu
-    "$mainMod SHIFT, slash, exec, ${keybinds}"
+    (mkBind "SUPER + SHIFT + slash" ''hl.dsp.exec_cmd("${keybinds}")'')
 
     # Window/Session actions
-    "$mainMod, W, togglefloating" # toggle the window on focus to float
-    "$mainMod, G, togglegroup" # toggle the window on focus to group
-    "ALT, return, fullscreen" # toggle the window on focus to fullscreen
-    "$mainMod, Q, killactive" # killactive, kill the window on focus
-    "$mainMod ALT, L, exec, noctalia-shell ipc call lockScreen lock" # lock screen
-    "$mainMod, backspace, exec, noctalia-shell ipc call sessionMenu toggle" # session menu
-    "$CONTROL, ESCAPE, exec, noctalia-shell ipc call bar toggle" # toggle bar
+    (mkBind "SUPER + Q" "hl.dsp.window.close()")
+    (mkBind "SUPER + W" ''hl.dsp.window.float({ action = "toggle" })'')
+    (mkBind "SUPER + G" "hl.dsp.group.toggle()")
+    (mkBind "ALT + return" ''hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" })'')
+    (mkBind "SUPER + ALT + L" ''hl.dsp.exec_cmd("noctalia-shell ipc call lockScreen lock")'')
+    (mkBind "SUPER + backspace" ''hl.dsp.exec_cmd("noctalia-shell ipc call sessionMenu toggle")'')
+    (mkBind "CTRL + ESCAPE" ''hl.dsp.exec_cmd("noctalia-shell ipc call bar toggle")'')
 
     # Special workspace (scratchpad)
-    "$mainMod, S, togglespecialworkspace"
-    "$mainMod CTRL, S, movetoworkspacesilent, special"
+    (mkBind "SUPER + S" "hl.dsp.workspace.toggle_special()")
+    (mkBind "SUPER + CTRL + S" ''hl.dsp.window.move({ workspace = "special", follow = false })'')
 
     # Applications/Programs
-    "$mainMod, Return, exec, $terminal"
-    "$mainMod, F, exec, $fileManager"
-    "$mainMod, E, exec, $editor"
-    "$mainMod, B, exec, $browser"
-
-    "$mainMod, SPACE, exec, ${launcher} drun" # launch desktop applications
-    "$mainMod, V, exec, ${clip-manager}" # Clipboard Manager
-    "$mainMod CTRL, T, exec, ${launcher} theme" # launch theme switcher
-    "$mainMod ALT, S, exec, ${launcher} spec" # launch specialisation  switcher
-
-    "$mainMod SHIFT, A, exec, noctalia-shell ipc call controlCenter toggle" # control center
-    "$mainMod SHIFT, Q, exec, noctalia-shell ipc call notifications toggleHistory" # notification history
-    "$mainMod CTRL, W, exec, noctalia-shell ipc call wallpaper toggle" # launch wallpaper selector
-    "$mainMod SHIFT, W, exec, noctalia-shell ipc call wallpaper random all" # random wallpaper
-
-    "$mainMod, F10, exec, $terminal -e ${lib.getExe pkgs.btop}" # System Monitor
-    "$mainMod, F11, exec, pkill hyprpicker || hyprpicker --autocopy --format=hex" # Color Picker
-    "$mainMod, F12, exec, kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
+    (mkBind "SUPER + Return" ''hl.dsp.exec_cmd("${terminal}")'')
+    (mkBind "SUPER + F" ''hl.dsp.exec_cmd("${fileManager}")'')
+    (mkBind "SUPER + E" ''hl.dsp.exec_cmd("${editor}")'')
+    (mkBind "SUPER + B" ''hl.dsp.exec_cmd("${browser}")'')
+    (mkBind "SUPER + SPACE" ''hl.dsp.exec_cmd("${launcher} drun")'')
+    (mkBind "SUPER + V" ''hl.dsp.exec_cmd("${clip-manager}")'')
+    (mkBind "SUPER + CTRL + T" ''hl.dsp.exec_cmd("${launcher} theme")'')
+    (mkBind "SUPER + ALT + S" ''hl.dsp.exec_cmd("${launcher} spec")'')
+    (mkBind "SUPER + SHIFT + A" ''hl.dsp.exec_cmd("noctalia-shell ipc call controlCenter toggle")'')
+    (mkBind "SUPER + SHIFT + Q" ''hl.dsp.exec_cmd("noctalia-shell ipc call notifications toggleHistory")'')
+    (mkBind "SUPER + CTRL + W" ''hl.dsp.exec_cmd("noctalia-shell ipc call wallpaper toggle")'')
+    (mkBind "SUPER + SHIFT + W" ''hl.dsp.exec_cmd("noctalia-shell ipc call wallpaper random all")'')
+    (mkBind "SUPER + F10" ''hl.dsp.exec_cmd("${terminal} -e ${lib.getExe pkgs.btop}")'')
+    (mkBind "SUPER + F11" ''hl.dsp.exec_cmd("pkill hyprpicker || hyprpicker --autocopy --format=hex")'')
+    (mkBind "SUPER + F12" ''hl.dsp.exec_cmd("kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40")'')
 
     # Screenshot/Screencapture
-    "$mainMod, P, exec, ${screenshot} s" # drag to snip an area / click on a window to print it
-    "$mainMod SHIFT, P, exec, ${screenshot} a" # print all monitor outputs
-    "$mainMod CTRL, P, exec, ${screenshot} o" # ocr capture
-
-    # Functional keybinds
-    ",XF86AudioMute, exec, noctalia-shell ipc call volume muteOutput" # mute output
-    ",XF86AudioMicMute, exec, noctalia-shell ipc call volume muteInput" # mute input
-    ",XF86AudioPlay, exec, noctalia-shell ipc call media play" # play media
-    ",XF86AudioPause, exec, playerctl noctalia-shell ipc call media pause" # pause media
-    ",xf86AudioNext, exec, noctalia-shell ipc call media next" # go to next media
-    ",xf86AudioPrev, exec, noctalia-shell ipc call media previous" # go to previous media
+    (mkBind "SUPER + P" ''hl.dsp.exec_cmd("${screenshot} s")'') # drag to snip an area / click on a window to print it
+    (mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("${screenshot} a")'') # print all monitor outputs
+    (mkBind "SUPER + CTRL + P" ''hl.dsp.exec_cmd("${screenshot} o")'') # ocr capture
 
     # to switch between windows in a floating workspace
-    "ALT, Tab, cyclenext"
-    "ALT, Tab, bringactivetotop"
+    (mkBind "ALT + Tab" "hl.dsp.window.cycle_next({ next = true })")
+    (mkBind "ALT + Tab" ''hl.dsp.window.alter_zorder({ mode = "top" })'')
 
     # Switch workspaces relative to the active workspace with mainMod + CTRL + [←→]
-    "$mainMod CTRL, right, workspace, r+1"
-    "$mainMod CTRL, left, workspace, r-1"
+    (mkBind "SUPER + CTRL + right" ''hl.dsp.focus({ workspace = "r+1" })'')
+    (mkBind "SUPER + CTRL + left" ''hl.dsp.focus({ workspace = "r-1" })'')
 
     # move to the first empty workspace instantly with mainMod + CTRL + [↓]
-    "$mainMod CTRL, down, workspace, empty"
+    (mkBind "SUPER + CTRL + down" ''hl.dsp.focus({ workspace = "empty" })'')
 
     # Move focus with mainMod + arrow keys
-    "$mainMod, left, movefocus, l"
-    "$mainMod, right, movefocus, r"
-    "$mainMod, up, movefocus, u"
-    "$mainMod, down, movefocus, d"
+    (mkBind "SUPER + left" ''hl.dsp.focus({ direction = "l" })'')
+    (mkBind "SUPER + right" ''hl.dsp.focus({ direction = "r" })'')
+    (mkBind "SUPER + up" ''hl.dsp.focus({ direction = "u" })'')
+    (mkBind "SUPER + down" ''hl.dsp.focus({ direction = "d" })'')
 
     # Move focus with mainMod + HJKL keys
-    "$mainMod, h, movefocus, l"
-    "$mainMod, l, movefocus, r"
-    "$mainMod, k, movefocus, u"
-    "$mainMod, j, movefocus, d"
-    "$mainMod ALT, k, changegroupactive, b"
-    "$mainMod ALT, j, changegroupactive, f"
+    (mkBind "SUPER + h" ''hl.dsp.focus({ direction = "l" })'')
+    (mkBind "SUPER + l" ''hl.dsp.focus({ direction = "r" })'')
+    (mkBind "SUPER + k" ''hl.dsp.focus({ direction = "u" })'')
+    (mkBind "SUPER + j" ''hl.dsp.focus({ direction = "d" })'')
+    (mkBind "SUPER + ALT + k" "hl.dsp.group.prev()")
+    (mkBind "SUPER + ALT + j" "hl.dsp.group.next()")
 
     # Go to workspace 6 and 7 with mouse side buttons
-    "$mainMod, mouse:276, workspace, 1"
-    "$mainMod, mouse:275, workspace, 10"
-    "$mainMod SHIFT, mouse:276, movetoworkspace, 1"
-    "$mainMod SHIFT, mouse:275, movetoworkspace, 10"
-    "$mainMod CTRL, mouse:276, movetoworkspacesilent, 1"
-    "$mainMod CTRL, mouse:275, movetoworkspacesilent, 10"
+    (mkBind "SUPER + mouse:276" "hl.dsp.focus({ workspace = 1 })")
+    (mkBind "SUPER + mouse:275" "hl.dsp.focus({ workspace = 10 })")
+    (mkBind "SUPER + SHIFT + mouse:276" "hl.dsp.window.move({ workspace = 1 })")
+    (mkBind "SUPER + SHIFT + mouse:275" "hl.dsp.window.move({ workspace = 10 })")
+    (mkBind "SUPER + CTRL + mouse:276" "hl.dsp.window.move({ workspace = 1, follow = false })")
+    (mkBind "SUPER + CTRL + mouse:275" "hl.dsp.window.move({ workspace = 10, follow = false })")
 
     # Scroll through existing workspaces with mainMod + scroll
-    "$mainMod, mouse_down, workspace, e+1"
-    "$mainMod, mouse_up, workspace, e-1"
+    (mkBind "SUPER + mouse_down" ''hl.dsp.focus({ workspace = "e+1" })'')
+    (mkBind "SUPER + mouse_up" ''hl.dsp.focus({ workspace = "e-1" })'')
 
     # Move active window to a relative workspace with mainMod + CTRL + ALT + [←→]
-    "$mainMod CTRL ALT, right, movetoworkspace, r+1"
-    "$mainMod CTRL ALT, left, movetoworkspace, r-1"
+    (mkBind "SUPER + CTRL + ALT + right" ''hl.dsp.window.move({ workspace = "r+1" })'')
+    (mkBind "SUPER + CTRL + ALT + left" ''hl.dsp.window.move({ workspace = "r-1" })'')
 
     # Move active window around current workspace with mainMod + SHIFT + CTRL [←→↑↓]
-    "$mainMod SHIFT $CONTROL, left, movewindow, l"
-    "$mainMod SHIFT $CONTROL, right, movewindow, r"
-    "$mainMod SHIFT $CONTROL, up, movewindow, u"
-    "$mainMod SHIFT $CONTROL, down, movewindow, d"
+    (mkBind "SUPER + SHIFT + CTRL + left" ''hl.dsp.window.move({ direction = "l" })'')
+    (mkBind "SUPER + SHIFT + CTRL + right" ''hl.dsp.window.move({ direction = "r" })'')
+    (mkBind "SUPER + SHIFT + CTRL + up" ''hl.dsp.window.move({ direction = "u" })'')
+    (mkBind "SUPER + SHIFT + CTRL + down" ''hl.dsp.window.move({ direction = "d" })'')
 
     # Move active window around current workspace with mainMod + SHIFT + CTRL [HLJK]
-    "$mainMod SHIFT $CONTROL, H, movewindow, l"
-    "$mainMod SHIFT $CONTROL, L, movewindow, r"
-    "$mainMod SHIFT $CONTROL, K, movewindow, u"
-    "$mainMod SHIFT $CONTROL, J, movewindow, d"
+    (mkBind "SUPER + SHIFT + CTRL + H" ''hl.dsp.window.move({ direction = "l" })'')
+    (mkBind "SUPER + SHIFT + CTRL + L" ''hl.dsp.window.move({ direction = "r" })'')
+    (mkBind "SUPER + SHIFT + CTRL + K" ''hl.dsp.window.move({ direction = "u" })'')
+    (mkBind "SUPER + SHIFT + CTRL + J" ''hl.dsp.window.move({ direction = "d" })'')
+
+    # Resize windows
+    (mkBindRepeat "SUPER + SHIFT + right" "hl.dsp.window.resize({ x = 30, y = 0, relative = true })")
+    (mkBindRepeat "SUPER + SHIFT + left" "hl.dsp.window.resize({ x = -30, y = 0, relative = true })")
+    (mkBindRepeat "SUPER + SHIFT + up" "hl.dsp.window.resize({ x = 0, y = -30, relative = true })")
+    (mkBindRepeat "SUPER + SHIFT + down" "hl.dsp.window.resize({ x = 0, y = 30, relative = true })")
+
+    # Resize windows with hjkl keys
+    (mkBindRepeat "SUPER + SHIFT + l" "hl.dsp.window.resize({ x = 30, y = 0, relative = true })")
+    (mkBindRepeat "SUPER + SHIFT + h" "hl.dsp.window.resize({ x = -30, y = 0, relative = true })")
+    (mkBindRepeat "SUPER + SHIFT + k" "hl.dsp.window.resize({ x = 0, y = -30, relative = true })")
+    (mkBindRepeat "SUPER + SHIFT + j" "hl.dsp.window.resize({ x = 0, y = 30, relative = true })")
+
+    # Functional keybinds
+    (mkBindLocked "XF86AudioMute" ''hl.dsp.exec_cmd("noctalia-shell ipc call volume muteOutput")'')
+    (mkBindLocked "XF86AudioMicMute" ''hl.dsp.exec_cmd("noctalia-shell ipc call volume muteInput")'')
+    (mkBindLocked "XF86AudioPlay" ''hl.dsp.exec_cmd("noctalia-shell ipc call media play")'')
+    (mkBindLocked "XF86AudioPause" ''hl.dsp.exec_cmd("noctalia-shell ipc call media pause")'')
+    (mkBindLocked "XF86AudioNext" ''hl.dsp.exec_cmd("noctalia-shell ipc call media next")'')
+    (mkBindLocked "XF86AudioPrev" ''hl.dsp.exec_cmd("noctalia-shell ipc call media previous")'')
+
+    # Functional keybinds
+    (mkBindLockedRepeat "XF86AudioLowerVolume" ''hl.dsp.exec_cmd("noctalia-shell ipc call volume decrease")'')
+    (mkBindLockedRepeat "XF86AudioRaiseVolume" ''hl.dsp.exec_cmd("noctalia-shell ipc call volume increase")'')
+    (mkBindLockedRepeat "XF86MonBrightnessDown" ''hl.dsp.exec_cmd("noctalia-shell ipc call brightness decrease")'')
+    (mkBindLockedRepeat "XF86MonBrightnessUp" ''hl.dsp.exec_cmd("noctalia-shell ipc call brightness increase")'')
+
+    # Move/Resize windows with mainMod + LMB/RMB and dragging
+    (mkBindMouse "SUPER + mouse:272" "hl.dsp.window.drag()")
+    (mkBindMouse "SUPER + mouse:273" "hl.dsp.window.resize()")
 
     # Enter mouse mode
-    "SUPER, M, submap, mouse-mode"
+    (mkBind "SUPER + M" ''hl.dsp.submap("mouse-mode")'')
   ]
   ++ (builtins.concatLists (
     builtins.genList (
@@ -139,75 +195,46 @@ in
           builtins.toString (x + 1 - (c * 10));
       in
       [
-        "$mainMod, ${ws}, workspace, ${toString (x + 1)}"
-        "$mainMod SHIFT, ${ws}, movetoworkspace, ${toString (x + 1)}"
-        "$mainMod CTRL, ${ws}, movetoworkspacesilent, ${toString (x + 1)}"
+        (mkBind "SUPER + ${ws}" "hl.dsp.focus({ workspace = ${toString (x + 1)} })")
+        (mkBind "SUPER + SHIFT + ${ws}" "hl.dsp.window.move({ workspace = ${toString (x + 1)} })")
+        (mkBind "SUPER + CTRL + ${ws}" "hl.dsp.window.move({ workspace = ${toString (x + 1)}, follow = false })")
       ]
     ) 10
   ))
-  ++ lib.optional config.programs.rbw.enable "$mainMod ALT, U, exec, ${launcher} rbw" # launch password manager
-  ++
-    lib.optional config.programs.translate-shell.enable
-      "$mainMod ALT, T, exec, ${launcher} translate" # quick translator
+  ++ lib.optional config.programs.rbw.enable (
+    mkBind "SUPER + ALT + U" ''hl.dsp.exec_cmd("${launcher} rbw")''
+  )
+  ++ lib.optional config.programs.translate-shell.enable (
+    mkBind "SUPER + ALT + T" ''hl.dsp.exec_cmd("${launcher} translate")''
+  )
   ++ lib.optionals config.programs.tmux.enable [
-    "$mainMod, T, exec, $terminal -e tmux" # launch tmux
-    "$mainMod SHIFT, T, exec, ${launcher} tmux" # launch tmux sessions
+    (mkBind "SUPER + T" ''hl.dsp.exec_cmd("${terminal} -e tmux")'')
+    (mkBind "SUPER + SHIFT + T" ''hl.dsp.exec_cmd("${launcher} tmux")'')
   ]
   ++ lib.optionals osConfig.programs.steam.enable [
-    "$mainMod SHIFT, G, exec, ${gamespace}" # toggle specialworkspace for games
-    "$mainMod CTRL, G, exec, ${launcher} game" # game launcher
+    (mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")'')
+    (mkBind "SUPER + CTRL + G" ''hl.dsp.exec_cmd("${launcher} game")'')
   ];
 
-  binde = [
-    # Resize windows
-    "$mainMod SHIFT, right, resizeactive, 30 0"
-    "$mainMod SHIFT, left, resizeactive, -30 0"
-    "$mainMod SHIFT, up, resizeactive, 0 -30"
-    "$mainMod SHIFT, down, resizeactive, 0 30"
-
-    # Resize windows with hjkl keys
-    "$mainMod SHIFT, l, resizeactive, 30 0"
-    "$mainMod SHIFT, h, resizeactive, -30 0"
-    "$mainMod SHIFT, k, resizeactive, 0 -30"
-    "$mainMod SHIFT, j, resizeactive, 0 30"
-
-    # Functional keybinds
-    ",XF86AudioLowerVolume, exec, noctalia-shell ipc call volume decrease"
-    ",XF86AudioRaiseVolume, exec, noctalia-shell ipc call volume increase"
-    ",XF86MonBrightnessDown, exec, noctalia-shell ipc call brightness decrease"
-    ",XF86MonBrightnessUp, exec, noctalia-shell ipc call brightness increase"
-  ];
-
-  bindm = [
-    # Move/Resize windows with mainMod + LMB/RMB and dragging
-    "$mainMod, mouse:272, movewindow"
-    "$mainMod, mouse:273, resizewindow"
-  ];
-
-  submaps = {
-    mouse-mode = {
-      settings = {
-        binde = [
-          # Move around
-          ", H, exec, wlrctl pointer move -10 0"
-          ", L, exec, wlrctl pointer move 10 0"
-          ", K, exec, wlrctl pointer move 0 -10"
-          ", J, exec, wlrctl pointer move 0 10"
-          "SHIFT, H, exec, wlrctl pointer move -100 0"
-          "SHIFT, L, exec, wlrctl pointer move 100 0"
-          "SHIFT, K, exec, wlrctl pointer move 0 -100"
-          "SHIFT, J, exec, wlrctl pointer move 0 100"
-        ];
-        bind = [
-          # Click
-          ", comma, exec, wlrctl pointer click left"
-          ", period, exec, wlrctl pointer click right"
-
-          # Exit
-          ", escape, submap, reset"
-          ", Q, submap, reset"
-        ];
-      };
-    };
+  define_submap = {
+    _args = [
+      "mouse-mode"
+      (mkLuaInline ''
+        function()
+          hl.bind("H", hl.dsp.exec_cmd("wlrctl pointer move -10 0"), { repeating = true })
+          hl.bind("L", hl.dsp.exec_cmd("wlrctl pointer move 10 0"), { repeating = true })
+          hl.bind("K", hl.dsp.exec_cmd("wlrctl pointer move 0 -10"), { repeating = true })
+          hl.bind("J", hl.dsp.exec_cmd("wlrctl pointer move 0 10"), { repeating = true })
+          hl.bind("SHIFT + H", hl.dsp.exec_cmd("wlrctl pointer move -100 0"), { repeating = true })
+          hl.bind("SHIFT + L", hl.dsp.exec_cmd("wlrctl pointer move 100 0"), { repeating = true })
+          hl.bind("SHIFT + K", hl.dsp.exec_cmd("wlrctl pointer move 0 -100"), { repeating = true })
+          hl.bind("SHIFT + J", hl.dsp.exec_cmd("wlrctl pointer move 0 100"), { repeating = true })
+          hl.bind("comma", hl.dsp.exec_cmd("wlrctl pointer click left"))
+          hl.bind("period", hl.dsp.exec_cmd("wlrctl pointer click right"))
+          hl.bind("escape", hl.dsp.submap("reset"))
+          hl.bind("Q", hl.dsp.submap("reset"))
+        end
+      '')
+    ];
   };
 }

@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
   plugins = with pkgs.hyprlandPlugins; [ ];
-  plugin = { };
+  config = {
+    plugin = { };
+  };
 }

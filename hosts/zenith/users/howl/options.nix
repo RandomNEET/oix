@@ -303,7 +303,6 @@ rec {
               countdownEnabled = true;
               keybind = "3";
             }
-
             {
               action = "logout";
               enabled = true;
@@ -332,31 +331,101 @@ rec {
   };
   wayland = {
     windowManager = {
-      hyprland = {
-        settings = {
-          monitor = [
-            "desc:SAC G7u Pro 0001, 3840x2160@160, 0x0, 1.5"
-            "desc:KOS KOIOS K2718UD 0000000000000, 3840x2160@60, 2560x-600, 1.5, transform, 1"
-          ];
-          bind = [
-            "$mainMod, F1, exec, noctalia-shell ipc call volume muteOutput"
-            "$mainMod, F4, exec, noctalia-shell ipc call volume muteInput"
-            "$mainMod, F7, exec, noctalia-shell ipc call media previous"
-            "$mainMod, F8, exec, noctalia-shell ipc call media playPause"
-            "$mainMod, F9, exec, noctalia-shell ipc call media next"
-          ];
-          binde = [
-            "$mainMod, F2, exec, noctalia-shell ipc call volume decrease"
-            "$mainMod, F3, exec, noctalia-shell ipc call volume increase"
-            "$mainMod, F5, exec, noctalia-shell ipc call brightness decrease"
-            "$mainMod, F6, exec, noctalia-shell ipc call brightness increase"
-          ];
-          extraConfig = ''
-            workspace = 1, monitor:desc:SAC G7u Pro 0001, default:true;
-            workspace = 10, monitor:desc:KOS KOIOS K2718UD 0000000000000, default:true;
-          '';
+      hyprland =
+        let
+          mkLuaInline = lib.generators.mkLuaInline;
+        in
+        {
+          settings = {
+            monitor = [
+              {
+                output = "desc:SAC G7u Pro 0001";
+                mode = "3840x2160@160";
+                position = "0x0";
+                scale = 1.5;
+              }
+              {
+                output = "desc:KOS KOIOS K2718UD 0000000000000";
+                mode = "3840x2160@60";
+                position = "2560x-600";
+                scale = 1.5;
+                transform = 1;
+              }
+            ];
+            workspace_rule = [
+              {
+                workspace = "1";
+                monitor = "desc:SAC G7u Pro 0001";
+                default = true;
+              }
+              {
+                workspace = "10";
+                monitor = "desc:KOS KOIOS K2718UD 0000000000000";
+                default = true;
+              }
+            ];
+            bind = [
+              {
+                _args = [
+                  "SUPER + F1"
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call volume muteOutput")'')
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + F2"
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call volume decrease")'')
+                  { repeat = true; }
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + F3"
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call volume increase")'')
+                  { repeat = true; }
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + F4"
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call volume muteInput")'')
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + F5"
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call brightness decrease")'')
+                  { repeat = true; }
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + F6"
+                  (mkLuaInline ''hl.dsp.exec_cmd"noctalia-shell ipc call brightness increase"()'')
+                  { repeat = true; }
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + F7"
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call media previous")'')
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + F8"
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call media playPause")'')
+                ];
+              }
+              {
+                _args = [
+                  "SUPER + F9"
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call media next")'')
+                ];
+              }
+            ];
+          };
         };
-      };
     };
   };
   services = {

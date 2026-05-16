@@ -145,11 +145,20 @@ rec {
       hyprland = {
         settings = {
           monitor = [
-            "desc:Chimei Innolux Corporation 0x14C9, 1920x1080@60, 0x0, 1.25"
+            {
+              output = "desc:Chimei Innolux Corporation 0x14C9";
+              mode = "1920x1080@60";
+              position = "0x0";
+              scale = 1.25;
+            }
           ];
-          extraConfig = ''
-            workspace = 1, monitor:desc:Chimei Innolux Corporation 0x14C9, default:true;
-          '';
+          workspace_rule = [
+            {
+              workspace = "1";
+              monitor = "desc:Chimei Innolux Corporation 0x14C9";
+              default = true;
+            }
+          ];
         };
       };
     };
