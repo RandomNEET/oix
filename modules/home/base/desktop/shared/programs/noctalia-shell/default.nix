@@ -62,6 +62,7 @@ in
               }
               {
                 id = "Taskbar";
+                colorizeIcons = false;
               }
               {
                 id = "MediaMini";
@@ -104,6 +105,8 @@ in
               {
                 id = "Tray";
                 drawerEnabled = false;
+                colorizeIcons = false;
+
               }
               {
                 id = "NotificationHistory";
