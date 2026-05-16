@@ -4,6 +4,7 @@
     ../../../../modules/home/programs/cli/cava
     ../../../../modules/home/programs/cli/delta
     ../../../../modules/home/programs/cli/direnv
+    ../../../../modules/home/programs/cli/distrobox
     ../../../../modules/home/programs/cli/firejail
     ../../../../modules/home/programs/cli/gh
     ../../../../modules/home/programs/cli/glow
