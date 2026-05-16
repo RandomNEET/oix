@@ -44,6 +44,10 @@ in
           yzane.markdown-pdf
         ];
         userSettings = {
+          "chat.disableAIFeatures" = true;
+          "workbench.settings.showAISearchToggle" = false;
+          "editor.aiStats.enabled" = false;
+
           vscode-neovim = {
             neovimInitVimPaths = {
               linux = "${userDataDir}/User/vscode-neovim.lua";
