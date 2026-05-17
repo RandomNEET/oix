@@ -8,4 +8,6 @@
       container_user_custom_home = "$HOME/.distrobox/home";
     };
   };
+  home.file.".distrobox/scripts".source = ./scripts;
+
 }
