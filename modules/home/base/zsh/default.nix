@@ -36,7 +36,6 @@ in
         "AUTO_PUSHD"
         "PUSHD_IGNORE_DUPS"
         "PUSHD_SILENT"
-        "CORRECT"
         "EXTENDED_GLOB"
         "GLOB_DOTS"
       ];
