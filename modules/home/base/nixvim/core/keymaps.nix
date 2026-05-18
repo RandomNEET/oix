@@ -11,6 +11,14 @@
           desc = "Clear search highlights";
         };
       }
+      {
+        mode = "n";
+        key = "<C-S>";
+        action = "<cmd>w<cr>";
+        options = {
+          desc = "Save file";
+        };
+      }
 
       # Better up/down (handles wrapped lines unless a count is given)
       {
