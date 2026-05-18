@@ -78,6 +78,7 @@ in
     "J" = "tab-next";
     "K" = "tab-prev";
     "L" = "forward";
+    "M" = "bookmark-del";
     "N" = "search-prev";
     "O" = "cmd-set-text -s :open -t";
     "PP" = "open -t -- {primary}";
