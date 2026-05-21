@@ -37,7 +37,7 @@ in
     packages = with pkgs; [ ttyper ];
     file = {
       ".config/ttyper/config.toml".text = base + theme;
-      ".config/ttyper/language/symbol".source = ./symbol;
+      ".config/ttyper/language".source = ./language;
     };
   };
 }
