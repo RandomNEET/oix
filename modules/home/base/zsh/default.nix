@@ -104,7 +104,7 @@ in
           if osConfig.programs.nh.enable then
             "nh os switch -H ${meta.hostname}"
           else
-            "nh home switch -c ${meta.username}-${meta.hostname}";
+            "nh home switch -c ${meta.username}@${meta.hostname}";
       };
     };
     fzf.enableZshIntegration = lib.mkForce false; # keybinds overwritten by zsh-vi-mode, source manually instead

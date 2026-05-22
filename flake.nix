@@ -269,7 +269,7 @@
           osConfig = if nixosConfig != null then nixosConfig.config else null;
         in
         {
-          name = "${username}-${hostname}";
+          name = "${username}@${hostname}";
           value = hmLib.homeManagerConfiguration {
             inherit pkgs;
             extraSpecialArgs = {
@@ -312,8 +312,8 @@
         ))
         // (nixpkgs.lib.listToAttrs (
           map (home: {
-            name = "homeConfigurations:${home.username}-${home.hostname}";
-            value = self.homeConfigurations."${home.username}-${home.hostname}".activationPackage;
+            name = "homeConfigurations:${home.username}@${home.hostname}";
+            value = self.homeConfigurations."${home.username}@${home.hostname}".activationPackage;
           }) homes
         ));
 
