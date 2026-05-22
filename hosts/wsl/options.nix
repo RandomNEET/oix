@@ -27,6 +27,7 @@ in
         shell = pkgs.zsh;
       };
     };
+    mutableUsers = lib.mkForce true;
   };
   boot.loader.systemd-boot.enable = mkForce false;
   networking.wireless.enable = mkForce false;
