@@ -31,7 +31,7 @@ in
     desktop = {
       enable = mkEnableOption "the desktop environment and related window managers";
       hyprland = {
-        enable = mkEnableOption "the Hyprland tiling Wayland compositor";
+        enable = mkEnableOption "Hyprland is a 100% independent, dynamic tiling Wayland compositor that doesn't sacrifice on its looks.";
         primary = mkOption {
           type = types.bool;
           default = false;
@@ -39,7 +39,7 @@ in
         };
       };
       niri = {
-        enable = mkEnableOption "the niri scrollable-tiling Wayland compositor";
+        enable = mkEnableOption "A scrollable-tiling Wayland compositor.";
         primary = mkOption {
           type = types.bool;
           default = false;
@@ -134,11 +134,12 @@ in
     {
       assertions = [
         {
-          assertion = !(config.desktop.hyprland.primary && config.desktop.niri.primary);
-          message = ''
-            Conflicting configuration: Both Hyprland and niri are set as 'primary'.
-            Only one window manager can be designated as the primary session at a time.
-          '';
+          assertion =
+            (lib.count (x: x) [
+              config.desktop.hyprland.primary
+              config.desktop.niri.primary
+            ]) <= 1;
+          message = "Only one desktop can be designated as the primary session at a time.";
         }
       ];
     }
