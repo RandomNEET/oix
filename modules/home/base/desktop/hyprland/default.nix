@@ -31,7 +31,7 @@ let
         ;
     }
   );
-  gamespace = getExe (pkgs.callPackage ../shared/scripts/gamespace.nix { inherit pkgs; });
+  gamespace = getExe (pkgs.callPackage ./scripts/gamespace.nix { inherit pkgs; });
 in
 {
   imports = [
@@ -49,7 +49,6 @@ in
   config = lib.mkIf osConfig.desktop.hyprland.enable {
     wayland.windowManager.hyprland =
       let
-        mkLuaInline = lib.generators.mkLuaInline;
         binds = import ./binds.nix {
           inherit
             osConfig
@@ -66,6 +65,7 @@ in
             ;
         };
         rules = import ./rules.nix;
+        animations = import ./animations.nix;
         plugins = import ./plugins.nix { inherit pkgs; };
       in
       {
@@ -75,9 +75,10 @@ in
         systemd.enable = true;
         xwayland.enable = true;
         settings = {
+          on = import ./autostart.nix { inherit lib; };
           env = import ./env.nix;
-          on = import ./autostart.nix { inherit lib mkLuaInline; };
           inherit (binds) bind define_submap;
+          inherit (animations) animation curve;
           inherit (rules) layer_rule window_rule;
           inherit (plugins) config;
         }

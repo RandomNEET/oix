@@ -73,8 +73,8 @@ in
     (mkBind "CTRL + ESCAPE" ''hl.dsp.exec_cmd("noctalia-shell ipc call bar toggle")'')
 
     # Special workspace (scratchpad)
-    (mkBind "SUPER + S" "hl.dsp.workspace.toggle_special()")
-    (mkBind "SUPER + CTRL + S" ''hl.dsp.window.move({ workspace = "special", follow = false })'')
+    (mkBind "SUPER + S" ''hl.dsp.workspace.toggle_special("default")'')
+    (mkBind "SUPER + CTRL + S" ''hl.dsp.window.move({ workspace = "special:default", follow = false })'')
 
     # Applications/Programs
     (mkBind "SUPER + Return" ''hl.dsp.exec_cmd("${terminal}")'')
