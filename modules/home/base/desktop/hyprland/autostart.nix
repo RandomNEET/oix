@@ -1,9 +1,9 @@
-{ lib, mkLuaInline }:
+{ lib }:
 let
-  mkExecOnce = cmds: {
+  mkAutostart = cmds: {
     _args = [
       "hyprland.start"
-      (mkLuaInline ''
+      (lib.generators.mkLuaInline ''
         function()
           ${lib.concatMapStringsSep "\n    " (cmd: "hl.exec_cmd(\"${cmd}\")") cmds}
         end
@@ -11,7 +11,7 @@ let
     ];
   };
 in
-mkExecOnce [
+mkAutostart [
   "noctalia-shell"
   "hyprctl dispatch workspace 1"
 ]
