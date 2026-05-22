@@ -6,7 +6,6 @@
         [Desktop Entry]
         Name=hyprland
         Exec=start-hyprland
-        Type=Application
       '';
     })
     (lib.optionalAttrs config.desktop.niri.enable {
@@ -14,7 +13,6 @@
         [Desktop Entry]
         Name=niri
         Exec=niri-session
-        Type=Application
       '';
     })
     (lib.optionalAttrs config.programs.zsh.enable {
@@ -22,7 +20,6 @@
         [Desktop Entry]
         Name=zsh
         Exec=zsh
-        Type=Application
       '';
     })
   ];
