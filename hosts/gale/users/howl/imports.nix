@@ -18,6 +18,7 @@
     ../../../../modules/home/programs/cli/ttyper
     ../../../../modules/home/programs/cli/yt-dlp
 
+    ../../../../modules/home/programs/gui/chromium
     ../../../../modules/home/programs/gui/foot
     ../../../../modules/home/programs/gui/mpv
     ../../../../modules/home/programs/gui/obs-studio
