@@ -1,6 +1,11 @@
-{ lib, meta, ... }:
 {
-  programs.nixvim = {
+  config,
+  lib,
+  meta,
+  ...
+}:
+{
+  programs.nixvim = lib.mkIf config.programs.tmux.enable {
     plugins.tmux-navigator = {
       enable = true;
     }

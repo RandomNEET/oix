@@ -17,8 +17,8 @@
             "isort"
             "black"
           ];
-          c = [ "astyle" ];
-          cpp = [ "astyle" ];
+          c = [ "clang-format" ];
+          cpp = [ "clang-format" ];
           rust = [ "rustfmt" ];
           css = [
             "prettierd"
@@ -95,7 +95,6 @@
       stylua
       isort
       black
-      astyle
       rustfmt
       prettier
       prettierd
