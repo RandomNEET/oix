@@ -84,6 +84,11 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
     inputs:
@@ -94,6 +99,7 @@
         nixpkgs-stable
         home-manager
         home-manager-stable
+        treefmt-nix
         ;
       inherit (self) outputs;
 
@@ -297,11 +303,40 @@
           };
         };
 
-      mkCheck =
+      mkShells =
+        system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = import ./overlays { inherit inputs; };
+          };
+        in
+        import ./shells { inherit pkgs; };
+
+      treefmtEval =
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        treefmt-nix.lib.evalModule pkgs {
+          projectRootFile = "flake.nix";
+          programs = {
+            nixfmt.enable = true;
+            shfmt.enable = true;
+            stylua.enable = true;
+            taplo.enable = true;
+            prettier.enable = true;
+          };
+        };
+
+      mkFormatter = system: (treefmtEval system).config.build.wrapper;
+
+      mkChecks =
         system:
         let
           hosts = builtins.filter (h: (getMeta h).system == system) getHosts;
           homes = builtins.filter (h: (getMeta h.hostname).system == system) getHomes;
+          formatter = treefmtEval system;
         in
         (nixpkgs.lib.listToAttrs (
           map (hostname: {
@@ -314,23 +349,16 @@
             name = "homeConfigurations:${home.username}@${home.hostname}";
             value = self.homeConfigurations."${home.username}@${home.hostname}".activationPackage;
           }) homes
-        ));
-
-      devShells =
-        system:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            overlays = import ./overlays { inherit inputs; };
-          };
-        in
-        import ./shells { inherit pkgs; };
+        ))
+        // {
+          formatting = formatter.config.build.check self;
+        };
     in
     {
       nixosConfigurations = nixpkgs.lib.listToAttrs (map mkHost getHosts);
       homeConfigurations = nixpkgs.lib.listToAttrs (map mkHome getHomes);
-      checks = forAllSystems mkCheck;
-      devShells = forAllSystems devShells;
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-tree);
+      devShells = forAllSystems mkShells;
+      formatter = forAllSystems mkFormatter;
+      checks = forAllSystems mkChecks;
     };
 }

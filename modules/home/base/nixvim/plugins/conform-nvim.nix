@@ -1,12 +1,25 @@
-{ lib, meta, ... }:
+{
+  lib,
+  pkgs,
+  meta,
+  ...
+}:
 {
   programs.nixvim = {
     plugins.conform-nvim = {
       enable = true;
       settings = {
         formatters_by_ft = {
+          nix = [ "nixfmt" ];
+          sh = [ "shfmt" ];
+          lua = [ "stylua" ];
+          python = [
+            "isort"
+            "black"
+          ];
           c = [ "astyle" ];
           cpp = [ "astyle" ];
+          rust = [ "rustfmt" ];
           css = [
             "prettierd"
             "prettier"
@@ -20,27 +33,19 @@
             "prettier"
           ];
           javascriptreact = [ "prettier" ];
-          json = [ "prettier" ];
-          lua = [ "stylua" ];
-          markdown = [ "prettier" ];
-          nix = [ "nixfmt" ];
-          python = [
-            "isort"
-            "black"
-          ];
-          rust = [ "rustfmt" ];
-          sh = [ "shfmt" ];
-          toml = [ "taplo" ];
           typescript = [
             "prettierd"
             "prettier"
           ];
           typescriptreact = [ "prettier" ];
           vue = [ "prettier" ];
+          json = [ "prettier" ];
           yaml = [
             "prettierd"
             "prettier"
           ];
+          toml = [ "taplo" ];
+          markdown = [ "prettier" ];
         };
         formatters = {
           injected = {
@@ -84,5 +89,16 @@
         };
       };
     };
+    extraPackages = with pkgs; [
+      nixfmt
+      shfmt
+      stylua
+      isort
+      black
+      astyle
+      rustfmt
+      prettier
+      prettierd
+    ];
   };
 }

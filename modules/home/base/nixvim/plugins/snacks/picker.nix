@@ -2,6 +2,7 @@
   osConfig,
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -12,6 +13,7 @@ in
   programs.nixvim = {
     plugins.snacks.settings.picker = {
       enabled = true;
+      db.sqlite3_path = "${pkgs.sqlite.out}/lib/libsqlite3.so";
     };
     keymaps = [
       # Core
@@ -566,6 +568,7 @@ in
         action = "<nop>";
       }
     ];
+    extraPackages = with pkgs; [ sqlite ];
     highlightOverride = lib.mkIf hasThemes {
       SnacksPicker = {
         fg = colors.base05;

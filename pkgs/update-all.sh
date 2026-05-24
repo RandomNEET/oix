@@ -18,7 +18,7 @@ echo "=========================================="
 while IFS= read -r update_script; do
   pkg_dir=$(dirname "$update_script")
 
-  if [[ "$pkg_dir" == *"hosts"* || "$pkg_dir" == *"modules"* || "$pkg_dir" == *"overlays"* || "$pkg_dir" == "." ]]; then
+  if [[ $pkg_dir == *"hosts"* || $pkg_dir == *"modules"* || $pkg_dir == *"overlays"* || $pkg_dir == "." ]]; then
     continue
   fi
 

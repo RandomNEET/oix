@@ -2,7 +2,6 @@
   osConfig,
   config,
   lib,
-  pkgs,
   meta,
   ...
 }:
@@ -149,33 +148,6 @@ in
         end, 100)
       end
     '';
-
-    extraPackages = with pkgs; [
-      fd
-      ghostscript
-      lsof
-      lynx
-      ripgrep
-      # Formatters
-      astyle
-      black
-      isort
-      nixfmt
-      prettier
-      prettierd
-      rustfmt
-      shfmt
-      stylua
-      # Linters
-      commitlint
-      eslint_d
-      jq
-      luajitPackages.luacheck
-      markdownlint-cli
-      ruff
-      shellcheck
-      yamllint
-    ];
 
     nixpkgs.config.allowUnfree = meta.allowUnfree;
   };

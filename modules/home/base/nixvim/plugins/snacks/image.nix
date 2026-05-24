@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   programs.nixvim = {
     plugins.snacks.settings.image = {
@@ -8,5 +8,6 @@
         "wezterm"
       ];
     };
+    extraPackages = with pkgs; [ ghostscript ];
   };
 }
