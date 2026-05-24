@@ -4,23 +4,23 @@
     plugins.lsp = {
       enable = true;
       servers = {
-        bashls.enable = true;
-        clangd.enable = true;
-        html.enable = true;
-        lua_ls.enable = true;
-        marksman.enable = true;
-        nil_ls.enable = true;
-        pyright.enable = true;
+        nil_ls.enable = true; # nix
+        bashls.enable = true; # bash
+        lua_ls.enable = true; # lua
+        pyright.enable = true; # python
+        clangd.enable = true; # c/cpp
         rust_analyzer = {
           enable = true;
           installCargo = true;
           installRustc = true;
-        };
-        taplo.enable = true;
-        ts_ls.enable = true;
-        jsonls.enable = true;
-        vue_ls.enable = true;
-        yamlls.enable = true;
+        }; # rust
+        html.enable = true; # html
+        ts_ls.enable = true; # ts/js
+        vue_ls.enable = true; # vue
+        jsonls.enable = true; # json
+        yamlls.enable = true; # yaml
+        taplo.enable = true; # toml
+        marksman.enable = true; # markdown
       };
     }
     // lib.optionalAttrs (meta.channel == "unstable") {

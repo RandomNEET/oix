@@ -15,12 +15,11 @@
         python = [ "ruff" ];
         c = [ "clangtidy" ];
         cpp = [ "clangtidy" ];
-        json = [ "jq" ];
+        json = [ "jsonlint" ];
         yaml = [ "yamllint" ];
         markdownlint = [ "markdownlint" ];
         gitcommit = [ "commitlint" ];
       };
-      linters = { };
     }
     // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
@@ -36,9 +35,9 @@
     };
     extraPackages = with pkgs; [
       shellcheck
-      luajitPackages.luacheck
+      luajitPackages.luacheck # luacheck
       ruff
-      jq
+      python314Packages.demjson3 # jsonlint
       yamllint
       markdownlint-cli
       commitlint
