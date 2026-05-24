@@ -20,7 +20,7 @@ buildNpmPackage rec {
     cp ${./package-lock.json} package-lock.json
   '';
 
-  npmDepsHash = "sha256-/g3PV+VJ7zotOn70a3J6lJR5Bz0v24vyI540Pe10MJI= ";
+  npmDepsHash = "sha256-9SZZE4Lcb5GsjWa7GvbluAAUckF5n343R9uXvkX8lvg=";
 
   nativeBuildInputs = [
     python3
