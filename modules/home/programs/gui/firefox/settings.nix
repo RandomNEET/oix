@@ -1,4 +1,3 @@
-{ lib, isWm, ... }:
 let
   lock-false = {
     Value = false;
@@ -239,7 +238,4 @@ in
       ];
     };
   };
-}
-// lib.optionalAttrs isWm {
-  "full-screen-api.ignore-widgets" = true;
 }
