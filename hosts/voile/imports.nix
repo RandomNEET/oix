@@ -1,12 +1,12 @@
 {
   imports = [
-    ../../modules/services/fstrim
-    ../../modules/services/xray
+    ../../modules/os/services/fstrim
+    ../../modules/os/services/xray
 
-    ../../modules/scripts/gen-diff.nix
-    ../../modules/scripts/oix-init.nix
+    ../../modules/os/scripts/gen-diff.nix
+    ../../modules/os/scripts/oix-init.nix
 
-    ../../modules/virtualisation/docker
-    ../../modules/virtualisation/libvirtd
+    ../../modules/os/virtualisation/docker
+    ../../modules/os/virtualisation/libvirtd
   ];
 }

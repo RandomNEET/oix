@@ -1,17 +1,17 @@
 {
   imports = [
-    ../../modules/programs/firejail
+    ../../modules/os/programs/firejail
 
-    ../../modules/services/dae
-    ../../modules/services/flatpak
-    ../../modules/services/fstrim
-    ../../modules/services/greetd
+    ../../modules/os/services/dae
+    ../../modules/os/services/flatpak
+    ../../modules/os/services/fstrim
+    ../../modules/os/services/greetd
 
-    ../../modules/scripts/gen-diff.nix
-    ../../modules/scripts/oix-init.nix
-    ../../modules/scripts/snapper-list.nix
+    ../../modules/os/scripts/gen-diff.nix
+    ../../modules/os/scripts/oix-init.nix
+    ../../modules/os/scripts/snapper-list.nix
 
-    ../../modules/virtualisation/libvirtd
-    ../../modules/virtualisation/podman
+    ../../modules/os/virtualisation/libvirtd
+    ../../modules/os/virtualisation/podman
   ];
 }
