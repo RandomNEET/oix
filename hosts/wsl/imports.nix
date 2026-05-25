@@ -1,6 +1,6 @@
 {
   imports = [
-    ../../modules/scripts/gen-diff.nix
-    ../../modules/scripts/oix-init.nix
+    ../../modules/os/scripts/gen-diff.nix
+    ../../modules/os/scripts/oix-init.nix
   ];
 }

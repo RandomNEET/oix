@@ -142,37 +142,37 @@
       );
 
       baseModules = {
-        os = ./modules/base;
+        os = ./modules/os/base;
         home = ./modules/home/base;
       };
       osUnstableModules = with inputs; [
         home-manager.nixosModules.home-manager
         sops-nix.nixosModules.sops
-        stylix.nixosModules.stylix
         lanzaboote.nixosModules.lanzaboote
+        stylix.nixosModules.stylix
       ];
       osStableModules = with inputs; [
         home-manager-stable.nixosModules.home-manager
         sops-nix-stable.nixosModules.sops
-        stylix-stable.nixosModules.stylix
         lanzaboote-stable.nixosModules.lanzaboote
+        stylix-stable.nixosModules.stylix
       ];
       hmUnstableModules = with inputs; [
         sops-nix.homeManagerModules.sops
-        stylix.homeModules.stylix
         niri.homeModules.niri
         niri.homeModules.stylix
         noctalia.homeModules.default
+        stylix.homeModules.stylix
         nixvim.homeModules.nixvim
         spicetify-nix.homeManagerModules.default
         nix-index-database.homeModules.nix-index
       ];
       hmStableModules = with inputs; [
         sops-nix-stable.homeManagerModules.sops
-        stylix-stable.homeModules.stylix
         niri-stable.homeModules.niri
         niri-stable.homeModules.stylix
         noctalia-stable.homeModules.default
+        stylix-stable.homeModules.stylix
         nixvim-stable.homeModules.nixvim
         spicetify-nix-stable.homeManagerModules.default
         nix-index-database-stable.homeModules.nix-index
