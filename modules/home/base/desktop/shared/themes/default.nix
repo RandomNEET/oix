@@ -9,14 +9,14 @@ let
 in
 {
   config = mkMerge [
-    (mkIf (osConfig.desktop.enable && osConfig.desktop.themes.enable) (
+    (mkIf osConfig.desktop.themes.enable (
       let
         defaultTheme = builtins.head osConfig.desktop.themes.list;
         otherThemes = builtins.tail osConfig.desktop.themes.list;
       in
       {
         stylix = {
-          enable = true;
+          enable = osConfig.desktop.themes.enable;
           base16Scheme = "${pkgs.base16-schemes}/share/themes/${defaultTheme}.yaml";
           polarity = osConfig.desktop.themes.polarity;
           fonts = {
@@ -109,7 +109,6 @@ in
             };
           }) otherThemes
         );
-
         home.activation.saveHmBasePath = ''
           LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
 
@@ -125,7 +124,12 @@ in
         '';
       }
     ))
-    (mkIf (osConfig.desktop.enable && !osConfig.desktop.themes.enable) {
+    (mkIf (!osConfig.desktop.themes.enable) {
+      stylix = {
+        enable = false;
+        autoEnable = false;
+        overlays.enable = false;
+      };
       home.activation.saveHmBasePath = ''
         LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
 
@@ -135,13 +139,6 @@ in
         	fi
         fi
       '';
-    })
-    (mkIf (!osConfig.desktop.enable) {
-      stylix = {
-        enable = false;
-        autoEnable = false;
-        overlays.enable = false;
-      };
     })
   ];
 }

@@ -10,7 +10,7 @@ in
 {
   imports = [ ./options.nix ];
   config = mkMerge [
-    (mkIf config.desktop.enable {
+    (mkIf config.desktop.themes.enable {
       stylix = {
         enable = true;
         base16Scheme = "${pkgs.base16-schemes}/share/themes/${builtins.head config.desktop.themes.list}.yaml";
@@ -31,7 +31,7 @@ in
         };
       };
     })
-    (mkIf (!config.desktop.enable) {
+    (mkIf (!config.desktop.themes.enable) {
       stylix = {
         enable = false;
         autoEnable = false;
