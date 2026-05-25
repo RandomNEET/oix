@@ -27,27 +27,20 @@ in
           };
           autoEnable = false;
           targets = {
-            bat.enable = true;
-            btop.enable = true;
-            cava.enable = true;
-            fcitx5.enable = true;
-            firefox = {
-              enable = true;
-              profileNames = [ "default" ];
-            };
+            # base
             font-packages.enable = true;
             fontconfig.enable = true;
-            foot.enable = true;
-            fzf.enable = true;
             gtk = {
               enable = true;
               flatpakSupport.enable = true;
             };
-            hyprland.enable = true;
-            kitty.enable = true;
+            qt.enable = true;
+            # cli
+            bat.enable = true;
+            btop.enable = true;
+            cava.enable = true;
+            fzf.enable = true;
             lazygit.enable = true;
-            mpv.enable = true;
-            niri.enable = true;
             nixvim = {
               enable = true;
               transparentBackground = {
@@ -56,17 +49,25 @@ in
                 signColumn = true;
               };
             };
-            obsidian.enable = true;
             opencode.enable = true;
-            qt.enable = true;
-            spicetify.enable = true;
             spotify-player.enable = true;
-            tmux.enable = false;
+            yazi.enable = true;
+            # gui
+            fcitx5.enable = true;
+            firefox = {
+              enable = true;
+              profileNames = [ "default" ];
+            };
+            foot.enable = true;
+            kitty.enable = true;
+            mpv.enable = true;
+            obsidian.enable = true;
             vesktop.enable = true;
             vscode.enable = true;
-            waybar.enable = true;
-            yazi.enable = true;
             zathura.enable = true;
+            # desktop
+            hyprland.enable = true;
+            niri.enable = true;
           };
           cursor = {
             package = pkgs.bibata-cursors;
@@ -109,6 +110,7 @@ in
             };
           }) otherThemes
         );
+
         home.activation.saveHmBasePath = ''
           LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
 

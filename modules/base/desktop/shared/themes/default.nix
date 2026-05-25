@@ -8,7 +8,6 @@ let
   inherit (lib) mkMerge mkIf;
 in
 {
-  imports = [ ./options.nix ];
   config = mkMerge [
     (mkIf config.desktop.themes.enable {
       stylix = {

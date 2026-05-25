@@ -2,7 +2,6 @@
   inputs,
   osConfig,
   config,
-  lib,
   pkgs,
   mylib,
   ...
@@ -11,7 +10,6 @@ let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   hasThemes = osConfig.desktop.themes.enable;
   themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
-  theme = "text";
   matchedTextColorScheme =
     if themeName == "catppuccin-mocha" then
       "CatppuccinMocha"
@@ -59,9 +57,7 @@ in
       lyricsPlus
       historyInSidebar
     ];
-  }
-  // lib.optionalAttrs (hasThemes && (theme == "text") && (matchedTextColorScheme != "")) {
-    theme = lib.mkForce spicePkgs.themes.text;
-    colorScheme = lib.mkForce matchedTextColorScheme;
+    theme = spicePkgs.themes.text;
+    colorScheme = matchedTextColorScheme;
   };
 }

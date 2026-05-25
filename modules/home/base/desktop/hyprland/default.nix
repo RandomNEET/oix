@@ -92,8 +92,8 @@ in
       enable = true;
       portal = {
         enable = true;
-        extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
         xdgOpenUsePortal = true;
+        extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
         config = {
           common = {
             default = "gtk";

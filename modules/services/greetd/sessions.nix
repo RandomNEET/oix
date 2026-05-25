@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   environment.etc = lib.mkMerge [
     (lib.optionalAttrs config.desktop.hyprland.enable {
@@ -13,6 +18,13 @@
         [Desktop Entry]
         Name=niri
         Exec=niri-session
+      '';
+    })
+    (lib.optionalAttrs config.desktop.plasma.enable {
+      "greetd/sessions/plasma.desktop".text = ''
+        [Desktop Entry]
+        Name=plasma
+        Exec=${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland
       '';
     })
     (lib.optionalAttrs config.programs.zsh.enable {

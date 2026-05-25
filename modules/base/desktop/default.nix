@@ -1,9 +1,15 @@
 { mylib, ... }:
 {
   imports = mylib.util.scanPaths ./. {
-    types = [ "regular" ];
+    types = [
+      "directory"
+      "regular"
+    ];
     extension = ".nix";
-    exclude = [ "default.nix" ];
+    exclude = [
+      "shared"
+      "default.nix"
+    ];
     depth = 1;
   };
 }
