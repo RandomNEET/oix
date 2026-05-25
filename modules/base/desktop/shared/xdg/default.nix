@@ -8,13 +8,13 @@
   config = lib.mkIf config.desktop.enable {
     xdg.portal = {
       enable = true;
+      xdgOpenUsePortal = true;
       extraPortals =
         with pkgs;
         [
           xdg-desktop-portal-gtk
         ]
         ++ lib.optional config.desktop.hyprland.enable xdg-desktop-portal-hyprland;
-      xdgOpenUsePortal = true;
       configPackages =
         with pkgs;
         [
@@ -25,6 +25,8 @@
         common = {
           default = "gtk";
         };
+      }
+      // lib.optionalAttrs config.desktop.hyprland.enable {
         hyprland = {
           default = [
             "hyprland"

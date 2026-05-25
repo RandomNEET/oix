@@ -15,6 +15,8 @@ in
               "'systemd-cat -t hyprland start-hyprland'"
             else if config.desktop.niri.primary then
               "'systemd-cat -t niri niri-session'"
+            else if config.desktop.plasma.primary then
+              "'systemd-cat -t plasma ${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland'"
             else if config.programs.zsh.enable then
               "zsh"
             else
