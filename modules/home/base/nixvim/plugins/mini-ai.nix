@@ -1,4 +1,3 @@
-{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.mini-ai = {
@@ -39,8 +38,6 @@
           U.__raw = "require('mini.ai').gen_spec.function_call({ name_pattern = '[%w_]' })";
         };
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

@@ -2,14 +2,14 @@
   description = "All in Nix";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-25.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-26.05";
     nur.url = "github:nix-community/NUR";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager-stable = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
@@ -64,7 +64,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim-stable = {
-      url = "github:nix-community/nixvim/nixos-25.11";
+      url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     spicetify-nix = {

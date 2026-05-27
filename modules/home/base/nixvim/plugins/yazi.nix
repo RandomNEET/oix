@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  meta,
-  ...
-}:
+{ config, lib, ... }:
 {
   programs.nixvim = lib.mkIf config.programs.yazi.enable {
     plugins.yazi = {
@@ -13,8 +8,6 @@
         open_for_directories = true;
         yazi_floating_window_border = "rounded";
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

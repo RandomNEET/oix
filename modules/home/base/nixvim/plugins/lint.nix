@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  meta,
-  ...
-}:
+{ pkgs, ... }:
 {
   programs.nixvim = {
     plugins.lint = {
@@ -20,8 +15,6 @@
         markdownlint = [ "markdownlint" ];
         gitcommit = [ "commitlint" ];
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

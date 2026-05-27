@@ -2,7 +2,6 @@
   osConfig,
   config,
   lib,
-  meta,
   ...
 }:
 let
@@ -44,8 +43,6 @@ in
           };
         };
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

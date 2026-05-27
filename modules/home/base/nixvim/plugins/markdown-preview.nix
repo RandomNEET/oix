@@ -1,9 +1,4 @@
-{
-  osConfig,
-  lib,
-  meta,
-  ...
-}:
+{ osConfig, lib, ... }:
 {
   programs.nixvim = lib.mkIf osConfig.desktop.enable {
     plugins.markdown-preview = {
@@ -19,8 +14,6 @@
         };
         theme = "dark";
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

@@ -1,4 +1,3 @@
-{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.mini-surround = {
@@ -14,8 +13,6 @@
           update_n_lines = "gsn";
         };
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

@@ -1,10 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  meta,
-  ...
-}:
+{ config, pkgs, ... }:
 {
   programs.nixvim = {
     plugins.treesitter = {
@@ -33,8 +27,6 @@
         vue
         yaml
       ];
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       folding.enable = !config.programs.nixvim.plugins.treesitter.lazyLoad.enable; # enable after lazyload
       highlight.enable = true;
       indent.enable = true;

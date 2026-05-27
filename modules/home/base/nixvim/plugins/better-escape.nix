@@ -1,4 +1,3 @@
-{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.better-escape = {
@@ -35,8 +34,6 @@
         };
         timeout = 300;
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {
