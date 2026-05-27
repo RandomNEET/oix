@@ -6,7 +6,6 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
 in
 {
@@ -569,7 +568,7 @@ in
       }
     ];
     extraPackages = with pkgs; [ sqlite ];
-    highlightOverride = lib.mkIf hasThemes {
+    highlightOverride = lib.mkIf osConfig.desktop.themes.enable {
       SnacksPicker = {
         fg = colors.base05;
         bg = "none";

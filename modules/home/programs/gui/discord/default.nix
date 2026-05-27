@@ -1,3 +1,4 @@
+{ osConfig, lib, ... }:
 {
   programs.vesktop = {
     enable = true;
@@ -33,4 +34,6 @@
       };
     };
   };
+
+  stylix.targets.vesktop.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

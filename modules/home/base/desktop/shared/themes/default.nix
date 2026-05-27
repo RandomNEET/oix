@@ -27,7 +27,6 @@ in
           };
           autoEnable = false;
           targets = {
-            # base
             font-packages.enable = true;
             fontconfig.enable = true;
             gtk = {
@@ -35,39 +34,6 @@ in
               flatpakSupport.enable = true;
             };
             qt.enable = true;
-            # cli
-            bat.enable = true;
-            btop.enable = true;
-            cava.enable = true;
-            fzf.enable = true;
-            lazygit.enable = true;
-            nixvim = {
-              enable = true;
-              transparentBackground = {
-                main = true;
-                numberLine = true;
-                signColumn = true;
-              };
-            };
-            opencode.enable = true;
-            spotify-player.enable = true;
-            yazi.enable = true;
-            # gui
-            fcitx5.enable = true;
-            firefox = {
-              enable = true;
-              profileNames = [ "default" ];
-            };
-            foot.enable = true;
-            kitty.enable = true;
-            mpv.enable = true;
-            obsidian.enable = true;
-            vesktop.enable = true;
-            vscode.enable = true;
-            zathura.enable = true;
-            # desktop
-            hyprland.enable = true;
-            niri.enable = true;
           };
           cursor = {
             package = pkgs.bibata-cursors;

@@ -1,7 +1,9 @@
-{ osConfig, config, ... }:
-let
-  hasDesktop = osConfig.desktop.enable;
-in
+{
+  osConfig,
+  config,
+  lib,
+  ...
+}:
 {
   programs.lazygit = {
     enable = true;
@@ -9,7 +11,7 @@ in
     enableZshIntegration = true;
     settings = {
       gui = {
-        nerdFontsVersion = if hasDesktop then "3" else "2";
+        nerdFontsVersion = if osConfig.desktop.enable then "3" else "2";
       };
       git = {
         paging = [
@@ -19,7 +21,7 @@ in
           }
         ];
         overrideGpg = true;
-        parseEmoji = if hasDesktop then true else false;
+        parseEmoji = if osConfig.desktop.enable then true else false;
       };
       os = {
         editPreset = config.defaultPrograms.editor;
@@ -27,4 +29,6 @@ in
       };
     };
   };
+
+  stylix.targets.lazygit.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

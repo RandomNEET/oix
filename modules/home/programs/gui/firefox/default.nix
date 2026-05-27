@@ -1,3 +1,4 @@
+{ osConfig, lib, ... }:
 {
   programs.firefox = {
     enable = true;
@@ -14,4 +15,6 @@
       };
     };
   };
+
+  stylix.targets.firefox.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

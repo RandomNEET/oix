@@ -7,8 +7,6 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
-  hasWallpaper = config.desktop.wallpaper.enable;
   gowall-autoconvert = import ./scripts/gowall-autoconvert.nix {
     inherit
       osConfig
@@ -27,7 +25,9 @@ in
           gowall
           tesseract
         ]
-        ++ lib.optional (hasThemes && hasWallpaper) gowall-autoconvert;
+        ++ lib.optional (
+          osConfig.desktop.themes.enable && config.desktop.wallpaper.enable
+        ) gowall-autoconvert;
       file = {
         ".config/gowall/config.yml".text = ''
           EnableImagePreviewing: false

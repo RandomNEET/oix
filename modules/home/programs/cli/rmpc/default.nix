@@ -7,7 +7,6 @@
 }:
 let
   hasThemes = osConfig.desktop.enable;
-  hasDesktop = osConfig.desktop.enable;
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
 in
@@ -22,7 +21,7 @@ in
           address: "${"${config.services.mpd.network.listenAddress}:${toString config.services.mpd.network.port}"}",
           password: None,
           cache_dir: None,
-          ${lib.optionalString hasDesktop "on_song_change: [\"${./scripts/notify.sh}\"],"}
+          ${lib.optionalString osConfig.desktop.enable "on_song_change: [\"${./scripts/notify.sh}\"],"}
           volume_step: 5,
           max_fps: 30,
           scrolloff: 0,

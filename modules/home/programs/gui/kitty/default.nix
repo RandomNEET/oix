@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  osConfig,
+  config,
+  lib,
+  ...
+}:
 {
   programs.kitty = {
     enable = true;
@@ -43,4 +48,6 @@
       "kitty_mod+t" = "launch --type=overlay --cwd=current tmux";
     };
   };
+
+  stylix.targets.kitty.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

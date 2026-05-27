@@ -6,7 +6,6 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors;
 
   opacity = {
@@ -99,7 +98,7 @@ in
       };
     };
   }
-  // lib.optionalAttrs hasThemes {
+  // lib.optionalAttrs osConfig.desktop.themes.enable {
     # Completion widget
     completion.category.bg = hexToRgba colors.base00 opacity.high;
     completion.category.border.bottom = hexToRgba colors.base00 opacity.high;

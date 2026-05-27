@@ -1,3 +1,4 @@
+{ osConfig, lib, ... }:
 {
   programs.foot = {
     enable = true;
@@ -12,4 +13,6 @@
     };
     server.enable = true;
   };
+
+  stylix.targets.foot.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

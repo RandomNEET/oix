@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  osConfig,
+  config,
+  lib,
+  ...
+}:
 {
   programs.fzf = {
     enable = true;
@@ -30,4 +35,6 @@
     fileWidgetCommand = "fd --type f --strip-cwd-prefix";
     changeDirWidgetCommand = "fd --type d --strip-cwd-prefix";
   };
+
+  stylix.targets.fzf.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  osConfig,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.obsidian = {
     enable = true;
@@ -32,5 +37,8 @@
       communityPlugins = import ./plugins.nix { inherit pkgs; };
     };
   };
+
   home.packages = with pkgs; [ npmPackages.obsidian-headless ];
+
+  stylix.targets.obsidian.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

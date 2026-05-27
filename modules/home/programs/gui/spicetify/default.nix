@@ -8,8 +8,12 @@
 }:
 let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-  hasThemes = osConfig.desktop.themes.enable;
-  themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
+
+  themeName =
+    if osConfig.desktop.themes.enable then
+      mylib.theme.getBase16Scheme config.stylix.base16Scheme
+    else
+      "default";
   matchedTextColorScheme =
     if themeName == "catppuccin-mocha" then
       "CatppuccinMocha"

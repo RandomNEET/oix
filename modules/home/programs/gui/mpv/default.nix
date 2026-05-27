@@ -1,4 +1,10 @@
-{ config, pkgs, ... }:
+{
+  osConfig,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   resolveHome = path: builtins.replaceStrings [ "$HOME" ] [ config.home.homeDirectory ] path;
 in
@@ -116,4 +122,6 @@ in
       border = false;
     };
   };
+
+  stylix.targets.mpv.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

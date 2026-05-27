@@ -102,5 +102,7 @@ in
       slurp
       swappy
     ];
+
+    stylix.targets.niri.enable = lib.mkIf osConfig.desktop.themes.enable true;
   };
 }

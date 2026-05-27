@@ -1,6 +1,5 @@
 { config, pkgs, ... }:
 let
-  hasDesktop = config.desktop.enable;
   tuigreetPrefix = "tuigreet --time --theme 'border=lightblue;text=white;prompt=lightcyan;time=lightyellow;action=white;button=lightred;container=black;input=white' --sessions /etc/greetd/sessions --cmd";
 in
 {
@@ -10,7 +9,7 @@ in
     settings = {
       default_session = {
         command = "${tuigreetPrefix} ${
-          if hasDesktop then
+          if config.desktop.enable then
             if config.desktop.hyprland.primary then
               "'systemd-cat -t hyprland start-hyprland'"
             else if config.desktop.niri.primary then
