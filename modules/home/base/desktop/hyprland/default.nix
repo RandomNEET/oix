@@ -130,5 +130,7 @@ in
       slurp
       swappy
     ];
+
+    stylix.targets.hyprland.enable = lib.mkIf osConfig.desktop.themes.enable true;
   };
 }

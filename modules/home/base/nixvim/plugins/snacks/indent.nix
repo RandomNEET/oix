@@ -5,7 +5,6 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
 in
 
@@ -23,7 +22,7 @@ in
         char = "▎";
       };
     };
-    highlightOverride = lib.mkIf hasThemes {
+    highlightOverride = lib.mkIf osConfig.desktop.themes.enable {
       SnacksIndent = {
         fg = colors.base02;
       };

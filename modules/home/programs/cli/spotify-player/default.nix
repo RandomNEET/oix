@@ -4,9 +4,6 @@
   pkgs,
   ...
 }:
-let
-  hasDesktop = osConfig.desktop.enable;
-in
 {
   programs.spotify-player = {
     enable = true;
@@ -23,7 +20,8 @@ in
       notify_transient = true;
     };
   };
-  home.packages = lib.optionals hasDesktop [
+
+  home.packages = lib.optionals osConfig.desktop.enable [
     (pkgs.makeDesktopItem {
       name = "spotify-player";
       desktopName = "spotify-player";
@@ -44,4 +42,6 @@ in
       };
     })
   ];
+
+  stylix.targets.spotify-player.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

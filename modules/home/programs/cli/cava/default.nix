@@ -1,3 +1,4 @@
+{ osConfig, lib, ... }:
 {
   programs.cava = {
     enable = true;
@@ -9,4 +10,6 @@
       };
     };
   };
+
+  stylix.targets.cava.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

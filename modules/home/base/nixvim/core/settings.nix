@@ -6,7 +6,6 @@
   ...
 }:
 let
-  hasDesktop = osConfig.desktop.enable;
   hasThemes = osConfig.desktop.themes.enable;
 in
 {
@@ -71,7 +70,7 @@ in
 
     clipboard = {
       register = "unnamedplus";
-      providers = lib.mkIf hasDesktop {
+      providers = lib.mkIf osConfig.desktop.enable {
         wl-copy.enable = true;
         xclip.enable = true;
       };
@@ -150,5 +149,14 @@ in
     '';
 
     nixpkgs.config.allowUnfree = meta.allowUnfree;
+  };
+
+  stylix.targets.nixvim = lib.mkIf hasThemes {
+    enable = true;
+    transparentBackground = {
+      main = true;
+      numberLine = true;
+      signColumn = true;
+    };
   };
 }

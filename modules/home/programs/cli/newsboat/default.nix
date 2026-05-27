@@ -5,10 +5,6 @@
   pkgs,
   ...
 }:
-let
-  hasDesktop = osConfig.desktop.enable;
-  hasThemes = osConfig.desktop.themes.enable;
-in
 {
   programs.newsboat = {
     enable = true;
@@ -30,7 +26,7 @@ in
       bind-key ^n halfpagedown
       bind-key m mark-feed-read
     ''
-    + lib.optionalString hasThemes ''
+    + lib.optionalString osConfig.desktop.themes.enable ''
       color listnormal         color15 default
       color listnormal_unread  color2  default
       color listfocus_unread   color2  color8
@@ -52,7 +48,7 @@ in
     '';
     browser = "${lib.getExe pkgs.${config.defaultPrograms.browser}}";
   };
-  home.packages = lib.optionals hasDesktop [
+  home.packages = lib.optionals osConfig.desktop.enable [
     (pkgs.makeDesktopItem {
       name = "newsboat";
       desktopName = "Newsboat";

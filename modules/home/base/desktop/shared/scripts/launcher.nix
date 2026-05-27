@@ -6,8 +6,8 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
-  defaultTheme = if hasThemes then builtins.head osConfig.desktop.themes.list else "default";
+  defaultTheme =
+    if osConfig.desktop.themes.enable then builtins.head osConfig.desktop.themes.list else "default";
   terminal = (import ../misc/terminal.nix { inherit config; }).exe;
 in
 pkgs.writeShellScriptBin "launcher" ''

@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  osConfig,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.bat = {
     enable = true;
@@ -15,7 +20,10 @@
       batwatch
     ];
   };
+
   home.sessionVariables = {
     MANPAGER = "bat -plman";
   };
+
+  stylix.targets.bat.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

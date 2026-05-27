@@ -6,7 +6,6 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
 in
 {
@@ -54,7 +53,7 @@ in
         };
       };
     };
-    highlightOverride = lib.mkIf hasThemes {
+    highlightOverride = lib.mkIf osConfig.desktop.themes.enable {
       NoiceCmdlineIcon = {
         fg = colors.base0C;
         bg = "none";

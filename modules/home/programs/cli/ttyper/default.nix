@@ -6,14 +6,13 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors;
 
   base = ''
     default_language = "english1000"
   '';
 
-  theme = lib.optionalString hasThemes ''
+  theme = lib.optionalString osConfig.desktop.themes.enable ''
     [theme]
     default = "none"
     border_type = "rounded"

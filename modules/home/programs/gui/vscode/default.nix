@@ -6,7 +6,6 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
   homeDir = config.home.homeDirectory;
   dataDir = config.xdg.dataHome;
   userDataDir = "${dataDir}/vscode/data";
@@ -127,9 +126,8 @@ in
       );
     };
   };
-}
-// lib.optionalAttrs hasThemes {
-  stylix.targets.vscode = {
+
+  stylix.targets.vscode = lib.mkIf osConfig.desktop.themes.enable {
     enable = true;
     profileNames = builtins.attrNames profiles;
   };

@@ -1,3 +1,4 @@
+{ osConfig, lib, ... }:
 {
   programs.opencode = {
     enable = true;
@@ -11,4 +12,6 @@
       };
     };
   };
+
+  stylix.targets.opencode.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }

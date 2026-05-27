@@ -52,6 +52,7 @@
         };
       };
     };
+
     home = {
       file = {
         ".local/share/fcitx5/rime/default.custom.yaml".source = ./rime/default.custom.yaml;
@@ -62,5 +63,7 @@
         XMODIFIERS = "@im=fcitx";
       };
     };
+
+    stylix.targets.fcitx5.enable = lib.mkIf osConfig.desktop.themes.enable true;
   };
 }

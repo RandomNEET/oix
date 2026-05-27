@@ -1,7 +1,4 @@
 { config, pkgs, ... }:
-let
-  hasDesktop = config.desktop.enable;
-in
 {
   virtualisation = {
     libvirtd = {
@@ -15,7 +12,7 @@ in
     spiceUSBRedirection.enable = true;
   };
 
-  programs.virt-manager.enable = hasDesktop;
+  programs.virt-manager.enable = config.desktop.enable;
 
   services = {
     qemuGuest.enable = true;
