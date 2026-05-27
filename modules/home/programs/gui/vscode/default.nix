@@ -1,14 +1,17 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
   ...
 }:
 let
+  hasThemes = osConfig.desktop.themes.enable;
   homeDir = config.home.homeDirectory;
   dataDir = config.xdg.dataHome;
   userDataDir = "${dataDir}/vscode/data";
   extensionsDir = "${dataDir}/vscode/extensions";
+  profiles = import ./profiles { inherit lib pkgs userDataDir; };
 in
 {
   programs.vscode = {
@@ -22,54 +25,12 @@ in
       }
     );
     mutableExtensionsDir = false;
-    profiles = {
-      default = {
-        enableUpdateCheck = false;
-        enableExtensionUpdateCheck = true;
-        extensions = with pkgs.vscode-extensions; [
-          asvetliakov.vscode-neovim
-
-          ms-vscode-remote.remote-ssh
-          ms-vscode-remote.remote-ssh-edit
-          ms-vscode.remote-explorer
-          ms-vscode.hexeditor
-
-          bbenoist.nix
-          ecmel.vscode-html-css
-          ms-python.python
-          vue.volar
-          esbenp.prettier-vscode
-
-          yzhang.markdown-all-in-one
-          yzane.markdown-pdf
-        ];
-        userSettings = {
-          "chat.disableAIFeatures" = true;
-          "workbench.settings.showAISearchToggle" = false;
-          "editor.aiStats.enabled" = false;
-
-          vscode-neovim = {
-            neovimInitVimPaths = {
-              linux = "${userDataDir}/User/vscode-neovim.lua";
-            };
-          };
-          markdown-pdf = {
-            displayHeaderFooter = false;
-            margin.top = "1cm";
-          };
-          extensions = {
-            experimental = {
-              affinity = {
-                "asvetliakov.vscode-neovim" = 1;
-              };
-            };
-          };
-        };
-      };
-    };
+    inherit profiles;
   };
 
-  home.file.".config/Code/User/vscode-neovim.lua".source = ./vscode-neovim.lua;
+  home = {
+    file.".config/Code/User/vscode-neovim.lua".source = ./vscode-neovim.lua;
+  };
 
   # To solve VSCode wants to write settings.json
   # VSCode will reset per reboot/rebuild.
@@ -165,5 +126,11 @@ in
         }
       );
     };
+  };
+}
+// lib.optionalAttrs hasThemes {
+  stylix.targets.vscode = {
+    enable = true;
+    profileNames = builtins.attrNames profiles;
   };
 }
