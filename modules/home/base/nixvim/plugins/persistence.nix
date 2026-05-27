@@ -1,4 +1,3 @@
-{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.persistence = {
@@ -8,8 +7,6 @@
         need = 1;
         branch = true;
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

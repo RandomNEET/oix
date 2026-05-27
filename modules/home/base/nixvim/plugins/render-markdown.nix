@@ -42,8 +42,6 @@
           enabled = false;
         };
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  meta,
-  ...
-}:
+{ config, lib, ... }:
 {
   programs.nixvim = lib.mkIf config.programs.opencode.enable {
     plugins.opencode = {
@@ -11,8 +6,6 @@
       settings = {
         auto_reload = false;
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

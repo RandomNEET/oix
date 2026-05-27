@@ -1,4 +1,3 @@
-{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.csvview = {
@@ -12,8 +11,6 @@
           spacing = 2;
         };
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

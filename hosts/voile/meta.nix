@@ -2,6 +2,6 @@
   system = "x86_64-linux";
   channel = "stable";
   allowUnfree = true;
-  stateVersion = "25.11";
+  stateVersion = "26.05";
   flake = "/home/howl/oix";
 }

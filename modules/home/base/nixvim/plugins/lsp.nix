@@ -1,4 +1,3 @@
-{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.lsp = {
@@ -22,8 +21,6 @@
         taplo.enable = true; # toml
         marksman.enable = true; # markdown
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

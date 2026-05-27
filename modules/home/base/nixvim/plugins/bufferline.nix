@@ -2,7 +2,6 @@
   osConfig,
   config,
   lib,
-  meta,
   ...
 }:
 let
@@ -74,8 +73,6 @@ in
           separator_style = "thin"; # “slant”, “padded_slant”, “slope”, “padded_slope”, “thick”, “thin”
         };
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

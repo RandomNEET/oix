@@ -1,4 +1,4 @@
-{ lib, meta, ... }:
+{ lib, ... }:
 {
   programs.nixvim = {
     plugins.lualine = {
@@ -76,8 +76,6 @@
         winbar = { };
         inactive_winbar = { };
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {
@@ -89,8 +87,6 @@
         };
       };
     };
-  }
-  // lib.optionalAttrs (meta.channel == "unstable") {
     opts.laststatus = lib.mkForce 0; # hide statusline on startup; overridden by lualine after loading
   };
 }

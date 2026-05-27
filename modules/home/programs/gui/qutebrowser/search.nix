@@ -10,9 +10,9 @@
   mn = "https://mynixos.com/search?q={}";
   ng = "https://noogle.dev/q?term={}";
   nou = "https://search.nixos.org/options?channel=unstable&query={}";
-  nos = "https://search.nixos.org/options?channel=25.11&query={}";
+  nos = "https://search.nixos.org/options?channel=26.05&query={}";
   npu = "https://search.nixos.org/packages?channel=unstable&query={}";
-  nps = "https://search.nixos.org/packages?channel=25.11&query={}";
+  nps = "https://search.nixos.org/packages?channel=26.05&query={}";
   hmu = "https://home-manager-options.extranix.com/?query={}&release=master";
-  hms = "https://home-manager-options.extranix.com/?query={}&release=release-25.11";
+  hms = "https://home-manager-options.extranix.com/?query={}&release=release-26.05";
 }

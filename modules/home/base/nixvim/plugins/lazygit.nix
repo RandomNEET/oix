@@ -1,15 +1,8 @@
-{
-  config,
-  lib,
-  meta,
-  ...
-}:
+{ config, lib, ... }:
 {
   programs.nixvim = lib.mkIf config.programs.lazygit.enable {
     plugins.lazygit = {
       enable = true;
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

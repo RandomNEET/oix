@@ -1,10 +1,7 @@
-{ lib, meta, ... }:
 {
   programs.nixvim = {
     plugins.flash = {
       enable = true;
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

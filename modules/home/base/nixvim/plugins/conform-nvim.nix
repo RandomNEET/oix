@@ -1,9 +1,4 @@
-{
-  lib,
-  pkgs,
-  meta,
-  ...
-}:
+{ pkgs, ... }:
 {
   programs.nixvim = {
     plugins.conform-nvim = {
@@ -59,8 +54,6 @@
           timeout_ms = 500;
         };
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  meta,
-  ...
-}:
+{ config, lib, ... }:
 {
   programs.nixvim = lib.mkIf config.programs.obsidian.enable {
     plugins.obsidian = {
@@ -32,8 +27,6 @@
         };
         legacy_commands = false;
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {

@@ -2,7 +2,6 @@
   osConfig,
   config,
   lib,
-  meta,
   ...
 }:
 let
@@ -15,8 +14,6 @@ in
       settings = {
         preset = "helix";
       };
-    }
-    // lib.optionalAttrs (meta.channel == "unstable") {
       lazyLoad = {
         enable = true;
         settings = {
