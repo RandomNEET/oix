@@ -56,4 +56,8 @@ in
     global
     (import ./web.nix { inherit pkgs; })
   ];
+  embedded = mkMerge [
+    global
+    (import ./embedded.nix { inherit pkgs; })
+  ];
 }
