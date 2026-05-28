@@ -1,12 +1,9 @@
 { pkgs }:
 let
   baseUtils = with pkgs; [
-    bash
-    zsh
     git
     curl
     wget
-    vim
     neovim
     unzip
     util-linux
@@ -18,7 +15,6 @@ let
     binutils
     pkg-config
     stdenv.cc
-    python313
   ];
   allLibs = baseUtils ++ devTools;
 in
