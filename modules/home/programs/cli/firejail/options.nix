@@ -119,6 +119,7 @@ in
                   patterns = mkOption {
                     type = types.listOf types.str;
                     default = [
+                      "bwrap"
                       "dumpable"
                       "fseccomp"
                     ];
