@@ -1,27 +1,20 @@
+# Requirements: satty grim slurp wayfreeze tesseract libnotify wl-clipboard
 { config, pkgs, ... }:
 pkgs.writeShellScriptBin "screenshot" ''
-  XDG_CONFIG_HOME="${config.xdg.configHome}"
   XDG_PICTURES_DIR="${config.xdg.userDirs.pictures}"
-
-  SWAPPY_CONF_DIR="$XDG_CONFIG_HOME/swappy"
   SCREENSHOT_DIR="$XDG_PICTURES_DIR/screenshots"
   TEMP_OCR_FILE="/tmp/ocr_screenshot.png"
+  OCR_LANGS="eng+chi_sim+chi_tra+jpn+kor"
 
   prepare_env() {
-    mkdir -p "$SCREENSHOT_DIR" "$SWAPPY_CONF_DIR"
+    mkdir -p "$SCREENSHOT_DIR"
     local timestamp
     timestamp=$(date +'%y%m%d_%Hh%Mm%Ss')
-    local filename="''${timestamp}_screenshot.png"
-
-    cat <<EOF >"$SWAPPY_CONF_DIR/config"
-  [Default]
-  save_dir=$SCREENSHOT_DIR
-  save_filename_format=$filename
-  EOF
+    SCREENSHOT_FILE="$SCREENSHOT_DIR/''${timestamp}_screenshot.png"
   }
 
   check_dependencies() {
-    local deps=(grim slurp swappy notify-send gowall tesseract wl-copy)
+    local deps=(grim slurp satty notify-send tesseract wl-copy wayfreeze)
     for cmd in "''${deps[@]}"; do
       if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "Error: Required command '$cmd' not found."
@@ -30,13 +23,22 @@ pkgs.writeShellScriptBin "screenshot" ''
     done
   }
 
+  freeze_and_select() {
+    wayfreeze --hide-cursor & local freeze_pid=$!
+    sleep 0.1
+    local region
+    region=$(slurp "$@") || { kill "$freeze_pid" 2>/dev/null; return 1; }
+    kill "$freeze_pid" 2>/dev/null
+    echo "$region"
+  }
+
   print_usage() {
     cat <<EOF
   Usage: $(basename "$0") <action>
   Actions:
-    s  : Area capture (interactive)
+    s  : Area capture with screen freeze
     a  : Fullscreen capture (all screens)
-    o  : OCR capture (area to clipboard)
+    o  : OCR capture (area to clipboard, multi-language)
   EOF
     exit 1
   }
@@ -46,22 +48,27 @@ pkgs.writeShellScriptBin "screenshot" ''
   case "$1" in
   s)
     prepare_env
-    region=$(slurp -o)
+    region=$(freeze_and_select -o)
     if [ -n "$region" ]; then
-      grim -g "$region" - | swappy -f -
+      grim -g "$region" - | satty --filename - --output-filename "$SCREENSHOT_FILE"
     fi
     ;;
   a)
     prepare_env
-    grim - | swappy -f -
+    grim - | satty --filename - --output-filename "$SCREENSHOT_FILE" --fullscreen all
     ;;
   o)
-    if region=$(slurp); then
+    region=$(freeze_and_select)
+    if [ -n "$region" ]; then
       grim -g "$region" "$TEMP_OCR_FILE"
-      if gowall ocr "$TEMP_OCR_FILE" - -s tes | wl-copy; then
-        notify-send -a "screenshot" -u low -i "edit-paste" "OCR Success" "Text copied to clipboard"
+      ocr_text=$(tesseract "$TEMP_OCR_FILE" stdout -l "$OCR_LANGS" 2>/dev/null)
+      if [ -n "$ocr_text" ]; then
+        echo -n "$ocr_text" | wl-copy
+        notify-send -a "screenshot" -u low -i "edit-paste" \
+          "OCR Success" "Text copied to clipboard"
       else
-        notify-send -a "screenshot" -u low -i "dialog-error" "OCR Error" "Failed to recognize text"
+        notify-send -a "screenshot" -u low -i "dialog-error" \
+          "OCR Error" "Failed to recognize text"
       fi
       rm -f "$TEMP_OCR_FILE"
     else
@@ -72,9 +79,4 @@ pkgs.writeShellScriptBin "screenshot" ''
     print_usage
     ;;
   esac
-
-  latest_file=$(find "$SCREENSHOT_DIR" -name "*_screenshot.png" -cmin -0.1 2>/dev/null | head -n 1)
-  if [[ -n "$latest_file" ]]; then
-    notify-send -a "screenshot" -u low -r 91190 -t 2200 -i "$latest_file" "Screenshot Saved" "Path: $SCREENSHOT_DIR"
-  fi
 ''

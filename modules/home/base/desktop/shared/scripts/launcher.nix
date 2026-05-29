@@ -1,3 +1,5 @@
+# Requirements: rofi
+# Optionals: tmux rbw translate-shell config.desktop.themes config.base.gaming
 {
   osConfig,
   config,

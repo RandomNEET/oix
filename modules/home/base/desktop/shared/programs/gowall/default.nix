@@ -21,10 +21,7 @@ in
     home = {
       packages =
         with pkgs;
-        [
-          gowall
-          tesseract
-        ]
+        [ gowall ]
         ++ lib.optional (
           osConfig.desktop.themes.enable && config.desktop.wallpaper.enable
         ) gowall-autoconvert;
@@ -33,15 +30,6 @@ in
           EnableImagePreviewing: false
           OutputFolder: "${config.xdg.userDirs.pictures}/gowall"
           ${builtins.readFile ./themes.yml}
-        '';
-        ".config/gowall/schema.yml".text = ''
-          schemas:
-            - name: "tes"
-              config:
-                ocr:
-                  provider: "tesseract"
-                  model: "tesseract"
-                  language: "eng+chi_sim"
         '';
       };
     };
