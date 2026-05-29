@@ -67,7 +67,7 @@ let
             ''
               cat <<_EOF >$out/bin/${command}
               #! ${pkgs.bash}/bin/bash -e
-              exec /run/wrappers/bin/firejail ${args} -- ${toString opts.executable} "\$@" ${stderrFilter}
+              exec firejail ${args} -- ${toString opts.executable} "\$@" ${stderrFilter}
               _EOF
               chmod 0755 $out/bin/${command}
               ${lib.optionalString (opts.desktop != null) ''
