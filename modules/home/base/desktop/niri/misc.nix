@@ -46,7 +46,7 @@
 
   prefer-no-csd = true;
 
-  screenshot-path = "~/pic/screenshots/screenshot from %Y-%m-%d %H-%M-%S.png";
+  screenshot-path = "~/pic/screenshots/screenshot-%Y-%m-%d-%H:%M:%S.png";
 
   cursor = {
     hide-after-inactive-ms = 10000;
