@@ -30,7 +30,9 @@ in
     ../shared/programs/gowall
     ../shared/programs/noctalia-shell
     ../shared/programs/rofi
+    ../shared/programs/satty
     ../shared/services/cliphist
+    ../shared/services/udiskie
     ../shared/services/wayland-pipewire-idle-inhibit
   ];
 
@@ -93,14 +95,13 @@ in
 
     home.packages = with pkgs; [
       libnotify
-      xwayland-satellite
-      # clipboard
-      cliphist
       wl-clipboard
-      # screenshot
+      xwayland-satellite
+      # Screenshot (satty in imports)
       grim
       slurp
-      swappy
+      wayfreeze
+      tesseract
     ];
 
     stylix.targets.niri.enable = lib.mkIf osConfig.desktop.themes.enable true;

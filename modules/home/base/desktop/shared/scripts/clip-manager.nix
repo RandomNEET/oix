@@ -1,3 +1,4 @@
+# Requirements: rofi wl-clipboard cliphist
 { pkgs, ... }:
 pkgs.writeShellScriptBin "clip-manager" ''
   while true; do
