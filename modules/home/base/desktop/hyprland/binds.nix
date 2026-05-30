@@ -63,14 +63,11 @@ in
     # Keybinds help menu
     (mkBind "SUPER + SHIFT + slash" ''hl.dsp.exec_cmd("${keybinds}")'')
 
-    # Window/Session actions
+    # Window actions
     (mkBind "SUPER + Q" "hl.dsp.window.close()")
     (mkBind "SUPER + W" ''hl.dsp.window.float({ action = "toggle" })'')
     (mkBind "SUPER + G" "hl.dsp.group.toggle()")
     (mkBind "ALT + return" ''hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" })'')
-    (mkBind "SUPER + ALT + L" ''hl.dsp.exec_cmd("noctalia-shell ipc call lockScreen lock")'')
-    (mkBind "SUPER + backspace" ''hl.dsp.exec_cmd("noctalia-shell ipc call sessionMenu toggle")'')
-    (mkBind "CTRL + ESCAPE" ''hl.dsp.exec_cmd("noctalia-shell ipc call bar toggle")'')
 
     # Special workspace (scratchpad)
     (mkBind "SUPER + S" ''hl.dsp.workspace.toggle_special("default")'')
@@ -84,11 +81,16 @@ in
     (mkBind "SUPER + SPACE" ''hl.dsp.exec_cmd("${launcher} drun")'')
     (mkBind "SUPER + V" ''hl.dsp.exec_cmd("${clip-manager}")'')
     (mkBind "SUPER + CTRL + T" ''hl.dsp.exec_cmd("${launcher} theme")'')
-    (mkBind "SUPER + ALT + S" ''hl.dsp.exec_cmd("${launcher} spec")'')
     (mkBind "SUPER + SHIFT + A" ''hl.dsp.exec_cmd("noctalia-shell ipc call controlCenter toggle")'')
     (mkBind "SUPER + SHIFT + Q" ''hl.dsp.exec_cmd("noctalia-shell ipc call notifications toggleHistory")'')
-    (mkBind "SUPER + CTRL + W" ''hl.dsp.exec_cmd("noctalia-shell ipc call wallpaper toggle")'')
+    (mkBind "SUPER + CTRL + Q" ''hl.dsp.exec_cmd("noctalia-shell ipc call notifications clear")'')
+    (mkBind "SUPER + ALT + Q" ''hl.dsp.exec_cmd("noctalia-shell ipc call notifications toggleDND")'')
     (mkBind "SUPER + SHIFT + W" ''hl.dsp.exec_cmd("noctalia-shell ipc call wallpaper random all")'')
+    (mkBind "SUPER + CTRL + W" ''hl.dsp.exec_cmd("noctalia-shell ipc call wallpaper toggle")'')
+    (mkBind "SUPER + ALT + W" ''hl.dsp.exec_cmd("noctalia-shell ipc call wallpaper toggleAutomation")'')
+    (mkBind "CTRL + ESCAPE" ''hl.dsp.exec_cmd("noctalia-shell ipc call bar toggle")'')
+    (mkBind "SUPER + ALT + L" ''hl.dsp.exec_cmd("noctalia-shell ipc call lockScreen lock")'')
+    (mkBind "SUPER + backspace" ''hl.dsp.exec_cmd("noctalia-shell ipc call sessionMenu toggle")'')
     (mkBind "SUPER + F10" ''hl.dsp.exec_cmd("${terminal} -e ${lib.getExe pkgs.btop}")'')
     (mkBind "SUPER + F11" ''hl.dsp.exec_cmd("pkill hyprpicker || hyprpicker --autocopy --format=hex")'')
     (mkBind "SUPER + F12" ''hl.dsp.exec_cmd("kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40")'')
