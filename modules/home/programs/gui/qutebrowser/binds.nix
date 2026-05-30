@@ -140,6 +140,10 @@ in
     "sk" = "cmd-set-text -s :bind";
     "sl" = "cmd-set-text -s :set -t";
     "ss" = "cmd-set-text -s :set";
+    "tbb" = "set tabs.position bottom";
+    "tbl" = "set tabs.position left";
+    "tbr" = "set tabs.position right";
+    "tbt" = "set tabs.position top";
     "tCH" =
       "config-cycle -p -u *://*.{url:host}/* content.cookies.accept all no-3rdparty never ;; reload";
     "tCh" =
