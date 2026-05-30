@@ -45,6 +45,12 @@ let
       dbus-user.talk org.fcitx.Fcitx5
     ''}
 
+    ${lib.optionalString config.programs.mpv.enable ''
+      # userscripts/view-in-mpv
+      noblacklist ''${HOME}/.config/mpv
+      whitelist ''${HOME}/.config/mpv
+    ''}
+
     ${lib.optionalString config.programs.nixvim.plugins.obsidian.enable ''
       # obsidian.nvim
       tmpfs ''${HOME}/${config.programs.obsidian.vaults.default.target}

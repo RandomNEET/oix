@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  meta,
   ...
 }:
 let
@@ -12,6 +13,7 @@ let
       config
       lib
       pkgs
+      meta
       ;
   };
   checkPkgs =
