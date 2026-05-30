@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  osConfig,
+  config,
+  lib,
+  ...
+}:
 {
   programs.starship = {
     enable = true;
@@ -215,4 +220,6 @@
       };
     };
   };
+
+  stylix.targets.starship.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }
