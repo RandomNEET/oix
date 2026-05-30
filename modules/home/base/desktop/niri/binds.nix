@@ -51,13 +51,6 @@ in
     ];
     hotkey-overlay.hidden = true;
   };
-  "Mod+Alt+S" = {
-    action.spawn = [
-      "${launcher}"
-      "spec"
-    ];
-    hotkey-overlay.hidden = true;
-  };
   "Mod+V" = {
     action.spawn = "${clip-manager}";
     hotkey-overlay.title = "Clipboard Manager";
@@ -83,13 +76,23 @@ in
     ];
     hotkey-overlay.title = "Toggle Notification History";
   };
-  "Mod+Ctrl+W" = {
+  "Mod+Ctrl+Q" = {
     action.spawn = [
       "noctalia-shell"
       "ipc"
       "call"
-      "wallpaper"
-      "toggle"
+      "notifications"
+      "clear"
+    ];
+    hotkey-overlay.hidden = true;
+  };
+  "Mod+Alt+Q" = {
+    action.spawn = [
+      "noctalia-shell"
+      "ipc"
+      "call"
+      "notifications"
+      "toggleDND"
     ];
     hotkey-overlay.hidden = true;
   };
@@ -101,6 +104,26 @@ in
       "wallpaper"
       "random"
       "all"
+    ];
+    hotkey-overlay.hidden = true;
+  };
+  "Mod+Ctrl+W" = {
+    action.spawn = [
+      "noctalia-shell"
+      "ipc"
+      "call"
+      "wallpaper"
+      "toggle"
+    ];
+    hotkey-overlay.hidden = true;
+  };
+  "Mod+Alt+W" = {
+    action.spawn = [
+      "noctalia-shell"
+      "ipc"
+      "call"
+      "wallpaper"
+      "toggleAutomation"
     ];
     hotkey-overlay.hidden = true;
   };

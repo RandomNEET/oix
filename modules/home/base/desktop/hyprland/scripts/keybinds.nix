@@ -54,11 +54,6 @@ let
       desc = "Select theme";
       cmd = "scripts/launcher theme";
     }
-    {
-      key = "SUPER ALT S";
-      desc = "Select specialisation";
-      cmd = "scripts/launcher spec";
-    }
   ]
   ++ lib.optionals config.programs.rbw.enable [
     {
@@ -101,14 +96,29 @@ let
   ++ [
     # ----- Util -----
     {
-      key = "SUPER SHIFT Q";
+      key = "SUPER SHIFT A";
       desc = "Open control center";
       cmd = "noctalia controlCenter toggle";
     }
     {
-      key = "SUPER SHIFT N";
+      key = "SUPER SHIFT Q";
       desc = "Open notification history";
       cmd = "noctalia notifications toggleHistory";
+    }
+    {
+      key = "SUPER CTRL Q";
+      desc = "Clear notification history";
+      cmd = "noctalia notifications clear";
+    }
+    {
+      key = "SUPER ALT Q";
+      desc = "Toggle silence mode";
+      cmd = "noctalia notifications toggleDND";
+    }
+    {
+      key = "SUPER SHIFT W";
+      desc = "Random wallpaper";
+      cmd = "noctalia wallpaper random";
     }
     {
       key = "SUPER CTRL W";
@@ -116,9 +126,14 @@ let
       cmd = "noctalia wallpaper toggle";
     }
     {
-      key = "SUPER SHIFT W";
-      desc = "Random wallpaper";
-      cmd = "noctalia wallpaper random";
+      key = "SUPER ALT W";
+      desc = "Toggle wallpaper automation";
+      cmd = "noctalia wallpaper toggleAutomation";
+    }
+    {
+      key = "CTRL Escape";
+      desc = "Toggle bar";
+      cmd = "noctalia bar toggle";
     }
     {
       key = "SUPER ALT L";
@@ -129,11 +144,6 @@ let
       key = "SUPER Backspace";
       desc = "Session menu";
       cmd = "noctalia sessionMenu toggle";
-    }
-    {
-      key = "CTRL Escape";
-      desc = "Toggle bar";
-      cmd = "noctalia bar toggle";
     }
     # ----- F keys -----
     {
