@@ -18,6 +18,8 @@
       ];
       extraConfig = import ./config.nix;
     };
+
+    stylix.targets.rofi.enable = lib.mkIf osConfig.desktop.themes.enable true;
   };
   imports = [ ./themes ];
 }

@@ -78,7 +78,6 @@ in
     "J" = "tab-next";
     "K" = "tab-prev";
     "L" = "forward";
-    "M" = "bookmark-del";
     "N" = "search-prev";
     "O" = "cmd-set-text -s :open -t";
     "PP" = "open -t -- {primary}";
@@ -129,7 +128,8 @@ in
     "j" = "scroll down";
     "k" = "scroll up";
     "l" = "scroll right";
-    "m" = "bookmark-add";
+    "ma" = "bookmark-add";
+    "md" = "bookmark-del";
     "n" = "search-next";
     "o" = "cmd-set-text -s :open";
     "pP" = "open -- {primary}";
@@ -209,6 +209,9 @@ in
     # userscripts
     "tte" = "spawn --userscript translate --target_lang en";
     "ttz" = "spawn --userscript translate --target_lang zh";
+  }
+  // lib.optionalAttrs config.programs.mpv.enable {
+    "mpv" = "spawn --userscript view-in-mpv";
   };
 
   caret = {

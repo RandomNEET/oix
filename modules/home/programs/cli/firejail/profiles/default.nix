@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  meta,
   ...
 }:
 let
@@ -10,7 +11,9 @@ let
       config
       lib
       pkgs
+      meta
       ;
+
     DESKTOP =
       if (config.xdg.userDirs.desktop != null) then
         config.xdg.userDirs.desktop
@@ -41,6 +44,7 @@ let
         config.xdg.userDirs.videos
       else
         "${config.home.homeDirectory}/Videos";
+
     global = pkgs.writeText "firejail-global-profile" ''
       blacklist /nix/persist
       blacklist /nix/var
