@@ -45,6 +45,7 @@ in
         filterStderr = {
           enable = true;
           patterns = [
+            "bwrap"
             "dumpable"
             "fseccomp"
             "fsec-optimize"
@@ -55,7 +56,15 @@ in
         enable = config.programs.newsboat.enable;
         executable = "${getBin pkgs.newsboat}/bin/newsboat";
         profile = profiles.newsboat;
-        filterStderr.enable = true;
+        filterStderr = {
+          enable = true;
+          patterns = [
+            "bwrap"
+            "dumpable"
+            "fseccomp"
+            "unix"
+          ];
+        };
       };
       obsidian = {
         enable = config.programs.obsidian.enable;
