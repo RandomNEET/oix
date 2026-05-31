@@ -9,6 +9,7 @@
   defaultPrograms = {
     editor = "nvim";
     fileManager = "yazi";
+    browser = "w3m";
   };
 
   programs = {

@@ -16,6 +16,7 @@
     ../../../../modules/home/programs/cli/spotify-player
     ../../../../modules/home/programs/cli/translate-shell
     ../../../../modules/home/programs/cli/ttyper
+    ../../../../modules/home/programs/cli/w3m
     ../../../../modules/home/programs/cli/yt-dlp
 
     ../../../../modules/home/programs/gui/chromium

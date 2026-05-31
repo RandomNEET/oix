@@ -119,9 +119,9 @@ in
                   patterns = mkOption {
                     type = types.listOf types.str;
                     default = [
-                      "bwrap"
                       "dumpable"
                       "fseccomp"
+                      "bwrap"
                     ];
                     description = "List of patterns (strings) to filter out from stderr using grep -v.";
                   };
