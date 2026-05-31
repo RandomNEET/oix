@@ -4,7 +4,7 @@ pkgs.writeShellScriptBin "screenshot" ''
   XDG_PICTURES_DIR="${config.xdg.userDirs.pictures}"
   SCREENSHOT_DIR="$XDG_PICTURES_DIR/screenshots"
   TEMP_OCR_FILE="/tmp/ocr_screenshot.png"
-  OCR_LANGS="eng+chi_sim+chi_tra+jpn+kor"
+  OCR_LANGS="eng+chi_sim+chi_tra"
   LOCK_FILE="/tmp/screenshot_''${USER}.lock"
   PID_FILE="/tmp/screenshot_''${USER}.pid"
 
