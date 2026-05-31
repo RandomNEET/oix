@@ -37,6 +37,7 @@ in
   imports = [
     ../shared/fonts
     ../shared/themes
+    ../shared/xdg
     ../shared/programs/fcitx5
     ../shared/programs/gowall
     ../shared/programs/noctalia-shell
@@ -88,35 +89,6 @@ in
       };
 
     services.hyprpolkitagent.enable = true;
-
-    xdg = {
-      enable = true;
-      portal = {
-        enable = true;
-        xdgOpenUsePortal = true;
-        extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-        config = {
-          common = {
-            default = "gtk";
-          };
-          hyprland = {
-            default = [
-              "hyprland"
-              "gtk"
-            ];
-            "org.freedesktop.impl.portal.OpenURI" = "gtk";
-            "org.freedesktop.impl.portal.FileChooser" = "gtk";
-            "org.freedesktop.impl.portal.Print" = "gtk";
-          };
-        };
-      };
-      terminal-exec = {
-        enable = true;
-        settings = {
-          default = [ "${config.defaultPrograms.terminal}.desktop" ];
-        };
-      };
-    };
 
     home.packages = with pkgs; [
       libnotify

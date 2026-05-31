@@ -13,17 +13,20 @@
         with pkgs;
         [
           xdg-desktop-portal-gtk
+          xdg-desktop-portal-termfilechooser
         ]
         ++ lib.optional config.desktop.hyprland.enable xdg-desktop-portal-hyprland;
       configPackages =
         with pkgs;
         [
           xdg-desktop-portal-gtk
+          xdg-desktop-portal-termfilechooser
         ]
         ++ lib.optional config.desktop.hyprland.enable xdg-desktop-portal-hyprland;
       config = {
         common = {
           default = "gtk";
+          "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
         };
       }
       // lib.optionalAttrs config.desktop.hyprland.enable {
@@ -33,8 +36,8 @@
             "gtk"
           ];
           "org.freedesktop.impl.portal.OpenURI" = "gtk";
-          "org.freedesktop.impl.portal.FileChooser" = "gtk";
           "org.freedesktop.impl.portal.Print" = "gtk";
+          "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
         };
       };
     };

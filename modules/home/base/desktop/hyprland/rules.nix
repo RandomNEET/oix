@@ -79,6 +79,17 @@
       };
       opacity = "0.80 0.80";
     }
+    {
+      match = {
+        class = "^(terminal filechooser)$";
+      };
+      opacity = "0.80 0.80";
+      float = true;
+      size = [
+        "(monitor_w*0.8)"
+        "(monitor_h*0.8)"
+      ];
+    }
 
     # Firefox PiP
     {
@@ -96,8 +107,10 @@
         title = "Hyprland Keybinds";
       };
       float = true;
-      center = true;
-      size = "800 1000";
+      size = [
+        "(monitor_w*0.5)"
+        "(monitor_h*0.8)"
+      ];
     }
 
     # Tag games

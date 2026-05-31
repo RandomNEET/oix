@@ -26,6 +26,7 @@ in
   imports = [
     ../shared/fonts
     ../shared/themes
+    ../shared/xdg
     ../shared/programs/fcitx5
     ../shared/programs/gowall
     ../shared/programs/noctalia-shell
@@ -68,27 +69,6 @@ in
       services.lxqt-policykit-agent = {
         Unit = {
           After = [ "graphical-session.target" ];
-        };
-      };
-    };
-
-    xdg = {
-      enable = true;
-      portal = {
-        enable = true;
-        xdgOpenUsePortal = true;
-        extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-        configPackages = [ pkgs.xdg-desktop-portal-gtk ];
-        config = {
-          common = {
-            default = "gtk";
-          };
-        };
-      };
-      terminal-exec = {
-        enable = true;
-        settings = {
-          default = [ "${config.defaultPrograms.terminal}.desktop" ];
         };
       };
     };
