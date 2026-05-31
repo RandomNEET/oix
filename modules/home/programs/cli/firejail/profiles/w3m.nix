@@ -1,11 +1,23 @@
 {
+  osConfig,
+  lib,
   pkgs,
   global,
   DOWNLOADS,
   ...
 }:
 let
-  local = pkgs.writeText "firejail-w3m-local" "";
+  local = pkgs.writeText "firejail-w3m-local" ''
+    noblacklist ''${HOME}/.config/w3m
+    whitelist ''${HOME}/.config/w3m
+    ignore mkdir ''${HOME}/.w3m
+
+    ${lib.optionalString osConfig.desktop.enable ''
+      ignore nogroups
+      ignore private-dev
+      ignore private-etc
+    ''}
+  '';
 in
 pkgs.writeText "firejail-w3m-profile" ''
   # Firejail profile for w3m

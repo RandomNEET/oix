@@ -1,5 +1,6 @@
 # Requirements: 'programs.firejail.enable = true;' and firejail installed at system level
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -10,6 +11,7 @@ let
   inherit (lib) getBin;
   profiles = import ./profiles {
     inherit
+      osConfig
       config
       lib
       pkgs
@@ -47,9 +49,9 @@ in
         filterStderr = {
           enable = true;
           patterns = [
-            "bwrap"
             "dumpable"
             "fseccomp"
+            "bwrap"
             "fsec-optimize"
           ];
         };
@@ -61,9 +63,9 @@ in
         filterStderr = {
           enable = true;
           patterns = [
-            "bwrap"
             "dumpable"
             "fseccomp"
+            "bwrap"
             "unix"
           ];
         };
@@ -92,6 +94,12 @@ in
         enable = config.programs.vesktop.enable;
         executable = "${getBin pkgs.vesktop}/bin/vesktop";
         profile = profiles.vesktop;
+      };
+      w3m = {
+        enable = config.programs.w3m.enable;
+        executable = "${config.programs.w3m.finalPackage}/bin/w3m";
+        profile = profiles.w3m;
+        filterStderr.enable = true;
       };
       yt-dlp = {
         enable = config.programs.yt-dlp.enable;
@@ -134,12 +142,6 @@ in
         enable = checkPkgs "tor-browser";
         executable = "${getBin pkgs.tor-browser}/bin/tor-browser";
         profile = profiles.tor-browser;
-      };
-      w3m = {
-        enable = checkPkgs "w3m";
-        executable = "${getBin pkgs.w3m}/bin/w3m";
-        profile = profiles.w3m;
-        filterStderr.enable = true;
       };
     };
   };

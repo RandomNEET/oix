@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -8,6 +9,7 @@
 let
   env = rec {
     inherit
+      osConfig
       config
       lib
       pkgs

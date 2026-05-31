@@ -36,6 +36,7 @@ in
           "qutebrowser"
           "firefox"
           "chromium"
+          "w3m"
           "none"
         ];
         default = "none";
