@@ -40,6 +40,14 @@
 
     {
       matches = [
+        { app-id = "^(terminal filechooser)$"; }
+      ];
+      opacity = 0.95;
+      open-floating = true;
+    }
+
+    {
+      matches = [
         {
           app-id = "^(firefox)$";
           title = "^Picture-in-Picture$";

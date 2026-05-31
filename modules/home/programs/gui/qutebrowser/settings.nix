@@ -220,4 +220,7 @@ in
     contextmenu.selected.bg = hexToRgba colors.base02 opacity.high;
     contextmenu.selected.fg = hexToRgba colors.base05 opacity.high;
   };
+  qt = {
+    force_platformtheme = "flatpak";
+  };
 }
