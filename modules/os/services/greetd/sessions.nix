@@ -24,7 +24,7 @@
       "greetd/sessions/plasma.desktop".text = ''
         [Desktop Entry]
         Name=plasma
-        Exec=${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland
+        Exec=env QT_QPA_PLATFORMTHEME=kde ${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland
       '';
     })
     (lib.optionalAttrs config.programs.zsh.enable {

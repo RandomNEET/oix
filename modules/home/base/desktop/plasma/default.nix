@@ -8,9 +8,6 @@
   ];
 
   config = lib.mkIf osConfig.desktop.plasma.enable {
-    stylix.targets = lib.mkIf osConfig.desktop.themes.enable {
-      qt.enable = lib.mkForce false;
-      kde.enable = true;
-    };
+    stylix.targets.kde.enable = lib.mkIf osConfig.desktop.themes.enable true;
   };
 }
