@@ -15,7 +15,7 @@ in
         }
       ];
     };
-    audio.enable = true;
+    multimedia.enable = true;
     bluetooth.enable = true;
     power.enable = true;
     impermanence.enable = true;
