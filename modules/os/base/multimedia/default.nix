@@ -6,7 +6,7 @@
 }:
 {
   imports = [ ./options.nix ];
-  config = lib.mkIf config.base.audio.enable {
+  config = lib.mkIf config.base.multimedia.enable {
     services.pipewire = {
       enable = true;
       alsa.enable = true;
