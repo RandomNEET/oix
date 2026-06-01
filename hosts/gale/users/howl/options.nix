@@ -181,6 +181,7 @@ rec {
         "com.github.tchx84.Flatseal"
         "com.qq.QQ"
         "com.tencent.WeChat"
+        "com.rustdesk.RustDesk"
       ];
     };
     mbsync = {
