@@ -6,6 +6,7 @@
   ...
 }:
 let
+  inherit (lib) optional optionalAttrs;
   terminal = import ../misc/terminal.nix { inherit config; };
 in
 {
@@ -21,21 +22,23 @@ in
             xdg-desktop-portal-gtk
             xdg-desktop-portal-termfilechooser
           ]
-          ++ lib.optional osConfig.desktop.hyprland.enable xdg-desktop-portal-hyprland;
+          ++ optional osConfig.desktop.hyprland.enable xdg-desktop-portal-hyprland
+          ++ optional osConfig.desktop.plasma.enable kdePackages.xdg-desktop-portal-kde;
         configPackages =
           with pkgs;
           [
             xdg-desktop-portal-gtk
             xdg-desktop-portal-termfilechooser
           ]
-          ++ lib.optional osConfig.desktop.hyprland.enable xdg-desktop-portal-hyprland;
+          ++ optional osConfig.desktop.hyprland.enable xdg-desktop-portal-hyprland
+          ++ optional osConfig.desktop.plasma.enable kdePackages.plasma-workspace;
         config = {
           common = {
             default = "gtk";
             "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
           };
         }
-        // lib.optionalAttrs osConfig.desktop.hyprland.enable {
+        // optionalAttrs osConfig.desktop.hyprland.enable {
           hyprland = {
             default = [
               "hyprland"
@@ -44,6 +47,14 @@ in
             "org.freedesktop.impl.portal.OpenURI" = "gtk";
             "org.freedesktop.impl.portal.Print" = "gtk";
             "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
+          };
+        }
+        // optionalAttrs osConfig.desktop.plasma.enable {
+          KDE = {
+            default = [
+              "gtk"
+              "kde"
+            ];
           };
         };
       };

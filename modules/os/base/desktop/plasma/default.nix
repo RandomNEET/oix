@@ -3,6 +3,7 @@
   imports = [
     ../shared/fonts
     ../shared/themes
+    ../shared/xdg
   ];
 
   config = lib.mkIf config.desktop.plasma.enable {
