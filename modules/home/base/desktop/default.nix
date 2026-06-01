@@ -18,6 +18,7 @@
     ];
     depth = 1;
   };
+
   config = lib.mkIf osConfig.desktop.enable {
     home.packages = with pkgs; [
       ffmpeg

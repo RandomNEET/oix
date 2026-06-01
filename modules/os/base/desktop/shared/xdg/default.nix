@@ -4,41 +4,31 @@
   pkgs,
   ...
 }:
+let
+  inherit (lib) optional;
+in
 {
   config = lib.mkIf config.desktop.enable {
-    xdg.portal = {
-      enable = true;
-      xdgOpenUsePortal = true;
-      extraPortals =
-        with pkgs;
-        [
-          xdg-desktop-portal-gtk
-          xdg-desktop-portal-termfilechooser
-        ]
-        ++ lib.optional config.desktop.hyprland.enable xdg-desktop-portal-hyprland;
-      configPackages =
-        with pkgs;
-        [
-          xdg-desktop-portal-gtk
-          xdg-desktop-portal-termfilechooser
-        ]
-        ++ lib.optional config.desktop.hyprland.enable xdg-desktop-portal-hyprland;
-      config = {
-        common = {
-          default = "gtk";
-          "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
-        };
-      }
-      // lib.optionalAttrs config.desktop.hyprland.enable {
-        hyprland = {
-          default = [
-            "hyprland"
-            "gtk"
-          ];
-          "org.freedesktop.impl.portal.OpenURI" = "gtk";
-          "org.freedesktop.impl.portal.Print" = "gtk";
-          "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
-        };
+    xdg = {
+      portal = {
+        enable = true;
+        xdgOpenUsePortal = true;
+        extraPortals =
+          with pkgs;
+          [
+            xdg-desktop-portal-gtk
+            xdg-desktop-portal-termfilechooser
+          ]
+          ++ optional config.desktop.hyprland.enable xdg-desktop-portal-hyprland
+          ++ optional config.desktop.plasma.enable kdePackages.xdg-desktop-portal-kde;
+        configPackages =
+          with pkgs;
+          [
+            xdg-desktop-portal-gtk
+            xdg-desktop-portal-termfilechooser
+          ]
+          ++ optional config.desktop.hyprland.enable xdg-desktop-portal-hyprland
+          ++ optional config.desktop.plasma.enable kdePackages.plasma-workspace;
       };
     };
     environment.pathsToLink = [
