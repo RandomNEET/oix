@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# --- Configuration ---
+# Config
 BRANCH="nixos-unstable"
 TARGET_FILE=$(ls *.nix | head -n 1)
 
@@ -11,10 +11,9 @@ fi
 
 echo "Target file: $TARGET_FILE"
 echo "Syncing from Nixpkgs branch: $BRANCH"
-echo "------------------------------------------"
 
-# --- 1. Sync rime-ice ---
-echo "[1/2] Fetching rime-ice metadata..."
+# Step 1: Fetch rime-ice metadata
+echo "Fetching rime-ice metadata..."
 RICE_URL="https://raw.githubusercontent.com/NixOS/nixpkgs/$BRANCH/pkgs/by-name/ri/rime-ice/package.nix"
 RICE_CONTENT=$(curl -s "$RICE_URL")
 
@@ -28,8 +27,8 @@ RICE_HASH=$(echo "$RICE_CONTENT" | grep -oP 'hash = "\K[^"]+')
 
 echo "Found rime-ice: $RICE_VER"
 
-# --- 2. Sync fcitx5-rime ---
-echo "[2/2] Fetching fcitx5-rime metadata..."
+# Step 2: Fetch fcitx5-rime metadata
+echo "Fetching fcitx5-rime metadata..."
 FCITX_URL="https://raw.githubusercontent.com/NixOS/nixpkgs/$BRANCH/pkgs/by-name/fc/fcitx5-rime/package.nix"
 FCITX_CONTENT=$(curl -s "$FCITX_URL")
 
@@ -43,7 +42,7 @@ FCITX_HASH=$(echo "$FCITX_CONTENT" | grep -oP 'hash = "\K[^"]+')
 
 echo "Found fcitx5-rime: $FCITX_VER"
 
-# --- 3. Update local file ---
+# Step 3: Update local nix file
 echo "Updating $TARGET_FILE..."
 
 sed -i "/pname = \"rime-ice\";/,/hash =/ { 
@@ -56,7 +55,4 @@ sed -i "/pname = \"fcitx5-rime\";/,/hash =/ {
     s|hash = \".*\";|hash = \"$FCITX_HASH\";| 
 }" "$TARGET_FILE"
 
-echo "------------------------------------------"
-echo "Sync Complete!"
-echo "rime-ice   -> $RICE_VER"
-echo "fcitx5-rime -> $FCITX_VER"
+echo "Sync complete: rime-ice=$RICE_VER fcitx5-rime=$FCITX_VER"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# --- Configuration ---
+# Config
 OWNER="vrtmrz"
 REPO="obsidian-livesync"
 TARGET_FILE=$(ls *.nix | head -n 1)
@@ -13,7 +13,7 @@ fi
 echo "Target file: $TARGET_FILE"
 echo "Checking GitHub for the latest release of $OWNER/$REPO..."
 
-# --- 1. Get Latest Version ---
+# Step 1: Get latest version
 LATEST_RELEASE=$(curl -s "https://api.github.com/repos/$OWNER/$REPO/releases/latest")
 VERSION=$(echo "$LATEST_RELEASE" | jq -r '.tag_name')
 
@@ -25,7 +25,7 @@ fi
 VERSION_CLEAN=$(echo "$VERSION" | sed 's/^v//')
 echo "Latest version found: $VERSION_CLEAN"
 
-# --- 2. Calculate Hashes ---
+# Step 2: Calculate hashes for release assets
 fetch_hash() {
   local filename=$1
   local url="https://github.com/$OWNER/$REPO/releases/download/$VERSION/$filename"
@@ -38,7 +38,7 @@ HASH_JS=$(fetch_hash "main.js")
 HASH_JSON=$(fetch_hash "manifest.json")
 HASH_CSS=$(fetch_hash "styles.css")
 
-# --- 3. Update the Nix File ---
+# Step 3: Update the nix file
 echo "Updating $TARGET_FILE..."
 
 sed -i "s/version = \".*\";/version = \"$VERSION_CLEAN\";/" "$TARGET_FILE"
@@ -46,6 +46,4 @@ sed -i "/main.js\"/,/sha256 =/ s|sha256 = \".*\";|sha256 = \"$HASH_JS\";|" "$TAR
 sed -i "/manifest.json\"/,/sha256 =/ s|sha256 = \".*\";|sha256 = \"$HASH_JSON\";|" "$TARGET_FILE"
 sed -i "/styles.css\"/,/sha256 =/ s|sha256 = \".*\";|sha256 = \"$HASH_CSS\";|" "$TARGET_FILE"
 
-echo "------------------------------------------"
-echo "Update Complete!"
-echo "New version: $VERSION_CLEAN"
+echo "Update complete: $VERSION_CLEAN"
