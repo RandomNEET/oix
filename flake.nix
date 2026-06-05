@@ -55,18 +55,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix-stable = {
-      url = "github:nix-community/stylix/release-25.11";
+      url = "github:nix-community/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixvim-stable = {
-      url = "github:nix-community/nixvim/nixos-26.05";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim-stable.url = "github:nix-community/nixvim/nixos-26.05";
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";

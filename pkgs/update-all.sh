@@ -1,20 +1,18 @@
 #!/usr/bin/env bash
 
-# --- Navigation ---
+# Change to script directory
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 cd "$SCRIPT_DIR" || exit
 
-# --- State Tracking ---
+# State tracking arrays
 SUCCESSFUL=()
 FAILED=()
 SKIPPED=()
 
-echo "=========================================="
-echo "   Nix Packages Multi-Update Manager      "
-echo "   Working Directory: $SCRIPT_DIR"
-echo "=========================================="
+echo "Nix Packages Multi-Update Manager"
+echo "Working Directory: $SCRIPT_DIR"
 
-# --- Recursive Search ---
+# Search for update scripts recursively
 while IFS= read -r update_script; do
   pkg_dir=$(dirname "$update_script")
 
@@ -23,12 +21,13 @@ while IFS= read -r update_script; do
   fi
 
   if [[ -f "$pkg_dir/.ignore" ]]; then
-    echo "[-] Ignoring directory: $pkg_dir (found .ignore)"
+    echo "Ignoring directory: $pkg_dir (found .ignore)"
     SKIPPED+=("$pkg_dir (.ignore)")
     continue
   fi
 
-  echo -e "\n[+] Running update in: $pkg_dir"
+  echo ""
+  echo "Running update in: $pkg_dir"
 
   (
     cd "$pkg_dir" || exit
@@ -44,30 +43,32 @@ while IFS= read -r update_script; do
 
 done < <(find . -name "update.sh" -not -path "*/.*")
 
-# --- Final Summary Report ---
-echo -e "\n=========================================="
-echo "             UPDATE SUMMARY               "
-echo "=========================================="
+# Summary report
+echo ""
+echo "Update Summary"
 
 if [ ${#SUCCESSFUL[@]} -ne 0 ]; then
-  echo "✅ Successfully updated:"
+  echo "Successfully updated:"
   for pkg in "${SUCCESSFUL[@]}"; do
-    echo "   - $pkg"
+    echo "  - $pkg"
   done
 fi
 
 if [ ${#FAILED[@]} -ne 0 ]; then
-  echo -e "\n❌ Failed updates (check logs above):"
+  echo ""
+  echo "Failed updates (check logs above):"
   for pkg in "${FAILED[@]}"; do
-    echo "   - $pkg"
+    echo "  - $pkg"
   done
 fi
 
 if [ ${#SKIPPED[@]} -ne 0 ]; then
-  echo -e "\nℹ️  Skipped (no update.sh found):"
+  echo ""
+  echo "Skipped (found .ignore):"
   for pkg in "${SKIPPED[@]}"; do
-    echo "   - $pkg"
+    echo "  - $pkg"
   done
 fi
 
-echo -e "\nAll tasks processed."
+echo ""
+echo "All tasks processed."

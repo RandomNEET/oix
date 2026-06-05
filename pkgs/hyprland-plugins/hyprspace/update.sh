@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# --- Configuration List ---
+# Configuration list
 # Format: "OWNER/REPO:TARGET_FILE:BRANCH"
 # If BRANCH is omitted, it defaults to 'master'.
 REPOS=(
   "KZDKM/hyprspace:default.nix:main"
 )
 
-# --- Function: Update a single repository ---
+# Update a single repository
 update_repo() {
   local entry=$1
 
@@ -18,14 +18,14 @@ update_repo() {
 
   # Check if the target nix file exists
   if [ ! -f "$TARGET_FILE" ]; then
-    echo "[-] Skipping: $TARGET_FILE not found."
+    echo "Skipping: $TARGET_FILE not found."
     return
   fi
 
-  echo "[+] Processing $OWNER/$REPO ($TARGET_FILE)..."
+  echo "Processing $OWNER/$REPO ($TARGET_FILE)..."
 
-  # 1. Fetch the latest commit metadata from GitHub API
-  # If you hit rate limits, use: curl -H "Authorization: token YOUR_TOKEN" ...
+  # Fetch the latest commit metadata from GitHub API
+  # Pass a GitHub token via GITHUB_TOKEN env var if you hit rate limits
   local commit_json
   commit_json=$(curl -s "https://api.github.com/repos/$OWNER/$REPO/commits/$BRANCH")
 
@@ -36,46 +36,41 @@ update_repo() {
   commit_date=$(echo "$commit_json" | jq -r '.commit.committer.date' | cut -d'T' -f1)
 
   if [ "$rev" == "null" ] || [ -z "$rev" ]; then
-    echo " [!] Error: Failed to fetch commit info for $FULL_REPO on branch '$BRANCH'."
+    echo "Error: Failed to fetch commit info for $FULL_REPO on branch '$BRANCH'."
     return
   fi
 
   local version="0-unstable-$commit_date"
-  echo " [i] Latest commit: $rev ($commit_date)"
+  echo "Latest commit: $rev ($commit_date)"
 
-  # 2. Calculate the SRI hash for Nix fetchFromGitHub
-  echo " [i] Calculating SRI hash..."
+  # Calculate the SRI hash for Nix fetchFromGitHub
+  echo "Calculating SRI hash..."
   local raw_hash
   raw_hash=$(nix-prefetch-url --unpack "https://github.com/$OWNER/$REPO/archive/$rev.tar.gz" 2>/dev/null)
 
   if [ -z "$raw_hash" ]; then
-    echo " [!] Error: Failed to prefetch the source."
+    echo "Error: Failed to prefetch the source."
     return
   fi
 
   local sri_hash
   sri_hash=$(nix hash to-sri --type sha256 "$raw_hash")
 
-  # 3. Apply changes to the .nix file using sed
-  echo " [i] Writing to $TARGET_FILE..."
+  # Apply changes to the .nix file using sed
+  echo "Writing to $TARGET_FILE..."
 
-  # Matches: version = "...";
   sed -i "s|version = \".*\";|version = \"$version\";|" "$TARGET_FILE"
-  # Matches: rev = "...";
   sed -i "s|rev = \".*\";|rev = \"$rev\";|" "$TARGET_FILE"
-  # Matches: hash = "...";
   sed -i "s|hash = \".*\";|hash = \"$sri_hash\";|" "$TARGET_FILE"
 
-  echo "[*] Update successful: $version"
+  echo "Update successful: $version"
 }
 
-# --- Main Execution Loop ---
+# Main
 echo "Starting update process..."
-echo "------------------------------------------"
 
 for entry in "${REPOS[@]}"; do
   update_repo "$entry"
-  echo "------------------------------------------"
 done
 
 echo "All tasks completed."
