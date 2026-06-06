@@ -14,7 +14,7 @@
 
   programs = {
     ssh = {
-      matchBlocks = {
+      settings = {
         zenith = {
           hostname = "zenith.local";
           port = 22;

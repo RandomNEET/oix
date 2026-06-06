@@ -1,6 +1,7 @@
 {
   osConfig,
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -37,7 +38,7 @@ in
       pinentry.package = if hasDesktop then pkgs.pinentry-qt else pkgs.pinentry-curses;
       pinentry.program = if hasDesktop then "pinentry-qt" else "pinentry-curses";
     };
-    ssh-agent.enable = !config.services.gpg-agent.enableSshSupport;
+    ssh-agent.enable = lib.mkIf config.services.gpg-agent.enableSshSupport (lib.mkForce false);
   };
   home.packages = [ pkgs.pinentry-all ];
 }

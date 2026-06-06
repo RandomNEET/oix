@@ -13,7 +13,7 @@
     ];
   };
   sops.secrets.vaultwarden = {
-    sopsFile = ./secrets.yaml;
+    sopsFile = ../secrets.yaml;
     owner = "vaultwarden";
   };
 }

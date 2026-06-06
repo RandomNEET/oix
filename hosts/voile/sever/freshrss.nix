@@ -4,7 +4,7 @@
       enable = true;
       webserver = "nginx";
       virtualHost = "freshrss";
-      baseUrl = "https://freshrss.scaphium.xyz";
+      baseUrl = "https://freshrss.defnothowl.com";
       defaultUser = "howl";
       passwordFile = "/run/secrets/freshrss";
     };
@@ -28,7 +28,7 @@
     };
   };
   sops.secrets.freshrss = {
-    sopsFile = ./secrets.yaml;
+    sopsFile = ../secrets.yaml;
     owner = "freshrss";
   };
 }
