@@ -75,7 +75,7 @@ pkgs.writeShellScriptBin "gamespace" ''
             sleep 0.1
             
             if [ "$IS_FIRST_GROUPED" -eq 0 ]; then
-                hyprctl dispatch 'hl.dsp.group()' > /dev/null
+                hyprctl dispatch 'hl.dsp.group.toggle()' > /dev/null
                 sleep 0.1
             fi
             
