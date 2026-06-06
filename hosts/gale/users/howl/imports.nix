@@ -1,39 +1,39 @@
 {
   imports = [
-    ../../../../modules/home/programs/cli/aerc
-    ../../../../modules/home/programs/cli/cava
-    ../../../../modules/home/programs/cli/delta
-    ../../../../modules/home/programs/cli/direnv
-    ../../../../modules/home/programs/cli/distrobox
-    ../../../../modules/home/programs/cli/firejail
-    ../../../../modules/home/programs/cli/gh
-    ../../../../modules/home/programs/cli/glow
-    ../../../../modules/home/programs/cli/mbsync
-    ../../../../modules/home/programs/cli/newsboat
-    ../../../../modules/home/programs/cli/opencode
-    ../../../../modules/home/programs/cli/rbw
-    ../../../../modules/home/programs/cli/rmpc
-    ../../../../modules/home/programs/cli/spotify-player
-    ../../../../modules/home/programs/cli/translate-shell
-    ../../../../modules/home/programs/cli/ttyper
-    ../../../../modules/home/programs/cli/w3m
-    ../../../../modules/home/programs/cli/yt-dlp
+    ../../../../modules/optional/home/programs/cli/aerc
+    ../../../../modules/optional/home/programs/cli/cava
+    ../../../../modules/optional/home/programs/cli/delta
+    ../../../../modules/optional/home/programs/cli/direnv
+    ../../../../modules/optional/home/programs/cli/distrobox
+    ../../../../modules/optional/home/programs/cli/firejail
+    ../../../../modules/optional/home/programs/cli/gh
+    ../../../../modules/optional/home/programs/cli/glow
+    ../../../../modules/optional/home/programs/cli/mbsync
+    ../../../../modules/optional/home/programs/cli/newsboat
+    ../../../../modules/optional/home/programs/cli/opencode
+    ../../../../modules/optional/home/programs/cli/rbw
+    ../../../../modules/optional/home/programs/cli/rmpc
+    ../../../../modules/optional/home/programs/cli/spotify-player
+    ../../../../modules/optional/home/programs/cli/translate-shell
+    ../../../../modules/optional/home/programs/cli/ttyper
+    ../../../../modules/optional/home/programs/cli/w3m
+    ../../../../modules/optional/home/programs/cli/yt-dlp
 
-    ../../../../modules/home/programs/gui/chromium
-    ../../../../modules/home/programs/gui/foot
-    ../../../../modules/home/programs/gui/mpv
-    ../../../../modules/home/programs/gui/obs-studio
-    ../../../../modules/home/programs/gui/obsidian
-    ../../../../modules/home/programs/gui/qutebrowser
-    ../../../../modules/home/programs/gui/spicetify
-    ../../../../modules/home/programs/gui/swayimg
-    ../../../../modules/home/programs/gui/vscode
-    ../../../../modules/home/programs/gui/zathura
+    ../../../../modules/optional/home/programs/gui/chromium
+    ../../../../modules/optional/home/programs/gui/foot
+    ../../../../modules/optional/home/programs/gui/mpv
+    ../../../../modules/optional/home/programs/gui/obs-studio
+    ../../../../modules/optional/home/programs/gui/obsidian
+    ../../../../modules/optional/home/programs/gui/qutebrowser
+    ../../../../modules/optional/home/programs/gui/spicetify
+    ../../../../modules/optional/home/programs/gui/swayimg
+    ../../../../modules/optional/home/programs/gui/vscode
+    ../../../../modules/optional/home/programs/gui/zathura
 
-    ../../../../modules/home/services/flatpak
-    ../../../../modules/home/services/mbsync
-    ../../../../modules/home/services/mpd
+    ../../../../modules/optional/home/services/flatpak
+    ../../../../modules/optional/home/services/mbsync
+    ../../../../modules/optional/home/services/mpd
 
-    ../../../../modules/home/scripts/backup.nix
+    ../../../../modules/optional/home/scripts/backup.nix
   ];
 }

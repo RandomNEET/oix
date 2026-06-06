@@ -1,11 +1,11 @@
 {
   imports = [
-    ../../../../modules/home/programs/cli/direnv
-    ../../../../modules/home/programs/cli/w3m
-    ../../../../modules/home/programs/cli/yt-dlp
+    ../../../../modules/optional/home/programs/cli/direnv
+    ../../../../modules/optional/home/programs/cli/w3m
+    ../../../../modules/optional/home/programs/cli/yt-dlp
 
-    ../../../../modules/home/services/mpd
+    ../../../../modules/optional/home/services/mpd
 
-    ../../../../modules/home/scripts/backup.nix
+    ../../../../modules/optional/home/scripts/backup.nix
   ];
 }

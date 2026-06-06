@@ -50,6 +50,16 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+    plasma-manager-stable = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.home-manager.follows = "home-manager-stable";
+    };
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -136,8 +146,8 @@
       );
 
       baseModules = {
-        os = ./modules/os/base;
-        home = ./modules/home/base;
+        os = ./modules/base/os;
+        home = ./modules/base/home;
       };
       osUnstableModules = with inputs; [
         home-manager.nixosModules.home-manager
@@ -156,6 +166,7 @@
         niri.homeModules.niri
         niri.homeModules.stylix
         noctalia.homeModules.default
+        plasma-manager.homeModules.plasma-manager
         stylix.homeModules.stylix
         nixvim.homeModules.nixvim
         spicetify-nix.homeManagerModules.default
@@ -166,6 +177,7 @@
         niri-stable.homeModules.niri
         niri-stable.homeModules.stylix
         noctalia-stable.homeModules.default
+        plasma-manager-stable.homeModules.plasma-manager
         stylix-stable.homeModules.stylix
         nixvim-stable.homeModules.nixvim
         spicetify-nix-stable.homeManagerModules.default
