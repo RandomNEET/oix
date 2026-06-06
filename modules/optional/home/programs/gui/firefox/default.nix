@@ -16,5 +16,8 @@
     };
   };
 
-  stylix.targets.firefox.enable = lib.mkIf osConfig.desktop.themes.enable true;
+  stylix.targets.firefox = lib.mkIf osConfig.desktop.themes.enable {
+    enable = true;
+    profileNames = [ "default" ];
+  };
 }

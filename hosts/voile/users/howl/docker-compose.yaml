@@ -574,8 +574,8 @@ services:
     depends_on:
       - mongo
     environment:
-      API_ENDPOINT: https://spotifyapi.scaphium.xyz # This MUST be included as a valid URL in the spotify dashboard (see below)
-      CLIENT_ENDPOINT: https://myspotify.scaphium.xyz
+      API_ENDPOINT: https://spotifyapi.defnothowl.com # This MUST be included as a valid URL in the spotify dashboard (see below)
+      CLIENT_ENDPOINT: https://myspotify.defnothowl.com
       SPOTIFY_PUBLIC: ${SPOTIFY_PUBLIC}
       SPOTIFY_SECRET: ${SPOTIFY_SECRET}
       TIMEZONE: Asia/Shanghai
@@ -593,7 +593,7 @@ services:
     ports:
       - "10520:3000"
     environment:
-      API_ENDPOINT: https://spotifyapi.scaphium.xyz
+      API_ENDPOINT: https://spotifyapi.defnothowl.com
 
 networks:
   # vaultwarden-net:

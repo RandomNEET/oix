@@ -103,8 +103,8 @@ rec {
     };
     rbw = {
       settings = {
-        base_url = "https://vaultwarden.scaphium.xyz";
-        email = "selfhost@randomneet.me";
+        base_url = "https://vaultwarden.defnothowl.com";
+        email = "vaultwarden@randomneet.me";
         lock_timeout = 3600;
       };
     };
@@ -117,8 +117,8 @@ rec {
       };
       quickmarks = {
         sp = "https://startpage.randomneet.me/";
-        hp = "https://homepage.scaphium.xyz/";
-        ld = "https://linkding.scaphium.xyz/";
+        hp = "https://homepage.defnothowl.com/";
+        ld = "https://linkding.defnothowl.com/";
       };
     };
     obsidian = {

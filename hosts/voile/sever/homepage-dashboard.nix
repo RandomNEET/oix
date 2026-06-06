@@ -3,7 +3,7 @@
     enable = true;
     openFirewall = true;
     listenPort = 10000;
-    allowedHosts = "homepage.scaphium.xyz";
+    allowedHosts = "homepage.defnothowl.com";
     settings = {
       layout = [
         {
@@ -80,7 +80,7 @@
           }
           {
             "Calibre" = {
-              href = "https://calibre.scaphium.xyz/";
+              href = "https://calibre.defnothowl.com/";
               widget = {
                 type = "calibreweb";
                 url = "http://127.0.0.1:10100";
@@ -92,7 +92,7 @@
           }
           {
             "FreshRSS" = {
-              href = "https://freshrss.scaphium.xyz/";
+              href = "https://freshrss.defnothowl.com/";
               widget = {
                 type = "freshrss";
                 url = "http://127.0.0.1:10110";
@@ -104,10 +104,10 @@
           }
           {
             "Spotify" = {
-              href = "https://myspotify.scaphium.xyz/";
+              href = "https://myspotify.defnothowl.com/";
               widget = {
                 type = "yourspotify";
-                url = "https://spotifyapi.scaphium.xyz/";
+                url = "https://spotifyapi.defnothowl.com/";
                 key = "{{HOMEPAGE_VAR_SPOTIFY_KEY}}";
                 interval = "week";
               };
@@ -120,7 +120,7 @@
         "Downloads" = [
           {
             "qBittorrent" = {
-              href = "https://qBittorrent.scaphium.xyz/";
+              href = "https://qBittorrent.defnothowl.com/";
               icon = "qbittorrent";
               widget = {
                 type = "qbittorrent";
@@ -132,14 +132,14 @@
           }
           {
             "PeerBanHelper" = {
-              href = "https://peerbanhelper.scaphium.xyz/";
-              icon = "https://peerbanhelper.scaphium.xyz/favicon.ico";
+              href = "https://peerbanhelper.defnothowl.com/";
+              icon = "https://peerbanhelper.defnothowl.com/favicon.ico";
             };
           }
           {
             "ANI-RSS" = {
-              href = "https://anirss.scaphium.xyz/";
-              icon = "https://anirss.scaphium.xyz/favicon.ico";
+              href = "https://anirss.defnothowl.com/";
+              icon = "https://anirss.defnothowl.com/favicon.ico";
             };
           }
         ];
@@ -148,13 +148,13 @@
         "Utilities" = [
           {
             "Vaultwarden" = {
-              href = "https://vaultwarden.scaphium.xyz/";
+              href = "https://vaultwarden.defnothowl.com/";
               icon = "bitwarden";
             };
           }
           {
             "Linkding" = {
-              href = "https://linkding.scaphium.xyz/";
+              href = "https://linkding.defnothowl.com/";
               icon = "linkding";
             };
           }
@@ -183,7 +183,7 @@
         "Status" = [
           {
             "Glances" = {
-              href = "https://glances.scaphium.xyz/";
+              href = "https://glances.defnothowl.com/";
               widget = {
                 type = "glances";
                 url = "http://127.0.0.1:61208";
@@ -194,7 +194,7 @@
           }
           {
             "Speedtest" = {
-              href = "https://speedtest.scaphium.xyz/admin/";
+              href = "https://speedtest.defnothowl.com/admin/";
               widget = {
                 type = "speedtest";
                 url = "http://127.0.0.1:10400";
@@ -305,7 +305,7 @@
         ];
       }
     ];
-    environmentFile = "/run/secrets/homepage-dashboard";
+    environmentFiles = [ "/run/secrets/homepage-dashboard" ];
   };
   systemd.services.homepage-dashboard = {
     wantedBy = [ "multi-user.target" ];
@@ -315,5 +315,5 @@
     ];
     wants = [ "network-online.target" ];
   };
-  sops.secrets.homepage-dashboard.sopsFile = ./secrets.yaml;
+  sops.secrets.homepage-dashboard.sopsFile = ../secrets.yaml;
 }

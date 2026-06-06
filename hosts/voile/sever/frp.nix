@@ -1,18 +1,27 @@
 {
   services.frp = {
-    enable = true;
-    role = "client";
-    settings = {
-      serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
-      serverPort = 20000;
-      auth.token = "{{.Envs.FRP_TOKEN}}";
-      transport.tls.certFile = "/run/secrets/frp/cert";
-      transport.tls.keyFile = "/run/secrets/frp/key";
-      transport.tls.trustedCaFile = "/run/secrets/frp/ca";
-      includes = [ "/run/secrets/frp/proxies" ];
+    voile = {
+      enable = true;
+      role = "client";
+      settings = {
+        serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
+        serverPort = 20000;
+        auth.token = "{{.Envs.FRP_TOKEN}}";
+        transport = {
+          tls = {
+            certFile = "/run/secrets/frp/cert";
+            keyFile = "/run/secrets/frp/key";
+            trustedCaFile = "/run/secrets/frp/ca";
+          };
+          dialServerTimeout = 90;
+          heartbeatInterval = 60;
+          heartbeatTimeout = 240;
+        };
+        includes = [ "/run/secrets/frp/proxies" ];
+      };
     };
   };
-  systemd.services.frp = {
+  systemd.services.frp-voile = {
     after = [
       "sops-nix.service"
     ];
@@ -23,27 +32,27 @@
   };
   sops.secrets = {
     "frp/env" = {
-      sopsFile = ./secrets.yaml;
+      sopsFile = ../secrets.yaml;
       mode = "0440";
       group = "keys";
     };
     "frp/proxies" = {
-      sopsFile = ./secrets.yaml;
+      sopsFile = ../secrets.yaml;
       mode = "0440";
       group = "keys";
     };
     "frp/cert" = {
-      sopsFile = ./secrets.yaml;
+      sopsFile = ../secrets.yaml;
       mode = "0440";
       group = "keys";
     };
     "frp/key" = {
-      sopsFile = ./secrets.yaml;
+      sopsFile = ../secrets.yaml;
       mode = "0440";
       group = "keys";
     };
     "frp/ca" = {
-      sopsFile = ./secrets.yaml;
+      sopsFile = ../secrets.yaml;
       mode = "0440";
       group = "keys";
     };
