@@ -1526,6 +1526,52 @@
         "type": "github"
       }
     },
+    "plasma-manager": {
+      "inputs": {
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775856943,
+        "narHash": "sha256-b7Mp7P+q2Md5AGt4rjHfMcBykzMumFTen10ST++AuTU=",
+        "owner": "nix-community",
+        "repo": "plasma-manager",
+        "rev": "a524a6160e6df89f7673ba293cf7d78b559eb1a5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "plasma-manager",
+        "type": "github"
+      }
+    },
+    "plasma-manager-stable": {
+      "inputs": {
+        "home-manager": [
+          "home-manager-stable"
+        ],
+        "nixpkgs": [
+          "nixpkgs-stable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775856943,
+        "narHash": "sha256-b7Mp7P+q2Md5AGt4rjHfMcBykzMumFTen10ST++AuTU=",
+        "owner": "nix-community",
+        "repo": "plasma-manager",
+        "rev": "a524a6160e6df89f7673ba293cf7d78b559eb1a5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "plasma-manager",
+        "type": "github"
+      }
+    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -1616,6 +1662,8 @@
         "noctalia": "noctalia",
         "noctalia-stable": "noctalia-stable",
         "nur": "nur",
+        "plasma-manager": "plasma-manager",
+        "plasma-manager-stable": "plasma-manager-stable",
         "sops-nix": "sops-nix",
         "sops-nix-stable": "sops-nix-stable",
         "spicetify-nix": "spicetify-nix",

@@ -1,8 +1,8 @@
 {
   imports = [
-    ../../../../modules/home/programs/cli/delta
-    ../../../../modules/home/programs/cli/direnv
-    ../../../../modules/home/programs/cli/gh
-    ../../../../modules/home/programs/cli/glow
+    ../../../../modules/optional/home/programs/cli/delta
+    ../../../../modules/optional/home/programs/cli/direnv
+    ../../../../modules/optional/home/programs/cli/gh
+    ../../../../modules/optional/home/programs/cli/glow
   ];
 }
