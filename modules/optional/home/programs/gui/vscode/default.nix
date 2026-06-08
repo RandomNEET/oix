@@ -15,14 +15,13 @@ in
 {
   programs.vscode = {
     enable = true;
-    package = (
-      pkgs.vscode.override {
+    package =
+      (pkgs.vscode.override {
         commandLineArgs = [
           "--user-data-dir ${userDataDir}"
           "--extensions-dir ${extensionsDir}"
         ];
-      }
-    );
+      }).fhs;
     mutableExtensionsDir = false;
     inherit profiles;
   };
