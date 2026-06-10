@@ -30,6 +30,15 @@ in
   options = {
     desktop = {
       enable = mkEnableOption "the desktop environment and related window managers";
+      displayManager = mkOption {
+        type = types.enum [
+          "ly"
+          "tuigreet"
+          "none"
+        ];
+        default = "none";
+        description = "Which display manager to use for the graphical login screen.";
+      };
       hyprland = {
         enable = mkEnableOption "Whether to enable Hyprland, the dynamic tiling Wayland compositor that doesn’t sacrifice on its looks.";
         primary = mkOption {
