@@ -434,6 +434,7 @@ rec {
         "com.github.tchx84.Flatseal"
         "com.qq.QQ"
         "com.tencent.WeChat"
+        "com.cherry_ai.CherryStudio"
       ];
     };
     mbsync = {
@@ -472,7 +473,6 @@ rec {
   };
   home = {
     packages = with pkgs; [
-      cherry-studio
       libreoffice
       localsend
       qbittorrent

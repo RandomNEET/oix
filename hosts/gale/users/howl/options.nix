@@ -181,6 +181,7 @@ rec {
         "com.github.tchx84.Flatseal"
         "com.qq.QQ"
         "com.tencent.WeChat"
+        "com.cherry_ai.CherryStudio"
         "com.rustdesk.RustDesk"
       ];
     };
@@ -218,7 +219,6 @@ rec {
   };
   home = {
     packages = with pkgs; [
-      cherry-studio
       libreoffice
       localsend
       qbittorrent
