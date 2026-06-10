@@ -10,7 +10,7 @@ pkgs.mkShell {
   ];
   buildInputs = with pkgs; [ zlib ];
   shellHook = ''
-    echo "C Dev Environment Loaded"
+    echo "C/C++ Dev Environment Loaded"
     echo "Compiler: $(gcc --version | head -n1)"
   '';
 }

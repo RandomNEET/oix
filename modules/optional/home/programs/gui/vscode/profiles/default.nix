@@ -44,10 +44,14 @@ let
     };
   };
 in
-{
+rec {
   default = global // {
     inherit enableUpdateCheck enableExtensionUpdateCheck;
   };
+  c-cpp = mkMerge [
+    global
+    (import ./c-cpp.nix { inherit pkgs; })
+  ];
   python = mkMerge [
     global
     (import ./python.nix { inherit pkgs; })
@@ -58,6 +62,7 @@ in
   ];
   embedded = mkMerge [
     global
+    c-cpp
     (import ./embedded.nix { inherit pkgs; })
   ];
 }

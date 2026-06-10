@@ -29,12 +29,15 @@ lib.mergeAttrsList [
   {
     vscode-extensions = prev.vscode-extensions // {
       CL.eide = pkgs.callPackage ./vscode-extensions/CL.eide { };
-      mcu-debug.debug-tracker-vscode =
-        pkgs.callPackage ./vscode-extensions/mcu-debug.debug-tracker-vscode
-          { };
-      mcu-debug.memory-view = pkgs.callPackage ./vscode-extensions/mcu-debug.memory-view { };
-      mcu-debug.peripheral-viewer = pkgs.callPackage ./vscode-extensions/mcu-debug.peripheral-viewer { };
-      mcu-debug.rtos-views = pkgs.callPackage ./vscode-extensions/mcu-debug.rtos-views { };
+      mcu-debug = {
+        debug-tracker-vscode = pkgs.callPackage ./vscode-extensions/mcu-debug.debug-tracker-vscode { };
+        memory-view = pkgs.callPackage ./vscode-extensions/mcu-debug.memory-view { };
+        peripheral-viewer = pkgs.callPackage ./vscode-extensions/mcu-debug.peripheral-viewer { };
+        rtos-views = pkgs.callPackage ./vscode-extensions/mcu-debug.rtos-views { };
+      };
+      ms-vscode = prev.vscode-extensions.ms-vscode // {
+        vscode-serial-monitor = pkgs.callPackage ./vscode-extensions/ms-vscode.vscode-serial-monitor { };
+      };
     };
   }
 ]
