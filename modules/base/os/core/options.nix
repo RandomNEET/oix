@@ -16,20 +16,26 @@ in
           This must match the hardware or the emulation environment where the system will run.
         '';
       };
+      platform = mkOption {
+        type = types.enum [
+          "nixos"
+          "home-manager"
+        ];
+        default = "nixos";
+        description = "The deployment target for this host.";
+      };
       channel = mkOption {
         type = types.enum [
           "unstable"
           "stable"
         ];
         default = "unstable";
-        description = "The Nixpkgs release stream this host should follow. ";
+        description = "The Nixpkgs release stream this host should follow.";
       };
       allowUnfree = mkOption {
         type = types.bool;
         default = true;
-        description = ''
-          Whether to allow the installation of software with non-free or proprietary licenses.
-        '';
+        description = "Whether to allow the installation of software with non-free or proprietary licenses.";
       };
       stateVersion = mkOption {
         type = types.str;
@@ -65,12 +71,7 @@ in
       };
       flake = mkOption {
         type = types.path;
-        description = ''
-          The absolute path to the Flake configuration directory on this machine.
-
-          This is useful for automation scripts (like a custom 'rebuild' alias) 
-          to know where the source of truth is located without hardcoding paths.
-        '';
+        description = "The absolute path to the Flake configuration directory on this machine.";
       };
       hostname = mkOption {
         type = types.str;
