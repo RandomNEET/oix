@@ -1,11 +1,14 @@
-{ osConfig, meta, ... }:
+{ meta, ... }:
+let
+  isHm = meta.platform == "home-manager";
+in
 {
   programs.nh = {
-    enable = !osConfig.programs.nh.enable;
+    enable = isHm;
     osFlake = meta.flake;
     homeFlake = meta.flake;
     clean = {
-      enable = !osConfig.programs.nh.clean.enable;
+      enable = isHm;
       dates = "weekly";
       extraArgs = "--keep 5 --keep-since 3d";
     };
