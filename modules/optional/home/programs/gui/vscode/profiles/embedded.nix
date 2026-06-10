@@ -16,6 +16,7 @@
     mcu-debug.memory-view # required by marus25.cortex-debug
     mcu-debug.peripheral-viewer # required by marus25.cortex-debug
     mcu-debug.rtos-views # required by marus25.cortex-debug
-    ms-vscode.cpptools-extension-pack
+    ms-vscode.vscode-serial-monitor
+    ibm.output-colorizer
   ];
 }
