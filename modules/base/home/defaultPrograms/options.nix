@@ -1,7 +1,6 @@
-{ config, lib, ... }:
+{ lib, ... }:
 let
-  inherit (lib) mkOption types optionalAttrs;
-  cfg = config.defaultPrograms;
+  inherit (lib) mkOption types;
 in
 {
   options = {
@@ -43,17 +42,5 @@ in
         description = "The command used to launch the default web browser.";
       };
     };
-  };
-  config = {
-    home.sessionVariables =
-      (optionalAttrs (cfg.editor != "none") {
-        EDITOR = cfg.editor;
-      })
-      // (optionalAttrs (cfg.terminal != "none") {
-        TERMINAL = cfg.terminal;
-      })
-      // (optionalAttrs (cfg.browser != "none") {
-        BROWSER = cfg.browser;
-      });
   };
 }

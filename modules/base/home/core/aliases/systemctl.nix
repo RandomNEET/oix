@@ -1,6 +1,5 @@
 {
   home.shellAliases = {
-    # --- systemd ---
     # User commands (no sudo)
     sc-cat = "systemctl cat";
     sc-get-default = "systemctl get-default";
