@@ -5,7 +5,7 @@ in
 {
   options = {
     base = {
-      secure-boot = {
+      secureBoot = {
         enable = mkEnableOption "Whether to enable UEFI Secure Boot support.";
       };
     };

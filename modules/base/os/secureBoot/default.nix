@@ -6,7 +6,7 @@
 }:
 {
   imports = [ ./options.nix ];
-  config = lib.mkIf config.base.secure-boot.enable {
+  config = lib.mkIf config.base.secureBoot.enable {
     environment.systemPackages = [
       # For debugging and troubleshooting Secure Boot.
       pkgs.sbctl
