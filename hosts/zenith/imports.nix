@@ -5,7 +5,6 @@
     ../../modules/optional/os/services/dae
     ../../modules/optional/os/services/flatpak
     ../../modules/optional/os/services/fstrim
-    ../../modules/optional/os/services/greetd
 
     ../../modules/optional/os/scripts/gen-diff.nix
     ../../modules/optional/os/scripts/oix-init.nix

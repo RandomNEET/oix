@@ -6,6 +6,9 @@
   meta,
   ...
 }:
+let
+  inherit (lib) optional optionals;
+in
 {
   imports = [
     inputs.impermanence.nixosModules.impermanence
@@ -31,11 +34,11 @@
               mode = "u=rwx,g=rx,o=";
             }
           ]
-          ++ lib.optional (options.boot ? lanzaboote && config.boot.lanzaboote.enable) "/var/lib/sbctl"
-          ++ lib.optional config.services.power-profiles-daemon.enable "/var/lib/power-profiles-daemon"
-          ++ lib.optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
-          ++ lib.optional config.virtualisation.docker.enable "/var/lib/docker"
-          ++ lib.optional config.virtualisation.waydroid.enable "/var/lib/waydroid"
+          ++ optional (options.boot ? lanzaboote && config.boot.lanzaboote.enable) "/var/lib/sbctl"
+          ++ optional config.services.power-profiles-daemon.enable "/var/lib/power-profiles-daemon"
+          ++ optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
+          ++ optional config.virtualisation.docker.enable "/var/lib/docker"
+          ++ optional config.virtualisation.waydroid.enable "/var/lib/waydroid"
         );
         files = (
           [
@@ -47,12 +50,13 @@
               };
             }
           ]
-          ++ lib.optionals config.services.openssh.enable [
+          ++ optionals config.services.openssh.enable [
             "/etc/ssh/ssh_host_rsa_key"
             "/etc/ssh/ssh_host_rsa_key.pub"
             "/etc/ssh/ssh_host_ed25519_key"
             "/etc/ssh/ssh_host_ed25519_key.pub"
           ]
+          ++ optional config.services.displayManager.ly.enable "/etc/ly/save.txt"
         );
       };
     };

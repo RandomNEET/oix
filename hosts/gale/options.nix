@@ -19,11 +19,12 @@ in
     bluetooth.enable = true;
     power.enable = true;
     impermanence.enable = true;
-    secure-boot.enable = true;
+    secureBoot.enable = true;
     gaming.enable = true;
   };
   desktop = {
     enable = true;
+    displayManager = "ly";
     hyprland = {
       enable = true;
       primary = false;
