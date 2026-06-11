@@ -13,5 +13,5 @@ let
 in
 mkAutostart [
   "noctalia-shell"
-  "hyprctl dispatch workspace 1"
+  "hyprctl dispatch 'hl.dsp.focus({ workspace = 1 })'"
 ]
