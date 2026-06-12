@@ -14,9 +14,9 @@
       {
         mode = "n";
         action = "<cmd>lua require('snacks').terminal.toggle()<cr>";
-        key = "<leader>t";
+        key = "<leader>tt";
         options = {
-          desc = "Toggle terminal";
+          desc = "Toggle Terminal";
         };
       }
     ];

@@ -196,7 +196,7 @@
         };
       }
 
-      # Buffers management
+      # Buffer management
       {
         mode = "n";
         key = "<S-h>";
@@ -259,6 +259,144 @@
         action = "<cmd>:bd<cr>";
         options = {
           desc = "Delete Buffer and Window";
+        };
+      }
+
+      # Tab management
+      {
+        mode = "n";
+        key = "<A-l>";
+        action = "<cmd>tabnext<cr>";
+        options = {
+          desc = "Next Tab";
+        };
+      }
+      {
+        mode = "n";
+        key = "<A-h>";
+        action = "<cmd>tabprevious<cr>";
+        options = {
+          desc = "Previous Tab";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>tn";
+        action = "<cmd>tabnew<cr>";
+        options = {
+          desc = "New Tab";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>tc";
+        action = "<cmd>tabclose<cr>";
+        options = {
+          desc = "Close Tab";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>to";
+        action = "<cmd>tabonly<cr>";
+        options = {
+          desc = "Close Other Tabs";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>tm";
+        action = "<cmd>tabmove<cr>";
+        options = {
+          desc = "Move Tab to End";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>t1";
+        action = "<cmd>tabnext 1<cr>";
+        options = {
+          desc = "Go to Tab 1";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>t2";
+        action = "<cmd>tabnext 2<cr>";
+        options = {
+          desc = "Go to Tab 2";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>t3";
+        action = "<cmd>tabnext 3<cr>";
+        options = {
+          desc = "Go to Tab 3";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>t4";
+        action = "<cmd>tabnext 4<cr>";
+        options = {
+          desc = "Go to Tab 4";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>t5";
+        action = "<cmd>tabnext 5<cr>";
+        options = {
+          desc = "Go to Tab 5";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>t6";
+        action = "<cmd>tabnext 6<cr>";
+        options = {
+          desc = "Go to Tab 6";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>t7";
+        action = "<cmd>tabnext 7<cr>";
+        options = {
+          desc = "Go to Tab 7";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>t8";
+        action = "<cmd>tabnext 8<cr>";
+        options = {
+          desc = "Go to Tab 8";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>t9";
+        action = "<cmd>tabnext 9<cr>";
+        options = {
+          desc = "Go to Tab 9";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>ts";
+        action = "<cmd>tab split<cr>";
+        options = {
+          desc = "Open Current Buffer in New Tab";
+        };
+      }
+      {
+        mode = "n";
+        key = "<leader>tf";
+        action = "<cmd>tabedit %<cr>";
+        options = {
+          desc = "Open Current File in New Tab";
         };
       }
     ];
