@@ -1,4 +1,7 @@
 { config, lib, ... }:
+let
+  hasX = config.services.xserver.enable;
+in
 {
   config = lib.mkIf (config.desktop.displayManager == "ly") {
     services.displayManager.ly = {
@@ -6,7 +9,7 @@
       settings = {
         waylandsessions = "/etc/ly/sessions/wayland";
         custom_sessions = "/etc/ly/sessions";
-        xsessions = if config.desktop.plasma.enable then "/etc/ly/sessions/x" else null;
+        xsessions = if hasX then "/etc/ly/sessions/x" else null;
         xinitrc = null;
         shell = false;
         session_log = ".local/state/ly/session.log";
@@ -23,6 +26,7 @@
 
         save = true;
       };
+      x11Support = hasX;
     };
   };
   imports = [ ./sessions.nix ];
