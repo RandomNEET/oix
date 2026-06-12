@@ -15,7 +15,7 @@ in
       settings = {
         general = {
           fullscreen = true;
-          early-exit = true;
+          early-exit = [ "all" ];
           copy-command = "wl-copy";
           actions-on-right-click = [ "save-to-clipboard" ];
           actions-on-enter = [ "save-to-file" ];
