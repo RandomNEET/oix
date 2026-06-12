@@ -173,6 +173,11 @@ rec {
           ];
         };
       };
+      mango = {
+        settings = {
+          monitorrule = [ "name:eDP-1,scale:1.25" ];
+        };
+      };
     };
   };
   services = {

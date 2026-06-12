@@ -55,6 +55,14 @@ in
           description = "Whether to designate niri as the primary window manager for the system session.";
         };
       };
+      mango = {
+        enable = mkEnableOption "Whether to enable Mango, a Wayland compositor based on dwl and scenefx.";
+        primary = mkOption {
+          type = types.bool;
+          default = false;
+          description = "Whether to designate mangowm as the primary window manager for the system session.";
+        };
+      };
       plasma = {
         enable = mkEnableOption "Enable the Plasma 6 (KDE 6) desktop environment.";
         primary = mkOption {
@@ -155,6 +163,7 @@ in
             (lib.count (x: x) [
               config.desktop.hyprland.primary
               config.desktop.niri.primary
+              config.desktop.mango.primary
               config.desktop.plasma.primary
             ]) <= 1;
           message = "Only one desktop can be designated as the primary session at a time.";

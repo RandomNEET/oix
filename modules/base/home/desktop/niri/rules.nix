@@ -48,6 +48,15 @@
 
     {
       matches = [
+        { title = "^(Authentication Required)$"; }
+      ];
+      opacity = 0.95;
+      open-floating = true;
+      open-focused = true;
+    }
+
+    {
+      matches = [
         {
           app-id = "^(firefox)$";
           title = "^Picture-in-Picture$";

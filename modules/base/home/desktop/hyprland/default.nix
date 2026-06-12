@@ -74,10 +74,13 @@ in
         enable = true;
         package = pkgs.hyprland;
         portalPackage = pkgs.xdg-desktop-portal-hyprland;
-        systemd.enable = true;
+        systemd = {
+          enable = true;
+          enableXdgAutostart = true;
+        };
         xwayland.enable = true;
         settings = {
-          on = import ./autostart.nix { inherit lib; };
+          on = import ./autostart.nix { inherit osConfig lib; };
           env = import ./env.nix;
           inherit (binds) bind define_submap;
           inherit (animations) animation curve;

@@ -8,6 +8,7 @@
   ...
 }:
 let
+  inherit (lib) optionalString;
   defaultTheme =
     if osConfig.desktop.themes.enable then builtins.head osConfig.desktop.themes.list else "default";
   terminal = (import ../misc/terminal.nix { inherit config; }).exe;
@@ -131,7 +132,12 @@ pkgs.writeShellScriptBin "launcher" ''
       "$SPEC_DIR/$SELECTED/activate"
     fi
 
-    ${lib.optionalString config.programs.noctalia-shell.enable ''
+    ${optionalString config.wayland.windowManager.mango.enable ''
+      if systemctl --user -q is-active mango-session.target; then
+        mmsg dispatch reload_config
+      fi
+    ''}
+    ${optionalString config.programs.noctalia-shell.enable ''
       case "$SELECTED" in
         "ayu")               NOCTALIA_THEME="Ayu" ;;
         "catppuccin-mocha")  NOCTALIA_THEME="Catppuccin" ;;
@@ -147,7 +153,7 @@ pkgs.writeShellScriptBin "launcher" ''
 
       noctalia-shell ipc call colorScheme set "$NOCTALIA_THEME"
 
-      ${lib.optionalString (config.desktop.wallpaper.enable && osConfig.base.display.info != [ ]) (
+      ${optionalString (config.desktop.wallpaper.enable && osConfig.base.display.info != [ ]) (
         let
           genWallpaperCmd = m: ''
             CURRENT_WP=$(noctalia-shell ipc call wallpaper get "${m.output}")
@@ -166,15 +172,15 @@ pkgs.writeShellScriptBin "launcher" ''
         lib.concatMapStringsSep "\n" genWallpaperCmd osConfig.base.display.info
       )}
     ''}
-    ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") ''
+    ${optionalString (config.i18n.inputMethod.type == "fcitx5") ''
       systemctl --user restart fcitx5-daemon
     ''}
-    ${lib.optionalString config.programs.tmux.enable ''
+    ${optionalString config.programs.tmux.enable ''
       if tmux ls > /dev/null 2>&1; then
         tmux source-file ${config.xdg.configHome}/tmux/tmux.conf
       fi
     ''} 
-    ${lib.optionalString config.programs.nixvim.enable ''
+    ${optionalString config.programs.nixvim.enable ''
       RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}"
       if pgrep -x "nvim" >/dev/null; then
         for server in "$RUNTIME_DIR"/nvim.*.0; do

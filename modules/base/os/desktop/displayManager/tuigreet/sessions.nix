@@ -17,12 +17,12 @@ in
       (optionalAttrs config.desktop.niri.enable {
         "greetd/sessions/niri.desktop".text = sessions.niri;
       })
+      (optionalAttrs config.desktop.mango.enable {
+        "greetd/sessions/mango.desktop".text = sessions.mango;
+      })
       (optionalAttrs config.desktop.plasma.enable {
         "greetd/sessions/plasma-wayland.desktop".text = sessions.plasma-wayland;
         "greetd/sessions/plasma-x11.desktop".text = sessions.plasma-x11;
-      })
-      (optionalAttrs config.programs.zsh.enable {
-        "greetd/sessions/zsh.desktop".text = sessions.zsh;
       })
     ];
   };

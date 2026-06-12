@@ -3,14 +3,20 @@
   hyprland = ''
     [Desktop Entry]
     Name=hyprland
-    Exec=${pkgs.hyprland}/bin/start-hyprland
+    Exec=start-hyprland
     DesktopNames=Hyprland
   '';
   niri = ''
     [Desktop Entry]
     Name=niri
-    Exec=${pkgs.niri}/bin/niri-session
+    Exec=niri-session
     DesktopNames=niri
+  '';
+  mango = ''
+    [Desktop Entry]
+    Name=mango
+    Exec=mango
+    DesktopNames=mango;wlroots
   '';
   plasma-wayland = ''
     [Desktop Entry]
@@ -23,10 +29,5 @@
     Name=plasma
     Exec=env QT_QPA_PLATFORMTHEME=kde ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-x11
     DesktopNames=KDE
-  '';
-  zsh = ''
-    [Desktop Entry]
-    Name=zsh
-    Exec=${pkgs.zsh}/bin/zsh
   '';
 }

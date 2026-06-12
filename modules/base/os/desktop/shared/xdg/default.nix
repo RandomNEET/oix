@@ -20,6 +20,7 @@ in
             xdg-desktop-portal-termfilechooser
           ]
           ++ optional config.desktop.hyprland.enable xdg-desktop-portal-hyprland
+          ++ optional config.desktop.mango.enable xdg-desktop-portal-wlr
           ++ optional config.desktop.plasma.enable kdePackages.xdg-desktop-portal-kde;
         configPackages =
           with pkgs;
@@ -28,6 +29,7 @@ in
             xdg-desktop-portal-termfilechooser
           ]
           ++ optional config.desktop.hyprland.enable xdg-desktop-portal-hyprland
+          ++ optional config.desktop.mango.enable xdg-desktop-portal-wlr
           ++ optional config.desktop.plasma.enable kdePackages.plasma-workspace;
       };
     };
