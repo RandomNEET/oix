@@ -125,7 +125,7 @@ in
     (mkBind "SUPER + ALT + k" "hl.dsp.group.prev()")
     (mkBind "SUPER + ALT + j" "hl.dsp.group.next()")
 
-    # Go to workspace 6 and 7 with mouse side buttons
+    # Go to workspace 1 and 10 with mouse side buttons
     (mkBind "SUPER + mouse:276" "hl.dsp.focus({ workspace = 1 })")
     (mkBind "SUPER + mouse:275" "hl.dsp.focus({ workspace = 10 })")
     (mkBind "SUPER + SHIFT + mouse:276" "hl.dsp.window.move({ workspace = 1 })")

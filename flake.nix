@@ -42,6 +42,14 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+    mangowm = {
+      url = "github:mangowm/mango";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    mangowm-stable = {
+      url = "github:mangowm/mango";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -165,6 +173,7 @@
         sops-nix.homeManagerModules.sops
         niri.homeModules.niri
         niri.homeModules.stylix
+        mangowm.hmModules.mango
         noctalia.homeModules.default
         plasma-manager.homeModules.plasma-manager
         stylix.homeModules.stylix
@@ -176,6 +185,7 @@
         sops-nix-stable.homeManagerModules.sops
         niri-stable.homeModules.niri
         niri-stable.homeModules.stylix
+        mangowm-stable.hmModules.mango
         noctalia-stable.homeModules.default
         plasma-manager-stable.homeModules.plasma-manager
         stylix-stable.homeModules.stylix

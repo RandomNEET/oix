@@ -1,5 +1,5 @@
 {
-  ELECTRON_OZONE_PLATFORM = "wayland";
+  ELECTRON_OZONE_PLATFORM_HINT = "auto";
   QT_QPA_PLATFORM = "wayland";
   QT_QPA_PLATFORMTHEME = "qt6ct";
 }

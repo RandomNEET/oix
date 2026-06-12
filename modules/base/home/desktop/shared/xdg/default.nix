@@ -23,6 +23,7 @@ in
             xdg-desktop-portal-termfilechooser
           ]
           ++ optional osConfig.desktop.hyprland.enable xdg-desktop-portal-hyprland
+          ++ optional osConfig.desktop.mango.enable xdg-desktop-portal-wlr
           ++ optional osConfig.desktop.plasma.enable kdePackages.xdg-desktop-portal-kde;
         configPackages =
           with pkgs;
@@ -31,6 +32,7 @@ in
             xdg-desktop-portal-termfilechooser
           ]
           ++ optional osConfig.desktop.hyprland.enable xdg-desktop-portal-hyprland
+          ++ optional osConfig.desktop.mango.enable xdg-desktop-portal-wlr
           ++ optional osConfig.desktop.plasma.enable kdePackages.plasma-workspace;
         config = {
           common = {
@@ -47,6 +49,15 @@ in
             "org.freedesktop.impl.portal.OpenURI" = "gtk";
             "org.freedesktop.impl.portal.Print" = "gtk";
             "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
+          };
+        }
+        // optionalAttrs osConfig.desktop.mango.enable {
+          mango = {
+            default = "gtk";
+            "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+            "org.freedesktop.impl.portal.ScreenShot" = "wlr";
+            "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
+            "org.freedesktop.impl.portal.Inhibit" = "none";
           };
         }
         // optionalAttrs osConfig.desktop.plasma.enable {

@@ -33,6 +33,10 @@ in
       enable = true;
       primary = true;
     };
+    mango = {
+      enable = true;
+      primary = false;
+    };
     hibernate = true;
     themes = {
       enable = true;

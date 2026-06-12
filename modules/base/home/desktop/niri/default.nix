@@ -43,7 +43,7 @@ in
       package = pkgs.niri;
       settings = {
         environment = import ./environment.nix;
-        spawn-at-startup = import ./startup.nix;
+        spawn-at-startup = import ./startup.nix { inherit osConfig lib; };
         binds = import ./binds.nix {
           inherit
             osConfig
@@ -68,7 +68,13 @@ in
     systemd.user = {
       services.lxqt-policykit-agent = {
         Unit = {
-          After = [ "graphical-session.target" ];
+          After = [
+            "home.mount"
+            "basic.target"
+            "-.mount"
+            "app.slice"
+            "graphical-session.target"
+          ];
         };
       };
     };

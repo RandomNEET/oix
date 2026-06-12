@@ -90,6 +90,13 @@
         "(monitor_h*0.8)"
       ];
     }
+    {
+      match = {
+        title = "^(Hyprland Polkit Agent)$";
+      };
+      opacity = "0.80 0.80";
+      float = true;
+    }
 
     # Firefox PiP
     {

@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  mylib,
   ...
 }:
 let
@@ -21,17 +22,8 @@ let
   file-manager = getExe (import ../shared/scripts/file-manager.nix { inherit config pkgs; });
   screenshot = getExe (import ../shared/scripts/screenshot.nix { inherit config pkgs; });
   autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
-  keybinds = getExe (
-    import ./scripts/keybinds.nix {
-      inherit
-        osConfig
-        config
-        lib
-        pkgs
-        ;
-    }
-  );
-  gamespace = getExe (pkgs.callPackage ./scripts/gamespace.nix { inherit pkgs; });
+  colors = config.lib.stylix.colors;
+  primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
 in
 {
   imports = [
@@ -48,8 +40,8 @@ in
     ../shared/services/wayland-pipewire-idle-inhibit
   ];
 
-  config = lib.mkIf osConfig.desktop.hyprland.enable {
-    wayland.windowManager.hyprland =
+  config = lib.mkIf osConfig.desktop.mango.enable {
+    wayland.windowManager.mango =
       let
         binds = import ./binds.nix {
           inherit
@@ -62,36 +54,50 @@ in
             file-manager
             screenshot
             autoclicker
-            keybinds
-            gamespace
             ;
         };
-        rules = import ./rules.nix;
-        animations = import ./animations.nix;
-        plugins = import ./plugins.nix { inherit pkgs; };
+        autostart = import ./autostart.nix { inherit osConfig config lib; };
       in
       {
         enable = true;
-        package = pkgs.hyprland;
-        portalPackage = pkgs.xdg-desktop-portal-hyprland;
+        # package = pkgs.mangowc;
         systemd = {
           enable = true;
-          enableXdgAutostart = true;
+          xdgAutostart = true;
         };
-        xwayland.enable = true;
         settings = {
-          on = import ./autostart.nix { inherit osConfig lib; };
+          inherit (binds) bind mousebind axisbind;
+          layerrule = (import ./rules.nix).layerrule;
+          windowrule = (import ./rules.nix).windowrule;
           env = import ./env.nix;
-          inherit (binds) bind define_submap;
-          inherit (animations) animation curve;
-          inherit (rules) layer_rule window_rule;
-          inherit (plugins) config;
+          exec-once = autostart.exec-once;
         }
-        // import ./misc.nix;
-        inherit (plugins) plugins;
+        // import ./animations.nix
+        // import ./misc.nix
+        // lib.optionalAttrs osConfig.desktop.themes.enable {
+          rootcolor = "0x${colors.base00}ff";
+          bordercolor = "0x${colors.base02}ff";
+          dropcolor = "0x${colors.base01}55";
+          splitcolor = "0x${colors.base0D}ff";
+          focuscolor = "0x${primaryColor}ff";
+          urgentcolor = "0x${colors.base08}ff";
+        };
       };
 
-    services.hyprpolkitagent.enable = true;
+    services.lxqt-policykit-agent.enable = true;
+    systemd.user = {
+      services.lxqt-policykit-agent = {
+        Unit = {
+          After = [
+            "home.mount"
+            "basic.target"
+            "-.mount"
+            "app.slice"
+            "graphical-session.target"
+          ];
+        };
+      };
+    };
 
     home.packages = with pkgs; [
       libnotify
@@ -105,7 +111,5 @@ in
       wayfreeze
       tesseract
     ];
-
-    stylix.targets.hyprland.enable = lib.mkIf osConfig.desktop.themes.enable true;
   };
 }
