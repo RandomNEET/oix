@@ -8,6 +8,8 @@ pkgs.writeShellScriptBin "screenshot" ''
   LOCK_FILE="/tmp/screenshot_''${USER}.lock"
   PID_FILE="/tmp/screenshot_''${USER}.pid"
 
+  mkdir -p "$SCREENSHOT_DIR"
+
   cleanup() {
       jobs -p | xargs -r kill 2>/dev/null
       rm -f "$PID_FILE" "$LOCK_FILE"

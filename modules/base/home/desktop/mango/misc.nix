@@ -10,4 +10,6 @@
 
   borderpx = 2;
   border_radius = 20;
+
+  repeat_delay = 300;
 }

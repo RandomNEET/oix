@@ -6,7 +6,6 @@
   launcher,
   clip-manager,
   file-manager,
-  screenshot,
   autoclicker,
   keybinds,
   gamespace,
@@ -81,24 +80,23 @@ in
     (mkBind "SUPER + SPACE" ''hl.dsp.exec_cmd("${launcher} drun")'')
     (mkBind "SUPER + V" ''hl.dsp.exec_cmd("${clip-manager}")'')
     (mkBind "SUPER + CTRL + T" ''hl.dsp.exec_cmd("${launcher} theme")'')
-    (mkBind "SUPER + SHIFT + A" ''hl.dsp.exec_cmd("noctalia-shell ipc call controlCenter toggle")'')
-    (mkBind "SUPER + SHIFT + Q" ''hl.dsp.exec_cmd("noctalia-shell ipc call notifications toggleHistory")'')
-    (mkBind "SUPER + CTRL + Q" ''hl.dsp.exec_cmd("noctalia-shell ipc call notifications clear")'')
-    (mkBind "SUPER + ALT + Q" ''hl.dsp.exec_cmd("noctalia-shell ipc call notifications toggleDND")'')
-    (mkBind "SUPER + SHIFT + W" ''hl.dsp.exec_cmd("noctalia-shell ipc call wallpaper random all")'')
-    (mkBind "SUPER + CTRL + W" ''hl.dsp.exec_cmd("noctalia-shell ipc call wallpaper toggle")'')
-    (mkBind "SUPER + ALT + W" ''hl.dsp.exec_cmd("noctalia-shell ipc call wallpaper toggleAutomation")'')
-    (mkBind "CTRL + ESCAPE" ''hl.dsp.exec_cmd("noctalia-shell ipc call bar toggle")'')
-    (mkBind "SUPER + ALT + L" ''hl.dsp.exec_cmd("noctalia-shell ipc call lockScreen lock")'')
-    (mkBind "SUPER + backspace" ''hl.dsp.exec_cmd("noctalia-shell ipc call sessionMenu toggle")'')
+    (mkBind "SUPER + SHIFT + A" ''hl.dsp.exec_cmd("noctalia msg panel-toggle control-center")'')
+    (mkBind "SUPER + SHIFT + Q" ''hl.dsp.exec_cmd("noctalia msg panel-toggle control-center notifications")'')
+    (mkBind "SUPER + CTRL + Q" ''hl.dsp.exec_cmd("noctalia msg notification-clear-history")'')
+    (mkBind "SUPER + ALT + Q" ''hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle")'')
+    (mkBind "SUPER + SHIFT + W" ''hl.dsp.exec_cmd("noctalia msg wallpaper-random")'')
+    (mkBind "SUPER + CTRL + W" ''hl.dsp.exec_cmd("noctalia msg panel-toggle wallpaper")'')
+    (mkBind "CTRL + ESCAPE" ''hl.dsp.exec_cmd("noctalia msg bar-toggle")'')
+    (mkBind "SUPER + ALT + L" ''hl.dsp.exec_cmd("noctalia msg session lock")'')
+    (mkBind "SUPER + backspace" ''hl.dsp.exec_cmd("noctalia msg panel-toggle session")'')
     (mkBind "SUPER + F10" ''hl.dsp.exec_cmd("${terminal} -e ${lib.getExe pkgs.btop}")'')
     (mkBind "SUPER + F11" ''hl.dsp.exec_cmd("pkill hyprpicker || hyprpicker --autocopy --format=hex")'')
     (mkBind "SUPER + F12" ''hl.dsp.exec_cmd("kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40")'')
 
     # Screenshot/Screencapture
-    (mkBind "SUPER + P" ''hl.dsp.exec_cmd("${screenshot} s")'') # drag to snip an area / click on a window to print it
-    (mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("${screenshot} a")'') # print all monitor outputs
-    (mkBind "SUPER + CTRL + P" ''hl.dsp.exec_cmd("${screenshot} o")'') # ocr capture
+    (mkBind "SUPER + P" ''hl.dsp.exec_cmd("noctalia msg screenshot-region")'')
+    (mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("noctalia msg screenshot-fullscreen pick")'')
+    (mkBind "SUPER + CTRL + P" ''hl.dsp.exec_cmd("touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region")'')
 
     # to switch between windows in a floating workspace
     (mkBind "ALT + Tab" "hl.dsp.window.cycle_next({ next = true })")
@@ -166,18 +164,18 @@ in
     (mkBindRepeat "SUPER + SHIFT + j" "hl.dsp.window.resize({ x = 0, y = 30, relative = true })")
 
     # Functional keybinds
-    (mkBindLocked "XF86AudioMute" ''hl.dsp.exec_cmd("noctalia-shell ipc call volume muteOutput")'')
-    (mkBindLocked "XF86AudioMicMute" ''hl.dsp.exec_cmd("noctalia-shell ipc call volume muteInput")'')
-    (mkBindLocked "XF86AudioPlay" ''hl.dsp.exec_cmd("noctalia-shell ipc call media play")'')
-    (mkBindLocked "XF86AudioPause" ''hl.dsp.exec_cmd("noctalia-shell ipc call media pause")'')
-    (mkBindLocked "XF86AudioNext" ''hl.dsp.exec_cmd("noctalia-shell ipc call media next")'')
-    (mkBindLocked "XF86AudioPrev" ''hl.dsp.exec_cmd("noctalia-shell ipc call media previous")'')
+    (mkBindLocked "XF86AudioMute" ''hl.dsp.exec_cmd("noctalia msg volume-mute")'')
+    (mkBindLocked "XF86AudioMicMute" ''hl.dsp.exec_cmd("noctalia msg mic-mute")'')
+    (mkBindLocked "XF86AudioPlay" ''hl.dsp.exec_cmd("noctalia msg media toggle")'')
+    (mkBindLocked "XF86AudioPause" ''hl.dsp.exec_cmd("noctalia msg media stop")'')
+    (mkBindLocked "XF86AudioNext" ''hl.dsp.exec_cmd("noctalia msg media next")'')
+    (mkBindLocked "XF86AudioPrev" ''hl.dsp.exec_cmd("noctalia msg media previous")'')
 
     # Functional keybinds
-    (mkBindLockedRepeat "XF86AudioLowerVolume" ''hl.dsp.exec_cmd("noctalia-shell ipc call volume decrease")'')
-    (mkBindLockedRepeat "XF86AudioRaiseVolume" ''hl.dsp.exec_cmd("noctalia-shell ipc call volume increase")'')
-    (mkBindLockedRepeat "XF86MonBrightnessDown" ''hl.dsp.exec_cmd("noctalia-shell ipc call brightness decrease")'')
-    (mkBindLockedRepeat "XF86MonBrightnessUp" ''hl.dsp.exec_cmd("noctalia-shell ipc call brightness increase")'')
+    (mkBindLockedRepeat "XF86AudioLowerVolume" ''hl.dsp.exec_cmd("noctalia msg volume-down")'')
+    (mkBindLockedRepeat "XF86AudioRaiseVolume" ''hl.dsp.exec_cmd("noctalia msg volume-up")'')
+    (mkBindLockedRepeat "XF86MonBrightnessDown" ''hl.dsp.exec_cmd("noctalia msg brightness-down")'')
+    (mkBindLockedRepeat "XF86MonBrightnessUp" ''hl.dsp.exec_cmd("noctalia msg brightness-up")'')
 
     # Move/Resize windows with mainMod + LMB/RMB and dragging
     (mkBindMouse "SUPER + mouse:272" "hl.dsp.window.drag()")

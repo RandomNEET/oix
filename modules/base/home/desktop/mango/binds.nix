@@ -6,7 +6,6 @@
   launcher,
   clip-manager,
   file-manager,
-  screenshot,
   autoclicker,
   ...
 }:
@@ -37,22 +36,21 @@ in
     "SUPER,Space,spawn,${launcher} drun"
     "SUPER,v,spawn,${clip-manager}"
     "SUPER+CTRL,T,spawn,${launcher} theme"
-    "SUPER+SHIFT,a,spawn,noctalia-shell ipc call controlCenter toggle"
-    "SUPER+SHIFT,q,spawn,noctalia-shell ipc call notifications toggleHistory"
-    "SUPER+CTRL,q,spawn,noctalia-shell ipc call notifications clear"
-    "SUPER+ALT,q,spawn,noctalia-shell ipc call notifications toggleDND"
-    "SUPER+SHIFT,w,spawn,noctalia-shell ipc call wallpaper random all"
-    "SUPER+CTRL,w,spawn,noctalia-shell ipc call wallpaper toggle"
-    "SUPER+ALT,w,spawn,noctalia-shell ipc call wallpaper toggleAutomation"
-    "CTRL,Escape,spawn,noctalia-shell ipc call bar toggle"
-    "SUPER+ALT,l,spawn,noctalia-shell ipc call lockScreen lock"
-    "SUPER,BackSpace,spawn,noctalia-shell ipc call sessionMenu toggle"
+    "SUPER+SHIFT,a,spawn,noctalia msg panel-toggle control-center"
+    "SUPER+SHIFT,q,spawn,noctalia msg panel-toggle control-center notifications"
+    "SUPER+CTRL,q,spawn,noctalia msg notification-clear-history"
+    "SUPER+ALT,q,spawn,noctalia msg notification-dnd-toggle"
+    "SUPER+SHIFT,w,spawn,noctalia msg wallpaper-random"
+    "SUPER+CTRL,w,spawn,noctalia msg panel-toggle wallpaper"
+    "CTRL,Escape,spawn,noctalia msg bar-toggle"
+    "SUPER+ALT,l,spawn,noctalia msg session lock"
+    "SUPER,BackSpace,spawn,noctalia msg panel-toggle session"
     "SUPER,F10,spawn,${terminal} -e ${lib.getExe pkgs.btop}"
-    "SUPER,F12,spawn,kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
+    "SUPER,F12,spawn_shell,kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
 
-    "SUPER,p,spawn,${screenshot} s"
-    "SUPER+SHIFT,p,spawn,${screenshot} a"
-    "SUPER+CTRL,p,spawn,${screenshot} o"
+    "SUPER,p,spawn,noctalia msg screenshot-region"
+    "SUPER+SHIFT,p,spawn,noctalia msg screenshot-fullscreen"
+    "SUPER+CTRL,p,spawn_shell,touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region"
 
     "SUPER,Left,focusdir,left"
     "SUPER,Right,focusdir,right"
@@ -73,14 +71,14 @@ in
     "SUPER+SHIFT,k,exchange_client,up"
     "SUPER+SHIFT,j,exchange_client,down"
 
+    "SUPER+SHIFT+CTRL,h,resizewin,-30,0"
+    "SUPER+SHIFT+CTRL,l,resizewin,30,0"
+    "SUPER+SHIFT+CTRL,k,resizewin,0,-30"
+    "SUPER+SHIFT+CTRL,j,resizewin,0,30"
     "SUPER+SHIFT,Left,resizewin,-30,0"
     "SUPER+SHIFT,Right,resizewin,30,0"
     "SUPER+SHIFT,Up,resizewin,0,-30"
     "SUPER+SHIFT,Down,resizewin,0,30"
-    "SUPER+SHIFT,h,resizewin,-30,0"
-    "SUPER+SHIFT,l,resizewin,30,0"
-    "SUPER+SHIFT,k,resizewin,0,-30"
-    "SUPER+SHIFT,j,resizewin,0,30"
 
     "SUPER,1,view,1,0"
     "SUPER,2,view,2,0"
@@ -138,16 +136,16 @@ in
     "ALT+SHIFT,Z,incgaps,-1"
     "ALT+SHIFT,R,togglegaps"
 
-    "none,XF86AudioMute,spawn,noctalia-shell ipc call volume muteOutput"
-    "none,XF86AudioMicMute,spawn,noctalia-shell ipc call volume muteInput"
-    "none,XF86AudioPlay,spawn,noctalia-shell ipc call media play"
-    "none,XF86AudioPause,spawn,noctalia-shell ipc call media pause"
-    "none,XF86AudioNext,spawn,noctalia-shell ipc call media next"
-    "none,XF86AudioPrev,spawn,noctalia-shell ipc call media previous"
-    "none,XF86AudioLowerVolume,spawn,noctalia-shell ipc call volume decrease"
-    "none,XF86AudioRaiseVolume,spawn,noctalia-shell ipc call volume increase"
-    "none,XF86MonBrightnessDown,spawn,noctalia-shell ipc call brightness decrease"
-    "none,XF86MonBrightnessUp,spawn,noctalia-shell ipc call brightness increase"
+    "none,XF86AudioMute,spawn,noctalia msg volume-mute"
+    "none,XF86AudioMicMute,spawn,noctalia msg mic-mute"
+    "none,XF86AudioPlay,spawn,noctalia msg media toggle"
+    "none,XF86AudioPause,spawn,noctalia msg media stop"
+    "none,XF86AudioNext,spawn,noctalia msg media next"
+    "none,XF86AudioPrev,spawn,noctalia msg media previous"
+    "none,XF86AudioLowerVolume,spawn,noctalia msg volume-down"
+    "none,XF86AudioRaiseVolume,spawn,noctalia msg volume-up"
+    "none,XF86MonBrightnessDown,spawn,noctalia msg brightness-down"
+    "none,XF86MonBrightnessUp,spawn,noctalia msg brightness-up"
 
     "SUPER,M,setkeymode,mouse"
   ]

@@ -156,69 +156,56 @@ rec {
         binds = {
           "Mod+F1" = {
             action.spawn = [
-              "noctalia-shell"
-              "ipc"
-              "call"
-              "volume"
-              "muteOutput"
+              "noctalia"
+              "msg"
+              "volume-mute"
             ];
             allow-when-locked = true;
           };
           "Mod+F2" = {
             action.spawn = [
-              "noctalia-shell"
-              "ipc"
-              "call"
-              "volume"
-              "decrease"
+              "noctalia"
+              "msg"
+              "volume-down"
             ];
             allow-when-locked = true;
           };
           "Mod+F3" = {
             action.spawn = [
-              "noctalia-shell"
-              "ipc"
-              "call"
-              "volume"
-              "increase"
+              "noctalia"
+              "msg"
+              "volume-up"
             ];
             allow-when-locked = true;
           };
           "Mod+F4" = {
             action.spawn = [
-              "noctalia-shell"
-              "ipc"
-              "call"
-              "volume"
-              "muteInput"
+              "noctalia"
+              "msg"
+              "mic-mute"
             ];
             allow-when-locked = true;
           };
           "Mod+F5" = {
             action.spawn = [
-              "noctalia-shell"
-              "ipc"
-              "call"
-              "brightness"
-              "decrease"
+              "noctalia"
+              "msg"
+              "brightness-down"
             ];
             allow-when-locked = true;
           };
           "Mod+F6" = {
             action.spawn = [
-              "noctalia-shell"
-              "ipc"
-              "call"
-              "brightness"
-              "increase"
+              "noctalia"
+              "msg"
+              "brightness-up"
             ];
             allow-when-locked = true;
           };
           "Mod+F7" = {
             action.spawn = [
-              "noctalia-shell"
-              "ipc"
-              "call"
+              "noctalia"
+              "msg"
               "media"
               "previous"
             ];
@@ -226,19 +213,17 @@ rec {
           };
           "Mod+F8" = {
             action.spawn = [
-              "noctalia-shell"
-              "ipc"
-              "call"
+              "noctalia"
+              "msg"
               "media"
-              "playPause"
+              "toggle"
             ];
             allow-when-locked = true;
           };
           "Mod+F9" = {
             action.spawn = [
-              "noctalia-shell"
-              "ipc"
-              "call"
+              "noctalia"
+              "msg"
               "media"
               "next"
             ];
@@ -247,84 +232,10 @@ rec {
         };
       };
     };
-    noctalia-shell = {
+    noctalia = {
       settings = {
-        general = {
-          avatarImage = "${config.home.homeDirectory}/pic/avatars/weeb.jpg";
-        };
-        bar = {
-          screenOverrides = [
-            {
-              enabled = true;
-              name = "HDMI-A-1";
-              position = "top";
-              density = "default";
-              widgets = {
-                center = [
-                  {
-                    id = "Clock";
-                    formatHorizontal = "ddd MMM d HH:mm";
-                    formatVertical = "MM dd - HH mm";
-                    tooltipFormat = "yyyy-MM-dd HH:mm:ss";
-                  }
-                ];
-                left = [
-                  {
-                    id = "Workspace";
-                  }
-                ];
-                right = [
-                  {
-                    id = "AudioVisualizer";
-                    hideWhenIdle = true;
-                  }
-                ];
-              };
-            }
-          ];
-        };
-        sessionMenu = {
-          powerOptions = lib.mkForce [
-            {
-              action = "lock";
-              enabled = true;
-              countdownEnabled = true;
-              keybind = "1";
-            }
-            {
-              action = "suspend";
-              enabled = true;
-              countdownEnabled = true;
-              keybind = "2";
-            }
-            {
-              action = "reboot";
-              enabled = true;
-              countdownEnabled = true;
-              keybind = "3";
-            }
-            {
-              action = "logout";
-              enabled = true;
-              countdownEnabled = true;
-              keybind = "4";
-            }
-            {
-              action = "shutdown";
-              enabled = true;
-              countdownEnabled = true;
-              keybind = "5";
-            }
-            {
-              action = "rebootToUefi";
-              enabled = true;
-              countdownEnabled = true;
-              keybind = "6";
-            }
-          ];
-        };
-        idle = {
-          suspendTimeout = lib.mkForce 0;
+        shell = {
+          avatar_path = "${config.home.homeDirectory}/pic/avatars/weeb.jpg";
         };
       };
     };
@@ -368,59 +279,59 @@ rec {
               {
                 _args = [
                   "SUPER + F1"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call volume muteOutput")'')
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg volume-mute")'')
                 ];
               }
               {
                 _args = [
                   "SUPER + F2"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call volume decrease")'')
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg volume-down")'')
                   { repeat = true; }
                 ];
               }
               {
                 _args = [
                   "SUPER + F3"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call volume increase")'')
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg volume-up")'')
                   { repeat = true; }
                 ];
               }
               {
                 _args = [
                   "SUPER + F4"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call volume muteInput")'')
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg mic-mute")'')
                 ];
               }
               {
                 _args = [
                   "SUPER + F5"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call brightness decrease")'')
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg brightness-down")'')
                   { repeat = true; }
                 ];
               }
               {
                 _args = [
                   "SUPER + F6"
-                  (mkLuaInline ''hl.dsp.exec_cmd"noctalia-shell ipc call brightness increase"()'')
+                  (mkLuaInline ''hl.dsp.exec_cmd"noctalia msg brightness-up"()'')
                   { repeat = true; }
                 ];
               }
               {
                 _args = [
                   "SUPER + F7"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call media previous")'')
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg media previous")'')
                 ];
               }
               {
                 _args = [
                   "SUPER + F8"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call media playPause")'')
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg media toggle")'')
                 ];
               }
               {
                 _args = [
                   "SUPER + F9"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia-shell ipc call media next")'')
+                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg media next")'')
                 ];
               }
             ];

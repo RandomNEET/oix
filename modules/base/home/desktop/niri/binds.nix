@@ -6,7 +6,6 @@
   launcher,
   clip-manager,
   file-manager,
-  screenshot,
   autoclicker,
   getExe,
   ...
@@ -58,102 +57,79 @@ in
 
   "Mod+Shift+A" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "controlCenter"
-      "toggle"
+      "noctalia"
+      "msg"
+      "panel-toggle"
+      "control-center"
     ];
     hotkey-overlay.title = "Toggle Control Center";
   };
   "Mod+Shift+Q" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
+      "noctalia"
+      "msg"
+      "panel-toggle"
+      "control-center"
       "notifications"
-      "toggleHistory"
     ];
     hotkey-overlay.title = "Toggle Notification History";
   };
   "Mod+Ctrl+Q" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "notifications"
-      "clear"
+      "noctalia"
+      "msg"
+      "notification-clear-history"
     ];
     hotkey-overlay.hidden = true;
   };
   "Mod+Alt+Q" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "notifications"
-      "toggleDND"
+      "noctalia"
+      "msg"
+      "notification-dnd-toggle"
     ];
     hotkey-overlay.hidden = true;
   };
   "Mod+Shift+W" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "wallpaper"
-      "random"
-      "all"
+      "noctalia"
+      "msg"
+      "wallpaper-random"
     ];
     hotkey-overlay.hidden = true;
   };
   "Mod+Ctrl+W" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
+      "noctalia"
+      "msg"
+      "panel-toggle"
       "wallpaper"
-      "toggle"
-    ];
-    hotkey-overlay.hidden = true;
-  };
-  "Mod+Alt+W" = {
-    action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "wallpaper"
-      "toggleAutomation"
     ];
     hotkey-overlay.hidden = true;
   };
   "Ctrl+Escape" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "bar"
-      "toggle"
+      "noctalia"
+      "msg"
+      "bar-toggle"
     ];
     hotkey-overlay.hidden = true;
   };
   "Mod+Alt+L" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "lockScreen"
+      "noctalia"
+      "msg"
+      "session"
       "lock"
     ];
     hotkey-overlay.hidden = true;
   };
   "Mod+Backspace" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "sessionMenu"
-      "toggle"
+      "noctalia"
+      "msg"
+      "panel-toggle"
+      "session"
     ];
     hotkey-overlay.title = "Toggle Session Menu";
   };
@@ -173,70 +149,59 @@ in
 
   "XF86AudioRaiseVolume" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "volume"
-      "increase"
+      "noctalia"
+      "msg"
+      "volume-up"
     ];
     allow-when-locked = true;
   };
   "XF86AudioLowerVolume" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "volume"
-      "decrease"
+      "noctalia"
+      "msg"
+      "volume-down"
     ];
     allow-when-locked = true;
   };
   "XF86AudioMute" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "volume"
-      "muteOutput"
+      "noctalia"
+      "msg"
+      "volume-mute"
     ];
     allow-when-locked = true;
   };
   "XF86AudioMicMute" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "volume"
-      "muteInput"
+      "noctalia"
+      "msg"
+      "mic-mute"
     ];
     allow-when-locked = true;
   };
 
   "XF86AudioPlay" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
+      "noctalia"
+      "msg"
       "media"
-      "play"
+      "toggle"
     ];
     allow-when-locked = true;
   };
   "XF86AudioStop" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
+      "noctalia"
+      "msg"
       "media"
-      "pause"
+      "stop"
     ];
     allow-when-locked = true;
   };
   "XF86AudioPrev" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
+      "noctalia"
+      "msg"
       "media"
       "previous"
     ];
@@ -244,9 +209,8 @@ in
   };
   "XF86AudioNext" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
+      "noctalia"
+      "msg"
       "media"
       "next"
     ];
@@ -255,21 +219,17 @@ in
 
   "XF86MonBrightnessUp" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "brightness"
-      "increase"
+      "noctalia"
+      "msg"
+      "brightness-up"
     ];
     allow-when-locked = true;
   };
   "XF86MonBrightnessDown" = {
     action.spawn = [
-      "noctalia-shell"
-      "ipc"
-      "call"
-      "brightness"
-      "decrease"
+      "noctalia"
+      "msg"
+      "brightness-down"
     ];
     allow-when-locked = true;
   };
@@ -416,23 +376,23 @@ in
 
   "Mod+P" = {
     action.spawn = [
-      "${screenshot}"
-      "s"
+      "noctalia"
+      "msg"
+      "screenshot-region"
     ];
     hotkey-overlay.title = "Screenshot (select area)";
   };
   "Mod+Shift+P" = {
     action.spawn = [
-      "${screenshot}"
-      "a"
+      "noctalia"
+      "msg"
+      "screenshot-fullscreen"
+      "pick"
     ];
     hotkey-overlay.title = "Screenshot (all monitors)";
   };
   "Mod+Ctrl+P" = {
-    action.spawn = [
-      "${screenshot}"
-      "o"
-    ];
+    action.spawn-sh = "touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region";
     hotkey-overlay.title = "OCR Capture (select area)";
   };
 }

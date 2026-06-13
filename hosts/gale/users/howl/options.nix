@@ -144,10 +144,57 @@ rec {
         };
       };
     };
-    noctalia-shell = {
+    noctalia = {
       settings = {
-        general = {
-          avatarImage = "${config.home.homeDirectory}/pic/avatars/weeb.jpg";
+        shell = {
+          avatar_path = "${config.home.homeDirectory}/pic/avatars/weeb.jpg";
+        };
+        lockscreen_widgets = {
+          enabled = true;
+          schema_version = 2;
+          widget_order = [
+            "lockscreen-login-box@eDP-1"
+            "lockscreen-widget-0000000000000001"
+          ];
+          grid = {
+            cell_size = 16;
+            major_interval = 4;
+            visible = true;
+          };
+          widget = {
+            "lockscreen-login-box@eDP-1" = {
+              box_height = 0.0;
+              box_width = 0.0;
+              cx = 768.0;
+              cy = 752.0;
+              enabled = true;
+              output = "eDP-1";
+              rotation = 0.0;
+              type = "login_box";
+              settings = {
+                background_color = "surface_variant";
+                background_opacity = 0.88;
+                background_radius = 12.0;
+                input_opacity = 1.0;
+                input_radius = 6.0;
+                show_login_button = true;
+              };
+            };
+            "lockscreen-widget-0000000000000001" = {
+              box_height = 240.0;
+              box_width = 416.0;
+              cx = 768.0;
+              cy = 168.0;
+              enabled = true;
+              output = "eDP-1";
+              rotation = 0.0;
+              type = "clock";
+              settings = {
+                background = false;
+                shadow = false;
+              };
+            };
+          };
         };
       };
     };
