@@ -1,7 +1,7 @@
 {
   layer-rules = [
     {
-      matches = [ { namespace = "^noctalia-wallpaper*"; } ];
+      matches = [ { namespace = "^noctalia-wallpaper"; } ];
       place-within-backdrop = true;
     }
   ];
@@ -15,6 +15,11 @@
         bottom-right = 20.0;
       };
       clip-to-geometry = true;
+    }
+
+    {
+      matches = [ { app-id = "dev.noctalia.Noctalia.Settings"; } ];
+      open-floating = true;
     }
 
     {
@@ -44,15 +49,6 @@
       ];
       opacity = 0.95;
       open-floating = true;
-    }
-
-    {
-      matches = [
-        { title = "^(Authentication Required)$"; }
-      ];
-      opacity = 0.95;
-      open-floating = true;
-      open-focused = true;
     }
 
     {

@@ -19,7 +19,6 @@ let
   );
   clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
   file-manager = getExe (import ../shared/scripts/file-manager.nix { inherit config pkgs; });
-  screenshot = getExe (import ../shared/scripts/screenshot.nix { inherit config pkgs; });
   autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
 in
 {
@@ -29,9 +28,8 @@ in
     ../shared/xdg
     ../shared/programs/fcitx5
     ../shared/programs/gowall
-    ../shared/programs/noctalia-shell
+    ../shared/programs/noctalia
     ../shared/programs/rofi
-    ../shared/programs/satty
     ../shared/services/cliphist
     ../shared/services/udiskie
     ../shared/services/wayland-pipewire-idle-inhibit
@@ -43,7 +41,7 @@ in
       package = pkgs.niri;
       settings = {
         environment = import ./environment.nix;
-        spawn-at-startup = import ./startup.nix { inherit osConfig lib; };
+        spawn-at-startup = import ./startup.nix;
         binds = import ./binds.nix {
           inherit
             osConfig
@@ -53,7 +51,6 @@ in
             launcher
             clip-manager
             file-manager
-            screenshot
             autoclicker
             getExe
             ;
@@ -64,30 +61,10 @@ in
       // import ./misc.nix;
     };
 
-    services.lxqt-policykit-agent.enable = true;
-    systemd.user = {
-      services.lxqt-policykit-agent = {
-        Unit = {
-          After = [
-            "home.mount"
-            "basic.target"
-            "-.mount"
-            "app.slice"
-            "graphical-session.target"
-          ];
-        };
-      };
-    };
-
     home.packages = with pkgs; [
       libnotify
       wl-clipboard
       xwayland-satellite
-      # Screenshot (satty in imports)
-      grim
-      slurp
-      wayfreeze
-      tesseract
     ];
 
     stylix.targets.niri.enable = lib.mkIf osConfig.desktop.themes.enable true;

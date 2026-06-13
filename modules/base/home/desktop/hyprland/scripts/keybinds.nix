@@ -97,53 +97,48 @@ let
     # ----- Util -----
     {
       key = "SUPER SHIFT A";
-      desc = "Open control center";
-      cmd = "noctalia controlCenter toggle";
+      desc = "Toggle control center";
+      cmd = "noctalia panel-toggle control-center";
     }
     {
       key = "SUPER SHIFT Q";
-      desc = "Open notification history";
-      cmd = "noctalia notifications toggleHistory";
+      desc = "Toggle notification history";
+      cmd = "noctalia panel-toggle control-center notifications";
     }
     {
       key = "SUPER CTRL Q";
       desc = "Clear notification history";
-      cmd = "noctalia notifications clear";
+      cmd = "noctalia notification-clear-history";
     }
     {
       key = "SUPER ALT Q";
       desc = "Toggle silence mode";
-      cmd = "noctalia notifications toggleDND";
+      cmd = "noctalia notification-dnd-toggle";
     }
     {
       key = "SUPER SHIFT W";
       desc = "Random wallpaper";
-      cmd = "noctalia wallpaper random";
+      cmd = "noctalia wallpaper-random";
     }
     {
       key = "SUPER CTRL W";
       desc = "Select wallpaper";
-      cmd = "noctalia wallpaper toggle";
-    }
-    {
-      key = "SUPER ALT W";
-      desc = "Toggle wallpaper automation";
-      cmd = "noctalia wallpaper toggleAutomation";
+      cmd = "noctalia panel-toggle wallpaper";
     }
     {
       key = "CTRL Escape";
       desc = "Toggle bar";
-      cmd = "noctalia bar toggle";
+      cmd = "noctalia bar-toggle";
     }
     {
       key = "SUPER ALT L";
       desc = "Lock screen";
-      cmd = "noctalia lockScreen lock";
+      cmd = "noctalia session lock";
     }
     {
       key = "SUPER Backspace";
-      desc = "Session menu";
-      cmd = "noctalia sessionMenu toggle";
+      desc = "Toggle session menu";
+      cmd = "noctalia panel-toggle session";
     }
     # ----- F keys -----
     {
@@ -164,18 +159,18 @@ let
     # ----- Screenshot -----
     {
       key = "SUPER P";
-      desc = "Screenshot (select area)";
-      cmd = "scripts/screenshot.sh s";
+      desc = "Region screenshot";
+      cmd = "noctalia screenshot-region | satty";
     }
     {
       key = "SUPER SHIFT P";
-      desc = "Screenshot (all monitors)";
-      cmd = "scripts/screenshot.sh a";
+      desc = "Fullscreen screenshot";
+      cmd = "noctalia screenshot-fullscreen | satty";
     }
     {
       key = "SUPER CTRL P";
-      desc = "OCR capture (select area)";
-      cmd = "scripts/screenshot.sh o";
+      desc = "Region OCR";
+      cmd = "noctalia screenshot-region | tesseract";
     }
     # ----- Window control -----
     {
@@ -391,13 +386,13 @@ let
     # ----- XF86 -----
     {
       key = "XF86AudioPlay";
-      desc = "Play media";
-      cmd = "noctalia media play";
+      desc = "Toggle media";
+      cmd = "noctalia media toggle";
     }
     {
       key = "XF86AudioPlay";
-      desc = "Pause media";
-      cmd = "noctalia media pause";
+      desc = "Stop media";
+      cmd = "noctalia media stop";
     }
     {
       key = "XF86AudioNext";
@@ -412,32 +407,32 @@ let
     {
       key = "XF86AudioMute";
       desc = "Mute output";
-      cmd = "noctalia volume muteOutput";
+      cmd = "noctalia volume-mute";
     }
     {
       key = "XF86AudioMicMute";
-      desc = "Mute input";
-      cmd = "noctalia volume muteInput";
+      desc = "Mute mic";
+      cmd = "noctalia mic-mute";
     }
     {
       key = "XF86MonBrightnessDown";
       desc = "Decrease brightness";
-      cmd = "noctalia brightness decrease";
+      cmd = "noctalia brightness-down";
     }
     {
       key = "XF86MonBrightnessUp";
       desc = "Increase brightness";
-      cmd = "noctalia brightness increase";
+      cmd = "noctalia brightness-up";
     }
     {
       key = "XF86AudioLowerVolume";
       desc = "Lower volume";
-      cmd = "noctalia volume decrease";
+      cmd = "noctalia volume-down";
     }
     {
       key = "XF86AudioRaiseVolume";
       desc = "Increase volume";
-      cmd = "noctalia volume increase";
+      cmd = "noctalia volume-up";
     }
     # ----- Submap -----
     {

@@ -2,11 +2,11 @@
   layer_rule = [
     {
       match = {
-        namespace = "noctalia-background-.*$";
+        namespace = "^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd)$";
       };
+      ignore_alpha = 0.5;
       blur = true;
       blur_popups = true;
-      ignore_alpha = 0.5;
     }
     {
       match = {
@@ -34,12 +34,6 @@
     {
       match = {
         class = "^(org\\.gnupg\\.pinentry-qt)$";
-      };
-      opacity = "0.90 0.90";
-    }
-    {
-      match = {
-        title = "^(Hyprland Polkit Agent)$";
       };
       opacity = "0.90 0.90";
     }
@@ -95,6 +89,14 @@
         title = "^(Hyprland Polkit Agent)$";
       };
       opacity = "0.80 0.80";
+      float = true;
+    }
+
+    # Noctalia settings window
+    {
+      match = {
+        class = "dev.noctalia.Noctalia.Settings";
+      };
       float = true;
     }
 

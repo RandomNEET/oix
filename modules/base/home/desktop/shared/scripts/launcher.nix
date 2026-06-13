@@ -137,32 +137,17 @@ pkgs.writeShellScriptBin "launcher" ''
         mmsg dispatch reload_config
       fi
     ''}
-    ${optionalString config.programs.noctalia-shell.enable ''
-      case "$SELECTED" in
-        "ayu")               NOCTALIA_THEME="Ayu" ;;
-        "catppuccin-mocha")  NOCTALIA_THEME="Catppuccin" ;;
-        "dracula")           NOCTALIA_THEME="Dracula" ;;
-        "eldritch")          NOCTALIA_THEME="Eldritch" ;;
-        "gruvbox-dark-hard") NOCTALIA_THEME="Gruvbox" ;;
-        "kanagawa")          NOCTALIA_THEME="Kanagawa" ;;
-        "nord")              NOCTALIA_THEME="Nord" ;;
-        "rose-pine")         NOCTALIA_THEME="Rose Pine" ;;
-        "tokyo-night-dark")  NOCTALIA_THEME="Tokyo Night" ;;
-        *)                   NOCTALIA_THEME="Noctalia (default)" ;;
-      esac
-
-      noctalia-shell ipc call colorScheme set "$NOCTALIA_THEME"
-
+    ${optionalString config.programs.noctalia.enable ''
       ${optionalString (config.desktop.wallpaper.enable && osConfig.base.display.info != [ ]) (
         let
           genWallpaperCmd = m: ''
-            CURRENT_WP=$(noctalia-shell ipc call wallpaper get "${m.output}")
+            CURRENT_WP=$(noctalia msg wallpaper-get "${m.output}")
 
             if [ -n "$CURRENT_WP" ]; then
               NEW_WP=$(echo "$CURRENT_WP" | sed -E "s@/(themed/[^/]+|original)/@/themed/$SELECTED/@")
 
               if [ -f "$NEW_WP" ]; then
-                noctalia-shell ipc call wallpaper set "$NEW_WP" "${m.output}"
+                noctalia msg wallpaper-set "${m.output}" "$NEW_WP"
               else
                 notify-send -a "Theme Switcher" -u normal "Wallpaper not found" "Path: $NEW_WP"
               fi
@@ -171,6 +156,8 @@ pkgs.writeShellScriptBin "launcher" ''
         in
         lib.concatMapStringsSep "\n" genWallpaperCmd osConfig.base.display.info
       )}
+
+      noctalia msg config-reload
     ''}
     ${optionalString (config.i18n.inputMethod.type == "fcitx5") ''
       systemctl --user restart fcitx5-daemon

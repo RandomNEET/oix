@@ -20,7 +20,6 @@ let
   );
   clip-manager = getExe (import ../shared/scripts/clip-manager.nix { inherit pkgs; });
   file-manager = getExe (import ../shared/scripts/file-manager.nix { inherit config pkgs; });
-  screenshot = getExe (import ../shared/scripts/screenshot.nix { inherit config pkgs; });
   autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
   colors = config.lib.stylix.colors;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
@@ -32,7 +31,7 @@ in
     ../shared/xdg
     ../shared/programs/fcitx5
     ../shared/programs/gowall
-    ../shared/programs/noctalia-shell
+    ../shared/programs/noctalia
     ../shared/programs/rofi
     ../shared/programs/satty
     ../shared/services/cliphist
@@ -52,11 +51,10 @@ in
             launcher
             clip-manager
             file-manager
-            screenshot
             autoclicker
             ;
         };
-        autostart = import ./autostart.nix { inherit osConfig config lib; };
+        autostart = import ./autostart.nix { inherit config lib; };
       in
       {
         enable = true;
@@ -89,32 +87,11 @@ in
         };
       };
 
-    services.lxqt-policykit-agent.enable = true;
-    systemd.user = {
-      services.lxqt-policykit-agent = {
-        Unit = {
-          After = [
-            "home.mount"
-            "basic.target"
-            "-.mount"
-            "app.slice"
-            "graphical-session.target"
-          ];
-        };
-      };
-    };
-
     home.packages = with pkgs; [
       libnotify
       wl-clipboard
-      hyprpicker
       wlrctl # mouse control
       yad # keybinds script
-      # Screenshot (satty in imports)
-      grim
-      slurp
-      wayfreeze
-      tesseract
     ];
   };
 }
