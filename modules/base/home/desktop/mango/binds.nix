@@ -25,10 +25,10 @@ in
     "SUPER,Tab,toggleoverview"
     "ALT,Return,togglefullscreen"
     "ALT+SHIFT,f,togglefakefullscreen"
-    "SUPER,i,minimized"
     "SUPER+SHIFT,I,restore_minimized"
     "SUPER,o,toggleoverlay"
     "SUPER,s,toggle_scratchpad"
+    "SUPER+CTRL,s,minimized"
 
     "SUPER,Return,spawn,${terminal}"
     "SUPER,f,spawn,${fileManager}"
@@ -102,15 +102,15 @@ in
     "SUPER+SHIFT,8,tag,8,0"
     "SUPER+SHIFT,9,tag,9,0"
 
-    "SUPER+CTRL,1,tagsilent,1"
-    "SUPER+CTRL,2,tagsilent,2"
-    "SUPER+CTRL,3,tagsilent,3"
-    "SUPER+CTRL,4,tagsilent,4"
-    "SUPER+CTRL,5,tagsilent,5"
-    "SUPER+CTRL,6,tagsilent,6"
-    "SUPER+CTRL,7,tagsilent,7"
-    "SUPER+CTRL,8,tagsilent,8"
-    "SUPER+CTRL,9,tagsilent,9"
+    "SUPER+CTRL,1,toggletag,1"
+    "SUPER+CTRL,2,toggletag,2"
+    "SUPER+CTRL,3,toggletag,3"
+    "SUPER+CTRL,4,toggletag,4"
+    "SUPER+CTRL,5,toggletag,5"
+    "SUPER+CTRL,6,toggletag,6"
+    "SUPER+CTRL,7,toggletag,7"
+    "SUPER+CTRL,8,toggletag,8"
+    "SUPER+CTRL,9,toggletag,9"
 
     "SUPER,Left,viewtoleft,0"
     "SUPER,Right,viewtoright,0"
@@ -148,6 +148,8 @@ in
     "none,XF86AudioRaiseVolume,spawn,noctalia-shell ipc call volume increase"
     "none,XF86MonBrightnessDown,spawn,noctalia-shell ipc call brightness decrease"
     "none,XF86MonBrightnessUp,spawn,noctalia-shell ipc call brightness increase"
+
+    "SUPER,M,setkeymode,mouse"
   ]
   ++ lib.optional config.programs.rbw.enable ("SUPER+ALT,U,spawn,${launcher} rbw")
   ++ lib.optional config.programs.translate-shell.enable ("SUPER+ALT,T,spawn,${launcher} translate")
@@ -166,4 +168,29 @@ in
     "SUPER,UP,viewtoleft_have_client"
     "SUPER,DOWN,viewtoright_have_client"
   ];
+
+  keymode = {
+    mouse = {
+      bind = [
+        "NONE,H,spawn,wlrctl pointer move -10 0"
+        "NONE,L,spawn,wlrctl pointer move 10 0"
+        "NONE,K,spawn,wlrctl pointer move 0 -10"
+        "NONE,J,spawn,wlrctl pointer move 0 10"
+
+        "SHIFT,H,spawn,wlrctl pointer move -100 0"
+        "SHIFT,L,spawn,wlrctl pointer move 100 0"
+        "SHIFT,K,spawn,wlrctl pointer move 0 -100"
+        "SHIFT,J,spawn,wlrctl pointer move 0 100"
+
+        "NONE,N,spawn,wlrctl pointer scroll 30"
+        "NONE,P,spawn,wlrctl pointer scroll -30"
+
+        "NONE,comma,spawn,wlrctl pointer click left"
+        "NONE,period,spawn,wlrctl pointer click right"
+
+        "NONE,Escape,setkeymode,default"
+        "NONE,Q,setkeymode,default"
+      ];
+    };
+  };
 }
