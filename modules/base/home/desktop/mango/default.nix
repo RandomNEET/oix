@@ -66,7 +66,12 @@ in
           xdgAutostart = true;
         };
         settings = {
-          inherit (binds) bind mousebind axisbind;
+          inherit (binds)
+            bind
+            mousebind
+            axisbind
+            keymode
+            ;
           layerrule = (import ./rules.nix).layerrule;
           windowrule = (import ./rules.nix).windowrule;
           env = import ./env.nix;

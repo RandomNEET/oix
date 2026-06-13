@@ -55,6 +55,7 @@ in
       settings = {
         bar = {
           position = "top";
+          barType = "floating";
           widgets = {
             left = [
               {
