@@ -25,7 +25,7 @@ LATEST_VERSION=$(echo "$RESP" | jq -r '
   ' | jq -s '. | sort_by(.version) | last.version')
 
 # Fallback: take the absolute latest version (may include pre-releases)
-if [[ -z "$LATEST_VERSION" || "$LATEST_VERSION" == "null" ]]; then
+if [[ -z $LATEST_VERSION || $LATEST_VERSION == "null" ]]; then
   LATEST_VERSION=$(echo "$RESP" | jq -r '.results[0].extensions[0].versions[0].version')
 fi
 
