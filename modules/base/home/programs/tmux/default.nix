@@ -28,8 +28,6 @@ in
     extraConfig = ''
       # Options
       set -s set-clipboard on
-      set -as terminal-features ',xterm-kitty:clipboard'
-      set -ga terminal-overrides ",*:Tc"
       set -g allow-passthrough on
       set -ga update-environment TERM
       set -ga update-environment TERM_PROGRAM
@@ -69,7 +67,6 @@ in
 
       # vi mode
       bind-key -T copy-mode-vi v send-keys -X begin-selection
-      bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
       bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
     '';
     plugins = with pkgs.tmuxPlugins; [
@@ -155,4 +152,6 @@ in
     txn = "tmuxinator new";
     txl = "tmuxinator list";
   };
+
+  stylix.targets.tmux.enable = lib.mkIf hasThemes true;
 }
