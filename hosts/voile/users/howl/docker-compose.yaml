@@ -145,6 +145,7 @@ services:
       PIXIV_BYPASS_HOSTNAME: "public-api.secure.pixiv.net"
       PIXIV_BYPASS_DOH: "https://1.1.1.1/dns-query"
       PIXIV_IMG_PROXY: "https://i.pixiv.re"
+      BILIBILI_COOKIE_9217280: ${BILIBILI_COOKIE_9217280}
     depends_on:
       - redis
       - browserless # marked
