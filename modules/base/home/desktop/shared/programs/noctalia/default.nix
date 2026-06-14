@@ -18,7 +18,14 @@
         enable = true;
         # package = pkgs.noctalia;
         settings = {
-          shell = import ./shell.nix { inherit config lib pkgs; };
+          shell = import ./shell.nix {
+            inherit
+              osConfig
+              config
+              lib
+              pkgs
+              ;
+          };
           bar = import ./bar.nix { inherit osConfig lib; };
           widget = import ./widget.nix { inherit osConfig lib; };
           dock = import ./dock.nix;

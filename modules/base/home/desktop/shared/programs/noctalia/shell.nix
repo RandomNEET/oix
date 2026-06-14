@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -6,10 +7,9 @@
 let
   screenshot-handler = lib.getExe (import ./scripts/screenshot-handler.nix { inherit config pkgs; });
 in
-
 {
   ui_scale = 1.0;
-  font_family = "sans-serif";
+  font_family = (builtins.head osConfig.desktop.fonts.monospace).name;
   lang = "en";
   time_format = "{:%H:%M}";
   date_format = "%A, %x";

@@ -52,7 +52,7 @@ in
           if hasThemes then
             ''
               * {
-                  font: "${config.stylix.fonts.monospace.name} 10";
+                  font: "${(builtins.head osConfig.desktop.fonts.monospace).name} 10";
               }
             ''
           else
