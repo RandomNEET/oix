@@ -30,7 +30,7 @@ in
         size = 12;
       }
       // lib.optionalAttrs hasThemes {
-        name = config.stylix.fonts.monospace.name;
+        name = (builtins.head osConfig.desktop.fonts.monospace).name;
         color = "${colors.base05}ff";
         shadow = "${colors.base00}d0";
         background = "${colors.base00}00";

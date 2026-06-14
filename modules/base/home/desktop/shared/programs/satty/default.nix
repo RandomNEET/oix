@@ -5,7 +5,8 @@
   ...
 }:
 let
-  fonts = config.stylix.fonts;
+  inherit (osConfig.desktop.fonts) monospace sansSerif serif;
+  headName = fonts: (builtins.head fonts).name;
   colors = config.lib.stylix.colors.withHashtag;
 in
 {
@@ -25,10 +26,10 @@ in
       }
       // lib.optionalAttrs osConfig.desktop.themes.enable {
         font = {
-          family = fonts.monospace.name;
-          fallback = [
-            fonts.sansSerif.name
-            fonts.serif.name
+          family = headName monospace;
+          fallback = map headName [
+            sansSerif
+            serif
           ];
         };
         color-palette = {

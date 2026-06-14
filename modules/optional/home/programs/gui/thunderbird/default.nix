@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ osConfig, pkgs, ... }:
 {
   programs.thunderbird = {
     enable = true;
@@ -16,7 +16,7 @@
         settings = {
           "app.donation.eoy.version.viewed" = 999;
           "mailnews.start_page.enabled" = false;
-          "font.name.sans-serif.x-western" = config.stylix.fonts.monospace.name;
+          "font.name.sans-serif.x-western" = (builtins.head osConfig.desktop.fonts.monospace).name;
 
           # TELEMETRY
           "datareporting.policy.dataSubmissionEnabled" = false;

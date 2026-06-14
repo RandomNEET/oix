@@ -35,7 +35,7 @@ in
 {
   mode = "dark";
   source = "builtin";
-  builtin = matchedPredefinedScheme;
+  builtin = if hasThemes then matchedPredefinedScheme else "Noctalia";
   templates = {
     builtin_ids = [ ];
     community_ids = [ ];
