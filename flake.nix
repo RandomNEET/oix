@@ -1,9 +1,12 @@
 {
   description = "All in Nix";
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-26.05";
+
     nur.url = "github:nix-community/NUR";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,6 +15,8 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -22,7 +27,6 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    impermanence.url = "github:nix-community/impermanence";
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,9 +35,13 @@
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+
+    impermanence.url = "github:nix-community/impermanence";
+
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
 
     hyprland.url = "github:hyprwm/Hyprland";
+
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,6 +50,7 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
     mangowm = {
       url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -50,6 +59,7 @@
       url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
     noctalia = {
       url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -58,6 +68,7 @@
       url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -68,6 +79,7 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
       inputs.home-manager.follows = "home-manager-stable";
     };
+
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -79,6 +91,7 @@
 
     nixvim.url = "github:nix-community/nixvim";
     nixvim-stable.url = "github:nix-community/nixvim/nixos-26.05";
+
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -87,6 +100,7 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -95,13 +109,13 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
   outputs =
     inputs:
     let
@@ -115,169 +129,190 @@
         ;
       inherit (self) outputs;
 
-      systems = [
+      supportedSystems = [
         "x86_64-linux"
         "aarch64-linux"
       ];
-      forAllSystems = nixpkgs.lib.genAttrs systems;
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
-      getMeta = hostname: import (./hosts + "/${hostname}/meta.nix");
-      getHosts = builtins.filter (
+      # Import hosts/<hostname>/meta.nix and inject hostname into the result
+      readHostMeta = hostname: import (./hosts + "/${hostname}/meta.nix") // { inherit hostname; };
+
+      # All host directory names that contain a meta.nix file
+      allHosts = builtins.filter (
         hostname:
         let
-          hostPath = ./hosts + "/${hostname}";
-          hasBase = builtins.pathExists (hostPath + "/meta.nix");
+          hostDir = ./hosts + "/${hostname}";
         in
-        (builtins.readDir ./hosts).${hostname} == "directory" && hasBase
+        (builtins.readDir ./hosts).${hostname} == "directory" && builtins.pathExists (hostDir + "/meta.nix")
       ) (builtins.attrNames (builtins.readDir ./hosts));
-      getUsers =
+
+      # Usernames declared under hosts/<hostname>/users
+      usersForHost =
         hostPath:
         let
-          usersPath = hostPath + "/users";
+          usersDir = hostPath + "/users";
         in
-        if builtins.pathExists usersPath then
-          let
-            contents = builtins.readDir usersPath;
-          in
-          builtins.filter (username: contents.${username} == "directory") (builtins.attrNames contents)
+        if builtins.pathExists usersDir then
+          builtins.filter (u: (builtins.readDir usersDir).${u} == "directory") (
+            builtins.attrNames (builtins.readDir usersDir)
+          )
         else
           [ ];
-      getHomes = nixpkgs.lib.concatLists (
+
+      # Flat list of every { hostname, username } pair across all hosts
+      allUserSlots = nixpkgs.lib.concatLists (
         map (
           hostname:
           let
             hostPath = ./hosts + "/${hostname}";
-            users = getUsers hostPath;
           in
-          map (username: { inherit hostname username; }) users
-        ) getHosts
+          map (username: { inherit hostname username; }) (usersForHost hostPath)
+        ) allHosts
       );
 
-      baseModules = {
-        os = ./modules/base/os;
-        home = ./modules/base/home;
-      };
-      osUnstableModules = with inputs; [
-        home-manager.nixosModules.home-manager
-        sops-nix.nixosModules.sops
-        lanzaboote.nixosModules.lanzaboote
-        stylix.nixosModules.stylix
-      ];
-      osStableModules = with inputs; [
-        home-manager-stable.nixosModules.home-manager
-        sops-nix-stable.nixosModules.sops
-        lanzaboote-stable.nixosModules.lanzaboote
-        stylix-stable.nixosModules.stylix
-      ];
-      hmUnstableModules = with inputs; [
-        sops-nix.homeManagerModules.sops
-        niri.homeModules.niri
-        niri.homeModules.stylix
-        mangowm.hmModules.mango
-        noctalia.homeModules.default
-        plasma-manager.homeModules.plasma-manager
-        stylix.homeModules.stylix
-        nixvim.homeModules.nixvim
-        spicetify-nix.homeManagerModules.default
-        nix-index-database.homeModules.nix-index
-      ];
-      hmStableModules = with inputs; [
-        sops-nix-stable.homeManagerModules.sops
-        niri-stable.homeModules.niri
-        niri-stable.homeModules.stylix
-        mangowm-stable.hmModules.mango
-        noctalia-stable.homeModules.default
-        plasma-manager-stable.homeModules.plasma-manager
-        stylix-stable.homeModules.stylix
-        nixvim-stable.homeModules.nixvim
-        spicetify-nix-stable.homeManagerModules.default
-        nix-index-database-stable.homeModules.nix-index
-      ];
+      # Select the appropriate nixpkgs, home-manager lib, and module sets by channel
+      selectNixpkgs = meta: if meta.channel == "stable" then nixpkgs-stable else nixpkgs;
+      selectHmLib = meta: if meta.channel == "stable" then home-manager-stable.lib else home-manager.lib;
+      selectOsModules = meta: if meta.channel == "stable" then osModules.stable else osModules.unstable;
+      selectHmModules = meta: if meta.channel == "stable" then hmModules.stable else hmModules.unstable;
 
-      mkHost =
+      baseOsModulePath = ./modules/base/os;
+      baseHmModulePath = ./modules/base/home;
+
+      osModules = {
+        unstable = with inputs; [
+          home-manager.nixosModules.home-manager
+          sops-nix.nixosModules.sops
+          lanzaboote.nixosModules.lanzaboote
+          stylix.nixosModules.stylix
+        ];
+        stable = with inputs; [
+          home-manager-stable.nixosModules.home-manager
+          sops-nix-stable.nixosModules.sops
+          lanzaboote-stable.nixosModules.lanzaboote
+          stylix-stable.nixosModules.stylix
+        ];
+      };
+
+      hmModules = {
+        unstable = with inputs; [
+          sops-nix.homeManagerModules.sops
+          niri.homeModules.niri
+          niri.homeModules.stylix
+          mangowm.hmModules.mango
+          noctalia.homeModules.default
+          plasma-manager.homeModules.plasma-manager
+          stylix.homeModules.stylix
+          nixvim.homeModules.nixvim
+          spicetify-nix.homeManagerModules.default
+          nix-index-database.homeModules.nix-index
+        ];
+        stable = with inputs; [
+          sops-nix-stable.homeManagerModules.sops
+          niri-stable.homeModules.niri
+          niri-stable.homeModules.stylix
+          mangowm-stable.hmModules.mango
+          noctalia-stable.homeModules.default
+          plasma-manager-stable.homeModules.plasma-manager
+          stylix-stable.homeModules.stylix
+          nixvim-stable.homeModules.nixvim
+          spicetify-nix-stable.homeManagerModules.default
+          nix-index-database-stable.homeModules.nix-index
+        ];
+      };
+
+      mkTreefmtEval =
+        system:
+        treefmt-nix.lib.evalModule nixpkgs.legacyPackages.${system} {
+          projectRootFile = "flake.nix";
+          programs = {
+            nixfmt.enable = true;
+            shfmt.enable = true;
+            stylua.enable = true;
+            taplo.enable = true;
+            prettier.enable = true;
+          };
+        };
+
+      mkNixosConfig =
         hostname:
         let
           hostPath = ./hosts + "/${hostname}";
-          baseMeta = (getMeta hostname) // {
-            inherit hostname;
-          };
-          isStable = baseMeta.channel == "stable";
-          channel = if isStable then nixpkgs-stable else nixpkgs;
+          meta = readHostMeta hostname;
+          channel = selectNixpkgs meta;
           lib = channel.lib;
           mylib = import ./lib { inherit lib; };
-          hostUsers = getUsers hostPath;
+          hostUsers = usersForHost hostPath;
         in
         {
           name = hostname;
           value = lib.nixosSystem {
-            system = baseMeta.system;
+            system = meta.system;
             specialArgs = {
               inherit
                 inputs
                 outputs
                 mylib
+                meta
                 ;
-              meta = baseMeta;
             };
             modules = [
-              baseModules.os
+              baseOsModulePath
               {
-                home-manager.extraSpecialArgs = {
-                  inherit
-                    inputs
-                    outputs
-                    mylib
-                    ;
-                };
-                home-manager.users = lib.genAttrs hostUsers (username: {
-                  imports = [
-                    baseModules.home
-                  ]
-                  ++ (if isStable then hmStableModules else hmUnstableModules)
-                  ++ lib.optionals (builtins.pathExists (hostPath + "/users/${username}/imports.nix")) [
-                    (hostPath + "/users/${username}/imports.nix")
-                  ]
-                  ++ lib.optionals (builtins.pathExists (hostPath + "/users/${username}/options.nix")) [
-                    (hostPath + "/users/${username}/options.nix")
-                  ];
-                  home = {
-                    username = username;
-                    homeDirectory = "/home/${username}";
-                    stateVersion = baseMeta.stateVersion;
-                  };
-                  programs.home-manager.enable = true;
-                  _module.args.meta = baseMeta // {
-                    inherit username;
-                  };
-                });
-                system.stateVersion = baseMeta.stateVersion;
+                home-manager.extraSpecialArgs = { inherit inputs outputs mylib; };
+                home-manager.users = lib.genAttrs hostUsers (
+                  username:
+                  let
+                    userPath = hostPath + "/users/${username}";
+                  in
+                  {
+                    imports = [
+                      baseHmModulePath
+                    ]
+                    ++ (selectHmModules meta)
+                    ++ lib.optional (builtins.pathExists (userPath + "/imports.nix")) (userPath + "/imports.nix")
+                    ++ lib.optional (builtins.pathExists (userPath + "/options.nix")) (userPath + "/options.nix");
+
+                    home = {
+                      username = username;
+                      homeDirectory = "/home/${username}";
+                      stateVersion = meta.stateVersion;
+                    };
+                    programs.home-manager.enable = true;
+                    _module.args.meta = meta // {
+                      inherit username;
+                    };
+                  }
+                );
+
+                system.stateVersion = meta.stateVersion;
               }
               {
                 nixpkgs = {
                   overlays = import ./overlays { inherit inputs; };
-                  config.allowUnfree = baseMeta.allowUnfree;
+                  config.allowUnfree = meta.allowUnfree;
                 };
               }
             ]
-            ++ (if isStable then osStableModules else osUnstableModules)
-            ++ lib.optionals (builtins.pathExists (hostPath + "/imports.nix")) [ (hostPath + "/imports.nix") ]
-            ++ lib.optionals (builtins.pathExists (hostPath + "/options.nix")) [ (hostPath + "/options.nix") ]
-            ++ lib.optionals (builtins.pathExists (hostPath + "/hardware-configuration.nix")) [
-              (hostPath + "/hardware-configuration.nix")
-            ];
+            ++ (selectOsModules meta)
+            ++ lib.optional (builtins.pathExists (hostPath + "/imports.nix")) (hostPath + "/imports.nix")
+            ++ lib.optional (builtins.pathExists (hostPath + "/options.nix")) (hostPath + "/options.nix")
+            ++ lib.optional (builtins.pathExists (hostPath + "/hardware-configuration.nix")) (
+              hostPath + "/hardware-configuration.nix"
+            );
           };
         };
 
-      mkHome =
+      mkHomeConfig =
         { hostname, username }:
         let
           hostPath = ./hosts + "/${hostname}";
           userPath = hostPath + "/users/${username}";
-          meta = (getMeta hostname) // {
-            inherit hostname username;
+          meta = readHostMeta hostname // {
+            inherit username;
           };
-          isStable = meta.channel == "stable";
-          channel = if isStable then nixpkgs-stable else nixpkgs;
+          channel = selectNixpkgs meta;
           lib = channel.lib;
           mylib = import ./lib { inherit lib; };
           pkgs = import channel {
@@ -285,13 +320,13 @@
             overlays = import ./overlays { inherit inputs; };
             config.allowUnfree = meta.allowUnfree;
           };
-          hmLib = if isStable then home-manager-stable.lib else home-manager.lib;
+          # osConfig is null for non-NixOS hosts
           nixosConfig = outputs.nixosConfigurations.${hostname} or null;
           osConfig = if nixosConfig != null then nixosConfig.config else null;
         in
         {
           name = "${username}@${hostname}";
-          value = hmLib.homeManagerConfiguration {
+          value = (selectHmLib meta).homeManagerConfiguration {
             inherit pkgs;
             extraSpecialArgs = {
               inherit
@@ -303,7 +338,7 @@
                 ;
             };
             modules = [
-              baseModules.home
+              baseHmModulePath
               {
                 home = {
                   inherit username;
@@ -313,13 +348,13 @@
                 programs.home-manager.enable = true;
               }
             ]
-            ++ (if isStable then hmStableModules else hmUnstableModules)
-            ++ lib.optionals (builtins.pathExists (userPath + "/imports.nix")) [ (userPath + "/imports.nix") ]
-            ++ lib.optionals (builtins.pathExists (userPath + "/options.nix")) [ (userPath + "/options.nix") ];
+            ++ (selectHmModules meta)
+            ++ lib.optional (builtins.pathExists (userPath + "/imports.nix")) (userPath + "/imports.nix")
+            ++ lib.optional (builtins.pathExists (userPath + "/options.nix")) (userPath + "/options.nix");
           };
         };
 
-      mkShells =
+      mkDevShells =
         system:
         let
           pkgs = import nixpkgs {
@@ -329,51 +364,35 @@
         in
         import ./shells { inherit pkgs; };
 
-      treefmtEval =
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        treefmt-nix.lib.evalModule pkgs {
-          projectRootFile = "flake.nix";
-          programs = {
-            nixfmt.enable = true;
-            shfmt.enable = true;
-            stylua.enable = true;
-            taplo.enable = true;
-            prettier.enable = true;
-          };
-        };
-
-      mkFormatter = system: (treefmtEval system).config.build.wrapper;
+      mkFormatter = system: (mkTreefmtEval system).config.build.wrapper;
 
       mkChecks =
         system:
         let
-          hosts = builtins.filter (h: (getMeta h).system == system) getHosts;
-          homes = builtins.filter (h: (getMeta h.hostname).system == system) getHomes;
-          formatter = treefmtEval system;
+          hostsForSystem = builtins.filter (h: (readHostMeta h).system == system) allHosts;
+          slotsForSystem = builtins.filter (s: (readHostMeta s.hostname).system == system) allUserSlots;
+          treefmtEval = mkTreefmtEval system;
         in
-        (nixpkgs.lib.listToAttrs (
+        nixpkgs.lib.listToAttrs (
           map (hostname: {
             name = "nixosConfigurations:${hostname}";
             value = self.nixosConfigurations.${hostname}.config.system.build.toplevel;
-          }) hosts
-        ))
-        // (nixpkgs.lib.listToAttrs (
-          map (home: {
-            name = "homeConfigurations:${home.username}@${home.hostname}";
-            value = self.homeConfigurations."${home.username}@${home.hostname}".activationPackage;
-          }) homes
-        ))
+          }) hostsForSystem
+        )
+        // nixpkgs.lib.listToAttrs (
+          map (slot: {
+            name = "homeConfigurations:${slot.username}@${slot.hostname}";
+            value = self.homeConfigurations."${slot.username}@${slot.hostname}".activationPackage;
+          }) slotsForSystem
+        )
         // {
-          formatting = formatter.config.build.check self;
+          formatting = treefmtEval.config.build.check self;
         };
     in
     {
-      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkHost getHosts);
-      homeConfigurations = nixpkgs.lib.listToAttrs (map mkHome getHomes);
-      devShells = forAllSystems mkShells;
+      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkNixosConfig allHosts);
+      homeConfigurations = nixpkgs.lib.listToAttrs (map mkHomeConfig allUserSlots);
+      devShells = forAllSystems mkDevShells;
       formatter = forAllSystems mkFormatter;
       checks = forAllSystems mkChecks;
     };
