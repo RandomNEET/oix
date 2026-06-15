@@ -1,23 +1,25 @@
 {
   services.frp = {
-    voile = {
-      enable = true;
-      role = "client";
-      settings = {
-        serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
-        serverPort = 20000;
-        auth.token = "{{.Envs.FRP_TOKEN}}";
-        transport = {
-          tls = {
-            certFile = "/run/secrets/frp/cert";
-            keyFile = "/run/secrets/frp/key";
-            trustedCaFile = "/run/secrets/frp/ca";
+    instances = {
+      voile = {
+        enable = true;
+        role = "client";
+        settings = {
+          serverAddr = "{{.Envs.FRP_SERVER_ADDR}}";
+          serverPort = 20000;
+          auth.token = "{{.Envs.FRP_TOKEN}}";
+          transport = {
+            tls = {
+              certFile = "/run/secrets/frp/cert";
+              keyFile = "/run/secrets/frp/key";
+              trustedCaFile = "/run/secrets/frp/ca";
+            };
+            dialServerTimeout = 90;
+            heartbeatInterval = 60;
+            heartbeatTimeout = 240;
           };
-          dialServerTimeout = 90;
-          heartbeatInterval = 60;
-          heartbeatTimeout = 240;
+          includes = [ "/run/secrets/frp/proxies" ];
         };
-        includes = [ "/run/secrets/frp/proxies" ];
       };
     };
   };
