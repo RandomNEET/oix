@@ -12,12 +12,12 @@ in
     occupied_color = "secondary";
     empty_color = "secondary";
     labels_only_when_occupied = false;
-    hide_when_empty = false;
+    hide_when_empty = true;
   };
   taskbar = {
     group_by_workspace = false;
     show_all_outputs = false;
-    only_active_workspace = false;
+    only_active_workspace = true;
     show_workspace_label = true;
     workspace_label_placement = "corner";
     hide_empty_workspaces = false;
@@ -88,6 +88,7 @@ in
     match_adjacent_spacing = false;
     drawer = false;
     drawer_columns = 3;
+    capsule = true;
   };
   notifications = {
     hide_when_no_unread = false;
