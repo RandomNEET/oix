@@ -12,4 +12,7 @@
   border_radius = 20;
 
   repeat_delay = 300;
+
+  sloppyfocus = 1;
+  cursor_hide_timeout = 10;
 }
