@@ -1,5 +1,4 @@
-# https://github.com/proog/obsidian-trash-explorer
-{ pkgs }:
+{ pkgs, lib }:
 pkgs.stdenv.mkDerivation rec {
   pname = "obsidian-trash-explorer";
   version = "1.2.4";
@@ -22,4 +21,11 @@ pkgs.stdenv.mkDerivation rec {
       }
     } $out/manifest.json
   '';
+
+  meta = with lib; {
+    description = "A plugin for Obsidian that makes it possible to list, restore, and delete files in the .trash folder in your Obsidian vault.";
+    homepage = "https://github.com/proog/obsidian-trash-explorer";
+    license = licenses.mit;
+    platforms = platforms.linux;
+  };
 }

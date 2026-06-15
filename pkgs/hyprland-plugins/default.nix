@@ -1,4 +1,3 @@
-# https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/applications/window-managers/hyprwm/hyprland-plugins/default.nix
 {
   config,
   lib,
@@ -7,7 +6,6 @@
   hyprland,
 }@topLevelArgs:
 let
-
   mkHyprlandPlugin = lib.extendMkDerivation {
     constructDrv = topLevelArgs.hyprland.stdenv.mkDerivation;
 

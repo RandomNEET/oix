@@ -1,5 +1,3 @@
-# https://github.com/NixOS/nixpkgs/blob/2fc6539b481e1d2569f25f8799236694180c0993/pkgs/misc/tmux-plugins/default.nix
-# https://github.com/vaaleyard/tmux-dotbar
 {
   lib,
   fetchFromGitHub,
@@ -7,7 +5,6 @@
   stdenv,
   config,
 }:
-
 let
   rtpPath = "share/tmux-plugins";
 
@@ -72,7 +69,6 @@ let
           }
         )
       );
-
 in
 {
   dotbar = import ./dotbar { inherit lib fetchFromGitHub mkTmuxPlugin; };

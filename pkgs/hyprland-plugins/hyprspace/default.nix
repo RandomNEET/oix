@@ -1,5 +1,3 @@
-# https://github.com/KZDKM/Hyprspace
-# https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/applications/window-managers/hyprwm/hyprland-plugins/hyprspace.nix
 {
   lib,
   fetchFromGitHub,

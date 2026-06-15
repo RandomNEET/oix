@@ -1,4 +1,3 @@
-# https://github.com/obsidianmd/obsidian-headless
 {
   lib,
   buildNpmPackage,
@@ -6,7 +5,6 @@
   python3,
   pkg-config,
 }:
-
 buildNpmPackage rec {
   pname = "obsidian-headless";
   version = "0.0.11";
@@ -31,9 +29,8 @@ buildNpmPackage rec {
 
   meta = with lib; {
     description = "Headless client for Obsidian services";
-    homepage = "https://obsidian.md";
+    homepage = "https://github.com/obsidianmd/obsidian-headless";
     license = licenses.unfree;
-    maintainers = [ ];
-    platforms = platforms.linux ++ platforms.darwin;
+    platforms = platforms.linux;
   };
 }
