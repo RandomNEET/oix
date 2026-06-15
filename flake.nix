@@ -40,8 +40,6 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
-    hyprland.url = "github:hyprwm/Hyprland";
-
     niri = {
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
