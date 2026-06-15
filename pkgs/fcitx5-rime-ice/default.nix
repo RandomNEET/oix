@@ -86,7 +86,6 @@ stdenv.mkDerivation rec {
 
   meta = {
     description = "RIME support for Fcitx5 with Rime-Ice configuration";
-    homepage = "https://github.com/iDvel/rime-ice";
     platforms = lib.platforms.linux;
   };
 }

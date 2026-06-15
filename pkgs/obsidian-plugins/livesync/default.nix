@@ -1,5 +1,4 @@
-# https://github.com/vrtmrz/obsidian-livesync
-{ pkgs }:
+{ pkgs, lib }:
 pkgs.stdenv.mkDerivation rec {
   pname = "obsidian-livesync";
   version = "0.25.60";
@@ -29,4 +28,11 @@ pkgs.stdenv.mkDerivation rec {
       }
     } $out/styles.css
   '';
+
+  meta = with lib; {
+    description = "Self-hosted LiveSync is a community-developed synchronisation plug-in available on all Obsidian-compatible platforms.";
+    homepage = "https://github.com/vrtmrz/obsidian-livesync";
+    license = licenses.mit;
+    platforms = platforms.linux;
+  };
 }
