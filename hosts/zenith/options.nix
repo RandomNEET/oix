@@ -188,7 +188,9 @@ in
   };
   networking = {
     firewall = {
-      allowedTCPPorts = [ 53317 ];
+      allowedTCPPorts = [
+        53317 # localsend
+      ];
     };
     hostName = meta.hostname;
   };
