@@ -343,9 +343,13 @@ rec {
     flatpak = {
       packages = [
         "com.github.tchx84.Flatseal"
+        "com.cherry_ai.CherryStudio"
+        "com.localsend.localsend_app"
+        "com.qbittorrent.qBittorrent"
+        "com.libreoffice.LibreOffice"
+        "org.torproject.torbrowser-launcher"
         "com.qq.QQ"
         "com.tencent.WeChat"
-        "com.cherry_ai.CherryStudio"
       ];
     };
     mbsync = {
@@ -384,11 +388,6 @@ rec {
   };
   home = {
     packages = with pkgs; [
-      libreoffice
-      localsend
-      qbittorrent
-      tor-browser
-
       osu-lazer
       prismlauncher
     ];
