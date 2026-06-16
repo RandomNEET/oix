@@ -8,6 +8,7 @@ in
       editor = mkOption {
         type = types.enum [
           "nvim"
+          "helix"
           "none"
         ];
         default = "none";

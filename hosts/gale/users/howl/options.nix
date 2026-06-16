@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  meta,
-  ...
-}:
+{ config, meta, ... }:
 rec {
   defaultPrograms = {
     editor = "nvim";
@@ -232,9 +227,9 @@ rec {
       packages = [
         "com.github.tchx84.Flatseal"
         "com.cherry_ai.CherryStudio"
-        "com.localsend.localsend_app"
-        "com.qbittorrent.qBittorrent"
-        "com.libreoffice.LibreOffice"
+        "org.localsend.localsend_app"
+        "org.qbittorrent.qBittorrent"
+        "org.libreoffice.LibreOffice"
         "org.torproject.torbrowser-launcher"
         "com.qq.QQ"
         "com.tencent.WeChat"

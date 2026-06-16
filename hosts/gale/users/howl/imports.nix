@@ -8,6 +8,7 @@
     ../../../../modules/optional/home/programs/cli/firejail
     ../../../../modules/optional/home/programs/cli/gh
     ../../../../modules/optional/home/programs/cli/glow
+    ../../../../modules/optional/home/programs/cli/helix
     ../../../../modules/optional/home/programs/cli/mbsync
     ../../../../modules/optional/home/programs/cli/newsboat
     ../../../../modules/optional/home/programs/cli/opencode

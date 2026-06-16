@@ -1,4 +1,7 @@
 { config, lib, ... }:
+let
+  inherit (lib) optionalAttrs;
+in
 {
   programs.git = {
     enable = true;
@@ -12,13 +15,28 @@
       diff = {
         algorithm = "histogram";
         colorMoved = "plain";
-        tool = lib.mkIf config.programs.nixvim.enable "nvim";
+      }
+      // optionalAttrs (config.defaultPrograms.editor == "nvim") {
+        tool = "nvim";
       };
       difftool = {
         prompt = false;
-        nvim.cmd = lib.mkIf config.programs.nixvim.enable ''nvim -c "packadd nvim.difftool" -c "nnoremap q ZQ" -c "DiffTool $LOCAL $REMOTE"'';
+      }
+      // optionalAttrs (config.defaultPrograms.editor == "nvim") {
+        nvim.cmd = "nvim -d $LOCAL $REMOTE";
       };
-      merge.conflictstyle = "zdiff3";
+      merge = {
+        conflictstyle = "zdiff3";
+      }
+      // optionalAttrs (config.defaultPrograms.editor == "nvim") {
+        tool = "nvim";
+      };
+      mergetool = {
+        prompt = false;
+      }
+      // optionalAttrs (config.defaultPrograms.editor == "nvim") {
+        nvim.cmd = "nvim -d $LOCAL $MERGED $REMOTE";
+      };
 
       # Remote & Sync
       fetch.prune = true;

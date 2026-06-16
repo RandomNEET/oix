@@ -43,18 +43,22 @@ in
       openers = {
         "text/plain" = "${
           if config.defaultPrograms.terminal == "foot" then
-            "${pkgs.foot}/bin/foot"
+            getExe' pkgs.foot "foot"
           else
             getExe pkgs.${config.defaultPrograms.terminal}
         } -e ${
           if config.defaultPrograms.editor == "nvim" then
-            if config.programs.nixvim.enable then
-              "${config.programs.nixvim.build.package}/bin/nvim"
-            else
-              getExe pkgs.neovim
+            getExe config.programs.nixvim.build.package
+          else if config.defaultPrograms.editor == "helix" then
+            getExe pkgs.helix
           else
             getExe pkgs.neovim
-        } -c 'nnoremap q ZQ' {}";
+        } ${
+          if config.defaultPrograms.editor == "nvim" then
+            "--clean -c 'set clipboard=unnamedplus' -c 'nnoremap q ZQ'"
+          else
+            ""
+        } {}";
         "x-scheme-handler/http*" = "${getExe pkgs.${config.defaultPrograms.browser}} {}";
         "text/html" = "${getExe pkgs.${config.defaultPrograms.browser}} {}";
       }
