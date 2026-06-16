@@ -57,21 +57,14 @@ let
 in
 {
   aerc = import ./aerc.nix env;
-  calibre = import ./calibre.nix env;
   chromium = import ./chromium.nix env;
   firefox = import ./firefox.nix env;
-  gimp = import ./gimp.nix env;
-  libreoffice = import ./libreoffice.nix env;
   mpv = import ./mpv.nix env;
   newsboat = import ./newsboat.nix env;
   obsidian = import ./obsidian.nix env;
-  qbittorrent = import ./qbittorrent.nix env;
-  qq = import ./qq.nix env;
   qutebrowser = import ./qutebrowser.nix env;
   spotify = import ./spotify.nix env;
   thunderbird = import ./thunderbird.nix env;
-  tor-browser = import ./tor-browser.nix env;
-  vesktop = import ./vesktop.nix env;
   w3m = import ./w3m.nix env;
   yt-dlp = import ./yt-dlp.nix env;
   zathura = import ./zathura.nix env;

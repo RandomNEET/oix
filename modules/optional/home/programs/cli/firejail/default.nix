@@ -90,11 +90,6 @@ in
         executable = "${getBin pkgs.thunderbird}/bin/thunderbird";
         profile = profiles.thunderbird;
       };
-      vesktop = {
-        enable = config.programs.vesktop.enable;
-        executable = "${getBin pkgs.vesktop}/bin/vesktop";
-        profile = profiles.vesktop;
-      };
       w3m = {
         enable = config.programs.w3m.enable;
         executable = "${config.programs.w3m.finalPackage}/bin/w3m";
@@ -111,37 +106,6 @@ in
         enable = config.programs.zathura.enable;
         executable = "${getBin pkgs.zathura}/bin/zathura";
         profile = profiles.zathura;
-      };
-
-      calibre = {
-        enable = checkPkgs "calibre";
-        executable = "${getBin pkgs.calibre}/bin/calibre";
-        profile = profiles.calibre;
-      };
-      gimp = {
-        enable = checkPkgs "gimp";
-        executable = "${getBin pkgs.gimp}/bin/gimp";
-        profile = profiles.gimp;
-      };
-      libreoffice = {
-        enable = checkPkgs "libreoffice";
-        executable = "${getBin pkgs.libreoffice}/bin/libreoffice";
-        profile = profiles.libreoffice;
-      };
-      qbittorrent = {
-        enable = checkPkgs "qbittorrent";
-        executable = "${getBin pkgs.qbittorrent}/bin/qbittorrent";
-        profile = profiles.qbittorrent;
-      };
-      qq = {
-        enable = checkPkgs "qq";
-        executable = "${getBin pkgs.qq}/bin/qq";
-        profile = profiles.qq;
-      };
-      tor-browser = {
-        enable = checkPkgs "tor-browser";
-        executable = "${getBin pkgs.tor-browser}/bin/tor-browser";
-        profile = profiles.tor-browser;
       };
     };
   };
