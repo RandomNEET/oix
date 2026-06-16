@@ -117,7 +117,8 @@ in
           set -g @resurrect-dir '${resurrectDir}'
           set -g @resurrect-hook-post-save-layout '${resurrect-cmd-fix}'
           set -g @resurrect-processes '
-            ${optionalString (config.defaultPrograms.editor == "nvim") ''"~nvim->nvim"''}
+            ${optionalString config.programs.nixvim.enable ''"~nvim->nvim"''}
+            ${optionalString config.programs.helix.enable ''"~hx->hx"''}
             ${optionalString config.programs.yazi.enable ''"~yazi->yazi"''}
             ${optionalString config.programs.opencode.enable ''"~opencode->opencode"''}
             ${optionalString config.programs.aerc.enable ''"~aerc->aerc"''}

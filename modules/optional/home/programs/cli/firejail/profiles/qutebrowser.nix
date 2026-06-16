@@ -9,20 +9,22 @@
 let
   local = pkgs.writeText "firejail-qutebrowser-local" ''
     # config
-    noblacklist ''${HOME}/.config/nvim
     noblacklist ''${HOME}/.config/kitty
     noblacklist ''${HOME}/.config/foot
-    whitelist ''${HOME}/.config/nvim
+    noblacklist ''${HOME}/.config/nvim
+    noblacklist ''${HOME}/.config/helix
     whitelist ''${HOME}/.config/kitty
     whitelist ''${HOME}/.config/foot
+    whitelist ''${HOME}/.config/nvim
+    whitelist ''${HOME}/.config/helix
 
     # localtime
     env TZ=Asia/Shanghai
 
     # terminal
+    noblacklist ''${PATH}/kitty
     noblacklist ''${PATH}/foot
     noblacklist ''${PATH}/footclient
-    noblacklist ''${PATH}/kitty
 
     # wl-clipboard dependency
     whitelist /run/current-system/sw/bin/cat
@@ -49,12 +51,6 @@ let
       # userscripts/view-in-mpv
       noblacklist ''${HOME}/.config/mpv
       whitelist ''${HOME}/.config/mpv
-    ''}
-
-    ${lib.optionalString config.programs.nixvim.plugins.obsidian.enable ''
-      # obsidian.nvim
-      tmpfs ''${HOME}/${config.programs.obsidian.vaults.default.target}
-      whitelist ''${HOME}/${config.programs.obsidian.vaults.default.target}
     ''}
   '';
 in

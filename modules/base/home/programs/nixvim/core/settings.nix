@@ -13,6 +13,7 @@ in
     enable = true;
     viAlias = true;
     vimAlias = true;
+    defaultEditor = (config.defaultPrograms.editor == "nvim");
 
     opts = {
       # UI

@@ -18,6 +18,7 @@ pkgs.writeText "firejail-aerc-profile" ''
   noblacklist ''${HOME}/.bogofilter
   noblacklist ''${HOME}/.config/aerc
   noblacklist ''${HOME}/.config/nvim
+  noblacklist ''${HOME}/.config/helix
   noblacklist ''${HOME}/.config/nano
   noblacklist ''${HOME}/.config/bat
   noblacklist ''${HOME}/.config/msmtp
@@ -67,6 +68,7 @@ pkgs.writeText "firejail-aerc-profile" ''
   whitelist ''${HOME}/.bogofilter
   whitelist ''${HOME}/.config/aerc
   whitelist ''${HOME}/.config/nvim
+  whitelist ''${HOME}/.config/helix
   whitelist ''${HOME}/.config/nano
   whitelist ''${HOME}/.config/bat
   whitelist ''${HOME}/.config/msmtp

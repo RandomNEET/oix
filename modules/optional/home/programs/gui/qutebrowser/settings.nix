@@ -6,14 +6,13 @@
   ...
 }:
 let
+  inherit (lib) getExe;
   colors = config.lib.stylix.colors;
-
   opacity = {
     high = 1.0;
     medium = 0.9;
     low = 0.1;
   };
-
   hexToRgba =
     hex: alpha:
     let
@@ -44,18 +43,21 @@ in
       (
         if config.defaultPrograms.editor == "nvim" then
           [
-            (
-              if config.programs.nixvim.enable then
-                "${config.programs.nixvim.build.package}/bin/nvim"
-              else
-                lib.getExe pkgs.neovim
-            )
+            (getExe config.programs.nixvim.build.package)
+            "--clean"
+            "--cmd"
+            "set clipboard=unnamedplus"
             "--cmd"
             "nnoremap q ZQ"
           ]
+        else if config.defaultPrograms.editor == "helix" then
+          [ (getExe pkgs.helix) ]
         else
           [
-            (lib.getExe pkgs.neovim)
+            (getExe pkgs.neovim)
+            "--clean"
+            "--cmd"
+            "set clipboard=unnamedplus"
             "--cmd"
             "nnoremap q ZQ"
           ]
