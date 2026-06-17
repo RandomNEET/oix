@@ -517,52 +517,52 @@ services:
     networks:
       - speedtest-net
 
-  mc:
-    container_name: mc
-    image: itzg/minecraft-server
-    restart: unless-stopped
-    tty: true
-    stdin_open: true
-    ports:
-      - "11000:25565"
-    environment:
-      EULA: "TRUE"
-      # ONLINE_MODE: false
-      TYPE: PAPER
-      VERSION: 1.20.1
-      # HTTP_PROXY=${PROXY_BRIDGE}
-      # HTTPS_PROXY=${PROXY_BRIDGE}
-    volumes:
-      # attach the relative directory 'data' to the container's /data path
-      - ${DOCKER_VOLUME}/mc/paper-1.20.1-vanilla/data:/data
-
-  natfrp-service:
-    image: natfrp.com/launcher
-    container_name: natfrp-service
-    restart: unless-stopped
-    network_mode: host
-    volumes:
-      - ${DOCKER_VOLUME}/natfrp-service:/run
-    environment:
-      NATFRP_TOKEN: ${NATFRP_TOKEN}
-      NATFRP_REMOTE: ${NATFRP_REMOTE}
-      TZ: Asia/Shanghai
-
-  apcat:
-    environment:
-      - NAPCAT_UID=${UID}
-      - NAPCAT_GID=${GID}
-    network_mode: bridge
-    ports:
-      - 3000:3000
-      - 3001:3001
-      - 6099:6099
-    volumes:
-      - ${DOCKER_VOLUME}/napcat/config:/app/napcat/config
-      - /home/howl/repo/qbot/downloads:/home/howl/repo/qbot/downloads
-    container_name: napcat
-    restart: unless-stopped
-    image: mlikiowa/napcat-docker:latest
+  # mc:
+  #   container_name: mc
+  #   image: itzg/minecraft-server
+  #   restart: unless-stopped
+  #   tty: true
+  #   stdin_open: true
+  #   ports:
+  #     - "11000:25565"
+  #   environment:
+  #     EULA: "TRUE"
+  #     # ONLINE_MODE: false
+  #     TYPE: PAPER
+  #     VERSION: 1.20.1
+  #     # HTTP_PROXY=${PROXY_BRIDGE}
+  #     # HTTPS_PROXY=${PROXY_BRIDGE}
+  #   volumes:
+  #     # attach the relative directory 'data' to the container's /data path
+  #     - ${DOCKER_VOLUME}/mc/paper-1.20.1-vanilla/data:/data
+  #
+  # natfrp-service:
+  #   image: natfrp.com/launcher
+  #   container_name: natfrp-service
+  #   restart: unless-stopped
+  #   network_mode: host
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/natfrp-service:/run
+  #   environment:
+  #     NATFRP_TOKEN: ${NATFRP_TOKEN}
+  #     NATFRP_REMOTE: ${NATFRP_REMOTE}
+  #     TZ: Asia/Shanghai
+  #
+  # napcat:
+  #   environment:
+  #     - NAPCAT_UID=${UID}
+  #     - NAPCAT_GID=${GID}
+  #   network_mode: bridge
+  #   ports:
+  #     - 3000:3000
+  #     - 3001:3001
+  #     - 6099:6099
+  #   volumes:
+  #     - ${DOCKER_VOLUME}/napcat/config:/app/napcat/config
+  #     - /home/howl/repo/qbot/downloads:/home/howl/repo/qbot/downloads
+  #   container_name: napcat
+  #   restart: unless-stopped
+  #   image: mlikiowa/napcat-docker:latest
 
   your-spotify-server:
     container_name: your-spotify-server
