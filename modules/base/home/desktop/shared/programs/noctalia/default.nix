@@ -7,7 +7,10 @@
   ...
 }:
 {
-  imports = [ ../satty ];
+  imports = [
+    ./plugins
+    ../satty
+  ];
 
   config = lib.mkIf osConfig.desktop.enable {
     programs.noctalia =

@@ -1,0 +1,25 @@
+id = "custom/theme-switcher"
+name = "Theme Switcher"
+version = "1.0.0"
+description = "Switch home-manager specialisation themes from the launcher. Type `/theme <name>`."
+min_noctalia = "5.0.0"
+
+[[setting]]
+key = "base_gen"
+title = "Base generation path"
+type = "string"
+default = "~/.local/state/nix/profiles/home-manager-base"
+
+[[setting]]
+key = "spec_dir"
+title = "Specialisation directory"
+type = "string"
+default = "~/.local/state/nix/profiles/home-manager-base/specialisation"
+
+[[launcher_provider]]
+id = "themes"
+entry = "theme-switcher.luau"
+prefix = "/theme"
+glyph = "palette"
+include_in_global_search = false
+debounce_ms = 150
