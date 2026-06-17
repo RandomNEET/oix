@@ -24,6 +24,7 @@
           nix = [ "nixfmt" ];
           sh = [ "shfmt" ];
           lua = [ "stylua" ];
+          luau = [ "stylua" ];
           python = [
             "isort"
             "black"
