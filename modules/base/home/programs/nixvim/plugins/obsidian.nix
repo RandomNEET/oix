@@ -14,10 +14,6 @@
             inherit name;
             path = "~/${value.target}";
           }) enabledVaults;
-        completion = {
-          min_chars = 2;
-          blink = true;
-        };
         picker = {
           name = "snacks.pick";
         };
