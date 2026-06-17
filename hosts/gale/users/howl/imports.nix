@@ -12,10 +12,8 @@
     ../../../../modules/optional/home/programs/cli/mbsync
     ../../../../modules/optional/home/programs/cli/newsboat
     ../../../../modules/optional/home/programs/cli/opencode
-    ../../../../modules/optional/home/programs/cli/rbw
     ../../../../modules/optional/home/programs/cli/rmpc
     ../../../../modules/optional/home/programs/cli/spotify-player
-    ../../../../modules/optional/home/programs/cli/translate-shell
     ../../../../modules/optional/home/programs/cli/ttyper
     ../../../../modules/optional/home/programs/cli/w3m
     ../../../../modules/optional/home/programs/cli/yt-dlp

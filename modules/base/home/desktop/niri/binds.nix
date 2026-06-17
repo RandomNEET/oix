@@ -1,10 +1,7 @@
 {
-  osConfig,
   config,
   lib,
   pkgs,
-  launcher,
-  clip-manager,
   file-manager,
   autoclicker,
   getExe,
@@ -38,20 +35,20 @@ in
 
   "Mod+Space" = {
     action.spawn = [
-      "${launcher}"
-      "drun"
+      "noctalia"
+      "msg"
+      "panel-toggle"
+      "launcher"
     ];
     hotkey-overlay.title = "Launch Application Menu";
   };
-  "Mod+Ctrl+T" = {
-    action.spawn = [
-      "${launcher}"
-      "theme"
-    ];
-    hotkey-overlay.hidden = true;
-  };
   "Mod+V" = {
-    action.spawn = "${clip-manager}";
+    action.spawn = [
+      "noctalia"
+      "msg"
+      "panel-toggle"
+      "clipboard"
+    ];
     hotkey-overlay.title = "Clipboard Manager";
   };
 
@@ -396,45 +393,11 @@ in
     hotkey-overlay.title = "OCR Capture (select area)";
   };
 }
-// lib.optionalAttrs config.programs.rbw.enable {
-  "Mod+Alt+U" = {
-    action.spawn = [
-      "${launcher}"
-      "rbw"
-    ];
-    hotkey-overlay.hidden = true;
-  };
-}
-// lib.optionalAttrs config.programs.translate-shell.enable {
-  "Mod+Alt+T" = {
-    action.spawn = [
-      "${launcher}"
-      "translate"
-    ];
-    hotkey-overlay.hidden = true;
-  };
-}
-// lib.optionalAttrs osConfig.programs.steam.enable {
-  "Mod+Ctrl+G" = {
-    action.spawn = [
-      "${launcher}"
-      "game"
-    ];
-    hotkey-overlay.hidden = true;
-  };
-}
 // lib.optionalAttrs config.programs.tmux.enable {
   "Mod+T" = {
     action.spawn = [
       "${terminal.exe}"
       "-e"
-      "tmux"
-    ];
-    hotkey-overlay.hidden = true;
-  };
-  "Mod+Shift+T" = {
-    action.spawn = [
-      "${launcher}"
       "tmux"
     ];
     hotkey-overlay.hidden = true;

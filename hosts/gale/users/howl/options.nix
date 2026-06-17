@@ -96,13 +96,6 @@ rec {
         };
       };
     };
-    rbw = {
-      settings = {
-        base_url = "https://vaultwarden.defnothowl.com";
-        email = "vaultwarden@randomneet.me";
-        lock_timeout = 3600;
-      };
-    };
     qutebrowser = {
       settings = {
         url = {
@@ -226,6 +219,7 @@ rec {
     flatpak = {
       packages = [
         "com.github.tchx84.Flatseal"
+        "com.bitwarden.desktop"
         "com.cherry_ai.CherryStudio"
         "org.localsend.localsend_app"
         "org.qbittorrent.qBittorrent"
