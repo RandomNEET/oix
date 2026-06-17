@@ -96,6 +96,18 @@
       pin = true;
     }
 
+    # Keybinds popup
+    {
+      match = {
+        title = "Hyprland Keybinds";
+      };
+      float = true;
+      size = [
+        "(monitor_w*0.5)"
+        "(monitor_h*0.8)"
+      ];
+    }
+
     # Tag games
     {
       match = {
