@@ -109,7 +109,7 @@
       pipes
       tty-clock
 
-      qq
+      # qq
     ];
   };
 
