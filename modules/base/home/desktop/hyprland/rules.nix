@@ -8,13 +8,6 @@
       blur = true;
       blur_popups = true;
     }
-    {
-      match = {
-        namespace = "rofi";
-      };
-      blur = true;
-      ignore_alpha = 0.7;
-    }
   ];
 
   window_rule = [
@@ -84,13 +77,6 @@
         "(monitor_h*0.8)"
       ];
     }
-    {
-      match = {
-        title = "^(Hyprland Polkit Agent)$";
-      };
-      opacity = "0.80 0.80";
-      float = true;
-    }
 
     # Noctalia settings window
     {
@@ -108,18 +94,6 @@
       };
       float = true;
       pin = true;
-    }
-
-    # Keybinds popup
-    {
-      match = {
-        title = "Hyprland Keybinds";
-      };
-      float = true;
-      size = [
-        "(monitor_w*0.5)"
-        "(monitor_h*0.8)"
-      ];
     }
 
     # Tag games

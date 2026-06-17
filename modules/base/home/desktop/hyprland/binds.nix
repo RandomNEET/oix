@@ -3,8 +3,6 @@
   config,
   lib,
   pkgs,
-  launcher,
-  clip-manager,
   file-manager,
   autoclicker,
   keybinds,
@@ -77,9 +75,8 @@ in
     (mkBind "SUPER + F" ''hl.dsp.exec_cmd("${fileManager}")'')
     (mkBind "SUPER + E" ''hl.dsp.exec_cmd("${editor}")'')
     (mkBind "SUPER + B" ''hl.dsp.exec_cmd("${browser}")'')
-    (mkBind "SUPER + SPACE" ''hl.dsp.exec_cmd("${launcher} drun")'')
-    (mkBind "SUPER + V" ''hl.dsp.exec_cmd("${clip-manager}")'')
-    (mkBind "SUPER + CTRL + T" ''hl.dsp.exec_cmd("${launcher} theme")'')
+    (mkBind "SUPER + SPACE" ''hl.dsp.exec_cmd("noctalia msg panel-toggle launcher")'')
+    (mkBind "SUPER + V" ''hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard")'')
     (mkBind "SUPER + SHIFT + A" ''hl.dsp.exec_cmd("noctalia msg panel-toggle control-center")'')
     (mkBind "SUPER + SHIFT + Q" ''hl.dsp.exec_cmd("noctalia msg panel-toggle control-center notifications")'')
     (mkBind "SUPER + CTRL + Q" ''hl.dsp.exec_cmd("noctalia msg notification-clear-history")'')
@@ -201,20 +198,12 @@ in
       ]
     ) 10
   ))
-  ++ lib.optional config.programs.rbw.enable (
-    mkBind "SUPER + ALT + U" ''hl.dsp.exec_cmd("${launcher} rbw")''
+  ++ lib.optional config.programs.tmux.enable (
+    mkBind "SUPER + T" ''hl.dsp.exec_cmd("${terminal} -e tmux")''
   )
-  ++ lib.optional config.programs.translate-shell.enable (
-    mkBind "SUPER + ALT + T" ''hl.dsp.exec_cmd("${launcher} translate")''
-  )
-  ++ lib.optionals config.programs.tmux.enable [
-    (mkBind "SUPER + T" ''hl.dsp.exec_cmd("${terminal} -e tmux")'')
-    (mkBind "SUPER + SHIFT + T" ''hl.dsp.exec_cmd("${launcher} tmux")'')
-  ]
-  ++ lib.optionals osConfig.programs.steam.enable [
-    (mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")'')
-    (mkBind "SUPER + CTRL + G" ''hl.dsp.exec_cmd("${launcher} game")'')
-  ];
+  ++ lib.optional osConfig.programs.steam.enable (
+    mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")''
+  );
 
   define_submap = {
     _args = [

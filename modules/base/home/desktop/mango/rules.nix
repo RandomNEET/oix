@@ -1,8 +1,5 @@
 {
-  layerrule = [
-    "animation_type_open:zoom,noanim:0,layer_name:rofi"
-    "animation_type_open:none,layer_name:noctalia-screenshot-region"
-  ];
+  layerrule = [ "animation_type_open:none,layer_name:noctalia-screenshot-region" ];
 
   windowrule = [
     "focused_opacity:1,unfocused_opacity:1,appid:^(org\.qutebrowser\.qutebrowser)$"

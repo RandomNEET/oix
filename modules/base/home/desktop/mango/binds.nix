@@ -1,10 +1,7 @@
 {
-  osConfig,
   config,
   lib,
   pkgs,
-  launcher,
-  clip-manager,
   file-manager,
   autoclicker,
   ...
@@ -33,9 +30,8 @@ in
     "SUPER,f,spawn,${fileManager}"
     "SUPER,e,spawn,${editor}"
     "SUPER,b,spawn,${browser}"
-    "SUPER,Space,spawn,${launcher} drun"
-    "SUPER,v,spawn,${clip-manager}"
-    "SUPER+CTRL,T,spawn,${launcher} theme"
+    "SUPER,Space,spawn,noctalia msg panel-toggle launcher"
+    "SUPER,v,spawn,noctalia msg panel-toggle clipboard"
     "SUPER+SHIFT,a,spawn,noctalia msg panel-toggle control-center"
     "SUPER+SHIFT,q,spawn,noctalia msg panel-toggle control-center notifications"
     "SUPER+CTRL,q,spawn,noctalia msg notification-clear-history"
@@ -149,13 +145,7 @@ in
 
     "SUPER,M,setkeymode,mouse"
   ]
-  ++ lib.optional config.programs.rbw.enable ("SUPER+ALT,U,spawn,${launcher} rbw")
-  ++ lib.optional config.programs.translate-shell.enable ("SUPER+ALT,T,spawn,${launcher} translate")
-  ++ lib.optionals config.programs.tmux.enable [
-    "SUPER,T,spawn,${terminal} -e tmux"
-    "SUPER+SHIFT,T,spawn,${launcher} tmux"
-  ]
-  ++ lib.optional osConfig.programs.steam.enable ("SUPER+CTRL,G,spawn,${launcher} game");
+  ++ lib.optional config.programs.tmux.enable "SUPER,T,spawn,${terminal} -e tmux";
 
   mousebind = [
     "SUPER,btn_left,moveresize,curmove"

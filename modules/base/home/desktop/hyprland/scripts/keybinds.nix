@@ -42,31 +42,12 @@ let
     {
       key = "SUPER SPACE";
       desc = "Launch application menu";
-      cmd = "scripts/launcher drun";
+      cmd = "noctalia panel-toggle launcher";
     }
     {
       key = "SUPER V";
       desc = "Clipboard manager";
-      cmd = "scripts/clip-manager";
-    }
-    {
-      key = "SUPER CTRL T";
-      desc = "Select theme";
-      cmd = "scripts/launcher theme";
-    }
-  ]
-  ++ lib.optionals config.programs.rbw.enable [
-    {
-      key = "SUPER ALT U";
-      desc = "Launch password manager";
-      cmd = "scripts/launcher rbw";
-    }
-  ]
-  ++ lib.optionals config.programs.translate-shell.enable [
-    {
-      key = "SUPER ALT T";
-      desc = "Quick translator";
-      cmd = "scripts/launcher translate";
+      cmd = "noctalia panel-toggle lipboard";
     }
   ]
   ++ lib.optionals config.programs.tmux.enable [
@@ -75,22 +56,12 @@ let
       desc = "Launch tmux";
       cmd = "${terminal} tmux";
     }
-    {
-      key = "SUPER SHIFT T";
-      desc = "Launch tmux sessions";
-      cmd = "scripts/launcher tmux";
-    }
   ]
   ++ lib.optionals osConfig.programs.steam.enable [
     {
       key = "SUPER SHIFT G";
       desc = "Toggle gamespace";
       cmd = "scripts/gamespace";
-    }
-    {
-      key = "SUPER CTRL G";
-      desc = "Game launcher";
-      cmd = "scripts/launcher game";
     }
   ]
   ++ [
