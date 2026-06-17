@@ -41,13 +41,13 @@ let
     # ----- Launch -----
     {
       key = "SUPER SPACE";
-      desc = "Launch application menu";
+      desc = "Toggle application menu";
       cmd = "noctalia panel-toggle launcher";
     }
     {
       key = "SUPER V";
-      desc = "Clipboard manager";
-      cmd = "noctalia panel-toggle lipboard";
+      desc = "Toggle clipboard manager";
+      cmd = "noctalia panel-toggle clipboard";
     }
   ]
   ++ lib.optionals config.programs.tmux.enable [

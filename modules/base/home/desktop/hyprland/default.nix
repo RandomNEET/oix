@@ -29,7 +29,6 @@ in
     ../shared/programs/fcitx5
     ../shared/programs/gowall
     ../shared/programs/noctalia
-    ../shared/programs/satty
     ../shared/services/udiskie
     ../shared/services/wayland-pipewire-idle-inhibit
   ];
