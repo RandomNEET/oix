@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, meta, ... }:
 let
-  isNixos = false;
+  isNixos = (meta.platform == "home-manager");
   profileDir = if isNixos then "/nix/var/nix/profiles" else "$HOME/.local/state/nix/profiles";
   profileName = if isNixos then "system" else "home-manager";
   profilePattern = "${profileDir}/${profileName}-*-link";

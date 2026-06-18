@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, meta, ... }:
 let
-  isNixos = true;
+  isNixos = (meta.platform == "nixos");
   isNixosEnv = if isNixos then "true" else "false";
   oix-init = pkgs.writeShellScriptBin "oix-init" ''
     set -e
