@@ -19,8 +19,6 @@ in
       # UI
       number = true;
       relativenumber = true;
-      termguicolors = true;
-      cursorline = true;
       scrolloff = 8;
       fillchars = "eob: ";
 
