@@ -12,6 +12,54 @@ in
     plugins.noice = {
       enable = true;
       settings = {
+        cmdline = {
+          format = {
+            cmdline = {
+              pattern = "^:";
+              icon = "";
+              lang = "vim";
+            };
+            search_down = {
+              kind = "search";
+              pattern = "^/";
+              icon = " ";
+              lang = "regex";
+            };
+            search_up = {
+              kind = "search";
+              pattern = "^%?";
+              icon = " ";
+              lang = "regex";
+            };
+            shell = {
+              pattern = "^:!";
+              icon = "";
+              lang = "bash";
+            };
+            filter = {
+              pattern = "^:[%%.,1-9$'<,>].*!";
+              icon = "";
+              lang = "bash";
+            };
+            lua = {
+              pattern = [
+                "^:%s*lua%s+"
+                "^:%s*lua%s*=%s*"
+                "^:%s*=%s*"
+              ];
+              icon = "";
+              lang = "lua";
+            };
+            help = {
+              pattern = "^:%s*he?l?p?%s+";
+              icon = "󰋖";
+            };
+            input = {
+              view = "cmdline_input";
+              icon = "󰥻 ";
+            };
+          };
+        };
         views = {
           cmdline_popup = {
             position = {
@@ -42,6 +90,19 @@ in
             };
           };
         };
+        routes = [
+          # https://github.com/folke/noice.nvim/issues/1097
+          {
+            view = "notify";
+            filter = {
+              event = "msg_show";
+              kind = [
+                "shell_out"
+                "shell_err"
+              ];
+            };
+          }
+        ];
       };
       lazyLoad = {
         enable = true;
