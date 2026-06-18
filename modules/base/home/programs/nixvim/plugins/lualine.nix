@@ -33,13 +33,8 @@
           lualine_a = [
             "mode"
             {
-              __raw = ''
-                function()
-                  local reg = vim.fn.reg_recording()
-                  if reg == "" then return "" end
-                  return "Recording @" .. reg
-                end
-              '';
+              __raw = "function() return require('noice').api.statusline.mode.get() or '' end";
+              cond = "require('noice').api.statusline.mode.has";
             }
             {
               __raw = "function() return vim.fn['ObsessionStatus']('[$]', '') end";
