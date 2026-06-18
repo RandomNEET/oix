@@ -5,7 +5,6 @@
       RAW-CONTROL-CHARS = true;
       ignore-case = true;
       wheel-lines = 3;
-      mouse = true;
     };
   };
 }
