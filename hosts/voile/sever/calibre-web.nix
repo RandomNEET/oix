@@ -13,6 +13,7 @@
       enableKepubify = true;
     };
   };
+  networking.firewall.allowedTCPPorts = [ 10100 ];
   systemd.services.calibre-web = {
     after = [
       "mnt-smb.mount"

@@ -307,6 +307,7 @@
     ];
     environmentFiles = [ "/run/secrets/homepage-dashboard" ];
   };
+  networking.firewall.allowedTCPPorts = [ 10000 ];
   systemd.services.homepage-dashboard = {
     wantedBy = [ "multi-user.target" ];
     after = [

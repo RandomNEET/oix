@@ -7,6 +7,7 @@
     };
     environmentFile = "/run/secrets/vaultwarden";
   };
+  networking.firewall.allowedTCPPorts = [ 10300 ];
   systemd.services.vaultwarden = {
     after = [
       "sops-nix.service"

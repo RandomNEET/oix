@@ -19,6 +19,7 @@
       };
     };
   };
+  networking.firewall.allowedTCPPorts = [ 10110 ];
   systemd.services.freshrss-updater = {
     serviceConfig = {
       Environment = [

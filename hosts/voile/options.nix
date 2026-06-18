@@ -70,34 +70,12 @@ in
     firewall = {
       enable = true;
       allowedTCPPorts = [
-        5900
-        6600
-        6881
-        7102
-        8000
-        9997
-        9998
-        9999
-        10000
-        10090
-        10100
-        10110
-        10120
-        10200
-        10225
-        10230
-        10240
-        10250
-        10300
-        10310
-        10320
-        10330
-        10340
-        10400
-        10500
-        61208
+        6600 # mpd
+        8000 # mpd http stream
+        10090 # watchtower
+        10225 # peerbanhelper
+        10230 # anirss
       ];
-      allowedUDPPorts = [ 6881 ];
     };
     hostName = meta.hostname;
   };
