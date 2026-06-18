@@ -6,7 +6,7 @@
   blur_params_num_passes = 3;
 
   shadows = 1;
-  layer_shadows = 1;
+  layer_shadows = 0;
 
   borderpx = 2;
   border_radius = 20;
