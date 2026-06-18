@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   programs.nixvim = {
-    plugins.treesitter = {
+    plugins.treesitter = rec {
       enable = true;
       nixvimInjections = true;
       nixGrammars = true;
@@ -27,9 +27,9 @@
         vue
         yaml
       ];
-      folding.enable = !config.programs.nixvim.plugins.treesitter.lazyLoad.enable; # enable after lazyload
       highlight.enable = true;
       indent.enable = true;
+      folding.enable = !lazyLoad.enable; # enable after lazyload
       lazyLoad = {
         enable = true;
         settings = {
