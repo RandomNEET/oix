@@ -5,6 +5,17 @@
     settings = {
       autoshare = false;
       autoupdate = true;
+      mcp = {
+        nixos = {
+          type = "local";
+          command = [
+            "nix"
+            "run"
+            "github:utensils/mcp-nixos"
+            "--"
+          ];
+        };
+      };
     };
     tui = {
       keybinds = {
