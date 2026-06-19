@@ -1,3 +1,4 @@
+# upscaling requires "programs.nix-ld.libraries = [ pkgs.vulkan-loader ];"
 {
   osConfig,
   config,
@@ -27,7 +28,8 @@ in
         ) gowall-autoconvert;
       file = {
         ".config/gowall/config.yml".text = ''
-          EnableImagePreviewing: false
+          EnableImagePreviewing: true
+          InlineImagePreview: true
           OutputFolder: "${config.xdg.userDirs.pictures}/gowall"
           ${builtins.readFile ./themes.yml}
         '';
