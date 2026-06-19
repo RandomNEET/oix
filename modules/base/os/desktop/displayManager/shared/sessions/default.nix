@@ -30,4 +30,9 @@
     Exec=env QT_QPA_PLATFORMTHEME=kde ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-x11
     DesktopNames=KDE
   '';
+  steam-gamescope = ''
+    [Desktop Entry]
+    Name=steam
+    Exec=${pkgs.gamescope}/bin/gamescope --steam -e -- steam -tenfoot -pipewire-dmabuf
+  '';
 }

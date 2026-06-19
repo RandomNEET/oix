@@ -24,6 +24,9 @@ in
         "ly/sessions/wayland/plasma-wayland.desktop".text = sessions.plasma-wayland;
         "ly/sessions/x/plasma-x11.desktop".text = sessions.plasma-x11;
       })
+      (optionalAttrs config.base.gaming.enable {
+        "ly/sessions/wayland/steam.desktop".text = sessions.steam-gamescope;
+      })
     ];
   };
 }

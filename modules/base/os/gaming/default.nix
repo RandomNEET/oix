@@ -17,23 +17,10 @@ in
         enable = true;
         remotePlay.openFirewall = true;
         dedicatedServer.openFirewall = true;
-        gamescopeSession = {
-          enable = true;
-          args = [ "-e" ];
-          steamArgs = [
-            "-tenfoot"
-            "-pipewire-dmabuf"
-          ];
-        };
-        extraCompatPackages = with pkgs; [ proton-ge-bin ];
       };
       gamescope = {
         enable = true;
         capSysNice = true;
-        args = [
-          "--rt"
-          "--expose-wayland"
-        ];
       };
       gamemode.enable = true;
     };
@@ -49,11 +36,13 @@ in
     hardware = {
       xone.enable = true;
       xpadneo.enable = true;
-    }; # xbox one
-    services.udev.packages = with pkgs; [ game-devices-udev-rules ]; # dualsense edge
+    };
+    services.udev.packages = with pkgs; [ game-devices-udev-rules ];
 
-    environment.systemPackages = [
-      (pkgs.makeDesktopItem {
+    environment.systemPackages = with pkgs; [
+      protonplus
+
+      (makeDesktopItem {
         name = "steam-gamescope";
         desktopName = "Steam (Gamescope)";
         comment = "Application for managing and playing games on Steam";
