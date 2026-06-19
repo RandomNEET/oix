@@ -226,10 +226,21 @@
           projectRootFile = "flake.nix";
           programs = {
             nixfmt.enable = true;
+            prettier.enable = true;
             shfmt.enable = true;
             stylua.enable = true;
             taplo.enable = true;
-            prettier.enable = true;
+          };
+          settings = {
+            excludes = [
+              "**/secrets.yaml"
+              "**/package-lock.json"
+            ];
+            formatter = {
+              prettier.includes = [ ".jsonc" ];
+              shfmt.includes = [ ".zsh" ];
+              stylua.includes = [ ".luau" ];
+            };
           };
         };
 
