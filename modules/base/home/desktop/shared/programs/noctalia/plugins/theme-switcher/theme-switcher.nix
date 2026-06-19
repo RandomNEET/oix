@@ -36,6 +36,7 @@ in
     noctalia.runAsync(string.format(
       [[
       set -e
+      
       "%s"
 
       ${optionalString (config.desktop.wallpaper.enable && osConfig.base.display.info != [ ]) (
@@ -64,14 +65,17 @@ in
           mmsg dispatch reload_config
         fi
       ''}
+      
       ${optionalString (config.i18n.inputMethod.type == "fcitx5") ''
         systemctl --user restart fcitx5-daemon
       ''}
+      
       ${optionalString config.programs.tmux.enable ''
         if tmux ls > /dev/null 2>&1; then
           tmux source-file ${config.xdg.configHome}/tmux/tmux.conf
         fi
       ''} 
+      
       ${optionalString config.programs.nixvim.enable ''
         RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}"
         if pgrep -x "nvim" >/dev/null; then

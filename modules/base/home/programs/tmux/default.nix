@@ -25,6 +25,7 @@ in
     focusEvents = true;
     historyLimit = 100000;
     terminal = "tmux-256color";
+    secureSocket = true;
     extraConfig = ''
       # Options
       set -s set-clipboard on

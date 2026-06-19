@@ -1,4 +1,9 @@
-{ osConfig, lib, ... }:
+{
+  osConfig,
+  config,
+  lib,
+  ...
+}:
 {
   programs.foot = {
     enable = true;
@@ -13,6 +18,9 @@
     };
     server.enable = true;
   };
+  systemd.user.services.foot.Service.Environment = lib.mkIf (
+    config.programs.foot.server.enable && config.programs.tmux.secureSocket
+  ) "TMUX_TMPDIR=%t";
 
   stylix.targets.foot.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }
