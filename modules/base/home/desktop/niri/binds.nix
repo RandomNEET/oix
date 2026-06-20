@@ -14,23 +14,17 @@ let
   browser = config.defaultPrograms.browser;
 in
 {
-  "Mod+Shift+Slash".action."show-hotkey-overlay" = { };
-
   "Mod+Return" = {
     action.spawn = terminal.exe;
-    hotkey-overlay.title = "Launch Terminal: ${terminal.exe}";
   };
   "Mod+F" = {
     action.spawn-sh = fileManager;
-    hotkey-overlay.title = "Launch File Manager: ${config.defaultPrograms.fileManager}";
   };
   "Mod+E" = {
     action.spawn-sh = editor;
-    hotkey-overlay.title = "Launch Editor: ${config.defaultPrograms.editor}";
   };
   "Mod+B" = {
     action.spawn = browser;
-    hotkey-overlay.title = "Launch Browser: ${browser}";
   };
 
   "Mod+Space" = {
@@ -40,7 +34,6 @@ in
       "panel-toggle"
       "launcher"
     ];
-    hotkey-overlay.title = "Launch Application Menu";
   };
   "Mod+V" = {
     action.spawn = [
@@ -49,7 +42,6 @@ in
       "panel-toggle"
       "clipboard"
     ];
-    hotkey-overlay.title = "Clipboard Manager";
   };
 
   "Mod+Shift+A" = {
@@ -59,7 +51,6 @@ in
       "panel-toggle"
       "control-center"
     ];
-    hotkey-overlay.title = "Toggle Control Center";
   };
   "Mod+Shift+Q" = {
     action.spawn = [
@@ -69,7 +60,6 @@ in
       "control-center"
       "notifications"
     ];
-    hotkey-overlay.title = "Toggle Notification History";
   };
   "Mod+Ctrl+Q" = {
     action.spawn = [
@@ -77,7 +67,6 @@ in
       "msg"
       "notification-clear-history"
     ];
-    hotkey-overlay.hidden = true;
   };
   "Mod+Alt+Q" = {
     action.spawn = [
@@ -85,7 +74,6 @@ in
       "msg"
       "notification-dnd-toggle"
     ];
-    hotkey-overlay.hidden = true;
   };
   "Mod+Shift+W" = {
     action.spawn = [
@@ -93,7 +81,6 @@ in
       "msg"
       "wallpaper-random"
     ];
-    hotkey-overlay.hidden = true;
   };
   "Mod+Ctrl+W" = {
     action.spawn = [
@@ -102,7 +89,6 @@ in
       "panel-toggle"
       "wallpaper"
     ];
-    hotkey-overlay.hidden = true;
   };
   "Ctrl+Escape" = {
     action.spawn = [
@@ -110,7 +96,6 @@ in
       "msg"
       "bar-toggle"
     ];
-    hotkey-overlay.hidden = true;
   };
   "Mod+Alt+L" = {
     action.spawn = [
@@ -119,7 +104,6 @@ in
       "session"
       "lock"
     ];
-    hotkey-overlay.hidden = true;
   };
   "Mod+Backspace" = {
     action.spawn = [
@@ -128,7 +112,6 @@ in
       "panel-toggle"
       "session"
     ];
-    hotkey-overlay.title = "Toggle Session Menu";
   };
 
   "Mod+F10" = {
@@ -137,11 +120,9 @@ in
       "-e"
       "${getExe pkgs.btop}"
     ];
-    hotkey-overlay.hidden = true;
   };
   "Mod+F12" = {
     action.spawn-sh = "kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40";
-    hotkey-overlay.hidden = true;
   };
 
   "XF86AudioRaiseVolume" = {
@@ -377,7 +358,6 @@ in
       "msg"
       "screenshot-region"
     ];
-    hotkey-overlay.title = "Screenshot (select area)";
   };
   "Mod+Shift+P" = {
     action.spawn = [
@@ -386,11 +366,9 @@ in
       "screenshot-fullscreen"
       "pick"
     ];
-    hotkey-overlay.title = "Screenshot (all monitors)";
   };
   "Mod+Ctrl+P" = {
     action.spawn-sh = "touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region";
-    hotkey-overlay.title = "OCR Capture (select area)";
   };
 }
 // lib.optionalAttrs config.programs.tmux.enable {
@@ -400,6 +378,5 @@ in
       "-e"
       "tmux"
     ];
-    hotkey-overlay.hidden = true;
   };
 }
