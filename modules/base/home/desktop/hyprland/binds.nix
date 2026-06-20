@@ -5,7 +5,6 @@
   pkgs,
   file-manager,
   autoclicker,
-  keybinds,
   gamespace,
   ...
 }:
@@ -57,9 +56,6 @@ let
 in
 {
   bind = [
-    # Keybinds help menu
-    (mkBind "SUPER + SHIFT + slash" ''hl.dsp.exec_cmd("${keybinds}")'')
-
     # Window actions
     (mkBind "SUPER + Q" "hl.dsp.window.close()")
     (mkBind "SUPER + W" ''hl.dsp.window.float({ action = "toggle" })'')
