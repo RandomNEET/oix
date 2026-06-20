@@ -3,6 +3,7 @@
   config,
   lib,
   pkgs,
+  mylib,
   ...
 }:
 {
@@ -16,6 +17,7 @@
         config
         lib
         pkgs
+        mylib
         ;
     };
     keyBindings = import ./binds.nix { inherit config lib; };
