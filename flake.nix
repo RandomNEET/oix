@@ -239,7 +239,6 @@
             formatter = {
               prettier.includes = [ ".jsonc" ];
               shfmt.includes = [ ".zsh" ];
-              stylua.includes = [ ".luau" ];
             };
           };
         };
