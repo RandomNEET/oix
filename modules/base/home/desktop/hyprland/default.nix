@@ -9,16 +9,6 @@ let
   inherit (lib) getExe;
   file-manager = getExe (import ../shared/scripts/file-manager.nix { inherit config pkgs; });
   autoclicker = getExe (pkgs.callPackage ../shared/scripts/autoclicker.nix { });
-  keybinds = getExe (
-    import ./scripts/keybinds.nix {
-      inherit
-        osConfig
-        config
-        lib
-        pkgs
-        ;
-    }
-  );
   gamespace = getExe (pkgs.callPackage ./scripts/gamespace.nix { inherit pkgs; });
 in
 {
@@ -44,7 +34,6 @@ in
             pkgs
             file-manager
             autoclicker
-            keybinds
             gamespace
             ;
         };
@@ -78,7 +67,6 @@ in
       wl-clipboard
       hyprpicker
       wlrctl # mouse control
-      yad # keybinds script
     ];
 
     stylix.targets.hyprland.enable = lib.mkIf osConfig.desktop.themes.enable true;

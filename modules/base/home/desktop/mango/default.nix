@@ -74,7 +74,6 @@ in
       libnotify
       wl-clipboard
       wlrctl # mouse control
-      yad # keybinds script
     ];
   };
 }
