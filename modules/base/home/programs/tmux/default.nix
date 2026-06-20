@@ -15,7 +15,7 @@ let
   resurrect-cmd-fix = import ./scripts/resurrect-cmd-fix.nix { inherit pkgs resurrectDir; };
 in
 {
-  programs.tmux = {
+  programs.tmux = rec {
     enable = true;
     mouse = true;
     prefix = "C-a";
@@ -66,9 +66,24 @@ in
       bind -n C-M-h  previous-window
       bind -n C-M-l next-window
 
-      # vi mode
+      # Vi mode
       bind-key -T copy-mode-vi v send-keys -X begin-selection
       bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+
+      # Prefix pass-through
+      bind -n F12 run-shell '
+      if [ "$(tmux show-option -gv prefix)" = "${prefix}" ]; then
+        tmux set -g prefix C-F12
+        _style=$(tmux show-option -gv status-style)
+        tmux set -g status-style "$_style,dim"
+        tmux display-message "PASSTHROUGH | prefix=C-F12"
+      else
+        tmux set -g prefix ${prefix}
+        _style=$(tmux show-option -gv status-style)
+        tmux set -g status-style "$(echo "$_style" | sed "s/,dim//g")"
+        tmux display-message "LOCAL | prefix=${prefix}"
+      fi
+          '
     '';
     plugins = with pkgs.tmuxPlugins; [
       {
