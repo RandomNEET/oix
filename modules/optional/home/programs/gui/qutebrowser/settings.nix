@@ -3,11 +3,13 @@
   config,
   lib,
   pkgs,
+  mylib,
   ...
 }:
 let
   inherit (lib) getExe;
   colors = config.lib.stylix.colors;
+  primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
   opacity = {
     high = 1.0;
     medium = 0.9;
@@ -137,7 +139,7 @@ in
     downloads.system.bg = "none";
 
     # Hints
-    hints.bg = hexToRgba colors.base09 opacity.high;
+    hints.bg = hexToRgba primaryColor opacity.high;
     hints.fg = hexToRgba colors.base00 opacity.high;
     hints.match.fg = hexToRgba colors.base05 opacity.high;
 
