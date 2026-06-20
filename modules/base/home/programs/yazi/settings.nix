@@ -15,13 +15,13 @@ in
     show_symlink = true;
     ratio = [
       1
-      3
       4
+      3
     ];
   };
   preview = {
     tab_size = 4;
-    image_filter = "triangle"; # from fast to slow but high quality: nearest, triangle, catmull-rom, lanczos3
+    image_filter = "triangle";
     max_width = (primaryDisplay.width or 1200) / 2;
     max_height = primaryDisplay.height or 900;
     image_quality = 90;

@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (lib) getExe;
+  inherit (lib) getExe optionalAttrs optionals;
   hasDesktop = osConfig.desktop.enable;
 in
 {
@@ -32,10 +32,10 @@ in
           yatline
           ;
       }
-      // lib.optionalAttrs config.programs.lazygit.enable {
+      // optionalAttrs config.programs.lazygit.enable {
         lazygit = pkgs.yaziPlugins.lazygit;
       }
-      // lib.optionalAttrs hasDesktop {
+      // optionalAttrs hasDesktop {
         wl-clipboard = pkgs.yaziPlugins.wl-clipboard;
       };
     settings = {
@@ -291,7 +291,7 @@ in
             desc = "Maximize or restore the preview pane";
           }
         ]
-        ++ lib.optionals config.programs.lazygit.enable [
+        ++ optionals config.programs.lazygit.enable [
           # lazygit
           {
             on = [
@@ -302,7 +302,7 @@ in
             desc = "run lazygit";
           }
         ]
-        ++ lib.optionals hasDesktop [
+        ++ optionals hasDesktop [
           # wl-clipboard
           {
             on = "Y";
@@ -312,10 +312,19 @@ in
         ];
       };
     };
-    extraPackages = with pkgs; [
-      ouch
-      mediainfo
-      trash-cli
-    ];
+    extraPackages =
+      with pkgs;
+      [
+        # ouch
+        ouch
+        # mediainfo
+        mediainfo
+        # recycle-bin
+        trash-cli
+      ]
+      ++ optionals hasDesktop [
+        # wl-clipboard
+        wl-clipboard
+      ];
   };
 }
