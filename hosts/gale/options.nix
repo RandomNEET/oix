@@ -90,6 +90,18 @@ in
   };
 
   services = {
+    dae = {
+      configFile = "/run/secrets/dae";
+    };
+    openssh = {
+      authorizedKeysFiles = [ "/run/secrets/ssh/${username}@${meta.hostname}" ];
+    };
+    btrfs = {
+      autoScrub = {
+        enable = true;
+        interval = "monthly";
+      };
+    };
     snapper = {
       configs = {
         home = {
@@ -99,12 +111,6 @@ in
           TIMELINE_CLEANUP = true;
         };
       };
-    };
-    openssh = {
-      authorizedKeysFiles = [ "/run/secrets/ssh/${username}@${meta.hostname}" ];
-    };
-    dae = {
-      configFile = "/run/secrets/dae";
     };
     kmonad = {
       keyboards = {
