@@ -395,14 +395,6 @@ in
           desc = "Undo History";
         };
       }
-      {
-        mode = "n";
-        key = "<leader>uC";
-        action = "<cmd>lua require('snacks').picker.colorschemes()<cr>";
-        options = {
-          desc = "Colorschemes";
-        };
-      }
 
       #  Diagnostics
       {

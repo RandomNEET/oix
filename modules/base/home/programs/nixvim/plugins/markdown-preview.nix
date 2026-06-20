@@ -23,13 +23,11 @@
     };
     keymaps = [
       {
-        mode = [
-          "n"
-        ];
-        key = "<leader>mp";
+        mode = [ "n" ];
+        key = "<leader>mdp";
         action = "<cmd>MarkdownPreviewToggle<cr>";
         options = {
-          desc = "Open markdown previrew in browser";
+          desc = "Toggle Markdown Preview";
         };
       }
     ];
