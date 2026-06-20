@@ -31,9 +31,13 @@
         };
         sections = {
           lualine_a = [
-            "mode"
             {
-              __raw = "function() return require('noice').api.statusline.mode.get() or '' end";
+              __raw = ''
+                function()
+                  local m = require("noice").api.statusline.mode.get()
+                  return m and m:gsub("%-%- ", ""):gsub(" %-%-", "") or "NORMAL"
+                end
+              '';
               cond = "require('noice').api.statusline.mode.has";
             }
             {
