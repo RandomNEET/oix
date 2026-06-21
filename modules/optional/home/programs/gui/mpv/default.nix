@@ -11,11 +11,18 @@ in
 {
   programs.mpv = {
     enable = true;
-    scripts = with pkgs.mpvScripts; [
-      uosc
-      thumbfast
-      mpris
-    ];
+    config = {
+      input-default-bindings = false;
+      resume-playback-check-mtime = true;
+      audio-file-auto = "fuzzy";
+      sub-auto = "fuzzy";
+      wayland-edge-pixels-pointer = 0;
+      wayland-edge-pixels-touch = 0;
+      screenshot-format = "webp";
+      screenshot-webp-lossless = true;
+      screenshot-directory = "${resolveHome config.xdg.userDirs.pictures}/screenshots/mpv";
+      screenshot-sw = true;
+    };
     bindings = rec {
       MBTN_LEFT_DBL = "cycle fullscreen";
       MBTN_RIGHT = "cycle pause";
@@ -63,10 +70,6 @@ in
 
       u = "revert-seek";
 
-      "Ctrl++" = "add sub-scale 0.1";
-      "Ctrl+-" = "add sub-scale -0.1";
-      "Ctrl+0" = "set sub-scale 0";
-
       q = "quit";
       Q = "quit-watch-later";
       "q {encode}" = "quit 4";
@@ -82,10 +85,14 @@ in
       "`" = "script-binding console/enable";
       ":" = "script-binding console/enable";
 
-      z = "add sub-delay -0.1";
-      x = "add sub-delay 0.1";
-      Z = "add audio-delay -0.1";
-      X = "add audio-delay 0.1";
+      "Ctrl++" = "add sub-scale 0.1";
+      "Ctrl+-" = "add sub-scale -0.1";
+      "Ctrl+0" = "set sub-scale 0";
+
+      "Ctrl+z" = "add sub-delay -0.1";
+      "Ctrl+x" = "add sub-delay 0.1";
+      "Ctrl+Z" = "add audio-delay -0.1";
+      "Ctrl+X" = "add audio-delay 0.1";
 
       "-" = "add volume -1";
       "=" = "add volume 1";
@@ -94,8 +101,8 @@ in
       a = "cycle audio";
       S = ''cycle-values sub-ass-override "force" "no"'';
       PRINT = "screenshot";
-      c = "add panscan 0.1";
-      C = "add panscan -0.1";
+      z = "add panscan 0.1";
+      Z = "add panscan -0.1";
       PLAY = "cycle pause";
       PAUSE = "cycle pause";
       PLAYPAUSE = "cycle pause";
@@ -104,24 +111,26 @@ in
       STOP = "stop";
       CLOSE_WIN = "quit";
       "CLOSE_WIN {encode}" = "quit 4";
-      "Ctrl+w" = ''set hwdec "no"'';
+
+      # mpv-cut
+      "Alt+c" = "script-binding cut/cut";
+      "Alt+C" = "script-binding cut/cancel";
+      "Alt+a" = "script-binding cut/cycle-action";
+      "Alt+i" = "script-binding cut/bookmark-add";
+      "Alt+=" = "script-binding cut/channel-inc";
+      "Alt+-" = "script-binding cut/channel-dec";
     };
-    config = {
-      input-default-bindings = false;
-      resume-playback-check-mtime = true;
-      audio-file-auto = "fuzzy";
-      sub-auto = "fuzzy";
-      wayland-edge-pixels-pointer = 0;
-      wayland-edge-pixels-touch = 0;
-      screenshot-format = "webp";
-      screenshot-webp-lossless = true;
-      screenshot-directory = "${resolveHome config.xdg.userDirs.pictures}/screenshots/mpv";
-      screenshot-sw = true;
-      # uosc tweaks
-      osd-bar = false;
-      border = false;
-    };
+    scripts = with pkgs.mpvScripts; [
+      uosc
+      thumbfast
+      mpris
+      cut
+    ];
   };
+
+  home.packages = with pkgs; [
+    ffmpeg # mpv-cut
+  ];
 
   stylix.targets.mpv.enable = lib.mkIf osConfig.desktop.themes.enable true;
 }
