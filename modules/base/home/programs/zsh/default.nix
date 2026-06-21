@@ -67,6 +67,8 @@ in
             function zvm_config() {
               ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
               ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+              ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+              ZVM_VI_VISUAL_ESCAPE_BINDKEY=jk
               ZVM_VI_HIGHLIGHT_FOREGROUND=black
               ZVM_VI_HIGHLIGHT_BACKGROUND=white
             }
