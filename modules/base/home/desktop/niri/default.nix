@@ -1,4 +1,5 @@
 {
+  inputs,
   osConfig,
   config,
   lib,
@@ -50,6 +51,24 @@ in
       wl-clipboard
       xwayland-satellite
     ];
+
+    xdg.configFile.niri-config.source =
+      let
+        inherit (inputs.niri.lib.internal) validated-config-for;
+        inherit (config.programs.niri) finalConfig package;
+      in
+      lib.mkForce (
+        validated-config-for pkgs package ''
+          ${finalConfig}
+
+          window-rule {
+            background-effect {
+              blur true
+              xray false
+            }
+          }
+        ''
+      );
 
     stylix.targets.niri.enable = lib.mkIf osConfig.desktop.themes.enable true;
   };
