@@ -40,14 +40,14 @@
         { app-id = "^(steam)$"; }
         { app-id = "^(org\.gnupg\.pinentry-qt)$"; }
       ];
-      opacity = 0.95;
+      opacity = 0.80;
     }
 
     {
       matches = [
         { app-id = "^(terminal filechooser)$"; }
       ];
-      opacity = 0.95;
+      opacity = 0.80;
       open-floating = true;
     }
 
