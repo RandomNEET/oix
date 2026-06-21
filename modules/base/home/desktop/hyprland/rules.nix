@@ -77,6 +77,17 @@
         "(monitor_h*0.8)"
       ];
     }
+    {
+      match = {
+        class = "^(password manager)$";
+      };
+      opacity = "0.80 0.80";
+      float = true;
+      size = [
+        "(monitor_w*0.8)"
+        "(monitor_h*0.8)"
+      ];
+    }
 
     # Noctalia settings window
     {

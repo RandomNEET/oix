@@ -8,6 +8,7 @@
 let
   inherit (lib) optional optionalAttrs;
   customPluginsDir = ".local/state/noctalia/plugins/custom";
+
   hasThemes = osConfig.desktop.themes.enable;
 in
 {
@@ -15,7 +16,6 @@ in
     programs.noctalia.settings.plugins = {
       enabled = [
         "noctalia/translator"
-        "custom/keybind-cheatsheet"
       ]
       ++ optional hasThemes "custom/theme-switcher";
       source = [
@@ -47,16 +47,14 @@ in
       { }
       // optionalAttrs hasThemes {
         "${customPluginsDir}/theme-switcher/plugin.toml".source = ./theme-switcher/plugin.toml;
-        "${customPluginsDir}/theme-switcher/theme-switcher.luau".text =
-          import ./theme-switcher/theme-switcher.nix
-            {
-              inherit
-                osConfig
-                config
-                lib
-                pkgs
-                ;
-            };
+        "${customPluginsDir}/theme-switcher/launcher.luau".text = import ./theme-switcher/launcher.nix {
+          inherit
+            osConfig
+            config
+            lib
+            pkgs
+            ;
+        };
       };
   };
 }

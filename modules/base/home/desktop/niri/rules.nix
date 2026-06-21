@@ -53,6 +53,14 @@
 
     {
       matches = [
+        { app-id = "^(password manager)$"; }
+      ];
+      opacity = 0.80;
+      open-floating = true;
+    }
+
+    {
+      matches = [
         {
           app-id = "^(firefox)$";
           title = "^Picture-in-Picture$";

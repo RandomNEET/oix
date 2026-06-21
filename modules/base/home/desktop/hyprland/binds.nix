@@ -9,6 +9,7 @@
   ...
 }:
 let
+  inherit (lib) optional;
   inherit (lib.generators) mkLuaInline;
   mkBind = keys: action: {
     _args = [
@@ -87,9 +88,9 @@ in
     (mkBind "SUPER + F12" ''hl.dsp.exec_cmd("kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40")'')
 
     # Screenshot/Screencapture
-    (mkBind "SUPER + P" ''hl.dsp.exec_cmd("noctalia msg screenshot-region")'')
-    (mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("noctalia msg screenshot-fullscreen pick")'')
-    (mkBind "SUPER + CTRL + P" ''hl.dsp.exec_cmd("touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region")'')
+    (mkBind "SUPER + Print" ''hl.dsp.exec_cmd("noctalia msg screenshot-region")'')
+    (mkBind "SUPER + SHIFT + Print" ''hl.dsp.exec_cmd("noctalia msg screenshot-fullscreen pick")'')
+    (mkBind "SUPER + CTRL + Print" ''hl.dsp.exec_cmd("touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region")'')
 
     # to switch between windows in a floating workspace
     (mkBind "ALT + Tab" "hl.dsp.window.cycle_next({ next = true })")
@@ -194,10 +195,13 @@ in
       ]
     ) 10
   ))
-  ++ lib.optional config.programs.tmux.enable (
+  ++ optional config.programs.tmux.enable (
     mkBind "SUPER + T" ''hl.dsp.exec_cmd("${terminal} -e tmux")''
   )
-  ++ lib.optional osConfig.programs.steam.enable (
+  ++ optional config.programs.password-store.enable (
+    mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("${terminal} ${termInfo.classFlag} \"password manager\" -e env PASSWORD_STORE_DIR=${config.programs.password-store.settings.PASSWORD_STORE_DIR} passepartui")''
+  )
+  ++ optional osConfig.programs.steam.enable (
     mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")''
   );
 
