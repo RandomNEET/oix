@@ -7,16 +7,10 @@
 }:
 {
   imports = mylib.util.scanPaths ./. {
-    types = [
-      "directory"
-      "regular"
-    ];
-    extension = ".nix";
     exclude = [
       "shared"
       "default.nix"
     ];
-    depth = 1;
   };
 
   config = lib.mkIf osConfig.desktop.enable {
