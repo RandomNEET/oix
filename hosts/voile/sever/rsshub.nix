@@ -12,7 +12,10 @@
       PIXIV_BYPASS_DOH = "https://1.1.1.1/dns-query";
       PIXIV_IMG_PROXY = "https://i.pixiv.re";
     };
-    secretFiles = [ "/run/secrets/rsshub" ];
+    secretFiles = [
+      "/run/secrets/rsshub"
+      "/home/howl/.vault/rsshub"
+    ];
   };
   systemd.services.rsshub = {
     after = [
