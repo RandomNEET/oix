@@ -7,6 +7,7 @@
   ...
 }:
 let
+  inherit (lib) getExe optional;
   termInfo = import ../shared/misc/terminal.nix { inherit config; };
   terminal = termInfo.exe;
   fileManager = "${file-manager} ${config.defaultPrograms.fileManager}";
@@ -21,7 +22,8 @@ in
     "SUPER,Tab,toggleoverview"
     "ALT,Return,togglefullscreen"
     "ALT+SHIFT,f,togglefakefullscreen"
-    "SUPER+SHIFT,I,restore_minimized"
+    "SUPER,i,minimized"
+    "SUPER+SHIFT,i,restore_minimized"
     "SUPER,o,toggleoverlay"
     "SUPER,s,toggle_scratchpad"
     "SUPER+CTRL,s,minimized"
@@ -41,12 +43,12 @@ in
     "CTRL,Escape,spawn,noctalia msg bar-toggle"
     "SUPER+ALT,l,spawn,noctalia msg session lock"
     "SUPER,BackSpace,spawn,noctalia msg panel-toggle session"
-    "SUPER,F10,spawn,${terminal} -e ${lib.getExe pkgs.btop}"
+    "SUPER,F10,spawn,${terminal} -e ${getExe pkgs.btop}"
     "SUPER,F12,spawn_shell,kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
 
-    "SUPER,p,spawn,noctalia msg screenshot-region"
-    "SUPER+SHIFT,p,spawn,noctalia msg screenshot-fullscreen"
-    "SUPER+CTRL,p,spawn_shell,touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region"
+    "SUPER,Print,spawn,noctalia msg screenshot-region"
+    "SUPER+SHIFT,Print,spawn,noctalia msg screenshot-fullscreen"
+    "SUPER+CTRL,Print,spawn_shell,touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region"
 
     "SUPER,Left,focusdir,left"
     "SUPER,Right,focusdir,right"
@@ -128,9 +130,9 @@ in
     "ALT+SHIFT,Return,dwindle_toggle_split_direction"
     "SUPER,n,switch_layout"
 
-    "ALT+SHIFT,X,incgaps,1"
-    "ALT+SHIFT,Z,incgaps,-1"
-    "ALT+SHIFT,R,togglegaps"
+    "ALT+SHIFT,x,incgaps,1"
+    "ALT+SHIFT,z,incgaps,-1"
+    "ALT+SHIFT,r,togglegaps"
 
     "none,XF86AudioMute,spawn,noctalia msg volume-mute"
     "none,XF86AudioMicMute,spawn,noctalia msg mic-mute"
@@ -143,9 +145,10 @@ in
     "none,XF86MonBrightnessDown,spawn,noctalia msg brightness-down"
     "none,XF86MonBrightnessUp,spawn,noctalia msg brightness-up"
 
-    "SUPER,M,setkeymode,mouse"
+    "SUPER,m,setkeymode,mouse"
   ]
-  ++ lib.optional config.programs.tmux.enable "SUPER,T,spawn,${terminal} -e tmux";
+  ++ optional config.programs.tmux.enable "SUPER,t,spawn,${terminal} -e tmux"
+  ++ optional config.programs.password-store.enable ''SUPER+SHIFT,p,spawn,${terminal} ${termInfo.classFlag} "password manager" -e env PASSWORD_STORE_DIR=${config.programs.password-store.settings.PASSWORD_STORE_DIR} passepartui'';
 
   mousebind = [
     "SUPER,btn_left,moveresize,curmove"

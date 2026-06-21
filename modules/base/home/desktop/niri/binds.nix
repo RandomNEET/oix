@@ -8,14 +8,16 @@
   ...
 }:
 let
-  terminal = import ../shared/misc/terminal.nix { inherit config; };
+  inherit (lib) optionalAttrs;
+  termInfo = import ../shared/misc/terminal.nix { inherit config; };
+  terminal = termInfo.exe;
   fileManager = "${file-manager} ${config.defaultPrograms.fileManager}";
-  editor = ''${terminal.exe} ${terminal.classFlag} "editor" -e ${config.defaultPrograms.editor}'';
+  editor = ''${terminal} ${termInfo.classFlag} "editor" -e ${config.defaultPrograms.editor}'';
   browser = config.defaultPrograms.browser;
 in
 {
   "Mod+Return" = {
-    action.spawn = terminal.exe;
+    action.spawn = terminal;
   };
   "Mod+F" = {
     action.spawn-sh = fileManager;
@@ -116,7 +118,7 @@ in
 
   "Mod+F10" = {
     action.spawn = [
-      "${terminal.exe}"
+      "${terminal}"
       "-e"
       "${getExe pkgs.btop}"
     ];
@@ -352,14 +354,14 @@ in
 
   "Mod+T".action."toggle-column-tabbed-display" = { };
 
-  "Mod+P" = {
+  "Mod+Print" = {
     action.spawn = [
       "noctalia"
       "msg"
       "screenshot-region"
     ];
   };
-  "Mod+Shift+P" = {
+  "Mod+Shift+Print" = {
     action.spawn = [
       "noctalia"
       "msg"
@@ -367,16 +369,29 @@ in
       "pick"
     ];
   };
-  "Mod+Ctrl+P" = {
+  "Mod+Ctrl+Print" = {
     action.spawn-sh = "touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region";
   };
 }
-// lib.optionalAttrs config.programs.tmux.enable {
+// optionalAttrs config.programs.tmux.enable {
   "Mod+T" = {
     action.spawn = [
-      "${terminal.exe}"
+      "${terminal}"
       "-e"
       "tmux"
+    ];
+  };
+}
+// optionalAttrs config.programs.password-store.enable {
+  "Mod+Shift+P" = {
+    action.spawn = [
+      "${terminal}"
+      "${termInfo.classFlag}"
+      ''"password manager"''
+      "-e"
+      "env"
+      "PASSWORD_STORE_DIR=${config.programs.password-store.settings.PASSWORD_STORE_DIR}"
+      "passepartui"
     ];
   };
 }

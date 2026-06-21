@@ -14,6 +14,7 @@
     "focused_opacity:0.8,unfocused_opacity:0.8,appid:^(org\.gnupg\.pinentry-qt)$"
 
     "focused_opacity:0.8,unfocused_opacity:0.8,isfloating:1,appid:^(terminal filechooser)$"
+    "focused_opacity:0.8,unfocused_opacity:0.8,isfloating:1,appid:^(password manager)$"
 
     "isfloating:1,appid:dev.noctalia.Noctalia.Settings"
     "isfloating:1,appid:^(firefox)$,title:^Picture-in-Picture$"
