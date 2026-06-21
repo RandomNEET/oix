@@ -10,11 +10,12 @@
     package = pkgs.pass.withExtensions (
       exts: with exts; [
         pass-otp
-        pass-import
+        pass-file
         pass-genphrase
         pass-update
         pass-audit
         pass-checkup
+        pass-import
       ]
     );
     settings = {
