@@ -28,16 +28,20 @@ rec {
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/codeberg-RandomNEET";
           addKeysToAgent = "yes";
         };
+        "git.defnothowl.com" = {
+          hostname = "git.defnothowl.com";
+          user = "forgejo";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/defnothowl-howl";
+          addKeysToAgent = "yes";
+        };
         zenith = {
           hostname = "zenith.local";
-          port = 22;
           user = meta.username;
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/zenith";
           addKeysToAgent = "yes";
         };
         voile = {
           hostname = "voile.local";
-          port = 22;
           user = meta.username;
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
           addKeysToAgent = "yes";
@@ -172,7 +176,6 @@ rec {
     flatpak = {
       packages = [
         "com.github.tchx84.Flatseal"
-        "com.bitwarden.desktop"
         "com.cherry_ai.CherryStudio"
         "org.localsend.localsend_app"
         "org.qbittorrent.qBittorrent"
@@ -268,6 +271,7 @@ rec {
     secrets = {
       "ssh/github-RandomNEET".sopsFile = ./secrets.yaml;
       "ssh/codeberg-RandomNEET".sopsFile = ./secrets.yaml;
+      "ssh/defnothowl-howl".sopsFile = ./secrets.yaml;
       "ssh/zenith".sopsFile = ./secrets.yaml;
       "ssh/voile".sopsFile = ./secrets.yaml;
       "email/RandomNEET/password".sopsFile = ./secrets.yaml;
