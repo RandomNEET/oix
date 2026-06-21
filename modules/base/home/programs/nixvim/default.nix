@@ -1,7 +1,1 @@
-{ mylib, ... }:
-{
-  imports = mylib.util.scanPaths ./. {
-    types = [ "directory" ];
-    depth = 1;
-  };
-}
+{ mylib, ... }: { imports = mylib.util.scanPaths ./. { types = [ "directory" ]; }; }

@@ -7,8 +7,8 @@
       path:
       {
         types ? [
-          "directory"
           "regular"
+          "directory"
         ], # Allowed types to collect: "directory", "regular", "symlink"
         exclude ? [ "default.nix" ], # Blacklist of names to exclude
         extension ? ".nix", # Extension that regular files must match (pass null for no restriction)

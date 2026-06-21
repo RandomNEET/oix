@@ -1,11 +1,7 @@
 { mylib, ... }:
 {
-  imports = mylib.util.scanPaths ./. {
-    types = [ "regular" ];
-    extension = ".nix";
-    exclude = [ "default.nix" ];
-    depth = 1;
-  };
+  imports = mylib.util.scanPaths ./. { types = [ "regular" ]; };
+
   programs.nixvim = {
     plugins.snacks = {
       enable = true;
