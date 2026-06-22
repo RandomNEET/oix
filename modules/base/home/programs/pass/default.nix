@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -29,5 +30,5 @@
     gnome-keyring.enable = lib.mkForce false;
   };
 
-  home.packages = with pkgs; [ passepartui ];
+  home.packages = lib.mkIf osConfig.desktop.enable (with pkgs; [ qtpass ]);
 }

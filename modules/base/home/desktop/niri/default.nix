@@ -34,7 +34,6 @@ in
           inherit
             config
             lib
-            pkgs
             file-manager
             autoclicker
             getExe
