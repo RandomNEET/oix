@@ -79,7 +79,7 @@
     }
     {
       match = {
-        class = "^(password manager)$";
+        title = "^(QtPass)$";
       };
       opacity = "0.80 0.80";
       float = true;
@@ -92,19 +92,9 @@
     # Noctalia settings window
     {
       match = {
-        class = "dev.noctalia.Noctalia.Settings";
+        class = "^(dev.noctalia.Noctalia.Settings)$";
       };
       float = true;
-    }
-
-    # Firefox PiP
-    {
-      match = {
-        title = "^(Picture-in-Picture)$";
-        class = "^([Ff]irefox)$";
-      };
-      float = true;
-      pin = true;
     }
 
     # Tag games

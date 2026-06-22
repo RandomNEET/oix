@@ -1,7 +1,7 @@
 {
   layer-rules = [
     {
-      matches = [ { namespace = "^noctalia-wallpaper"; } ];
+      matches = [ { namespace = "^(noctalia-wallpaper)$"; } ];
       place-within-backdrop = true;
     }
   ];
@@ -18,7 +18,7 @@
     }
 
     {
-      matches = [ { app-id = "dev.noctalia.Noctalia.Settings"; } ];
+      matches = [ { app-id = "^(dev.noctalia.Noctalia.Settings)$"; } ];
       open-floating = true;
     }
 
@@ -53,19 +53,9 @@
 
     {
       matches = [
-        { app-id = "^(password manager)$"; }
+        { title = "^(QtPass)$"; }
       ];
       opacity = 0.80;
-      open-floating = true;
-    }
-
-    {
-      matches = [
-        {
-          app-id = "^(firefox)$";
-          title = "^Picture-in-Picture$";
-        }
-      ];
       open-floating = true;
     }
   ];

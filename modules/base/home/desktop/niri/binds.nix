@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   file-manager,
   autoclicker,
   getExe,
@@ -120,7 +119,7 @@ in
     action.spawn = [
       "${terminal}"
       "-e"
-      "${getExe pkgs.btop}"
+      "btop"
     ];
   };
   "Mod+F12" = {
@@ -385,13 +384,7 @@ in
 // optionalAttrs config.programs.password-store.enable {
   "Mod+Shift+P" = {
     action.spawn = [
-      "${terminal}"
-      "${termInfo.classFlag}"
-      ''"password manager"''
-      "-e"
-      "env"
-      "PASSWORD_STORE_DIR=${config.programs.password-store.settings.PASSWORD_STORE_DIR}"
-      "passepartui"
+      "qtpass"
     ];
   };
 }

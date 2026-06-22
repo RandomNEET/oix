@@ -1,13 +1,12 @@
 {
   config,
   lib,
-  pkgs,
   file-manager,
   autoclicker,
   ...
 }:
 let
-  inherit (lib) getExe optional;
+  inherit (lib) optional;
   termInfo = import ../shared/misc/terminal.nix { inherit config; };
   terminal = termInfo.exe;
   fileManager = "${file-manager} ${config.defaultPrograms.fileManager}";
@@ -43,7 +42,7 @@ in
     "CTRL,Escape,spawn,noctalia msg bar-toggle"
     "SUPER+ALT,l,spawn,noctalia msg session lock"
     "SUPER,BackSpace,spawn,noctalia msg panel-toggle session"
-    "SUPER,F10,spawn,${terminal} -e ${getExe pkgs.btop}"
+    "SUPER,F10,spawn,${terminal} -e btop"
     "SUPER,F12,spawn_shell,kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
 
     "SUPER,Print,spawn,noctalia msg screenshot-region"
@@ -148,7 +147,7 @@ in
     "SUPER,m,setkeymode,mouse"
   ]
   ++ optional config.programs.tmux.enable "SUPER,t,spawn,${terminal} -e tmux"
-  ++ optional config.programs.password-store.enable ''SUPER+SHIFT,p,spawn,${terminal} ${termInfo.classFlag} "password manager" -e env PASSWORD_STORE_DIR=${config.programs.password-store.settings.PASSWORD_STORE_DIR} passepartui'';
+  ++ optional config.programs.password-store.enable "SUPER+SHIFT,p,spawn,qtpass";
 
   mousebind = [
     "SUPER,btn_left,moveresize,curmove"

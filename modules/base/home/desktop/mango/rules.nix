@@ -1,5 +1,5 @@
 {
-  layerrule = [ "animation_type_open:none,layer_name:noctalia-screenshot-region" ];
+  layerrule = [ "animation_type_open:none,layer_name:^(noctalia-screenshot-region)$" ];
 
   windowrule = [
     "focused_opacity:1,unfocused_opacity:1,appid:^(org\.qutebrowser\.qutebrowser)$"
@@ -14,9 +14,8 @@
     "focused_opacity:0.8,unfocused_opacity:0.8,appid:^(org\.gnupg\.pinentry-qt)$"
 
     "focused_opacity:0.8,unfocused_opacity:0.8,isfloating:1,appid:^(terminal filechooser)$"
-    "focused_opacity:0.8,unfocused_opacity:0.8,isfloating:1,appid:^(password manager)$"
+    "focused_opacity:0.8,unfocused_opacity:0.8,isfloating:1,title:^(QtPass)$"
 
-    "isfloating:1,appid:dev.noctalia.Noctalia.Settings"
-    "isfloating:1,appid:^(firefox)$,title:^Picture-in-Picture$"
+    "isfloating:1,appid:^(dev.noctalia.Noctalia.Settings)$"
   ];
 }

@@ -2,7 +2,6 @@
   osConfig,
   config,
   lib,
-  pkgs,
   file-manager,
   autoclicker,
   gamespace,
@@ -83,7 +82,7 @@ in
     (mkBind "CTRL + ESCAPE" ''hl.dsp.exec_cmd("noctalia msg bar-toggle")'')
     (mkBind "SUPER + ALT + L" ''hl.dsp.exec_cmd("noctalia msg session lock")'')
     (mkBind "SUPER + backspace" ''hl.dsp.exec_cmd("noctalia msg panel-toggle session")'')
-    (mkBind "SUPER + F10" ''hl.dsp.exec_cmd("${terminal} -e ${lib.getExe pkgs.btop}")'')
+    (mkBind "SUPER + F10" ''hl.dsp.exec_cmd("${terminal} -e btop")'')
     (mkBind "SUPER + F11" ''hl.dsp.exec_cmd("pkill hyprpicker || hyprpicker --autocopy --format=hex")'')
     (mkBind "SUPER + F12" ''hl.dsp.exec_cmd("kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40")'')
 
@@ -199,7 +198,7 @@ in
     mkBind "SUPER + T" ''hl.dsp.exec_cmd("${terminal} -e tmux")''
   )
   ++ optional config.programs.password-store.enable (
-    mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("${terminal} ${termInfo.classFlag} \"password manager\" -e env PASSWORD_STORE_DIR=${config.programs.password-store.settings.PASSWORD_STORE_DIR} passepartui")''
+    mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("qtpass")''
   )
   ++ optional osConfig.programs.steam.enable (
     mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")''

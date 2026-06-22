@@ -31,7 +31,6 @@ in
             osConfig
             config
             lib
-            pkgs
             file-manager
             autoclicker
             gamespace
