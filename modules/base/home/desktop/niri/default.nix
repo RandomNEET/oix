@@ -29,7 +29,7 @@ in
       package = pkgs.niri;
       settings = {
         environment = import ./environment.nix;
-        spawn-at-startup = import ./startup.nix;
+        spawn-at-startup = import ./startup.nix { inherit config lib; };
         binds = import ./binds.nix {
           inherit
             config

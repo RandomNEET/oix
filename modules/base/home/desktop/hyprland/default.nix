@@ -50,7 +50,7 @@ in
         };
         xwayland.enable = true;
         settings = {
-          on = import ./autostart.nix { inherit lib; };
+          on = import ./autostart.nix { inherit config lib; };
           env = import ./env.nix;
           inherit (binds) bind define_submap;
           inherit (animations) animation curve;
