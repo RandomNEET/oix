@@ -76,7 +76,7 @@ in
     show_label = true;
   };
   battery = {
-    display_mode = "icon";
+    display_mode = "glyph";
     show_label = true;
     device = "auto";
     warning_threshold = 20;
