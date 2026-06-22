@@ -16,6 +16,12 @@ in
           SSH_PORT = sshPort;
         };
         session.COOKIE_SECURE = true;
+        mailer = {
+          ENABLED = true;
+          PROTOCOL = "smtps";
+          SMTP_ADDR = "smtp.163.com";
+          SMTP_PORT = 465;
+        };
       };
       database = {
         type = "postgres";
@@ -27,6 +33,13 @@ in
         enable = true;
         interval = "daily";
         backupDir = "/var/backup/forgejo";
+      };
+      secrets = {
+        mailer = {
+          USER = "/run/secrets/forgejo/mailer/user";
+          FROM = "/run/secrets/forgejo/mailer/from";
+          PASSWD = "/run/secrets/forgejo/mailer/passwd";
+        };
       };
     };
     postgresql = {
@@ -42,4 +55,9 @@ in
     openssh.ports = [ sshPort ];
   };
   networking.firewall.allowedTCPPorts = [ httpPort ];
+  sops.secrets = {
+    "forgejo/mailer/user".sopsFile = ../secrets.yaml;
+    "forgejo/mailer/from".sopsFile = ../secrets.yaml;
+    "forgejo/mailer/passwd".sopsFile = ../secrets.yaml;
+  };
 }
