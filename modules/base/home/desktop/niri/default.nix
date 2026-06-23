@@ -20,7 +20,6 @@ in
     ../shared/programs/gowall
     ../shared/programs/noctalia
     ../shared/services/udiskie
-    ../shared/services/wayland-pipewire-idle-inhibit
   ];
 
   config = lib.mkIf osConfig.desktop.niri.enable {
