@@ -29,7 +29,7 @@ in
 {
   options = {
     desktop = {
-      enable = mkEnableOption "the desktop environment and related window managers";
+      enable = mkEnableOption "Whether to enable window manager/desktop environment.";
       displayManager = mkOption {
         type = types.enum [
           "ly"
@@ -48,15 +48,16 @@ in
         enable = mkEnableOption "Whether to enable Mango, a Wayland compositor based on dwl and scenefx.";
       };
       plasma = {
-        enable = mkEnableOption "Enable the Plasma 6 (KDE 6) desktop environment.";
+        enable = mkEnableOption "Whether to enable the Plasma 6 (KDE 6) desktop environment.";
+        x11Support = mkEnableOption "Whether to enable support for X11.";
       };
       hibernate = mkOption {
         type = types.bool;
         default = false;
-        description = "Enable system hibernation features and related power management hooks.";
+        description = "Whether to enable system hibernation features.";
       };
       themes = {
-        enable = mkEnableOption "the centralized desktop ricing and theming system";
+        enable = mkEnableOption "Whether to enable system ricing and theming.";
         list = mkOption {
           type = types.listOf types.str;
           default = [ ];

@@ -6,7 +6,7 @@
         enable = true;
         enableQt5Integration = true;
       };
-      xserver.enable = true;
+      xserver.enable = config.desktop.plasma.x11Support;
     };
   };
 }
