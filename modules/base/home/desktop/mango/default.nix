@@ -18,7 +18,7 @@ in
     ../shared/fonts
     ../shared/themes
     ../shared/xdg
-    ../shared/programs/fcitx5
+    ../shared/i18n/fcitx5
     ../shared/programs/gowall
     ../shared/programs/noctalia
     ../shared/services/udiskie

@@ -9,7 +9,7 @@
     ../shared/fonts
     ../shared/themes
     ../shared/xdg
-    ../shared/programs/fcitx5
+    ../shared/i18n/fcitx5
   ];
 
   config = lib.mkIf osConfig.desktop.plasma.enable {
