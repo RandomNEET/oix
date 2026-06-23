@@ -20,10 +20,14 @@ in
       (optionalAttrs config.desktop.mango.enable {
         "ly/sessions/wayland/mango.desktop".text = sessions.mango;
       })
-      (optionalAttrs config.desktop.plasma.enable {
-        "ly/sessions/wayland/plasma-wayland.desktop".text = sessions.plasma-wayland;
-        "ly/sessions/x/plasma-x11.desktop".text = sessions.plasma-x11;
-      })
+      (
+        optionalAttrs config.desktop.plasma.enable {
+          "ly/sessions/wayland/plasma-wayland.desktop".text = sessions.plasma-wayland;
+        }
+        // optionalAttrs config.desktop.plasma.x11Support {
+          "ly/sessions/x/plasma-x11.desktop".text = sessions.plasma-x11;
+        }
+      )
       (optionalAttrs config.base.gaming.enable {
         "ly/sessions/wayland/steam.desktop".text = sessions.steam-gamescope;
       })
