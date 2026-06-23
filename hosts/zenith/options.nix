@@ -40,14 +40,8 @@ in
   desktop = {
     enable = true;
     displayManager = "ly";
-    hyprland = {
-      enable = true;
-      primary = true;
-    };
-    niri = {
-      enable = true;
-      primary = false;
-    };
+    hyprland.enable = true;
+    niri.enable = true;
     hibernate = false;
     themes = {
       enable = true;

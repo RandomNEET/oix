@@ -14,8 +14,6 @@ in
     settings = {
       general = {
         mode = "viewer";
-      }
-      // lib.optionalAttrs osConfig.desktop.hyprland.primary {
         overlay = "yes";
       };
       viewer = {
