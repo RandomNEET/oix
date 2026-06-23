@@ -20,13 +20,13 @@
   '';
   plasma-wayland = ''
     [Desktop Entry]
-    Name=plasma
+    Name=plasma-wayland
     Exec=env QT_QPA_PLATFORMTHEME=kde ${pkgs.kdePackages.plasma-workspace}/libexec/plasma-dbus-run-session-if-needed ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-wayland
     DesktopNames=KDE
   '';
   plasma-x11 = ''
     [Desktop Entry]
-    Name=plasma
+    Name=plasma-x11
     Exec=env QT_QPA_PLATFORMTHEME=kde ${pkgs.kdePackages.plasma-workspace}/bin/startplasma-x11
     DesktopNames=KDE
   '';

@@ -33,7 +33,6 @@ in
       displayManager = mkOption {
         type = types.enum [
           "ly"
-          "tuigreet"
           "none"
         ];
         default = "none";
@@ -41,35 +40,15 @@ in
       };
       hyprland = {
         enable = mkEnableOption "Whether to enable Hyprland, the dynamic tiling Wayland compositor that doesn’t sacrifice on its looks.";
-        primary = mkOption {
-          type = types.bool;
-          default = false;
-          description = "Whether to designate Hyprland as the primary window manager for the system session.";
-        };
       };
       niri = {
         enable = mkEnableOption "Whether to enable Niri, a scrollable-tiling Wayland compositor.";
-        primary = mkOption {
-          type = types.bool;
-          default = false;
-          description = "Whether to designate niri as the primary window manager for the system session.";
-        };
       };
       mango = {
         enable = mkEnableOption "Whether to enable Mango, a Wayland compositor based on dwl and scenefx.";
-        primary = mkOption {
-          type = types.bool;
-          default = false;
-          description = "Whether to designate mangowm as the primary window manager for the system session.";
-        };
       };
       plasma = {
         enable = mkEnableOption "Enable the Plasma 6 (KDE 6) desktop environment.";
-        primary = mkOption {
-          type = types.bool;
-          default = false;
-          description = "Whether to designate plasma as the primary window manager for the system session.";
-        };
       };
       hibernate = mkOption {
         type = types.bool;
@@ -156,33 +135,11 @@ in
     };
   };
   config = mkMerge [
-    {
-      assertions = [
-        {
-          assertion =
-            (lib.count (x: x) [
-              config.desktop.hyprland.primary
-              config.desktop.niri.primary
-              config.desktop.mango.primary
-              config.desktop.plasma.primary
-            ]) <= 1;
-          message = "Only one desktop can be designated as the primary session at a time.";
-        }
-      ];
-    }
     (mkIf (!config.desktop.enable) {
       desktop.hyprland.enable = mkForce false;
       desktop.niri.enable = mkForce false;
+      desktop.mango.enable = mkForce false;
       desktop.plasma.enable = mkForce false;
-    })
-    (mkIf (!config.desktop.hyprland.enable) {
-      desktop.hyprland.primary = mkForce false;
-    })
-    (mkIf (!config.desktop.niri.enable) {
-      desktop.niri.primary = mkForce false;
-    })
-    (mkIf (!config.desktop.plasma.enable) {
-      desktop.plasma.primary = mkForce false;
     })
     (mkIf (!config.desktop.themes.enable) {
       desktop.themes.list = mkForce [ ];

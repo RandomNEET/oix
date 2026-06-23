@@ -25,18 +25,9 @@ in
   desktop = {
     enable = true;
     displayManager = "ly";
-    hyprland = {
-      enable = true;
-      primary = false;
-    };
-    niri = {
-      enable = true;
-      primary = true;
-    };
-    mango = {
-      enable = true;
-      primary = false;
-    };
+    hyprland.enable = true;
+    niri.enable = true;
+    mango.enable = true;
     hibernate = true;
     themes = {
       enable = true;
