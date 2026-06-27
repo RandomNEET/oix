@@ -53,7 +53,10 @@ rec {
         user = {
           name = "RandomNEET";
           email = "dev@randomneet.me";
+          signingkey = "0xBFA119DF465BFBB1";
         };
+        commit.gpgsign = true;
+        tag.gpgSign = true;
       };
     };
     yazi = {
