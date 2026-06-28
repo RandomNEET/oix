@@ -158,15 +158,25 @@
         else
           [ ];
 
-      # Flat list of every { hostname, username } pair across all hosts
-      allUserSlots = nixpkgs.lib.concatLists (
+      # Split hosts by platform
+      nixosHosts = builtins.filter (
+        h:
+        (builtins.elem (readHostMeta h).platform [
+          "nixos"
+          "home-manager"
+        ])
+      ) allHosts;
+      hmHosts = builtins.filter (h: (readHostMeta h).platform == "home-manager") allHosts;
+
+      # User slots scoped to home-manager-only hosts
+      hmUserSlots = nixpkgs.lib.concatLists (
         map (
           hostname:
           let
             hostPath = ./hosts + "/${hostname}";
           in
           map (username: { inherit hostname username; }) (usersForHost hostPath)
-        ) allHosts
+        ) hmHosts
       );
 
       # Select the appropriate nixpkgs, home-manager lib, and module sets by channel
@@ -252,6 +262,7 @@
           lib = channel.lib;
           mylib = import ./lib { inherit lib; };
           hostUsers = usersForHost hostPath;
+          isNixOS = meta.platform == "nixos";
         in
         {
           name = hostname;
@@ -267,9 +278,23 @@
             };
             modules = [
               baseOsModulePath
+              { system.stateVersion = meta.stateVersion; }
               {
-                home-manager.extraSpecialArgs = { inherit inputs outputs mylib; };
-                home-manager.users = lib.genAttrs hostUsers (
+                nixpkgs = {
+                  overlays = import ./overlays { inherit inputs; };
+                  config.allowUnfree = meta.allowUnfree;
+                };
+              }
+            ]
+            ++ (selectOsModules meta)
+            ++ lib.optional (builtins.pathExists (hostPath + "/imports.nix")) (hostPath + "/imports.nix")
+            ++ lib.optional (builtins.pathExists (hostPath + "/options.nix")) (hostPath + "/options.nix")
+            ++ lib.optional (builtins.pathExists (hostPath + "/hardware-configuration.nix")) (
+              hostPath + "/hardware-configuration.nix"
+            )
+            ++ lib.optional isNixOS {
+              home-manager = {
+                users = lib.genAttrs hostUsers (
                   username:
                   let
                     userPath = hostPath + "/users/${username}";
@@ -293,22 +318,9 @@
                     };
                   }
                 );
-
-                system.stateVersion = meta.stateVersion;
-              }
-              {
-                nixpkgs = {
-                  overlays = import ./overlays { inherit inputs; };
-                  config.allowUnfree = meta.allowUnfree;
-                };
-              }
-            ]
-            ++ (selectOsModules meta)
-            ++ lib.optional (builtins.pathExists (hostPath + "/imports.nix")) (hostPath + "/imports.nix")
-            ++ lib.optional (builtins.pathExists (hostPath + "/options.nix")) (hostPath + "/options.nix")
-            ++ lib.optional (builtins.pathExists (hostPath + "/hardware-configuration.nix")) (
-              hostPath + "/hardware-configuration.nix"
-            );
+                extraSpecialArgs = { inherit inputs outputs mylib; };
+              };
+            };
           };
         };
 
@@ -328,9 +340,7 @@
             overlays = import ./overlays { inherit inputs; };
             config.allowUnfree = meta.allowUnfree;
           };
-          # osConfig is null for non-NixOS hosts
-          nixosConfig = outputs.nixosConfigurations.${hostname} or null;
-          osConfig = if nixosConfig != null then nixosConfig.config else null;
+          osConfig = outputs.nixosConfigurations.${hostname}.config;
         in
         {
           name = "${username}@${hostname}";
@@ -377,8 +387,10 @@
       mkChecks =
         system:
         let
-          hostsForSystem = builtins.filter (h: (readHostMeta h).system == system) allHosts;
-          slotsForSystem = builtins.filter (s: (readHostMeta s.hostname).system == system) allUserSlots;
+          hostsForSystem = builtins.filter (
+            h: (readHostMeta h).system == system && (readHostMeta h).platform == "nixos"
+          ) nixosHosts;
+          slotsForSystem = builtins.filter (s: (readHostMeta s.hostname).system == system) hmUserSlots;
           treefmtEval = mkTreefmtEval system;
         in
         nixpkgs.lib.listToAttrs (
@@ -398,8 +410,8 @@
         };
     in
     {
-      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkNixosConfig allHosts);
-      homeConfigurations = nixpkgs.lib.listToAttrs (map mkHomeConfig allUserSlots);
+      nixosConfigurations = nixpkgs.lib.listToAttrs (map mkNixosConfig nixosHosts);
+      homeConfigurations = nixpkgs.lib.listToAttrs (map mkHomeConfig hmUserSlots);
       devShells = forAllSystems mkDevShells;
       formatter = forAllSystems mkFormatter;
       checks = forAllSystems mkChecks;
