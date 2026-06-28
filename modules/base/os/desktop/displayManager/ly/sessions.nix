@@ -6,7 +6,7 @@
 }:
 let
   inherit (lib) optionalAttrs;
-  sessions = import ../shared/sessions { inherit pkgs; };
+  sessions = import ../shared/sessions { inherit lib pkgs; };
 in
 {
   config = lib.mkIf (config.desktop.displayManager == "ly") {

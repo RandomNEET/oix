@@ -1,4 +1,8 @@
-{ pkgs }:
+{ lib, pkgs }:
+let
+  inherit (lib) getExe;
+  start-mango = getExe (pkgs.callPackage ../scripts/start-mango.nix { inherit pkgs; });
+in
 {
   hyprland = ''
     [Desktop Entry]
@@ -15,7 +19,7 @@
   mango = ''
     [Desktop Entry]
     Name=mango
-    Exec=mango
+    Exec=${start-mango}
     DesktopNames=mango;wlroots
   '';
   plasma-wayland = ''
