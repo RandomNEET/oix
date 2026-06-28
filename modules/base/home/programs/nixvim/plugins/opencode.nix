@@ -30,7 +30,7 @@
           "n"
           "x"
         ];
-        key = "<leader>ae";
+        key = "<leader>as";
         action = "<cmd>lua require('opencode').select()<cr>";
         options = {
           desc = "Execute opencode action…";
@@ -39,20 +39,9 @@
       {
         mode = [
           "n"
-          "t"
-        ];
-        key = "<leader>at";
-        action = "<cmd>lua require('opencode').toggle()<cr>";
-        options = {
-          desc = "Toggle opencode";
-        };
-      }
-      {
-        mode = [
-          "n"
           "x"
         ];
-        key = "go";
+        key = "ao";
         action = "require('opencode').operator('@this ')";
         options = {
           expr = true;
@@ -61,7 +50,7 @@
       }
       {
         mode = "n";
-        key = "goo";
+        key = "aoo";
         action = "require('opencode').operator('@this ') .. '_'";
         options = {
           expr = true;
