@@ -1,9 +1,6 @@
 {
   keybinds = {
-    validate = [
-      "return"
-      "enter"
-    ];
+    validate = [ "enter" ];
     cancel = [ "escape" ];
     left = [
       "ctrl+h"
