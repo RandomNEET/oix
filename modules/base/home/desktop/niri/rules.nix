@@ -24,7 +24,7 @@
 
     {
       matches = [
-        { app-id = "^(org\.qutebrowser\.qutebrowser)$"; }
+        { app-id = "^(org.qutebrowser.qutebrowser)$"; }
         { app-id = "^(firefox)$"; }
       ];
       opacity = 1.00;
@@ -38,7 +38,7 @@
         { app-id = "^(code)$"; }
         { app-id = "^(spotify)$"; }
         { app-id = "^(steam)$"; }
-        { app-id = "^(org\.gnupg\.pinentry-qt)$"; }
+        { app-id = "^(org.gnupg.pinentry-qt)$"; }
       ];
       opacity = 0.80;
     }

@@ -14,7 +14,7 @@
     # Opacity rules
     {
       match = {
-        class = "^(org\\.qutebrowser\\.qutebrowser)$";
+        class = "^(org.qutebrowser.qutebrowser)$";
       };
       opacity = "1.00 1.00";
     }
@@ -26,7 +26,7 @@
     }
     {
       match = {
-        class = "^(org\\.gnupg\\.pinentry-qt)$";
+        class = "^(org.gnupg.pinentry-qt)$";
       };
       opacity = "0.90 0.90";
     }
@@ -124,7 +124,7 @@
     }
     {
       match = {
-        class = "^(org\\.prismlauncher\\.PrismLauncher)$";
+        class = "^(org.prismlauncher.PrismLauncher)$";
       };
       tag = "+games";
     }
