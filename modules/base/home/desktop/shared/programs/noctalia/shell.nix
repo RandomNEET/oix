@@ -15,8 +15,7 @@ in
   date_format = "%A, %x";
   offline_mode = false;
   telemetry_enabled = false;
-  setup_wizard_enabled = true;
-  niri_overview_type_to_launch_enabled = false;
+  setup_wizard_enabled = false;
   polkit_agent = true;
   password_style = "default";
   settings_show_advanced = false;
@@ -28,7 +27,7 @@ in
   clipboard_history_max_entries = 100;
   clipboard_confirm_clear_history = true;
   clipboard_auto_paste = "auto";
-  clipboard_image_action_command = "";
+  clipboard_image_action_command = "satty --filename {path}";
   shared_gl_context = true;
 
   animation = {
@@ -109,4 +108,6 @@ in
       }
     ];
   };
+
+  niri_overview_type_to_launch_enabled = false;
 }
