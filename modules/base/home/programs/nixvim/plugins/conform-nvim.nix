@@ -50,7 +50,6 @@
             "prettier"
           ];
           typescriptreact = [ "prettier" ];
-          vue = [ "prettier" ];
           json = [ "prettier" ];
           yaml = [
             "prettierd"

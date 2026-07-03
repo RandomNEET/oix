@@ -24,7 +24,6 @@
         rust
         toml
         typescript
-        vue
         yaml
       ];
       highlight.enable = true;
