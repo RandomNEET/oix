@@ -15,7 +15,6 @@
         }; # rust
         html.enable = true; # html
         ts_ls.enable = true; # ts/js
-        vue_ls.enable = true; # vue
         jsonls.enable = true; # json
         yamlls.enable = true; # yaml
         taplo.enable = true; # toml
