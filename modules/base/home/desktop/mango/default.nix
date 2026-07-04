@@ -39,7 +39,7 @@ in
       in
       {
         enable = true;
-        package = pkgs.mangowc;
+        package = pkgs.mango;
         systemd = {
           enable = true;
           xdgAutostart = true;
