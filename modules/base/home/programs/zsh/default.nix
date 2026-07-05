@@ -59,32 +59,28 @@ in
         '')
         # default: General configuration
         (mkOrder 1000 ''
-          if [[ -n "$NVIM" ]]; then
-            bindkey -e
-            search_keybinds
-            ${optionalString config.programs.fzf.enable (builtins.readFile ./init/fzf.zsh)}
-          else
-            function zvm_config() {
-              ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
-              ZVM_SYSTEM_CLIPBOARD_ENABLED=true
-              ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
-              ZVM_VI_VISUAL_ESCAPE_BINDKEY=jk
-              ZVM_VI_HIGHLIGHT_FOREGROUND=black
-              ZVM_VI_HIGHLIGHT_BACKGROUND=white
+          function zvm_config() {
+            ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+            ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+            ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+            ZVM_VI_VISUAL_ESCAPE_BINDKEY=jk
+            ZVM_VI_HIGHLIGHT_FOREGROUND=black
+            ZVM_VI_HIGHLIGHT_BACKGROUND=white
+          }
+          source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+          zvm_after_init_commands+=(search_keybinds)
+          function zvm_after_lazy_keybindings() {
+            zvm_bindkey vicmd 'k' up-line-or-beginning-search
+            zvm_bindkey vicmd 'j' down-line-or-beginning-search
+          }
+          ${optionalString config.programs.fzf.enable ''
+            function fzf_init() {
+              zvm_bindkey viins '^T' fzf-file-widget
+              zvm_bindkey viins '^R' fzf-history-widget
+              zvm_bindkey viins '\ec' fzf-cd-widget
             }
-            source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-            zvm_after_init_commands+=(search_keybinds)
-            function zvm_after_lazy_keybindings() {
-              zvm_bindkey vicmd 'k' up-line-or-beginning-search
-              zvm_bindkey vicmd 'j' down-line-or-beginning-search
-            }
-            ${optionalString config.programs.fzf.enable ''
-              function fzf_init() {
-                ${builtins.readFile ./init/fzf.zsh}
-              }
-              zvm_after_init_commands+=(fzf_init)
-            ''}
-          fi
+            zvm_after_init_commands+=(fzf_init)
+          ''}
         '')
         # mkAfter: Last to run configuration
         (mkOrder 1500 "")
@@ -98,6 +94,5 @@ in
         "....." = "../../../..";
       };
     };
-    fzf.enableZshIntegration = lib.mkForce false; # keybinds overwritten by zsh-vi-mode, source manually instead
   };
 }
