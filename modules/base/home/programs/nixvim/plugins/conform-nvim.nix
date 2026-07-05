@@ -23,6 +23,7 @@
         formatters_by_ft = {
           nix = [ "nixfmt" ];
           sh = [ "shfmt" ];
+          zsh = [ "shfmt" ];
           lua = [ "stylua" ];
           luau = [ "stylua" ];
           python = [

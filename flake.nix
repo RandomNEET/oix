@@ -248,7 +248,6 @@
             ];
             formatter = {
               prettier.includes = [ ".jsonc" ];
-              shfmt.includes = [ ".zsh" ];
             };
           };
         };
