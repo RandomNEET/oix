@@ -31,14 +31,18 @@
         };
         sections = {
           lualine_a = [
+            "mode"
             {
               __raw = ''
                 function()
-                  local m = require("noice").api.statusline.mode.get()
-                  return m and m:gsub("%-%- ", ""):gsub(" %-%-", "") or "NORMAL"
+                  local reg = vim.fn.reg_recording()
+                  if reg ~= "" then
+                    return "Recording @" .. reg
+                  end
+                  return ""
                 end
               '';
-              cond = "require('noice').api.statusline.mode.has";
+              draw_empty = false;
             }
             {
               __raw = "function() return vim.fn['ObsessionStatus']('[$]', '') end";
