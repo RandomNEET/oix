@@ -44,8 +44,8 @@ in
     transparency_mode = "solid";
     borders = true;
     shadow = true;
-    launcher_placement = "centered";
-    clipboard_placement = "centered";
+    launcher_placement = "floating";
+    clipboard_placement = "floating";
     control_center_placement = "attached";
     wallpaper_placement = "attached";
     session_placement = "attached";
