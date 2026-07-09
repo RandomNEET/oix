@@ -4,6 +4,7 @@
   config,
   pkgs,
   mylib,
+  meta,
   ...
 }:
 let
@@ -51,6 +52,15 @@ let
       "";
 in
 {
+  imports = [
+    (
+      if (meta.channel == "unstable") then
+        inputs.spicetify-nix.homeManagerModules.default
+      else
+        inputs.spicetify-nix-stable.homeManagerModules.default
+    )
+  ];
+
   programs.spicetify = {
     enable = true;
     enabledExtensions = with spicePkgs.extensions; [

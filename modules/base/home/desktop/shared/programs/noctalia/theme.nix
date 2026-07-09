@@ -5,10 +5,11 @@
   mylib,
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
-  themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
+  themesEnabled = osConfig.desktop.themes.enable;
+  themeName =
+    if themesEnabled then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
   matchedPredefinedScheme =
-    if hasThemes then
+    if themesEnabled then
       if themeName == "ayu" then
         "Ayu"
       else if themeName == "catppuccin-mocha" then
@@ -35,7 +36,7 @@ in
 {
   mode = "dark";
   source = "builtin";
-  builtin = if hasThemes then matchedPredefinedScheme else "Noctalia";
+  builtin = if themesEnabled then matchedPredefinedScheme else "Noctalia";
   templates = {
     builtin_ids = [ ];
     community_ids = [ ];

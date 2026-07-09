@@ -1,5 +1,20 @@
-{ config, pkgs, ... }:
 {
+  inputs,
+  config,
+  pkgs,
+  meta,
+  ...
+}:
+{
+  imports = [
+    (
+      if (meta.channel == "unstable") then
+        inputs.sops-nix.nixosModules.sops
+      else
+        inputs.sops-nix-stable.nixosModules.sops
+    )
+  ];
+
   sops = {
     age = {
       sshKeyPaths = [

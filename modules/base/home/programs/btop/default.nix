@@ -12,6 +12,7 @@
       vim_keys = true;
     };
   };
-
-  stylix.targets.btop.enable = lib.mkIf osConfig.desktop.themes.enable true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.btop.enable = true;
 }

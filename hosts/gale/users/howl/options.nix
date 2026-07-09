@@ -1,4 +1,7 @@
-{ config, meta, ... }:
+{ config, ... }:
+let
+  username = config.home.username;
+in
 rec {
   defaultPrograms = {
     editor = "nvim";
@@ -36,13 +39,13 @@ rec {
         };
         zenith = {
           hostname = "zenith.local";
-          user = meta.username;
+          user = username;
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/zenith";
           addKeysToAgent = "yes";
         };
         voile = {
           hostname = "voile.local";
-          user = meta.username;
+          user = username;
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
           addKeysToAgent = "yes";
         };

@@ -46,6 +46,7 @@
       "kitty_mod+t" = "launch --type=overlay --cwd=current tmux";
     };
   };
-
-  stylix.targets.kitty.enable = lib.mkIf osConfig.desktop.themes.enable true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.kitty.enable = true;
 }

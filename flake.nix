@@ -179,56 +179,19 @@
         ) hmHosts
       );
 
-      # Select the appropriate nixpkgs, home-manager lib, and module sets by channel
-      selectNixpkgs = meta: if meta.channel == "stable" then nixpkgs-stable else nixpkgs;
-      selectHmLib = meta: if meta.channel == "stable" then home-manager-stable.lib else home-manager.lib;
-      selectOsModules = meta: if meta.channel == "stable" then osModules.stable else osModules.unstable;
-      selectHmModules = meta: if meta.channel == "stable" then hmModules.stable else hmModules.unstable;
+      # Select the appropriate nixpkgs, home-manager lib and module by channel
+      selectNixpkgs = meta: if meta.channel == "unstable" then nixpkgs else nixpkgs-stable;
+      selectHmLib =
+        meta: if meta.channel == "unstable" then home-manager.lib else home-manager-stable.lib;
+      selectHmModule =
+        meta:
+        if meta.channel == "unstable" then
+          home-manager.nixosModules.home-manager
+        else
+          home-manager-stable.nixosModules.home-manager;
 
       baseOsModulePath = ./modules/base/os;
       baseHmModulePath = ./modules/base/home;
-
-      osModules = {
-        unstable = with inputs; [
-          home-manager.nixosModules.home-manager
-          sops-nix.nixosModules.sops
-          lanzaboote.nixosModules.lanzaboote
-          stylix.nixosModules.stylix
-        ];
-        stable = with inputs; [
-          home-manager-stable.nixosModules.home-manager
-          sops-nix-stable.nixosModules.sops
-          lanzaboote-stable.nixosModules.lanzaboote
-          stylix-stable.nixosModules.stylix
-        ];
-      };
-
-      hmModules = {
-        unstable = with inputs; [
-          sops-nix.homeManagerModules.sops
-          niri.homeModules.niri
-          niri.homeModules.stylix
-          mangowm.hmModules.mango
-          noctalia.homeModules.default
-          plasma-manager.homeModules.plasma-manager
-          stylix.homeModules.stylix
-          nixvim.homeModules.nixvim
-          spicetify-nix.homeManagerModules.default
-          nix-index-database.homeModules.nix-index
-        ];
-        stable = with inputs; [
-          sops-nix-stable.homeManagerModules.sops
-          niri-stable.homeModules.niri
-          niri-stable.homeModules.stylix
-          mangowm-stable.hmModules.mango
-          noctalia-stable.homeModules.default
-          plasma-manager-stable.homeModules.plasma-manager
-          stylix-stable.homeModules.stylix
-          nixvim-stable.homeModules.nixvim
-          spicetify-nix-stable.homeManagerModules.default
-          nix-index-database-stable.homeModules.nix-index
-        ];
-      };
 
       mkTreefmtEval =
         system:
@@ -276,16 +239,16 @@
                 ;
             };
             modules = [
-              baseOsModulePath
-              { system.stateVersion = meta.stateVersion; }
               {
                 nixpkgs = {
                   overlays = import ./overlays { inherit inputs; };
                   config.allowUnfree = meta.allowUnfree;
                 };
               }
+              { system.stateVersion = meta.stateVersion; }
+              baseOsModulePath
+              (selectHmModule meta)
             ]
-            ++ (selectOsModules meta)
             ++ lib.optional (builtins.pathExists (hostPath + "/imports.nix")) (hostPath + "/imports.nix")
             ++ lib.optional (builtins.pathExists (hostPath + "/options.nix")) (hostPath + "/options.nix")
             ++ lib.optional (builtins.pathExists (hostPath + "/hardware-configuration.nix")) (
@@ -302,7 +265,6 @@
                     imports = [
                       baseHmModulePath
                     ]
-                    ++ (selectHmModules meta)
                     ++ lib.optional (builtins.pathExists (userPath + "/imports.nix")) (userPath + "/imports.nix")
                     ++ lib.optional (builtins.pathExists (userPath + "/options.nix")) (userPath + "/options.nix");
 
@@ -312,12 +274,16 @@
                       stateVersion = meta.stateVersion;
                     };
                     programs.home-manager.enable = true;
-                    _module.args.meta = meta // {
-                      inherit username;
-                    };
                   }
                 );
-                extraSpecialArgs = { inherit inputs outputs mylib; };
+                extraSpecialArgs = {
+                  inherit
+                    inputs
+                    outputs
+                    mylib
+                    meta
+                    ;
+                };
               };
             };
           };
@@ -349,9 +315,9 @@
               inherit
                 inputs
                 outputs
-                meta
-                mylib
                 osConfig
+                mylib
+                meta
                 ;
             };
             modules = [
@@ -365,7 +331,6 @@
                 programs.home-manager.enable = true;
               }
             ]
-            ++ (selectHmModules meta)
             ++ lib.optional (builtins.pathExists (userPath + "/imports.nix")) (userPath + "/imports.nix")
             ++ lib.optional (builtins.pathExists (userPath + "/options.nix")) (userPath + "/options.nix");
           };

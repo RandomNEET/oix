@@ -8,7 +8,7 @@
 let
   inherit (lib) optionalAttrs getExe getExe';
   hasDesktop = osConfig.desktop.enable;
-  hasThemes = osConfig.desktop.themes.enable;
+  themesEnabled = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
 in
 {
@@ -25,7 +25,7 @@ in
         border-char-vertical = "│";
         border-char-horizontal = "─";
       }
-      // optionalAttrs hasThemes {
+      // optionalAttrs themesEnabled {
         styleset-name = "stylix";
       };
       filters = {
@@ -74,7 +74,7 @@ in
           aerc-shutdown = "${import ./scripts/count.nix { inherit config pkgs; }}";
         };
     };
-    stylesets = lib.mkIf hasThemes {
+    stylesets = lib.mkIf themesEnabled {
       stylix = ''
         # Default styles
         *.default=true

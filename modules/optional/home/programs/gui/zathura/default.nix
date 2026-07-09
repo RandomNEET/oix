@@ -6,6 +6,7 @@
       set selection-clipboard clipboard
     '';
   };
-
-  stylix.targets.zathura.enable = lib.mkIf osConfig.desktop.themes.enable true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.zathura.enable = true;
 }

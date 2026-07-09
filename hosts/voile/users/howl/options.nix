@@ -2,9 +2,11 @@
   config,
   lib,
   pkgs,
-  meta,
   ...
 }:
+let
+  username = config.home.username;
+in
 {
   defaultPrograms = {
     editor = "nvim";
@@ -18,14 +20,14 @@
         zenith = {
           hostname = "zenith.local";
           port = 22;
-          user = meta.username;
+          user = username;
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/zenith";
           addKeysToAgent = "yes";
         };
         gale = {
           hostname = "gale.local";
           port = 22;
-          user = meta.username;
+          user = username;
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/gale";
           addKeysToAgent = "yes";
         };

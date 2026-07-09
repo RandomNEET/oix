@@ -14,6 +14,7 @@ in
     inputs.impermanence.nixosModules.impermanence
     ./options.nix
   ];
+
   config = lib.mkIf config.base.impermanence.enable {
     environment.persistence = {
       ${config.base.impermanence.persistDir} = {

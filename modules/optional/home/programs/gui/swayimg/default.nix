@@ -5,7 +5,7 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
+  themesEnabled = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
   hex = c: builtins.substring 1 6 c;
 in
@@ -21,13 +21,13 @@ in
     #     scale = "optimal";
     #     antialiasing = "mks13";
     #   }
-    #   // lib.optionalAttrs hasThemes {
+    #   // lib.optionalAttrs themesEnabled {
     #     window = "${colors.base00}80";
     #   };
     #   font = {
     #     size = 12;
     #   }
-    #   // lib.optionalAttrs hasThemes {
+    #   // lib.optionalAttrs themesEnabled {
     #     name = (builtins.head osConfig.desktop.fonts.monospace).name;
     #     color = "${colors.base05}ff";
     #     shadow = "${colors.base00}d0";
@@ -565,7 +565,7 @@ in
     swayimg.viewer.on_key("Shift-a", toggle_antialiasing)
     swayimg.viewer.on_key("Shift-?", show_help)
   ''
-  + lib.optionalString hasThemes ''
+  + lib.optionalString themesEnabled ''
     -- Theme settings (overrides defaults above)
     swayimg.text.set_font("${(builtins.head osConfig.desktop.fonts.monospace).name}")
     swayimg.text.set_size(12)

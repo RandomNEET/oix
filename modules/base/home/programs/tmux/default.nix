@@ -8,7 +8,7 @@
 }:
 let
   inherit (lib) optionalString;
-  hasThemes = osConfig.desktop.themes.enable;
+  themesEnabled = osConfig.desktop.themes.enable;
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
   resurrectDir = "${config.xdg.stateHome}/tmux/resurrect";
@@ -97,7 +97,7 @@ in
           set -g @tmux-dotbar-ssh-icon-only true
           set -g @tmux-dotbar-ssh-icon '󰌘'
         ''
-        + optionalString hasThemes ''
+        + optionalString themesEnabled ''
           set -g @tmux-dotbar-bg "${colors.base00}"
           set -g @tmux-dotbar-fg "${colors.base03}"
           set -g @tmux-dotbar-fg-current "${colors.base05}"
@@ -122,7 +122,7 @@ in
           set -g @floax-bind 'p'
           set -g @floax-bind-menu 'P'
         ''
-        + optionalString hasThemes ''
+        + optionalString themesEnabled ''
           set -g @floax-border-color "${primaryColor}"
           set -g @floax-text-color "${colors.base0D}"
         '';
@@ -169,6 +169,7 @@ in
     txn = "tmuxinator new";
     txl = "tmuxinator list";
   };
-
-  stylix.targets.tmux.enable = lib.mkIf hasThemes true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.tmux.enable = true;
 }

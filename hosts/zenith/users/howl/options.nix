@@ -2,9 +2,11 @@
   config,
   lib,
   pkgs,
-  meta,
   ...
 }:
+let
+  username = config.home.username;
+in
 rec {
   defaultPrograms = {
     editor = "nvim";
@@ -42,13 +44,13 @@ rec {
         };
         gale = {
           hostname = "gale.local";
-          user = meta.username;
+          user = username;
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/gale";
           addKeysToAgent = "yes";
         };
         voile = {
           hostname = "voile.local";
-          user = meta.username;
+          user = username;
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
           addKeysToAgent = "yes";
         };

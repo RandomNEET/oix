@@ -43,6 +43,7 @@
       yaml-language-server # yaml
     ];
   };
-
-  stylix.targets.helix.enable = lib.mkIf osConfig.desktop.themes.enable true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.helix.enable = true;
 }
