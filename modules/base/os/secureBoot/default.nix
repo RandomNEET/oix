@@ -1,11 +1,22 @@
 {
+  inputs,
   config,
   lib,
   pkgs,
+  meta,
   ...
 }:
 {
-  imports = [ ./options.nix ];
+  imports = [
+    (
+      if (meta.channel == "unstable") then
+        inputs.lanzaboote.nixosModules.lanzaboote
+      else
+        inputs.lanzaboote-stable.nixosModules.lanzaboote
+    )
+    ./options.nix
+  ];
+
   config = lib.mkIf config.base.secureBoot.enable {
     environment.systemPackages = [
       # For debugging and troubleshooting Secure Boot.

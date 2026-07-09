@@ -20,6 +20,7 @@
     initLua = builtins.readFile ./init.lua; # init.lua for yazi itself
   };
   imports = [ ./plugins ];
-
-  stylix.targets.yazi.enable = lib.mkIf osConfig.desktop.themes.enable true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.yazi.enable = true;
 }

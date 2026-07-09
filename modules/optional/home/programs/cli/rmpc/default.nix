@@ -6,7 +6,7 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.enable;
+  themesEnabled = osConfig.desktop.enable;
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
 in
@@ -203,12 +203,12 @@ in
               ),
               eq: [],
           ),
-          ${lib.optionalString hasThemes "theme: \"stylix\","}
+          ${lib.optionalString themesEnabled "theme: \"stylix\","}
       )
     '';
   };
   home = {
-    file = lib.optionalAttrs hasThemes {
+    file = lib.optionalAttrs themesEnabled {
       ".config/rmpc/themes/stylix.ron".text = ''
         #![enable(implicit_some)]
         #![enable(unwrap_newtypes)]

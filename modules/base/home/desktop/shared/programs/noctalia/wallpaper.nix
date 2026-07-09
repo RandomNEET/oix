@@ -5,11 +5,12 @@
   mylib,
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
-  themeName = if hasThemes then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
+  themesEnabled = osConfig.desktop.themes.enable;
+  themeName =
+    if themesEnabled then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
   hasWallpaper = config.desktop.wallpaper.enable;
   wallpaperDir =
-    if hasThemes then
+    if themesEnabled then
       "${config.desktop.wallpaper.dir}/themed/${themeName}"
     else
       config.desktop.wallpaper.dir;

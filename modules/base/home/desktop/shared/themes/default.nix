@@ -1,15 +1,26 @@
 {
+  inputs,
   osConfig,
   lib,
   pkgs,
+  meta,
   ...
 }:
 let
-  inherit (lib) mkMerge mkIf;
+  themesEnabled = osConfig.desktop.themes.enable;
 in
 {
-  config = mkMerge [
-    (mkIf osConfig.desktop.themes.enable (
+  imports = lib.optionals (themesEnabled && (meta.platform == "home-manager")) [
+    (
+      if (meta.channel == "unstable") then
+        inputs.stylix.homeModules.stylix
+      else
+        inputs.stylix-stable.homeModules.stylix
+    )
+  ];
+
+  config =
+    if themesEnabled then
       let
         defaultTheme = builtins.head osConfig.desktop.themes.list;
         otherThemes = builtins.tail osConfig.desktop.themes.list;
@@ -91,22 +102,16 @@ in
           fi
         '';
       }
-    ))
-    (mkIf (!osConfig.desktop.themes.enable) {
-      stylix = {
-        enable = false;
-        autoEnable = false;
-        overlays.enable = false;
-      };
-      home.activation.saveHmBasePath = ''
-        LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
+    else
+      {
+        home.activation.removeHmBasePath = ''
+          LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
 
-        if [[ ! "$0" =~ "specialisation" ]]; then
-        	if [ -L "$LINK_PATH" ] || [ -e "$LINK_PATH" ]; then
-        		rm -f "$LINK_PATH"
-        	fi
-        fi
-      '';
-    })
-  ];
+          if [[ ! "$0" =~ "specialisation" ]]; then
+          	if [ -L "$LINK_PATH" ] || [ -e "$LINK_PATH" ]; then
+          		rm -f "$LINK_PATH"
+          	fi
+          fi
+        '';
+      };
 }

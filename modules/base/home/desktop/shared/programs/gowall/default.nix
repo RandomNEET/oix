@@ -18,22 +18,20 @@ let
   };
 in
 {
-  config = lib.mkIf osConfig.desktop.enable {
-    home = {
-      packages =
-        with pkgs;
-        [ gowall ]
-        ++ lib.optional (
-          osConfig.desktop.themes.enable && config.desktop.wallpaper.enable
-        ) gowall-autoconvert;
-      file = {
-        ".config/gowall/config.yml".text = ''
-          EnableImagePreviewing: true
-          InlineImagePreview: true
-          OutputFolder: "${config.xdg.userDirs.pictures}/gowall"
-          ${builtins.readFile ./themes.yml}
-        '';
-      };
+  home = {
+    packages =
+      with pkgs;
+      [ gowall ]
+      ++ lib.optional (
+        osConfig.desktop.themes.enable && config.desktop.wallpaper.enable
+      ) gowall-autoconvert;
+    file = {
+      ".config/gowall/config.yml".text = ''
+        EnableImagePreviewing: true
+        InlineImagePreview: true
+        OutputFolder: "${config.xdg.userDirs.pictures}/gowall"
+        ${builtins.readFile ./themes.yml}
+      '';
     };
   };
 }

@@ -1,10 +1,21 @@
 {
+  inputs,
   config,
   lib,
   pkgs,
+  meta,
   ...
 }:
 {
+  imports = [
+    (
+      if (meta.channel == "unstable") then
+        inputs.sops-nix.homeManagerModules.sops
+      else
+        inputs.sops-nix-stable.homeManagerModules.sops
+    )
+  ];
+
   sops = {
     age = {
       keyFile = "${config.xdg.configHome}/sops/age/keys.txt";

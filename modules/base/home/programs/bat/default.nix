@@ -24,6 +24,7 @@
   home.sessionVariables = {
     MANPAGER = "bat -plman";
   };
-
-  stylix.targets.bat.enable = lib.mkIf osConfig.desktop.themes.enable true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.bat.enable = true;
 }

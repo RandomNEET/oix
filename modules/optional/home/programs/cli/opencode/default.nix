@@ -23,6 +23,7 @@
       };
     };
   };
-
-  stylix.targets.opencode.enable = lib.mkIf osConfig.desktop.themes.enable true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.opencode.enable = true;
 }

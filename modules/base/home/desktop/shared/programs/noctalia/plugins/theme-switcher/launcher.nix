@@ -60,7 +60,7 @@ in
 
       noctalia msg config-reload || true
       
-      ${optionalString config.wayland.windowManager.mango.enable ''
+      ${optionalString osConfig.desktop.mango.enable ''
         if systemctl --user -q is-active mango-session.target; then
           mmsg dispatch reload_config
         fi

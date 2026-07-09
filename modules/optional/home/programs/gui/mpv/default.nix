@@ -131,6 +131,7 @@ in
   home.packages = with pkgs; [
     ffmpeg # mpv-cut
   ];
-
-  stylix.targets.mpv.enable = lib.mkIf osConfig.desktop.themes.enable true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.mpv.enable = true;
 }

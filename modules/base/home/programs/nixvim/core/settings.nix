@@ -6,7 +6,7 @@
   ...
 }:
 let
-  hasThemes = osConfig.desktop.themes.enable;
+  themesEnabled = osConfig.desktop.themes.enable;
 in
 {
   programs.nixvim = {
@@ -102,7 +102,7 @@ in
       end
     ''
     # Auto reload stylix colorscheme
-    + lib.optionalString hasThemes ''
+    + lib.optionalString themesEnabled ''
       _G.reload_theme = function()
         vim.defer_fn(function()
           local f = io.open(vim.env.MYVIMRC, "r")
@@ -149,8 +149,9 @@ in
 
     nixpkgs.config.allowUnfree = meta.allowUnfree;
   };
-
-  stylix.targets.nixvim = lib.mkIf hasThemes {
+}
+// lib.optionalAttrs themesEnabled {
+  stylix.targets.nixvim = {
     enable = true;
     transparentBackground = {
       main = true;

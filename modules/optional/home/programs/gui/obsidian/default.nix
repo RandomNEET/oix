@@ -39,6 +39,7 @@
   };
 
   home.packages = with pkgs; [ npmPackages.obsidian-headless ];
-
-  stylix.targets.obsidian.enable = lib.mkIf osConfig.desktop.themes.enable true;
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.obsidian.enable = true;
 }

@@ -125,8 +125,9 @@ in
       );
     };
   };
-
-  stylix.targets.vscode = lib.mkIf osConfig.desktop.themes.enable {
+}
+// lib.optionalAttrs osConfig.desktop.themes.enable {
+  stylix.targets.vscode = {
     enable = true;
     profileNames = builtins.attrNames profiles;
   };

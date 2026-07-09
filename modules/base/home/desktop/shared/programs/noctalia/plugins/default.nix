@@ -9,7 +9,7 @@ let
   inherit (lib) optional optionalAttrs;
   customPluginsDir = ".local/state/noctalia/plugins/custom";
 
-  hasThemes = osConfig.desktop.themes.enable;
+  themesEnabled = osConfig.desktop.themes.enable;
 in
 {
   config = lib.mkIf osConfig.desktop.enable {
@@ -17,7 +17,7 @@ in
       enabled = [
         "noctalia/translator"
       ]
-      ++ optional hasThemes "custom/theme-switcher";
+      ++ optional themesEnabled "custom/theme-switcher";
       source = [
         {
           enabled = true;
@@ -45,7 +45,7 @@ in
 
     home.file =
       { }
-      // optionalAttrs hasThemes {
+      // optionalAttrs themesEnabled {
         "${customPluginsDir}/theme-switcher/plugin.toml".source = ./theme-switcher/plugin.toml;
         "${customPluginsDir}/theme-switcher/launcher.luau".text = import ./theme-switcher/launcher.nix {
           inherit
