@@ -16,7 +16,7 @@ in
   ];
   config = lib.mkIf config.base.impermanence.enable {
     environment.persistence = {
-      "/nix/persist" = {
+      ${config.base.impermanence.persistDir} = {
         hideMounts = true;
         directories = (
           [

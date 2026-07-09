@@ -18,7 +18,10 @@ in
     multimedia.enable = true;
     bluetooth.enable = true;
     power.enable = true;
-    impermanence.enable = true;
+    impermanence = {
+      enable = true;
+      persistDir = "/nix/persist";
+    };
     secureBoot.enable = true;
     gaming.enable = true;
   };
