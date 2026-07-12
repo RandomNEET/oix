@@ -45,19 +45,25 @@ in
     borders = true;
     shadow = true;
     launcher_placement = "floating";
+    launcher_position = "center";
     clipboard_placement = "floating";
     control_center_placement = "attached";
     wallpaper_placement = "attached";
     session_placement = "attached";
     open_near_click_control_center = false;
     open_near_click_launcher = false;
-    launcher_categories = true;
-    launcher_show_icons = true;
-    launcher_compact = false;
-    launcher_session_search = false;
     open_near_click_clipboard = false;
     open_near_click_wallpaper = false;
     open_near_click_session = false;
+  };
+
+  launcher = {
+    app_grid = false;
+    categories = true;
+    compact = false;
+    session_search = false;
+    show_icons = true;
+    sort_by_usage = true;
   };
 
   screen_corners = {
@@ -80,7 +86,7 @@ in
   };
 
   session = {
-    entries = [
+    actions = [
       {
         action = "lock";
         enabled = true;
