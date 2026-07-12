@@ -7,18 +7,18 @@
 }:
 buildNpmPackage rec {
   pname = "obsidian-headless";
-  version = "0.0.12";
+  version = "0.0.13";
 
   src = fetchurl {
     url = "https://registry.npmjs.org/obsidian-headless/-/obsidian-headless-${version}.tgz";
-    hash = "sha256-bSZ/1XdTEgAH4atw/NPx0OsP2ul78T1ea4xpu+7w/n0=";
+    hash = "sha256-m44a05F6ZdU8WrdNBqz17I2UHjsCvZvV0DXWgA5TMZg=";
   };
 
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
   '';
 
-  npmDepsHash = "sha256-b223nQmtFPIUln4YzQxzsNgpICsFmahirPXqAuupvXo=";
+  npmDepsHash = "sha256-9CrEHMWe3fhqk6gK/jtU01RaZWVxcKEG5ItRgIYO0FQ=";
 
   nativeBuildInputs = [
     python3
