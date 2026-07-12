@@ -93,6 +93,7 @@ in
           set -g @tmux-dotbar-left true
           set -g @tmux-dotbar-right false
           set -g @tmux-dotbar-session-position right
+          set -g @tmux-dotbar-rounded true
           set -g @tmux-dotbar-ssh-enabled true
           set -g @tmux-dotbar-ssh-icon-only true
           set -g @tmux-dotbar-ssh-icon '󰌘'
