@@ -92,7 +92,7 @@
     # Noctalia settings window
     {
       match = {
-        class = "^(dev.noctalia.Noctalia.Settings)$";
+        class = "^(dev.noctalia.Noctalia)$";
       };
       float = true;
     }
