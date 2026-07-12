@@ -16,6 +16,6 @@
     "focused_opacity:0.8,unfocused_opacity:0.8,isfloating:1,appid:^(terminal filechooser)$"
     "focused_opacity:0.8,unfocused_opacity:0.8,isfloating:1,title:^(QtPass)$"
 
-    "isfloating:1,appid:^(dev.noctalia.Noctalia.Settings)$"
+    "isfloating:1,appid:^(dev.noctalia.Noctalia)$"
   ];
 }

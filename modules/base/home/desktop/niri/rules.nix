@@ -18,7 +18,7 @@
     }
 
     {
-      matches = [ { app-id = "^(dev.noctalia.Noctalia.Settings)$"; } ];
+      matches = [ { app-id = "^(dev.noctalia.Noctalia)$"; } ];
       open-floating = true;
     }
 
