@@ -9,6 +9,7 @@
     ../../modules/optional/os/services/kmonad
 
     ../../modules/optional/os/scripts/gen-diff.nix
+    ../../modules/optional/os/scripts/nix-daemon-proxy.nix
     ../../modules/optional/os/scripts/oix-init.nix
     ../../modules/optional/os/scripts/snapper-list.nix
 
