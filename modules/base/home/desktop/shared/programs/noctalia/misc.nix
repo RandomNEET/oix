@@ -1,4 +1,9 @@
 {
+  accessibility = {
+    ui_scale = 1.0;
+    high_contrast = false;
+  };
+
   keybinds = {
     validate = [ "enter" ];
     cancel = [ "escape" ];

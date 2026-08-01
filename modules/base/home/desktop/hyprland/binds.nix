@@ -56,11 +56,15 @@ let
 in
 {
   bind = [
+    # Keybinds help menu
+    (mkBind "SUPER + SHIFT + slash" ''hl.dsp.exec_cmd("noctalia msg panel-toggle kenn/keybind-cheatsheet:cheatsheet")'')
+
     # Window actions
     (mkBind "SUPER + Q" "hl.dsp.window.close()")
     (mkBind "SUPER + W" ''hl.dsp.window.float({ action = "toggle" })'')
     (mkBind "SUPER + G" "hl.dsp.group.toggle()")
     (mkBind "ALT + return" ''hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" })'')
+    (mkBind "ALT + Tab" ''hl.dsp.exec_cmd("noctalia msg window-switcher")'')
 
     # Special workspace (scratchpad)
     (mkBind "SUPER + S" ''hl.dsp.workspace.toggle_special("default")'')
@@ -90,10 +94,6 @@ in
     (mkBind "SUPER + Print" ''hl.dsp.exec_cmd("noctalia msg screenshot-region")'')
     (mkBind "SUPER + SHIFT + Print" ''hl.dsp.exec_cmd("noctalia msg screenshot-fullscreen pick")'')
     (mkBind "SUPER + CTRL + Print" ''hl.dsp.exec_cmd("touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region")'')
-
-    # to switch between windows in a floating workspace
-    (mkBind "ALT + Tab" "hl.dsp.window.cycle_next({ next = true })")
-    (mkBind "ALT + Tab" ''hl.dsp.window.alter_zorder({ mode = "top" })'')
 
     # Switch workspaces relative to the active workspace with mainMod + CTRL + [←→]
     (mkBind "SUPER + CTRL + right" ''hl.dsp.focus({ workspace = "r+1" })'')
@@ -198,7 +198,7 @@ in
     mkBind "SUPER + T" ''hl.dsp.exec_cmd("${terminal} -e tmux")''
   )
   ++ optional config.programs.password-store.enable (
-    mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("qtpass")''
+    mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("noctalia msg panel-toggle launcher /pass")''
   )
   ++ optional osConfig.programs.steam.enable (
     mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")''

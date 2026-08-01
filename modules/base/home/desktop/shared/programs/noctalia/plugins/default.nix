@@ -14,8 +14,11 @@ in
 {
   config = lib.mkIf osConfig.desktop.enable {
     programs.noctalia.settings.plugins = {
+      auto_update = true;
       enabled = [
         "noctalia/translator"
+        "emrtnn/pass"
+        "kenn/keybind-cheatsheet"
       ]
       ++ optional themesEnabled "custom/theme-switcher";
       source = [
@@ -24,21 +27,18 @@ in
           kind = "git";
           location = "https://github.com/noctalia-dev/official-plugins";
           name = "official";
-          auto_update = false;
         }
         {
           enabled = true;
           kind = "git";
           location = "https://github.com/noctalia-dev/community-plugins";
           name = "community";
-          auto_update = false;
         }
         {
           enabled = true;
           kind = "path";
           location = "${config.home.homeDirectory}/${customPluginsDir}";
           name = "custom";
-          auto_update = false;
         }
       ];
     };
@@ -55,6 +55,7 @@ in
             pkgs
             ;
         };
+        "${customPluginsDir}/theme-switcher/translations".source = ./theme-switcher/translations;
       };
   };
 }

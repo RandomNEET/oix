@@ -23,14 +23,16 @@
     behavior = {
       lock = {
         enabled = true;
-        timeout = 600;
+        action = "lock";
         command = "noctalia:session lock";
+        timeout = 600;
       };
       screen-off = {
         enabled = true;
         timeout = 660;
         command = "noctalia:dpms-off";
         resume_command = "noctalia:dpms-on";
+        action = "screen_off";
       };
     };
   };
@@ -56,7 +58,6 @@
     collapse_on_dismiss = true;
     blacklist = [ ];
     blacklist_allow_critical = true;
-    allowed_urgencies = [ ];
   };
   system = {
     monitor = {
@@ -81,8 +82,14 @@
       ram_pct_critical_threshold = 90;
       swap_pct_activity_threshold = 20;
       swap_pct_critical_threshold = 80;
-      disk_pct_activity_threshold = 80;
-      disk_pct_critical_threshold = 95;
+      disk_free_activity_threshold = 80.0;
+      disk_free_critical_threshold = 95.0;
+      disk_free_pct_activity_threshold = 80.0;
+      disk_free_pct_critical_threshold = 95.0;
+      disk_used_activity_threshold = 80.0;
+      disk_used_critical_threshold = 95.0;
+      disk_used_pct_activity_threshold = 80.0;
+      disk_used_pct_critical_threshold = 95.0;
       net_rx_activity_threshold = 1;
       net_rx_critical_threshold = 50;
       net_tx_activity_threshold = 1;

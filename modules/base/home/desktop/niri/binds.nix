@@ -15,6 +15,15 @@ let
   browser = config.defaultPrograms.browser;
 in
 {
+  "Mod+Shift+Slash" = {
+    action.spawn = [
+      "noctalia"
+      "msg"
+      "panel-toggle"
+      "kenn/keybind-cheatsheet:cheatsheet"
+    ];
+  };
+
   "Mod+Return" = {
     action.spawn = terminal;
   };
@@ -384,7 +393,11 @@ in
 // optionalAttrs config.programs.password-store.enable {
   "Mod+Shift+P" = {
     action.spawn = [
-      "qtpass"
+      "noctalia"
+      "msg"
+      "panel-toggle"
+      "launcher"
+      "/pass"
     ];
   };
 }

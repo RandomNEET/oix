@@ -24,53 +24,55 @@ in
   ];
 
   config =
-    lib.mkIf hyprlandEnabled {
-      wayland.windowManager.hyprland =
-        let
-          binds = import ./binds.nix {
-            inherit
-              osConfig
-              config
-              lib
-              file-manager
-              autoclicker
-              gamespace
-              ;
-          };
-          rules = import ./rules.nix;
-          animations = import ./animations.nix;
-          plugins = import ./plugins.nix { inherit pkgs; };
-        in
-        {
-          enable = true;
-          package = pkgs.hyprland;
-          portalPackage = pkgs.xdg-desktop-portal-hyprland;
-          systemd = {
+    if hyprlandEnabled then
+      {
+        wayland.windowManager.hyprland =
+          let
+            binds = import ./binds.nix {
+              inherit
+                osConfig
+                config
+                lib
+                file-manager
+                autoclicker
+                gamespace
+                ;
+            };
+            rules = import ./rules.nix;
+            animations = import ./animations.nix;
+            plugins = import ./plugins.nix { inherit pkgs; };
+          in
+          {
             enable = true;
-            enableXdgAutostart = true;
+            package = pkgs.hyprland;
+            portalPackage = pkgs.xdg-desktop-portal-hyprland;
+            systemd = {
+              enable = true;
+              enableXdgAutostart = true;
+            };
+            xwayland.enable = true;
+            settings = {
+              on = import ./autostart.nix { inherit lib; };
+              env = import ./env.nix;
+              inherit (binds) bind define_submap;
+              inherit (animations) animation curve;
+              inherit (rules) layer_rule window_rule;
+              inherit (plugins) config;
+            }
+            // import ./misc.nix;
+            inherit (plugins) plugins;
           };
-          xwayland.enable = true;
-          settings = {
-            on = import ./autostart.nix { inherit lib; };
-            env = import ./env.nix;
-            inherit (binds) bind define_submap;
-            inherit (animations) animation curve;
-            inherit (rules) layer_rule window_rule;
-            inherit (plugins) config;
-          }
-          // import ./misc.nix;
-          inherit (plugins) plugins;
-        };
 
-      home.packages = with pkgs; [
-        libnotify
-        wl-clipboard
-        hyprpicker
-        wlrctl # mouse control
-      ];
-    }
-    // lib.optionalAttrs osConfig.desktop.themes.enable {
-      stylix.targets.hyprland.enable = true;
-    };
-
+        home.packages = with pkgs; [
+          libnotify
+          wl-clipboard
+          hyprpicker
+          wlrctl # mouse control
+        ];
+      }
+      // lib.optionalAttrs osConfig.desktop.themes.enable {
+        stylix.targets.hyprland.enable = true;
+      }
+    else
+      { };
 }
