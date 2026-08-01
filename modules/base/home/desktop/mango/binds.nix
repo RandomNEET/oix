@@ -15,6 +15,8 @@ let
 in
 {
   bind = [
+    "SUPER+SHIFT,slash,spawn,noctalia msg panel-toggle kenn/keybind-cheatsheet:cheatsheet"
+
     "SUPER,q,killclient"
     "SUPER,w,togglefloating"
     "SUPER,g,toggleglobal"
@@ -26,6 +28,7 @@ in
     "SUPER,o,toggleoverlay"
     "SUPER,s,toggle_scratchpad"
     "SUPER+CTRL,s,minimized"
+    "ALT,Tab,spawn,noctalia msg window-switcher"
 
     "SUPER,Return,spawn,${terminal}"
     "SUPER,f,spawn,${fileManager}"
@@ -147,7 +150,7 @@ in
     "SUPER,m,setkeymode,mouse"
   ]
   ++ optional config.programs.tmux.enable "SUPER,t,spawn,${terminal} -e tmux"
-  ++ optional config.programs.password-store.enable "SUPER+SHIFT,p,spawn,qtpass";
+  ++ optional config.programs.password-store.enable "SUPER+SHIFT,p,spawn,noctalia msg panel-toggle launcher /pass";
 
   mousebind = [
     "SUPER,btn_left,moveresize,curmove"

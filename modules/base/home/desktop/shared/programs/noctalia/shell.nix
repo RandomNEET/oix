@@ -8,7 +8,6 @@ let
   screenshot-handler = lib.getExe (import ./scripts/screenshot-handler.nix { inherit config pkgs; });
 in
 {
-  ui_scale = 1.0;
   font_family = (builtins.head osConfig.desktop.fonts.monospace).name;
   lang = "en";
   time_format = "{:%H:%M}";
@@ -19,7 +18,6 @@ in
   polkit_agent = true;
   password_style = "default";
   settings_show_advanced = false;
-  middle_click_opens_widget_settings = true;
   show_location = true;
   app_icon_colorize = false;
   app_icon_color = "on_surface";
@@ -59,9 +57,11 @@ in
 
   launcher = {
     app_grid = false;
+    auto_paste = "auto";
     categories = true;
     compact = false;
-    session_search = false;
+    fetch_exchange_rates = true;
+    provider_prefix = "/";
     show_icons = true;
     sort_by_usage = true;
   };

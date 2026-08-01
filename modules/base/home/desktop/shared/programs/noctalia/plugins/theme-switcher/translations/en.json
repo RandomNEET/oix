@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "base_gen": {
+      "description": "Path to base generation",
+      "label": "Base generation path"
+    },
+    "spec_dir": {
+      "description": "Directory to specialisation",
+      "label": "Specialisation directory"
+    }
+  }
+}

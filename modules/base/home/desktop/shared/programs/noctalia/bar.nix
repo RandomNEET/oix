@@ -86,7 +86,7 @@
         fill = "surface_variant";
         id = "services";
         members = [
-          "volume"
+          "output_volume"
           "brightness"
           "battery"
         ];

@@ -4,8 +4,7 @@ let
 in
 {
   workspaces = {
-    display = "id";
-    minimal = false;
+    label_source = "id";
     max_label_chars = 1;
     pill_scale = 1.0;
     focused_color = "primary";
@@ -13,6 +12,7 @@ in
     empty_color = "secondary";
     labels_only_when_occupied = false;
     hide_when_empty = true;
+    type = "workspaces";
   };
   taskbar = {
     group_by_workspace = false;
@@ -29,6 +29,7 @@ in
     focused_color = "primary";
     occupied_color = "secondary";
     empty_color = "secondary";
+    type = "taskbar";
   };
   media = {
     album_art_only = false;
@@ -37,6 +38,7 @@ in
     art_size = 16;
     title_scroll = "always";
     hide_when_no_media = true;
+    type = "media";
   };
   audio_visualizer = {
     width = 56;
@@ -46,11 +48,13 @@ in
     show_when_idle = false;
     color_1 = "primary";
     color_2 = "primary";
+    type = "audio_visualizer";
   };
   clock = {
     format = "{:%a %b %e %H:%M}";
     vertical_format = "{:%m %d - %H %M}";
     tooltip_format = "{:%Y-%m-%d %H:%M:%S}";
+    type = "clock";
   };
   cpu = {
     stat = "cpu_usage";
@@ -62,25 +66,27 @@ in
   };
   network = {
     show_label = true;
+    type = "network";
   };
   bluetooth = {
     show_label = false;
+    type = "bluetooth";
   };
   brightness = {
-    scroll_step = 5;
     show_label = true;
+    type = "brightness";
   };
-  volume = {
+  output_volume = {
     device = "output";
-    scroll_step = 5;
     show_label = true;
+    type = "volume";
   };
   battery = {
     display_mode = "glyph";
     show_label = true;
     device = "auto";
-    warning_threshold = 20;
     warning_color = "error";
+    type = "battery";
   };
   tray = {
     hidden = [ ];
@@ -89,27 +95,34 @@ in
     drawer = false;
     drawer_columns = 3;
     capsule = true;
+    type = "tray";
   };
   notifications = {
     hide_when_no_unread = false;
+    type = "notifications";
   };
   control-center = {
     glyph = "chevron-down";
+    type = "control-center";
   };
 }
 // optionalAttrs osConfig.services.dae.enable {
   proxy = {
-    command = "sh -c 'if systemctl is-active --quiet dae.service; then pkexec systemctl stop dae.service && notify-send -u low dae.service Stopped; else pkexec systemctl start dae.service && notify-send -u low dae.service Started; fi'";
     glyph = "network";
     tooltip = "Toggle dae.service";
     type = "custom_button";
+    actions = {
+      left = "sh -c 'if systemctl is-active --quiet dae.service; then pkexec systemctl stop dae.service && notify-send -u low dae.service Stopped; else pkexec systemctl start dae.service && notify-send -u low dae.service Started; fi'";
+    };
   };
 }
 // optionalAttrs osConfig.services.xray.enable {
   proxy = {
-    command = "sh -c 'if systemctl is-active --quiet xray.service; then pkexec systemctl stop xray.service && notify-send -u low xray.service Stopped; else pkexec systemctl start xray.service && notify-send -u low xray.service Started; fi'";
     glyph = "network";
     tooltip = "Toggle xray.service";
     type = "custom_button";
+    actions = {
+      left = "sh -c 'if systemctl is-active --quiet xray.service; then pkexec systemctl stop xray.service && notify-send -u low xray.service Stopped; else pkexec systemctl start xray.service && notify-send -u low xray.service Started; fi'";
+    };
   };
 }

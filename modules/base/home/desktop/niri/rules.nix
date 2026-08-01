@@ -50,13 +50,5 @@
       opacity = 0.80;
       open-floating = true;
     }
-
-    {
-      matches = [
-        { title = "^(QtPass)$"; }
-      ];
-      opacity = 0.80;
-      open-floating = true;
-    }
   ];
 }
