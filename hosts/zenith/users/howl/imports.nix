@@ -3,6 +3,7 @@
     ../../../../modules/optional/home/programs/cli/aerc
     ../../../../modules/optional/home/programs/cli/cava
     ../../../../modules/optional/home/programs/cli/delta
+    ../../../../modules/optional/home/programs/cli/devenv
     ../../../../modules/optional/home/programs/cli/direnv
     ../../../../modules/optional/home/programs/cli/distrobox
     ../../../../modules/optional/home/programs/cli/firejail
