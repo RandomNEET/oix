@@ -1,5 +1,6 @@
 {
   imports = [
+    ../../../../modules/optional/home/programs/cli/devenv
     ../../../../modules/optional/home/programs/cli/direnv
     ../../../../modules/optional/home/programs/cli/helix
     ../../../../modules/optional/home/programs/cli/w3m
