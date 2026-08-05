@@ -26,7 +26,7 @@
     in
     {
       enable = true;
-      # package = pkgs.noctalia;
+      package = pkgs.noctalia;
       settings = {
         shell = import ./shell.nix {
           inherit
