@@ -112,7 +112,7 @@ in
     tooltip = "Toggle dae.service";
     type = "custom_button";
     actions = {
-      left = "sh -c 'if systemctl is-active --quiet dae.service; then pkexec systemctl stop dae.service && notify-send -u low dae.service Stopped; else pkexec systemctl start dae.service && notify-send -u low dae.service Started; fi'";
+      left = "exec sh -c 'if systemctl is-active --quiet dae.service; then pkexec systemctl stop dae.service && notify-send -u low dae.service Stopped; else pkexec systemctl start dae.service && notify-send -u low dae.service Started; fi'";
     };
   };
 }
@@ -122,7 +122,7 @@ in
     tooltip = "Toggle xray.service";
     type = "custom_button";
     actions = {
-      left = "sh -c 'if systemctl is-active --quiet xray.service; then pkexec systemctl stop xray.service && notify-send -u low xray.service Stopped; else pkexec systemctl start xray.service && notify-send -u low xray.service Started; fi'";
+      left = "exec sh -c 'if systemctl is-active --quiet xray.service; then pkexec systemctl stop xray.service && notify-send -u low xray.service Stopped; else pkexec systemctl start xray.service && notify-send -u low xray.service Started; fi'";
     };
   };
 }
