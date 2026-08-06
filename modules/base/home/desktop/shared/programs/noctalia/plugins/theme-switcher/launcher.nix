@@ -58,8 +58,6 @@ in
         lib.concatMapStringsSep "\n" genWallpaperCmd osConfig.base.display.info
       )}
 
-      noctalia msg config-reload || true
-      
       ${optionalString osConfig.desktop.mango.enable ''
         if systemctl --user -q is-active mango-session.target; then
           mmsg dispatch reload_config
