@@ -9,7 +9,7 @@ let
     usage() {
       echo "Usage: nix-daemon-proxy <on|off|status> [proxy_url]"
       echo ""
-      echo "  on <url>   enable proxy"
+      echo "  on <url>   enable proxy (auto-detects HTTP or SOCKS5 from URL scheme)"
       echo "  off        disable proxy"
       echo "  status     show current status"
       exit 1
@@ -20,19 +20,51 @@ let
       PROXY="''${2:-}"
       if [ -z "$PROXY" ]; then
         echo "Error: proxy URL is required"
-        echo "Usage: nix-daemon-proxy on http://127.0.0.1:1234"
+        echo "Usage: nix-daemon-proxy on <url>"
+        echo "Examples:"
+        echo "  nix-daemon-proxy on http://127.0.0.1:123"
+        echo "  nix-daemon-proxy on socks5://127.0.0.1:123"
         exit 1
       fi
-      echo "Enabling proxy: $PROXY ..."
+
+      # Detect proxy type from URL scheme
+      case "$PROXY" in
+        http://*|https://*)
+          PROXY_TYPE="http"
+          ;;
+        socks5://*|socks4://*|socks://*)
+          PROXY_TYPE="socks5"
+          ;;
+        *)
+          echo "Error: unsupported proxy URL scheme"
+          echo "URL must start with http://, https://, socks5://, or socks4://"
+          exit 1
+          ;;
+      esac
+
+      echo "Enabling $PROXY_TYPE proxy: $PROXY ..."
       sudo mkdir -p "$OVERRIDE_DIR"
-      sudo tee "$OVERRIDE_FILE" >/dev/null <<EOF
+
+      if [ "$PROXY_TYPE" = "http" ]; then
+        sudo tee "$OVERRIDE_FILE" >/dev/null <<EOF
     [Service]
     Environment="http_proxy=$PROXY"
     Environment="https_proxy=$PROXY"
+    Environment="HTTP_PROXY=$PROXY"
+    Environment="HTTPS_PROXY=$PROXY"
     EOF
+      else
+        # SOCKS5 proxy
+        sudo tee "$OVERRIDE_FILE" >/dev/null <<EOF
+    [Service]
+    Environment="ALL_PROXY=$PROXY"
+    Environment="all_proxy=$PROXY"
+    EOF
+      fi
+
       sudo systemctl daemon-reload
       sudo systemctl restart nix-daemon
-      echo "Proxy enabled"
+      echo "Proxy enabled ($PROXY_TYPE)"
       ;;
 
     off)
@@ -53,7 +85,7 @@ let
         echo "---"
         cat "$OVERRIDE_FILE"
       else
-        echo "Proxy status: disabled"
+        echo "Proxy is not enabled"
       fi
       ;;
 
