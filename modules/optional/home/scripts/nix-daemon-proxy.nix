@@ -96,5 +96,5 @@ let
   '';
 in
 {
-  environment.systemPackages = [ nix-daemon-proxy ];
+  home.packages = [ nix-daemon-proxy ];
 }
