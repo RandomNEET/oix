@@ -1,1 +1,3 @@
-[ { sh = "noctalia"; } ]
+[
+  { spawn-at-startup = [ "noctalia" ]; }
+]
