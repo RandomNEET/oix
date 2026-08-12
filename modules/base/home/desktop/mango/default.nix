@@ -55,28 +55,34 @@ in
               enable = true;
               xdgAutostart = true;
             };
-            settings = {
-              inherit (binds)
-                bind
-                mousebind
-                axisbind
-                keymode
-                ;
-              layerrule = (import ./rules.nix).layerrule;
-              windowrule = (import ./rules.nix).windowrule;
-              env = import ./env.nix;
-              exec-once = autostart.exec-once;
-            }
-            // import ./animations.nix
-            // import ./misc.nix
-            // lib.optionalAttrs osConfig.desktop.themes.enable {
-              rootcolor = "0x${colors.base00}ff";
-              bordercolor = "0x${colors.base02}ff";
-              dropcolor = "0x${colors.base01}55";
-              splitcolor = "0x${colors.base0D}ff";
-              focuscolor = "0x${primaryColor}ff";
-              urgentcolor = "0x${colors.base08}ff";
-            };
+            settings =
+              lib.recursiveUpdate
+                (
+                  {
+                    inherit (binds)
+                      bind
+                      mousebind
+                      axisbind
+                      keymode
+                      ;
+                    layerrule = (import ./rules.nix).layerrule;
+                    windowrule = (import ./rules.nix).windowrule;
+                    env = import ./env.nix;
+                    exec-once = autostart.exec-once;
+                  }
+                  // import ./animations.nix
+                  // import ./misc.nix
+                )
+                (
+                  lib.optionalAttrs osConfig.desktop.themes.enable {
+                    rootcolor = "0x${colors.base00}ff";
+                    bordercolor = "0x${colors.base02}ff";
+                    dropcolor = "0x${colors.base01}55";
+                    splitcolor = "0x${colors.base0D}ff";
+                    focuscolor = "0x${primaryColor}ff";
+                    urgentcolor = "0x${colors.base08}ff";
+                  }
+                );
           };
 
         home.packages = with pkgs; [

@@ -120,120 +120,6 @@ rec {
         };
       };
     };
-    niri = {
-      settings = {
-        outputs = {
-          "DP-1" = {
-            enable = true;
-            mode = {
-              width = 3840;
-              height = 2160;
-              refresh = 144.00;
-            };
-            scale = 1.5;
-            position = {
-              x = 0;
-              y = 0;
-            };
-            variable-refresh-rate = "on-demand";
-            focus-at-startup = true;
-          };
-          "HDMI-A-1" = {
-            enable = true;
-            mode = {
-              width = 3840;
-              height = 2160;
-              refresh = 60.00;
-            };
-            scale = 1.5;
-            transform = {
-              rotation = 90;
-            };
-            position = {
-              x = 2560;
-              y = -600;
-            };
-          };
-        };
-        binds = {
-          "Mod+F1" = {
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "volume-mute"
-            ];
-            allow-when-locked = true;
-          };
-          "Mod+F2" = {
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "volume-down"
-            ];
-            allow-when-locked = true;
-          };
-          "Mod+F3" = {
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "volume-up"
-            ];
-            allow-when-locked = true;
-          };
-          "Mod+F4" = {
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "mic-mute"
-            ];
-            allow-when-locked = true;
-          };
-          "Mod+F5" = {
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "brightness-down"
-            ];
-            allow-when-locked = true;
-          };
-          "Mod+F6" = {
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "brightness-up"
-            ];
-            allow-when-locked = true;
-          };
-          "Mod+F7" = {
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "media"
-              "previous"
-            ];
-            allow-when-locked = true;
-          };
-          "Mod+F8" = {
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "media"
-              "toggle"
-            ];
-            allow-when-locked = true;
-          };
-          "Mod+F9" = {
-            action.spawn = [
-              "noctalia"
-              "msg"
-              "media"
-              "next"
-            ];
-            allow-when-locked = true;
-          };
-        };
-      };
-    };
     noctalia = {
       settings = {
         shell = {
@@ -244,101 +130,66 @@ rec {
   };
   wayland = {
     windowManager = {
-      hyprland =
-        let
-          mkLuaInline = lib.generators.mkLuaInline;
-        in
-        {
-          settings = {
-            monitor = [
-              {
-                output = "desc:SAC G7u Pro 0001";
-                mode = "3840x2160@160";
-                position = "0x0";
-                scale = 1.5;
-              }
-              {
-                output = "desc:KOS KOIOS K2718UD 0000000000000";
-                mode = "3840x2160@60";
-                position = "2560x-600";
-                scale = 1.5;
-                transform = 1;
-              }
-            ];
-            workspace_rule = [
-              {
-                workspace = "1";
-                monitor = "desc:SAC G7u Pro 0001";
-                default = true;
-              }
-              {
-                workspace = "10";
-                monitor = "desc:KOS KOIOS K2718UD 0000000000000";
-                default = true;
-              }
-            ];
-            bind = [
-              {
-                _args = [
-                  "SUPER + F1"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg volume-mute")'')
-                ];
-              }
-              {
-                _args = [
-                  "SUPER + F2"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg volume-down")'')
-                  { repeat = true; }
-                ];
-              }
-              {
-                _args = [
-                  "SUPER + F3"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg volume-up")'')
-                  { repeat = true; }
-                ];
-              }
-              {
-                _args = [
-                  "SUPER + F4"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg mic-mute")'')
-                ];
-              }
-              {
-                _args = [
-                  "SUPER + F5"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg brightness-down")'')
-                  { repeat = true; }
-                ];
-              }
-              {
-                _args = [
-                  "SUPER + F6"
-                  (mkLuaInline ''hl.dsp.exec_cmd"noctalia msg brightness-up"()'')
-                  { repeat = true; }
-                ];
-              }
-              {
-                _args = [
-                  "SUPER + F7"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg media previous")'')
-                ];
-              }
-              {
-                _args = [
-                  "SUPER + F8"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg media toggle")'')
-                ];
-              }
-              {
-                _args = [
-                  "SUPER + F9"
-                  (mkLuaInline ''hl.dsp.exec_cmd("noctalia msg media next")'')
-                ];
-              }
-            ];
-          };
+      hyprland = {
+        settings = {
+          monitor = [
+            {
+              output = "desc:SAC G7u Pro 0001";
+              mode = "3840x2160@160";
+              position = "0x0";
+              scale = 1.5;
+            }
+            {
+              output = "desc:KOS KOIOS K2718UD 0000000000000";
+              mode = "3840x2160@60";
+              position = "2560x-600";
+              scale = 1.5;
+              transform = 1;
+            }
+          ];
+          workspace_rule = [
+            {
+              workspace = "1";
+              monitor = "desc:SAC G7u Pro 0001";
+              default = true;
+            }
+            {
+              workspace = "10";
+              monitor = "desc:KOS KOIOS K2718UD 0000000000000";
+              default = true;
+            }
+          ];
         };
+      };
+    };
+    niri = {
+      settings = {
+        _children = [
+          {
+            output._args = [ "DP-1" ];
+            output.mode = "3840x2160@144";
+            output.scale = 1.5;
+            output.position._props = {
+              x = 0;
+              y = 0;
+            };
+            output.variable-refresh-rate._props = {
+              on-demand = true;
+            };
+            output.focus-at-startup = { };
+          }
+          {
+            output._args = [ "HDMI-A-1" ];
+            output.mode = "3840x2160@60";
+            output.scale = 1.5;
+            output.transform = "90";
+            output.position._props = {
+              x = 2560;
+              y = -600;
+            };
+          }
+        ];
+      };
     };
   };
   services = {

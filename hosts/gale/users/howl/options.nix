@@ -127,21 +127,6 @@ rec {
         };
       };
     };
-    niri = {
-      settings = {
-        outputs = {
-          "eDP-1" = {
-            enable = true;
-            mode = {
-              width = 1920;
-              height = 1080;
-              refresh = 60.008;
-            };
-            scale = 1.25;
-          };
-        };
-      };
-    };
     noctalia = {
       settings = {
         shell = {
@@ -169,6 +154,13 @@ rec {
               default = true;
             }
           ];
+        };
+      };
+      niri = {
+        settings = {
+          output._args = [ "eDP-1" ];
+          output.mode = "1920x1080@60.008";
+          output.scale = 1.25;
         };
       };
       mango = {

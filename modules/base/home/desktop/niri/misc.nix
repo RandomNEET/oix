@@ -4,47 +4,12 @@
       repeat-delay = 300;
     };
     touchpad = {
-      tap = true;
-      natural-scroll = true;
+      tap = { };
+      natural-scroll = { };
     };
   };
 
-  layout = {
-    gaps = 10;
-    background-color = "transparent";
-    center-focused-column = "never";
-
-    preset-column-widths = [
-      { proportion = 1.0 / 3.0; }
-      { proportion = 0.5; }
-      { proportion = 2.0 / 3.0; }
-    ];
-
-    default-column-width = {
-      proportion = 0.5;
-    };
-
-    focus-ring = {
-      enable = false;
-    };
-
-    border = {
-      enable = true;
-      width = 2;
-    };
-
-    shadow = {
-      enable = true;
-      softness = 30;
-      spread = 5;
-      offset = {
-        x = 0;
-        y = 5;
-      };
-    };
-  };
-
-  prefer-no-csd = true;
+  prefer-no-csd = { };
 
   screenshot-path = "~/pic/screenshots/screenshot-%Y-%m-%d-%H:%M:%S.png";
 
@@ -55,13 +20,13 @@
   overview = {
     zoom = 0.5;
     workspace-shadow = {
-      enable = false;
+      off = { };
     };
   };
 
   hotkey-overlay = {
-    skip-at-startup = true;
-    hide-not-bound = true;
+    skip-at-startup = { };
+    hide-not-bound = { };
   };
 
   debug = {
