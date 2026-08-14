@@ -1,27 +1,26 @@
-{ osConfig, lib, ... }:
+{
+  osConfig,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.opencode = {
     enable = true;
+    enableMcpIntegration = true;
     settings = {
       autoshare = false;
       autoupdate = true;
-      mcp = {
-        nixos = {
-          type = "local";
-          command = [
-            "nix"
-            "run"
-            "github:utensils/mcp-nixos"
-            "--"
-          ];
-        };
-      };
     };
     tui = {
       keybinds = {
         leader = "ctrl+x";
       };
     };
+    extraPackages = with pkgs; [
+      nodejs
+      uv
+    ];
   };
 }
 // lib.optionalAttrs osConfig.desktop.themes.enable {

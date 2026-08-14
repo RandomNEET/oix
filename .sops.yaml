@@ -48,3 +48,14 @@ creation_rules:
     key_groups:
       - pgp:
           - *RandomNEET
+  - path_regex: modules/.*secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *RandomNEET
+        age:
+          - *zenith
+          - *howl-zenith
+          - *gale
+          - *howl-gale
+          - *voile
+          - *howl-voile

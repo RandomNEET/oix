@@ -7,6 +7,7 @@ let
   inherit (lib) mkMerge;
   enableUpdateCheck = false;
   enableExtensionUpdateCheck = true;
+  enableMcpIntegration = true;
   global = {
     extensions = with pkgs.vscode-extensions; [
       bbenoist.nix
@@ -46,7 +47,7 @@ let
 in
 rec {
   default = global // {
-    inherit enableUpdateCheck enableExtensionUpdateCheck;
+    inherit enableUpdateCheck enableExtensionUpdateCheck enableMcpIntegration;
   };
   c-cpp = mkMerge [
     global
