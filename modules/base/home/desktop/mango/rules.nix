@@ -3,14 +3,14 @@
 
   windowrule = [
     "focused_opacity:1,unfocused_opacity:1,appid:^(org.qutebrowser.qutebrowser)$"
-    "focused_opacity:1,unfocused_opacity:1,appid:^(firefox)$"
+    "focused_opacity:1,unfocused_opacity:1,appid:^([Ff]irefox)$"
 
     "focused_opacity:0.8,unfocused_opacity:0.8,appid:^(kitty|foot|footclient)$"
     "focused_opacity:0.8,unfocused_opacity:0.8,appid:^(editor)$"
     "focused_opacity:0.8,unfocused_opacity:0.8,appid:^(fileManager)$"
     "focused_opacity:0.8,unfocused_opacity:0.8,appid:^(code)$"
-    "focused_opacity:0.8,unfocused_opacity:0.8,appid:^(spotify)$"
-    "focused_opacity:0.8,unfocused_opacity:0.8,appid:^(steam)$"
+    "focused_opacity:0.8,unfocused_opacity:0.8,appid:^([Ss]potify)$"
+    "focused_opacity:0.8,unfocused_opacity:0.8,appid:^([Ss]team)$"
     "focused_opacity:0.8,unfocused_opacity:0.8,appid:^(org.gnupg.pinentry-qt)$"
 
     "focused_opacity:0.8,unfocused_opacity:0.8,isfloating:1,appid:^(terminal filechooser)$"
