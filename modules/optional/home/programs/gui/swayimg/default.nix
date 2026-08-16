@@ -15,17 +15,17 @@ in
     initLua = ''
       -- General settings
 
-      swayimg.set_mode("viewer")
-      swayimg.enable_overlay(true)
-      swayimg.enable_antialiasing(true)
-      swayimg.enable_exif_orientation(true)
-      swayimg.enable_decoration(true)
+      swayimg.mode = "viewer"
+      swayimg.overlay = true
+      swayimg.antialiasing = true
+      swayimg.exif_orientation = true
+      swayimg.decoration = true
 
       -- Viewer / Slideshow appearance
 
-      swayimg.viewer.set_default_scale("optimal")
-      swayimg.viewer.set_default_position("center")
-      swayimg.slideshow.set_default_scale("fit")
+      swayimg.viewer.default_scale = "optimal"
+      swayimg.viewer.default_position = "center"
+      swayimg.slideshow.default_scale = "fit"
 
       -- Info overlay
 
@@ -43,22 +43,18 @@ in
       	"{scale}",
       	"{frame.index} of {frame.total}",
       })
-      swayimg.viewer.set_text("bottomright", {
-      	"{status}",
-      })
+      swayimg.viewer.set_text("bottomright", {})
       swayimg.slideshow.set_text("topleft", {})
       swayimg.slideshow.set_text("topright", {})
       swayimg.slideshow.set_text("bottomleft", {})
       swayimg.slideshow.set_text("bottomright", {
       	"{dir}",
-      	"{status}",
       })
       swayimg.gallery.set_text("topleft", {})
       swayimg.gallery.set_text("topright", {})
       swayimg.gallery.set_text("bottomleft", {})
       swayimg.gallery.set_text("bottomright", {
       	"{name}",
-      	"{status}",
       })
 
       -- Helper functions
@@ -66,36 +62,32 @@ in
       local antialiasing_enabled = true
       local function toggle_antialiasing()
       	antialiasing_enabled = not antialiasing_enabled
-      	swayimg.enable_antialiasing(antialiasing_enabled)
-      	swayimg.text.set_status("Anti-aliasing: " .. (antialiasing_enabled and "on" or "off"))
+      	swayimg.antialiasing = antialiasing_enabled
+      	swayimg.text.status = "Anti-aliasing: " .. (antialiasing_enabled and "on" or "off")
       end
       local function toggle_info()
-      	if swayimg.text.visible() then
-      		swayimg.text.hide()
-      	else
-      		swayimg.text.show()
-      	end
+      	swayimg.text.visible = not swayimg.text.visible
       end
       local slideshow_timeout = 5
       local slideshow_paused = false
       local function toggle_slideshow_pause()
       	slideshow_paused = not slideshow_paused
       	if slideshow_paused then
-      		swayimg.slideshow.set_timeout(0)
-      		swayimg.text.set_status("Slideshow: paused")
+      		swayimg.slideshow.timeout = 0
+      		swayimg.text.status = "Slideshow: paused"
       	else
-      		swayimg.slideshow.set_timeout(slideshow_timeout)
-      		swayimg.text.set_status("Slideshow: resumed")
+      		swayimg.slideshow.timeout = slideshow_timeout
+      		swayimg.text.status = "Slideshow: resumed"
       	end
       end
       local function show_help()
-      	swayimg.text.set_status(
-      		"Esc/q:exit | Return/s:mode | Space:pause | hjkl:move | n/p:file | "
-      			.. "g/G:first/last | +/-:zoom | r:rot | v/x:flip | m:info | d:del"
+      	swayimg.text.status = (
+      		"Return/s:mode | hjkl:move | n/p:file | g/G:first/last | "
+      			.. "+/-:zoom | 0/BS/f/w/z:scale | r:rot | v/x:flip | m:info | d:del"
       	)
       end
 
-      -- Gallery mode key bindings (using switch_image, compatible with 5.0+)
+      -- Gallery mode key bindings
 
       swayimg.gallery.on_key("Escape", function()
       	swayimg.exit()
@@ -105,77 +97,77 @@ in
       end)
       -- Mode switching
       swayimg.gallery.on_key("Return", function()
-      	swayimg.set_mode("viewer")
+      	swayimg.mode = "viewer"
       end)
       swayimg.gallery.on_key("s", function()
-      	swayimg.set_mode("slideshow")
+      	swayimg.mode = "slideshow"
       end)
       -- Thumbnail size
       swayimg.gallery.on_mouse("Ctrl-ScrollDown", function()
-      	swayimg.gallery.set_thumb_size(math.max(10, swayimg.gallery.get_thumb_size() - 20))
+      	swayimg.gallery.thumb_size = math.max(10, swayimg.gallery.thumb_size - 20)
       end)
       swayimg.gallery.on_mouse("Ctrl-ScrollUp", function()
-      	swayimg.gallery.set_thumb_size(swayimg.gallery.get_thumb_size() + 20)
+      	swayimg.gallery.thumb_size = swayimg.gallery.thumb_size + 20
       end)
       swayimg.gallery.on_key("Equal", function()
-      	swayimg.gallery.set_thumb_size(swayimg.gallery.get_thumb_size() + 10)
+      	swayimg.gallery.thumb_size = swayimg.gallery.thumb_size + 10
       end)
       swayimg.gallery.on_key("Minus", function()
-      	swayimg.gallery.set_thumb_size(math.max(10, swayimg.gallery.get_thumb_size() - 10))
+      	swayimg.gallery.thumb_size = math.max(10, swayimg.gallery.thumb_size - 10)
       end)
       -- Mouse click -> viewer
       swayimg.gallery.on_mouse("MouseLeft", function()
-      	swayimg.set_mode("viewer")
+      	swayimg.mode = "viewer"
       end)
       -- Keyboard navigation
       swayimg.gallery.on_key("h", function()
-      	swayimg.gallery.switch_image("left")
+      	swayimg.gallery.select("left")
       end)
       swayimg.gallery.on_key("j", function()
-      	swayimg.gallery.switch_image("down")
+      	swayimg.gallery.select("down")
       end)
       swayimg.gallery.on_key("k", function()
-      	swayimg.gallery.switch_image("up")
+      	swayimg.gallery.select("up")
       end)
       swayimg.gallery.on_key("l", function()
-      	swayimg.gallery.switch_image("right")
+      	swayimg.gallery.select("right")
       end)
       swayimg.gallery.on_key("g", function()
-      	swayimg.gallery.switch_image("first")
+      	swayimg.gallery.select("first")
       end)
       swayimg.gallery.on_key("Shift-g", function()
-      	swayimg.gallery.switch_image("last")
+      	swayimg.gallery.select("last")
       end)
       swayimg.gallery.on_key("n", function()
-      	swayimg.gallery.switch_image("pgdown")
+      	swayimg.gallery.select("pgdown")
       end)
       swayimg.gallery.on_key("p", function()
-      	swayimg.gallery.switch_image("pgup")
+      	swayimg.gallery.select("pgup")
       end)
       -- Mouse wheel navigation
       swayimg.gallery.on_mouse("ScrollDown", function()
-      	swayimg.gallery.switch_image("down")
+      	swayimg.gallery.select("down")
       end)
       swayimg.gallery.on_mouse("ScrollUp", function()
-      	swayimg.gallery.switch_image("up")
+      	swayimg.gallery.select("up")
       end)
       swayimg.gallery.on_mouse("ScrollLeft", function()
-      	swayimg.gallery.switch_image("right")
+      	swayimg.gallery.select("right")
       end)
       swayimg.gallery.on_mouse("ScrollRight", function()
-      	swayimg.gallery.switch_image("left")
+      	swayimg.gallery.select("left")
       end)
       -- Skip file
       swayimg.gallery.on_key("c", function()
-      	swayimg.gallery.switch_image("down")
+      	swayimg.gallery.select("down")
       end)
       -- Delete file
       swayimg.gallery.on_key("Shift-d", function()
       	local entry = swayimg.gallery.get_image()
       	if entry then
       		os.remove(entry.path)
-      		swayimg.text.set_status("File removed: " .. entry.path)
-      		swayimg.gallery.switch_image("down")
+      		swayimg.text.status = "File removed: " .. entry.path
+      		swayimg.gallery.select("down")
       	end
       end)
       -- Copy to ~/tmp
@@ -183,7 +175,7 @@ in
       	local entry = swayimg.gallery.get_image()
       	if entry then
       		os.execute('cp "' .. entry.path .. '" ~/tmp/')
-      		swayimg.text.set_status("Copied: " .. entry.path)
+      		swayimg.text.status = "Copied: " .. entry.path
       	end
       end)
       -- Misc
@@ -197,38 +189,38 @@ in
       -- Slideshow mode key bindings
 
       swayimg.slideshow.on_key("Escape", function()
-      	swayimg.set_mode("viewer")
+      	swayimg.mode = "viewer"
       end)
       swayimg.slideshow.on_key("q", function()
       	swayimg.exit()
       end)
       swayimg.slideshow.on_key("Return", function()
-      	swayimg.set_mode("viewer")
+      	swayimg.mode = "viewer"
       end)
       swayimg.slideshow.on_key("n", function()
-      	swayimg.slideshow.switch_image("next")
+      	swayimg.slideshow.open("next")
       end)
       swayimg.slideshow.on_key("p", function()
-      	swayimg.slideshow.switch_image("prev")
+      	swayimg.slideshow.open("prev")
       end)
       swayimg.slideshow.on_key("g", function()
-      	swayimg.slideshow.switch_image("first")
+      	swayimg.slideshow.open("first")
       end)
       swayimg.slideshow.on_key("Shift-g", function()
-      	swayimg.slideshow.switch_image("last")
+      	swayimg.slideshow.open("last")
       end)
       swayimg.slideshow.on_key("Shift-n", function()
-      	swayimg.slideshow.switch_image("next_dir")
+      	swayimg.slideshow.open("next_dir")
       end)
       swayimg.slideshow.on_key("Shift-p", function()
-      	swayimg.slideshow.switch_image("prev_dir")
+      	swayimg.slideshow.open("prev_dir")
       end)
       swayimg.slideshow.on_key("Shift-r", function()
-      	swayimg.slideshow.switch_image("random")
+      	swayimg.slideshow.open("random")
       end)
       swayimg.slideshow.on_key("Space", toggle_slideshow_pause)
       swayimg.slideshow.on_key("f", function()
-      	swayimg.set_fullscreen()
+      	swayimg.fullscreen = not swayimg.fullscreen
       end)
       swayimg.slideshow.on_key("i", toggle_info)
       swayimg.slideshow.on_key("Shift-?", show_help)
@@ -236,16 +228,16 @@ in
       -- Viewer mode key bindings
 
       swayimg.viewer.on_key("Escape", function()
-      	swayimg.set_mode("gallery")
+      	swayimg.mode = "gallery"
       end)
       swayimg.viewer.on_key("q", function()
       	swayimg.exit()
       end)
       swayimg.viewer.on_key("Return", function()
-      	swayimg.set_mode("gallery")
+      	swayimg.mode = "gallery"
       end)
       swayimg.viewer.on_key("s", function()
-      	swayimg.set_mode("slideshow")
+      	swayimg.mode = "slideshow"
       end)
       -- Pan: h/j/k/l = 10px, Shift = 1px, d/u = 100px
       local function pan(dx, dy)
@@ -296,51 +288,57 @@ in
       end)
       -- File navigation
       swayimg.viewer.on_key("n", function()
-      	swayimg.viewer.switch_image("next")
+      	swayimg.viewer.open("next")
       end)
       swayimg.viewer.on_key("p", function()
-      	swayimg.viewer.switch_image("prev")
+      	swayimg.viewer.open("prev")
       end)
       swayimg.viewer.on_key("g", function()
-      	swayimg.viewer.switch_image("first")
+      	swayimg.viewer.open("first")
       end)
       swayimg.viewer.on_key("Shift-g", function()
-      	swayimg.viewer.switch_image("last")
+      	swayimg.viewer.open("last")
       end)
       swayimg.viewer.on_key("c", function()
-      	swayimg.viewer.switch_image("next")
+      	swayimg.viewer.open("next")
       end)
       swayimg.viewer.on_key("Shift-n", function()
-      	swayimg.viewer.switch_image("next_dir")
+      	swayimg.viewer.open("next_dir")
       end)
       swayimg.viewer.on_key("Shift-p", function()
-      	swayimg.viewer.switch_image("prev_dir")
+      	swayimg.viewer.open("prev_dir")
       end)
       swayimg.viewer.on_key("Shift-r", function()
-      	swayimg.viewer.switch_image("random")
+      	swayimg.viewer.open("random")
       end)
       swayimg.viewer.on_mouse("Shift-ScrollDown", function()
-      	swayimg.viewer.switch_image("next")
+      	swayimg.viewer.open("next")
       end)
       swayimg.viewer.on_mouse("Shift-ScrollUp", function()
-      	swayimg.viewer.switch_image("prev")
+      	swayimg.viewer.open("prev")
       end)
       -- Frame navigation
       swayimg.viewer.on_key(",", function()
-      	swayimg.viewer.prev_frame()
+      	local frame = swayimg.viewer.frame
+      	if frame > 0 then
+      		swayimg.viewer.frame = frame - 1
+      	end
       end)
       swayimg.viewer.on_key(".", function()
-      	swayimg.viewer.next_frame()
+      	swayimg.viewer.frame = swayimg.viewer.frame + 1
       end)
       swayimg.viewer.on_mouse("Alt-ScrollDown", function()
-      	swayimg.viewer.next_frame()
+      	swayimg.viewer.frame = swayimg.viewer.frame + 1
       end)
       swayimg.viewer.on_mouse("Alt-ScrollUp", function()
-      	swayimg.viewer.prev_frame()
+      	local frame = swayimg.viewer.frame
+      	if frame > 0 then
+      		swayimg.viewer.frame = frame - 1
+      	end
       end)
       -- Animation toggle
       swayimg.viewer.on_key("Space", function()
-      	swayimg.viewer.set_animation()
+      	swayimg.viewer.animation = not swayimg.viewer.animation
       end)
       -- Fixed scale
       swayimg.viewer.on_key("0", function()
@@ -360,28 +358,28 @@ in
       end)
       -- Relative zoom (window center)
       swayimg.viewer.on_key("i", function()
-      	swayimg.viewer.set_abs_scale(swayimg.viewer.get_scale() * 1.1)
+      	swayimg.viewer.set_abs_scale(swayimg.viewer.scale * 1.1)
       end)
       swayimg.viewer.on_key("o", function()
-      	swayimg.viewer.set_abs_scale(swayimg.viewer.get_scale() / 1.1)
+      	swayimg.viewer.set_abs_scale(swayimg.viewer.scale / 1.1)
       end)
       swayimg.viewer.on_key("Equal", function()
-      	swayimg.viewer.set_abs_scale(swayimg.viewer.get_scale() * 1.1)
+      	swayimg.viewer.set_abs_scale(swayimg.viewer.scale * 1.1)
       end)
       swayimg.viewer.on_key("Plus", function()
-      	swayimg.viewer.set_abs_scale(swayimg.viewer.get_scale() * 1.1)
+      	swayimg.viewer.set_abs_scale(swayimg.viewer.scale * 1.1)
       end)
       swayimg.viewer.on_key("Minus", function()
-      	swayimg.viewer.set_abs_scale(swayimg.viewer.get_scale() / 1.1)
+      	swayimg.viewer.set_abs_scale(swayimg.viewer.scale / 1.1)
       end)
       -- Relative zoom (mouse position)
       swayimg.viewer.on_mouse("Ctrl-ScrollUp", function()
       	local m = swayimg.get_mouse_pos()
-      	swayimg.viewer.set_abs_scale(swayimg.viewer.get_scale() * 1.1, m.x, m.y)
+      	swayimg.viewer.set_abs_scale(swayimg.viewer.scale * 1.1, m.x, m.y)
       end)
       swayimg.viewer.on_mouse("Ctrl-ScrollDown", function()
       	local m = swayimg.get_mouse_pos()
-      	swayimg.viewer.set_abs_scale(swayimg.viewer.get_scale() / 1.1, m.x, m.y)
+      	swayimg.viewer.set_abs_scale(swayimg.viewer.scale / 1.1, m.x, m.y)
       end)
       -- Rotate / Flip
       swayimg.viewer.on_key("r", function()
@@ -401,7 +399,7 @@ in
       	local img = swayimg.viewer.get_image()
       	if img then
       		os.remove(img.path)
-      		swayimg.text.set_status("File removed: " .. img.path)
+      		swayimg.text.status = "File removed: " .. img.path
       	end
       end)
       -- Copy to ~/tmp
@@ -409,7 +407,7 @@ in
       	local img = swayimg.viewer.get_image()
       	if img then
       		os.execute('cp "' .. img.path .. '" ~/tmp/')
-      		swayimg.text.set_status("Copied: " .. img.path)
+      		swayimg.text.status = "Copied: " .. img.path
       	end
       end)
       -- Misc
@@ -422,12 +420,13 @@ in
     ''
     + lib.optionalString themesEnabled ''
       -- Theme settings (overrides defaults above)
-      swayimg.text.set_font("${(builtins.head osConfig.desktop.fonts.monospace).name}")
-      swayimg.text.set_size(12)
-      swayimg.text.set_foreground(0xff${hex colors.base05})
-      swayimg.text.set_background(0x00${hex colors.base00})
-      swayimg.text.set_shadow(0xd0${hex colors.base00})
+      swayimg.text.font = "${(builtins.head osConfig.desktop.fonts.monospace).name}"
+      swayimg.text.size = 12
+      swayimg.text.color = 0xff${hex colors.base05}
+      swayimg.text.background = 0x00${hex colors.base00}
+      swayimg.text.shadow = 0xd0${hex colors.base00}
       swayimg.viewer.set_window_background(0x80${hex colors.base00})
+      swayimg.gallery.window_color = 0x80${hex colors.base00}
     '';
   };
 }
