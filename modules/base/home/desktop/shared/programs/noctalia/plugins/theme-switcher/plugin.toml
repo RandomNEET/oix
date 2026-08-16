@@ -4,7 +4,7 @@ version = "1.0.0"
 plugin_api = 3
 min_noctalia = "5.0.0"
 icon = "palette"
-description = "Switch home-manager specialisation themes from the launcher. Type `/theme <name>`."
+description = "Switch home-manager specialisation themes from the launcher."
 
 [[setting]]
 key = "base_gen"
