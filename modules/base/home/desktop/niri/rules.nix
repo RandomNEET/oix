@@ -55,7 +55,7 @@
       }
       {
         match._props = {
-          app-id = "^(firefox)$";
+          app-id = "^([Ff]irefox)$";
         };
       }
       { opacity = 1.0; }
@@ -86,12 +86,12 @@
       }
       {
         match._props = {
-          app-id = "^(spotify)$";
+          app-id = "^([Ss]potify)$";
         };
       }
       {
         match._props = {
-          app-id = "^(steam)$";
+          app-id = "^([Ss]team)$";
         };
       }
       {
