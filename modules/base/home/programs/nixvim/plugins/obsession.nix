@@ -5,7 +5,7 @@
     keymaps = [
       {
         mode = "n";
-        key = "<leader>ss";
+        key = "<leader>sr";
         action = ":Obsess<cr>";
         options = {
           desc = "Toggle session recording";

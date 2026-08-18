@@ -245,26 +245,10 @@ in
       }
       {
         mode = "n";
-        key = "<leader>s\"";
-        action = "<cmd>lua require('snacks').picker.registers()<cr>";
-        options = {
-          desc = "Registers";
-        };
-      }
-      {
-        mode = "n";
         key = "<leader>s/";
         action = "<cmd>lua require('snacks').picker.search_history()<cr>";
         options = {
           desc = "Search History";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>sa";
-        action = "<cmd>lua require('snacks').picker.autocmds()<cr>";
-        options = {
-          desc = "Autocmds";
         };
       }
       {
@@ -309,42 +293,10 @@ in
       }
       {
         mode = "n";
-        key = "<leader>sH";
-        action = "<cmd>lua require('snacks').picker.highlights()<cr>";
-        options = {
-          desc = "Highlights";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>si";
-        action = "<cmd>lua require('snacks').picker.icons()<cr>";
-        options = {
-          desc = "Icons";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>sj";
-        action = "<cmd>lua require('snacks').picker.jumps()<cr>";
-        options = {
-          desc = "Jumps";
-        };
-      }
-      {
-        mode = "n";
         key = "<leader>sk";
         action = "<cmd>lua require('snacks').picker.keymaps()<cr>";
         options = {
           desc = "Keymaps";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>sl";
-        action = "<cmd>lua require('snacks').picker.loclist()<cr>";
-        options = {
-          desc = "Location List";
         };
       }
       {
@@ -361,30 +313,6 @@ in
         action = "<cmd>lua require('snacks').picker.man()<cr>";
         options = {
           desc = "Man Pages";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>sp";
-        action = "<cmd>lua require('snacks').picker.lazy()<cr>";
-        options = {
-          desc = "Search Plugin Specs (Lazy)";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>sq";
-        action = "<cmd>lua require('snacks').picker.qflist()<cr>";
-        options = {
-          desc = "Quickfix List";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>sR";
-        action = "<cmd>lua require('snacks').picker.resume()<cr>";
-        options = {
-          desc = "Resume Last Search";
         };
       }
       {
