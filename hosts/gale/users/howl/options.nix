@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   username = config.home.username;
 in
@@ -216,6 +216,11 @@ rec {
         Unit.After = [ "sops-nix.service" ];
       };
     };
+  };
+  home = {
+    packages = with pkgs; [
+      prismlauncher
+    ];
   };
 
   accounts = {
