@@ -1,0 +1,43 @@
+{
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+  "preset": "opencode-go",
+  "presets": {
+    "opencode-go": {
+      "orchestrator": {
+        "model": "opencode-go/minimax-m3",
+        "variant": "thinking"
+      },
+      "oracle": {
+        "model": "opencode-go/qwen3.7-max",
+        "variant": "max"
+      },
+      "librarian": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "variant": "high",
+        "mcps": [
+          "context7",
+          "gh_grep"
+        ]
+      },
+      "explorer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "variant": "high"
+      },
+      "designer": {
+        "model": "opencode-go/kimi-k2.7-code"
+      },
+      "fixer": {
+        "model": "opencode-go/deepseek-v4-flash",
+        "variant": "high"
+      },
+      "observer": {
+        "model": "opencode-go/mimo-v2.5"
+      }
+    }
+  },
+  "multiplexer": {
+    "type": "auto",
+    "layout": "main-vertical",
+    "main_pane_size": 60
+  }
+}
