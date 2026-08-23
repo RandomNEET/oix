@@ -14,7 +14,7 @@ in
 {
   config = lib.mkIf osConfig.desktop.enable {
     programs.noctalia.settings.plugins = {
-      auto_update = true;
+      auto_update = "all";
       enabled = [
         "noctalia/translator"
         "emrtnn/pass"
