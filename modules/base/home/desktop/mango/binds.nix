@@ -49,7 +49,7 @@ in
     "SUPER,F12,spawn_shell,kill $(cat /tmp/auto-clicker.pid) 2>/dev/null || ${autoclicker} --cps 40"
 
     "SUPER,Print,spawn,noctalia msg screenshot-region"
-    "SUPER+SHIFT,Print,spawn,noctalia msg screenshot-fullscreen"
+    "SUPER+SHIFT,Print,spawn,noctalia msg screenshot-fullscreen pick"
     "SUPER+CTRL,Print,spawn_shell,touch /tmp/noctalia-screenshot-ocr && noctalia msg screenshot-region"
 
     "SUPER,Left,focusdir,left"
