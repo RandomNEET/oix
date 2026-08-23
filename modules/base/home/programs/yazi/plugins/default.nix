@@ -29,7 +29,6 @@ in
           restore
           smart-filter
           toggle-pane
-          yatline
           ;
       }
       // optionalAttrs config.programs.lazygit.enable {
