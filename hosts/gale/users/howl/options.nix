@@ -134,7 +134,6 @@ rec {
         };
       };
     };
-    mcp = { };
   };
   wayland = {
     windowManager = {

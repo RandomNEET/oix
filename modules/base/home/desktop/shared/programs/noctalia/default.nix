@@ -1,21 +1,13 @@
 {
-  inputs,
   osConfig,
   config,
   lib,
   pkgs,
   mylib,
-  meta,
   ...
 }:
 {
   imports = [
-    (
-      if (meta.channel == "unstable") then
-        inputs.noctalia.homeModules.default
-      else
-        inputs.noctalia-stable.homeModules.default
-    )
     ./plugins
     ../satty
   ];
@@ -26,7 +18,7 @@
     in
     {
       enable = true;
-      package = pkgs.noctalia;
+      systemd.enable = false;
       settings = {
         shell = import ./shell.nix {
           inherit
@@ -75,6 +67,7 @@
         };
       }
       // import ./misc.nix;
+      checkConfig = true;
     };
 
   home.packages = with pkgs; [ tesseract ];
