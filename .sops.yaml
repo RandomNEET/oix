@@ -1,61 +1,65 @@
----
 keys:
-  - &RandomNEET 0xBFA119DF465BFBB1
   - &zenith age1g7g79yts0sgsazsy3e7t8njpaaeczc5mtnm6lxdxmvuh6cdnwu9q9jwj97
   - &howl-zenith age1yukj56eja5c68t8m4g08yl8a9mhpxgxlkfyaw4xlzx3lx0rrj4ash0vm07
   - &gale age157sewn98hhcgfp92mt4erxkymh4d3vmykj9d9ca9j46n5ksuyu2q34c6kq
   - &howl-gale age1h30aqczhr75jgyn4jtwzmznhy0g0629rhh9exs25e5mquw6xu9aqtae3w8
   - &voile age1zeaa40ja0shttzfmug5u4xzmqhyc7vjpdkjt2fafq3zn293xe3xq53h3es
   - &howl-voile age12p5cnsnjxx8rhks6u6zyqpljzq3d7xut3p9exgc2xyqc2ytvgg9se0xkqm
+  - &RandomNEET 0xBFA119DF465BFBB1
+
 creation_rules:
   - path_regex: hosts/zenith/secrets\.(yaml|json|env|ini)$
     key_groups:
-      - pgp:
-          - *RandomNEET
-        age:
+      - age:
           - *zenith
+        pgp:
+          - *RandomNEET
   - path_regex: hosts/zenith/users/howl/secrets\.(yaml|json|env|ini)$
     key_groups:
-      - pgp:
-          - *RandomNEET
-        age:
+      - age:
           - *howl-zenith
+        pgp:
+          - *RandomNEET
+
   - path_regex: hosts/gale/secrets\.(yaml|json|env|ini)$
     key_groups:
-      - pgp:
-          - *RandomNEET
-        age:
+      - age:
           - *gale
+        pgp:
+          - *RandomNEET
   - path_regex: hosts/gale/users/howl/secrets\.(yaml|json|env|ini)$
     key_groups:
-      - pgp:
-          - *RandomNEET
-        age:
+      - age:
           - *howl-gale
+        pgp:
+          - *RandomNEET
+
   - path_regex: hosts/voile/secrets\.(yaml|json|env|ini)$
     key_groups:
-      - pgp:
-          - *RandomNEET
-        age:
+      - age:
           - *voile
+        pgp:
+          - *RandomNEET
   - path_regex: hosts/voile/users/howl/secrets\.(yaml|json|env|ini)$
     key_groups:
-      - pgp:
-          - *RandomNEET
-        age:
+      - age:
           - *howl-voile
+        pgp:
+          - *RandomNEET
+
   - path_regex: hosts/.*secrets\.(yaml|json|env|ini)$
     key_groups:
       - pgp:
           - *RandomNEET
+
   - path_regex: modules/.*secrets\.(yaml|json|env|ini)$
     key_groups:
-      - pgp:
-          - *RandomNEET
-        age:
+      - age:
           - *zenith
           - *howl-zenith
           - *gale
           - *howl-gale
           - *voile
           - *howl-voile
+        pgp:
+          - *RandomNEET
