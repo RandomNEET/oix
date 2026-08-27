@@ -25,9 +25,9 @@ let
       else if themeName == "nord" then
         "Nord"
       else if themeName == "rose-pine" then
-        "Rose Pine"
+        "Rosé Pine"
       else if themeName == "tokyo-night-dark" then
-        "Tokyo Night"
+        "Tokyo-Night"
       else
         ""
     else
