@@ -72,18 +72,18 @@ in
 
       # Prefix pass-through
       bind -n F12 run-shell '
-      if [ "$(tmux show-option -gv prefix)" = "${prefix}" ]; then
-        tmux set -g prefix C-F12
-        _style=$(tmux show-option -gv status-style)
-        tmux set -g status-style "$_style,dim"
-        tmux display-message "PASSTHROUGH | prefix=C-F12"
-      else
-        tmux set -g prefix ${prefix}
-        _style=$(tmux show-option -gv status-style)
-        tmux set -g status-style "$(echo "$_style" | sed "s/,dim//g")"
-        tmux display-message "LOCAL | prefix=${prefix}"
-      fi
-          '
+        if [ "$(tmux show-option -gv prefix)" = "${prefix}" ]; then
+          tmux set -g prefix C-F12
+          _style=$(tmux show-option -gv status-style)
+          tmux set -g status-style "$_style,dim"
+          tmux display-message "PASSTHROUGH | prefix=C-F12"
+        else
+          tmux set -g prefix ${prefix}
+          _style=$(tmux show-option -gv status-style)
+          tmux set -g status-style "$(echo "$_style" | sed "s/,dim//g")"
+          tmux display-message "LOCAL | prefix=${prefix}"
+        fi
+      '
     '';
     plugins = with pkgs.tmuxPlugins; [
       {
