@@ -58,6 +58,7 @@ in
   aerc = import ./aerc.nix env;
   chromium = import ./chromium.nix env;
   firefox = import ./firefox.nix env;
+  gallery-dl = import ./gallery-dl.nix env;
   mpv = import ./mpv.nix env;
   newsboat = import ./newsboat.nix env;
   obsidian = import ./obsidian.nix env;

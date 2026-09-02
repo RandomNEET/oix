@@ -7,6 +7,7 @@
     ../../../../modules/optional/home/programs/cli/direnv
     ../../../../modules/optional/home/programs/cli/distrobox
     ../../../../modules/optional/home/programs/cli/firejail
+    ../../../../modules/optional/home/programs/cli/gallery-dl
     ../../../../modules/optional/home/programs/cli/gh
     ../../../../modules/optional/home/programs/cli/glow
     ../../../../modules/optional/home/programs/cli/helix
