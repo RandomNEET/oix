@@ -42,6 +42,12 @@ in
         executable = "${config.programs.firefox.finalPackage}/bin/firefox";
         profile = profiles.firefox;
       };
+      gallery-dl = {
+        enable = config.programs.gallery-dl.enable;
+        executable = "${getBin pkgs.gallery-dl}/bin/gallery-dl";
+        profile = profiles.gallery-dl;
+        filterStderr.enable = true;
+      };
       mpv = {
         enable = config.programs.mpv.enable;
         executable = "${config.programs.mpv.finalPackage}/bin/mpv";
