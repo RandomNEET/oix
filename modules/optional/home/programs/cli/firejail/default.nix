@@ -28,7 +28,7 @@ in
     wrappedBinaries = {
       aerc = {
         enable = config.programs.aerc.enable;
-        executable = "${getBin pkgs.aerc}/bin/aerc";
+        executable = "${getBin config.programs.aerc.package}/bin/aerc";
         profile = profiles.aerc;
         filterStderr.enable = true;
       };
@@ -44,7 +44,7 @@ in
       };
       gallery-dl = {
         enable = config.programs.gallery-dl.enable;
-        executable = "${getBin pkgs.gallery-dl}/bin/gallery-dl";
+        executable = "${getBin config.programs.gallery-dl.package}/bin/gallery-dl";
         profile = profiles.gallery-dl;
         filterStderr.enable = true;
       };
@@ -64,7 +64,7 @@ in
       };
       newsboat = {
         enable = config.programs.newsboat.enable;
-        executable = "${getBin pkgs.newsboat}/bin/newsboat";
+        executable = "${getBin config.programs.newsboat.package}/bin/newsboat";
         profile = profiles.newsboat;
         filterStderr = {
           enable = true;
@@ -78,12 +78,12 @@ in
       };
       obsidian = {
         enable = config.programs.obsidian.enable;
-        executable = "${getBin pkgs.obsidian}/bin/obsidian";
+        executable = "${getBin config.programs.obsidian.package}/bin/obsidian";
         profile = profiles.obsidian;
       };
       qutebrowser = {
         enable = config.programs.qutebrowser.enable;
-        executable = "${getBin pkgs.qutebrowser}/bin/qutebrowser";
+        executable = "${getBin config.programs.qutebrowser.package}/bin/qutebrowser";
         profile = profiles.qutebrowser;
       };
       spotify = {
@@ -93,7 +93,7 @@ in
       };
       thunderbird = {
         enable = config.programs.thunderbird.enable;
-        executable = "${getBin pkgs.thunderbird}/bin/thunderbird";
+        executable = "${getBin config.programsk.thunderbird.package}/bin/thunderbird";
         profile = profiles.thunderbird;
       };
       w3m = {
@@ -104,13 +104,13 @@ in
       };
       yt-dlp = {
         enable = config.programs.yt-dlp.enable;
-        executable = "${getBin pkgs.yt-dlp}/bin/yt-dlp";
+        executable = "${getBin config.programs.yt-dlp.package}/bin/yt-dlp";
         profile = profiles.yt-dlp;
         filterStderr.enable = true;
       };
       zathura = {
         enable = config.programs.zathura.enable;
-        executable = "${getBin pkgs.zathura}/bin/zathura";
+        executable = "${getBin config.programs.zathura.package}/bin/zathura";
         profile = profiles.zathura;
       };
     };
