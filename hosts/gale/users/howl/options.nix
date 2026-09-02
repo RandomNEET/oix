@@ -185,7 +185,7 @@ rec {
       ];
     };
     mbsync = {
-      configFile = "${config.xdg.configHome}/sops-nix/secrets/mbsync";
+      configFile = "${config.xdg.configHome}/sops-nix/secrets/email/mbsync";
       trigger.enable = true;
     };
     mpd = {
@@ -278,7 +278,7 @@ rec {
       "ssh/zenith".sopsFile = ./secrets.yaml;
       "ssh/voile".sopsFile = ./secrets.yaml;
       "email/RandomNEET/password".sopsFile = ./secrets.yaml;
-      mbsync.sopsFile = ./secrets.yaml;
+      "email/mbsync".sopsFile = ./secrets.yaml;
     };
   };
 }

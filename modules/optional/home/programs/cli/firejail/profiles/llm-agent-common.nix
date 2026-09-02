@@ -1,0 +1,70 @@
+{
+  pkgs,
+  global,
+  ...
+}:
+let
+  local = pkgs.writeText "firejail-llm-agent-common-local" "";
+in
+pkgs.writeText "firejail-opencode-profile" ''
+  # Firejail profile for llm-agent-common
+  # Description: Common profile for LLM agents
+  # This file is overwritten after every install/update
+  # Persistent local customizations
+  include ${local}
+  # Persistent global definitions
+  # added by caller profile
+  #include ${global}
+
+  # Allow /bin/sh (blacklisted by disable-shell.inc)
+  include allow-bin-sh.inc
+
+  # Allows files commonly used by IDEs
+  include allow-common-devel.inc
+
+  # Allow ssh (blacklisted by disable-common.inc)
+  include allow-ssh.inc
+
+  blacklist ''${RUNUSER}
+
+  include disable-common.inc
+  include disable-proc.inc
+  include disable-programs.inc
+  include disable-x11.inc
+  include disable-xdg.inc
+
+  whitelist ''${RUNUSER}/openssh_agent
+  include whitelist-run-common.inc
+  #include whitelist-usr-share-common.inc
+  include whitelist-var-common.inc
+
+  caps.drop all
+  ipc-namespace
+  machine-id
+  netfilter
+  no3d
+  nodvd
+  nogroups
+  noinput
+  nonewprivs
+  noprinters
+  noroot
+  nosound
+  notv
+  nou2f
+  novideo
+  protocol unix,inet,inet6,netlink
+  seccomp
+  seccomp.block-secondary
+
+  disable-mnt
+  private-dev
+  private-etc @network,@tls-ca
+  private-tmp
+
+  dbus-user none
+  dbus-system none
+
+  env NO_BROWSER=true
+  restrict-namespaces
+''

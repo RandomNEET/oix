@@ -81,6 +81,12 @@ in
         executable = "${getBin config.programs.obsidian.package}/bin/obsidian";
         profile = profiles.obsidian;
       };
+      opencode = {
+        enable = config.programs.opencode.enable;
+        executable = "${getBin config.programs.opencode.package}/bin/opencode";
+        profile = profiles.opencode;
+        filterStderr.enable = true;
+      };
       qutebrowser = {
         enable = config.programs.qutebrowser.enable;
         executable = "${getBin config.programs.qutebrowser.package}/bin/qutebrowser";
@@ -95,6 +101,11 @@ in
         enable = config.programs.thunderbird.enable;
         executable = "${getBin config.programsk.thunderbird.package}/bin/thunderbird";
         profile = profiles.thunderbird;
+      };
+      vscode = {
+        enable = false; # config.programs.vscode.enable;
+        executable = "${getBin config.programs.vscode.package}/bin/code";
+        profile = profiles.code;
       };
       w3m = {
         enable = config.programs.w3m.enable;
