@@ -156,34 +156,34 @@ rec {
           ];
         };
       };
-    };
-    niri = {
-      settings = {
-        _children = [
-          {
-            output._args = [ "DP-1" ];
-            output.mode = "3840x2160@144";
-            output.scale = 1.5;
-            output.position._props = {
-              x = 0;
-              y = 0;
-            };
-            output.variable-refresh-rate._props = {
-              on-demand = true;
-            };
-            output.focus-at-startup = { };
-          }
-          {
-            output._args = [ "HDMI-A-1" ];
-            output.mode = "3840x2160@60";
-            output.scale = 1.5;
-            output.transform = "90";
-            output.position._props = {
-              x = 2560;
-              y = -600;
-            };
-          }
-        ];
+      niri = {
+        settings = {
+          _children = [
+            {
+              output._args = [ "DP-1" ];
+              output.mode = "3840x2160@144";
+              output.scale = 1.5;
+              output.position._props = {
+                x = 0;
+                y = 0;
+              };
+              output.variable-refresh-rate._props = {
+                on-demand = true;
+              };
+              output.focus-at-startup = { };
+            }
+            {
+              output._args = [ "HDMI-A-1" ];
+              output.mode = "3840x2160@60";
+              output.scale = 1.5;
+              output.transform = "90";
+              output.position._props = {
+                x = 2560;
+                y = -600;
+              };
+            }
+          ];
+        };
       };
     };
   };
