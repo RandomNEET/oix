@@ -3,8 +3,8 @@ pkgs.vscode-utils.buildVscodeMarketplaceExtension {
   mktplcRef = {
     publisher = "mcu-debug";
     name = "peripheral-viewer";
-    version = "1.6.3";
-    hash = "sha256-ElqS0Zsd1qptgQyQI1lAVwyK8oDJYuoF6Q8UkMBnqNM=";
+    version = "1.6.4";
+    hash = "sha256-lyNbZO5zWl67s9i3B3k+rDObbOhQc6dBlWN0LgUWO24=";
   };
 
   meta = with lib; {
