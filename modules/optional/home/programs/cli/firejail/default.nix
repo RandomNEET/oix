@@ -37,6 +37,12 @@ in
         executable = "${config.programs.chromium.finalPackage}/bin/chromium";
         profile = profiles.chromium;
       };
+      codex = {
+        enable = config.programs.codex.enable;
+        executable = "${getBin config.programs.codex.package}/bin/codex";
+        profile = profiles.codex;
+        filterStderr.enable = true;
+      };
       firefox = {
         enable = config.programs.firefox.enable;
         executable = "${config.programs.firefox.finalPackage}/bin/firefox";

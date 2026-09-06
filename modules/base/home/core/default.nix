@@ -1,1 +1,7 @@
-{ mylib, ... }: { imports = mylib.util.scanPaths ./. { }; }
+{ mylib, ... }: {
+  imports = mylib.util.scanPaths ./. { };
+
+  home = {
+    preferXdgDirectories = true;
+  };
+}
