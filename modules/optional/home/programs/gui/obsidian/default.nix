@@ -37,8 +37,6 @@
       communityPlugins = import ./plugins.nix { inherit pkgs; };
     };
   };
-
-  home.packages = with pkgs; [ npmPackages.obsidian-headless ];
 }
 // lib.optionalAttrs osConfig.desktop.themes.enable {
   stylix.targets.obsidian.enable = true;

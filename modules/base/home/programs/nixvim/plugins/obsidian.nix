@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.nixvim = lib.mkIf config.programs.obsidian.enable {
     plugins.obsidian = {
@@ -79,6 +84,14 @@
           desc = "Cycle through checkbox options";
         };
       }
+    ];
+    extraPackages = with pkgs; [
+      # First-time setup for obsidian-headless (required by Obsidian sync):
+      #   1. ob login                          # authenticate with your Obsidian account
+      #   2. cd into the target vault, then in an nvim terminal run:
+      #      ob sync-setup --vault <vault>     # link the local vault to a remote one
+      # Afterwards, just use :Obsidian sync for daily syncing.
+      obsidian-headless
     ];
   };
 }
