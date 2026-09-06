@@ -1,5 +1,4 @@
 {
-  osConfig,
   config,
   lib,
   pkgs,
@@ -29,6 +28,4 @@
     pass-secret-service.enable = true;
     gnome-keyring.enable = lib.mkForce false;
   };
-
-  home.packages = lib.mkIf osConfig.desktop.enable (with pkgs; [ qtpass ]);
 }
