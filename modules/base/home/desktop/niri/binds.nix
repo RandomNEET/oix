@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   file-manager,
@@ -398,6 +399,16 @@ in
       "panel-toggle"
       "launcher"
       "/pass"
+    ];
+  };
+}
+// optionalAttrs osConfig.base.gaming.enable {
+  "Mod+Ctrl+G" = {
+    spawn = [
+      "noctalia"
+      "msg"
+      "panel-toggle"
+      "alexander/game-launcher:browser"
     ];
   };
 }

@@ -8,7 +8,7 @@
   ...
 }:
 let
-  inherit (lib) optional;
+  inherit (lib) optional optionals;
   inherit (lib.generators) mkLuaInline;
   mkBind = keys: action: {
     _args = [
@@ -200,9 +200,10 @@ in
   ++ optional config.programs.password-store.enable (
     mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("noctalia msg panel-toggle launcher /pass")''
   )
-  ++ optional osConfig.programs.steam.enable (
-    mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")''
-  );
+  ++ optionals osConfig.base.gaming.enable [
+    (mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")'')
+    (mkBind "SUPER + CTRL + G" ''hl.dsp.exec_cmd("noctalia msg panel-toggle alexander/game-launcher:browser")'')
+  ];
 
   define_submap = {
     _args = [

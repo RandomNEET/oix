@@ -39,6 +39,7 @@ in
                   layout = import ./layout.nix;
                   binds = import ./binds.nix {
                     inherit
+                      osConfig
                       config
                       lib
                       file-manager

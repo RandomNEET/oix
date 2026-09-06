@@ -40,6 +40,7 @@ in
           let
             binds = import ./binds.nix {
               inherit
+                osConfig
                 config
                 lib
                 file-manager
