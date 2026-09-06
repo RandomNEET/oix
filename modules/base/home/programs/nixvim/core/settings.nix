@@ -19,8 +19,9 @@ in
       # UI
       number = true;
       relativenumber = true;
-      scrolloff = 8;
+      conceallevel = 1;
       fillchars = "eob: ";
+      scrolloff = 8;
 
       # Layout
       splitbelow = true;
