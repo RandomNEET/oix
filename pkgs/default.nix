@@ -7,7 +7,7 @@ lib.mergeAttrsList [
   { fcitx5-rime-ice = pkgs.callPackage ./fcitx5-rime-ice { }; }
   {
     npmPackages = {
-      obsidian-headless = pkgs.callPackage ./npm-packages/obsidian-headless { };
+      # obsidian-headless = pkgs.callPackage ./npm-packages/obsidian-headless { };
     };
   }
   {
