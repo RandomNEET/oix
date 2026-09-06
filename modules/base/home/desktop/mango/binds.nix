@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   file-manager,
@@ -150,7 +151,8 @@ in
     "SUPER,m,setkeymode,mouse"
   ]
   ++ optional config.programs.tmux.enable "SUPER,t,spawn,${terminal} -e tmux"
-  ++ optional config.programs.password-store.enable "SUPER+SHIFT,p,spawn,noctalia msg panel-toggle launcher /pass";
+  ++ optional config.programs.password-store.enable "SUPER+SHIFT,p,spawn,noctalia msg panel-toggle launcher /pass"
+  ++ optional osConfig.base.gaming.enable "SUPER+CTRL,g,spawn,noctalia msg panel-toggle alexander/game-launcher:browser";
 
   mousebind = [
     "SUPER,btn_left,moveresize,curmove"
