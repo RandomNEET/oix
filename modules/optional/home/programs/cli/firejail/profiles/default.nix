@@ -49,6 +49,8 @@ let
 
     global = pkgs.writeText "firejail-global-profile" ''
       blacklist /run/secrets
+      blacklist ''${HOME}/.config/sops
+      blacklist ''${HOME}/.config/sops-nix
       blacklist ''${HOME}/.vault
     '';
   };
