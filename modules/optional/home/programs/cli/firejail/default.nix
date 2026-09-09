@@ -8,7 +8,7 @@
   ...
 }:
 let
-  inherit (lib) getBin;
+  inherit (lib) getBin optionalAttrs;
   profiles = import ./profiles {
     inherit
       osConfig
@@ -98,11 +98,6 @@ in
         executable = "${getBin config.programs.qutebrowser.package}/bin/qutebrowser";
         profile = profiles.qutebrowser;
       };
-      spotify = {
-        enable = config.programs.spicetify.enable;
-        executable = "${config.programs.spicetify.spicedSpotify}/bin/spotify";
-        profile = profiles.spotify;
-      };
       thunderbird = {
         enable = config.programs.thunderbird.enable;
         executable = "${getBin config.programsk.thunderbird.package}/bin/thunderbird";
@@ -129,6 +124,13 @@ in
         enable = config.programs.zathura.enable;
         executable = "${getBin config.programs.zathura.package}/bin/zathura";
         profile = profiles.zathura;
+      };
+    }
+    // optionalAttrs (config.programs ? spicetify) {
+      spotify = {
+        enable = config.programs.spicetify.enable;
+        executable = "${config.programs.spicetify.spicedSpotify}/bin/spotify";
+        profile = profiles.spotify;
       };
     };
   };
