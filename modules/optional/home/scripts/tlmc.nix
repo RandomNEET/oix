@@ -1,0 +1,882 @@
+{ pkgs, ... }:
+let
+  runtimeInputs = with pkgs; [
+    coreutils
+    cuetools
+    curl
+    file
+    findutils
+    flac
+    fzf
+    gawk
+    glow
+    gnugrep
+    gnused
+    less
+    nano
+    openssl
+    rsync
+    shntool
+  ];
+  tlmc = pkgs.writeShellScriptBin "tlmc" ''
+    export PATH=${pkgs.lib.makeBinPath runtimeInputs}:$PATH
+
+    URL="rsync://patchouli@rsync.thdisc.com:874/tlmc"
+    NEWS_URL="https://down.thdisc.com/sync_logfull.md"
+    export RSYNC_PASSWORD=knowledge
+
+    usage() {
+      cat <<'EOF'
+    Usage:
+      tlmc news
+      tlmc sync [OPTIONS] LOCAL_DIR
+      tlmc add LOCAL_DIR
+      tlmc edit LOCAL_DIR
+      tlmc delete LOCAL_DIR
+      tlmc split LOCAL_DIR
+
+    Commands:
+      news    Show the TLMC synchronization log
+      sync    Sync directories that already exist locally from the TLMC repository
+      add     Select new circles/albums with fzf, create them, then sync
+      edit    Select a local circle with fzf and edit its .config
+      delete  Select and delete local circles/albums with fzf
+      split   Split single-FLAC albums with CUE sheets into individual tracks
+
+    Sync options:
+      --delete                 Delete files in selected directories if absent remotely
+      -n, --dry-run            Show what would be transferred without changing files
+      -h, --help               Show command help
+
+    Each circle stores its sync granularity in CIRCLE/.config:
+      granularity=circle       Sync the whole circle (default)
+      granularity=album        Sync only album directories that already exist locally
+    EOF
+    }
+
+    die() {
+      echo "Error: $*" >&2
+      exit 1
+    }
+
+    require_local_dir() {
+      [ -n "$LOCAL_DIR" ] && [ -d "$LOCAL_DIR" ] || die "valid LOCAL_DIR is required."
+      LOCAL_DIR=$(realpath "$LOCAL_DIR") || exit 1
+    }
+
+    confirm() {
+      local prompt="$1" answer
+      read -r -p "$prompt [y/N] " answer
+      case "$answer" in
+      y | Y | yes | YES | Yes) return 0 ;;
+      *) return 1 ;;
+      esac
+    }
+
+    confirm_default_yes() {
+      local prompt="$1" answer
+      read -r -p "$prompt [Y/n] " answer
+      case "$answer" in
+      n | N | no | NO | No) return 1 ;;
+      *) return 0 ;;
+      esac
+    }
+
+    valid_child_name() {
+      case "$1" in
+      "" | . | .. | */*) return 1 ;;
+      *) return 0 ;;
+      esac
+    }
+
+    # News
+
+    news_tlmc() {
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+        -h | --help)
+          echo "Usage: tlmc news"
+          return 0
+          ;;
+        *) die "unexpected news argument: $1" ;;
+        esac
+      done
+
+      local news_file status
+      news_file=$(mktemp --suffix=.md) || exit 1
+      trap 'rm -f -- "$news_file"' EXIT
+
+      curl -fsSL --connect-timeout 15 --max-time 120 \
+        --user "patchouli:$RSYNC_PASSWORD" "$NEWS_URL" >"$news_file"
+      status=$?
+      if [ "$status" -ne 0 ]; then
+        rm -f "$news_file"
+        trap - EXIT
+        echo "Error: failed to fetch TLMC news from $NEWS_URL" >&2
+        return "$status"
+      fi
+
+      if [ ! -t 1 ]; then
+        cat "$news_file"
+        status=$?
+      else
+        glow -p "$news_file"
+        status=$?
+      fi
+
+      rm -f "$news_file"
+      trap - EXIT
+      return "$status"
+    }
+
+    # Sync
+
+    # Quote rsync filter metacharacters while leaving path separators intact.
+    escape_filter_path() {
+      printf '%s' "$1" | sed 's/\\/\\\\/g; s/\[/\\\[/g; s/\]/\\\]/g; s/\*/\\\*/g; s/\?/\\\?/g'
+    }
+
+    write_circle_config() {
+      local circle_dir="$1" granularity="$2"
+      printf 'granularity=%s\n' "$granularity" >"$circle_dir/.config"
+    }
+
+    circle_granularity() {
+      local circle_dir="$1" config granularity
+      config="$circle_dir/.config"
+      if [ ! -e "$config" ]; then
+        write_circle_config "$circle_dir" circle || return 1
+      fi
+      [ -f "$config" ] || {
+        echo "Error: '$config' is not a regular file." >&2
+        return 1
+      }
+      granularity=$(sed -n 's/^granularity=\(circle\|album\)$/\1/p' "$config" | tail -n 1)
+      [ -n "$granularity" ] || {
+        echo "Error: invalid '$config' (expected granularity=circle or granularity=album)." >&2
+        return 1
+      }
+      printf '%s' "$granularity"
+    }
+
+    sync_tlmc() {
+      local delete_flag="" dry_run_flag=""
+      LOCAL_DIR=""
+
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+        --delete)
+          delete_flag="--delete"
+          shift
+          ;;
+        -n | --dry-run)
+          dry_run_flag="--dry-run"
+          shift
+          ;;
+        -h | --help)
+          usage
+          return 0
+          ;;
+        -*) die "unknown sync option: $1" ;;
+        *)
+          [ -z "$LOCAL_DIR" ] || die "unexpected argument: $1"
+          LOCAL_DIR="$1"
+          shift
+          ;;
+        esac
+      done
+
+      require_local_dir
+
+      local filter_file circle circle_name album safe_circle safe_album granularity status
+      local circle_count=0 album_circle_count=0 album_count=0
+      local -a circles=()
+      filter_file=$(mktemp) || exit 1
+
+      mapfile -d ''' circles < <(find "$LOCAL_DIR" -mindepth 1 -maxdepth 1 -type d -print0)
+      for circle in "''${circles[@]}"; do
+        circle_name=$(basename "$circle")
+        safe_circle=$(escape_filter_path "$circle_name")
+        granularity=$(circle_granularity "$circle") || {
+          rm -f "$filter_file"
+          return 1
+        }
+
+        # .config is local state: never fetch it or remove it with --delete.
+        printf 'P /%s/.config\n- /%s/.config\n' "$safe_circle" "$safe_circle" >>"$filter_file"
+        if [ "$granularity" = "circle" ]; then
+          printf '+ /%s/***\n' "$safe_circle" >>"$filter_file"
+          circle_count=$((circle_count + 1))
+        else
+          printf '+ /%s/\n' "$safe_circle" >>"$filter_file"
+          album_circle_count=$((album_circle_count + 1))
+          while IFS= read -r -d ''' album; do
+            safe_album=$(escape_filter_path "$(basename "$album")")
+            printf '+ /%s/%s/***\n' "$safe_circle" "$safe_album" >>"$filter_file"
+            album_count=$((album_count + 1))
+          done < <(find "$circle" -mindepth 1 -maxdepth 1 -type d \
+            ! -name tracks ! -name split ! -name @eaDir -print0)
+        fi
+      done
+      printf -- '- /***\n' >>"$filter_file"
+
+      echo "Syncing under: $LOCAL_DIR"
+      echo "  circle mode: $circle_count circle(s)"
+      echo "  album mode:  $album_circle_count circle(s), $album_count album(s)"
+      [ -z "$dry_run_flag" ] || echo "[MODE: DRY RUN]"
+      [ -z "$delete_flag" ] || echo "[MODE: DELETE ENABLED]"
+
+      local -a rsync_args=(-avz --progress --filter=". $filter_file")
+      [ -z "$delete_flag" ] || rsync_args+=("$delete_flag")
+      [ -z "$dry_run_flag" ] || rsync_args+=("$dry_run_flag")
+      rsync-ssl "''${rsync_args[@]}" "$URL/" "$LOCAL_DIR/"
+      status=$?
+      rm -f "$filter_file"
+      return "$status"
+    }
+
+    # Add
+
+    # Print only immediate remote subdirectories, one per line.
+    list_remote_dirs() {
+      local remote="$1" list_file status
+      list_file=$(mktemp) || return 1
+      rsync-ssl --list-only "$remote" >"$list_file"
+      status=$?
+      if [ "$status" -eq 0 ]; then
+        sed -n \
+          's/^d[^[:space:]]*[[:space:]]\+[^[:space:]]\+[[:space:]]\+[^[:space:]]\+[[:space:]]\+[^[:space:]]\+[[:space:]]\+//p' \
+          "$list_file" | sed '/^\.$/d'
+      fi
+      rm -f "$list_file"
+      return "$status"
+    }
+
+    preview_cache_file() {
+      local cache_dir="$1" key="$2" checksum
+      checksum=$(printf '%s' "$key" | cksum)
+      checksum="''${checksum%% *}"
+      printf '%s/%s' "$cache_dir" "$checksum"
+    }
+
+    filter_missing_dirs() {
+      local source_file="$1" local_parent="$2" name
+      while IFS= read -r name; do
+        [ -n "$name" ] || continue
+        [ -d "$local_parent/$name" ] || printf '%s\n' "$name"
+      done <"$source_file"
+    }
+
+    filter_available_circles() {
+      local source_file="$1" local_dir="$2" circle config
+      while IFS= read -r circle; do
+        [ -n "$circle" ] || continue
+        if [ ! -d "$local_dir/$circle" ]; then
+          printf '%s\n' "$circle"
+          continue
+        fi
+
+        config="$local_dir/$circle/.config"
+        if [ -f "$config" ] && grep -qx 'granularity=album' "$config"; then
+          printf '%s\n' "$circle"
+        fi
+      done <"$source_file"
+    }
+
+    preview_circle() {
+      local cache_dir="$1" local_dir="$2" circle="$3" cache_file temp_file missing_file
+      cache_file=$(preview_cache_file "$cache_dir" "circle/$circle")
+      if [ ! -f "$cache_file" ]; then
+        temp_file="''${cache_file}.$$"
+        echo "Loading albums for: $circle"
+        if list_remote_dirs "$URL/$circle/" >"$temp_file"; then
+          mv -f "$temp_file" "$cache_file"
+        else
+          rm -f "$temp_file"
+          echo "Failed to load preview." >&2
+          return 1
+        fi
+      fi
+
+      missing_file="''${cache_file}.missing.$$"
+      filter_missing_dirs "$cache_file" "$local_dir/$circle" >"$missing_file"
+      if [ -s "$missing_file" ]; then
+        cat "$missing_file"
+      else
+        echo "(no new album directories)"
+      fi
+      rm -f "$missing_file"
+    }
+
+    preview_album() {
+      local cache_dir="$1" circle="$2" album="$3" cache_file temp_file status
+      cache_file=$(preview_cache_file "$cache_dir" "album/$circle/$album")
+      if [ -f "$cache_file" ]; then
+        cat "$cache_file"
+        return 0
+      fi
+
+      temp_file="''${cache_file}.$$"
+      echo "Loading contents for: $album"
+      rsync-ssl --list-only "$URL/$circle/$album/" >"$temp_file"
+      status=$?
+      if [ "$status" -eq 0 ]; then
+        sed -i '/[[:space:]]\.$/d' "$temp_file"
+        mv -f "$temp_file" "$cache_file"
+        if [ -s "$cache_file" ]; then
+          cat "$cache_file"
+        else
+          echo "(empty album)"
+        fi
+      else
+        rm -f "$temp_file"
+        echo "Failed to load preview." >&2
+        return "$status"
+      fi
+    }
+
+    add_tlmc() {
+      LOCAL_DIR=""
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+        -h | --help)
+          echo "Usage: tlmc add LOCAL_DIR"
+          return 0
+          ;;
+        -*) die "unknown add option: $1" ;;
+        *)
+          [ -z "$LOCAL_DIR" ] || die "unexpected argument: $1"
+          LOCAL_DIR="$1"
+          shift
+          ;;
+        esac
+      done
+      require_local_dir
+
+      local remote_circles_file circles_file remote_albums_file albums_file
+      local preview_cache circle_preview album_preview
+      local circle album circle_was_present
+      local added=0 circle_album_added=0
+      remote_circles_file=$(mktemp) || exit 1
+      preview_cache=$(mktemp -d) || {
+        rm -f "$remote_circles_file"
+        exit 1
+      }
+      trap 'rm -rf -- "$preview_cache"' EXIT
+      echo "Loading remote circles..."
+      if ! list_remote_dirs "$URL/" >"$remote_circles_file"; then
+        rm -f "$remote_circles_file"
+        die "failed to list remote circles."
+      fi
+      [ -s "$remote_circles_file" ] || {
+        rm -f "$remote_circles_file"
+        die "the remote circle list is empty."
+      }
+      printf -v circle_preview '%q __preview-circle %q %q {}' \
+        "$0" "$preview_cache" "$LOCAL_DIR"
+
+      while :; do
+        circles_file=$(mktemp) || exit 1
+        filter_available_circles "$remote_circles_file" "$LOCAL_DIR" >"$circles_file"
+        if [ ! -s "$circles_file" ]; then
+          rm -f "$circles_file"
+          echo "No new circles or album-mode circles are available."
+          break
+        fi
+        circle=$(fzf --prompt='Circle > ' --height=80% --reverse \
+          --header='Select a circle (Esc to finish)' \
+          --preview-window='right,60%,wrap' --preview="$circle_preview" \
+          <"$circles_file") || circle=""
+        rm -f "$circles_file"
+        [ -n "$circle" ] || break
+        circle_was_present=0
+        [ ! -d "$LOCAL_DIR/$circle" ] || circle_was_present=1
+        mkdir -p -- "$LOCAL_DIR/$circle"
+        circle_album_added=0
+
+        if confirm "Select an album under '$circle'?"; then
+          remote_albums_file=$(mktemp) || {
+            rm -f "$remote_circles_file"
+            exit 1
+          }
+          echo "Loading albums for: $circle"
+          if ! list_remote_dirs "$URL/$circle/" >"$remote_albums_file"; then
+            rm -f "$remote_albums_file" "$remote_circles_file"
+            die "failed to list albums under '$circle'."
+          fi
+          printf -v album_preview '%q __preview-album %q %q {}' \
+            "$0" "$preview_cache" "$circle"
+          while :; do
+            albums_file=$(mktemp) || exit 1
+            filter_missing_dirs "$remote_albums_file" "$LOCAL_DIR/$circle" >"$albums_file"
+            if [ ! -s "$albums_file" ]; then
+              rm -f "$albums_file"
+              echo "No new albums remain under: $circle"
+              break
+            fi
+            album=$(fzf --prompt='Album > ' --height=80% --reverse \
+              --header="Select an album from $circle (Esc to cancel)" \
+              --preview-window='right,60%,wrap' --preview="$album_preview" \
+              <"$albums_file") || album=""
+            rm -f "$albums_file"
+            if [ -n "$album" ]; then
+              mkdir -p -- "$LOCAL_DIR/$circle/$album"
+              write_circle_config "$LOCAL_DIR/$circle" album
+              echo "Added album: $circle/$album"
+              added=$((added + 1))
+              circle_album_added=$((circle_album_added + 1))
+            else
+              echo "No album selected."
+              if [ "$circle_was_present" -eq 0 ] && [ "$circle_album_added" -eq 0 ]; then
+                rmdir -- "$LOCAL_DIR/$circle" 2>/dev/null || true
+              fi
+            fi
+            confirm "Continue adding albums under '$circle'?" || break
+          done
+          rm -f "$remote_albums_file"
+        else
+          write_circle_config "$LOCAL_DIR/$circle" circle
+          echo "Added circle: $circle"
+          added=$((added + 1))
+        fi
+
+        confirm "Continue adding other circles?" || break
+      done
+      rm -f "$remote_circles_file"
+      rm -rf -- "$preview_cache"
+      trap - EXIT
+
+      [ "$added" -gt 0 ] || {
+        echo "Nothing added; synchronization skipped."
+        return 0
+      }
+
+      sync_tlmc "$LOCAL_DIR"
+    }
+
+    # Edit
+
+    preview_config() {
+      local local_dir="$1" circle="$2" config
+      config="$local_dir/$circle/.config"
+      printf '%s\n\n' "$config"
+      if [ -f "$config" ]; then
+        sed -n '1,200p' "$config"
+      else
+        echo "(missing; granularity=circle will be created)"
+      fi
+    }
+
+    edit_tlmc() {
+      LOCAL_DIR=""
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+        -h | --help)
+          echo "Usage: tlmc edit LOCAL_DIR"
+          return 0
+          ;;
+        -*) die "unknown edit option: $1" ;;
+        *)
+          [ -z "$LOCAL_DIR" ] || die "unexpected argument: $1"
+          LOCAL_DIR="$1"
+          shift
+          ;;
+        esac
+      done
+      require_local_dir
+
+      local circles_file circle circle_dir preview_command editor_command
+      local -a editor_args=()
+      circles_file=$(mktemp) || exit 1
+      while IFS= read -r -d ''' circle_dir; do
+        circle=$(basename "$circle_dir")
+        if [ ! -e "$circle_dir/.config" ]; then
+          write_circle_config "$circle_dir" circle || {
+            rm -f "$circles_file"
+            die "failed to create '$circle_dir/.config'."
+          }
+        fi
+        printf '%s\n' "$circle" >>"$circles_file"
+      done < <(find "$LOCAL_DIR" -mindepth 1 -maxdepth 1 -type d -print0)
+
+      [ -s "$circles_file" ] || {
+        rm -f "$circles_file"
+        die "no local circles found under '$LOCAL_DIR'."
+      }
+      printf -v preview_command '%q __preview-config %q {}' "$0" "$LOCAL_DIR"
+      circle=$(fzf --prompt='Circle config > ' --height=80% --reverse \
+        --header='Select a circle to edit (Esc to cancel)' \
+        --preview-window='right,60%,wrap' --preview="$preview_command" \
+        <"$circles_file") || circle=""
+      rm -f "$circles_file"
+      [ -n "$circle" ] || {
+        echo "No circle selected."
+        return 0
+      }
+
+      editor_command="''${VISUAL:-''${EDITOR:-nano}}"
+      read -r -a editor_args <<<"$editor_command"
+      [ "''${#editor_args[@]}" -gt 0 ] || die "VISUAL/EDITOR is empty."
+      "''${editor_args[@]}" "$LOCAL_DIR/$circle/.config"
+    }
+
+    # Delete
+
+    preview_local_albums() {
+      local local_dir="$1" circle="$2" circle_dir
+      circle_dir="$local_dir/$circle"
+      [ -d "$circle_dir" ] || {
+        echo "(circle no longer exists)"
+        return 0
+      }
+      printf '%s\n\n' "$circle_dir"
+      find "$circle_dir" -mindepth 1 -maxdepth 1 -type d \
+        ! -name tracks ! -name split ! -name @eaDir -printf '%f\n' | sort
+    }
+
+    preview_local_album_contents() {
+      local local_dir="$1" circle="$2" album="$3" album_dir
+      album_dir="$local_dir/$circle/$album"
+      [ -d "$album_dir" ] || {
+        echo "(album no longer exists)"
+        return 0
+      }
+      printf '%s\n\n' "$album_dir"
+      ls -lahA -- "$album_dir"
+    }
+
+    delete_tlmc() {
+      LOCAL_DIR=""
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+        -h | --help)
+          echo "Usage: tlmc delete LOCAL_DIR"
+          return 0
+          ;;
+        -*) die "unknown delete option: $1" ;;
+        *)
+          [ -z "$LOCAL_DIR" ] || die "unexpected argument: $1"
+          LOCAL_DIR="$1"
+          shift
+          ;;
+        esac
+      done
+      require_local_dir
+
+      local circles_file albums_file circle album circle_dir album_dir
+      local circle_preview album_preview
+      while :; do
+        circles_file=$(mktemp) || exit 1
+        find "$LOCAL_DIR" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' |
+          sort >"$circles_file"
+        if [ ! -s "$circles_file" ]; then
+          rm -f "$circles_file"
+          echo "No local circles remain under: $LOCAL_DIR"
+          return 0
+        fi
+
+        printf -v circle_preview '%q __preview-local-albums %q {}' "$0" "$LOCAL_DIR"
+        circle=$(fzf --prompt='Delete circle > ' --height=80% --reverse \
+          --header='Select a circle (Esc to finish)' \
+          --preview-window='right,60%,wrap' --preview="$circle_preview" \
+          <"$circles_file") || circle=""
+        rm -f "$circles_file"
+        [ -n "$circle" ] || break
+        valid_child_name "$circle" || die "invalid circle selection."
+
+        circle_dir="$LOCAL_DIR/$circle"
+        [ -d "$circle_dir" ] || die "selected circle no longer exists: $circle"
+        if confirm_default_yes "Delete the entire circle '$circle'?"; then
+          rm -rf -- "$circle_dir"
+          echo "Deleted circle: $circle"
+        else
+          printf -v album_preview '%q __preview-local-album %q %q {}' \
+            "$0" "$LOCAL_DIR" "$circle"
+          while :; do
+            albums_file=$(mktemp) || exit 1
+            find "$circle_dir" -mindepth 1 -maxdepth 1 -type d \
+              ! -name tracks ! -name split ! -name @eaDir -printf '%f\n' |
+              sort >"$albums_file"
+            if [ ! -s "$albums_file" ]; then
+              rm -f "$albums_file"
+              echo "No album directories remain under: $circle"
+              break
+            fi
+
+            album=$(fzf --prompt='Delete album > ' --height=80% --reverse \
+              --header="Select an album from $circle (Esc to cancel)" \
+              --preview-window='right,60%,wrap' --preview="$album_preview" \
+              <"$albums_file") || album=""
+            rm -f "$albums_file"
+            if [ -n "$album" ]; then
+              valid_child_name "$album" || die "invalid album selection."
+              album_dir="$circle_dir/$album"
+              [ -d "$album_dir" ] || die "selected album no longer exists: $circle/$album"
+              rm -rf -- "$album_dir"
+              echo "Deleted album: $circle/$album"
+            else
+              echo "No album selected."
+            fi
+            confirm "Continue deleting albums under '$circle'?" || break
+          done
+        fi
+
+        confirm "Continue deleting other circles?" || break
+      done
+    }
+
+    # Split
+
+    # Print "<tracknum>\t<title>" lines from a cue sheet
+    parse_cue_tracks() {
+      awk '
+        BEGIN { tn = 0 }
+        /^[[:space:]]*TRACK[[:space:]]+[0-9]+/ {
+          match($0, /[0-9][0-9]*/)
+          tn = substr($0, RSTART, RLENGTH) + 0
+          want_title = 1
+          next
+        }
+        want_title && /^[[:space:]]+TITLE[[:space:]]/ {
+          match($0, /"[^"]*"/)
+          if (RLENGTH > 0) {
+            title = substr($0, RSTART + 1, RLENGTH - 2)
+            printf("%d\t%s\n", tn, title)
+          }
+          want_title = 0
+        }
+      ' "$1"
+    }
+
+    # Sanitize a string for use as a filename
+    sanitize_filename() {
+      local s="$1"
+      s="''${s//\//_}"
+      s="''${s//\\/_}"
+      s="''${s//:/_}"
+      s="''${s//\*/_}"
+      s="''${s//\?/_}"
+      s="''${s//\"/_}"
+      s="''${s//</_}"
+      s="''${s//>/_}"
+      s="''${s//|/_}"
+      s=$(printf '%s' "$s" | tr -d '\000-\037\177')
+      s=$(printf '%s' "$s" | sed 's/^[[:space:].]*//; s/[[:space:].]*$//')
+      printf '%s' "$s"
+    }
+
+    split_cue_album() {
+      local album_dir="$1"
+      local tracks_dir="''${album_dir}/tracks"
+
+      local -a flacs=() cues=()
+      local f
+      while IFS= read -r -d ''' f; do
+        [ -f "$f" ] || continue
+        flacs+=("$f")
+      done < <(find "$album_dir" -maxdepth 1 -mindepth 1 -type f -iname "*.flac" -print0)
+      while IFS= read -r -d ''' f; do
+        [ -f "$f" ] || continue
+        cues+=("$f")
+      done < <(find "$album_dir" -maxdepth 1 -mindepth 1 -type f -iname "*.cue" -print0)
+
+      if [ "''${#flacs[@]}" -ne 1 ] || [ "''${#cues[@]}" -ne 1 ]; then
+        return 0
+      fi
+
+      local source_flac="''${flacs[0]}"
+      local source_cue="''${cues[0]}"
+      local flac_name
+      flac_name=$(basename "$source_flac")
+
+      # Cue must reference the flac by name
+      if ! grep -qiE "^[[:space:]]*FILE[[:space:]]+\"?[^\"]*''${flac_name//./\\.}\"?" "$source_cue"; then
+        return 0
+      fi
+
+      # Skip if tracks/ already has the right number of flacs (use find, not
+      # glob — [ ] in paths). Mismatch → stale partial split, redo it
+      local cue_track_count existing_count=0
+      cue_track_count=$(grep -cE '^[[:space:]]*TRACK[[:space:]]+[0-9]+' "$source_cue")
+      if [ -d "$tracks_dir" ]; then
+        existing_count=$(find "$tracks_dir" -maxdepth 1 -type f -name '*.flac' | wc -l)
+      fi
+      if [ "$existing_count" -eq "$cue_track_count" ] && [ "$cue_track_count" -gt 0 ]; then
+        echo "[split-cue] skip (already split): $album_dir"
+        return 0
+      fi
+      if [ "$existing_count" -gt 0 ]; then
+        echo "[split-cue] stale tracks/ (''${existing_count}/''${cue_track_count}), redoing"
+        find "$tracks_dir" -maxdepth 1 -type f -name '*.flac' -delete
+      fi
+
+      echo "[split-cue] $album_dir"
+
+      # Extract cover art to a temp file (metaflac --import-picture-from needs a file)
+      local cover_file=""
+      if metaflac --list "$source_flac" 2>/dev/null | grep -q "type: 6"; then
+        cover_file=$(mktemp --suffix=.tlmc-cover)
+        if ! metaflac --export-picture-to="$cover_file" "$source_flac" 2>/dev/null; then
+          rm -f "$cover_file"
+          cover_file=""
+        fi
+      fi
+
+      mkdir -p "$tracks_dir"
+
+      # Split: cuebreakpoints | shnsplit. -o "flac ext=flac" forces FLAC output
+      # despite the cue's "FILE ... WAVE" line
+      local split_log
+      split_log=$(mktemp)
+      if ! cuebreakpoints "$source_cue" 2>"$split_log" |
+        shnsplit -O always -d "$tracks_dir" -a "track" \
+          -o "flac ext=flac" "$source_flac" \
+          >>"$split_log" 2>&1; then
+        echo "[split-cue]   ERROR: split failed for $album_dir" >&2
+        cat "$split_log" >&2
+        rm -f "$split_log" "$cover_file"
+        return 1
+      fi
+      rm -f "$split_log"
+
+      # Tag from cue. Stderr dropped — non-UTF-8 REM DATE lines make cuetag.sh
+      # emit harmless "bad character" warnings while tags still apply
+      if ! cuetag.sh "$source_cue" "$tracks_dir"/track*.flac 2>/dev/null; then
+        echo "[split-cue]   ERROR: cuetag.sh failed for $album_dir" >&2
+        rm -f "$cover_file"
+        return 1
+      fi
+
+      # Re-embed cover. metaflac spec: TYPE|MIME|DESC|WxHxD|FILE
+      if [ -n "$cover_file" ] && [ -s "$cover_file" ]; then
+        local mime
+        mime=$(file -b --mime-type "$cover_file" 2>/dev/null || echo "image/jpeg")
+        local pic_spec="3|''${mime}|||''${cover_file}"
+        for track in "$tracks_dir"/track*.flac; do
+          [ -f "$track" ] || continue
+          metaflac --import-picture-from="$pic_spec" "$track" 2>/dev/null
+        done
+      fi
+      rm -f "$cover_file"
+
+      # Rename trackNN.flac -> NN. <title>.flac. Suffix to avoid clobber
+      local renamed=0
+      while IFS=$'\t' read -r tn title; do
+        [ -n "$tn" ] || continue
+        local padded
+        padded=$(printf '%02d' "$tn")
+        local trackfile="''${tracks_dir}/track''${padded}.flac"
+        [ -f "$trackfile" ] || continue
+        local safe
+        safe=$(sanitize_filename "$title")
+        local newname
+        if [ -n "$safe" ]; then
+          newname="''${padded}. ''${safe}.flac"
+        else
+          newname="''${padded}.flac"
+        fi
+        local newfile="''${tracks_dir}/''${newname}"
+        local suffix=""
+        local n=1
+        while [ -e "''${newfile}''${suffix}" ]; do
+          suffix=" (''${n})"
+          n=$((n + 1))
+        done
+        mv "$trackfile" "''${newfile}''${suffix}"
+        renamed=$((renamed + 1))
+      done <<<"$(parse_cue_tracks "$source_cue")"
+
+      local count
+      count=$(find "$tracks_dir" -maxdepth 1 -type f -name '*.flac' | wc -l)
+      echo "[split-cue]   -> ''${renamed} renamed (''${count} total) in $tracks_dir"
+      return 0
+    }
+
+    split_tlmc() {
+      LOCAL_DIR=""
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+        -h | --help)
+          echo "Usage: tlmc split LOCAL_DIR"
+          return 0
+          ;;
+        -*) die "unknown split option: $1" ;;
+        *)
+          [ -z "$LOCAL_DIR" ] || die "unexpected argument: $1"
+          LOCAL_DIR="$1"
+          shift
+          ;;
+        esac
+      done
+      require_local_dir
+
+      local failures=0 album_dir
+      echo "Splitting single-FLAC albums under: $LOCAL_DIR"
+      split_cue_album "$LOCAL_DIR" || failures=$((failures + 1))
+      while IFS= read -r -d ''' album_dir; do
+        case "$(basename "$album_dir")" in
+        split | tracks | @eaDir) continue ;;
+        esac
+        split_cue_album "$album_dir" || failures=$((failures + 1))
+      done < <(find "$LOCAL_DIR" -mindepth 2 -maxdepth 2 -type d -print0)
+      echo "Split pass finished."
+      [ "$failures" -eq 0 ] || die "$failures album(s) failed to split."
+    }
+
+    case "''${1:-}" in
+    __preview-circle)
+      shift
+      preview_circle "$@"
+      ;;
+    __preview-album)
+      shift
+      preview_album "$@"
+      ;;
+    __preview-config)
+      shift
+      preview_config "$@"
+      ;;
+    __preview-local-albums)
+      shift
+      preview_local_albums "$@"
+      ;;
+    __preview-local-album)
+      shift
+      preview_local_album_contents "$@"
+      ;;
+    news)
+      shift
+      news_tlmc "$@"
+      ;;
+    sync)
+      shift
+      sync_tlmc "$@"
+      ;;
+    add)
+      shift
+      add_tlmc "$@"
+      ;;
+    edit)
+      shift
+      edit_tlmc "$@"
+      ;;
+    delete)
+      shift
+      delete_tlmc "$@"
+      ;;
+    split)
+      shift
+      split_tlmc "$@"
+      ;;
+    -h | --help | help | "") usage ;;
+    *)
+      echo "Error: unknown command '$1'." >&2
+      usage >&2
+      exit 1
+      ;;
+    esac
+  '';
+in
+{
+  home.packages = [ tlmc ];
+}
