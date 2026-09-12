@@ -32,12 +32,13 @@ in
       set -g allow-passthrough on
       set -ga update-environment TERM
       set -ga update-environment TERM_PROGRAM
+      set -g extended-keys on
       set -g base-index 1
       set -g pane-base-index 1
       set-window-option -g pane-base-index 1
       set -g renumber-windows on
-      set -g allow-rename off
       set -g status-position bottom
+      set -g allow-rename off
 
       # Tmux binds
       bind r command-prompt "rename-window %%"
