@@ -1,14 +1,14 @@
 {
+  config,
   lib,
   pkgs,
-  userDataDir,
 }:
 let
   inherit (lib) mkMerge;
-  enableUpdateCheck = false;
-  enableExtensionUpdateCheck = true;
-  enableMcpIntegration = true;
   global = {
+    mutableUserSettings = true;
+    enableMcpIntegration = true;
+
     extensions = with pkgs.vscode-extensions; [
       bbenoist.nix
       esbenp.prettier-vscode
@@ -28,7 +28,7 @@ let
 
       vscode-neovim = {
         neovimInitVimPaths = {
-          linux = "${userDataDir}/User/vscode-neovim.lua";
+          linux = "${config.xdg.configHome}/Code/User/vscode-neovim.lua";
         };
       };
       markdown-pdf = {
@@ -44,10 +44,13 @@ let
       };
     };
   };
+  # options only apply to default
+  enableUpdateCheck = false;
+  enableExtensionUpdateCheck = true;
 in
 rec {
   default = global // {
-    inherit enableUpdateCheck enableExtensionUpdateCheck enableMcpIntegration;
+    inherit enableUpdateCheck enableExtensionUpdateCheck;
   };
   c-cpp = mkMerge [
     global
