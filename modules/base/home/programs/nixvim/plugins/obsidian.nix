@@ -20,7 +20,7 @@
             path = "~/${value.target}";
           }) enabledVaults;
         picker = {
-          name = "snacks.pick";
+          name = "snacks.picker";
         };
         sync = {
           enabled = true;
