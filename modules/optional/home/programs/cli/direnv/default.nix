@@ -1,10 +1,13 @@
+{ lib, meta, ... }:
 {
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
     enableBashIntegration = true;
     enableZshIntegration = true;
-    enableGitIntegration = true;
     silent = true;
+  }
+  // lib.optionalAttrs (meta.channel == "unstable") {
+    enableGitIntegration = true;
   };
 }
