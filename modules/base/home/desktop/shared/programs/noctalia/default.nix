@@ -7,10 +7,7 @@
   ...
 }:
 {
-  imports = [
-    ./plugins
-    ../satty
-  ];
+  imports = [ ./plugins ];
 
   programs.noctalia =
     let

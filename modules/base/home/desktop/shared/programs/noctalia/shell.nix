@@ -76,13 +76,14 @@ in
   };
 
   screenshot = {
-    directory = config.xdg.userDirs.pictures;
-    filename_pattern = "screenshot-%Y-%m-%d-%H:%M:%S";
+    annotate = true;
     freeze_screen = true;
     save_to_file = false;
     copy_to_clipboard = false;
     pipe_to_command = true;
     pipe_command = "${screenshot-handler}";
+    directory = config.xdg.userDirs.pictures;
+    filename_pattern = "screenshot-%Y-%m-%d-%H:%M:%S";
   };
 
   session = {
