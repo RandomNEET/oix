@@ -1,6 +1,7 @@
 {
   imports = [
     ../../modules/optional/os/programs/firejail
+    ../../modules/optional/os/programs/mosh
     ../../modules/optional/os/programs/nix-ld
 
     ../../modules/optional/os/services/dae
