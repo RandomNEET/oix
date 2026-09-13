@@ -37,12 +37,6 @@ in
         executable = "${config.programs.chromium.finalPackage}/bin/chromium";
         profile = profiles.chromium;
       };
-      codex = {
-        enable = config.programs.codex.enable;
-        executable = "${getBin config.programs.codex.package}/bin/codex";
-        profile = profiles.codex;
-        filterStderr.enable = true;
-      };
       firefox = {
         enable = config.programs.firefox.enable;
         executable = "${config.programs.firefox.finalPackage}/bin/firefox";
@@ -61,10 +55,10 @@ in
         filterStderr = {
           enable = true;
           patterns = [
-            "dumpable"
-            "fseccomp"
-            "bwrap"
-            "fsec-optimize"
+            "Error: dumpable process"
+            "Remove read permission on fseccomp executable"
+            "Warning: /usr/bin/bwrap was not disabled"
+            "Remove read permission on fsec-optimize executable"
           ];
         };
       };
@@ -75,10 +69,11 @@ in
         filterStderr = {
           enable = true;
           patterns = [
-            "dumpable"
-            "fseccomp"
-            "bwrap"
-            "unix"
+            "Error: dumpable process"
+            "Remove read permission on fseccomp executable"
+            "Warning: /usr/bin/bwrap was not disabled"
+            "Warning: invalid private-bin path /usr/bin/bwrap"
+            "Warning: An abstract unix socket for session D-BUS might still be available. Use --net or remove unix from --protocol set."
           ];
         };
       };
@@ -87,12 +82,6 @@ in
         executable = "${getBin config.programs.obsidian.package}/bin/obsidian";
         profile = profiles.obsidian;
       };
-      opencode = {
-        enable = config.programs.opencode.enable;
-        executable = "${getBin config.programs.opencode.package}/bin/opencode";
-        profile = profiles.opencode;
-        filterStderr.enable = true;
-      };
       qutebrowser = {
         enable = config.programs.qutebrowser.enable;
         executable = "${getBin config.programs.qutebrowser.package}/bin/qutebrowser";
@@ -100,13 +89,8 @@ in
       };
       thunderbird = {
         enable = config.programs.thunderbird.enable;
-        executable = "${getBin config.programsk.thunderbird.package}/bin/thunderbird";
+        executable = "${getBin config.programs.thunderbird.package}/bin/thunderbird";
         profile = profiles.thunderbird;
-      };
-      vscode = {
-        enable = false; # config.programs.vscode.enable;
-        executable = "${getBin config.programs.vscode.package}/bin/code";
-        profile = profiles.code;
       };
       w3m = {
         enable = config.programs.w3m.enable;
