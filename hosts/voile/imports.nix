@@ -1,5 +1,7 @@
 {
   imports = [
+    ../../modules/optional/os/programs/mosh
+
     ../../modules/optional/os/services/cron
     ../../modules/optional/os/services/fstrim
     ../../modules/optional/os/services/xray
