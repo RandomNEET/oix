@@ -58,14 +58,11 @@ in
 {
   aerc = import ./aerc.nix env;
   chromium = import ./chromium.nix env;
-  code = import ./code.nix env;
-  codex = import ./codex.nix env;
   firefox = import ./firefox.nix env;
   gallery-dl = import ./gallery-dl.nix env;
   mpv = import ./mpv.nix env;
   newsboat = import ./newsboat.nix env;
   obsidian = import ./obsidian.nix env;
-  opencode = import ./opencode.nix env;
   qutebrowser = import ./qutebrowser.nix env;
   spotify = import ./spotify.nix env;
   thunderbird = import ./thunderbird.nix env;

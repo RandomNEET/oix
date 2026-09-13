@@ -56,11 +56,11 @@ let
                 opts.extraArgs ++ (lib.optional (opts.profile != null) "--profile=${toString opts.profile}")
               );
 
-              # This filter suppresses known warnings
+              # Suppress only complete, known Firejail warning lines
               grepPatterns = lib.concatMapStrings (p: " -e ${lib.escapeShellArg p}") opts.filterStderr.patterns;
               stderrFilter =
                 if opts.filterStderr.enable && (opts.filterStderr.patterns != [ ]) then
-                  "2> >(${pkgs.gnugrep}/bin/grep -v ${grepPatterns} >&2)"
+                  "2> >(${pkgs.gnugrep}/bin/grep -F -x -v ${grepPatterns} >&2)"
                 else
                   "";
             in
@@ -119,11 +119,11 @@ in
                   patterns = mkOption {
                     type = types.listOf types.str;
                     default = [
-                      "dumpable"
-                      "fseccomp"
-                      "bwrap"
+                      "Error: dumpable process"
+                      "Remove read permission on fseccomp executable"
+                      "Warning: /usr/bin/bwrap was not disabled"
                     ];
-                    description = "List of patterns (strings) to filter out from stderr using grep -v.";
+                    description = "Exact stderr lines to filter out using grep -F -x -v.";
                   };
                 };
               };
