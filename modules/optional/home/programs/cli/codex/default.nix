@@ -1,39 +1,36 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  mylib,
+  ...
+}:
 let
-  codexConfigKey =
+  codexConfigPath =
     if config.home.preferXdgDirectories then
-      "${lib.removePrefix config.home.homeDirectory config.xdg.configHome}/codex/config.toml"
+      "${config.xdg.configHome}/codex/config.toml"
+    else
+      "${config.home.homeDirectory}/.codex/config.toml";
+  codexFileKey =
+    if config.home.preferXdgDirectories then
+      lib.removePrefix config.home.homeDirectory codexConfigPath
     else
       ".codex/config.toml";
-  codexConfigTarget = lib.removePrefix "/" codexConfigKey;
-  codexConfigPath = "${config.home.homeDirectory}/${codexConfigTarget}";
 in
 {
   programs.codex = {
     enable = true;
     enableMcpIntegration = true;
     settings = {
-      tui = {
-        vim_mode_default = true;
-      };
+      approval_policy = "on-request";
     };
   };
 
-  # mutable config.toml
-  home = {
-    file."${codexConfigKey}" = {
-      force = true;
-      target = codexConfigTarget;
-    };
-    activation.makeCodexConfigMutable = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-      target=${lib.escapeShellArg codexConfigPath}
-      temporary="$target.home-manager-tmp"
-
-      if [ -L "$target" ]; then
-        run cp -L -- "$target" "$temporary"
-        run chmod 0600 -- "$temporary"
-        run mv -f -- "$temporary" "$target"
-      fi
-    '';
+  home = mylib.util.mkMutableHomeFile {
+    inherit config;
+    hmLib = lib.hm;
+    activationName = "make-codex-config-mutable";
+    fileKey = codexFileKey;
+    targetPath = codexConfigPath;
+    mode = "0600";
   };
 }

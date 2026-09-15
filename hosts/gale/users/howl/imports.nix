@@ -16,6 +16,7 @@
     ../../../../modules/optional/home/programs/cli/mcp
     ../../../../modules/optional/home/programs/cli/newsboat
     ../../../../modules/optional/home/programs/cli/opencode
+    ../../../../modules/optional/home/programs/cli/pi-coding-agent
     ../../../../modules/optional/home/programs/cli/rmpc
     ../../../../modules/optional/home/programs/cli/spotify-player
     ../../../../modules/optional/home/programs/cli/ttyper
