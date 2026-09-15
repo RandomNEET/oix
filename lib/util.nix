@@ -59,5 +59,58 @@
           currentLevelItems ++ subItems;
       in
       scan path 1;
+
+    # Install a generated Home Manager file as a writable copy on each activation
+    # activationName names the activation step
+    # fileKey selects the file
+    # targetPath is absolute within home
+    # mode optionally sets permissions
+    mkMutableHomeFile =
+      {
+        config,
+        hmLib,
+        activationName,
+        fileKey,
+        targetPath,
+        mode ? null,
+      }:
+      let
+        homePrefix = "${config.home.homeDirectory}/";
+        target =
+          if lib.hasPrefix homePrefix targetPath then
+            lib.removePrefix homePrefix targetPath
+          else
+            throw "mkMutableHomeFile: targetPath must be inside ${config.home.homeDirectory}: ${targetPath}";
+        # Home Manager links here so it does not back up the writable target
+        sourcePath = "${config.xdg.stateHome}/home-manager/mutable-home-files/${target}";
+        sourceTarget =
+          if lib.hasPrefix homePrefix sourcePath then
+            lib.removePrefix homePrefix sourcePath
+          else
+            throw "mkMutableHomeFile: xdg.stateHome must be inside ${config.home.homeDirectory}: ${config.xdg.stateHome}";
+      in
+      {
+        file."${fileKey}" = {
+          force = lib.mkForce true;
+          # Override the target also defined by xdg.configFile
+          target = lib.mkForce sourceTarget;
+        };
+        activation."${activationName}" = hmLib.dag.entryAfter [ "linkGeneration" ] ''
+          source=${lib.escapeShellArg sourcePath}
+          target=${lib.escapeShellArg targetPath}
+          temporary="$target.home-manager-tmp"
+
+          if [ -L "$source" ]; then
+            run mkdir -p -- "$(dirname "$target")"
+            run rm -f -- "$temporary"
+            run touch -- "$temporary"
+            run cp -L --no-preserve=mode -- "$source" "$temporary"
+            ${lib.optionalString (mode != null) ''
+              run chmod ${lib.escapeShellArg mode} -- "$temporary"
+            ''}
+            run mv -f -- "$temporary" "$target"
+          fi
+        '';
+      };
   };
 }
