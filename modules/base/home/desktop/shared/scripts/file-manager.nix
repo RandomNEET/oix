@@ -5,7 +5,7 @@ let
 in
 pkgs.writeShellScriptBin "file-manager" ''
   case "$1" in
-    dolphin) exec dolphin ;;
     yazi) exec ${terminal.exe} ${args} -e yazi ;;
+    thunar) exec thunar ;;
   esac
 ''

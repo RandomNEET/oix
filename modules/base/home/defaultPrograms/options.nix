@@ -17,6 +17,7 @@ in
       fileManager = mkOption {
         type = types.enum [
           "yazi"
+          "thunar"
           "none"
         ];
         default = "none";
