@@ -7,10 +7,10 @@ in
   imports = [ ./options.nix ];
   config = {
     home.sessionVariables =
-      (optionalAttrs (cfg.terminal != "none") {
+      (optionalAttrs (cfg.terminal != null) {
         TERMINAL = cfg.terminal;
       })
-      // (optionalAttrs (cfg.browser != "none") {
+      // (optionalAttrs (cfg.browser != null) {
         BROWSER = cfg.browser;
       });
   };
