@@ -142,6 +142,9 @@ in
       desktop.mango.enable = mkForce false;
       desktop.plasma.enable = mkForce false;
     })
+    (mkIf (!config.desktop.plasma.enable) {
+      desktop.plasma.x11Support = mkForce false;
+    })
     (mkIf (!config.desktop.themes.enable) {
       desktop.themes.list = mkForce [ ];
     })
