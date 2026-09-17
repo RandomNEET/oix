@@ -33,10 +33,6 @@
           c = [ "clang-format" ];
           cpp = [ "clang-format" ];
           rust = [ "rustfmt" ];
-          css = [
-            "prettierd"
-            "prettier"
-          ];
           html = [
             "prettierd"
             "prettier"
@@ -51,6 +47,10 @@
             "prettier"
           ];
           typescriptreact = [ "prettier" ];
+          css = [
+            "prettierd"
+            "prettier"
+          ];
           json = [ "prettier" ];
           yaml = [
             "prettierd"
@@ -58,6 +58,7 @@
           ];
           toml = [ "taplo" ];
           markdown = [ "prettier" ];
+          make = [ "trim_whitespace" ];
         };
         formatters = {
           injected = {

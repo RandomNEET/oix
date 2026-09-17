@@ -6,25 +6,29 @@
       nixvimInjections = true;
       nixGrammars = true;
       grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+        nix
         bash
+        zsh
+        lua
+        c
+        cpp
+        rust
+        python
+        html
+        javascript
+        typescript
         css
+        json
+        ron
+        toml
+        yaml
+        markdown
+        markdown_inline
+        regex
+        make
         diff
         gitcommit
         gitignore
-        html
-        javascript
-        json
-        lua
-        markdown
-        markdown_inline
-        nix
-        python
-        regex
-        ron
-        rust
-        toml
-        typescript
-        yaml
       ];
       highlight.enable = true;
       indent.enable = true;
