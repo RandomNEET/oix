@@ -10,6 +10,7 @@ let
   inherit (lib) getExe;
   colors = config.lib.stylix.colors;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
+  startPage = "file://${config.xdg.configHome}/qutebrowser/startpage/index.html";
   opacity = {
     high = 1.0;
     medium = 0.9;
@@ -91,8 +92,8 @@ in
     };
   };
   url = {
-    default_page = lib.mkDefault "https://start.duckduckgo.com/";
-    start_pages = lib.mkDefault "https://start.duckduckgo.com/";
+    default_page = lib.mkDefault startPage;
+    start_pages = lib.mkDefault [ startPage ];
   };
   colors = {
     webpage = {
