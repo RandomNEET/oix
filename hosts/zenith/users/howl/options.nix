@@ -95,12 +95,6 @@ rec {
       };
     };
     qutebrowser = {
-      settings = {
-        url = {
-          default_page = "https://startpage.randomneet.me/";
-          start_pages = "https://startpage.randomneet.me/";
-        };
-      };
       quickmarks = {
         sp = "https://startpage.randomneet.me/";
         hp = "https://homepage.defnothowl.com/";

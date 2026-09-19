@@ -26,5 +26,8 @@
     perDomainSettings = import ./domains.nix;
     greasemonkey = import ./greasemonkey.nix { inherit pkgs; };
   };
-  imports = [ ./userscripts ];
+  imports = [
+    ./startpage
+    ./userscripts
+  ];
 }
