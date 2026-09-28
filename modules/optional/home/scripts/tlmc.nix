@@ -29,24 +29,31 @@ let
       cat <<'EOF'
     Usage:
       tlmc news
-      tlmc sync [OPTIONS] LOCAL_DIR
+      tlmc sync [delete] LOCAL_DIR
       tlmc add LOCAL_DIR
       tlmc edit LOCAL_DIR
       tlmc delete LOCAL_DIR
+      tlmc playlist LOCAL_DIR
+      tlmc playlist delete LOCAL_DIR
       tlmc split LOCAL_DIR
 
     Commands:
-      news    Show the TLMC synchronization log
-      sync    Sync directories that already exist locally from the TLMC repository
-      add     Select new circles/albums with fzf, create them, then sync
-      edit    Select a local circle with fzf and edit its .config
-      delete  Select and delete local circles/albums with fzf
-      split   Split single-FLAC albums with CUE sheets into individual tracks
+      news      Show the TLMC synchronization log
+      sync      Sync directories that already exist locally from the TLMC repository
+      add       Select new circles/albums with fzf, create them, then sync
+      edit      Select a local circle with fzf and edit its .config
+      delete    Select and delete local circles/albums with fzf
+      playlist  Generate one main-content M3U playlist per circle
+      split     Split single-FLAC albums with CUE sheets into individual tracks
 
-    Sync options:
-      --delete                 Delete files in selected directories if absent remotely
-      -n, --dry-run            Show what would be transferred without changing files
-      -h, --help               Show command help
+    Sync subcommands:
+      delete    Delete files in selected directories if absent remotely
+
+    Playlist subcommands:
+      delete    Delete the generated M3U playlist from each circle
+
+    Options:
+      -h, --help  Show command help
 
     Each circle stores its sync granularity in CIRCLE/.config:
       granularity=circle       Sync the whole circle (default)
@@ -160,17 +167,13 @@ let
     }
 
     sync_tlmc() {
-      local delete_flag="" dry_run_flag=""
+      local delete_flag=""
       LOCAL_DIR=""
 
       while [ "$#" -gt 0 ]; do
         case "$1" in
-        --delete)
+        delete)
           delete_flag="--delete"
-          shift
-          ;;
-        -n | --dry-run)
-          dry_run_flag="--dry-run"
           shift
           ;;
         -h | --help)
@@ -223,12 +226,10 @@ let
       echo "Syncing under: $LOCAL_DIR"
       echo "  circle mode: $circle_count circle(s)"
       echo "  album mode:  $album_circle_count circle(s), $album_count album(s)"
-      [ -z "$dry_run_flag" ] || echo "[MODE: DRY RUN]"
       [ -z "$delete_flag" ] || echo "[MODE: DELETE ENABLED]"
 
       local -a rsync_args=(-avz --progress --filter=". $filter_file")
       [ -z "$delete_flag" ] || rsync_args+=("$delete_flag")
-      [ -z "$dry_run_flag" ] || rsync_args+=("$dry_run_flag")
       rsync-ssl "''${rsync_args[@]}" "$URL/" "$LOCAL_DIR/"
       status=$?
       rm -f "$filter_file"
@@ -625,6 +626,138 @@ let
       done
     }
 
+    # Shared media helpers
+
+    is_auxiliary_path() {
+      local lower_path="''${1,,}"
+      case "$lower_path" in
+      *special* | *postcard* | *contents* | *instrument* | *lyrics* | *scans* | *booklet*) return 0 ;;
+      *) return 1 ;;
+      esac
+    }
+
+    # Playlist
+
+    collect_album_playlist_tracks() {
+      local album_dir="$1" path
+      local -a tracks_dirs=()
+
+      while IFS= read -r -d ''' path; do
+        is_auxiliary_path "$path" || tracks_dirs+=("$path")
+      done < <(find "$album_dir" -type d -name tracks -print0)
+
+      if [ "''${#tracks_dirs[@]}" -gt 0 ]; then
+        for path in "''${tracks_dirs[@]}"; do
+          find "$path" -type f -iname '*.flac' -print0
+        done
+        return 0
+      fi
+
+      while IFS= read -r -d ''' path; do
+        is_auxiliary_path "$path" || printf '%s\0' "$path"
+      done < <(find "$album_dir" -type f -iname '*.flac' -print0)
+    }
+
+    playlist_track_metadata() {
+      local track="$1" samples sample_rate title fallback
+      samples=$(metaflac --show-total-samples "$track" 2>/dev/null || true)
+      sample_rate=$(metaflac --show-sample-rate "$track" 2>/dev/null || true)
+      title=$(metaflac --show-tag=TITLE "$track" 2>/dev/null | sed -n '1s/^TITLE=//p')
+      title="''${title//$'\r'/}"
+      title="''${title//$'\n'/ }"
+
+      if [[ "$samples" =~ ^[0-9]+$ ]] && [[ "$sample_rate" =~ ^[1-9][0-9]*$ ]]; then
+        PLAYLIST_DURATION=$((samples * 1000 / sample_rate))
+      else
+        PLAYLIST_DURATION=-1
+      fi
+      if [ -n "$title" ]; then
+        PLAYLIST_TITLE="$title"
+      else
+        fallback=$(basename "$track")
+        PLAYLIST_TITLE="''${fallback%.*}"
+      fi
+    }
+
+    playlist_tlmc() {
+      local action="generate"
+      LOCAL_DIR=""
+
+      if [ "''${1:-}" = "delete" ]; then
+        action="delete"
+        shift
+      fi
+
+      while [ "$#" -gt 0 ]; do
+        case "$1" in
+        -h | --help)
+          echo "Usage: tlmc playlist [delete] LOCAL_DIR"
+          return 0
+          ;;
+        -*) die "unknown playlist option: $1" ;;
+        *)
+          [ -z "$LOCAL_DIR" ] || die "unexpected argument: $1"
+          LOCAL_DIR="$1"
+          shift
+          ;;
+        esac
+      done
+      require_local_dir
+
+      local circle circle_name playlist_name playlist_file temp_file
+      local album track relative_track track_count circle_count=0
+      local -a albums=()
+
+      if [ "$action" = "delete" ]; then
+        while IFS= read -r -d ''' circle; do
+          circle_name=$(basename "$circle")
+          playlist_name="''${circle_name#[}"
+          playlist_name="''${playlist_name%]}"
+          playlist_file="$circle/$playlist_name.m3u"
+          if [ -e "$playlist_file" ] || [ -L "$playlist_file" ]; then
+            rm -f -- "$playlist_file"
+            echo "[playlist] deleted: $playlist_file"
+            circle_count=$((circle_count + 1))
+          fi
+        done < <(find "$LOCAL_DIR" -mindepth 1 -maxdepth 1 -type d -print0 | sort -z)
+
+        echo "Deleted $circle_count playlist(s)."
+        return 0
+      fi
+
+      while IFS= read -r -d ''' circle; do
+        circle_name=$(basename "$circle")
+        playlist_name="''${circle_name#[}"
+        playlist_name="''${playlist_name%]}"
+        playlist_file="$circle/$playlist_name.m3u"
+        temp_file=$(mktemp "$circle/.''${playlist_name}.m3u.tmp.XXXXXX") || exit 1
+        printf '#EXTM3U\r\n' >"$temp_file"
+        track_count=0
+
+        albums=()
+        mapfile -d ''' albums < <(find "$circle" -mindepth 1 -maxdepth 1 -type d \
+          ! -name tracks ! -name split ! -name @eaDir -print0 | sort -z)
+        for album in "''${albums[@]}"; do
+          while IFS= read -r -d ''' track; do
+            playlist_track_metadata "$track"
+            relative_track=$(realpath --relative-to="$circle" "$track") || {
+              rm -f "$temp_file"
+              return 1
+            }
+            printf '#EXTINF:%s,%s\r\n%s\r\n' \
+              "$PLAYLIST_DURATION" "$PLAYLIST_TITLE" "$relative_track" >>"$temp_file"
+            track_count=$((track_count + 1))
+          done < <(collect_album_playlist_tracks "$album" | sort -z)
+        done
+
+        mv -f "$temp_file" "$playlist_file"
+        echo "[playlist] $playlist_name: $track_count track(s) -> $playlist_file"
+        circle_count=$((circle_count + 1))
+      done < <(find "$LOCAL_DIR" -mindepth 1 -maxdepth 1 -type d -print0 | sort -z)
+
+      echo "Generated $circle_count playlist(s)."
+    }
+
     # Split
 
     # Print "<tracknum>\t<title>" lines from a cue sheet
@@ -665,32 +798,50 @@ let
       printf '%s' "$s"
     }
 
-    split_cue_album() {
-      local album_dir="$1"
-      local tracks_dir="''${album_dir}/tracks"
+    find_cue_flac() {
+      local source_cue="$1" allow_single_fallback="$2"
+      local cue_dir cue_name cue_stem cue_reference cue_reference_stem candidate candidate_name
+      local -a flacs=()
+      cue_dir=$(dirname "$source_cue")
+      cue_name=$(basename "$source_cue")
+      cue_stem="''${cue_name%.*}"
+      cue_reference=$(sed -n 's/^[[:space:]]*FILE[[:space:]]*"\([^"]*\)".*/\1/p' "$source_cue" | head -n 1)
+      if [ -z "$cue_reference" ]; then
+        cue_reference=$(sed -n \
+          's/^[[:space:]]*FILE[[:space:]]\+\(.*\)[[:space:]]\+\(WAVE\|MP3\|BINARY\)[[:space:]]*$/\1/p' \
+          "$source_cue" | head -n 1)
+      fi
+      cue_reference="''${cue_reference%$'\r'}"
+      cue_reference_stem="''${cue_reference%.*}"
 
-      local -a flacs=() cues=()
-      local f
-      while IFS= read -r -d ''' f; do
-        [ -f "$f" ] || continue
-        flacs+=("$f")
-      done < <(find "$album_dir" -maxdepth 1 -mindepth 1 -type f -iname "*.flac" -print0)
-      while IFS= read -r -d ''' f; do
-        [ -f "$f" ] || continue
-        cues+=("$f")
-      done < <(find "$album_dir" -maxdepth 1 -mindepth 1 -type f -iname "*.cue" -print0)
+      while IFS= read -r -d ''' candidate; do
+        flacs+=("$candidate")
+        candidate_name=$(basename "$candidate")
+        if [ "''${candidate_name%.*}" = "$cue_stem" ] || \
+          [ "$candidate_name" = "$cue_reference" ] || \
+          [ "''${candidate_name%.*}" = "$cue_reference_stem" ]; then
+          printf '%s' "$candidate"
+          return 0
+        fi
+      done < <(find "$cue_dir" -maxdepth 1 -mindepth 1 -type f -iname '*.flac' -print0)
 
-      if [ "''${#flacs[@]}" -ne 1 ] || [ "''${#cues[@]}" -ne 1 ]; then
+      # Legacy-encoded CUE sheets may not match their UTF-8 filesystem name.
+      if [ "$allow_single_fallback" -eq 1 ] && [ "''${#flacs[@]}" -eq 1 ]; then
+        printf '%s' "''${flacs[0]}"
         return 0
       fi
+      return 1
+    }
 
-      local source_flac="''${flacs[0]}"
-      local source_cue="''${cues[0]}"
-      local flac_name
-      flac_name=$(basename "$source_flac")
+    split_cue_image() {
+      local source_cue="$1" source_flac="$2" tracks_dir="$3"
+      local album_dir
+      album_dir=$(dirname "$source_cue")
 
-      # Cue must reference the flac by name
-      if ! grep -qiE "^[[:space:]]*FILE[[:space:]]+\"?[^\"]*''${flac_name//./\\.}\"?" "$source_cue"; then
+      # A single CUE and FLAC in the same directory are an unambiguous pair.
+      # Do not compare their names: older CUE sheets may use a legacy encoding
+      # while filesystem names are UTF-8.
+      if ! grep -qiE '^[[:space:]]*FILE[[:space:]]+' "$source_cue"; then
         return 0
       fi
 
@@ -702,7 +853,7 @@ let
         existing_count=$(find "$tracks_dir" -maxdepth 1 -type f -name '*.flac' | wc -l)
       fi
       if [ "$existing_count" -eq "$cue_track_count" ] && [ "$cue_track_count" -gt 0 ]; then
-        echo "[split-cue] skip (already split): $album_dir"
+        echo "[split-cue] skip (already split): $source_cue"
         return 0
       fi
       if [ "$existing_count" -gt 0 ]; then
@@ -710,7 +861,7 @@ let
         find "$tracks_dir" -maxdepth 1 -type f -name '*.flac' -delete
       fi
 
-      echo "[split-cue] $album_dir"
+      echo "[split-cue] $source_cue"
 
       # Extract cover art to a temp file (metaflac --import-picture-from needs a file)
       local cover_file=""
@@ -810,15 +961,50 @@ let
       done
       require_local_dir
 
-      local failures=0 album_dir
+      local failures=0 album_dir cue_file source_flac tracks_dir
+      local cue_count cue_file_count flac_count cue_name cue_stem safe_stem
       echo "Splitting single-FLAC albums under: $LOCAL_DIR"
-      split_cue_album "$LOCAL_DIR" || failures=$((failures + 1))
-      while IFS= read -r -d ''' album_dir; do
+      while IFS= read -r -d ''' cue_file; do
+        album_dir=$(dirname "$cue_file")
         case "$(basename "$album_dir")" in
         split | tracks | @eaDir) continue ;;
         esac
-        split_cue_album "$album_dir" || failures=$((failures + 1))
-      done < <(find "$LOCAL_DIR" -mindepth 2 -maxdepth 2 -type d -print0)
+
+        if is_auxiliary_path "$album_dir"; then
+          echo "[split-cue] skip (auxiliary content): $cue_file"
+          continue
+        fi
+
+        cue_file_count=$(grep -cE '^[[:space:]]*FILE[[:space:]]+' "$cue_file")
+        if [ "$cue_file_count" -ne 1 ]; then
+          echo "[split-cue] skip (not a single-image CUE): $cue_file"
+          continue
+        fi
+
+        cue_count=$(find "$album_dir" -maxdepth 1 -type f -iname '*.cue' | wc -l)
+        if ! source_flac=$(find_cue_flac "$cue_file" "$((cue_count == 1))"); then
+          flac_count=$(find "$album_dir" -maxdepth 1 -type f -iname '*.flac' | wc -l)
+          if [ "$flac_count" -gt 1 ]; then
+            echo "[split-cue] skip (no matching image FLAC): $cue_file"
+          else
+            echo "[split-cue] ERROR: no FLAC match for $cue_file" >&2
+            failures=$((failures + 1))
+          fi
+          continue
+        fi
+
+        if [ "$cue_count" -eq 1 ]; then
+          tracks_dir="$album_dir/tracks"
+        else
+          cue_name=$(basename "$cue_file")
+          cue_stem="''${cue_name%.*}"
+          safe_stem=$(sanitize_filename "$cue_stem")
+          tracks_dir="$album_dir/tracks/$safe_stem"
+        fi
+        split_cue_image "$cue_file" "$source_flac" "$tracks_dir" || failures=$((failures + 1))
+      done < <(find "$LOCAL_DIR" \
+        -type d \( -name tracks -o -name split -o -name @eaDir \) -prune -o \
+        -type f -iname '*.cue' -print0)
       echo "Split pass finished."
       [ "$failures" -eq 0 ] || die "$failures album(s) failed to split."
     }
@@ -863,6 +1049,10 @@ let
     delete)
       shift
       delete_tlmc "$@"
+      ;;
+    playlist)
+      shift
+      playlist_tlmc "$@"
       ;;
     split)
       shift
