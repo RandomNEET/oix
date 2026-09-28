@@ -82,7 +82,7 @@ in
     copy_to_clipboard = false;
     pipe_to_command = true;
     pipe_command = "${screenshot-handler}";
-    directory = config.xdg.userDirs.pictures;
+    directory = "${config.xdg.userDirs.pictures}/screenshots";
     filename_pattern = "screenshot-%Y-%m-%d-%H:%M:%S";
   };
 
