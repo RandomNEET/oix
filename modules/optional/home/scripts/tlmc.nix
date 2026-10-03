@@ -34,6 +34,7 @@ let
       tlmc edit LOCAL_DIR
       tlmc delete LOCAL_DIR
       tlmc playlist LOCAL_DIR
+      tlmc playlist rebuild LOCAL_DIR
       tlmc playlist delete LOCAL_DIR
       tlmc split LOCAL_DIR
 
@@ -43,13 +44,14 @@ let
       add       Select new circles/albums with fzf, create them, then sync
       edit      Select a local circle with fzf and edit its .config
       delete    Select and delete local circles/albums with fzf
-      playlist  Generate one main-content M3U playlist per circle
+      playlist  Incrementally update one main-content M3U playlist per circle
       split     Split single-FLAC albums with CUE sheets into individual tracks
 
     Sync subcommands:
       delete    Delete files in selected directories if absent remotely
 
     Playlist subcommands:
+      rebuild   Rebuild every playlist without reusing unchanged albums
       delete    Delete the generated M3U playlist from each circle
 
     Options:
@@ -679,19 +681,64 @@ let
       fi
     }
 
+    playlist_album_id() {
+      printf '%s' "$1" | base64 | tr -d '\n'
+    }
+
+    playlist_album_fingerprint() {
+      local circle="$1" track_file="$2" state_file="$3"
+      local track relative_track fingerprint
+      : >"$state_file"
+
+      while IFS= read -r -d ''' track; do
+        relative_track=$(realpath --relative-to="$circle" "$track") || return 1
+        printf '%s\0' "$relative_track" >>"$state_file"
+        stat --printf='%s\0%y\0%z\0' "$track" >>"$state_file" || return 1
+      done <"$track_file"
+
+      fingerprint=$(sha256sum "$state_file") || return 1
+      printf '%s' "''${fingerprint%% *}"
+    }
+
+    extract_playlist_album_block() {
+      local playlist_file="$1" marker="$2"
+      awk -v marker="$marker" '
+        {
+          line = $0
+          sub(/\r$/, "", line)
+          if (found && line ~ /^#TLMC-ALBUM / && line != marker) {
+            exit
+          }
+          if (line == marker) {
+            found = 1
+          }
+          if (found) {
+            printf "%s\r\n", line
+          }
+        }
+        END {
+          if (!found) {
+            exit 1
+          }
+        }
+      ' "$playlist_file"
+    }
+
     playlist_tlmc() {
-      local action="generate"
+      local action="update"
       LOCAL_DIR=""
 
-      if [ "''${1:-}" = "delete" ]; then
-        action="delete"
+      case "''${1:-}" in
+      rebuild | delete)
+        action="$1"
         shift
-      fi
+        ;;
+      esac
 
       while [ "$#" -gt 0 ]; do
         case "$1" in
         -h | --help)
-          echo "Usage: tlmc playlist [delete] LOCAL_DIR"
+          echo "Usage: tlmc playlist [rebuild|delete] LOCAL_DIR"
           return 0
           ;;
         -*) die "unknown playlist option: $1" ;;
@@ -705,7 +752,10 @@ let
       require_local_dir
 
       local circle circle_name playlist_name playlist_file temp_file
-      local album track relative_track track_count circle_count=0
+      local album album_name album_id fingerprint marker track track_file state_file
+      local relative_track album_track_count track_count circle_count=0
+      local reused_count rebuilt_count total_reused=0 total_rebuilt=0
+      local playlist_work_dir
       local -a albums=()
 
       if [ "$action" = "delete" ]; then
@@ -725,37 +775,73 @@ let
         return 0
       fi
 
+      playlist_work_dir=$(mktemp -d) || exit 1
+      track_file="$playlist_work_dir/tracks"
+      state_file="$playlist_work_dir/state"
+
       while IFS= read -r -d ''' circle; do
         circle_name=$(basename "$circle")
         playlist_name="''${circle_name#[}"
         playlist_name="''${playlist_name%]}"
         playlist_file="$circle/$playlist_name.m3u"
-        temp_file=$(mktemp "$circle/.''${playlist_name}.m3u.tmp.XXXXXX") || exit 1
+        temp_file=$(mktemp "$circle/.''${playlist_name}.m3u.tmp.XXXXXX") || {
+          rm -rf -- "$playlist_work_dir"
+          return 1
+        }
         printf '#EXTM3U\r\n' >"$temp_file"
         track_count=0
+        reused_count=0
+        rebuilt_count=0
 
         albums=()
         mapfile -d ''' albums < <(find "$circle" -mindepth 1 -maxdepth 1 -type d \
           ! -name tracks ! -name split ! -name @eaDir -print0 | sort -z)
         for album in "''${albums[@]}"; do
+          collect_album_playlist_tracks "$album" | sort -z >"$track_file"
+          album_track_count=$(tr -cd '\0' <"$track_file" | wc -c)
+          track_count=$((track_count + album_track_count))
+          album_name=$(basename "$album")
+          album_id=$(playlist_album_id "$album_name") || {
+            rm -f "$temp_file"
+            rm -rf -- "$playlist_work_dir"
+            return 1
+          }
+          fingerprint=$(playlist_album_fingerprint "$circle" "$track_file" "$state_file") || {
+            rm -f "$temp_file"
+            rm -rf -- "$playlist_work_dir"
+            return 1
+          }
+          marker="#TLMC-ALBUM $album_id $fingerprint"
+
+          if [ "$action" = "update" ] && [ -f "$playlist_file" ] &&
+            extract_playlist_album_block "$playlist_file" "$marker" >>"$temp_file"; then
+            reused_count=$((reused_count + 1))
+            continue
+          fi
+
+          printf '%s\r\n' "$marker" >>"$temp_file"
           while IFS= read -r -d ''' track; do
             playlist_track_metadata "$track"
             relative_track=$(realpath --relative-to="$circle" "$track") || {
               rm -f "$temp_file"
+              rm -rf -- "$playlist_work_dir"
               return 1
             }
             printf '#EXTINF:%s,%s\r\n%s\r\n' \
               "$PLAYLIST_DURATION" "$PLAYLIST_TITLE" "$relative_track" >>"$temp_file"
-            track_count=$((track_count + 1))
-          done < <(collect_album_playlist_tracks "$album" | sort -z)
+          done <"$track_file"
+          rebuilt_count=$((rebuilt_count + 1))
         done
 
         mv -f "$temp_file" "$playlist_file"
-        echo "[playlist] $playlist_name: $track_count track(s) -> $playlist_file"
+        echo "[playlist] $playlist_name: $track_count track(s), $reused_count reused, $rebuilt_count rebuilt -> $playlist_file"
         circle_count=$((circle_count + 1))
+        total_reused=$((total_reused + reused_count))
+        total_rebuilt=$((total_rebuilt + rebuilt_count))
       done < <(find "$LOCAL_DIR" -mindepth 1 -maxdepth 1 -type d -print0 | sort -z)
 
-      echo "Generated $circle_count playlist(s)."
+      rm -rf -- "$playlist_work_dir"
+      echo "Updated $circle_count playlist(s): $total_reused album(s) reused, $total_rebuilt rebuilt."
     }
 
     # Split
