@@ -161,6 +161,12 @@ in
         };
       };
     };
+    udev = {
+      extraRules = ''
+        # Allow the active local user to access Keychron Q1 Ultra 8K via WebHID (Keychron Launcher)
+        SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="1210", MODE="0660", GROUP="users"
+      '';
+    };
   };
   systemd = {
     services = {
