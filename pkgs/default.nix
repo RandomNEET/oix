@@ -4,6 +4,7 @@
   prev,
 }:
 lib.mergeAttrsList [
+  { csakura = pkgs.callPackage ./csakura { }; }
   { fcitx5-rime-ice = pkgs.callPackage ./fcitx5-rime-ice { }; }
   {
     npmPackages = {
