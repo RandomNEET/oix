@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   meta,
@@ -201,6 +202,9 @@ in
     settings = {
       allowed-users = [ username ];
     };
+    extraOptions = ''
+      !include ${config.sops.secrets."nix/access-tokens".path}
+    '';
   };
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
@@ -208,6 +212,11 @@ in
 
   sops = {
     secrets = {
+      "nix/access-tokens" = {
+        sopsFile = ./secrets.yaml;
+        mode = "0440";
+        group = "wheel";
+      };
       "users/root/password" = {
         sopsFile = ./secrets.yaml;
         neededForUsers = true;
