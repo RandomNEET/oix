@@ -5,6 +5,7 @@
 }:
 lib.mergeAttrsList [
   { csakura = pkgs.callPackage ./csakura { }; }
+  { easycon = pkgs.callPackage ./easycon { }; }
   { fcitx5-rime-ice = pkgs.callPackage ./fcitx5-rime-ice { }; }
   {
     npmPackages = {

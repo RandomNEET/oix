@@ -3,8 +3,8 @@ pkgs.vscode-utils.buildVscodeMarketplaceExtension {
   mktplcRef = {
     publisher = "ms-vscode";
     name = "vscode-serial-monitor";
-    version = "0.13.251128001";
-    hash = "sha256-eTQcLyF6DMvzDByKLw2KR8PrjVwejsOU60Hew7IOmY8=";
+    version = "0.13.1";
+    hash = "sha256-qZKCNG5EdMwzE9y3WVxaPMdTP9Y0xbe8kozjU7v44OI=";
   };
 
   meta = with lib; {
