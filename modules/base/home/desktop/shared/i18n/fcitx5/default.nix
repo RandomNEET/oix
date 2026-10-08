@@ -34,6 +34,7 @@
           };
           "Hotkey/TriggerKeys" = {
             "0" = "Shift+Control_L";
+            "1" = "Shift+Control_R";
           };
         };
         addons = {
