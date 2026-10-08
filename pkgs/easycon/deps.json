@@ -1,0 +1,602 @@
+[
+  {
+    "pname": "Avalonia",
+    "version": "12.0.4",
+    "hash": "sha256-sHu0eifno4DJ0Tnl3v4e3OZY1oy41OO482UfKVkQfK0=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia/12.0.4/avalonia.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.Angle.Windows.Natives",
+    "version": "2.1.27548.20260419",
+    "hash": "sha256-dtZ5AQl+kXPRVe/EwrfSyOMSLywuBBUCjrDIhHijhvk=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.angle.windows.natives/2.1.27548.20260419/avalonia.angle.windows.natives.2.1.27548.20260419.nupkg"
+  },
+  {
+    "pname": "Avalonia.AvaloniaEdit",
+    "version": "12.0.0",
+    "hash": "sha256-DDopKuyhufekxFDxV39vqjQSbldUKRTHiXTZ4woe2eE=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.avaloniaedit/12.0.0/avalonia.avaloniaedit.12.0.0.nupkg"
+  },
+  {
+    "pname": "Avalonia.BuildServices",
+    "version": "11.3.2",
+    "hash": "sha256-6wx06tjSKWQOlX2czdp6Wh0nuwVapx5qf/s8Qj5we40=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.buildservices/11.3.2/avalonia.buildservices.11.3.2.nupkg"
+  },
+  {
+    "pname": "Avalonia.Desktop",
+    "version": "12.0.4",
+    "hash": "sha256-6FeeNofcrLVgMyxT8j37CxVNUHIe1BfDIeAES1SChBA=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.desktop/12.0.4/avalonia.desktop.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.Fonts.Inter",
+    "version": "12.0.4",
+    "hash": "sha256-h0Nlzl9gpvt2z24lsJBD7l56ceCcZfOQKSzGOARgNV8=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.fonts.inter/12.0.4/avalonia.fonts.inter.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.FreeDesktop",
+    "version": "12.0.4",
+    "hash": "sha256-mj1icR/oMR4b6AygR3/ycq39DMuEpXHPy/fWeuwLYs8=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.freedesktop/12.0.4/avalonia.freedesktop.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.FreeDesktop.AtSpi",
+    "version": "12.0.4",
+    "hash": "sha256-FgfModA3bLccR6HM91A/+0198SR4NWg8zZIA3EE4wW8=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.freedesktop.atspi/12.0.4/avalonia.freedesktop.atspi.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.HarfBuzz",
+    "version": "12.0.4",
+    "hash": "sha256-tpTETc9r5b0CtXiYZEVgV57Tubqh3BS22+oq/ZU4YRQ=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.harfbuzz/12.0.4/avalonia.harfbuzz.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.Native",
+    "version": "12.0.4",
+    "hash": "sha256-MzirvFnZFV3qddBUgEDzf8TwbmIrH3tWujUWKOdXAzc=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.native/12.0.4/avalonia.native.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.Remote.Protocol",
+    "version": "12.0.4",
+    "hash": "sha256-uuc61RM/WBfRmWCcBkoenLCreOxEGcF8U4t8RptrxiE=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.remote.protocol/12.0.4/avalonia.remote.protocol.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.Skia",
+    "version": "12.0.4",
+    "hash": "sha256-ba80KHyzW0NdoDK3iPntbi3NKEnh2c1rbrv4mu2xWcI=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.skia/12.0.4/avalonia.skia.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.Themes.Fluent",
+    "version": "12.0.4",
+    "hash": "sha256-8b0+L0zU8J0csMkuRzeebsU/BENxD0iP2y5rSRmeMMk=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.themes.fluent/12.0.4/avalonia.themes.fluent.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.Win32",
+    "version": "12.0.4",
+    "hash": "sha256-ZP1+man3HnJDh9vdEQBfa1W94t56BRkQ2feWqVJBm34=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.win32/12.0.4/avalonia.win32.12.0.4.nupkg"
+  },
+  {
+    "pname": "Avalonia.X11",
+    "version": "12.0.4",
+    "hash": "sha256-r6cV/4kqiZ6lBNgN2HrYagG41JFZrOe7GZzbSelBT2g=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avalonia.x11/12.0.4/avalonia.x11.12.0.4.nupkg"
+  },
+  {
+    "pname": "AvaloniaUI.DiagnosticsSupport",
+    "version": "2.2.1",
+    "hash": "sha256-aWPaJL7HH0xvv6gpJ6QxCdl0t6/W3Pv1MgIWBWKre+U=",
+    "url": "https://api.nuget.org/v3-flatcontainer/avaloniaui.diagnosticssupport/2.2.1/avaloniaui.diagnosticssupport.2.2.1.nupkg"
+  },
+  {
+    "pname": "CommunityToolkit.Mvvm",
+    "version": "8.4.2",
+    "hash": "sha256-jLS1vo6V+fHsJs80HYT77oJE6IEC68fIgkLpYODjWAU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/communitytoolkit.mvvm/8.4.2/communitytoolkit.mvvm.8.4.2.nupkg"
+  },
+  {
+    "pname": "EmmyLua.LanguageServer.Framework",
+    "version": "0.9.2",
+    "hash": "sha256-rNeJ1RK7dk1hVDHAtLJu5RqN2llMogu/Jp5zhgeLUO8=",
+    "url": "https://api.nuget.org/v3-flatcontainer/emmylua.languageserver.framework/0.9.2/emmylua.languageserver.framework.0.9.2.nupkg"
+  },
+  {
+    "pname": "FlashCap",
+    "version": "1.11.0",
+    "hash": "sha256-PZTPyePHbMIS43siQoTnkv3GIOWPNC0QdTFbdnoUr8k=",
+    "url": "https://api.nuget.org/v3-flatcontainer/flashcap/1.11.0/flashcap.1.11.0.nupkg"
+  },
+  {
+    "pname": "FlashCap.Core",
+    "version": "1.11.0",
+    "hash": "sha256-Xe+Mu2cPO6dZtXDjlT+z8ZZh2d1lFm6mVdyNDDERWBk=",
+    "url": "https://api.nuget.org/v3-flatcontainer/flashcap.core/1.11.0/flashcap.core.1.11.0.nupkg"
+  },
+  {
+    "pname": "HarfBuzzSharp",
+    "version": "8.3.1.3",
+    "hash": "sha256-/+ZEhjpOs8B4tMPw3vDyuQqGGZHJEWvy3WaKMaDwmrU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp/8.3.1.3/harfbuzzsharp.8.3.1.3.nupkg"
+  },
+  {
+    "pname": "HarfBuzzSharp.NativeAssets.Linux",
+    "version": "8.3.1.3",
+    "hash": "sha256-feWOna/8ncvmrq7CxnDczv1facV2poZV5R+OyCtocpU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp.nativeassets.linux/8.3.1.3/harfbuzzsharp.nativeassets.linux.8.3.1.3.nupkg"
+  },
+  {
+    "pname": "HarfBuzzSharp.NativeAssets.macOS",
+    "version": "8.3.1.3",
+    "hash": "sha256-6WKsJ/jF9pHnaWcQvaezc5AV6flu3XsOxQs7i4BGYJs=",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp.nativeassets.macos/8.3.1.3/harfbuzzsharp.nativeassets.macos.8.3.1.3.nupkg"
+  },
+  {
+    "pname": "HarfBuzzSharp.NativeAssets.WebAssembly",
+    "version": "8.3.1.3",
+    "hash": "sha256-arBiI82fXPjAqftqnG7Wc3BRzZ6+vKd7b58vQSWJVk0=",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp.nativeassets.webassembly/8.3.1.3/harfbuzzsharp.nativeassets.webassembly.8.3.1.3.nupkg"
+  },
+  {
+    "pname": "HarfBuzzSharp.NativeAssets.Win32",
+    "version": "8.3.1.3",
+    "hash": "sha256-WNUQmLWVFSwBKT9x7UdhSz9T2FA7wibvwjuPew/3yUM=",
+    "url": "https://api.nuget.org/v3-flatcontainer/harfbuzzsharp.nativeassets.win32/8.3.1.3/harfbuzzsharp.nativeassets.win32.8.3.1.3.nupkg"
+  },
+  {
+    "pname": "MediatR",
+    "version": "8.1.0",
+    "hash": "sha256-dyqhDG1NJjY1b+dj37sMmklGkxAm3zKdhh2lBJ0/HTM=",
+    "url": "https://api.nuget.org/v3-flatcontainer/mediatr/8.1.0/mediatr.8.1.0.nupkg"
+  },
+  {
+    "pname": "MicroCom.Runtime",
+    "version": "0.11.4",
+    "hash": "sha256-hd13T4Z9DsF1Sb56bS+SDpWjksJVzb4m/Kp37jaUhkU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microcom.runtime/0.11.4/microcom.runtime.0.11.4.nupkg"
+  },
+  {
+    "pname": "Microsoft.AspNetCore.App.Ref",
+    "version": "6.0.36",
+    "hash": "sha256-9jDkWbjw/nd8yqdzVTagCuqr6owJ/DUMi4BlUZT4hWU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.aspnetcore.app.ref/6.0.36/microsoft.aspnetcore.app.ref.6.0.36.nupkg"
+  },
+  {
+    "pname": "Microsoft.AspNetCore.App.Runtime.linux-x64",
+    "version": "6.0.36",
+    "hash": "sha256-zUsVIpV481vMLAXaLEEUpEMA9/f1HGOnvaQnaWdzlyY=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.aspnetcore.app.runtime.linux-x64/6.0.36/microsoft.aspnetcore.app.runtime.linux-x64.6.0.36.nupkg"
+  },
+  {
+    "pname": "Microsoft.Bcl.AsyncInterfaces",
+    "version": "7.0.0",
+    "hash": "sha256-1e031E26iraIqun84ad0fCIR4MJZ1hcQo4yFN+B7UfE=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.bcl.asyncinterfaces/7.0.0/microsoft.bcl.asyncinterfaces.7.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.AI.Abstractions",
+    "version": "10.5.2",
+    "hash": "sha256-kSK5l1atATPnXheH9qTz40TviCfXMn09AMwMTEHlndA=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.ai.abstractions/10.5.2/microsoft.extensions.ai.abstractions.10.5.2.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Configuration",
+    "version": "6.0.1",
+    "hash": "sha256-v55PAURxnSGYgbv9x+4/pMeI51H27ikRfHBuUB+N5nE=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration/6.0.1/microsoft.extensions.configuration.6.0.1.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Configuration.Abstractions",
+    "version": "6.0.0",
+    "hash": "sha256-Evg+Ynj2QUa6Gz+zqF+bUyfGD0HI5A2fHmxZEXbn3HA=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.abstractions/6.0.0/microsoft.extensions.configuration.abstractions.6.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Configuration.Binder",
+    "version": "6.0.0",
+    "hash": "sha256-7NZcKkiXWSuhhVcA/fXHPY/62aGUyMsRdiHm91cWC5Y=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.configuration.binder/6.0.0/microsoft.extensions.configuration.binder.6.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.DependencyInjection",
+    "version": "6.0.0",
+    "hash": "sha256-gZuMaunMJVyvvepuzNodGPRc6eqKH//bks3957dYkPI=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection/6.0.0/microsoft.extensions.dependencyinjection.6.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.DependencyInjection",
+    "version": "6.0.1",
+    "hash": "sha256-V+CulDoU3NXWn5EjH64JhDVQ0h+ev5BW95T+2uL1hU4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection/6.0.1/microsoft.extensions.dependencyinjection.6.0.1.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.DependencyInjection.Abstractions",
+    "version": "10.0.7",
+    "hash": "sha256-uQmTQarMn0fuZV03MyCb78Ex+96cuqFHNO5SyFOPkJk=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/10.0.7/microsoft.extensions.dependencyinjection.abstractions.10.0.7.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.DependencyInjection.Abstractions",
+    "version": "6.0.0",
+    "hash": "sha256-SZke0jNKIqJvvukdta+MgIlGsrP2EdPkkS8lfLg7Ju4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/6.0.0/microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.DependencyInjection.Abstractions",
+    "version": "8.0.0",
+    "hash": "sha256-75KzEGWjbRELczJpCiJub+ltNUMMbz5A/1KQU+5dgP8=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Logging",
+    "version": "6.0.0",
+    "hash": "sha256-8WsZKRGfXW5MsXkMmNVf6slrkw+cR005czkOP2KUqTk=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging/6.0.0/microsoft.extensions.logging.6.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Logging.Abstractions",
+    "version": "10.0.7",
+    "hash": "sha256-/ITLUXgcs5tRDdeileNlmNB92V25CRd1FGBocChJj0g=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/10.0.7/microsoft.extensions.logging.abstractions.10.0.7.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Logging.Abstractions",
+    "version": "6.0.0",
+    "hash": "sha256-QNqcQ3x+MOK7lXbWkCzSOWa/2QyYNbdM/OEEbWN15Sw=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/6.0.0/microsoft.extensions.logging.abstractions.6.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Logging.Abstractions",
+    "version": "8.0.0",
+    "hash": "sha256-Jmddjeg8U5S+iBTwRlVAVLeIHxc4yrrNgqVMOB7EjM4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Options",
+    "version": "6.0.0",
+    "hash": "sha256-DxnEgGiCXpkrxFkxXtOXqwaiAtoIjA8VSSWCcsW0FwE=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options/6.0.0/microsoft.extensions.options.6.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Options.ConfigurationExtensions",
+    "version": "6.0.0",
+    "hash": "sha256-au0Y13cGk/dQFKuvSA5NnP/++bErTk0oOTlgmHdI2Mw=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.options.configurationextensions/6.0.0/microsoft.extensions.options.configurationextensions.6.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.Extensions.Primitives",
+    "version": "6.0.0",
+    "hash": "sha256-AgvysszpQ11AiTBJFkvSy8JnwIWTj15Pfek7T7ThUc4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg"
+  },
+  {
+    "pname": "Microsoft.IO.RecyclableMemoryStream",
+    "version": "3.0.1",
+    "hash": "sha256-unFg/5EcU/XKJbob4GtQC43Ydgi5VjeBGs7hfhj4EYo=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.io.recyclablememorystream/3.0.1/microsoft.io.recyclablememorystream.3.0.1.nupkg"
+  },
+  {
+    "pname": "Microsoft.NETCore.App.Host.linux-x64",
+    "version": "6.0.36",
+    "hash": "sha256-VFRDzx7LJuvI5yzKdGmw/31NYVbwHWPKQvueQt5xc10=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.host.linux-x64/6.0.36/microsoft.netcore.app.host.linux-x64.6.0.36.nupkg"
+  },
+  {
+    "pname": "Microsoft.NETCore.App.Ref",
+    "version": "6.0.36",
+    "hash": "sha256-9LZgVoIFF8qNyUu8kdJrYGLutMF/cL2K82HN2ywwlx8=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.ref/6.0.36/microsoft.netcore.app.ref.6.0.36.nupkg"
+  },
+  {
+    "pname": "Microsoft.NETCore.App.Runtime.linux-x64",
+    "version": "6.0.36",
+    "hash": "sha256-U8wJ2snSDFqeAgDVLXjnniidC7Cr5aJ1/h/BMSlyu0c=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.netcore.app.runtime.linux-x64/6.0.36/microsoft.netcore.app.runtime.linux-x64.6.0.36.nupkg"
+  },
+  {
+    "pname": "Microsoft.VisualStudio.Threading",
+    "version": "17.6.40",
+    "hash": "sha256-5HtsgSPV5RdaPREGDvJ7qMOFubb1wMyHwkfTnZs9Zsc=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.visualstudio.threading/17.6.40/microsoft.visualstudio.threading.17.6.40.nupkg"
+  },
+  {
+    "pname": "Microsoft.VisualStudio.Threading.Analyzers",
+    "version": "17.6.40",
+    "hash": "sha256-WghLNITEsKTV5pCjogmhfsVD3iO7ghTk0KNrOXzKSS0=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.visualstudio.threading.analyzers/17.6.40/microsoft.visualstudio.threading.analyzers.17.6.40.nupkg"
+  },
+  {
+    "pname": "Microsoft.VisualStudio.Validation",
+    "version": "17.0.71",
+    "hash": "sha256-0SiADwyfyu+/36jx3UjDX8sANjXZIn20JZNGOlWXNfU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.visualstudio.validation/17.0.71/microsoft.visualstudio.validation.17.0.71.nupkg"
+  },
+  {
+    "pname": "Microsoft.VisualStudio.Validation",
+    "version": "17.6.11",
+    "hash": "sha256-Lkjp9Ove4+CFP06x/toYpJEiAinuTfn/o+oh0fW3pGM=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.visualstudio.validation/17.6.11/microsoft.visualstudio.validation.17.6.11.nupkg"
+  },
+  {
+    "pname": "Microsoft.Win32.SystemEvents",
+    "version": "11.0.0-preview.4.26230.115",
+    "hash": "sha256-AXl6S32Pr2Jvk6M/gPKCLGez8snin5sBv++lJHYumGU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.win32.systemevents/11.0.0-preview.4.26230.115/microsoft.win32.systemevents.11.0.0-preview.4.26230.115.nupkg"
+  },
+  {
+    "pname": "Microsoft.WindowsDesktop.App.Ref",
+    "version": "10.0.12",
+    "hash": "sha256-omruH9MPqONFT43CGi3/ZDuw8UkqIp0kZhTfq/CMr4k=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.windowsdesktop.app.ref/10.0.12/microsoft.windowsdesktop.app.ref.10.0.12.nupkg"
+  },
+  {
+    "pname": "Microsoft.WindowsDesktop.App.Ref",
+    "version": "6.0.36",
+    "hash": "sha256-K8l2UQgrEOJt6w3Q4Jy7dJlXAI1gG6o+2NEBgmG8dG4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/microsoft.windowsdesktop.app.ref/6.0.36/microsoft.windowsdesktop.app.ref.6.0.36.nupkg"
+  },
+  {
+    "pname": "ModelContextProtocol.Core",
+    "version": "1.4.0",
+    "hash": "sha256-VIEw1aXPPElUXYd3we3UmBU6tlsUhgYE8FeFiKgyV/4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/modelcontextprotocol.core/1.4.0/modelcontextprotocol.core.1.4.0.nupkg"
+  },
+  {
+    "pname": "Nerdbank.Streams",
+    "version": "2.10.69",
+    "hash": "sha256-a0hXKhR7dv6Vm4rlUOD2ffBKG49CC3wzXLCHeTz1ms4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/nerdbank.streams/2.10.69/nerdbank.streams.2.10.69.nupkg"
+  },
+  {
+    "pname": "Newtonsoft.Json",
+    "version": "13.0.3",
+    "hash": "sha256-hy/BieY4qxBWVVsDqqOPaLy1QobiIapkbrESm6v2PHc=",
+    "url": "https://api.nuget.org/v3-flatcontainer/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg"
+  },
+  {
+    "pname": "OmniSharp.Extensions.JsonRpc",
+    "version": "0.19.9",
+    "hash": "sha256-n/DjyqXDVxWIPZZ/kdNak7gTFD6638bJtvW3hrEZFWU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/omnisharp.extensions.jsonrpc/0.19.9/omnisharp.extensions.jsonrpc.0.19.9.nupkg"
+  },
+  {
+    "pname": "OmniSharp.Extensions.JsonRpc.Generators",
+    "version": "0.19.9",
+    "hash": "sha256-38+lTizxqeBkWp6ZvMOe2dVsCG1PbQXjXgerXAsK+zw=",
+    "url": "https://api.nuget.org/v3-flatcontainer/omnisharp.extensions.jsonrpc.generators/0.19.9/omnisharp.extensions.jsonrpc.generators.0.19.9.nupkg"
+  },
+  {
+    "pname": "OmniSharp.Extensions.LanguageClient",
+    "version": "0.19.9",
+    "hash": "sha256-jGyZKoRRrWsROVi0/uNbroSdeZZ1I5ZxXAIT4d4SpIo=",
+    "url": "https://api.nuget.org/v3-flatcontainer/omnisharp.extensions.languageclient/0.19.9/omnisharp.extensions.languageclient.0.19.9.nupkg"
+  },
+  {
+    "pname": "OmniSharp.Extensions.LanguageProtocol",
+    "version": "0.19.9",
+    "hash": "sha256-L1O76h4n+qYDCvnKS3j3rwHDW60S4b7s8Cgg8sBbogw=",
+    "url": "https://api.nuget.org/v3-flatcontainer/omnisharp.extensions.languageprotocol/0.19.9/omnisharp.extensions.languageprotocol.0.19.9.nupkg"
+  },
+  {
+    "pname": "OmniSharp.Extensions.LanguageServer.Shared",
+    "version": "0.19.9",
+    "hash": "sha256-S27e9BjRaaVcbUle+MF0nRxjHS/fIhNqDyr3aBZyiog=",
+    "url": "https://api.nuget.org/v3-flatcontainer/omnisharp.extensions.languageserver.shared/0.19.9/omnisharp.extensions.languageserver.shared.0.19.9.nupkg"
+  },
+  {
+    "pname": "OpenCvSharp5",
+    "version": "5.0.0.20260905",
+    "hash": "sha256-xAUL1LmAUBRMmar6GBwax6Iqlsxa+zNeio1TXuXo9MU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/opencvsharp5/5.0.0.20260905/opencvsharp5.5.0.0.20260905.nupkg"
+  },
+  {
+    "pname": "OpenCvSharp5.official.runtime.linux-x64",
+    "version": "5.0.0.20260905",
+    "hash": "sha256-OgUEJcJqlN50we7ly6DayP4RMNzUJqH4ATkYLkmJpMY=",
+    "url": "https://api.nuget.org/v3-flatcontainer/opencvsharp5.official.runtime.linux-x64/5.0.0.20260905/opencvsharp5.official.runtime.linux-x64.5.0.0.20260905.nupkg"
+  },
+  {
+    "pname": "OpenCvSharp5.runtime.osx.arm64",
+    "version": "5.0.0.20260905",
+    "hash": "sha256-G74qfIfMg0mwlK/JrvBPPLivgzq2fWF4G4jwSjvfcdE=",
+    "url": "https://api.nuget.org/v3-flatcontainer/opencvsharp5.runtime.osx.arm64/5.0.0.20260905/opencvsharp5.runtime.osx.arm64.5.0.0.20260905.nupkg"
+  },
+  {
+    "pname": "OpenCvSharp5.runtime.win",
+    "version": "5.0.0.20260905",
+    "hash": "sha256-eTj1TfjdO5hHh0uymM9VTYOocaqVWY569NXbxRc/zfE=",
+    "url": "https://api.nuget.org/v3-flatcontainer/opencvsharp5.runtime.win/5.0.0.20260905/opencvsharp5.runtime.win.5.0.0.20260905.nupkg"
+  },
+  {
+    "pname": "ppy.SDL3-CS",
+    "version": "2026.429.0",
+    "hash": "sha256-oiKWIb+gvpqBeOILZaYgtmJhFUOOyKeMy3+59+O38FI=",
+    "url": "https://api.nuget.org/v3-flatcontainer/ppy.sdl3-cs/2026.429.0/ppy.sdl3-cs.2026.429.0.nupkg"
+  },
+  {
+    "pname": "runtime.android-arm.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-TZiizllTb7rff4Ihmhf+B3e22ba+5eZWynJtraRjdVE=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.android-arm.runtime.native.system.io.ports/10.0.6/runtime.android-arm.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.android-arm64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-IiW6HpLI3PawzjuI4AIhPqnobNBgWAOhcpdbw+WAvNM=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.android-arm64.runtime.native.system.io.ports/10.0.6/runtime.android-arm64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.android-x64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-n07FvZaR0AieMsRiTX1T2nRPUU5RIKVqcAem+vWaq/g=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.android-x64.runtime.native.system.io.ports/10.0.6/runtime.android-x64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.android-x86.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-cP7eo1WDd7P2topAEXMTPx7dle1hXEeQVkx6gcDXiP4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.android-x86.runtime.native.system.io.ports/10.0.6/runtime.android-x86.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.linux-arm.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-cYbXW/dGhcs4GjxF+AjagiDhmCnkBcchFiRrTrA+MUo=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.linux-arm.runtime.native.system.io.ports/10.0.6/runtime.linux-arm.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.linux-arm64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-dRFgfxiF4/jfEPrRmgbv4CGLc1RqBgUWUvZH2zsjn+M=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.linux-arm64.runtime.native.system.io.ports/10.0.6/runtime.linux-arm64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.linux-bionic-arm64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-J7mSI3K/nAqcAJ2cU7KynM8CzgtybqPA8ofaefvMD4w=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.linux-bionic-arm64.runtime.native.system.io.ports/10.0.6/runtime.linux-bionic-arm64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.linux-bionic-x64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-9FHT0cJvKPrUY4ezRjmZWZUKkVFJwUQC/3ewOCmPaMk=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.linux-bionic-x64.runtime.native.system.io.ports/10.0.6/runtime.linux-bionic-x64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.linux-musl-arm.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-YFjPFLbRtTJ2V9LK5+/R/Ee5iStpXujJCpzD7T2NJU4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.linux-musl-arm.runtime.native.system.io.ports/10.0.6/runtime.linux-musl-arm.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.linux-musl-arm64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-dNA5F2RPxFMC1UAzQY6tnRg50ZhlnazU27x42MqpQZo=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.linux-musl-arm64.runtime.native.system.io.ports/10.0.6/runtime.linux-musl-arm64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.linux-musl-x64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-Czc89ssDrcJWwctVZ4oOst/vZI3m+D3/fGfwL3rWrHU=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.linux-musl-x64.runtime.native.system.io.ports/10.0.6/runtime.linux-musl-x64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.linux-x64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-/x0B2/0bdAJiZ3b/o59AxqvKfaQ5UjY1KnYTLDTmfOg=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.linux-x64.runtime.native.system.io.ports/10.0.6/runtime.linux-x64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.maccatalyst-arm64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-1RRZkY8ybX0T4YHubCZoeLcyNrI0ggZKVqydgrww6Zo=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.maccatalyst-arm64.runtime.native.system.io.ports/10.0.6/runtime.maccatalyst-arm64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.maccatalyst-x64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-4wKA0Ks3hW0uYKVvHZs8jxwYR2u5LA/4F45dbQz2ZtM=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.maccatalyst-x64.runtime.native.system.io.ports/10.0.6/runtime.maccatalyst-x64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-rBrtmU4Jv/MR/81c1I30+sPXDTSIsZHvN91HJU9+yVw=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.native.system.io.ports/10.0.6/runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.osx-arm64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-dDIsqzTqJMBQ2jdq4al3IPGEB0vRN6nGx76KuG0JrBc=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.osx-arm64.runtime.native.system.io.ports/10.0.6/runtime.osx-arm64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "runtime.osx-x64.runtime.native.System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-Qge0c8oBr5X5q1u6IQPOWNR5OE8HL+vGqkcDSpAI31M=",
+    "url": "https://api.nuget.org/v3-flatcontainer/runtime.osx-x64.runtime.native.system.io.ports/10.0.6/runtime.osx-x64.runtime.native.system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "Serilog",
+    "version": "4.3.1",
+    "hash": "sha256-TY+GaQYnyDfOGl0gi67xDyUMOuV/mjz8BU66/UsmStI=",
+    "url": "https://api.nuget.org/v3-flatcontainer/serilog/4.3.1/serilog.4.3.1.nupkg"
+  },
+  {
+    "pname": "Serilog.Sinks.File",
+    "version": "7.0.0",
+    "hash": "sha256-LxZYUoUPkCjIIVarJilnXnqQiMrFNJtoRilmzTNtUjo=",
+    "url": "https://api.nuget.org/v3-flatcontainer/serilog.sinks.file/7.0.0/serilog.sinks.file.7.0.0.nupkg"
+  },
+  {
+    "pname": "SkiaSharp",
+    "version": "3.119.4",
+    "hash": "sha256-4ypEnTGUXAudFp61vGduHj9YmqtpiI5J1wP9wcOEwXY=",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp/3.119.4/skiasharp.3.119.4.nupkg"
+  },
+  {
+    "pname": "SkiaSharp.NativeAssets.Linux",
+    "version": "3.119.4",
+    "hash": "sha256-+uBVQFmxEH73iI5GwgvftUhAHvenpvc5GtT63HQy1Qo=",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp.nativeassets.linux/3.119.4/skiasharp.nativeassets.linux.3.119.4.nupkg"
+  },
+  {
+    "pname": "SkiaSharp.NativeAssets.macOS",
+    "version": "3.119.4",
+    "hash": "sha256-9/L1Oc5bujN6pKjW6sJcr1jL3RLt8/Mt3MmClOcwzyw=",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp.nativeassets.macos/3.119.4/skiasharp.nativeassets.macos.3.119.4.nupkg"
+  },
+  {
+    "pname": "SkiaSharp.NativeAssets.WebAssembly",
+    "version": "3.119.4",
+    "hash": "sha256-xLfsWBsFFpv5Qg79GIMi+5CM6YDfcg//oywNlB5Y3J0=",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp.nativeassets.webassembly/3.119.4/skiasharp.nativeassets.webassembly.3.119.4.nupkg"
+  },
+  {
+    "pname": "SkiaSharp.NativeAssets.Win32",
+    "version": "3.119.4",
+    "hash": "sha256-WlaYsbTh/cn/6YaN9odNtfpp8hpN52unGgGlQum0M5E=",
+    "url": "https://api.nuget.org/v3-flatcontainer/skiasharp.nativeassets.win32/3.119.4/skiasharp.nativeassets.win32.3.119.4.nupkg"
+  },
+  {
+    "pname": "System.CommandLine",
+    "version": "3.0.0-preview.2.26159.112",
+    "hash": "sha256-Al+rUmQ8/OAY1VszXMEqRpAKiTgspQjDwfaPmSI1ss4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/system.commandline/3.0.0-preview.2.26159.112/system.commandline.3.0.0-preview.2.26159.112.nupkg"
+  },
+  {
+    "pname": "System.Drawing.Common",
+    "version": "11.0.0-preview.4.26230.115",
+    "hash": "sha256-EQmXIhGQuZriw7bORKpoFa2EjXIFTkJMRU/n8hBnnHc=",
+    "url": "https://api.nuget.org/v3-flatcontainer/system.drawing.common/11.0.0-preview.4.26230.115/system.drawing.common.11.0.0-preview.4.26230.115.nupkg"
+  },
+  {
+    "pname": "System.IO.Ports",
+    "version": "10.0.6",
+    "hash": "sha256-oUSNjfml5RZSjAflAnXO6Un6ovd7z7zejFSaR47dARk=",
+    "url": "https://api.nuget.org/v3-flatcontainer/system.io.ports/10.0.6/system.io.ports.10.0.6.nupkg"
+  },
+  {
+    "pname": "System.Reactive",
+    "version": "6.0.0",
+    "hash": "sha256-hXB18OsiUHSCmRF3unAfdUEcbXVbG6/nZxcyz13oe9Y=",
+    "url": "https://api.nuget.org/v3-flatcontainer/system.reactive/6.0.0/system.reactive.6.0.0.nupkg"
+  },
+  {
+    "pname": "Tmds.DBus.Protocol",
+    "version": "0.92.0",
+    "hash": "sha256-WZSB9eqSOIzsBfnpOJDIIopIhNxAH+UcZuD6W94PIN4=",
+    "url": "https://api.nuget.org/v3-flatcontainer/tmds.dbus.protocol/0.92.0/tmds.dbus.protocol.0.92.0.nupkg"
+  },
+  {
+    "pname": "YamlDotNet",
+    "version": "18.0.0",
+    "hash": "sha256-skFNPHvGKB8AmZfeX9xv0I7KGCsviXf56m1fWGv+FLI=",
+    "url": "https://api.nuget.org/v3-flatcontainer/yamldotnet/18.0.0/yamldotnet.18.0.0.nupkg"
+  }
+]
