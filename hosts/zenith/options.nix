@@ -123,6 +123,8 @@ in
     };
     udev = {
       extraRules = ''
+        # Allow the active local user to access Keychron Q1 Ultra 8K via WebHID (Keychron Launcher)
+        SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="1210", MODE="0660", GROUP="users"
         # Disable wake-on-USB for Logitech G502X Receiver to prevent accidental wakeups from sleep/suspend
         ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", ATTRS{idProduct}=="c547", ENV{DEVTYPE}=="usb_device", ATTR{power/wakeup}="disabled"
       '';
