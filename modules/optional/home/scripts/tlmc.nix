@@ -640,6 +640,17 @@ let
 
     # Playlist
 
+    circle_playlist_name() {
+      local name="$1"
+      case "$name" in
+      *\[*\]*)
+        name="''${name#*\[}"
+        name="''${name%%\]*}"
+        ;;
+      esac
+      printf '%s' "$name"
+    }
+
     collect_album_playlist_tracks() {
       local album_dir="$1" path
       local -a tracks_dirs=()
@@ -788,8 +799,7 @@ let
       if [ "$action" = "delete" ]; then
         for circle in "''${circles[@]}"; do
           circle_name=$(basename "$circle")
-          playlist_name="''${circle_name#[}"
-          playlist_name="''${playlist_name%]}"
+          playlist_name=$(circle_playlist_name "$circle_name")
           playlist_file="$circle/$playlist_name.m3u"
           if [ -e "$playlist_file" ] || [ -L "$playlist_file" ]; then
             rm -f -- "$playlist_file"
@@ -808,8 +818,7 @@ let
 
       for circle in "''${circles[@]}"; do
         circle_name=$(basename "$circle")
-        playlist_name="''${circle_name#[}"
-        playlist_name="''${playlist_name%]}"
+        playlist_name=$(circle_playlist_name "$circle_name")
         playlist_file="$circle/$playlist_name.m3u"
         circle_fingerprint=$(circle_fingerprint "$circle" "$state_file") || {
           rm -rf -- "$playlist_work_dir"
