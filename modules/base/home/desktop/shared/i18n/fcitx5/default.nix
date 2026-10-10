@@ -72,6 +72,31 @@
     };
   };
 }
+# // lib.optionalAttrs osConfig.desktop.themes.enable {
+#   stylix.targets.fcitx5.enable = true;
+# }
+
+# TODO(stylix-fcitx5): BEGIN TEMPORARY WORKAROUND.
+# Stylix's 30px SVGs use 15px margins, leaving no stretchable center.
+# Remove this entire marked block and uncomment the original block above once
+# the locked Stylix input fixes the SVG dimensions or margins and renders correctly.
+# Upstream: https://github.com/nix-community/stylix/tree/master/modules/fcitx5
 // lib.optionalAttrs osConfig.desktop.themes.enable {
   stylix.targets.fcitx5.enable = true;
+  imports = [
+    {
+      i18n.inputMethod.fcitx5.themes.stylix.theme = {
+        "InputPanel/Background/Margin" = {
+          Left = lib.mkForce 14;
+          Right = lib.mkForce 14;
+          Top = lib.mkForce 14;
+          Bottom = lib.mkForce 14;
+        };
+        "InputPanel/Highlight/Margin" = {
+          Left = lib.mkForce 14;
+          Right = lib.mkForce 14;
+        };
+      };
+    }
+  ];
 }
