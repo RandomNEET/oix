@@ -9,7 +9,8 @@ let
   inherit (lib) optional optionalAttrs;
   customPluginsDir = ".local/state/noctalia/plugins/custom";
 
-  themesEnabled = osConfig.desktop.themes.enable;
+  themeSwitcherEnabled =
+    osConfig.desktop.themes.enable && builtins.length osConfig.desktop.themes.list > 1;
 in
 {
   config = lib.mkIf osConfig.desktop.enable {
@@ -21,7 +22,7 @@ in
           "mellotanica/launcher-pass"
           "kenn/keybind-cheatsheet"
         ]
-        ++ optional themesEnabled "custom/theme-switcher"
+        ++ optional themeSwitcherEnabled "custom/theme-switcher"
         ++ optional osConfig.base.gaming.enable "alexander/game-launcher";
         source = [
           {
@@ -54,7 +55,7 @@ in
     home = {
       file =
         { }
-        // optionalAttrs themesEnabled {
+        // optionalAttrs themeSwitcherEnabled {
           "${customPluginsDir}/theme-switcher/plugin.toml".source = ./theme-switcher/plugin.toml;
           "${customPluginsDir}/theme-switcher/launcher.luau".text = import ./theme-switcher/launcher.nix {
             inherit
