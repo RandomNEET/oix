@@ -30,6 +30,8 @@
       autoEnable = false;
       targets = {
         console.enable = true;
+        gtk.enable = true;
+        qt.enable = true;
       };
     };
   };

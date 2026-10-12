@@ -25,6 +25,7 @@
       asciiquarium-transparent
       cbonsai
       cmatrix
+      csakura
       pipes
       tty-clock
     ];
