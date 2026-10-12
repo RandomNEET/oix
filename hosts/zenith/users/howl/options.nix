@@ -49,6 +49,12 @@ rec {
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
           addKeysToAgent = "yes";
         };
+        pi = {
+          hostname = "pi.local";
+          user = username;
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/pi";
+          addKeysToAgent = "yes";
+        };
       };
     };
     git = {
@@ -289,6 +295,7 @@ rec {
       "ssh/defnothowl-howl".sopsFile = ./secrets.yaml;
       "ssh/gale".sopsFile = ./secrets.yaml;
       "ssh/voile".sopsFile = ./secrets.yaml;
+      "ssh/pi".sopsFile = ./secrets.yaml;
       "email/RandomNEET/password".sopsFile = ./secrets.yaml;
       "email/mbsync".sopsFile = ./secrets.yaml;
     };

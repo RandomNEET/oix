@@ -31,6 +31,12 @@ in
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/gale";
           addKeysToAgent = "yes";
         };
+        pi = {
+          hostname = "pi.local";
+          user = username;
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/pi";
+          addKeysToAgent = "yes";
+        };
       };
     };
     zsh = {
@@ -108,6 +114,7 @@ in
       asciiquarium-transparent
       cbonsai
       cmatrix
+      csakura
       pipes
       tty-clock
 
@@ -119,6 +126,7 @@ in
     secrets = {
       "ssh/zenith".sopsFile = ./secrets.yaml;
       "ssh/gale".sopsFile = ./secrets.yaml;
+      "ssh/pi".sopsFile = ./secrets.yaml;
       "docker/env" = {
         sopsFile = ./secrets.yaml;
         path = "${config.home.homeDirectory}/.docker/.env";

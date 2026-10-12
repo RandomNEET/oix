@@ -1,0 +1,17 @@
+{
+  imports = [
+    ../../modules/optional/os/programs/firejail
+    ../../modules/optional/os/programs/mosh
+    ../../modules/optional/os/programs/nix-ld
+
+    ../../modules/optional/os/services/dae
+    ../../modules/optional/os/services/flatpak
+    ../../modules/optional/os/services/fstrim
+
+    ../../modules/optional/os/virtualisation/podman
+
+    ../../modules/optional/os/scripts/gen-diff.nix
+    ../../modules/optional/os/scripts/nix-daemon-proxy.nix
+    ../../modules/optional/os/scripts/oix-init.nix
+  ];
+}

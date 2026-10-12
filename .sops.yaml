@@ -5,6 +5,8 @@ keys:
   - &howl-gale age1h30aqczhr75jgyn4jtwzmznhy0g0629rhh9exs25e5mquw6xu9aqtae3w8
   - &voile age1zeaa40ja0shttzfmug5u4xzmqhyc7vjpdkjt2fafq3zn293xe3xq53h3es
   - &howl-voile age12p5cnsnjxx8rhks6u6zyqpljzq3d7xut3p9exgc2xyqc2ytvgg9se0xkqm
+  - &pi age18dqpnk57quevklk0gfemne8xevra7qc7nklvspzx2a8zry2k55psstq9ej
+  - &howl-pi age1pjwetp8wqmzmllusljn5pxcng309dhld3jgt0d2kwawwsd9h4ccq6lv5qz
   - &RandomNEET 0xBFA119DF465BFBB1
 
 creation_rules:
@@ -47,6 +49,19 @@ creation_rules:
         pgp:
           - *RandomNEET
 
+  - path_regex: hosts/pi/secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *pi
+        pgp:
+          - *RandomNEET
+  - path_regex: hosts/pi/users/howl/secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *howl-pi
+        pgp:
+          - *RandomNEET
+
   - path_regex: hosts/.*secrets\.(yaml|json|env|ini)$
     key_groups:
       - pgp:
@@ -61,5 +76,7 @@ creation_rules:
           - *howl-gale
           - *voile
           - *howl-voile
+          - *pi
+          - *howl-pi
         pgp:
           - *RandomNEET

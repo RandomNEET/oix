@@ -24,6 +24,14 @@ in
         default = "nixos";
         description = "The deployment target for this host.";
       };
+      systemBuilder = mkOption {
+        type = types.enum [
+          "nixpkgs"
+          "nixos-raspberrypi"
+        ];
+        default = "nixpkgs";
+        description = "The nixosSystem implementation used to construct this host configuration.";
+      };
       channel = mkOption {
         type = types.enum [
           "unstable"

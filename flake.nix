@@ -17,6 +17,7 @@
     };
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -116,7 +117,11 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
       # Import hosts/<hostname>/meta.nix and inject hostname into the result
-      readHostMeta = hostname: import (./hosts + "/${hostname}/meta.nix") // { inherit hostname; };
+      readHostMeta =
+        hostname:
+        { systemBuilder = "nixpkgs"; }
+        // import (./hosts + "/${hostname}/meta.nix")
+        // { inherit hostname; };
 
       # All host directory names that contain a meta.nix file
       allHosts = builtins.filter (
@@ -207,10 +212,17 @@
           mylib = import ./lib { inherit lib; };
           hostUsers = usersForHost hostPath;
           isNixOS = meta.platform == "nixos";
+          mkSystem =
+            if meta.systemBuilder == "nixos-raspberrypi" then
+              args: inputs.nixos-raspberrypi.lib.nixosSystem (args // { nixpkgs = channel; })
+            else if meta.systemBuilder == "nixpkgs" then
+              lib.nixosSystem
+            else
+              throw "Unknown systemBuilder '${meta.systemBuilder}' for host '${hostname}'";
         in
         {
           name = hostname;
-          value = lib.nixosSystem {
+          value = mkSystem {
             system = meta.system;
             specialArgs = {
               inherit
