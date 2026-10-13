@@ -8,13 +8,13 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "csakura";
-  version = "2.1.0";
+  version = "3.0.0";
 
   src = fetchFromGitHub {
     owner = "realstrawhat";
     repo = "csakura";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-9u1cpeMpSVnWJttEpTHcD9eRDARPC55LkObMblRiA/U=";
+    hash = "sha256-Qf7u6BwHviL7kQuOTs936zsY5PiMzrtkcy007xr3p7M=";
   };
 
   buildInputs = [ ncurses ];
