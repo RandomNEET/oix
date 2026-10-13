@@ -173,7 +173,6 @@ rec {
     flatpak = {
       packages = [
         "com.github.tchx84.Flatseal"
-        "com.cherry_ai.CherryStudio"
         "org.localsend.localsend_app"
         "org.qbittorrent.qBittorrent"
         "org.libreoffice.LibreOffice"
@@ -217,6 +216,8 @@ rec {
   };
   home = {
     packages = with pkgs; [
+      chatgpt
+
       prismlauncher
     ];
   };
