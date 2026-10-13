@@ -57,12 +57,5 @@
         };
       };
     };
-    extraConfigLuaPre = ''
-      -- Compatibility for outdated Nix Tree-sitter queries.
-      -- New nvim-treesitter no longer provides this predicate.
-      vim.treesitter.query.add_predicate("is-not?", function()
-        return true
-      end)
-    '';
   };
 }
