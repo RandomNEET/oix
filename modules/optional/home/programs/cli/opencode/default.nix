@@ -6,15 +6,11 @@
   mylib,
   ...
 }:
-let
-  opencodeConfigDir = "${config.xdg.configHome}/opencode";
-  opencodeConfigFile = "${opencodeConfigDir}/opencode.json";
-  opencodeTuiFile = "${opencodeConfigDir}/tui.json";
-in
 {
   programs.opencode = {
     enable = true;
     enableMcpIntegration = true;
+    mutableSettings = true;
     settings = {
       autoshare = false;
       autoupdate = true;
@@ -41,21 +37,6 @@ in
     ];
   };
   home = lib.mkMerge [
-    (mylib.util.mkMutableHomeFile {
-      inherit config;
-      hmLib = lib.hm;
-      activationName = "make-opencode-config-mutable";
-      fileKey = opencodeConfigFile;
-      targetPath = opencodeConfigFile;
-    })
-    (mylib.util.mkMutableHomeFile {
-      inherit config;
-      hmLib = lib.hm;
-      activationName = "make-opencode-tui-config-mutable";
-      fileKey = opencodeTuiFile;
-      targetPath = opencodeTuiFile;
-    })
-    # plugins
     {
       file.".config/opencode/oh-my-opencode-slim.jsonc".source = ./plugins/oh-my-opencode-slim.jsonc;
       sessionVariables = {
