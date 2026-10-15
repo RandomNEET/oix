@@ -28,5 +28,7 @@
 
     ../../../../modules/optional/home/services/flatpak
     ../../../../modules/optional/home/services/mbsync
+
+    ../../../../modules/optional/home/scripts/tlmc.nix
   ];
 }
