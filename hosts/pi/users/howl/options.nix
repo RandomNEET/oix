@@ -100,6 +100,15 @@ rec {
         };
       };
     };
+    distrobox = {
+      containers = {
+        debian = {
+          image = "docker.io/library/debian:latest";
+          home = "${config.home.homeDirectory}/.distrobox/debian";
+          additional_flags = "--log-driver=k8s-file";
+        };
+      };
+    };
     noctalia = {
       settings = {
         shell = {
