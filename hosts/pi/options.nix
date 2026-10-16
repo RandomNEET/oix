@@ -85,6 +85,9 @@ in
       };
     };
   };
+  systemd = {
+    defaultUnit = lib.mkForce "multi-user.target";
+  };
   users = {
     users = {
       root = {
