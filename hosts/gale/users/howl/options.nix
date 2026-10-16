@@ -103,7 +103,7 @@ rec {
     distrobox = {
       containers = {
         arch = {
-          image = "archlinux:latest";
+          image = "docker.io/library/archlinux:latest";
           home = "${config.home.homeDirectory}/.distrobox/arch";
           pre_init_hooks = [
             "pacman-key --init"
