@@ -29,13 +29,11 @@ let
       cat <<'EOF'
     Usage:
       tlmc news
-      tlmc sync [delete] LOCAL_DIR
+      tlmc sync [delete] LIBRARY_OR_CIRCLE
       tlmc add LOCAL_DIR
       tlmc edit LOCAL_DIR
       tlmc delete LOCAL_DIR
-      tlmc playlist LIBRARY_OR_CIRCLE
-      tlmc playlist rebuild LIBRARY_OR_CIRCLE
-      tlmc playlist delete LIBRARY_OR_CIRCLE
+      tlmc playlist [rebuild|delete] LIBRARY_OR_CIRCLE
       tlmc split LIBRARY_OR_CIRCLE
 
     Commands:
@@ -193,12 +191,18 @@ let
 
       require_local_dir
 
-      local filter_file circle circle_name album safe_circle safe_album granularity status
+      local filter_file circle circle_name album safe_circle safe_album granularity status sync_root
       local circle_count=0 album_circle_count=0 album_count=0
       local -a circles=()
       filter_file=$(mktemp) || exit 1
 
-      mapfile -d ''' circles < <(find "$LOCAL_DIR" -mindepth 1 -maxdepth 1 -type d -print0)
+      sync_root="$LOCAL_DIR"
+      if [ -f "$LOCAL_DIR/.config" ]; then
+        circles=("$LOCAL_DIR")
+        sync_root=$(dirname "$LOCAL_DIR")
+      else
+        mapfile -d ''' circles < <(find "$LOCAL_DIR" -mindepth 1 -maxdepth 1 -type d -print0)
+      fi
       for circle in "''${circles[@]}"; do
         circle_name=$(basename "$circle")
         safe_circle=$(escape_filter_path "$circle_name")
@@ -232,7 +236,7 @@ let
 
       local -a rsync_args=(-avz --progress --filter=". $filter_file")
       [ -z "$delete_flag" ] || rsync_args+=("$delete_flag")
-      rsync-ssl "''${rsync_args[@]}" "$URL/" "$LOCAL_DIR/"
+      rsync-ssl "''${rsync_args[@]}" "$URL/" "$sync_root/"
       status=$?
       rm -f "$filter_file"
       return "$status"
