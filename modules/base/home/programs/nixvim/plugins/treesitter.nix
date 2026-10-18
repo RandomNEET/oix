@@ -1,11 +1,11 @@
-{ pkgs, ... }:
+{ config, ... }:
 {
   programs.nixvim = {
     plugins.treesitter = rec {
       enable = true;
       nixvimInjections = true;
       nixGrammars = true;
-      grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+      grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
         nix
         bash
         zsh
@@ -57,12 +57,5 @@
         };
       };
     };
-    extraConfigLuaPre = ''
-      -- Compatibility for outdated Nix Tree-sitter queries.
-      -- New nvim-treesitter no longer provides this predicate.
-      vim.treesitter.query.add_predicate("is-not?", function()
-        return true
-      end)
-    '';
   };
 }
