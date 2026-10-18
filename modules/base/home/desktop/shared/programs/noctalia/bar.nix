@@ -77,7 +77,8 @@
           "network"
           "bluetooth"
         ]
-        ++ lib.optional (osConfig.services.dae.enable || osConfig.services.xray.enable) "proxy";
+        ++ lib.optional osConfig.services.dae.enable "proxy-dae"
+        ++ lib.optional osConfig.services.xray.enable "proxy-xray";
         opacity = 1.0;
         padding = 6.0;
         radius = 8.0;

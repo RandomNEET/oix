@@ -1,0 +1,6 @@
+{
+  "settings.service.label": "Systemd service name",
+  "settings.glyph.label": "Service icon",
+  "settings.user.label": "User service (systemctl --user)",
+  "settings.interval.label": "Refresh interval (seconds)"
+}
