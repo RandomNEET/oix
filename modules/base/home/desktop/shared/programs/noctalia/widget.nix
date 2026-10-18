@@ -107,22 +107,16 @@ in
   };
 }
 // optionalAttrs osConfig.services.dae.enable {
-  proxy = {
+  proxy-dae = {
     glyph = "network";
-    tooltip = "Toggle dae.service";
-    type = "custom_button";
-    actions = {
-      left = "exec sh -c 'if systemctl is-active --quiet dae.service; then pkexec systemctl stop dae.service && notify-send -u low dae.service Stopped; else pkexec systemctl start dae.service && notify-send -u low dae.service Started; fi'";
-    };
+    service = "dae.service";
+    type = "custom/systemd-service:service";
   };
 }
 // optionalAttrs osConfig.services.xray.enable {
-  proxy = {
+  proxy-xray = {
     glyph = "network";
-    tooltip = "Toggle xray.service";
-    type = "custom_button";
-    actions = {
-      left = "exec sh -c 'if systemctl is-active --quiet xray.service; then pkexec systemctl stop xray.service && notify-send -u low xray.service Stopped; else pkexec systemctl start xray.service && notify-send -u low xray.service Started; fi'";
-    };
+    service = "xray.service";
+    type = "custom/systemd-service:service";
   };
 }

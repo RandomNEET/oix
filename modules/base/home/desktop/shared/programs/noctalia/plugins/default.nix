@@ -21,6 +21,7 @@ in
           "noctalia/translator"
           "mellotanica/launcher-pass"
           "kenn/keybind-cheatsheet"
+          "custom/systemd-service"
         ]
         ++ optional themeSwitcherEnabled "custom/theme-switcher"
         ++ optional osConfig.base.gaming.enable "alexander/game-launcher";
@@ -53,20 +54,21 @@ in
     };
 
     home = {
-      file =
-        { }
-        // optionalAttrs themeSwitcherEnabled {
-          "${customPluginsDir}/theme-switcher/plugin.toml".source = ./theme-switcher/plugin.toml;
-          "${customPluginsDir}/theme-switcher/launcher.luau".text = import ./theme-switcher/launcher.nix {
-            inherit
-              osConfig
-              config
-              lib
-              pkgs
-              ;
-          };
-          "${customPluginsDir}/theme-switcher/translations".source = ./theme-switcher/translations;
+      file = {
+        "${customPluginsDir}/systemd-service".source = ./systemd-service;
+      }
+      // optionalAttrs themeSwitcherEnabled {
+        "${customPluginsDir}/theme-switcher/plugin.toml".source = ./theme-switcher/plugin.toml;
+        "${customPluginsDir}/theme-switcher/launcher.luau".text = import ./theme-switcher/launcher.nix {
+          inherit
+            osConfig
+            config
+            lib
+            pkgs
+            ;
         };
+        "${customPluginsDir}/theme-switcher/translations".source = ./theme-switcher/translations;
+      };
       packages = with pkgs; [
         gcc # required by alexander/game-launcher
       ];

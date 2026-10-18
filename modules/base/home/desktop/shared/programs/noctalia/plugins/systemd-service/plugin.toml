@@ -1,0 +1,36 @@
+id = "custom/systemd-service"
+name = "Systemd Service"
+version = "1.0.0"
+plugin_api = 3
+icon = "server"
+description = "Monitor and start/stop a configured systemd service."
+
+[[widget]]
+id = "service"
+entry = "widget.luau"
+
+[[widget.setting]]
+key = "service"
+type = "string"
+label_key = "settings.service.label"
+default = "dae.service"
+
+[[widget.setting]]
+key = "glyph"
+type = "glyph"
+label_key = "settings.glyph.label"
+default = "server"
+
+[[widget.setting]]
+key = "user"
+type = "bool"
+label_key = "settings.user.label"
+default = false
+
+[[widget.setting]]
+key = "interval"
+type = "int"
+label_key = "settings.interval.label"
+default = 3
+min = 1
+max = 60
