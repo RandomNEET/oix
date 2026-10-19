@@ -18,7 +18,6 @@ in
     enable = true;
     configDir = piConfigDir;
     settings = {
-      defaultProjectTrust = "ask";
       enableInstallTelemetry = false;
       packages = [
         "npm:pi-mcp-adapter"
