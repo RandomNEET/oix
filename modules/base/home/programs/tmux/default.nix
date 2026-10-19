@@ -17,7 +17,7 @@ let
 in
 {
   programs = {
-    tmux = rec {
+    tmux = {
       enable = true;
       mouse = true;
       prefix = "C-a";
@@ -44,50 +44,43 @@ in
         set -g allow-rename off
 
         # Tmux binds
+        bind ^X lock-server
+        bind ^C new-window -c "$HOME"
+        bind ^D detach
+        bind H previous-window
+        bind L next-window
+        bind N previous-window
+        bind n next-window
         bind r command-prompt "rename-window %%"
         bind R source-file ${config.xdg.configHome}/tmux/tmux.conf
+        bind ^A last-window
+        bind ^W list-windows
         bind w list-windows
-        bind * setw synchronize-panes
-        bind -n C-M-c kill-pane
-        bind x swap-pane -D
         bind z resize-pane -Z
-
-        # Resize panes
-        bind -n M-Left resize-pane -L 2
-        bind -n M-Right resize-pane -R 2
-        bind -n M-Up resize-pane -U 2
-        bind -n M-Down resize-pane -D 2
-
-        # Splits
-        bind | split-window -h -c "#{pane_current_path}"
-        bind - split-window -v -c "#{pane_current_path}"
-        bind c new-window -c "#{pane_current_path}"
-
-        # Select windows
-        bind -n S-Left  previous-window
-        bind -n S-Right next-window
-
-        bind -n C-M-h  previous-window
-        bind -n C-M-l next-window
+        bind ^L refresh-client
+        bind | split-window
+        bind s split-window -v -c "#{pane_current_path}"
+        bind v split-window -h -c "#{pane_current_path}"
+        bind '"' choose-window
+        bind h select-pane -L
+        bind j select-pane -D
+        bind k select-pane -U
+        bind l select-pane -R
+        bind -r -T prefix , resize-pane -L 20
+        bind -r -T prefix . resize-pane -R 20
+        bind -r -T prefix - resize-pane -D 7
+        bind -r -T prefix = resize-pane -U 7
+        bind : command-prompt
+        bind * setw synchronize-panes
+        bind c kill-pane
+        bind x swap-pane -D
+        bind S choose-session
+        bind K send-keys "clear"\; send-keys "Enter"
 
         # Vi mode
+        bind-key [ copy-mode
         bind-key -T copy-mode-vi v send-keys -X begin-selection
         bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
-
-        # Prefix pass-through
-        bind -n F12 run-shell '
-          if [ "$(tmux show-option -gv prefix)" = "${prefix}" ]; then
-            tmux set -g prefix C-F12
-            _style=$(tmux show-option -gv status-style)
-            tmux set -g status-style "$_style,dim"
-            tmux display-message "PASSTHROUGH | prefix=C-F12"
-          else
-            tmux set -g prefix ${prefix}
-            _style=$(tmux show-option -gv status-style)
-            tmux set -g status-style "$(echo "$_style" | sed "s/,dim//g")"
-            tmux display-message "LOCAL | prefix=${prefix}"
-          fi
-        '
       '';
       plugins = with pkgs.tmuxPlugins; [
         {
@@ -152,7 +145,7 @@ in
       enableTmuxIntegration = true;
       enableAlias = true;
       icons = true;
-      tmuxKey = "s";
+      tmuxKey = "o";
       settings = {
         blacklist = [ "scratch" ];
         sort_order = [
