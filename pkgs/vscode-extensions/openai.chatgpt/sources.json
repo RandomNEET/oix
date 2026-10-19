@@ -1,0 +1,14 @@
+{
+  "linux-arm64": {
+    "hash": "sha256-pNsFQ6Y00vFR8Oq1MjP4xXRY0lA+UzjIUq3V0njfJ28=",
+    "version": "26.1007.21434"
+  },
+  "linux-x64": {
+    "hash": "sha256-kG5XMsTvOTYK/KCDQrgZZ4toQhTOvsCThvziI/0vNlY=",
+    "version": "26.1007.21434"
+  },
+  "universal": {
+    "hash": "sha256-vph8tELxiO9TFYPucSpUKPVkW6gb7pSewugO5dklUns=",
+    "version": "26.609.30741"
+  }
+}

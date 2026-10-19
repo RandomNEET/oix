@@ -4,23 +4,26 @@
   pkgs,
 }:
 let
-  inherit (lib) mkMerge;
+  inherit (lib) optional mkMerge;
   global = {
     mutableUserSettings = true;
     enableMcpIntegration = true;
 
-    extensions = with pkgs.vscode-extensions; [
-      bbenoist.nix
-      esbenp.prettier-vscode
+    extensions =
+      with pkgs.vscode-extensions;
+      [
+        bbenoist.nix
+        esbenp.prettier-vscode
 
-      asvetliakov.vscode-neovim
-      yzhang.markdown-all-in-one
-      yzane.markdown-pdf
-      ms-vscode.hexeditor
-      ms-vscode-remote.remote-ssh
-      ms-vscode-remote.remote-ssh-edit
-      ms-vscode.remote-explorer
-    ];
+        asvetliakov.vscode-neovim
+        yzhang.markdown-all-in-one
+        yzane.markdown-pdf
+        ms-vscode.hexeditor
+        ms-vscode-remote.remote-ssh
+        ms-vscode-remote.remote-ssh-edit
+        ms-vscode.remote-explorer
+      ]
+      ++ optional config.programs.codex.enable openai.chatgpt;
     userSettings = {
       "chat.disableAIFeatures" = true;
       "workbench.settings.showAISearchToggle" = false;
