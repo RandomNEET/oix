@@ -40,6 +40,7 @@ lib.mergeAttrsList [
       ms-vscode = prev.vscode-extensions.ms-vscode // {
         vscode-serial-monitor = pkgs.callPackage ./vscode-extensions/ms-vscode.vscode-serial-monitor { };
       };
+      openai.chatgpt = pkgs.callPackage ./vscode-extensions/openai.chatgpt { };
     };
   }
 ]
