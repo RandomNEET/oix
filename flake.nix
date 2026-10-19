@@ -119,9 +119,13 @@
       # Import hosts/<hostname>/meta.nix and inject hostname into the result
       readHostMeta =
         hostname:
-        { systemBuilder = "nixpkgs"; }
+        {
+          systemBuilder = "nixpkgs";
+        }
         // import (./hosts + "/${hostname}/meta.nix")
-        // { inherit hostname; };
+        // {
+          inherit hostname;
+        };
 
       # All host directory names that contain a meta.nix file
       allHosts = builtins.filter (
