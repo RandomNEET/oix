@@ -14,10 +14,6 @@
     settings = {
       autoshare = false;
       autoupdate = true;
-      permission = {
-        edit = "ask";
-        bash = "ask";
-      };
       agent = {
         explore.disable = true;
         general.disable = true;
