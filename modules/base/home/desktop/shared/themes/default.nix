@@ -7,6 +7,7 @@
   ...
 }:
 let
+  inherit (lib) mkIf;
   themesEnabled = osConfig.desktop.themes.enable;
   themeSwitcherEnabled = themesEnabled && builtins.length osConfig.desktop.themes.list > 1;
 in
@@ -20,7 +21,7 @@ in
     )
   ];
 
-  config =
+  config = lib.mkMerge [
     (
       if themesEnabled then
         let
@@ -77,7 +78,7 @@ in
             };
           };
 
-          specialisation = lib.mkIf themeSwitcherEnabled (
+          specialisation = mkIf themeSwitcherEnabled (
             builtins.listToAttrs (
               map (theme: {
                 name = theme;
@@ -92,7 +93,7 @@ in
             )
           );
 
-          home.activation.saveHmBasePath = lib.mkIf themeSwitcherEnabled ''
+          home.activation.saveHmBasePath = mkIf themeSwitcherEnabled ''
             LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
 
             if [[ ! "$0" =~ "specialisation" ]]; then
@@ -109,8 +110,8 @@ in
       else
         { }
     )
-    // {
-      home.activation.removeHmBasePath = lib.mkIf (!themeSwitcherEnabled) ''
+    {
+      home.activation.removeHmBasePath = mkIf (!themeSwitcherEnabled) ''
         LINK_PATH="''${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/home-manager-base"
 
         if [[ ! "$0" =~ "specialisation" ]]; then
@@ -119,5 +120,6 @@ in
           fi
         fi
       '';
-    };
+    }
+  ];
 }
