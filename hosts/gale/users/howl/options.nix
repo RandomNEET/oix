@@ -219,6 +219,7 @@ rec {
       chatgpt
 
       prismlauncher
+      easycon
     ];
   };
 
