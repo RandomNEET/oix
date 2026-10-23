@@ -1,4 +1,4 @@
-# Requirements: 'programs.firejail.enable = true;' and firejail installed at system level
+# Requirements: programs.firejail.enable = true;
 {
   osConfig,
   config,

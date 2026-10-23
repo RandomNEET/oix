@@ -37,6 +37,7 @@
     ../../../../modules/optional/home/services/flatpak
     ../../../../modules/optional/home/services/mbsync
     ../../../../modules/optional/home/services/mpd
+    ../../../../modules/optional/home/services/podman
 
     ../../../../modules/optional/home/scripts/tlmc.nix
   ];
