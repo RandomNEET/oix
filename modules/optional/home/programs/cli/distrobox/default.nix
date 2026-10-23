@@ -8,5 +8,4 @@
     };
   };
   home.file.".distrobox/scripts".source = ./scripts;
-
 }
