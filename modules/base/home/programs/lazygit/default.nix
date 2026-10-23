@@ -20,7 +20,6 @@
             pager = "delta --dark --paging=never";
           }
         ];
-        overrideGpg = true;
         parseEmoji = if osConfig.desktop.enable then true else false;
       };
       os = {
