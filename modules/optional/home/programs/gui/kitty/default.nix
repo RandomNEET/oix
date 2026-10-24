@@ -16,15 +16,14 @@
       close_on_child_death = true;
       mouse_hide_wait = 3;
       enable_audio_bell = false;
-      update_check_interval = 0;
       scrollback_pager = "less --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
-      # Cursor
-      cursor_trail = 1;
-      cursor_trail_decay = "0.1 0.4";
-      cursor_trail_start_threshold = "4";
-      # Remote control
       allow_remote_control = true;
       listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty";
+      cursor_trail = 1;
+      cursor_trail_decay = "0.1 0.4";
+      cursor_trail_start_threshold = "2";
+      custom_shaders = "space cursor-trail-motion-blur";
+      update_check_interval = 0;
     };
     keybindings = {
       "kitty_mod+c" = "copy_to_clipboard";
@@ -45,6 +44,10 @@
     // lib.optionalAttrs config.programs.tmux.enable {
       "kitty_mod+t" = "launch --type=overlay --cwd=current tmux";
     };
+  };
+  xdg.configFile = {
+    "kitty/shaders/space.slang".source = ./shaders/space.slang;
+    "kitty/shaders/space.pipeline".source = ./shaders/space.pipeline;
   };
 }
 // lib.optionalAttrs osConfig.desktop.themes.enable {

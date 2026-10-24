@@ -25,6 +25,7 @@
 
     ../../../../modules/optional/home/programs/gui/chromium
     ../../../../modules/optional/home/programs/gui/foot
+    ../../../../modules/optional/home/programs/gui/kitty
     ../../../../modules/optional/home/programs/gui/mpv
     ../../../../modules/optional/home/programs/gui/obs-studio
     ../../../../modules/optional/home/programs/gui/obsidian
