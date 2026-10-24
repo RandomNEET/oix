@@ -1,0 +1,5 @@
+startgroup
+    animation_stop never
+    animation_step 33
+    shaders space
+endgroup
