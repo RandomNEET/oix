@@ -16,13 +16,13 @@
   shadows_blur = 15;
   shadows_position_x = 2;
   shadows_position_y = 2;
-  shadowscolor = "0x000000ff";
+  shadows_color = "0x000000ff";
 
-  borderpx = 2;
+  border_px = 2;
   border_radius = 20;
 
   repeat_delay = 300;
 
-  sloppyfocus = 1;
+  sloppy_focus = 1;
   cursor_hide_timeout = 10;
 }

@@ -62,26 +62,27 @@ in
                   {
                     inherit (binds)
                       bind
+                      binds
                       mousebind
                       axisbind
-                      keymode
+                      key_mode
                       ;
-                    layerrule = (import ./rules.nix).layerrule;
-                    windowrule = (import ./rules.nix).windowrule;
+                    layer_rule = (import ./rules.nix).layer_rule;
+                    window_rule = (import ./rules.nix).window_rule;
                     env = import ./env.nix;
-                    exec-once = autostart.exec-once;
+                    exec_once = autostart.exec_once;
                   }
                   // import ./animations.nix
                   // import ./misc.nix
                 )
                 (
                   lib.optionalAttrs osConfig.desktop.themes.enable {
-                    rootcolor = "0x${colors.base00}ff";
-                    bordercolor = "0x${colors.base02}ff";
-                    dropcolor = "0x${colors.base01}55";
-                    splitcolor = "0x${colors.base0D}ff";
-                    focuscolor = "0x${primaryColor}ff";
-                    urgentcolor = "0x${colors.base08}ff";
+                    root_color = "0x${colors.base00}ff";
+                    border_color = "0x${colors.base02}ff";
+                    drop_color = "0x${colors.base01}55";
+                    split_color = "0x${colors.base0D}ff";
+                    focus_color = "0x${primaryColor}ff";
+                    urgent_color = "0x${colors.base08}ff";
                   }
                 );
           };

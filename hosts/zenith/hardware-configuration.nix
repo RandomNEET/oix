@@ -47,7 +47,6 @@
   };
 
   boot.initrd = {
-    systemd.enable = true;
     luks.devices."enc" = {
       device = "/dev/disk/by-uuid/055580b6-24c9-4c6b-b4d8-eab81bc10224";
       allowDiscards = true;

@@ -76,7 +76,7 @@
 #   stylix.targets.fcitx5.enable = true;
 # }
 
-# TODO(stylix-fcitx5): BEGIN TEMPORARY WORKAROUND.
+# TEMPFIX: BEGIN stylix-fcitx5 margin workaround.
 # Stylix's 30px SVGs use 15px margins, leaving no stretchable center.
 # Remove this entire marked block and uncomment the original block above once
 # the locked Stylix input fixes the SVG dimensions or margins and renders correctly.
@@ -100,3 +100,4 @@
     }
   ];
 }
+# TEMPFIX: END stylix-fcitx5 margin workaround.

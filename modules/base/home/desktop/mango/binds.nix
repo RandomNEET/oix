@@ -24,12 +24,12 @@ in
     "SUPER,Tab,toggleoverview"
     "ALT,Return,togglefullscreen"
     "ALT+SHIFT,f,togglefakefullscreen"
+    "ALT,Tab,focusstack,next"
     "SUPER,i,minimized"
     "SUPER+SHIFT,i,restore_minimized"
     "SUPER,o,toggleoverlay"
     "SUPER,s,toggle_scratchpad"
     "SUPER+CTRL,s,minimized"
-    "ALT,Tab,spawn,noctalia msg window-switcher"
 
     "SUPER,Return,spawn,${terminal}"
     "SUPER,f,spawn,${fileManager}"
@@ -61,7 +61,6 @@ in
     "SUPER,l,focusdir,right"
     "SUPER,k,focusdir,up"
     "SUPER,j,focusdir,down"
-    "SUPER,Tab,focusstack,next"
 
     "SUPER+SHIFT,Left,exchange_client,left"
     "SUPER+SHIFT,Right,exchange_client,right"
@@ -76,10 +75,10 @@ in
     "SUPER+SHIFT+CTRL,l,resizewin,30,0"
     "SUPER+SHIFT+CTRL,k,resizewin,0,-30"
     "SUPER+SHIFT+CTRL,j,resizewin,0,30"
-    "SUPER+SHIFT,Left,resizewin,-30,0"
-    "SUPER+SHIFT,Right,resizewin,30,0"
-    "SUPER+SHIFT,Up,resizewin,0,-30"
-    "SUPER+SHIFT,Down,resizewin,0,30"
+    "SUPER+SHIFT+CTRL,Left,resizewin,-30,0"
+    "SUPER+SHIFT+CTRL,Right,resizewin,30,0"
+    "SUPER+SHIFT+CTRL,Up,resizewin,0,-30"
+    "SUPER+SHIFT+CTRL,Down,resizewin,0,30"
 
     "SUPER,1,view,1,0"
     "SUPER,2,view,2,0"
@@ -111,8 +110,8 @@ in
     "SUPER+CTRL,8,toggletag,8"
     "SUPER+CTRL,9,toggletag,9"
 
-    "SUPER,Left,viewtoleft,0"
-    "SUPER,Right,viewtoright,0"
+    "SUPER,Page_Up,viewtoleft,0"
+    "SUPER,Page_Down,viewtoright,0"
     "SUPER+CTRL,Left,viewtoleft_have_client,0"
     "SUPER+CTRL,Right,viewtoright_have_client,0"
 
@@ -126,10 +125,10 @@ in
 
     "ALT,e,set_proportion,1.0"
     "ALT,x,switch_proportion_preset"
-    "ALT+SUPER+CTRL,Left,scroller_stack,left"
-    "ALT+SUPER+CTRL,Right,scroller_stack,right"
-    "ALT+SUPER+CTRL,Up,scroller_stack,up"
-    "ALT+SUPER+CTRL,Down,scroller_stack,down"
+    "ALT+SUPER+SHIFT,Left,scroller_stack,left"
+    "ALT+SUPER+SHIFT,Right,scroller_stack,right"
+    "ALT+SUPER+SHIFT,Up,scroller_stack,up"
+    "ALT+SUPER+SHIFT,Down,scroller_stack,down"
     "ALT+SHIFT,Return,dwindle_toggle_split_direction"
     "SUPER,n,switch_layout"
 
@@ -139,8 +138,6 @@ in
 
     "none,XF86AudioMute,spawn,noctalia msg volume-mute"
     "none,XF86AudioMicMute,spawn,noctalia msg mic-mute"
-    "none,XF86AudioPlay,spawn,noctalia msg media toggle"
-    "none,XF86AudioPause,spawn,noctalia msg media stop"
     "none,XF86AudioNext,spawn,noctalia msg media next"
     "none,XF86AudioPrev,spawn,noctalia msg media previous"
     "none,XF86AudioLowerVolume,spawn,noctalia msg volume-down"
@@ -154,6 +151,12 @@ in
   ++ optional config.programs.password-store.enable "SUPER+SHIFT,p,spawn,noctalia msg panel-toggle launcher /pass"
   ++ optional osConfig.base.gaming.enable "SUPER+CTRL,g,spawn,noctalia msg panel-toggle alexander/game-launcher:browser";
 
+  # These symbols can share a physical keycode; keep their actions distinct.
+  binds = [
+    "none,XF86AudioPlay,spawn,noctalia msg media toggle"
+    "none,XF86AudioPause,spawn,noctalia msg media stop"
+  ];
+
   mousebind = [
     "SUPER,btn_left,moveresize,curmove"
     "SUPER,btn_right,moveresize,curresize"
@@ -164,7 +167,7 @@ in
     "SUPER,DOWN,viewtoright_have_client"
   ];
 
-  keymode = {
+  key_mode = {
     mouse = {
       bind = [
         "NONE,H,spawn,wlrctl pointer move -10 0"

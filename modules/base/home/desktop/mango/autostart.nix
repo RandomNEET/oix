@@ -3,7 +3,7 @@ let
   inherit (lib) optional;
 in
 {
-  exec-once = [
+  exec_once = [
     "noctalia"
   ]
   ++ optional config.programs.foot.server.enable "systemctl --user restart foot.service"
