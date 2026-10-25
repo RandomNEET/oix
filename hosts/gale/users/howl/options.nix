@@ -164,7 +164,7 @@ rec {
       };
       mango = {
         settings = {
-          monitorrule = [ "name:eDP-1,scale:1.25" ];
+          monitor_rule = [ "name:eDP-1,scale:1.25" ];
         };
       };
     };

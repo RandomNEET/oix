@@ -21,7 +21,7 @@
       lsp = true;
       plugin = [ "oh-my-opencode-slim" ];
     };
-    tui = {
+    cli = {
       keybinds = {
         leader = "ctrl+x";
       };
@@ -51,4 +51,14 @@
 }
 // lib.optionalAttrs osConfig.desktop.themes.enable {
   stylix.targets.opencode.enable = true;
+  # TEMPFIX: Stylix still selects its theme through OpenCode 1's tui settings.
+  # Remove this imported module once Stylix uses cli.theme.name for OpenCode 2.
+  imports = [
+    {
+      programs.opencode = {
+        tui = lib.mkForce { };
+        cli.theme.name = "stylix";
+      };
+    }
+  ];
 }
