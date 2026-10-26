@@ -8,6 +8,7 @@
     silent = true;
   }
   // lib.optionalAttrs (meta.channel == "unstable") {
+    # 26.11
     enableGitIntegration = true;
   };
 }
