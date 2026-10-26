@@ -13,7 +13,6 @@
     presets = [ "nerd-font-symbols" ];
     settings = {
       add_newline = false;
-      scan_timeout = 10;
       format = lib.concatStrings [ "$all" ];
     };
   };
