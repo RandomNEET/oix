@@ -1,3 +1,4 @@
+# Accounts opt in separately with accounts.email.accounts.<name>.aerc.enable.
 {
   osConfig,
   config,

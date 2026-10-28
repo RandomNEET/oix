@@ -6,25 +6,76 @@
   DOWNLOADS,
   ...
 }:
+let
+  local = pkgs.writeText "firejail-aerc-local" ''
+    # Maildir
+    ignore mkdir ''${HOME}/.Mail
+    ignore mkdir ''${HOME}/.mail
+    ignore mkdir ''${HOME}/Mail
+    ignore mkdir ''${HOME}/mail
+    ignore mkdir ''${HOME}/postponed
+    ignore mkdir ''${HOME}/sent
+    mkdir ${config.accounts.email.maildirBasePath}
+    noblacklist ${config.accounts.email.maildirBasePath}
+    whitelist ${config.accounts.email.maildirBasePath}
+
+    # Editors, terminal emulators and mail helpers
+    noblacklist ''${HOME}/.config/nvim
+    noblacklist ''${HOME}/.config/helix
+    noblacklist ''${HOME}/.config/bat
+    noblacklist ''${HOME}/.config/isyncrc
+    noblacklist ''${HOME}/.config/kitty
+    noblacklist ''${HOME}/.config/foot
+    noblacklist ''${PATH}/foot
+    noblacklist ''${PATH}/footclient
+    noblacklist ''${PATH}/kitty
+    whitelist ''${HOME}/.config/nvim
+    whitelist ''${HOME}/.config/helix
+    whitelist ''${HOME}/.config/bat
+    whitelist ''${HOME}/.config/isyncrc
+    whitelist ''${HOME}/.config/kitty
+    whitelist ''${HOME}/.config/foot
+
+    # Allow external viewers to connect to Wayland
+    ignore blacklist ''${RUNUSER}/wayland-*
+
+    # Use software rendering for GTK viewers while no3d is enabled
+    env GSK_RENDERER=cairo
+    env GDK_DISABLE=gl,vulkan
+    # GTK Wayland viewers need memfd_create for shared-memory buffers
+    ignore memory-deny-write-execute
+
+    # Browser runtime directories
+    noblacklist ''${RUNUSER}/qutebrowser
+    noblacklist ''${RUNUSER}/*firefox*
+    noblacklist ''${RUNUSER}/psd/*firefox*
+    whitelist ''${RUNUSER}/qutebrowser
+    whitelist ''${RUNUSER}/*firefox*
+    whitelist ''${RUNUSER}/psd/*firefox*
+
+    # Allow shell commands used by filters and hooks
+    include allow-bin-sh.inc
+
+    # Share temporary files with external viewers
+    ignore private-tmp
+  '';
+in
 pkgs.writeText "firejail-aerc-profile" ''
   # Firejail profile for aerc
   # Description: A pretty good email client that runs in your terminal
+  # This file is overwritten after every install/update
   quiet
+  # Persistent local customizations
+  include ${local}
   # Persistent global definitions
   include ${global}
 
-  noblacklist ${config.accounts.email.maildirBasePath}
   noblacklist ${DOCUMENTS}
+  noblacklist ''${HOME}/.Mail
   noblacklist ''${HOME}/.bogofilter
-  noblacklist ''${HOME}/.config/aerc
-  noblacklist ''${HOME}/.config/nvim
-  noblacklist ''${HOME}/.config/helix
-  noblacklist ''${HOME}/.config/nano
-  noblacklist ''${HOME}/.config/bat
   noblacklist ''${HOME}/.config/msmtp
-  noblacklist ''${HOME}/.config/isyncrc
-  noblacklist ''${HOME}/.config/kitty
-  noblacklist ''${HOME}/.config/foot
+  noblacklist ''${HOME}/.config/nano
+  noblacklist ''${HOME}/.config/aerc
   noblacklist ''${HOME}/.local/state/aerc
   noblacklist ''${HOME}/.elinks
   noblacklist ''${HOME}/.emacs
@@ -39,18 +90,17 @@ pkgs.writeText "firejail-aerc-profile" ''
   noblacklist ''${HOME}/.viminfo
   noblacklist ''${HOME}/.vimrc
   noblacklist ''${HOME}/.w3m
-  noblacklist ''${RUNUSER}/qutebrowser
-  noblacklist ''${RUNUSER}/*firefox*
-  noblacklist ''${RUNUSER}/psd/*firefox*
+  noblacklist ''${HOME}/Mail
+  noblacklist ''${HOME}/mail
+  noblacklist ''${HOME}/postponed
+  noblacklist ''${HOME}/sent
   noblacklist /etc/msmtprc
-  noblacklist /var/spool/mail
   noblacklist /var/mail
+  noblacklist /var/spool/mail
 
-  noblacklist ''${PATH}/foot
-  noblacklist ''${PATH}/footclient
-  noblacklist ''${PATH}/kitty
+  include allow-lua.inc
 
-  include allow-bin-sh.inc
+  blacklist ''${RUNUSER}/wayland-*
 
   include disable-common.inc
   include disable-devel.inc
@@ -62,24 +112,25 @@ pkgs.writeText "firejail-aerc-profile" ''
 
   mkdir ''${HOME}/.config/aerc
   mkdir ''${HOME}/.local/state/aerc
+  mkdir ''${HOME}/.Mail
+  mkdir ''${HOME}/.mail
+  mkdir ''${HOME}/Mail
+  mkdir ''${HOME}/mail
+  mkdir ''${HOME}/postponed
+  mkdir ''${HOME}/sent
   whitelist ${DOCUMENTS}
   whitelist ${DOWNLOADS}
-  whitelist ${config.accounts.email.maildirBasePath}
+  whitelist ''${HOME}/.Mail
   whitelist ''${HOME}/.bogofilter
-  whitelist ''${HOME}/.config/aerc
-  whitelist ''${HOME}/.config/nvim
-  whitelist ''${HOME}/.config/helix
-  whitelist ''${HOME}/.config/nano
-  whitelist ''${HOME}/.config/bat
   whitelist ''${HOME}/.config/msmtp
-  whitelist ''${HOME}/.config/isyncrc
-  whitelist ''${HOME}/.config/kitty
-  whitelist ''${HOME}/.config/foot
+  whitelist ''${HOME}/.config/nano
+  whitelist ''${HOME}/.config/aerc
   whitelist ''${HOME}/.local/state/aerc
   whitelist ''${HOME}/.elinks
   whitelist ''${HOME}/.emacs
   whitelist ''${HOME}/.emacs.d
   whitelist ''${HOME}/.gnupg
+  whitelist ''${HOME}/.mail
   whitelist ''${HOME}/.mailcap
   whitelist ''${HOME}/.msmtprc
   whitelist ''${HOME}/.nanorc
@@ -88,11 +139,13 @@ pkgs.writeText "firejail-aerc-profile" ''
   whitelist ''${HOME}/.viminfo
   whitelist ''${HOME}/.vimrc
   whitelist ''${HOME}/.w3m
-  whitelist ''${RUNUSER}/qutebrowser
-  whitelist ''${RUNUSER}/*firefox*
-  whitelist ''${RUNUSER}/psd/*firefox*
+  whitelist ''${HOME}/Mail
+  whitelist ''${HOME}/mail
+  whitelist ''${HOME}/postponed
+  whitelist ''${HOME}/sent
   whitelist /usr/share/gnupg
   whitelist /usr/share/gnupg2
+  whitelist /usr/share/aerc
   whitelist /var/mail
   whitelist /var/spool/mail
   include whitelist-common.inc
@@ -121,16 +174,17 @@ pkgs.writeText "firejail-aerc-profile" ''
   protocol unix,inet,inet6
   seccomp
   seccomp.block-secondary
-  tracelog
 
   #disable-mnt
   private-cache
   private-dev
   private-etc @tls-ca,@x11,gnupg,host.conf,mail,mailname,msmtprc,nntpserver
+  private-tmp
 
   dbus-user none
   dbus-system none
 
+  memory-deny-write-execute
   read-only ''${HOME}/.signature
   restrict-namespaces
 ''
