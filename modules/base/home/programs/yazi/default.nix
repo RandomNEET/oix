@@ -3,6 +3,7 @@
   lib,
   pkgs,
   mylib,
+  meta,
   ...
 }:
 {
@@ -15,7 +16,7 @@
     enableZshIntegration = true;
     shellWrapperName = "y";
     settings = import ./settings.nix { inherit osConfig mylib; };
-    keymap = import ./keymap.nix;
+    keymap = import ./keymap.nix { inherit meta; };
     theme = import ./theme.nix;
     initLua = builtins.readFile ./init.lua; # init.lua for yazi itself
   };

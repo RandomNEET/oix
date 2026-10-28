@@ -88,14 +88,6 @@ rec {
               run = "cd ~/repo";
               desc = "Go ~/repo";
             }
-            {
-              on = [
-                "g"
-                "u"
-              ];
-              run = "cd /run/media/$USER";
-              desc = "Go /run/media/$USER";
-            }
           ];
         };
       };
