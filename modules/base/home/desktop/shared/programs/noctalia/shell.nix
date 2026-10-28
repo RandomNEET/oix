@@ -10,74 +10,24 @@ in
 {
   font_family = (builtins.head osConfig.desktop.fonts.monospace).name;
   lang = "en";
-  time_format = "{:%H:%M}";
-  date_format = "%A, %x";
-  offline_mode = false;
   telemetry_enabled = false;
   setup_wizard_enabled = false;
   polkit_agent = true;
-  password_style = "default";
   settings_show_advanced = false;
-  show_location = true;
   app_icon_colorize = false;
-  app_icon_color = "on_surface";
   clipboard_enabled = true;
-  clipboard_history_max_entries = 100;
-  clipboard_confirm_clear_history = true;
-  clipboard_auto_paste = "auto";
   clipboard_image_action_command = "satty --filename {path}";
-  shared_gl_context = true;
 
   animation = {
     enabled = true;
-    speed = 1.0;
-  };
-
-  shadow = {
-    direction = "down";
-    alpha = 0.55;
-  };
-
-  panel = {
-    transparency_mode = "solid";
-    borders = true;
-    shadow = true;
-    launcher_placement = "floating";
-    launcher_position = "center";
-    clipboard_placement = "floating";
-    control_center_placement = "attached";
-    wallpaper_placement = "attached";
-    session_placement = "attached";
-    open_near_click_control_center = false;
-    open_near_click_launcher = false;
-    open_near_click_clipboard = false;
-    open_near_click_wallpaper = false;
-    open_near_click_session = false;
-  };
-
-  launcher = {
-    app_grid = false;
-    auto_paste = "auto";
-    categories = true;
-    compact = false;
-    fetch_exchange_rates = true;
-    provider_prefix = "/";
-    show_icons = true;
-    sort_by_usage = true;
   };
 
   screen_corners = {
     enabled = false;
-    size = 32;
-  };
-
-  mpris = {
-    blacklist = [ ];
   };
 
   screenshot = {
     annotate = true;
-    freeze_screen = true;
     save_to_file = false;
     copy_to_clipboard = false;
     pipe_to_command = true;
@@ -89,32 +39,30 @@ in
   session = {
     actions = [
       {
-        action = "lock";
         enabled = true;
+        action = "lock";
         shortcut = "1";
       }
       {
-        action = "logout";
         enabled = true;
+        action = "logout";
         shortcut = "2";
       }
       {
-        action = "lock_and_suspend";
         enabled = true;
+        action = "lock_and_suspend";
         shortcut = "3";
       }
       {
-        action = "reboot";
         enabled = true;
+        action = "reboot";
         shortcut = "4";
       }
       {
-        action = "shutdown";
         enabled = true;
+        action = "shutdown";
         shortcut = "5";
       }
     ];
   };
-
-  niri_overview_type_to_launch_enabled = false;
 }
