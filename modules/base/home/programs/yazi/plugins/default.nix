@@ -18,18 +18,24 @@ in
         inherit
           bookmarks
           chmod
-          compress
           diff
           full-border
           git
           mediainfo
-          ouch
           piper
-          recycle-bin
-          restore
           smart-filter
           toggle-pane
           ;
+        # TEMPFIX: compress 0.6 uses fs.unique_name, removed in Yazi 26.9.1.
+        # Remove this override once the packaged plugin uses fs.unique upstream.
+        # Upstream: https://github.com/KKV9/compress.yazi/blob/main/main.lua
+        compress = pkgs.yaziPlugins.compress.overrideAttrs (old: {
+          postPatch = (old.postPatch or "") + ''
+            substituteInPlace main.lua \
+              --replace-fail 'fs.unique_name(Url(temp_dir))' 'fs.unique("dir", Url(temp_dir))' \
+              --replace-fail 'fs.unique_name(Url(final_output_url))' 'fs.unique("file", Url(final_output_url))'
+          '';
+        });
       }
       // optionalAttrs config.programs.lazygit.enable {
         lazygit = pkgs.yaziPlugins.lazygit;
@@ -67,51 +73,6 @@ in
           {
             mime = "application/postscript";
             run = "mediainfo";
-          }
-          # ouch
-          {
-            mime = "application/*zip";
-            run = "ouch";
-          }
-          {
-            mime = "application/x-tar";
-            run = "ouch";
-          }
-          {
-            mime = "application/x-bzip2";
-            run = "ouch";
-          }
-          {
-            mime = "application/x-7z-compressed";
-            run = "ouch";
-          }
-          {
-            mime = "application/x-rar";
-            run = "ouch";
-          }
-          {
-            mime = "application/vnd.rar";
-            run = "ouch";
-          }
-          {
-            mime = "application/x-xz";
-            run = "ouch";
-          }
-          {
-            mime = "application/xz";
-            run = "ouch";
-          }
-          {
-            mime = "application/x-zstd";
-            run = "ouch";
-          }
-          {
-            mime = "application/zstd";
-            run = "ouch";
-          }
-          {
-            mime = "application/java-archive";
-            run = "ouch";
           }
           # piper
           {
@@ -242,35 +203,9 @@ in
           }
           # diff
           {
-            on = "<C-d>";
+            on = "<A-d>";
             run = "plugin diff";
             desc = "Diff the selected with the hovered file";
-          }
-          # recycle-bin
-          {
-            on = [
-              "R"
-              "b"
-            ];
-            run = "plugin recycle-bin";
-            desc = "Open Recycle Bin menu";
-          }
-          # restore
-          {
-            on = [
-              "R"
-              "u"
-            ];
-            run = "plugin restore";
-            desc = "Restore last deleted files/folders";
-          }
-          {
-            on = [
-              "R"
-              "U"
-            ];
-            run = "plugin restore -- --interactive";
-            desc = "Restore deleted files/folders (Interactive)";
           }
           # smart-filter
           {
@@ -314,12 +249,8 @@ in
     extraPackages =
       with pkgs;
       [
-        # ouch
-        ouch
         # mediainfo
         mediainfo
-        # recycle-bin
-        trash-cli
       ]
       ++ optionals hasDesktop [
         # wl-clipboard

@@ -1,62 +1,26 @@
+{ meta, ... }:
 {
   mgr = {
     prepend_keymap = [
+      # Toggle
+      {
+        on = "<A-a>";
+        run = "toggle_all --state=on";
+        desc = "Select all files";
+      }
+      {
+        on = "<A-r>";
+        run = "toggle_all";
+        desc = "Invert selection of all files";
+      }
       # Goto
-      {
-        on = [
-          "g"
-          "<Space>"
-        ];
-        run = "cd --interactive";
-        desc = "Jump interactively";
-      }
-      {
-        on = [
-          "g"
-          "f"
-        ];
-        run = "follow";
-        desc = "Follow hovered symlink";
-      }
-      {
-        on = [
-          "g"
-          "h"
-        ];
-        run = "cd ~";
-        desc = "Go home";
-      }
       {
         on = [
           "g"
           "n"
         ];
-        run = "cd ~/oix";
-        desc = "Go ~/oix";
-      }
-      {
-        on = [
-          "g"
-          "c"
-        ];
-        run = "cd ~/.config";
-        desc = "Go ~/.config";
-      }
-      {
-        on = [
-          "g"
-          "t"
-        ];
-        run = "cd ~/tmp";
-        desc = "Go ~/tmp";
-      }
-      {
-        on = [
-          "g"
-          "m"
-        ];
-        run = "cd /mnt";
-        desc = "Go /mnt";
+        run = "cd ${meta.flake}";
+        desc = "Go to flake";
       }
     ];
   };

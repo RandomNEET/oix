@@ -1,4 +1,4 @@
-{ config }:
+{ config, ... }:
 let
   isFoot = config.defaultPrograms.terminal == "foot";
 in
