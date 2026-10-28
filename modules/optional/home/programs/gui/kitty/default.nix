@@ -1,9 +1,4 @@
-{
-  osConfig,
-  config,
-  lib,
-  ...
-}:
+{ osConfig, lib, ... }:
 {
   programs.kitty = {
     enable = true;
@@ -30,6 +25,8 @@
       "kitty_mod+v" = "paste_from_clipboard";
       "kitty_mod+up" = "scroll_line_up";
       "kitty_mod+k" = "scroll_line_up";
+      "kitty_mod+down" = "scroll_line_down";
+      "kitty_mod+j" = "scroll_line_down";
       "kitty_mod+page_up" = "scroll_page_up";
       "kitty_mod+page_down" = "scroll_page_down";
       "kitty_mod+home" = "scroll_home";
@@ -40,9 +37,6 @@
       "kitty_mod+minus" = "change_font_size all -2.0";
       "kitty_mod+backspace" = "change_font_size all 0";
       "kitty_mod+e" = "open_url_with_hints";
-    }
-    // lib.optionalAttrs config.programs.tmux.enable {
-      "kitty_mod+t" = "launch --type=overlay --cwd=current tmux";
     };
   };
   xdg.configFile = {
