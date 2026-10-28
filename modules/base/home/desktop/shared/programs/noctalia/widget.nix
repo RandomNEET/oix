@@ -4,119 +4,84 @@ let
 in
 {
   workspaces = {
-    label_source = "id";
-    max_label_chars = 1;
-    pill_scale = 1.0;
-    focused_color = "primary";
-    occupied_color = "secondary";
-    empty_color = "secondary";
-    labels_only_when_occupied = false;
-    hide_when_empty = true;
     type = "workspaces";
+    hide_when_empty = true;
   };
   taskbar = {
-    group_by_workspace = false;
-    show_all_outputs = false;
-    only_active_workspace = true;
-    show_workspace_label = true;
-    workspace_label_placement = "corner";
-    hide_empty_workspaces = false;
-    workspace_group_capsule = true;
-    group_single_icon_per_app = false;
-    show_active_indicator = true;
-    active_opacity = 1.0;
-    inactive_opacity = 1.0;
-    focused_color = "primary";
-    occupied_color = "secondary";
-    empty_color = "secondary";
     type = "taskbar";
+    only_active_workspace = true;
   };
   media = {
-    album_art_only = false;
-    min_length = 80;
-    max_length = 220;
-    art_size = 16;
-    title_scroll = "always";
-    hide_when_no_media = true;
     type = "media";
+    title_scroll = "always";
+    rotate_album_art = true;
+    show_progress = true;
+    hide_when_no_media = true;
   };
   audio_visualizer = {
-    width = 56;
-    bands = 16;
-    mirrored = true;
-    centered = true;
-    show_when_idle = false;
-    color_1 = "primary";
-    color_2 = "primary";
     type = "audio_visualizer";
   };
   clock = {
+    type = "clock";
     format = "{:%a %b %e %H:%M}";
     vertical_format = "{:%m %d - %H %M}";
     tooltip_format = "{:%Y-%m-%d %H:%M:%S}";
-    type = "clock";
   };
   cpu = {
-    stat = "cpu_usage";
     type = "sysmon";
+    stat = "cpu_usage";
   };
   ram = {
-    stat = "ram_used";
     type = "sysmon";
+    stat = "ram_used";
   };
   network = {
-    show_label = true;
     type = "network";
+    show_label = false;
   };
   bluetooth = {
-    show_label = false;
     type = "bluetooth";
+    show_label = false;
+    hide_when_adapter_off = true;
   };
   brightness = {
-    show_label = true;
     type = "brightness";
   };
   output_volume = {
-    device = "output";
-    show_label = true;
     type = "volume";
   };
   battery = {
-    display_mode = "glyph";
-    show_label = true;
-    device = "auto";
-    warning_color = "error";
     type = "battery";
   };
+  keyboard_layout = {
+    type = "keyboard_layout";
+    hide_when_single_layout = true;
+  };
   tray = {
-    hidden = [ ];
-    pinned = [ ];
-    match_adjacent_spacing = false;
-    drawer = false;
-    drawer_columns = 3;
-    capsule = true;
     type = "tray";
+    drawer = true;
+    match_adjacent_spacing = true;
   };
   notifications = {
-    hide_when_no_unread = false;
     type = "notifications";
+    hide_when_no_unread = false;
   };
   control-center = {
-    glyph = "chevron-down";
     type = "control-center";
+    glyph = "dots";
   };
 }
 // optionalAttrs osConfig.services.dae.enable {
   proxy-dae = {
+    type = "custom/systemd-service:service";
     glyph = "network";
     service = "dae.service";
-    type = "custom/systemd-service:service";
   };
 }
 // optionalAttrs osConfig.services.xray.enable {
   proxy-xray = {
+    type = "custom/systemd-service:service";
     glyph = "network";
     service = "xray.service";
-    type = "custom/systemd-service:service";
   };
 }

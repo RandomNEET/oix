@@ -16,7 +16,6 @@ in
   config = lib.mkIf osConfig.desktop.enable {
     programs.noctalia.settings = {
       plugins = {
-        auto_update = "all";
         enabled = [
           "noctalia/translator"
           "mellotanica/launcher-pass"
@@ -25,24 +24,25 @@ in
         ]
         ++ optional themeSwitcherEnabled "custom/theme-switcher"
         ++ optional osConfig.base.gaming.enable "alexander/game-launcher";
+        auto_update = "all";
         source = [
           {
             enabled = true;
+            name = "official";
             kind = "git";
             location = "https://github.com/noctalia-dev/official-plugins";
-            name = "official";
           }
           {
             enabled = true;
+            name = "community";
             kind = "git";
             location = "https://github.com/noctalia-dev/community-plugins";
-            name = "community";
           }
           {
             enabled = true;
+            name = "custom";
             kind = "path";
             location = "${config.home.homeDirectory}/${customPluginsDir}";
-            name = "custom";
           }
         ];
       };

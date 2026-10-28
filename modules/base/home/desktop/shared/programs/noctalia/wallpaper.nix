@@ -32,8 +32,6 @@ in
     )
   );
 
-  fill_mode = "crop";
-  fill_color = "#111111";
   transition = [
     "fade"
     "wipe"
@@ -41,15 +39,16 @@ in
     "stripes"
     "zoom"
     "honeycomb"
+    "vortex"
+    "pixel"
+    "diamond"
+    "golden"
+    "melt"
   ];
-  transition_duration = 1500;
-  edge_smoothness = 0.3;
-  transition_on_startup = false;
 
   automation = {
     enabled = true;
     interval_seconds = 3600;
-    order = "random";
     recursive = true;
   };
 }

@@ -34,12 +34,8 @@ let
       "Noctalia";
 in
 {
-  mode = "dark";
-  source = "builtin";
   builtin = if themesEnabled then matchedPredefinedScheme else "Noctalia";
   templates = {
-    builtin_ids = [ ];
-    community_ids = [ ];
     enable_builtin_templates = false;
     enable_community_templates = false;
   };
