@@ -76,6 +76,7 @@ in
   };
   services = {
     dae = {
+      enable = lib.mkForce false;
       configFile = "/run/secrets/dae";
     };
     openssh = {
