@@ -90,6 +90,7 @@ in
             set -g @tmux-dotbar-left true
             set -g @tmux-dotbar-right false
             set -g @tmux-dotbar-session-position right
+            set -g @tmux-dotbar-bold-current-window true
             set -g @tmux-dotbar-rounded true
             set -g @tmux-dotbar-ssh-enabled true
             set -g @tmux-dotbar-ssh-icon-only true
@@ -98,7 +99,7 @@ in
           + optionalString themesEnabled ''
             set -g @tmux-dotbar-bg "${colors.base00}"
             set -g @tmux-dotbar-fg "${colors.base03}"
-            set -g @tmux-dotbar-fg-current "${colors.base05}"
+            set -g @tmux-dotbar-fg-current "${primaryColor}"
             set -g @tmux-dotbar-fg-session "${colors.base03}"
             set -g @tmux-dotbar-fg-prefix "${primaryColor}"
           '';
