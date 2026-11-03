@@ -182,6 +182,24 @@ in
     txl = "tmuxinator list";
   };
 }
+# // lib.optionalAttrs osConfig.desktop.themes.enable {
+#   stylix.targets.tmux.enable = true;
+# }
+
+# TEMPFIX: BEGIN tmux popup colors.
+# Explicitly theme popups until Stylix provides matching popup styles.
+# Remove this entire marked block and uncomment the original block above once
+# the locked Stylix input styles popups correctly.
+# Upstream: https://github.com/nix-community/stylix/tree/master/modules/tmux
 // lib.optionalAttrs osConfig.desktop.themes.enable {
   stylix.targets.tmux.enable = true;
+  imports = [
+    {
+      programs.tmux.extraConfig = lib.mkAfter ''
+        set -g popup-style "bg=${colors.base00},fg=${colors.base05}"
+        set -g popup-border-style "bg=${colors.base00},fg=${primaryColor}"
+      '';
+    }
+  ];
 }
+# TEMPFIX: END tmux popup colors.
