@@ -75,11 +75,27 @@ in
           }
           ${optionalString config.programs.fzf.enable ''
             function fzf_init() {
+              zvm_bindkey emacs '^T' fzf-file-widget
               zvm_bindkey viins '^T' fzf-file-widget
-              zvm_bindkey viins '^R' fzf-history-widget
+              zvm_bindkey vicmd '^T' fzf-file-widget
+              ${optionalString (!config.programs.atuin.enable) ''
+                zvm_bindkey emacs '^R' fzf-history-widget
+                zvm_bindkey viins '^R' fzf-history-widget
+                zvm_bindkey vicmd '^R' fzf-history-widget
+              ''}
+              zvm_bindkey emacs '\ec' fzf-cd-widget
               zvm_bindkey viins '\ec' fzf-cd-widget
+              zvm_bindkey vicmd '\ec' fzf-cd-widget
             }
             zvm_after_init_commands+=(fzf_init)
+          ''}
+          ${optionalString config.programs.atuin.enable ''
+            function atuin_keybinds() {
+              zvm_bindkey emacs '^R' atuin-search
+              zvm_bindkey viins '^R' atuin-search-viins
+              zvm_bindkey vicmd '/' atuin-search
+            }
+            zvm_after_init_commands+=(atuin_keybinds)
           ''}
         '')
         # mkAfter: Last to run configuration
