@@ -72,6 +72,7 @@ in
       allowedTCPPorts = [
         6600 # mpd
         8000 # mpd http stream
+        9997 # xray
         10090 # watchtower
         10225 # peerbanhelper
         10230 # anirss
