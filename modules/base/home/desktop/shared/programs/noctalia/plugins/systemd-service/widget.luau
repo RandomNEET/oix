@@ -20,7 +20,7 @@ local function render()
     local failed = not valid or active == "failed" or properties.LoadState == "not-found" or queryError ~= nil
     local color = currentColor
     if not busy and not transitioning then
-        color = (failed or operationError) and "error"
+        color = failed and "error"
             or active == "active" and "on_surface" or "outline"
         currentColor = color
     end
@@ -87,10 +87,12 @@ function onClick()
         local command = (user and "" or "pkexec ") .. base .. action .. " -- '" .. service .. "'"
         local started = noctalia.runAsync(command, function(result)
             busy = false
-            if result.exitCode ~= 0 then
-                operationError = result.stderr ~= "" and result.stderr or "Service operation failed or was cancelled"
+            -- pkexec returns 126 when the authentication dialog is dismissed.
+            local cancelled = not user and result.exitCode == 126
+            if result.exitCode ~= 0 and not cancelled then
+                operationError = result.stderr ~= "" and result.stderr or "Service operation failed"
                 noctalia.notify(service, operationError)
-            else
+            elseif result.exitCode == 0 then
                 noctalia.notify(service, action == "start" and "Started" or "Stopped")
             end
             refresh()
