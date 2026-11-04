@@ -210,6 +210,7 @@ rec {
     packages = with pkgs; [
       chatgpt
 
+      hmcl
       prismlauncher
       easycon
     ];
