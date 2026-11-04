@@ -117,8 +117,6 @@ in
       csakura
       pipes
       tty-clock
-
-      # qq
     ];
   };
 

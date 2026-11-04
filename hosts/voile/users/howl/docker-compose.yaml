@@ -25,7 +25,7 @@ services:
       - WATCHTOWER_SCHEDULE=0 0 0 * * *
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_REMOVE_VOLUMES=true
-      # - DOCKER_API_VERSION=1.52
+      - DOCKER_API_VERSION=1.44
 
   peerbanhelper:
     image: "ghostchu/peerbanhelper:latest"
