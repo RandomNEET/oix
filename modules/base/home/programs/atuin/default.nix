@@ -19,6 +19,7 @@ in
         daemon.enable = true;
         flags = [ "--disable-up-arrow" ];
         settings = {
+          data_dir = "${config.xdg.dataHome}/atuin";
           auto_sync = true;
           sync_frequency = "5m";
           sync_address = "https://api.atuin.sh";
