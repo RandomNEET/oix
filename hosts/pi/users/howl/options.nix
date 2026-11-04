@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   username = config.home.username;
 in
@@ -17,6 +22,17 @@ rec {
   };
 
   programs = {
+    atuin = {
+      # TEMPFIX: Atuin 18.24.4's large-message test can exceed the redaction
+      # deadline on the Pi. Keep the remaining package checks enabled.
+      package =
+        if pkgs.atuin.version == "18.24.4" then
+          pkgs.atuin.overrideAttrs (old: {
+            checkFlags = (old.checkFlags or [ ]) ++ [ "--skip=a_huge_message_reads_back" ];
+          })
+        else
+          pkgs.atuin;
+    };
     ssh = {
       settings = {
         "github.com" = {
