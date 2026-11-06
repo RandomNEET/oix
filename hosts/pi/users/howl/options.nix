@@ -157,6 +157,7 @@ rec {
     };
     mbsync = {
       configFile = "${config.xdg.configHome}/sops-nix/secrets/email/mbsync";
+      imapnotify.enable = true;
       trigger.enable = true;
     };
   };
@@ -190,6 +191,19 @@ rec {
           mbsync = {
             enable = true;
             create = "maildir";
+          };
+          imapnotify = {
+            enable = true;
+            boxes = [
+              "Inbox"
+              "Inbox/dev"
+              "Inbox/contact"
+              "Inbox/selfhost"
+              "Inbox/bill"
+              "Inbox/cert"
+              "Inbox/temp"
+            ];
+            onNotify = "${pkgs.systemd}/bin/systemctl --user start mbsync.service";
           };
         };
       };

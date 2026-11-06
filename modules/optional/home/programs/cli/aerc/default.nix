@@ -69,11 +69,6 @@ in
       // optionalAttrs config.programs.thunderbird.enable {
         "message/rfc822" = "${getExe pkgs.thunderbird}";
       };
-      hooks =
-        { }
-        // optionalAttrs hasDesktop {
-          aerc-shutdown = "${import ./scripts/count.nix { inherit config pkgs; }}";
-        };
     };
     stylesets = lib.mkIf themesEnabled {
       stylix = ''
