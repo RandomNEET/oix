@@ -4,6 +4,7 @@
 
     ../../modules/optional/os/services/cron
     ../../modules/optional/os/services/fstrim
+    ../../modules/optional/os/services/tailscale
     ../../modules/optional/os/services/xray
 
     ../../modules/optional/os/scripts/gen-diff.nix

@@ -37,6 +37,19 @@ in
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/pi";
           addKeysToAgent = "yes";
         };
+        gale-ts = {
+          hostname = "gale";
+          port = 22;
+          user = username;
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/gale";
+          addKeysToAgent = "yes";
+        };
+        pi-ts = {
+          hostname = "pi";
+          user = username;
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/pi";
+          addKeysToAgent = "yes";
+        };
       };
     };
     zsh = {

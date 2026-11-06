@@ -36,6 +36,7 @@ in
             }
           ]
           ++ optional (options.boot ? lanzaboote && config.boot.lanzaboote.enable) "/var/lib/sbctl"
+          ++ optional config.services.tailscale.enable "/var/lib/tailscale"
           ++ optional config.services.power-profiles-daemon.enable "/var/lib/power-profiles-daemon"
           ++ optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
           ++ optional config.virtualisation.docker.enable "/var/lib/docker"

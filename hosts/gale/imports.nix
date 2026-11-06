@@ -8,6 +8,7 @@
     ../../modules/optional/os/services/flatpak
     ../../modules/optional/os/services/fstrim
     ../../modules/optional/os/services/kmonad
+    ../../modules/optional/os/services/tailscale
 
     ../../modules/optional/os/scripts/gen-diff.nix
     ../../modules/optional/os/scripts/nix-daemon-proxy.nix

@@ -78,6 +78,9 @@ in
     dae = {
       configFile = "/run/secrets/dae";
     };
+    tailscale = {
+      authKeyFile = "/run/secrets/tailscale";
+    };
     openssh = {
       authorizedKeysFiles = [ "/run/secrets/ssh/${username}@${meta.hostname}" ];
       settings = {
@@ -143,6 +146,7 @@ in
         owner = username;
       };
       dae.sopsFile = ./secrets.yaml;
+      tailscale.sopsFile = ./secrets.yaml;
     };
   };
 }

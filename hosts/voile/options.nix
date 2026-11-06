@@ -13,6 +13,9 @@ in
     openssh = {
       authorizedKeysFiles = [ "/run/secrets/ssh/${username}@${meta.hostname}" ];
     };
+    tailscale = {
+      authKeyFile = "/run/secrets/tailscale";
+    };
     xray = {
       settingsFile = "/run/secrets/xray";
     };
@@ -104,6 +107,7 @@ in
         owner = username;
       };
       xray.sopsFile = ./secrets.yaml;
+      tailscale.sopsFile = ./secrets.yaml;
     };
   };
 }

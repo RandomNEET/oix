@@ -7,6 +7,7 @@
     ../../modules/optional/os/services/dae
     ../../modules/optional/os/services/flatpak
     ../../modules/optional/os/services/fstrim
+    ../../modules/optional/os/services/tailscale
 
     ../../modules/optional/os/virtualisation/podman
 

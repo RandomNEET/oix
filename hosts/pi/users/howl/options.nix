@@ -71,6 +71,18 @@ rec {
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
           addKeysToAgent = "yes";
         };
+        gale-ts = {
+          hostname = "gale";
+          user = username;
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/gale";
+          addKeysToAgent = "yes";
+        };
+        voile-ts = {
+          hostname = "voile";
+          user = username;
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
+          addKeysToAgent = "yes";
+        };
       };
     };
     git = {
