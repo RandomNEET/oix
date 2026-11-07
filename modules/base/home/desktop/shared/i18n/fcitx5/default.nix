@@ -84,16 +84,6 @@
 // lib.optionalAttrs osConfig.desktop.themes.enable {
   stylix.targets.fcitx5.enable = true;
   imports = [
-    # TEMPFIX: BEGIN remove the GTK2 input method cache.
-    # Home Manager adds this cache even when GTK2 support is disabled.
-    # Remove when its input method module stops adding the cache unconditionally.
-    # Upstream: home-manager/modules/i18n/input-method/default.nix
-    {
-      options.home.packages = lib.mkOption {
-        apply = packages: builtins.filter (package: lib.getName package != "gtk2-immodule.cache") packages;
-      };
-    }
-    # TEMPFIX: END remove the GTK2 input method cache.
     {
       i18n.inputMethod.fcitx5.themes.stylix.theme = {
         "InputPanel/Background/Margin" = {
