@@ -147,6 +147,17 @@
       {
         "Utilities" = [
           {
+            "Tailscale" = {
+              href = "https://console.tailscale.com/admin/machines";
+              icon = "tailscale";
+              widget = {
+                type = "tailscale";
+                deviceid = "{{HOMEPAGE_VAR_TAILSCALE_DEVICEID}}";
+                key = "{{HOMEPAGE_VAR_TAILSCALE_KEY}}";
+              };
+            };
+          }
+          {
             "Vaultwarden" = {
               href = "https://vaultwarden.defnothowl.com/";
               icon = "bitwarden";
