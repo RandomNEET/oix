@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100vh;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 2rem;
+  background:
+    radial-gradient(ellipse at 15% 20%, var(--color-glow), transparent 55%),
+    radial-gradient(
+      ellipse at 85% 80%,
+      var(--color-glow-secondary),
+      transparent 50%
+    ),
+    var(--color-bg);
+  color: var(--color-fg);
+  font-family: "JetBrainsMono Nerd Font", monospace;
+}
+
+.startpage {
+  width: min(100%, 56rem);
+}
+
+h1 {
+  margin: 0 0 3rem;
+  text-align: center;
+  font-size: clamp(2rem, 5vw, 2.5rem);
+  font-weight: 500;
+}
+
+.bookmarks {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(8rem, 1fr));
+  gap: 2rem;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+h2 {
+  margin: 0 0 0.5rem;
+  color: var(--color-fg);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--color-link-visited);
+}
+
+a:hover,
+a:focus-visible,
+h2 a:hover,
+h2 a:focus-visible {
+  color: var(--color-link-hover);
+}
+
+h2 a,
+h2 a:visited {
+  color: var(--color-fg);
+}
+
+.cursor {
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 42rem) {
+  .bookmarks {
+    grid-template-columns: repeat(2, minmax(8rem, 1fr));
+  }
+}
+
+@media (max-width: 22rem) {
+  .bookmarks {
+    grid-template-columns: 1fr;
+  }
+}

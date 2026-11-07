@@ -9,6 +9,7 @@ let
   inherit (lib) optionalString;
   defaultTheme =
     if osConfig.desktop.themes.enable then builtins.head osConfig.desktop.themes.list else "default";
+
 in
 ''
   local SPEC_DIR = noctalia.expandPath(noctalia.getConfig("spec_dir"))
@@ -88,6 +89,16 @@ in
           done
         fi
       ''} 
+
+      ${optionalString config.programs.qutebrowser.enable ''
+        # Reload colors only when the browser is running
+        if ${pkgs.procps}/bin/pgrep -u "$(${pkgs.coreutils}/bin/id -u)" \
+          -f '(^|/)[.]?qutebrowser[^ /]*( |$)' >/dev/null; then
+          ${pkgs.coreutils}/bin/timeout 10s \
+            ${lib.getExe config.programs.qutebrowser.package} --nowindow \
+            ${lib.escapeShellArg ":config-source ${config.xdg.configHome}/qutebrowser/appearance.py"} || true
+        fi
+      ''}
     ]],
       activatePath,
       wpTheme:gsub("'", "'\\''''")
