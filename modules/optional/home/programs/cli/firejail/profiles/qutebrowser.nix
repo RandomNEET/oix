@@ -42,6 +42,9 @@ let
     # idle inhibit
     dbus-user.talk org.freedesktop.ScreenSaver
 
+    # mDNS
+    whitelist /run/nscd
+
     ${lib.optionalString (config.i18n.inputMethod.type == "fcitx5") ''
       # userscripts/ime-off
       dbus-user.talk org.fcitx.Fcitx5
