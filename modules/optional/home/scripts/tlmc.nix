@@ -29,7 +29,7 @@ let
       cat <<'EOF'
     Usage:
       tlmc news
-      tlmc sync [delete] LIBRARY_OR_CIRCLE
+      tlmc sync [delete] [exclude PATTERN]... LIBRARY_OR_CIRCLE
       tlmc add LOCAL_DIR
       tlmc edit LOCAL_DIR
       tlmc delete LOCAL_DIR
@@ -47,6 +47,8 @@ let
 
     Sync subcommands:
       delete    Delete files in selected directories if absent remotely
+      exclude PATTERN  Exclude and protect matching paths (repeatable; rsync patterns)
+                       Leading / is relative to the library, even for a single circle
 
     Playlist subcommands:
       rebuild   Rebuild every playlist without reusing unchanged albums
@@ -138,7 +140,6 @@ let
 
     # Sync
 
-    # Quote rsync filter metacharacters while leaving path separators intact.
     escape_filter_path() {
       printf '%s' "$1" | sed 's/\\/\\\\/g; s/\[/\\\[/g; s/\]/\\\]/g; s/\*/\\\*/g; s/\?/\\\?/g'
     }
@@ -168,6 +169,8 @@ let
 
     sync_tlmc() {
       local delete_flag=""
+      local pattern
+      local -a exclude_patterns=()
       LOCAL_DIR=""
 
       while [ "$#" -gt 0 ]; do
@@ -175,6 +178,14 @@ let
         delete)
           delete_flag="--delete"
           shift
+          ;;
+        exclude)
+          [ "$#" -ge 2 ] && [ -n "$2" ] || die "exclude requires a non-empty PATTERN."
+          case "$2" in
+          *$'\n'* | *$'\r'*) die "exclude pattern must not contain newlines." ;;
+          esac
+          exclude_patterns+=("$2")
+          shift 2
           ;;
         -h | --help)
           usage
@@ -196,6 +207,10 @@ let
       local -a circles=()
       filter_file=$(mktemp) || exit 1
 
+      for pattern in "''${exclude_patterns[@]}"; do
+        printf 'P %s\n- %s\n' "$pattern" "$pattern" >>"$filter_file"
+      done
+
       sync_root="$LOCAL_DIR"
       if [ -f "$LOCAL_DIR/.config" ]; then
         circles=("$LOCAL_DIR")
@@ -211,7 +226,6 @@ let
           return 1
         }
 
-        # .config is local state: never fetch it or remove it with --delete.
         printf 'P /%s/.config\n- /%s/.config\n' "$safe_circle" "$safe_circle" >>"$filter_file"
         if [ "$granularity" = "circle" ]; then
           printf '+ /%s/***\n' "$safe_circle" >>"$filter_file"
@@ -244,7 +258,6 @@ let
 
     # Add
 
-    # Print only immediate remote subdirectories, one per line.
     list_remote_dirs() {
       local remote="$1" list_file status
       list_file=$(mktemp) || return 1
@@ -830,6 +843,10 @@ let
         }
         stored_circle_fingerprint=""
         if [ -f "$playlist_file" ]; then
+          chmod 644 "$playlist_file" || {
+            rm -rf -- "$playlist_work_dir"
+            return 1
+          }
           stored_circle_fingerprint=$(playlist_stored_circle_fingerprint "$playlist_file")
         fi
         if [ "$action" = "update" ] && [ -n "$stored_circle_fingerprint" ] &&
@@ -889,7 +906,11 @@ let
           rebuilt_count=$((rebuilt_count + 1))
         done
 
-        mv -f "$temp_file" "$playlist_file"
+        if ! chmod 644 "$temp_file" || ! mv -f "$temp_file" "$playlist_file"; then
+          rm -f "$temp_file"
+          rm -rf -- "$playlist_work_dir"
+          return 1
+        fi
         echo "[playlist] $playlist_name: $track_count track(s), $reused_count reused, $rebuilt_count rebuilt -> $playlist_file"
         circle_count=$((circle_count + 1))
         total_reused=$((total_reused + reused_count))
@@ -902,7 +923,6 @@ let
 
     # Split
 
-    # Print "<tracknum>\t<title>" lines from a cue sheet
     parse_cue_tracks() {
       awk '
         BEGIN { tn = 0 }
@@ -923,7 +943,6 @@ let
       ' "$1"
     }
 
-    # Sanitize a string for use as a filename
     sanitize_filename() {
       local s="$1"
       s="''${s//\//_}"
@@ -967,7 +986,6 @@ let
         fi
       done < <(find "$cue_dir" -maxdepth 1 -mindepth 1 -type f -iname '*.flac' -print0)
 
-      # Legacy-encoded CUE sheets may not match their UTF-8 filesystem name.
       if [ "$allow_single_fallback" -eq 1 ] && [ "''${#flacs[@]}" -eq 1 ]; then
         printf '%s' "''${flacs[0]}"
         return 0
@@ -980,15 +998,10 @@ let
       local album_dir
       album_dir=$(dirname "$source_cue")
 
-      # A single CUE and FLAC in the same directory are an unambiguous pair.
-      # Do not compare their names: older CUE sheets may use a legacy encoding
-      # while filesystem names are UTF-8.
       if ! grep -qiE '^[[:space:]]*FILE[[:space:]]+' "$source_cue"; then
         return 0
       fi
 
-      # Skip if tracks/ already has the right number of flacs (use find, not
-      # glob — [ ] in paths). Mismatch → stale partial split, redo it
       local cue_track_count existing_count=0
       cue_track_count=$(grep -cE '^[[:space:]]*TRACK[[:space:]]+[0-9]+' "$source_cue")
       if [ -d "$tracks_dir" ]; then
@@ -1005,7 +1018,6 @@ let
 
       echo "[split-cue] $source_cue"
 
-      # Extract cover art to a temp file (metaflac --import-picture-from needs a file)
       local cover_file=""
       if metaflac --list "$source_flac" 2>/dev/null | grep -q "type: 6"; then
         cover_file=$(mktemp --suffix=.tlmc-cover)
@@ -1017,8 +1029,6 @@ let
 
       mkdir -p "$tracks_dir"
 
-      # Split: cuebreakpoints | shnsplit. -o "flac ext=flac" forces FLAC output
-      # despite the cue's "FILE ... WAVE" line
       local split_log
       split_log=$(mktemp)
       if ! cuebreakpoints "$source_cue" 2>"$split_log" |
@@ -1032,15 +1042,12 @@ let
       fi
       rm -f "$split_log"
 
-      # Tag from cue. Stderr dropped — non-UTF-8 REM DATE lines make cuetag.sh
-      # emit harmless "bad character" warnings while tags still apply
       if ! cuetag.sh "$source_cue" "$tracks_dir"/track*.flac 2>/dev/null; then
         echo "[split-cue]   ERROR: cuetag.sh failed for $album_dir" >&2
         rm -f "$cover_file"
         return 1
       fi
 
-      # Re-embed cover. metaflac spec: TYPE|MIME|DESC|WxHxD|FILE
       if [ -n "$cover_file" ] && [ -s "$cover_file" ]; then
         local mime
         mime=$(file -b --mime-type "$cover_file" 2>/dev/null || echo "image/jpeg")
@@ -1052,7 +1059,6 @@ let
       fi
       rm -f "$cover_file"
 
-      # Rename trackNN.flac -> NN. <title>.flac. Suffix to avoid clobber
       local renamed=0
       while IFS=$'\t' read -r tn title; do
         [ -n "$tn" ] || continue
