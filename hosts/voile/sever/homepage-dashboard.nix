@@ -259,10 +259,10 @@
             ];
           }
           {
-            Copilot = [
+            Codeberg = [
               {
-                href = "https://copilot.github.com/";
-                icon = "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-copilot-icon.svg";
+                href = "https://codeberg.org/";
+                icon = "codeberg";
               }
             ];
           }
