@@ -222,10 +222,6 @@ rec {
   home = {
     packages = with pkgs; [
       chatgpt
-
-      hmcl
-      prismlauncher
-      easycon
     ];
   };
 
