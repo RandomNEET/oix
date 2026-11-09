@@ -16,8 +16,6 @@ let
         esbenp.prettier-vscode
 
         asvetliakov.vscode-neovim
-        yzhang.markdown-all-in-one
-        yzane.markdown-pdf
         ms-vscode.hexeditor
         ms-vscode-remote.remote-ssh
         ms-vscode-remote.remote-ssh-edit
@@ -33,10 +31,6 @@ let
         neovimInitVimPaths = {
           linux = "${config.xdg.configHome}/Code/User/vscode-neovim.lua";
         };
-      };
-      markdown-pdf = {
-        displayHeaderFooter = false;
-        margin.top = "1cm";
       };
       extensions = {
         experimental = {
