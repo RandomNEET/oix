@@ -103,7 +103,7 @@ in
       ];
 
       shellGlobalAliases = {
-        G = "| grep";
+        G = if config.programs.ripgrep.enable then "| rg" else "| grep";
         ".." = "..";
         "..." = "../..";
         "...." = "../../..";
