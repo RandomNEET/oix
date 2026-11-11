@@ -4,6 +4,7 @@ let
     coreutils
     cuetools
     curl
+    ffmpeg
     file
     findutils
     flac
@@ -992,11 +993,49 @@ let
       fi
       return 1
     }
+    split_audio_image() {
+      local cue="$1" image="$2" output="$3" rate bits channels points
+      rate=$(metaflac --show-sample-rate "$image") || return 1
+      bits=$(metaflac --show-bps "$image") || return 1
+      channels=$(metaflac --show-channels "$image") || return 1
+      points=$(cuebreakpoints "$cue") || return 1
+      if [ "$rate" -eq 44100 ] && [ "$bits" -eq 16 ] && [ "$channels" -eq 2 ]; then
+        shnsplit -O always -d "$output" -a track -o 'flac ext=flac' "$image" <<<"$points"
+        return $?
+      fi
+      command -v ffmpeg >/dev/null || {
+        echo 'Error: non-CD audio requires ffmpeg.' >&2
+        return 1
+      }
+      local start=0 end index=1 filter target
+      local -a boundaries=()
+      mapfile -t boundaries < <(awk -F '[:.]' -v rate="$rate" \
+        'NF == 3 { printf "%.0f\n", (($1 * 60 + $2) * 75 + $3) * rate / 75 }' <<<"$points")
+      boundaries+=("")
+      for end in "''${boundaries[@]}"; do
+        filter="atrim=start_sample=$start"
+        [ -z "$end" ] || filter="$filter:end_sample=$end"
+        printf -v target '%s/track%02d.flac' "$output" "$index"
+        ffmpeg -nostdin -v error -y -i "$image" -map 0:a:0 \
+          -af "$filter,asetpts=PTS-STARTPTS" -map_metadata -1 -c:a flac "$target" || return 1
+        start="$end"
+        index=$((index + 1))
+      done
+    }
 
-    split_cue_image() {
+
+    split_cue_image() (
       local source_cue="$1" source_flac="$2" tracks_dir="$3"
       local album_dir
       album_dir=$(dirname "$source_cue")
+
+      local normalized_cue original_cue="$source_cue"
+      normalized_cue=$(mktemp --suffix=.cue) || return 1
+      trap 'rm -f -- "$normalized_cue"' EXIT
+      LC_ALL=C sed '1s/^\xEF\xBB\xBF//; s/\r$//; /^[[:space:]]*REM[[:space:]]/d' \
+        "$source_cue" >"$normalized_cue" || return 1
+      printf '\n' >>"$normalized_cue"
+      source_cue="$normalized_cue"
 
       if ! grep -qiE '^[[:space:]]*FILE[[:space:]]+' "$source_cue"; then
         return 0
@@ -1008,7 +1047,7 @@ let
         existing_count=$(find "$tracks_dir" -maxdepth 1 -type f -name '*.flac' | wc -l)
       fi
       if [ "$existing_count" -eq "$cue_track_count" ] && [ "$cue_track_count" -gt 0 ]; then
-        echo "[split-cue] skip (already split): $source_cue"
+        echo "[split-cue] skip (already split): $original_cue"
         return 0
       fi
       if [ "$existing_count" -gt 0 ]; then
@@ -1016,7 +1055,7 @@ let
         find "$tracks_dir" -maxdepth 1 -type f -name '*.flac' -delete
       fi
 
-      echo "[split-cue] $source_cue"
+      echo "[split-cue] $original_cue"
 
       local cover_file=""
       if metaflac --list "$source_flac" 2>/dev/null | grep -q "type: 6"; then
@@ -1031,10 +1070,7 @@ let
 
       local split_log
       split_log=$(mktemp)
-      if ! cuebreakpoints "$source_cue" 2>"$split_log" |
-        shnsplit -O always -d "$tracks_dir" -a "track" \
-          -o "flac ext=flac" "$source_flac" \
-          >>"$split_log" 2>&1; then
+      if ! split_audio_image "$source_cue" "$source_flac" "$tracks_dir" >"$split_log" 2>&1; then
         echo "[split-cue]   ERROR: split failed for $album_dir" >&2
         cat "$split_log" >&2
         rm -f "$split_log" "$cover_file"
@@ -1089,7 +1125,7 @@ let
       count=$(find "$tracks_dir" -maxdepth 1 -type f -name '*.flac' | wc -l)
       echo "[split-cue]   -> ''${renamed} renamed (''${count} total) in $tracks_dir"
       return 0
-    }
+    )
 
     stored_split_fingerprint() {
       sed -n 's/^split_fingerprint=//p' "$1/.config" | tail -n 1
