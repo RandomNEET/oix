@@ -22,9 +22,10 @@ pkgs.writeText "firejail-chromium-common-profile" ''
 
   # To enable support for the KeePassXC extension, add the following lines to
   # chromium-common.local.
-  # Note: Start KeePassXC before the web browser and keep it open to allow
+  # Note: Start KeePassXC/ChiPass before the web browser and keep it open to allow
   # communication between them.
   #noblacklist ''${RUNUSER}/app
+  #whitelist ''${RUNUSER}/app/org.chipass.ChiPass
   #whitelist ''${RUNUSER}/app/org.keepassxc.KeePassXC
   #whitelist ''${RUNUSER}/kpxc_server
   #whitelist ''${RUNUSER}/org.keepassxc.KeePassXC.BrowserServer
@@ -57,6 +58,7 @@ pkgs.writeText "firejail-chromium-common-profile" ''
   ?BROWSER_DISABLE_U2F: nou2f
 
   ?BROWSER_DISABLE_U2F: private-dev
+  private-cache
   #private-tmp # issues when using multiple browser sessions
 
   # Note: This prevents access to passwords saved in GNOME Keyring and KWallet

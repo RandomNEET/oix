@@ -30,9 +30,10 @@ pkgs.writeText "firejail-firefox-common-profile" ''
 
   # To enable support for the KeePassXC extension, add the following lines to
   # firefox-common.local.
-  # Note: Start KeePassXC before the web browser and keep it open to allow
+  # Note: Start KeePassXC/ChiPass before the web browser and keep it open to allow
   # communication between them.
   #noblacklist ''${RUNUSER}/app
+  #whitelist ''${RUNUSER}/app/org.chipass.ChiPass
   #whitelist ''${RUNUSER}/app/org.keepassxc.KeePassXC
   #whitelist ''${RUNUSER}/kpxc_server
   #whitelist ''${RUNUSER}/org.keepassxc.KeePassXC.BrowserServer
@@ -91,13 +92,12 @@ pkgs.writeText "firejail-firefox-common-profile" ''
   protocol unix,inet,inet6,netlink
   # Note: The seccomp line below still permits the chroot syscall; see
   # https://github.com/netblue30/firejail/issues/2506 for possible workarounds.
-  seccomp !chroot
-  # Note: tracelog may break or cause major issues with many Firefox-based
-  # browsers; see https://github.com/netblue30/firejail/issues/1930.
-  #tracelog
+  seccomp !chroot,!ioprio_set
+  seccomp.block-secondary
 
   disable-mnt
   ?BROWSER_DISABLE_U2F: private-dev
+  private-cache
   # Note: The private-etc line below works fine on most distributions but it
   # could cause problems on CentOS.
   private-etc @tls-ca,@x11,mailcap,mime.types,os-release
@@ -122,6 +122,9 @@ pkgs.writeText "firejail-firefox-common-profile" ''
   #dbus-user.talk org.kde.JobViewServer
   #dbus-user.talk org.kde.kdeconnect
   #dbus-user.talk org.kde.kuiserver
+  # Add the next lines to firefox-common.local to allow firefox to get notified
+  # when the system switches to light/dark style.
+  # dbus-user.broadcast ca.desrt.dconf=ca.desrt.dconf.*@/*
   # Add the next line to firefox-common.local to allow screensharing under
   # Wayland.
   #dbus-user.talk org.freedesktop.portal.Desktop

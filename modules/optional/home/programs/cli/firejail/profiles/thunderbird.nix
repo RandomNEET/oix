@@ -19,6 +19,7 @@ pkgs.writeText "firejail-thunderbird-profile" ''
 
   # Ignore wruc from firefox-common.profile:
   ignore include whitelist-runuser-common.inc
+  ignore whitelist ''${RUNUSER}/app/org.chipass.ChiPass
   ignore whitelist ''${RUNUSER}/app/org.keepassxc.KeePassXC
   ignore whitelist ''${RUNUSER}/kpxc_server
   ignore whitelist ''${RUNUSER}/org.keepassxc.KeePassXC.BrowserServer
@@ -45,8 +46,16 @@ pkgs.writeText "firejail-thunderbird-profile" ''
   #writable-var
 
   # These lines are needed to allow Firefox to load your profile when clicking a link in an email
+  noblacklist ''${HOME}/.config/mozilla
   noblacklist ''${HOME}/.mozilla
+  whitelist ''${HOME}/.config/mozilla/firefox/profiles.ini
   whitelist ''${HOME}/.mozilla/firefox/profiles.ini
+
+  # These lines are needed to allow LibreWolf to load your profile when clicking a link in an email
+  noblacklist ''${HOME}/.config/librewolf
+  noblacklist ''${HOME}/.librewolf
+  whitelist ''${HOME}/.config/librewolf/librewolf/profiles.ini
+  whitelist ''${HOME}/.librewolf/librewolf/profiles.ini
 
   noblacklist ''${HOME}/.cache/thunderbird
   noblacklist ''${HOME}/.gnupg

@@ -79,7 +79,6 @@ pkgs.writeText "firejail-w3m-profile" ''
   novideo
   protocol unix,inet,inet6
   seccomp
-  tracelog
 
   disable-mnt
   private-bin perl,sh,w3m

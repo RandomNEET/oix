@@ -83,7 +83,6 @@ pkgs.writeText "firejail-yt-dlp-profile" ''
   protocol unix,inet,inet6
   seccomp
   seccomp.block-secondary
-  tracelog
 
   private-bin deno,env,ffmpeg,ffprobe,file,python*,uname,yt-dlp
   private-cache

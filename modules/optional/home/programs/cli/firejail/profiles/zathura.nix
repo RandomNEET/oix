@@ -56,14 +56,11 @@ pkgs.writeText "firejail-zathura-profile" ''
   protocol unix
   seccomp
   seccomp.block-secondary
-  tracelog
 
   private-bin zathura
   private-cache
   private-dev
   private-etc
-  # private-lib has problems on Debian 10
-  #private-lib gcc/*/*/libgcc_s.so.*,gcc/*/*/libstdc++.so.*,libarchive.so.*,libdjvulibre.so.*,libgirara-gtk*,libpoppler-glib.so.*,libspectre.so.*,zathura
   private-tmp
 
   dbus-user none

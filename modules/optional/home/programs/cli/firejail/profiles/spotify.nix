@@ -52,7 +52,6 @@ pkgs.writeText "firejail-spotify-profile" ''
   nou2f
   protocol unix,inet,inet6,netlink
   seccomp
-  tracelog
 
   disable-mnt
   private-bin bash,cat,dirname,find,grep,head,rm,sh,spotify,tclsh,touch,zenity

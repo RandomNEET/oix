@@ -20,10 +20,6 @@ let
     whitelist ${MUSIC}
     whitelist ${PICTURES}
     whitelist ${VIDEOS}
-
-    # unable to launch when set to none
-    ignore dbus-user none
-    dbus-user filter 
   '';
 in
 pkgs.writeText "firejail-mpv-profile" ''
@@ -113,7 +109,6 @@ pkgs.writeText "firejail-mpv-profile" ''
   protocol unix,inet,inet6,netlink
   seccomp !set_mempolicy
   seccomp.block-secondary
-  tracelog
 
   # mpv links to libluajit, so no need to reference "lua*" in private-bin:
   # https://github.com/netblue30/firejail/pull/5711#discussion_r1125622615
@@ -122,7 +117,8 @@ pkgs.writeText "firejail-mpv-profile" ''
   #private-cache
   private-dev
 
-  dbus-user none
+  dbus-user filter
+  dbus-user.own org.mpris.MediaPlayer2.mpv
   dbus-system none
 
   restrict-namespaces
