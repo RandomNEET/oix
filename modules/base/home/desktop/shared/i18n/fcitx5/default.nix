@@ -11,7 +11,14 @@
     fcitx5 = {
       systemd.enable = true;
       waylandFrontend = true;
-      addons = with pkgs; [ fcitx5-rime-ice ];
+      addons = with pkgs; [
+        (fcitx5-rime.override {
+          rimeDataPkgs = [
+            rime-data
+            rime-ice
+          ];
+        })
+      ];
       settings = {
         inputMethod = {
           GroupOrder."0" = "Default";
@@ -54,22 +61,18 @@
     };
   };
 
-  home = {
-    file = {
-      ".local/share/fcitx5/rime/default.custom.yaml".source = ./rime/default.custom.yaml;
-      ".local/share/fcitx5/rime/rime_ice.custom.yaml".source = ./rime/rime_ice.custom.yaml;
-      # Disable autostart
-      ".config/autostart/org.fcitx.Fcitx5.desktop".text = ''
-        [Desktop Entry]
-        Type=Application
-        Name=Fcitx 5
-        Hidden=true
-      '';
+  xdg = {
+    dataFile = {
+      "fcitx5/rime/default.custom.yaml".source = ./rime/default.custom.yaml;
+      "fcitx5/rime/rime_ice.custom.yaml".source = ./rime/rime_ice.custom.yaml;
     };
-    # Enable for xwayland
-    sessionVariables = {
-      XMODIFIERS = "@im=fcitx";
-    };
+    # Disable autostart
+    configFile."autostart/org.fcitx.Fcitx5.desktop".text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=Fcitx 5
+      Hidden=true
+    '';
   };
 }
 # // lib.optionalAttrs osConfig.desktop.themes.enable {
