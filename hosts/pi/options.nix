@@ -149,4 +149,9 @@ in
       tailscale.sopsFile = ./secrets.yaml;
     };
   };
+
+  # TEMPFIX: allow qutebrowser 3.7.0 despite the eMudhra TLS advisory.
+  # Remove once the locked package is fixed and no longer marked insecure.
+  # Upstream: https://github.com/qutebrowser/qutebrowser/issues/9032
+  nixpkgs.config.permittedInsecurePackages = [ "qutebrowser-3.7.0" ];
 }
