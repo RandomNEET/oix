@@ -1,4 +1,9 @@
-{ osConfig, ... }:
+{
+  osConfig,
+  lib,
+  meta,
+  ...
+}:
 let
   fonts = osConfig.desktop.fonts;
 in
@@ -12,10 +17,12 @@ in
       emoji = map (f: f.name) fonts.emoji;
     };
   };
-  home.packages = builtins.concatLists [
-    (map (f: f.package) fonts.monospace)
-    (map (f: f.package) fonts.sansSerif)
-    (map (f: f.package) fonts.serif)
-    (map (f: f.package) fonts.emoji)
-  ];
+  home.packages = lib.mkIf (meta.platform == "home-manager") (
+    builtins.concatLists [
+      (map (f: f.package) fonts.monospace)
+      (map (f: f.package) fonts.sansSerif)
+      (map (f: f.package) fonts.serif)
+      (map (f: f.package) fonts.emoji)
+    ]
+  );
 }
