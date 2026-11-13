@@ -24,8 +24,14 @@ in
           sync_frequency = "5m";
           sync_address = "https://api.atuin.sh";
           search_mode = "fuzzy";
-          enter_accept = false;
+          enter_accept = true;
           update_check = false;
+          ai = {
+            enabled = true;
+            opening = {
+              send_cwd = true;
+            };
+          };
         }
         // lib.optionalAttrs config.programs.tmux.enable { tmux.enabled = true; };
       };
