@@ -29,6 +29,7 @@ let
     usage() {
       cat <<'EOF'
     Usage:
+      tlmc COMMAND [ARGS] [COMMAND [ARGS] ...] LIBRARY_OR_CIRCLE
       tlmc news
       tlmc sync [delete] [exclude PATTERN]... LIBRARY_OR_CIRCLE
       tlmc add LOCAL_DIR
@@ -1254,6 +1255,7 @@ let
       [ "$failures" -eq 0 ] || die "$failures album(s) failed to split."
     }
 
+    dispatch() {
     case "''${1:-}" in
     __preview-circle)
       shift
@@ -1310,6 +1312,75 @@ let
       exit 1
       ;;
     esac
+    }
+
+    run_commands() {
+      local directory="" command="" argument status index start count
+      local -a commands=() offsets=() counts=() arguments=()
+
+      case "''${1:-}" in
+      __preview-* | -h | --help | help | "") dispatch "$@"; return $? ;;
+      esac
+      for argument in "$@"; do
+        case "$argument" in
+        -h | --help) usage; return 0 ;;
+        esac
+      done
+
+      if [ "$#" -gt 1 ]; then
+        directory="''${!#}"
+        set -- "''${@:1:$#-1}"
+      fi
+
+      while [ "$#" -gt 0 ]; do
+        argument="$1"
+        shift
+        case "$command:$argument" in
+        sync:delete | playlist:rebuild | playlist:delete)
+          arguments+=("$argument")
+          counts[''${#commands[@]}-1]=$((counts[''${#commands[@]}-1] + 1))
+          continue
+          ;;
+        sync:exclude)
+          [ "$#" -gt 0 ] && [ -n "$1" ] || die "exclude requires a non-empty PATTERN."
+          arguments+=("$argument" "$1")
+          counts[''${#commands[@]}-1]=$((counts[''${#commands[@]}-1] + 2))
+          shift
+          continue
+          ;;
+        esac
+        case "$argument" in
+        news | sync | add | edit | delete | playlist | split)
+          command="$argument"
+          commands+=("$command")
+          offsets+=("''${#arguments[@]}")
+          counts+=(0)
+          ;;
+        *) die "unexpected command or argument: $argument" ;;
+        esac
+      done
+
+      for command in "''${commands[@]}"; do
+        if [ "$command" != news ]; then
+          [ -n "$directory" ] && [ -d "$directory" ] || die "valid LOCAL_DIR is required."
+        fi
+      done
+      for ((index = 0; index < ''${#commands[@]}; index++)); do
+        command="''${commands[index]}"
+        start="''${offsets[index]}"
+        count="''${counts[index]}"
+        if [ "$command" = news ]; then
+          (dispatch "$command")
+        else
+          (dispatch "$command" "''${arguments[@]:start:count}" "$directory")
+        fi
+        status=$?
+        [ "$status" -eq 0 ] || return "$status"
+      done
+    }
+
+    run_commands "$@"
+
   '';
 in
 {
