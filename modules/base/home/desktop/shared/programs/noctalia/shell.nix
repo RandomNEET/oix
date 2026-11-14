@@ -28,6 +28,9 @@ in
 
   screenshot = {
     annotate = true;
+    confirm_region = true;
+    close_on_copy = true;
+    close_on_save = true;
     save_to_file = false;
     copy_to_clipboard = false;
     pipe_to_command = true;
