@@ -28,8 +28,11 @@ in
 
   screenshot = {
     annotate = true;
-    save_to_file = false;
-    copy_to_clipboard = false;
+    confirm_region = true;
+    close_on_copy = true;
+    close_on_save = true;
+    save_to_file = true;
+    copy_to_clipboard = true;
     pipe_to_command = true;
     pipe_command = "${screenshot-handler}";
     directory = "${config.xdg.userDirs.pictures}/screenshots";
