@@ -14,7 +14,6 @@ in
   setup_wizard_enabled = false;
   polkit_agent = true;
   settings_show_advanced = false;
-  app_icon_colorize = false;
   clipboard_enabled = true;
   clipboard_image_action_command = "satty --filename {path}";
 
