@@ -1,11 +1,11 @@
 {
   "linux-arm64": {
-    "hash": "sha256-lJtCH3jemkqD/Q03PtFBbotdW9MmxSExinG41EBrHdY=",
-    "version": "26.1021.22027"
+    "hash": "sha256-OAEe4DJAzaLtjpsy6FikniVagm7RYDvNGBXo24AxMng=",
+    "version": "26.1111.21308"
   },
   "linux-x64": {
-    "hash": "sha256-mlwapLUNDrm5wGw9f/0Y4ef6RZHahbGXO9Fink23X6k=",
-    "version": "26.1021.22027"
+    "hash": "sha256-NHNxeraCTnl2nPs3NsGx0n8sssFF8cg1cCzN2i3gaTY=",
+    "version": "26.1111.21308"
   },
   "universal": {
     "hash": "sha256-vph8tELxiO9TFYPucSpUKPVkW6gb7pSewugO5dklUns=",
