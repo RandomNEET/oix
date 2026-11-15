@@ -10,6 +10,10 @@ in
   };
 
   services = {
+    getty = {
+      autologinUser = username;
+      autologinOnce = true;
+    };
     openssh = {
       authorizedKeysFiles = [ "/run/secrets/ssh/${username}@${meta.hostname}" ];
     };

@@ -53,10 +53,70 @@ in
       };
     };
     zsh = {
+      loginExtra = ''
+        if [[ -o interactive && "$TTY" == /dev/tty1 && -z "$SSH_CONNECTION" && -z "$TMUX" ]]; then
+          if ${pkgs.tmux}/bin/tmux has-session -t '=monitor' 2>/dev/null; then
+            ${pkgs.tmux}/bin/tmux attach-session -t '=monitor'
+          else
+            dashboard --all
+          fi
+        fi
+      '';
       initContent = lib.mkAfter ''
+        dashboard() (
+          cbonsai() {
+            tmux new-session -d -s monitor -n cbonsai "sleep 0.2 && cbonsai -li -t 10 -L 64"
+          }
+
+          cmatrix() {
+            tmux new-session -d -s monitor -n cmatrix "sleep 0.2 && cmatrix -r"
+          }
+
+          asciiquarium() {
+            tmux new-session -d -s monitor -n asciiquarium "sleep 0.2 && asciiquarium -t"
+          }
+
+          tty-clock() {
+            tmux new-session -d -s monitor -n tty-clock "sleep 0.2 && tty-clock -cs -C 7"
+          }
+
+          all() {
+            tmux new-session -d -s monitor -n cbonsai "sleep 0.2 && cbonsai -li -t 10 -L 64"
+            tmux new-window -t monitor -n asciiquarium "asciiquarium -t"
+            tmux new-window -t monitor -n cmatrix "cmatrix -r"
+            tmux new-window -t monitor -n tty-clock "tty-clock -cs -C 7"
+          }
+
+          case "$1" in
+          -cb | --cbonsai)
+            cbonsai
+            ;;
+          -cm | --cmatrix)
+            cmatrix
+            ;;
+          -aq | --asciiquarium)
+            asciiquarium
+            ;;
+          -tc | --tty-clock)
+            tty-clock
+            ;;
+          -a | --all)
+            all
+            ;;
+          *)
+            echo "Usage: $0 [-cb|--cbonsai] [-cm|--cmatrix] [-aq|--asciiquarium] [-tc|--tty-clock] [-a|--all]"
+            exit 1
+            ;;
+          esac
+
+          tmux new-window -t monitor -n gpu "watch -n 1 nvidia-smi"
+          tmux select-window -t monitor:1
+          tmux attach-session -t monitor
+        )
+
         if [[ -z "$TMUX" ]]; then
           local host_name=$(hostname)
-          
+
           local raw_uptime=$(cat /proc/uptime | awk '{print int($1)}')
           local days=$((raw_uptime / 86400))
           local hours=$(( (raw_uptime % 86400) / 3600 ))
