@@ -20,6 +20,9 @@ let
     whitelist ${MUSIC}
     whitelist ${PICTURES}
     whitelist ${VIDEOS}
+
+    # mpris
+    dbus-user.own org.mpris.MediaPlayer2.mpv.*
   '';
 in
 pkgs.writeText "firejail-mpv-profile" ''
