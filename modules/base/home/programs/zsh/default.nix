@@ -74,20 +74,22 @@ in
             zvm_bindkey vicmd 'j' down-line-or-beginning-search
           }
           ${optionalString config.programs.fzf.enable ''
-            function fzf_init() {
-              zvm_bindkey emacs '^T' fzf-file-widget
-              zvm_bindkey viins '^T' fzf-file-widget
-              zvm_bindkey vicmd '^T' fzf-file-widget
+            function fzf_keybinds() {
               ${optionalString (!config.programs.atuin.enable) ''
                 zvm_bindkey emacs '^R' fzf-history-widget
                 zvm_bindkey viins '^R' fzf-history-widget
                 zvm_bindkey vicmd '^R' fzf-history-widget
               ''}
+              ${optionalString (!config.programs.television.enable) ''
+                zvm_bindkey emacs '^T' fzf-file-widget
+                zvm_bindkey viins '^T' fzf-file-widget
+                zvm_bindkey vicmd '^T' fzf-file-widget
+              ''}
               zvm_bindkey emacs '\ec' fzf-cd-widget
               zvm_bindkey viins '\ec' fzf-cd-widget
               zvm_bindkey vicmd '\ec' fzf-cd-widget
             }
-            zvm_after_init_commands+=(fzf_init)
+            zvm_after_init_commands+=(fzf_keybinds)
           ''}
           ${optionalString config.programs.atuin.enable ''
             function atuin_keybinds() {
@@ -96,6 +98,14 @@ in
               zvm_bindkey vicmd '/' atuin-search
             }
             zvm_after_init_commands+=(atuin_keybinds)
+          ''}
+          ${optionalString config.programs.television.enable ''
+            function television_keybinds() {
+              zvm_bindkey emacs '^T' tv-smart-autocomplete
+              zvm_bindkey viins '^T' tv-smart-autocomplete
+              zvm_bindkey vicmd '^T' tv-smart-autocomplete
+            }
+            zvm_after_init_commands+=(television_keybinds)
           ''}
         '')
         # mkAfter: Last to run configuration

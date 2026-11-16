@@ -84,6 +84,41 @@ in
       '';
       plugins = with pkgs.tmuxPlugins; [
         {
+          plugin = vim-tmux-navigator;
+          extraConfig = ''
+            set -g @vim_navigator_pattern '(\S+/)?g?\.?(view|l?n?vim?x?|fzf|atuin|tv|yazi|lazygit|btop|htop|less)(diff)?(-wrapped)?'
+          '';
+        }
+        {
+          plugin = resurrect;
+          extraConfig = ''
+            set -g @resurrect-dir '${resurrectDir}'
+            set -g @resurrect-hook-post-save-layout '${resurrect-cmd-fix}'
+            set -g @resurrect-processes '
+              "~nvim->nvim"
+              "~hx->hx"
+              "~yazi->yazi"
+              lazygit btop htop
+              "~man"
+              less more tail top ssh
+            '
+            ${optionalString (
+              config.defaultPrograms.editor == "nvim"
+            ) "set -g @resurrect-strategy-nvim 'session'"}
+          '';
+        }
+        {
+          plugin = tmux-floax;
+          extraConfig = ''
+            set -g @floax-bind 'p'
+            set -g @floax-bind-menu 'P'
+          ''
+          + optionalString themesEnabled ''
+            set -g @floax-border-color "${primaryColor}"
+            set -g @floax-text-color "${colors.base0D}"
+          '';
+        }
+        {
           plugin = dotbar;
           extraConfig = ''
             set -g @tmux-dotbar-justify left
@@ -104,40 +139,6 @@ in
             set -g @tmux-dotbar-fg-prefix "${primaryColor}"
           '';
         }
-        {
-          plugin = tmux-floax;
-          extraConfig = ''
-            set -g @floax-bind 'p'
-            set -g @floax-bind-menu 'P'
-          ''
-          + optionalString themesEnabled ''
-            set -g @floax-border-color "${primaryColor}"
-            set -g @floax-text-color "${colors.base0D}"
-          '';
-        }
-        {
-          plugin = resurrect;
-          extraConfig = ''
-            set -g @resurrect-dir '${resurrectDir}'
-            set -g @resurrect-hook-post-save-layout '${resurrect-cmd-fix}'
-            set -g @resurrect-processes '
-              ${optionalString config.programs.nixvim.enable ''"~nvim->nvim"''}
-              ${optionalString config.programs.helix.enable ''"~hx->hx"''}
-              ${optionalString config.programs.yazi.enable ''"~yazi->yazi"''}
-              ${optionalString config.programs.opencode.enable ''"~opencode->opencode"''}
-              ${optionalString config.programs.aerc.enable ''"~aerc->aerc"''}
-              ${optionalString config.programs.lazygit.enable ''"lazygit"''}
-              ${optionalString config.programs.btop.enable ''"btop"''}
-              ${optionalString config.programs.htop.enable ''"htop"''}
-              "~man"
-              less more tail top ssh
-            '
-            ${optionalString (
-              config.defaultPrograms.editor == "nvim"
-            ) "set -g @resurrect-strategy-nvim 'session'"}
-          '';
-        }
-        vim-tmux-navigator
       ];
       tmuxinator.enable = true;
     };

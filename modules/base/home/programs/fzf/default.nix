@@ -31,20 +31,21 @@ in
         (optionalAttrs config.programs.atuin.enable {
           historyWidget.command = "";
         })
+        (optionalAttrs config.programs.television.enable {
+          fileWidget.command = "";
+        })
         (optionalAttrs config.programs.tmux.enable {
           tmux.enableShellIntegration = true;
         })
         (optionalAttrs config.programs.bat.enable {
-          fileWidget.options = [
-            "--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
-          ];
+          fileWidget.options = [ "--preview 'bat --color=always --style=numbers --line-range=:500 {}'" ];
         })
         (optionalAttrs config.programs.eza.enable {
           changeDirWidget.options = [ "--preview 'eza --tree --color=always {} | head -200'" ];
         })
         (optionalAttrs config.programs.fd.enable {
           defaultCommand = "fd --type f --strip-cwd-prefix";
-          fileWidget.command = "fd --type f --strip-cwd-prefix";
+          fileWidget.command = lib.mkDefault "fd --type f --strip-cwd-prefix";
           changeDirWidget.command = "fd --type d --strip-cwd-prefix";
         })
       ]
@@ -65,6 +66,9 @@ in
             "--exact"
           ];
         }
+        (optionalAttrs config.programs.television.enable {
+          fileWidgetCommand = "";
+        })
         (optionalAttrs config.programs.tmux.enable {
           tmux.enableShellIntegration = true;
         })
@@ -76,7 +80,7 @@ in
         })
         (optionalAttrs config.programs.fd.enable {
           defaultCommand = "fd --type f --strip-cwd-prefix";
-          fileWidgetCommand = "fd --type f --strip-cwd-prefix";
+          fileWidgetCommand = lib.mkDefault "fd --type f --strip-cwd-prefix";
           changeDirWidgetCommand = "fd --type d --strip-cwd-prefix";
         })
       ];
