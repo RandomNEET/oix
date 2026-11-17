@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   username = config.home.username;
 in
@@ -89,6 +94,23 @@ rec {
               desc = "Go ~/repo";
             }
           ];
+        };
+      };
+    };
+    mcp = {
+      servers = {
+        context7 = {
+          command = lib.getExe pkgs.context7-mcp;
+          env.CONTEXT7_API_KEY = {
+            file = "${config.xdg.configHome}/sops-nix/secrets/mcp/context7";
+          };
+        };
+        github = {
+          command = lib.getExe pkgs.github-mcp-server;
+          args = [ "stdio" ];
+          env.GITHUB_PERSONAL_ACCESS_TOKEN = {
+            file = "${config.xdg.configHome}/sops-nix/secrets/mcp/github";
+          };
         };
       };
     };
@@ -303,6 +325,8 @@ rec {
       "ssh/gale".sopsFile = ./secrets.yaml;
       "ssh/voile".sopsFile = ./secrets.yaml;
       "ssh/pi".sopsFile = ./secrets.yaml;
+      "mcp/context7".sopsFile = ./secrets.yaml;
+      "mcp/github".sopsFile = ./secrets.yaml;
       "email/RandomNEET/password".sopsFile = ./secrets.yaml;
       "email/mbsync".sopsFile = ./secrets.yaml;
     };
