@@ -92,10 +92,7 @@ in
   };
   boot = {
     kernelPackages = pkgs.linuxPackages;
-    tmp = {
-      useTmpfs = true;
-      tmpfsSize = "2G";
-    };
+    tmp.useTmpfs = true;
   };
 
   sops = {

@@ -171,20 +171,6 @@ in
         '';
       }
     ];
-    tmp = {
-      useTmpfs = true;
-      tmpfsSize = "2G";
-    };
+    tmp.useTmpfs = true;
   };
-
-  # TEMPFIX: the large-message AI session test exceeds its redaction timeout on Pi.
-  # Remove once Atuin's a_huge_message_reads_back test is reliable on this host.
-  home-manager.users.${username}.programs.atuin.package = pkgs.atuin.overrideAttrs (old: {
-    checkFlags = (old.checkFlags or [ ]) ++ [ "--skip=a_huge_message_reads_back" ];
-  });
-
-  # TEMPFIX: allow qutebrowser 3.7.0 despite the eMudhra TLS advisory.
-  # Remove once the locked package is fixed and no longer marked insecure.
-  # Upstream: https://github.com/qutebrowser/qutebrowser/issues/9032
-  nixpkgs.config.permittedInsecurePackages = [ "qutebrowser-3.7.0" ];
 }
