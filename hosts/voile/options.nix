@@ -3,8 +3,6 @@ let
   username = "howl";
 in
 {
-  imports = [ ./sever ];
-
   base = {
     gpu = "nvidia";
   };

@@ -16,6 +16,11 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
+    microvm = {
+      url = "github:microvm-nix/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
 

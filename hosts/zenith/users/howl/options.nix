@@ -60,6 +60,14 @@ rec {
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/pi";
           addKeysToAgent = "yes";
         };
+        voile-agent = {
+          hostname = "127.0.0.1";
+          port = 2200;
+          user = "howl";
+          proxyJump = "voile";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
+          HostKeyAlias = "voile-agent";
+        };
       };
     };
     git = {

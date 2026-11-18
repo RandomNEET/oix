@@ -1,6 +1,6 @@
 { osConfig, mylib, ... }:
 let
-  display = osConfig.base.display.info;
+  display = osConfig.base.display.info or [ ];
   primaryDisplay = mylib.display.getPrimary display;
 in
 {

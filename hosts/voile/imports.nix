@@ -1,5 +1,8 @@
 {
   imports = [
+    ./sever
+    ./microvm
+
     ../../modules/optional/os/programs/mosh
 
     ../../modules/optional/os/services/cron

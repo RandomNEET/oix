@@ -44,33 +44,49 @@ rec {
         };
         zenith = {
           hostname = "zenith.local";
-          user = username;
+          user = "howl";
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/zenith";
           addKeysToAgent = "yes";
         };
         voile = {
           hostname = "voile.local";
-          user = username;
+          user = "howl";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
+          addKeysToAgent = "yes";
+        };
+        voile-ts = {
+          hostname = "voile";
+          user = "howl";
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
           addKeysToAgent = "yes";
         };
         pi = {
           hostname = "pi.local";
-          user = username;
+          user = "howl";
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/pi";
-          addKeysToAgent = "yes";
-        };
-        voile-ts = {
-          hostname = "voile";
-          user = username;
-          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
           addKeysToAgent = "yes";
         };
         pi-ts = {
           hostname = "pi";
-          user = username;
+          user = "howl";
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/pi";
           addKeysToAgent = "yes";
+        };
+        voile-agent = {
+          hostname = "127.0.0.1";
+          port = 2200;
+          user = "howl";
+          proxyJump = "voile";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
+          HostKeyAlias = "voile-agent";
+        };
+        voile-agent-ts = {
+          hostname = "127.0.0.1";
+          port = 2200;
+          user = "howl";
+          proxyJump = "voile-ts";
+          identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
+          HostKeyAlias = "voile-agent-ts";
         };
       };
     };
