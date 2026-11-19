@@ -4,8 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs?ref=nixos-26.05";
-
     nur.url = "github:nix-community/NUR";
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -44,7 +44,23 @@
 
     impermanence.url = "github:nix-community/impermanence";
 
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-index-database-stable = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    stylix-stable = {
+      url = "github:nix-community/stylix/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
 
     mangowm = {
       url = "github:mangowm/mango";
@@ -66,15 +82,6 @@
       inputs.home-manager.follows = "home-manager-stable";
     };
 
-    stylix = {
-      url = "github:nix-community/stylix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    stylix-stable = {
-      url = "github:nix-community/stylix/release-26.05";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-
     nixvim.url = "github:nix-community/nixvim";
     nixvim-stable.url = "github:nix-community/nixvim/nixos-26.05";
 
@@ -84,15 +91,6 @@
     };
     spicetify-nix-stable = {
       url = "github:Gerg-L/spicetify-nix";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-
-    nix-index-database = {
-      url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-index-database-stable = {
-      url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 

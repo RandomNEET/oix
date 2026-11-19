@@ -17,7 +17,6 @@
     ../../../../modules/optional/home/programs/cli/opencode
     ../../../../modules/optional/home/programs/cli/pi-coding-agent
     ../../../../modules/optional/home/programs/cli/rmpc
-    ../../../../modules/optional/home/programs/cli/spotify-player
     ../../../../modules/optional/home/programs/cli/ttyper
     ../../../../modules/optional/home/programs/cli/w3m
     ../../../../modules/optional/home/programs/cli/yt-dlp
@@ -28,7 +27,6 @@
     ../../../../modules/optional/home/programs/gui/obs-studio
     ../../../../modules/optional/home/programs/gui/obsidian
     ../../../../modules/optional/home/programs/gui/qutebrowser
-    ../../../../modules/optional/home/programs/gui/spicetify
     ../../../../modules/optional/home/programs/gui/swayimg
     ../../../../modules/optional/home/programs/gui/vscode
     ../../../../modules/optional/home/programs/gui/zathura

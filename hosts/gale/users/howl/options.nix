@@ -4,9 +4,6 @@
   pkgs,
   ...
 }:
-let
-  username = config.home.username;
-in
 rec {
   defaultPrograms = {
     editor = "nvim";
@@ -259,6 +256,7 @@ rec {
   };
   home = {
     packages = with pkgs; [
+      splayer-next
       chatgpt
     ];
   };

@@ -9,7 +9,7 @@
         {
           "Media" = {
             style = "row";
-            columns = 4;
+            columns = 3;
           };
         }
         {
@@ -100,18 +100,6 @@
                 password = "{{HOMEPAGE_VAR_FRESHRSS_PASSWORD}}";
               };
               icon = "freshrss";
-            };
-          }
-          {
-            "Spotify" = {
-              href = "https://myspotify.defnothowl.com/";
-              widget = {
-                type = "yourspotify";
-                url = "https://spotifyapi.defnothowl.com/";
-                key = "{{HOMEPAGE_VAR_SPOTIFY_KEY}}";
-                interval = "week";
-              };
-              icon = "spotify";
             };
           }
         ];

@@ -4,9 +4,6 @@
   pkgs,
   ...
 }:
-let
-  username = config.home.username;
-in
 rec {
   defaultPrograms = {
     editor = "nvim";
@@ -44,19 +41,19 @@ rec {
         };
         gale = {
           hostname = "gale.local";
-          user = username;
+          user = "howl";
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/gale";
           addKeysToAgent = "yes";
         };
         voile = {
           hostname = "voile.local";
-          user = username;
+          user = "howl";
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/voile";
           addKeysToAgent = "yes";
         };
         pi = {
           hostname = "pi.local";
-          user = username;
+          user = "howl";
           identityFile = "${config.xdg.configHome}/sops-nix/secrets/ssh/pi";
           addKeysToAgent = "yes";
         };
