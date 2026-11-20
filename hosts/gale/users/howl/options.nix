@@ -128,8 +128,12 @@ rec {
           image = "docker.io/library/archlinux:latest";
           home = "${config.home.homeDirectory}/.distrobox/arch";
           pre_init_hooks = [
+            "sh /run/oix-distrobox-scripts/pacman-mirror.sh"
             "pacman-key --init"
             "pacman-key --populate archlinux"
+          ];
+          init_hooks = [
+            "sudo -H -u ${lib.escapeShellArg config.home.username} sh /run/oix-distrobox-scripts/yay-install.sh"
           ];
         };
       };

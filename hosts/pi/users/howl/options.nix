@@ -127,6 +127,7 @@ rec {
         debian = {
           image = "docker.io/library/debian:latest";
           home = "${config.home.homeDirectory}/.distrobox/debian";
+          pre_init_hooks = [ "sh /run/oix-distrobox-scripts/apt-mirror.sh" ];
           additional_flags = "--log-driver=k8s-file";
         };
       };
