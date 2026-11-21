@@ -24,7 +24,7 @@
   };
 
   services = {
-    # Only one secrets service per user can be enabled at a time.
+    # Only one secrets service per user can be enabled at a time
     pass-secret-service.enable = true;
     gnome-keyring.enable = lib.mkForce false;
   };

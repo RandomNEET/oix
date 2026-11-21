@@ -242,7 +242,7 @@
             modules = [
               {
                 nixpkgs = {
-                  overlays = import ./overlays { inherit inputs; };
+                  overlays = import ./overlays { inherit inputs mylib; };
                   config.allowUnfree = meta.allowUnfree;
                 };
               }
@@ -303,7 +303,7 @@
           mylib = import ./lib { inherit lib; };
           pkgs = import channel {
             inherit (meta) system;
-            overlays = import ./overlays { inherit inputs; };
+            overlays = import ./overlays { inherit inputs mylib; };
             config.allowUnfree = meta.allowUnfree;
           };
           osConfig = outputs.nixosConfigurations.${hostname}.config;
@@ -340,9 +340,10 @@
       mkDevShells =
         system:
         let
+          mylib = import ./lib { inherit (nixpkgs) lib; };
           pkgs = import nixpkgs {
             inherit system;
-            overlays = import ./overlays { inherit inputs; };
+            overlays = import ./overlays { inherit inputs mylib; };
           };
         in
         import ./shells { inherit pkgs; };

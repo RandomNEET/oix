@@ -152,6 +152,9 @@ in
         fi
       '';
     };
+    atuin = {
+      package = pkgs.unstable.atuin;
+    };
   };
   services = {
     mpd = {

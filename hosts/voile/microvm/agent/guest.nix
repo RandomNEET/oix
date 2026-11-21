@@ -104,7 +104,6 @@
     config = {
       allowUnfree = true;
     };
-    overlays = import ../../../../overlays { inherit inputs; };
   };
   nix = {
     settings = {
