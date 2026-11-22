@@ -32,20 +32,6 @@ in
     )
   );
 
-  transition = [
-    "fade"
-    "wipe"
-    "disc"
-    "stripes"
-    "zoom"
-    "honeycomb"
-    "vortex"
-    "pixel"
-    "diamond"
-    "golden"
-    "melt"
-  ];
-
   automation = {
     enabled = true;
     interval_seconds = 3600;
