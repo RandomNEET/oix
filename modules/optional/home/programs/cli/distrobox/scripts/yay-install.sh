@@ -2,13 +2,13 @@
 set -eu
 
 if [ "$(id -u)" -eq 0 ]; then
-  printf '%s\n' 'Run yay-install.sh as a regular container user; makepkg cannot run as root.' >&2
-  exit 1
+	printf '%s\n' 'Run yay-install.sh as a regular container user; makepkg cannot run as root.' >&2
+	exit 1
 fi
 
 if command -v yay >/dev/null 2>&1; then
-  printf '%s\n' 'yay is already installed; skipping.'
-  exit 0
+	printf '%s\n' 'yay is already installed; skipping.'
+	exit 0
 fi
 
 # Avoid partial upgrades

@@ -4,12 +4,12 @@ set -eu
 mirror_host=mirrors.ustc.edu.cn
 
 if [ "$(id -u)" -ne 0 ]; then
-  exec sudo sh "$0" "$@"
+	exec sudo sh "$0" "$@"
 fi
 
 mirrorlist=/etc/pacman.d/mirrorlist
 if [ -f "$mirrorlist" ] && [ ! -e "$mirrorlist.bak" ]; then
-  cp -p "$mirrorlist" "$mirrorlist.bak"
+	cp -p "$mirrorlist" "$mirrorlist.bak"
 fi
 
 # Keep pacman variables
