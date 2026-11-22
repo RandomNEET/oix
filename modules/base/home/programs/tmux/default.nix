@@ -86,7 +86,7 @@ in
         {
           plugin = vim-tmux-navigator;
           extraConfig = ''
-            set -g @vim_navigator_pattern '(\S+/)?g?\.?(view|l?n?vim?x?|fzf|atuin|tv|yazi|lazygit|btop|htop|less)(diff)?(-wrapped)?'
+            set -g @vim_navigator_pattern '(\S+/)?g?\.?(view|l?n?vim?x?|fzf|tv)(diff)?(-wrapped)?'
           '';
         }
         {
