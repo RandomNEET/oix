@@ -17,6 +17,7 @@ in
     };
     tailscale = {
       authKeyFile = "/run/secrets/tailscale";
+      extraSetFlags = [ "--accept-dns=false" ];
     };
     xray = {
       settingsFile = "/run/secrets/xray";
