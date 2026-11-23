@@ -71,12 +71,12 @@ in
     terminal-exec = {
       enable = true;
       settings = {
-        default = [ "${config.defaultPrograms.terminal}.desktop" ];
+        default = [ "${config.defaultPrograms.terminal.default}.desktop" ];
       };
     };
     configFile."xdg-desktop-portal-termfilechooser/config".text = ''
       [filechooser]
-      cmd=${config.defaultPrograms.fileManager}-wrapper.sh
+      cmd=${config.defaultPrograms.fileManager.default}-wrapper.sh
       default_dir=$HOME
       env=TERMCMD='${terminal.exe} ${terminal.classFlag} "terminal filechooser"'
       open_mode=suggested

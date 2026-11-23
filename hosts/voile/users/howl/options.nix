@@ -9,9 +9,16 @@ let
 in
 {
   defaultPrograms = {
-    editor = "nvim";
-    fileManager = "yazi";
-    browser = "w3m";
+    editor = {
+      default = "nvim";
+      helix.enable = true;
+    };
+    fileManager = {
+      default = "yazi";
+    };
+    browser = {
+      default = "w3m";
+    };
   };
 
   programs = {

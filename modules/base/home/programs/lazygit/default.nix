@@ -23,7 +23,7 @@
         parseEmoji = if osConfig.desktop.enable then true else false;
       };
       os = {
-        editPreset = config.defaultPrograms.editor;
+        editPreset = config.defaultPrograms.editor.default;
         disableStartupPopups = true;
       };
     };

@@ -46,7 +46,7 @@
       highlight article "https?://[^ ]+" color4 default
       highlight article "\[[0-9]+\]" color6 default bold
     '';
-    browser = "${lib.getExe pkgs.${config.defaultPrograms.browser}}";
+    browser = "${lib.getExe pkgs.${config.defaultPrograms.browser.default}}";
   };
   home.packages = lib.optionals osConfig.desktop.enable [
     (pkgs.makeDesktopItem {

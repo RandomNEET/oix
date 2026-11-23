@@ -1,0 +1,58 @@
+{
+  config,
+  osConfig,
+  lib,
+  ...
+}:
+{
+  config = lib.mkIf config.defaultPrograms.terminal.kitty.enable (
+    {
+      programs.kitty = {
+        enable = true;
+        shellIntegration.enableBashIntegration = true;
+        shellIntegration.enableZshIntegration = true;
+        settings = {
+          kitty_mod = "ctrl+shift";
+          clear_all_shortcuts = true;
+          confirm_os_window_close = 0;
+          close_on_child_death = true;
+          mouse_hide_wait = 3;
+          enable_audio_bell = false;
+          scrollback_pager = "less --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER";
+          allow_remote_control = true;
+          listen_on = "unix:\${XDG_RUNTIME_DIR}/kitty";
+          cursor_trail = 1;
+          cursor_trail_decay = "0.1 0.4";
+          cursor_trail_start_threshold = "2";
+          custom_shaders = "space cursor-trail-motion-blur";
+          update_check_interval = 0;
+        };
+        keybindings = {
+          "kitty_mod+c" = "copy_to_clipboard";
+          "kitty_mod+v" = "paste_from_clipboard";
+          "kitty_mod+up" = "scroll_line_up";
+          "kitty_mod+k" = "scroll_line_up";
+          "kitty_mod+down" = "scroll_line_down";
+          "kitty_mod+j" = "scroll_line_down";
+          "kitty_mod+page_up" = "scroll_page_up";
+          "kitty_mod+page_down" = "scroll_page_down";
+          "kitty_mod+home" = "scroll_home";
+          "kitty_mod+end" = "scroll_end";
+          "kitty_mod+/" = "search_scrollback";
+          "kitty_mod+h" = "show_scrollback";
+          "kitty_mod+equal" = "change_font_size all +2.0";
+          "kitty_mod+minus" = "change_font_size all -2.0";
+          "kitty_mod+backspace" = "change_font_size all 0";
+          "kitty_mod+e" = "open_url_with_hints";
+        };
+      };
+      xdg.configFile = {
+        "kitty/shaders/space.slang".source = ./shaders/space.slang;
+        "kitty/shaders/space.pipeline".source = ./shaders/space.pipeline;
+      };
+    }
+    // lib.optionalAttrs osConfig.desktop.themes.enable {
+      stylix.targets.kitty.enable = true;
+    }
+  );
+}

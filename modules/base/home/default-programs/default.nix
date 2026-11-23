@@ -1,17 +1,22 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  mylib,
+  ...
+}:
 let
   inherit (lib) optionalAttrs;
   cfg = config.defaultPrograms;
 in
 {
-  imports = [ ./options.nix ];
+  imports = mylib.util.scanPaths ./. { };
   config = {
     home.sessionVariables =
-      (optionalAttrs (cfg.terminal != null) {
-        TERMINAL = cfg.terminal;
+      (optionalAttrs (cfg.terminal.default != null) {
+        TERMINAL = cfg.terminal.default;
       })
-      // (optionalAttrs (cfg.browser != null) {
-        BROWSER = cfg.browser;
+      // (optionalAttrs (cfg.browser.default != null) {
+        BROWSER = cfg.browser.default;
       });
   };
 }

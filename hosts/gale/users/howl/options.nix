@@ -6,10 +6,22 @@
 }:
 rec {
   defaultPrograms = {
-    editor = "nvim";
-    fileManager = "yazi";
-    terminal = "foot";
-    browser = "qutebrowser";
+    editor = {
+      default = "nvim";
+      helix.enable = true;
+    };
+    fileManager = {
+      default = "yazi";
+    };
+    terminal = {
+      default = "foot";
+      kitty.enable = true;
+    };
+    browser = {
+      default = "qutebrowser";
+      chromium.enable = true;
+      w3m.enable = true;
+    };
   };
   desktop = {
     wallpaper = {

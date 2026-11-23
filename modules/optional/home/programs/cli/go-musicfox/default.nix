@@ -34,7 +34,7 @@ in
               show = true;
               showTranslation = true;
               cover = {
-                show = builtins.elem config.defaultPrograms.terminal [ "kitty" ];
+                show = builtins.elem config.defaultPrograms.terminal.default [ "kitty" ];
                 tmuxPassthrough = config.programs.tmux.enable;
               };
             };

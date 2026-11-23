@@ -50,9 +50,9 @@ let
 
   termInfo = import ../shared/misc/terminal.nix { inherit config; };
   terminal = termInfo.exe;
-  fileManager = "${file-manager} ${config.defaultPrograms.fileManager}";
-  editor = "${terminal} ${termInfo.classFlag} editor -e ${config.defaultPrograms.editor}";
-  browser = config.defaultPrograms.browser;
+  fileManager = "${file-manager} ${config.defaultPrograms.fileManager.default}";
+  editor = "${terminal} ${termInfo.classFlag} editor -e ${config.defaultPrograms.editor.default}";
+  browser = config.defaultPrograms.browser.default;
 in
 {
   bind = [

@@ -103,7 +103,7 @@ in
               less more tail top ssh
             '
             ${optionalString (
-              config.defaultPrograms.editor == "nvim"
+              config.defaultPrograms.editor.default == "nvim"
             ) "set -g @resurrect-strategy-nvim 'session'"}
           '';
         }

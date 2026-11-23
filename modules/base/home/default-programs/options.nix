@@ -1,11 +1,18 @@
-{ lib, ... }:
+{ config, lib, ... }:
 let
-  inherit (lib) mkOption types;
+  inherit (lib)
+    mkOption
+    mkEnableOption
+    types
+    mkIf
+    mkMerge
+    mkForce
+    ;
 in
 {
-  options = {
-    defaultPrograms = {
-      editor = mkOption {
+  options.defaultPrograms = {
+    editor = {
+      default = mkOption {
         type = types.nullOr (
           types.enum [
             "nvim"
@@ -13,9 +20,13 @@ in
           ]
         );
         default = null;
-        description = "The command used to launch the default text editor in the terminal.";
+        description = "The default editor program";
       };
-      fileManager = mkOption {
+      nvim.enable = mkEnableOption "nvim configuration";
+      helix.enable = mkEnableOption "helix configuration";
+    };
+    fileManager = {
+      default = mkOption {
         type = types.nullOr (
           types.enum [
             "yazi"
@@ -23,9 +34,13 @@ in
           ]
         );
         default = null;
-        description = "The default terminal-based or graphical file manager.";
+        description = "The default fileManager program";
       };
-      terminal = mkOption {
+      yazi.enable = mkEnableOption "yazi configuration";
+      thunar.enable = mkEnableOption "thunar configuration";
+    };
+    terminal = {
+      default = mkOption {
         type = types.nullOr (
           types.enum [
             "kitty"
@@ -33,9 +48,13 @@ in
           ]
         );
         default = null;
-        description = "The preferred terminal emulator command for scripts and desktop entries.";
+        description = "The default terminal program";
       };
-      browser = mkOption {
+      kitty.enable = mkEnableOption "kitty configuration";
+      foot.enable = mkEnableOption "foot configuration";
+    };
+    browser = {
+      default = mkOption {
         type = types.nullOr (
           types.enum [
             "qutebrowser"
@@ -45,8 +64,45 @@ in
           ]
         );
         default = null;
-        description = "The command used to launch the default web browser.";
+        description = "The default browser program";
       };
+      qutebrowser.enable = mkEnableOption "qutebrowser configuration";
+      firefox.enable = mkEnableOption "firefox configuration";
+      chromium.enable = mkEnableOption "chromium configuration";
+      w3m.enable = mkEnableOption "w3m configuration";
     };
   };
+
+  config = mkMerge [
+    (mkIf (config.defaultPrograms.editor.default == "nvim") {
+      defaultPrograms.editor.nvim.enable = mkForce true;
+    })
+    (mkIf (config.defaultPrograms.editor.default == "helix") {
+      defaultPrograms.editor.helix.enable = mkForce true;
+    })
+    (mkIf (config.defaultPrograms.fileManager.default == "yazi") {
+      defaultPrograms.fileManager.yazi.enable = mkForce true;
+    })
+    (mkIf (config.defaultPrograms.fileManager.default == "thunar") {
+      defaultPrograms.fileManager.thunar.enable = mkForce true;
+    })
+    (mkIf (config.defaultPrograms.terminal.default == "kitty") {
+      defaultPrograms.terminal.kitty.enable = mkForce true;
+    })
+    (mkIf (config.defaultPrograms.terminal.default == "foot") {
+      defaultPrograms.terminal.foot.enable = mkForce true;
+    })
+    (mkIf (config.defaultPrograms.browser.default == "qutebrowser") {
+      defaultPrograms.browser.qutebrowser.enable = mkForce true;
+    })
+    (mkIf (config.defaultPrograms.browser.default == "firefox") {
+      defaultPrograms.browser.firefox.enable = mkForce true;
+    })
+    (mkIf (config.defaultPrograms.browser.default == "chromium") {
+      defaultPrograms.browser.chromium.enable = mkForce true;
+    })
+    (mkIf (config.defaultPrograms.browser.default == "w3m") {
+      defaultPrograms.browser.w3m.enable = mkForce true;
+    })
+  ];
 }

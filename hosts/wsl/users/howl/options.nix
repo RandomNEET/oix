@@ -1,8 +1,12 @@
 { pkgs, ... }:
 {
   defaultPrograms = {
-    editor = "nvim";
-    fileManager = "yazi";
+    editor = {
+      default = "nvim";
+    };
+    fileManager = {
+      default = "yazi";
+    };
   };
 
   home = {

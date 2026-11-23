@@ -11,20 +11,15 @@
     ../../../../modules/optional/home/programs/cli/gallery-dl
     ../../../../modules/optional/home/programs/cli/gh
     ../../../../modules/optional/home/programs/cli/glow
-    ../../../../modules/optional/home/programs/cli/helix
     ../../../../modules/optional/home/programs/cli/mbsync
     ../../../../modules/optional/home/programs/cli/mcp
     ../../../../modules/optional/home/programs/cli/newsboat
     ../../../../modules/optional/home/programs/cli/opencode
     ../../../../modules/optional/home/programs/cli/pi-coding-agent
     ../../../../modules/optional/home/programs/cli/ttyper
-    ../../../../modules/optional/home/programs/cli/w3m
     ../../../../modules/optional/home/programs/cli/yt-dlp
 
-    ../../../../modules/optional/home/programs/gui/chromium
-    ../../../../modules/optional/home/programs/gui/foot
     ../../../../modules/optional/home/programs/gui/mpv
-    ../../../../modules/optional/home/programs/gui/qutebrowser
     ../../../../modules/optional/home/programs/gui/swayimg
     ../../../../modules/optional/home/programs/gui/zathura
 

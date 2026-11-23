@@ -43,25 +43,25 @@ in
       };
       openers = {
         "text/plain" = "${
-          if config.defaultPrograms.terminal == "foot" then
+          if config.defaultPrograms.terminal.default == "foot" then
             getExe' pkgs.foot "foot"
           else
-            getExe pkgs.${config.defaultPrograms.terminal}
+            getExe pkgs.${config.defaultPrograms.terminal.default}
         } -e ${
-          if config.defaultPrograms.editor == "nvim" then
+          if config.defaultPrograms.editor.default == "nvim" then
             getExe config.programs.nixvim.build.package
-          else if config.defaultPrograms.editor == "helix" then
+          else if config.defaultPrograms.editor.default == "helix" then
             getExe pkgs.helix
           else
             getExe pkgs.neovim
         } ${
-          if config.defaultPrograms.editor == "nvim" then
+          if config.defaultPrograms.editor.default == "nvim" then
             "--clean -c 'set clipboard=unnamedplus' -c 'nnoremap q ZQ'"
           else
             ""
         } {}";
-        "x-scheme-handler/http*" = "${getExe pkgs.${config.defaultPrograms.browser}} {}";
-        "text/html" = "${getExe pkgs.${config.defaultPrograms.browser}} {}";
+        "x-scheme-handler/http*" = "${getExe pkgs.${config.defaultPrograms.browser.default}} {}";
+        "text/html" = "${getExe pkgs.${config.defaultPrograms.browser.default}} {}";
       }
       // optionalAttrs hasDesktop { use-terminal-pinentry = "true"; }
       // optionalAttrs config.programs.swayimg.enable { "image/*" = "${getExe pkgs.swayimg} {}"; }
