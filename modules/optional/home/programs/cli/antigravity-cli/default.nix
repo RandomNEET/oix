@@ -1,4 +1,9 @@
 {
+  imports = [
+    ../../../shared/agents/mcp
+    ../../../shared/agents/packages
+  ];
+
   programs.antigravity-cli = {
     enable = true;
     enableMcpIntegration = true;
@@ -6,6 +11,6 @@
     settings = {
       context.fileName = [ "AGENTS.md" ];
     };
-    context.AGENTS = ./context.md;
+    context.AGENTS = ../../../shared/agents/context.md;
   };
 }

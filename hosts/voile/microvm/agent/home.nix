@@ -22,7 +22,6 @@
     ../../../../modules/optional/home/programs/cli/direnv
     ../../../../modules/optional/home/programs/cli/gh
     ../../../../modules/optional/home/programs/cli/glow
-    ../../../../modules/optional/home/programs/cli/mcp
     ../../../../modules/optional/home/programs/cli/opencode
     ../../../../modules/optional/home/programs/cli/pi-coding-agent
   ];

@@ -2,11 +2,22 @@
   osConfig,
   config,
   lib,
-  pkgs,
   mylib,
   ...
 }:
 {
+  imports = [
+    ../../../shared/agents/mcp
+    ../../../shared/agents/packages
+  ]
+  ++ lib.optional osConfig.desktop.themes.enable {
+    # TEMPFIX until Stylix uses cli.theme.name for OpenCode 2
+    programs.opencode = {
+      tui = lib.mkForce { };
+      cli.theme.name = "stylix";
+    };
+  };
+
   programs.opencode = {
     enable = true;
     enableMcpIntegration = true;
@@ -26,12 +37,7 @@
         leader = "ctrl+x";
       };
     };
-    context = ./context.md;
-    extraPackages = with pkgs; [
-      bun
-      nodejs
-      uv
-    ];
+    context = ../../../shared/agents/context.md;
   };
   home = lib.mkMerge [
     {
@@ -52,14 +58,4 @@
 }
 // lib.optionalAttrs osConfig.desktop.themes.enable {
   stylix.targets.opencode.enable = true;
-  # TEMPFIX: Stylix still selects its theme through OpenCode 1's tui settings.
-  # Remove this imported module once Stylix uses cli.theme.name for OpenCode 2.
-  imports = [
-    {
-      programs.opencode = {
-        tui = lib.mkForce { };
-        cli.theme.name = "stylix";
-      };
-    }
-  ];
 }

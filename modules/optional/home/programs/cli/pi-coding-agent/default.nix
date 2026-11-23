@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 let
   piConfigDir =
     if config.home.preferXdgDirectories then
@@ -7,6 +7,11 @@ let
       "${config.home.homeDirectory}/.pi/agent";
 in
 {
+  imports = [
+    ../../../shared/agents/mcp
+    ../../../shared/agents/packages
+  ];
+
   programs.pi-coding-agent = {
     enable = true;
     mutableSettings = true;
@@ -19,11 +24,6 @@ in
         "npm:pi-subagents"
       ];
     };
-    context = ./context.md;
-    extraPackages = with pkgs; [
-      bun
-      nodejs
-      uv
-    ];
+    context = ../../../shared/agents/context.md;
   };
 }

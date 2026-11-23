@@ -14,7 +14,6 @@
     ../../../../modules/optional/home/programs/cli/glow
     ../../../../modules/optional/home/programs/cli/go-musicfox
     ../../../../modules/optional/home/programs/cli/mbsync
-    ../../../../modules/optional/home/programs/cli/mcp
     ../../../../modules/optional/home/programs/cli/newsboat
     ../../../../modules/optional/home/programs/cli/opencode
     ../../../../modules/optional/home/programs/cli/pi-coding-agent
