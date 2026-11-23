@@ -7,8 +7,6 @@ let
   inherit (lib) optional mkMerge;
   global = {
     mutableUserSettings = true;
-    enableMcpIntegration = true;
-
     extensions =
       with pkgs.vscode-extensions;
       [

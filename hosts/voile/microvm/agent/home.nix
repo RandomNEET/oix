@@ -17,12 +17,13 @@
     ../../../../modules/base/home/programs/zoxide
     ../../../../modules/base/home/programs/zsh
 
-    ../../../../modules/optional/home/programs/cli/glow
+    ../../../../modules/optional/home/programs/cli/antigravity-cli
     ../../../../modules/optional/home/programs/cli/codex
     ../../../../modules/optional/home/programs/cli/delta
     ../../../../modules/optional/home/programs/cli/devenv
     ../../../../modules/optional/home/programs/cli/direnv
     ../../../../modules/optional/home/programs/cli/gh
+    ../../../../modules/optional/home/programs/cli/glow
     ../../../../modules/optional/home/programs/cli/helix
     ../../../../modules/optional/home/programs/cli/mcp
     ../../../../modules/optional/home/programs/cli/opencode

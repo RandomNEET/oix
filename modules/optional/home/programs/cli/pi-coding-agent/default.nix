@@ -19,6 +19,7 @@ in
         "npm:pi-subagents"
       ];
     };
+    context = ./context.md;
     extraPackages = with pkgs; [
       bun
       nodejs

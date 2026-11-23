@@ -1,6 +1,7 @@
 {
   imports = [
     ../../../../modules/optional/home/programs/cli/aerc
+    ../../../../modules/optional/home/programs/cli/antigravity-cli
     ../../../../modules/optional/home/programs/cli/codex
     ../../../../modules/optional/home/programs/cli/delta
     ../../../../modules/optional/home/programs/cli/devenv

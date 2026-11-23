@@ -13,11 +13,11 @@
 
 ## Git 提交
 
-- 为 Codex 参与完成的改动创建提交时，在提交信息末尾空一行，添加：
-
-  ```text
-  Co-authored-by: Codex <noreply@openai.com>
-  ```
-
+- 为 AI 辅助完成的改动创建提交时，在提交信息末尾空一行，根据当前工具添加共同作者署名：
+  - **Antigravity**: `Co-authored-by: Antigravity (<当前模型名称>) <noreply@google.com>`
+  - **Codex**: `Co-authored-by: Codex (<当前模型名称>) <noreply@openai.com>`
+  - **OpenCode**: `Co-authored-by: OpenCode (<当前模型名称>) <noreply@opencode.ai>`
+  - **Pi**: `Co-authored-by: Pi (<当前模型名称>) <noreply@pi.dev>`
+  - _(若无法获取具体模型名，则省略括号及模型名)_
 - 保留已有共同作者信息，避免重复添加
 - 保留用户原有的 Git 作者身份

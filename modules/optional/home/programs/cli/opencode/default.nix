@@ -26,6 +26,7 @@
         leader = "ctrl+x";
       };
     };
+    context = ./context.md;
     extraPackages = with pkgs; [
       bun
       nodejs
