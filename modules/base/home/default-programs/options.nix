@@ -20,10 +20,13 @@ in
           ]
         );
         default = null;
-        description = "The default editor program";
+        description = ''
+          Default text editor used across CLI tools and desktop keybindings.
+          Setting this option automatically enables the selected editor.
+        '';
       };
-      nvim.enable = mkEnableOption "nvim configuration";
-      helix.enable = mkEnableOption "helix configuration";
+      nvim.enable = mkEnableOption "Neovim, a hyperextensible Vim-based text editor";
+      helix.enable = mkEnableOption "Helix, a post-modern modal text editor";
     };
     fileManager = {
       default = mkOption {
@@ -34,10 +37,13 @@ in
           ]
         );
         default = null;
-        description = "The default fileManager program";
+        description = ''
+          Default file manager used for desktop keybindings and XDG portal file-chooser integration.
+          Setting this option automatically enables the selected file manager.
+        '';
       };
-      yazi.enable = mkEnableOption "yazi configuration";
-      thunar.enable = mkEnableOption "thunar configuration";
+      yazi.enable = mkEnableOption "Yazi, a blazing fast terminal file manager written in Rust";
+      thunar.enable = mkEnableOption "Thunar, the Xfce file manager";
     };
     terminal = {
       default = mkOption {
@@ -48,10 +54,13 @@ in
           ]
         );
         default = null;
-        description = "The default terminal program";
+        description = ''
+          Default terminal emulator exported via `TERMINAL` and used for desktop keybindings and XDG terminal integration.
+          Setting this option automatically enables the selected terminal emulator.
+        '';
       };
-      kitty.enable = mkEnableOption "kitty configuration";
-      foot.enable = mkEnableOption "foot configuration";
+      kitty.enable = mkEnableOption "kitty, a fast, feature-rich, GPU-based terminal emulator";
+      foot.enable = mkEnableOption "foot, a fast, lightweight, and minimalistic Wayland terminal emulator";
     };
     browser = {
       default = mkOption {
@@ -64,12 +73,15 @@ in
           ]
         );
         default = null;
-        description = "The default browser program";
+        description = ''
+          Default web browser exported via `BROWSER` and used for URL handlers and desktop keybindings.
+          Setting this option automatically enables the selected browser.
+        '';
       };
-      qutebrowser.enable = mkEnableOption "qutebrowser configuration";
-      firefox.enable = mkEnableOption "firefox configuration";
-      chromium.enable = mkEnableOption "chromium configuration";
-      w3m.enable = mkEnableOption "w3m configuration";
+      qutebrowser.enable = mkEnableOption "qutebrowser, a keyboard-focused browser with a minimal GUI";
+      firefox.enable = mkEnableOption "Firefox, a free and open-source web browser developed by Mozilla";
+      chromium.enable = mkEnableOption "Chromium, an open-source web browser from The Chromium Project";
+      w3m.enable = mkEnableOption "the w3m terminal web browser";
     };
   };
 

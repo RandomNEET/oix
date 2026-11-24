@@ -6,7 +6,7 @@ in
   options = {
     base = {
       power = {
-        enable = mkEnableOption "Whether to enable power management services.";
+        enable = mkEnableOption "power management services via power-profiles-daemon and UPower";
       };
     };
   };

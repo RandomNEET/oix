@@ -6,7 +6,7 @@ in
   options = {
     base = {
       multimedia = {
-        enable = mkEnableOption "Whether to enable PipeWire-based multimedia support.";
+        enable = mkEnableOption "PipeWire multimedia framework with ALSA, PulseAudio, and WirePlumber support";
       };
     };
   };

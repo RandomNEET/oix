@@ -13,31 +13,26 @@ in
   options = {
     desktop = {
       wallpaper = {
-        enable = mkEnableOption "custom wallpaper management and automatic theme-based color conversion";
+        enable = mkEnableOption "custom wallpaper management and automatic palette conversion via gowall";
         dir = mkOption {
           type = types.nullOr types.path;
           default = null;
           description = ''
-            The root directory for system wallpapers.
+            Root directory storing user wallpapers.
 
-            Hierarchy Rules:
-            1. Source: "original/" is the source of truth. Place new wallpapers here.
-            2. Generated: "themed/" is managed by the autoconvert script. Do not manually edit.
-            3. Path Logic:
-               - Original: <base> / original / <orientation> / <file>
-               - Themed:   <base> / themed   / <theme_name> / <orientation> / <file>
+            Source images should be placed under `original/<orientation>/` (where `<orientation>` is `"landscape"` or `"portrait"`).
+            Palette-converted variants are generated automatically by `gowall` under `themed/<theme>/<orientation>/` and should not be edited manually:
 
-            Valid Orientations: "landscape", "portrait"
-
-            Example Tree:
+            ```text
             wallpapers
-            ├── original                  # Source files
+            ├── original
             │   └── landscape
             │       └── image.jpg
-            └── themed                    # Auto-generated files
-                └── catppuccin-mocha      # Target theme palette
+            └── themed
+                └── catppuccin-mocha
                     └── landscape
                         └── image.jpg
+            ```
           '';
         };
       };

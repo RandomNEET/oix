@@ -12,8 +12,7 @@ in
         ];
         default = "x86_64-linux";
         description = ''
-          The target CPU architecture for this host. 
-          This must match the hardware or the emulation environment where the system will run.
+          System platform tuple (for example, `x86_64-linux` or `aarch64-linux`) for which this host configuration is built.
         '';
       };
       platform = mkOption {
@@ -22,7 +21,12 @@ in
           "home-manager"
         ];
         default = "nixos";
-        description = "The deployment target for this host.";
+        description = ''
+          Deployment target for this host.
+
+          - `"nixos"`: Build a full NixOS system configuration with integrated Home Manager.
+          - `"home-manager"`: Build standalone Home Manager configurations for non-NixOS hosts.
+        '';
       };
       systemBuilder = mkOption {
         type = types.enum [
@@ -30,7 +34,12 @@ in
           "nixos-raspberrypi"
         ];
         default = "nixpkgs";
-        description = "The nixosSystem implementation used to construct this host configuration.";
+        description = ''
+          Builder function used to evaluate the NixOS system configuration.
+
+          - `"nixpkgs"`: Standard `nixpkgs.lib.nixosSystem` builder.
+          - `"nixos-raspberrypi"`: `nixos-raspberrypi.lib.nixosSystem` builder tailored for Raspberry Pi hardware.
+        '';
       };
       channel = mkOption {
         type = types.enum [
@@ -38,18 +47,20 @@ in
           "stable"
         ];
         default = "unstable";
-        description = "The Nixpkgs release stream this host should follow.";
+        description = ''
+          Release channel to follow for Nixpkgs, Home Manager, and companion flake inputs (`"unstable"` or `"stable"`).
+        '';
       };
       allowUnfree = mkOption {
         type = types.bool;
         default = true;
-        description = "Whether to allow the installation of software with non-free or proprietary licenses.";
+        description = "Whether to allow packages with unfree licenses via `nixpkgs.config.allowUnfree`.";
       };
       stateVersion = mkOption {
         type = types.str;
         default = "26.05";
         description = ''
-          This option defines the first version of NixOS you have installed on this particular machine,
+          This option defines the first version of NixOS (and Home Manager) you have installed on this particular machine,
           and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
 
           For example, if NixOS version XX.YY ships with AwesomeDB version N by default, and is then
@@ -79,16 +90,16 @@ in
       };
       flake = mkOption {
         type = types.path;
-        description = "The absolute path to the Flake configuration directory on this machine.";
+        description = "Absolute path to the local flake repository checkout on this machine.";
       };
       hostname = mkOption {
         type = types.str;
-        description = "The dynamically injected hostname of the machine.";
+        description = "Host name of the machine, automatically injected from its directory name under `hosts/`.";
       };
       username = mkOption {
         type = types.nullOr types.str;
         default = null;
-        description = "The dynamically injected username (Home Manager only).";
+        description = "User name for standalone Home Manager evaluations, or `null` when evaluating system-wide NixOS configurations.";
       };
     };
   };

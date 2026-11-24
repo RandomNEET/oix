@@ -6,7 +6,7 @@ in
   options = {
     base = {
       secureBoot = {
-        enable = mkEnableOption "Whether to enable UEFI Secure Boot support.";
+        enable = mkEnableOption "UEFI Secure Boot support via Lanzaboote";
       };
     };
   };

@@ -6,7 +6,7 @@ in
   options = {
     base = {
       bluetooth = {
-        enable = mkEnableOption "Whether to enable Bluetooth support with Blueman manager.";
+        enable = mkEnableOption "support for Bluetooth";
       };
     };
   };

@@ -12,7 +12,7 @@ in
               options = {
                 output = mkOption {
                   type = types.str;
-                  description = "The system identifier for the display output.";
+                  description = "Connector name of the display output (for example, `DP-1` or `HDMI-A-1`).";
                 };
                 width = mkOption {
                   type = types.ints.unsigned;
@@ -33,14 +33,17 @@ in
             }
           );
           default = [ ];
-          description = "Hardware specifications for connected monitors.";
+          description = ''
+            List of connected monitor specifications used by compositors, wallpaper scripts, and full-screen applications.
+            The first monitor with `"landscape"` orientation is selected as the primary display.
+          '';
         };
         ddcutil = {
-          enable = mkEnableOption "Enable ddcutil for display brightness and settings control";
+          enable = mkEnableOption "ddcutil and I2C device support for querying and changing monitor settings via DDC/CI";
           users = mkOption {
             type = types.listOf types.str;
             default = [ ];
-            description = "List of users to be added to the 'i2c' group.";
+            description = "List of users to add to the `i2c` group for access to `/dev/i2c-*` devices.";
           };
         };
       };

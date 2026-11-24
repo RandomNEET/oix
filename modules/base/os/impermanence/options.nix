@@ -6,11 +6,11 @@ in
   options = {
     base = {
       impermanence = {
-        enable = mkEnableOption "Whether to enable impermanence.";
+        enable = mkEnableOption "impermanence, persistent state management for systems with ephemeral root storage";
         persistDir = mkOption {
           type = types.str;
           default = "/persist";
-          description = "The path to your persistent storage location.";
+          description = "Full path to the persistent storage location where state files and directories are stored.";
         };
       };
     };

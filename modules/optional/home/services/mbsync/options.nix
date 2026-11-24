@@ -11,8 +11,8 @@ in
 {
   options = {
     services.mbsync = {
-      imapnotify.enable = mkEnableOption "mbsync synchronization triggered by IMAP notifications.";
-      trigger.enable = mkEnableOption "mbsync synchronization triggered by file modifications.";
+      imapnotify.enable = mkEnableOption "automatic mbsync mailbox synchronization on IMAP IDLE events via imapnotify";
+      trigger.enable = mkEnableOption "on-demand mbsync mailbox synchronization triggered by changes to the maildir `.trigger` file";
     };
   };
   config = lib.mkMerge [

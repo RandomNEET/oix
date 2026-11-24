@@ -6,7 +6,7 @@ in
   options = {
     base = {
       gaming = {
-        enable = mkEnableOption "Whether to enable the gaming environment.";
+        enable = mkEnableOption "the gaming environment, including Steam, Gamescope, GameMode, and controller support";
       };
     };
   };

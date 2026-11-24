@@ -93,29 +93,29 @@ in
                 enable = mkOption {
                   type = types.bool;
                   default = true;
-                  description = "Whether to enable this specific binary wrapper. Useful for conditional sandboxing.";
+                  description = "Whether to enable the Firejail wrapper for this binary.";
                 };
                 executable = mkOption {
                   type = types.path;
-                  description = "The absolute path to the executable to be sandboxed.";
+                  description = "Executable to run sandboxed.";
                 };
                 profile = mkOption {
                   type = types.nullOr types.path;
                   default = null;
-                  description = "The firejail profile to use for this application.";
+                  description = "Profile to use.";
                 };
                 desktop = mkOption {
                   type = types.nullOr types.path;
                   default = null;
-                  description = "The .desktop file to modify. The module will replace the absolute path to the executable with the firejail wrapper path.";
+                  description = ".desktop file to modify. Only necessary if it uses the absolute path to the executable.";
                 };
                 extraArgs = mkOption {
                   type = types.listOf types.str;
                   default = [ ];
-                  description = "Extra command-line arguments to pass to firejail.";
+                  description = "Extra arguments to pass to firejail.";
                 };
                 filterStderr = {
-                  enable = mkEnableOption "stderr filtering for this binary";
+                  enable = mkEnableOption "filtering of known Firejail warning lines from standard error";
                   patterns = mkOption {
                     type = types.listOf types.str;
                     default = [
@@ -123,7 +123,7 @@ in
                       "Remove read permission on fseccomp executable"
                       "Warning: /usr/bin/bwrap was not disabled"
                     ];
-                    description = "Exact stderr lines to filter out using grep -F -x -v.";
+                    description = "List of exact standard error lines to suppress using `grep -F -x -v`.";
                   };
                 };
               };
@@ -131,7 +131,9 @@ in
           )
         );
         default = { };
-        description = "Attribute set of binaries to wrap with firejail and add to the user profile.";
+        description = ''
+          Wrap the binaries in firejail and place them in the user profile path.
+        '';
       };
     };
   };

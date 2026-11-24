@@ -17,11 +17,11 @@ let
     options = {
       package = mkOption {
         type = types.package;
-        description = "The font package to be installed and used.";
+        description = "Package providing the font.";
       };
       name = mkOption {
         type = types.str;
-        description = "The specific font family name used for configuration files.";
+        description = "Name of the font family.";
       };
     };
   };
@@ -29,41 +29,49 @@ in
 {
   options = {
     desktop = {
-      enable = mkEnableOption "Whether to enable window manager/desktop environment.";
+      enable = mkEnableOption "graphical desktop environment and Wayland compositor support";
       displayManager = mkOption {
         type = types.enum [
           "ly"
           "none"
         ];
         default = "none";
-        description = "Which display manager to use for the graphical login screen.";
+        description = ''
+          Display manager to use for session login.
+
+          - `"ly"`: Enable Ly, a lightweight TUI display manager.
+          - `"none"`: Do not enable a display manager.
+        '';
       };
       hyprland = {
-        enable = mkEnableOption "Whether to enable Hyprland, the dynamic tiling Wayland compositor that doesn’t sacrifice on its looks.";
+        enable = mkEnableOption "Hyprland, the dynamic tiling Wayland compositor that doesn't sacrifice on its looks";
       };
       niri = {
-        enable = mkEnableOption "Whether to enable Niri, a scrollable-tiling Wayland compositor.";
+        enable = mkEnableOption "Niri, a scrollable-tiling Wayland compositor";
       };
       mango = {
-        enable = mkEnableOption "Whether to enable Mango, a Wayland compositor based on dwl and scenefx.";
+        enable = mkEnableOption "Mango, a fast, feature-rich Wayland compositor based on dwl and scenefx";
       };
       plasma = {
-        enable = mkEnableOption "Whether to enable the Plasma 6 (KDE 6) desktop environment.";
-        x11Support = mkEnableOption "Whether to enable support for X11.";
+        enable = mkEnableOption "the Plasma 6 (KDE 6) desktop environment";
+        x11Support = mkEnableOption "X11 server support for Plasma";
       };
       hibernate = mkOption {
         type = types.bool;
         default = false;
-        description = "Whether to enable system hibernation features.";
+        description = ''
+          Whether to support system hibernation (suspend-to-disk).
+          When enabled, `security.protectKernelImage` is disabled so the kernel can resume from swap.
+        '';
       };
       themes = {
-        enable = mkEnableOption "Whether to enable system ricing and theming.";
+        enable = mkEnableOption "system-wide color scheming and typography via Stylix";
         list = mkOption {
           type = types.listOf types.str;
           default = [ ];
           description = ''
-            A list of base16-scheme names to be used by the desktop. 
-            The first element (index 0) is treated as the primary active theme.
+            List of Base16 scheme names from `pkgs.base16-schemes` to configure for the desktop.
+            The first element is used as the default active theme, and any remaining elements are generated as Home Manager specialisations for runtime switching.
           '';
         };
         polarity = mkOption {
@@ -74,8 +82,11 @@ in
           ];
           default = "either";
           description = ''
-            Forces the theme variant. 'either' follows the theme's default, 
-            while 'light' or 'dark' overrides the color scheme preference.
+            Color scheme polarity preference passed to Stylix.
+
+            - `"either"`: Follow the color scheme's native polarity.
+            - `"light"`: Force a light theme variant.
+            - `"dark"`: Force a dark theme variant.
           '';
         };
       };
@@ -92,7 +103,10 @@ in
               name = "Sarasa Mono SC";
             }
           ];
-          description = "The default monospace (fixed-width) font used in terminals and code editors.";
+          description = ''
+            Ordered list of monospace fonts used for terminals and text editors.
+            All listed packages are installed and registered in `fonts.fontconfig.defaultFonts.monospace`, with the first entry set as the primary Stylix monospace font.
+          '';
         };
         sansSerif = mkOption {
           type = types.listOf fontModule;
@@ -106,7 +120,10 @@ in
               name = "Sarasa Gothic SC";
             }
           ];
-          description = "The default proportional font without serifs, used for UI elements and general text.";
+          description = ''
+            Ordered list of sans-serif fonts used for user interface elements and general text.
+            All listed packages are installed and registered in `fonts.fontconfig.defaultFonts.sansSerif`, with the first entry set as the primary Stylix sans-serif font.
+          '';
         };
         serif = mkOption {
           type = types.listOf fontModule;
@@ -120,7 +137,10 @@ in
               name = "Sarasa Gothic SC";
             }
           ];
-          description = "The default proportional font with serifs, used for documents and formal reading.";
+          description = ''
+            Ordered list of serif fonts used for documents and prose.
+            All listed packages are installed and registered in `fonts.fontconfig.defaultFonts.serif`, with the first entry set as the primary Stylix serif font.
+          '';
         };
         emoji = mkOption {
           type = types.listOf fontModule;
@@ -130,7 +150,9 @@ in
               name = "Noto Color Emoji";
             }
           ];
-          description = "The font package providing emoji support across the system.";
+          description = ''
+            Ordered list of emoji fonts installed system-wide and registered in `fonts.fontconfig.defaultFonts.emoji`, with the first entry set as the primary Stylix emoji font.
+          '';
         };
       };
     };
