@@ -35,7 +35,7 @@
   leptonica,
 }:
 
-buildDotnetModule (finalAttrs: {
+buildDotnetModule {
   pname = "easycon";
   version = "unstable-2026-09-17";
 
@@ -130,4 +130,4 @@ buildDotnetModule (finalAttrs: {
     platforms = [ "x86_64-linux" ];
     mainProgram = "easycon";
   };
-})
+}

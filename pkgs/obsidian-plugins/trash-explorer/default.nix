@@ -1,4 +1,4 @@
-{ pkgs, lib }:
+{ lib, pkgs }:
 pkgs.stdenv.mkDerivation rec {
   pname = "obsidian-trash-explorer";
   version = "1.2.4";

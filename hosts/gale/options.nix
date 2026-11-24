@@ -8,83 +8,39 @@ let
   username = "howl";
 in
 {
-  base = {
-    gpu = "intel-integrated";
-    display = {
-      info = [
-        {
-          output = "eDP-1";
-          width = 1920;
-          height = 1080;
-          orientation = "landscape";
-        }
-      ];
+  oix = {
+    hardware = {
+      gpu = "intel-integrated";
+      display = {
+        info = [
+          {
+            output = "eDP-1";
+            width = 1920;
+            height = 1080;
+            orientation = "landscape";
+          }
+        ];
+      };
+      power = {
+        hibernate = true;
+      };
     };
-    multimedia.enable = true;
-    bluetooth.enable = true;
-    power.enable = true;
-    impermanence = {
-      enable = true;
-      persistDir = "/nix/persist";
+    storage = {
+      impermanence = {
+        persistDir = "/nix/persist";
+      };
     };
-    secureBoot.enable = true;
-    gaming.enable = true;
-  };
-  desktop = {
-    enable = true;
-    displayManager = "ly";
-    hyprland.enable = true;
-    niri.enable = true;
-    mango.enable = true;
-    hibernate = true;
-    themes = {
-      enable = true;
-      list = [
-        "catppuccin-mocha"
-        "gruvbox-dark-hard"
-        "kanagawa"
-        "nord"
-        "tokyo-night-dark"
-      ];
-      polarity = "dark";
-    };
-    fonts = {
-      monospace = [
-        {
-          package = pkgs.nerd-fonts.jetbrains-mono;
-          name = "JetBrainsMono Nerd Font";
-        }
-        {
-          package = pkgs.sarasa-gothic;
-          name = "Sarasa Mono SC";
-        }
-      ];
-      sansSerif = [
-        {
-          package = pkgs.ibm-plex;
-          name = "IBM Plex Sans";
-        }
-        {
-          package = pkgs.sarasa-gothic;
-          name = "Sarasa Gothic SC";
-        }
-      ];
-      serif = [
-        {
-          package = pkgs.ibm-plex;
-          name = "IBM Plex Serif";
-        }
-        {
-          package = pkgs.sarasa-gothic;
-          name = "Sarasa Gothic SC";
-        }
-      ];
-      emoji = [
-        {
-          package = pkgs.noto-fonts-color-emoji;
-          name = "Noto Color Emoji";
-        }
-      ];
+    desktop = {
+      themes = {
+        list = [
+          "catppuccin-mocha"
+          "gruvbox-dark-hard"
+          "kanagawa"
+          "nord"
+          "tokyo-night-dark"
+        ];
+        polarity = "dark";
+      };
     };
   };
 

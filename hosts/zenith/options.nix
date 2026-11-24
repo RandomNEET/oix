@@ -9,92 +9,48 @@ let
   username = "howl";
 in
 {
-  base = {
-    gpu = "nvidia";
-    display = {
-      info = [
-        {
-          output = "DP-1";
-          width = 3840;
-          height = 2160;
-          orientation = "landscape";
-        }
-        {
-          output = "HDMI-A-1";
-          width = 2160;
-          height = 3840;
-          orientation = "portrait";
-        }
-      ];
-      ddcutil = {
-        enable = true;
-        users = [ username ];
+  oix = {
+    hardware = {
+      gpu = "nvidia";
+      display = {
+        info = [
+          {
+            output = "DP-1";
+            width = 3840;
+            height = 2160;
+            orientation = "landscape";
+          }
+          {
+            output = "HDMI-A-1";
+            width = 2160;
+            height = 3840;
+            orientation = "portrait";
+          }
+        ];
+        ddcutil = {
+          users = [ username ];
+        };
+      };
+      power = {
+        hibernate = false;
       };
     };
-    multimedia.enable = true;
-    bluetooth.enable = true;
-    power.enable = true;
-    impermanence = {
-      enable = true;
-      persistDir = "/nix/persist";
+    storage = {
+      impermanence = {
+        persistDir = "/nix/persist";
+      };
     };
-    secureBoot.enable = true;
-    gaming.enable = true;
-  };
-  desktop = {
-    enable = true;
-    displayManager = "ly";
-    hyprland.enable = true;
-    niri.enable = true;
-    hibernate = false;
-    themes = {
-      enable = true;
-      list = [
-        "catppuccin-mocha"
-        "gruvbox-dark-hard"
-        "kanagawa"
-        "nord"
-        "tokyo-night-dark"
-      ];
-      polarity = "dark";
-    };
-    fonts = {
-      monospace = [
-        {
-          package = pkgs.nerd-fonts.jetbrains-mono;
-          name = "JetBrainsMono Nerd Font";
-        }
-        {
-          package = pkgs.sarasa-gothic;
-          name = "Sarasa Mono SC";
-        }
-      ];
-      sansSerif = [
-        {
-          package = pkgs.ibm-plex;
-          name = "IBM Plex Sans";
-        }
-        {
-          package = pkgs.sarasa-gothic;
-          name = "Sarasa Gothic SC";
-        }
-      ];
-      serif = [
-        {
-          package = pkgs.ibm-plex;
-          name = "IBM Plex Serif";
-        }
-        {
-          package = pkgs.sarasa-gothic;
-          name = "Sarasa Gothic SC";
-        }
-      ];
-      emoji = [
-        {
-          package = pkgs.noto-fonts-color-emoji;
-          name = "Noto Color Emoji";
-        }
-      ];
+    desktop = {
+      themes = {
+        list = [
+          "catppuccin-mocha"
+          "gruvbox-dark-hard"
+          "kanagawa"
+          "nord"
+          "tokyo-night-dark"
+        ];
+        polarity = "dark";
+      };
     };
   };
 

@@ -1,5 +1,4 @@
-{ inputs }:
-final: prev:
+_: final: prev:
 import ../pkgs {
   lib = prev.lib;
   pkgs = final;

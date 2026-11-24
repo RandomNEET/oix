@@ -1,4 +1,4 @@
-_: final: prev: {
+_: _final: prev: {
   inherit (prev.lixPackageSets.stable)
     nixpkgs-review
     nix-eval-jobs

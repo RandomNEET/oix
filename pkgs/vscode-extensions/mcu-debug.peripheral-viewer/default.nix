@@ -1,4 +1,4 @@
-{ pkgs, lib }:
+{ lib, pkgs }:
 let
   sources = builtins.fromJSON (builtins.readFile ./sources.json);
   system = pkgs.stdenv.hostPlatform.system;

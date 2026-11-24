@@ -8,16 +8,11 @@ let
   username = config.home.username;
 in
 {
-  defaultPrograms = {
-    editor = {
-      default = "nvim";
-      helix.enable = true;
-    };
-    fileManager = {
-      default = "yazi";
-    };
-    browser = {
-      default = "w3m";
+  oix = {
+    defaults = {
+      editor = "nvim";
+      fileManager = "yazi";
+      browser = "w3m";
     };
   };
 

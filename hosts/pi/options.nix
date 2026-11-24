@@ -16,58 +16,15 @@ in
     inputs.nixos-raspberrypi.nixosModules.raspberry-pi-5.bluetooth
   ];
 
-  base = {
-    gpu = "none";
-    multimedia.enable = true;
-    bluetooth.enable = true;
-    power.enable = true;
-  };
-  desktop = {
-    enable = true;
-    displayManager = "ly";
-    niri.enable = true;
-    themes = {
-      enable = true;
-      list = [ "catppuccin-mocha" ];
-      polarity = "dark";
+  oix = {
+    hardware = {
+      gpu = "none";
     };
-    fonts = {
-      monospace = [
-        {
-          package = pkgs.nerd-fonts.jetbrains-mono;
-          name = "JetBrainsMono Nerd Font";
-        }
-        {
-          package = pkgs.sarasa-gothic;
-          name = "Sarasa Mono SC";
-        }
-      ];
-      sansSerif = [
-        {
-          package = pkgs.ibm-plex;
-          name = "IBM Plex Sans";
-        }
-        {
-          package = pkgs.sarasa-gothic;
-          name = "Sarasa Gothic SC";
-        }
-      ];
-      serif = [
-        {
-          package = pkgs.ibm-plex;
-          name = "IBM Plex Serif";
-        }
-        {
-          package = pkgs.sarasa-gothic;
-          name = "Sarasa Gothic SC";
-        }
-      ];
-      emoji = [
-        {
-          package = pkgs.noto-fonts-color-emoji;
-          name = "Noto Color Emoji";
-        }
-      ];
+    desktop = {
+      themes = {
+        list = [ "catppuccin-mocha" ];
+        polarity = "dark";
+      };
     };
   };
 

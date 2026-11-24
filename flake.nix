@@ -184,8 +184,7 @@
         else
           home-manager-stable.nixosModules.home-manager;
 
-      baseOsModulePath = ./modules/base/os;
-      baseHmModulePath = ./modules/base/home;
+      coreModulePath = ./modules/core;
 
       mkTreefmtEval =
         system:
@@ -247,7 +246,7 @@
                 };
               }
               { system.stateVersion = meta.stateVersion; }
-              baseOsModulePath
+              coreModulePath
               (selectHmModule meta)
             ]
             ++ lib.optional (builtins.pathExists (hostPath + "/imports.nix")) (hostPath + "/imports.nix")
@@ -263,11 +262,9 @@
                     userPath = hostPath + "/users/${username}";
                   in
                   {
-                    imports = [
-                      baseHmModulePath
-                    ]
-                    ++ lib.optional (builtins.pathExists (userPath + "/imports.nix")) (userPath + "/imports.nix")
-                    ++ lib.optional (builtins.pathExists (userPath + "/options.nix")) (userPath + "/options.nix");
+                    imports = lib.optional (builtins.pathExists (userPath + "/options.nix")) (
+                      userPath + "/options.nix"
+                    );
 
                     home = {
                       username = username;
@@ -322,7 +319,7 @@
                 ;
             };
             modules = [
-              baseHmModulePath
+              coreModulePath
               {
                 home = {
                   inherit username;
@@ -332,7 +329,7 @@
                 programs.home-manager.enable = true;
               }
             ]
-            ++ lib.optional (builtins.pathExists (userPath + "/imports.nix")) (userPath + "/imports.nix")
+            ++ lib.optional (builtins.pathExists (hostPath + "/imports.nix")) (hostPath + "/imports.nix")
             ++ lib.optional (builtins.pathExists (userPath + "/options.nix")) (userPath + "/options.nix");
           };
         };

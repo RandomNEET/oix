@@ -1,11 +1,9 @@
 { pkgs, ... }:
 {
-  defaultPrograms = {
-    editor = {
-      default = "nvim";
-    };
-    fileManager = {
-      default = "yazi";
+  oix = {
+    defaults = {
+      editor = "nvim";
+      fileManager = "yazi";
     };
   };
 

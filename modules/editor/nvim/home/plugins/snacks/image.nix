@@ -1,0 +1,22 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  config = {
+    programs.nixvim = rec {
+      plugins.snacks.settings.image = {
+        enabled = builtins.elem (config.oix.defaults.terminal or null) [ "kitty" ];
+      };
+      extraPackages = lib.mkIf plugins.snacks.settings.image.enabled (
+        with pkgs;
+        [
+          ghostscript
+          mermaid-cli
+        ]
+      );
+    };
+  };
+}

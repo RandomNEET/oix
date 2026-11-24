@@ -5,26 +5,17 @@
   ...
 }:
 rec {
-  defaultPrograms = {
-    editor = {
-      default = "nvim";
+  oix = {
+    defaults = {
+      editor = "nvim";
+      fileManager = "yazi";
+      terminal = "kitty";
+      browser = "qutebrowser";
     };
-    fileManager = {
-      default = "yazi";
-    };
-    terminal = {
-      default = "kitty";
-    };
-    browser = {
-      default = "qutebrowser";
-      chromium.enable = true;
-      w3m.enable = true;
-    };
-  };
-  desktop = {
-    wallpaper = {
-      enable = true;
-      dir = "${config.home.homeDirectory}/pic/wallpapers";
+    desktop = {
+      wallpaper = {
+        dir = "${config.home.homeDirectory}/pic/wallpapers";
+      };
     };
   };
 

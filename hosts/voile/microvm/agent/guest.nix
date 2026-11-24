@@ -8,11 +8,28 @@
 }:
 {
   imports = [
-    ../../../../modules/base/os/core/openssh.nix
-    ../../../../modules/base/os/desktop/options.nix
-    ../../../../modules/base/os/gpu/options.nix
+    ../../../../modules/network/ssh/os.nix
 
-    ../../../../modules/optional/os/programs/nix-ld
+    ../../../../modules/shell/zsh
+    ../../../../modules/shell/starship
+    ../../../../modules/shell/tmux
+    ../../../../modules/shell/zoxide
+    ../../../../modules/shell/fzf
+    ../../../../modules/shell/ripgrep
+    ../../../../modules/shell/fd
+    ../../../../modules/shell/eza
+    ../../../../modules/shell/bat
+    ../../../../modules/shell/jq
+    ../../../../modules/development
+
+    ../../../../modules/file-manager/yazi
+    ../../../../modules/editor/nvim
+    ../../../../modules/editor/helix
+
+    ../../../../modules/ai/antigravity-cli
+    ../../../../modules/ai/codex
+    ../../../../modules/ai/opencode
+    ../../../../modules/ai/pi-coding-agent
   ];
 
   programs = {

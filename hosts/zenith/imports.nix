@@ -1,18 +1,74 @@
 {
   imports = [
-    ../../modules/optional/os/programs/firejail
-    ../../modules/optional/os/programs/mosh
-    ../../modules/optional/os/programs/nix-ld
+    ../../modules/hardware/gpu
+    ../../modules/hardware/display
+    ../../modules/hardware/multimedia
+    ../../modules/hardware/power
+    ../../modules/hardware/bluetooth
 
-    ../../modules/optional/os/services/dae
-    ../../modules/optional/os/services/flatpak
-    ../../modules/optional/os/services/fstrim
+    ../../modules/storage/impermanence
+    ../../modules/storage/fstrim
 
-    ../../modules/optional/os/scripts/gen-diff.nix
-    ../../modules/optional/os/scripts/oix-init.nix
-    ../../modules/optional/os/scripts/snapper-list.nix
+    ../../modules/security/secure-boot
+    ../../modules/security/sops
+    ../../modules/security/gpg
+    ../../modules/security/password-store
+    ../../modules/security/firejail
 
-    ../../modules/optional/os/virtualisation/libvirtd
-    ../../modules/optional/os/virtualisation/podman
+    ../../modules/network/ssh
+    ../../modules/network/mosh
+    ../../modules/network/dae
+
+    ../../modules/virtualisation/libvirtd
+    ../../modules/virtualisation/podman
+    ../../modules/virtualisation/distrobox
+
+    ../../modules/desktop/hyprland
+    ../../modules/desktop/niri
+
+    ../../modules/shell
+    ../../modules/development
+
+    ../../modules/editor/nvim
+    ../../modules/editor/vscode
+
+    ../../modules/file-manager/yazi
+
+    ../../modules/terminal/kitty
+
+    ../../modules/browser/qutebrowser
+    ../../modules/browser/chromium
+    ../../modules/browser/w3m
+
+    ../../modules/ai/antigravity-cli
+    ../../modules/ai/codex
+    ../../modules/ai/opencode
+    ../../modules/ai/pi-coding-agent
+
+    ../../modules/media/mpv
+    ../../modules/media/swayimg
+    ../../modules/media/obs-studio
+    ../../modules/media/mpd
+    ../../modules/media/rmpc
+    ../../modules/media/cava
+    ../../modules/media/yt-dlp
+    ../../modules/media/gallery-dl
+
+    ../../modules/document/obsidian
+    ../../modules/document/zathura
+
+    ../../modules/mail/mbsync
+    ../../modules/mail/aerc
+
+    ../../modules/gaming/steam
+    ../../modules/gaming/gamescope
+
+    ../../modules/misc/newsboat
+    ../../modules/misc/ttyper
+
+    ../../modules/scripts/oix-init
+    ../../modules/scripts/gen-diff
+    ../../modules/scripts/snapper-list
+    ../../modules/scripts/tlmc
   ];
 }

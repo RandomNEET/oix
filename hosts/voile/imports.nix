@@ -3,18 +3,41 @@
     ./sever
     ./microvm
 
-    ../../modules/optional/os/programs/mosh
+    ../../modules/hardware/gpu
+    ../../modules/storage/fstrim
 
-    ../../modules/optional/os/services/cron
-    ../../modules/optional/os/services/fstrim
-    ../../modules/optional/os/services/tailscale
-    ../../modules/optional/os/services/xray
+    ../../modules/security/sops
+    ../../modules/security/gpg
+    ../../modules/security/password-store
 
-    ../../modules/optional/os/scripts/gen-diff.nix
-    ../../modules/optional/os/scripts/nix-daemon-proxy.nix
-    ../../modules/optional/os/scripts/oix-init.nix
+    ../../modules/network/ssh
+    ../../modules/network/mosh
+    ../../modules/network/tailscale
+    ../../modules/network/xray
 
-    ../../modules/optional/os/virtualisation/docker
-    ../../modules/optional/os/virtualisation/libvirtd
+    ../../modules/virtualisation/libvirtd
+    ../../modules/virtualisation/docker
+
+    ../../modules/shell
+
+    ../../modules/development/git
+    ../../modules/development/lazygit
+    ../../modules/development/direnv
+
+    ../../modules/editor/nvim
+    ../../modules/editor/helix
+
+    ../../modules/file-manager/yazi
+
+    ../../modules/browser/w3m
+
+    ../../modules/media/mpd
+    ../../modules/media/yt-dlp
+    ../../modules/media/gallery-dl
+
+    ../../modules/scripts/oix-init
+    ../../modules/scripts/gen-diff
+    ../../modules/scripts/nix-daemon-proxy
+    ../../modules/scripts/tlmc
   ];
 }

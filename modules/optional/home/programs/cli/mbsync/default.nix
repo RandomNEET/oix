@@ -1,5 +1,0 @@
-{
-  programs.mbsync = {
-    enable = true;
-  };
-}

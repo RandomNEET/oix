@@ -3,11 +3,16 @@ let
   username = "howl";
 in
 {
-  base = {
-    gpu = "nvidia";
+  oix = {
+    hardware = {
+      gpu = "nvidia";
+    };
   };
 
   services = {
+    cron = {
+      enable = true;
+    };
     getty = {
       autologinUser = username;
       autologinOnce = true;

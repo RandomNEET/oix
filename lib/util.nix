@@ -60,6 +60,39 @@
       in
       scan path 1;
 
+    # Load os and/or home module aspects from a directory based on meta.platform
+    mkModule =
+      moduleDir: meta:
+      let
+        resolveAspect =
+          aspect:
+          let
+            file = moduleDir + "/${aspect}.nix";
+            dirDefault = moduleDir + "/${aspect}/default.nix";
+          in
+          if builtins.pathExists file then
+            [ file ]
+          else if builtins.pathExists dirDefault then
+            [ (moduleDir + "/${aspect}") ]
+          else
+            [ ];
+        osModules = resolveAspect "os";
+        hmModules = resolveAspect "home";
+      in
+      if meta.platform == "nixos" then
+        {
+          imports = osModules;
+          home-manager.sharedModules = hmModules;
+        }
+      else if (meta.username or null) == null then
+        {
+          imports = osModules;
+        }
+      else
+        {
+          imports = hmModules;
+        };
+
     # Install a generated Home Manager file as a writable copy on each activation
     # activationName names the activation step
     # fileKey selects the file
