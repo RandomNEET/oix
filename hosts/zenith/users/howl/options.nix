@@ -255,8 +255,6 @@ rec {
   };
   home = {
     packages = with pkgs; [
-      chatgpt
-
       osu-lazer
       prismlauncher
     ];
