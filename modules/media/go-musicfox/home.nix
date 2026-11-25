@@ -42,7 +42,7 @@ in
         };
       };
     }
-    (lib.optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+    (lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
       programs.go-musicfox.settings.theme = {
         activeTheme = "stylix";
         inherit primaryColor;

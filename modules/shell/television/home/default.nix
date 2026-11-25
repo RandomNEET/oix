@@ -1,4 +1,5 @@
 {
+  options,
   osConfig,
   config,
   lib,
@@ -8,8 +9,32 @@
 }:
 let
   inherit (lib) optionalAttrs;
+  themesEnabled = osConfig.oix.appearance.themes.enable or false;
+  hasNativeThemesOption = options.programs.television ? themes;
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
+  stylixTheme = with colors; {
+    background = base00;
+    border_fg = base03;
+    text_fg = base05;
+    dimmed_text_fg = base04;
+    input_text_fg = base05;
+    result_count_fg = primaryColor;
+    result_name_fg = base05;
+    result_line_number_fg = base0A;
+    result_value_fg = base05;
+    selection_fg = base06;
+    selection_bg = base02;
+    match_fg = primaryColor;
+    preview_title_fg = primaryColor;
+    channel_mode_fg = base00;
+    channel_mode_bg = primaryColor;
+    remote_control_mode_fg = base00;
+    remote_control_mode_bg = base0A;
+    action_picker_mode_fg = base00;
+    action_picker_mode_bg = base0E;
+    send_to_channel_mode_fg = base0C;
+  };
 in
 {
   programs.television = lib.mkMerge [
@@ -49,30 +74,19 @@ in
         '';
       };
     })
-    (optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
-      settings.ui.theme = "stylix";
-      themes.stylix = with colors; {
-        background = base00;
-        border_fg = base03;
-        text_fg = base05;
-        dimmed_text_fg = base04;
-        input_text_fg = base05;
-        result_count_fg = primaryColor;
-        result_name_fg = base05;
-        result_line_number_fg = base0A;
-        result_value_fg = base05;
-        selection_fg = base06;
-        selection_bg = base02;
-        match_fg = primaryColor;
-        preview_title_fg = primaryColor;
-        channel_mode_fg = base00;
-        channel_mode_bg = primaryColor;
-        remote_control_mode_fg = base00;
-        remote_control_mode_bg = base0A;
-        action_picker_mode_fg = base00;
-        action_picker_mode_bg = base0E;
-        send_to_channel_mode_fg = base0C;
-      };
-    })
+    (optionalAttrs themesEnabled (
+      {
+        settings.ui.theme = "stylix";
+      }
+      // optionalAttrs hasNativeThemesOption {
+        themes.stylix = stylixTheme;
+      }
+    ))
   ];
+
+  xdg.configFile = optionalAttrs (themesEnabled && !hasNativeThemesOption) {
+    "television/themes/stylix.toml".source =
+      (pkgs.formats.toml { }).generate "television-theme-stylix"
+        stylixTheme;
+  };
 }

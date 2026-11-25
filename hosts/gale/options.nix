@@ -30,7 +30,7 @@ in
         persistDir = "/nix/persist";
       };
     };
-    desktop = {
+    appearance = {
       themes = {
         list = [
           "catppuccin-mocha"

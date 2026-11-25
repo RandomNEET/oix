@@ -11,7 +11,7 @@ let
   themedDir = "${wallpaperDir}/themed";
   # List : arcdark atomdark cat-frappe cat-latte catppuccin cyberpunk dracula everforest github-light gruvbox kanagawa material melange-dark melange-light monokai night-owl nord oceanic-next onedark palenight rose-pine shades-of-purple solarized srcery sunset-aurant sunset-saffron sunset-tangerine synthwave-84 tokyo-dark tokyo-moon tokyo-storm
   # Custom: catppuccin-mocha gruvbox-dark-hard  tokyo-night-dark
-  themesArray = mylib.theme.getThemesArray (osConfig.oix.desktop.themes.list or [ ]);
+  themesArray = mylib.theme.getThemesArray (osConfig.oix.appearance.themes.list or [ ]);
 in
 pkgs.writeShellScriptBin "gowall-autoconvert" ''
   # --- 1. CONFIGURATION & INITIALIZATION ---

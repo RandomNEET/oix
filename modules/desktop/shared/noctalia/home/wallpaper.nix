@@ -5,7 +5,7 @@
   mylib,
 }:
 let
-  themesEnabled = osConfig.oix.desktop.themes.enable or false;
+  themesEnabled = osConfig.oix.appearance.themes.enable or false;
   themeName =
     if themesEnabled then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
   hasWallpaper = config.oix.desktop.wallpaper.enable;
@@ -17,7 +17,6 @@ let
 in
 {
   enabled = true;
-
   directory = wallpaperDir;
   per_monitor_directories = true;
   monitor = lib.mkIf (hasWallpaper && (osConfig.oix.hardware.display.info or [ ]) != [ ]) (

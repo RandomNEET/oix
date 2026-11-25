@@ -26,7 +26,7 @@
       bind-key ^n halfpagedown
       bind-key m mark-feed-read
     ''
-    + lib.optionalString (osConfig.oix.desktop.themes.enable or false) ''
+    + lib.optionalString (osConfig.oix.appearance.themes.enable or false) ''
       color listnormal         color15 default
       color listnormal_unread  color2  default
       color listfocus_unread   color2  color8

@@ -9,7 +9,7 @@
   imports = [
     ../../shared/home.nix
   ]
-  ++ lib.optional (osConfig.oix.desktop.themes.enable or false) {
+  ++ lib.optional (osConfig.oix.appearance.themes.enable or false) {
     # TEMPFIX until Stylix uses cli.theme.name for OpenCode 2
     programs.opencode = {
       tui = lib.mkForce { };
@@ -55,6 +55,6 @@
     })
   ];
 }
-// lib.optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+// lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
   stylix.targets.opencode.enable = true;
 }

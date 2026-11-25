@@ -35,7 +35,7 @@ in
       }
       // optionalAttrs config.programs.tmux.enable { tmux.enabled = true; };
     }
-    (optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+    (optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
       settings.theme.name = "stylix";
       themes.stylix = {
         theme.name = "stylix";

@@ -2,13 +2,11 @@
 {
   imports = [
     (mylib.util.mkModule ./. meta)
+    ../shared/base
     ../shared/security
-    ../shared/ly
     ../shared/xdg
-    ../shared/flatpak
-    ../shared/fonts
-    ../shared/themes
     ../shared/fcitx5
     ../shared/packages
+    ../shared/flatpak
   ];
 }

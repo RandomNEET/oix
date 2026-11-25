@@ -36,7 +36,7 @@ in
             mode = "u=rwx,g=rx,o=";
           }
         ]
-        ++ optional (config.oix.security.secureBoot.enable or false) "/var/lib/sbctl"
+        ++ optional (config.boot.lanzaboote.enable or false) "/var/lib/sbctl"
         ++ optional config.services.tailscale.enable "/var/lib/tailscale"
         ++ optional config.services.power-profiles-daemon.enable "/var/lib/power-profiles-daemon"
         ++ optional config.virtualisation.libvirtd.enable "/var/lib/libvirt"
@@ -57,7 +57,7 @@ in
           "/etc/ssh/ssh_host_ed25519_key"
           "/etc/ssh/ssh_host_ed25519_key.pub"
         ]
-        ++ optional (config.oix.desktop.ly.enable or false) "/etc/ly/save.txt";
+        ++ optional config.services.displayManager.ly.enable "/etc/ly/save.txt";
       };
     };
     system.activationScripts = {

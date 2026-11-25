@@ -85,6 +85,6 @@ in
         })
       ];
 }
-// optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+// optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
   stylix.targets.fzf.enable = true;
 }

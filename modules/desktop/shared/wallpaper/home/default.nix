@@ -25,7 +25,7 @@ in
       with pkgs;
       [ gowall ]
       ++ lib.optional (
-        (osConfig.oix.desktop.themes.enable or false) && config.oix.desktop.wallpaper.enable
+        (osConfig.oix.appearance.themes.enable or false) && config.oix.desktop.wallpaper.enable
       ) gowall-autoconvert;
     file = {
       ".config/gowall/config.yml".text = ''

@@ -22,7 +22,7 @@ in
           };
         };
       };
-      highlightOverride = lib.mkIf (osConfig.oix.desktop.themes.enable or false) {
+      highlightOverride = lib.mkIf (osConfig.oix.appearance.themes.enable or false) {
         WhichkeyBorder = {
           fg = colors.base05;
           bg = "none";

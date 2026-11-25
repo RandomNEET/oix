@@ -6,8 +6,8 @@
 }:
 let
   defaultTheme =
-    if (osConfig.oix.desktop.themes.enable or false) then
-      builtins.head (osConfig.oix.desktop.themes.list or [ ])
+    if (osConfig.oix.appearance.themes.enable or false) then
+      builtins.head (osConfig.oix.appearance.themes.list or [ ])
     else
       "original";
 in

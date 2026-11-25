@@ -7,6 +7,12 @@ in
     hardware = {
       gpu = "nvidia";
     };
+    appearance = {
+      themes = {
+        list = [ "catppuccin-mocha" ];
+        polarity = "dark";
+      };
+    };
   };
 
   services = {

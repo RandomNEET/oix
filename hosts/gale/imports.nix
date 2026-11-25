@@ -25,10 +25,6 @@
     ../../modules/virtualisation/podman
     ../../modules/virtualisation/distrobox
 
-    ../../modules/desktop/niri
-    ../../modules/desktop/hyprland
-    ../../modules/desktop/mango
-
     ../../modules/shell
     ../../modules/development
 
@@ -77,5 +73,13 @@
     ../../modules/scripts/nix-daemon-proxy
     ../../modules/scripts/snapper-list
     ../../modules/scripts/tlmc
+
+    ../../modules/appearance/fonts
+    ../../modules/appearance/themes
+
+    ../../modules/desktop/ly
+    ../../modules/desktop/niri
+    ../../modules/desktop/hyprland
+    ../../modules/desktop/mango
   ];
 }

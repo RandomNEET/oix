@@ -12,7 +12,7 @@ let
     default_language = "english1000"
   '';
 
-  theme = lib.optionalString (osConfig.oix.desktop.themes.enable or false) ''
+  theme = lib.optionalString (osConfig.oix.appearance.themes.enable or false) ''
     [theme]
     default = "none"
     border_type = "rounded"

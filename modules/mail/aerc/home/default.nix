@@ -9,7 +9,7 @@
 let
   inherit (lib) optionalAttrs getExe getExe';
   hasDesktop = osConfig.oix.desktop.enable or false;
-  themesEnabled = osConfig.oix.desktop.themes.enable or false;
+  themesEnabled = osConfig.oix.appearance.themes.enable or false;
   colors = config.lib.stylix.colors.withHashtag;
 in
 {

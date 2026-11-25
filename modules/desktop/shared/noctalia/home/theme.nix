@@ -4,7 +4,7 @@
   mylib,
 }:
 let
-  themesEnabled = osConfig.oix.desktop.themes.enable or false;
+  themesEnabled = osConfig.oix.appearance.themes.enable or false;
   themeName =
     if themesEnabled then mylib.theme.getBase16Scheme config.stylix.base16Scheme else "default";
   matchedPredefinedScheme =

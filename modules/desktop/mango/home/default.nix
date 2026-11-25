@@ -66,7 +66,7 @@ in
               // import ./misc.nix
             )
             (
-              lib.optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+              lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
                 root_color = "0x${colors.base00}ff";
                 border_color = "0x${colors.base02}ff";
                 drop_color = "0x${colors.base01}55";

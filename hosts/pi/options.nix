@@ -20,7 +20,7 @@ in
     hardware = {
       gpu = "none";
     };
-    desktop = {
+    appearance = {
       themes = {
         list = [ "catppuccin-mocha" ];
         polarity = "dark";
@@ -28,9 +28,6 @@ in
     };
   };
 
-  programs = {
-    dconf.enable = true;
-  };
   services = {
     dae = {
       configFile = "/run/secrets/dae";

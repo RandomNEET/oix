@@ -5,7 +5,7 @@
   ...
 }:
 let
-  themesEnabled = osConfig.oix.desktop.themes.enable or false;
+  themesEnabled = osConfig.oix.appearance.themes.enable or false;
   colors = config.lib.stylix.colors.withHashtag;
   hex = c: builtins.substring 1 6 c;
 in
@@ -420,7 +420,9 @@ in
     ''
     + lib.optionalString themesEnabled ''
       -- Theme settings (overrides defaults above)
-      swayimg.text.font = "${(builtins.head osConfig.oix.desktop.fonts.monospace).name}"
+      ${lib.optionalString ((osConfig.oix.appearance.fonts.monospace or [ ]) != [ ]) ''
+        swayimg.text.font = "${(builtins.head osConfig.oix.appearance.fonts.monospace).name}"
+      ''}
       swayimg.text.size = 12
       swayimg.text.color = 0xff${hex colors.base05}
       swayimg.text.background = 0x00${hex colors.base00}

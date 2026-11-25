@@ -4,6 +4,7 @@
     ./microvm
 
     ../../modules/hardware/gpu
+
     ../../modules/storage/fstrim
 
     ../../modules/security/sops
@@ -39,5 +40,7 @@
     ../../modules/scripts/gen-diff
     ../../modules/scripts/nix-daemon-proxy
     ../../modules/scripts/tlmc
+
+    ../../modules/appearance/themes
   ];
 }

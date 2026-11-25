@@ -38,7 +38,7 @@ in
             // import ./misc.nix
           )
           (
-            lib.optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+            lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
               layout.border = {
                 active-color = primaryColor;
                 inactive-color = colors.base03;

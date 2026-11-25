@@ -22,7 +22,7 @@ in
           char = "▎";
         };
       };
-      highlightOverride = lib.mkIf (osConfig.oix.desktop.themes.enable or false) {
+      highlightOverride = lib.mkIf (osConfig.oix.appearance.themes.enable or false) {
         SnacksIndent = {
           fg = colors.base02;
         };

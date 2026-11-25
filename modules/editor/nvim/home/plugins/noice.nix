@@ -112,7 +112,7 @@ in
           };
         };
       };
-      highlightOverride = lib.mkIf (osConfig.oix.desktop.themes.enable or false) {
+      highlightOverride = lib.mkIf (osConfig.oix.appearance.themes.enable or false) {
         NoiceCmdlineIcon = {
           fg = colors.base0C;
           bg = "none";

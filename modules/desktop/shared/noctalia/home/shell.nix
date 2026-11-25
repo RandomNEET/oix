@@ -5,10 +5,11 @@
   pkgs,
 }:
 let
+  monoFonts = osConfig.oix.appearance.fonts.monospace or [ ];
   screenshot-handler = lib.getExe (import ./scripts/screenshot-handler.nix { inherit config pkgs; });
 in
 {
-  font_family = (builtins.head osConfig.oix.desktop.fonts.monospace).name;
+  font_family = if monoFonts != [ ] then (builtins.head monoFonts).name else "monospace";
   lang = "en";
   telemetry_enabled = false;
   setup_wizard_enabled = false;

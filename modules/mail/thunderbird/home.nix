@@ -1,4 +1,12 @@
-{ osConfig, pkgs, ... }:
+{
+  osConfig,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  monoFonts = osConfig.oix.appearance.fonts.monospace or [ ];
+in
 {
   programs.thunderbird = {
     enable = true;
@@ -16,7 +24,6 @@
         settings = {
           "app.donation.eoy.version.viewed" = 999;
           "mailnews.start_page.enabled" = false;
-          "font.name.sans-serif.x-western" = (builtins.head osConfig.oix.desktop.fonts.monospace).name;
 
           # TELEMETRY
           "datareporting.policy.dataSubmissionEnabled" = false;
@@ -49,6 +56,9 @@
           "browser.download.useDownloadDir" = false;
           "browser.download.manager.addToRecentDocs" = false;
           "browser.download.always_ask_before_handling_new_types" = true;
+        }
+        // lib.optionalAttrs (monoFonts != [ ]) {
+          "font.name.sans-serif.x-western" = (builtins.head monoFonts).name;
         };
         withExternalGnupg = true;
       };

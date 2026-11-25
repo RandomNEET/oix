@@ -200,7 +200,7 @@ in
   ++ optional config.programs.password-store.enable (
     mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("noctalia msg panel-toggle launcher /pass")''
   )
-  ++ optional (osConfig.oix.gaming.steam.enable or false) (
+  ++ optional (osConfig.programs.steam.enable or false) (
     mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")''
   )
   ++ optional (osConfig.oix.gaming.enable or false) (

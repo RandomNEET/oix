@@ -75,7 +75,7 @@
     '';
   };
 }
-# // lib.optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+# // lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
 #   stylix.targets.fcitx5.enable = true;
 # }
 
@@ -84,7 +84,7 @@
 # Remove this entire marked block and uncomment the original block above once
 # the locked Stylix input fixes the SVG dimensions or margins and renders correctly.
 # Upstream: https://github.com/nix-community/stylix/tree/master/modules/fcitx5
-// lib.optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+// lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
   stylix.targets.fcitx5.enable = true;
   imports = [
     {

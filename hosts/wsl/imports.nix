@@ -22,5 +22,7 @@
 
     ../../modules/scripts/oix-init
     ../../modules/scripts/gen-diff
+
+    ../../modules/appearance/themes
   ];
 }

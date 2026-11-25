@@ -132,6 +132,6 @@ in
     ffmpeg # mpv-cut
   ];
 }
-// lib.optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+// lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
   stylix.targets.mpv.enable = true;
 }

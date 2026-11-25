@@ -1,5 +1,4 @@
 {
-  osConfig,
   config,
   lib,
   pkgs,
@@ -21,25 +20,25 @@ in
           xdg-desktop-portal-gtk
           xdg-desktop-portal-termfilechooser
         ]
-        ++ optional (osConfig.oix.desktop.hyprland.enable or false) xdg-desktop-portal-hyprland
-        ++ optional (osConfig.oix.desktop.mango.enable or false) xdg-desktop-portal-wlr
-        ++ optional (osConfig.oix.desktop.plasma.enable or false) kdePackages.xdg-desktop-portal-kde;
+        ++ optional (config.wayland.windowManager.hyprland.enable or false) xdg-desktop-portal-hyprland
+        ++ optional (config.wayland.windowManager.mango.enable or false) xdg-desktop-portal-wlr
+        ++ optional (config.programs.plasma.enable or false) kdePackages.xdg-desktop-portal-kde;
       configPackages =
         with pkgs;
         [
           xdg-desktop-portal-gtk
           xdg-desktop-portal-termfilechooser
         ]
-        ++ optional (osConfig.oix.desktop.hyprland.enable or false) xdg-desktop-portal-hyprland
-        ++ optional (osConfig.oix.desktop.mango.enable or false) xdg-desktop-portal-wlr
-        ++ optional (osConfig.oix.desktop.plasma.enable or false) kdePackages.plasma-workspace;
+        ++ optional (config.wayland.windowManager.hyprland.enable or false) xdg-desktop-portal-hyprland
+        ++ optional (config.wayland.windowManager.mango.enable or false) xdg-desktop-portal-wlr
+        ++ optional (config.programs.plasma.enable or false) kdePackages.plasma-workspace;
       config = {
         common = {
           default = "gtk";
           "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
         };
       }
-      // optionalAttrs (osConfig.oix.desktop.hyprland.enable or false) {
+      // optionalAttrs (config.wayland.windowManager.hyprland.enable or false) {
         hyprland = {
           default = [
             "hyprland"
@@ -50,7 +49,7 @@ in
           "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
         };
       }
-      // optionalAttrs (osConfig.oix.desktop.mango.enable or false) {
+      // optionalAttrs (config.wayland.windowManager.mango.enable or false) {
         mango = {
           default = "gtk";
           "org.freedesktop.impl.portal.ScreenCast" = "wlr";
@@ -59,7 +58,7 @@ in
           "org.freedesktop.impl.portal.Inhibit" = "none";
         };
       }
-      // optionalAttrs (osConfig.oix.desktop.plasma.enable or false) {
+      // optionalAttrs (config.programs.plasma.enable or false) {
         KDE = {
           default = [
             "gtk"

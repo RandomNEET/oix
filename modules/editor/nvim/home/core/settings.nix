@@ -6,7 +6,7 @@
   ...
 }:
 let
-  themesEnabled = osConfig.oix.desktop.themes.enable or false;
+  themesEnabled = osConfig.oix.appearance.themes.enable or false;
 in
 {
   config = (

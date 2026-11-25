@@ -9,7 +9,7 @@
 }:
 let
   inherit (lib) optionalString;
-  themesEnabled = osConfig.oix.desktop.themes.enable or false;
+  themesEnabled = osConfig.oix.appearance.themes.enable or false;
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
   resurrectDir = "${config.xdg.stateHome}/tmux/resurrect";
@@ -183,7 +183,7 @@ in
     txl = "tmuxinator list";
   };
 }
-# // lib.optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+# // lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
 #   stylix.targets.tmux.enable = true;
 # }
 
@@ -192,7 +192,7 @@ in
 # Remove this entire marked block and uncomment the original block above once
 # the locked Stylix input styles popups correctly.
 # Upstream: https://github.com/nix-community/stylix/tree/master/modules/tmux
-// lib.optionalAttrs (osConfig.oix.desktop.themes.enable or false) {
+// lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
   stylix.targets.tmux.enable = true;
   imports = [
     {

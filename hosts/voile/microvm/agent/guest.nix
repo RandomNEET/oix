@@ -20,17 +20,30 @@
     ../../../../modules/shell/eza
     ../../../../modules/shell/bat
     ../../../../modules/shell/jq
+
     ../../../../modules/development
 
-    ../../../../modules/file-manager/yazi
     ../../../../modules/editor/nvim
     ../../../../modules/editor/helix
+
+    ../../../../modules/file-manager/yazi
 
     ../../../../modules/ai/antigravity-cli
     ../../../../modules/ai/codex
     ../../../../modules/ai/opencode
     ../../../../modules/ai/pi-coding-agent
+
+    ../../../../modules/appearance/themes
   ];
+
+  oix = {
+    appearance = {
+      themes = {
+        list = [ "catppuccin-mocha" ];
+        polarity = "dark";
+      };
+    };
+  };
 
   programs = {
     zsh = {

@@ -10,8 +10,8 @@ let
   customPluginsDir = ".local/state/noctalia/plugins/custom";
 
   themeSwitcherEnabled =
-    (osConfig.oix.desktop.themes.enable or false)
-    && builtins.length (osConfig.oix.desktop.themes.list or [ ]) > 1;
+    (osConfig.oix.appearance.themes.enable or false)
+    && builtins.length (osConfig.oix.appearance.themes.list or [ ]) > 1;
 in
 {
   config = lib.mkIf (osConfig.oix.desktop.enable or false) {

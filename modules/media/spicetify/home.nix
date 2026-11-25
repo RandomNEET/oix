@@ -11,7 +11,7 @@ let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 
   themeName =
-    if (osConfig.oix.desktop.themes.enable or false) then
+    if (osConfig.oix.appearance.themes.enable or false) then
       mylib.theme.getBase16Scheme config.stylix.base16Scheme
     else
       "default";

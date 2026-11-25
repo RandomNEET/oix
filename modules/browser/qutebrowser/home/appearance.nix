@@ -5,7 +5,7 @@
   ...
 }:
 let
-  themesEnabled = osConfig.oix.desktop.themes.enable or false;
+  themesEnabled = osConfig.oix.appearance.themes.enable or false;
   fallbackColors = {
     base00 = "1e1e2e";
     base01 = "181825";

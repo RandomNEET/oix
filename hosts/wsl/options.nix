@@ -10,6 +10,16 @@ let
 in
 {
   imports = [ inputs.nixos-wsl.nixosModules.default ];
+
+  oix = {
+    appearance = {
+      themes = {
+        list = [ "catppuccin-mocha" ];
+        polarity = "dark";
+      };
+    };
+  };
+
   wsl = {
     enable = true;
     defaultUser = username;

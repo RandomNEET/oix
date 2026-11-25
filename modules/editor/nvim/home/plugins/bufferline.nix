@@ -175,7 +175,7 @@ in
           };
         }
       ];
-      highlightOverride = lib.mkIf (osConfig.oix.desktop.themes.enable or false) {
+      highlightOverride = lib.mkIf (osConfig.oix.appearance.themes.enable or false) {
         # --- Buffers ---
         BufferLineBackground = {
           bg = colors.base01;

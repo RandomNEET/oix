@@ -23,9 +23,6 @@
     ../../modules/virtualisation/podman
     ../../modules/virtualisation/distrobox
 
-    ../../modules/desktop/hyprland
-    ../../modules/desktop/niri
-
     ../../modules/shell
     ../../modules/development
 
@@ -57,8 +54,8 @@
     ../../modules/document/obsidian
     ../../modules/document/zathura
 
-    ../../modules/mail/mbsync
     ../../modules/mail/aerc
+    ../../modules/mail/mbsync
 
     ../../modules/gaming/steam
     ../../modules/gaming/gamescope
@@ -70,5 +67,12 @@
     ../../modules/scripts/gen-diff
     ../../modules/scripts/snapper-list
     ../../modules/scripts/tlmc
+
+    ../../modules/appearance/fonts
+    ../../modules/appearance/themes
+
+    ../../modules/desktop/ly
+    ../../modules/desktop/hyprland
+    ../../modules/desktop/niri
   ];
 }
