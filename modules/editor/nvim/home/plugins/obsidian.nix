@@ -14,7 +14,7 @@
           workspaces =
             let
               vaults = config.programs.obsidian.vaults;
-              enabledVaults = lib.filterAttrs (_name: value: value.enable or true) vaults;
+              enabledVaults = lib.filterAttrs (_name: value: value.enable) vaults;
             in
             lib.mapAttrsToList (name: value: {
               inherit name;

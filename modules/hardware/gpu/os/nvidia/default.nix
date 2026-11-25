@@ -9,7 +9,7 @@ let
   nvidiaDriverChannel = config.boot.kernelPackages.nvidiaPackages.latest; # stable, latest, beta, etc.
 in
 {
-  config = lib.mkIf ((config.oix.hardware.gpu or "none") == "nvidia") (
+  config = lib.mkIf (config.oix.hardware.gpu == "nvidia") (
     {
       environment.sessionVariables = lib.optionalAttrs (config.oix.desktop.enable or false) {
         NVD_BACKEND = "direct";

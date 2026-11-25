@@ -102,9 +102,7 @@ in
               "~man"
               less more tail top ssh
             '
-            ${optionalString (
-              (config.oix.defaults.editor or null) == "nvim"
-            ) "set -g @resurrect-strategy-nvim 'session'"}
+            ${optionalString (config.oix.defaults.editor == "nvim") "set -g @resurrect-strategy-nvim 'session'"}
           '';
         }
         {

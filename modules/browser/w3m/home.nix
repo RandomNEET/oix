@@ -26,8 +26,8 @@ in
           display_image = 1;
           auto_image = 1;
         }
-        // optionalAttrs (hasDesktop && (config.oix.defaults.browser or null) != null) {
-          extbrowser = config.oix.defaults.browser or null;
+        // optionalAttrs (hasDesktop && config.oix.defaults.browser != null) {
+          extbrowser = config.oix.defaults.browser;
         };
       }
       // optionalAttrs hasDesktop {

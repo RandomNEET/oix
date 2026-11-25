@@ -14,7 +14,7 @@ let
     && builtins.length (osConfig.oix.appearance.themes.list or [ ]) > 1;
 in
 {
-  config = lib.mkIf (osConfig.oix.desktop.enable or false) {
+  config = lib.mkIf osConfig.oix.desktop.enable {
     programs.noctalia.settings = {
       plugins = {
         enabled = [

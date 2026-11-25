@@ -5,7 +5,7 @@
     settings = {
       git_protocol = "ssh";
       prompt = "enabled";
-      editor = config.oix.defaults.editor or null;
+      editor = config.oix.defaults.editor;
     };
   };
 }

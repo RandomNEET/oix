@@ -8,8 +8,8 @@
 }:
 let
   inherit (lib) mkForce mkIf mkMerge;
-  themesList = osConfig.oix.appearance.themes.list or [ ];
-  themesEnabled = osConfig.oix.appearance.themes.enable or false;
+  themesList = osConfig.oix.appearance.themes.list;
+  themesEnabled = osConfig.oix.appearance.themes.enable;
   fontsEnabled = osConfig.oix.appearance.fonts.enable or false;
   fontsCfg = osConfig.oix.appearance.fonts or { };
   mkStylixFont = list: mkIf (list != [ ]) { inherit (builtins.head list) package name; };
@@ -31,7 +31,7 @@ in
       stylix = {
         enable = true;
         base16Scheme = "${pkgs.base16-schemes}/share/themes/${builtins.head themesList}.yaml";
-        polarity = osConfig.oix.appearance.themes.polarity or "either";
+        polarity = osConfig.oix.appearance.themes.polarity;
         autoEnable = false;
       };
     })

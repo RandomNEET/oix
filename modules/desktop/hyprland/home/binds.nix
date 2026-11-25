@@ -50,9 +50,9 @@ let
 
   termInfo = import ../../shared/scripts/terminal.nix { inherit config; };
   terminal = termInfo.exe;
-  fileManager = "${file-manager} ${(config.oix.defaults.fileManager or null)}";
-  editor = "${terminal} ${termInfo.classFlag} editor -e ${(config.oix.defaults.editor or null)}";
-  browser = config.oix.defaults.browser or null;
+  fileManager = "${file-manager} ${config.oix.defaults.fileManager}";
+  editor = "${terminal} ${termInfo.classFlag} editor -e ${config.oix.defaults.editor}";
+  browser = config.oix.defaults.browser;
 in
 {
   bind = [
@@ -200,7 +200,7 @@ in
   ++ optional config.programs.password-store.enable (
     mkBind "SUPER + SHIFT + P" ''hl.dsp.exec_cmd("noctalia msg panel-toggle launcher /pass")''
   )
-  ++ optional (osConfig.programs.steam.enable or false) (
+  ++ optional osConfig.programs.steam.enable (
     mkBind "SUPER + SHIFT + G" ''hl.dsp.exec_cmd("${gamespace}")''
   )
   ++ optional (osConfig.oix.gaming.enable or false) (

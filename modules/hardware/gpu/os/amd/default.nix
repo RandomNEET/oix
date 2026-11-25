@@ -5,7 +5,7 @@
   ...
 }:
 {
-  config = lib.mkIf ((config.oix.hardware.gpu or "none") == "amd") {
+  config = lib.mkIf (config.oix.hardware.gpu == "amd") {
     services.xserver = {
       enable = true;
       videoDrivers = [ "amdgpu" ];

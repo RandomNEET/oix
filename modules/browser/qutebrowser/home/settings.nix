@@ -73,17 +73,17 @@ in
     };
   };
 
-  editor = lib.optionalAttrs ((config.oix.defaults.terminal or null) != null) {
+  editor = lib.optionalAttrs (config.oix.defaults.terminal != null) {
     command = lib.flatten [
       (
-        if (config.oix.defaults.terminal or null) == "foot" then
+        if config.oix.defaults.terminal == "foot" then
           "${pkgs.foot}/bin/foot"
         else
-          lib.getExe pkgs.${(config.oix.defaults.terminal or null)}
+          lib.getExe pkgs.${config.oix.defaults.terminal}
       )
       "-e"
       (
-        if (config.oix.defaults.editor or null) == "nvim" then
+        if config.oix.defaults.editor == "nvim" then
           [
             (getExe config.programs.nixvim.build.package)
             "--clean"
@@ -92,7 +92,7 @@ in
             "--cmd"
             "nnoremap q ZQ"
           ]
-        else if (config.oix.defaults.editor or null) == "helix" then
+        else if config.oix.defaults.editor == "helix" then
           [ (getExe pkgs.helix) ]
         else
           [

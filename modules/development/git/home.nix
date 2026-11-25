@@ -16,25 +16,25 @@ in
         algorithm = "histogram";
         colorMoved = "plain";
       }
-      // optionalAttrs ((config.oix.defaults.editor or null) == "nvim") {
+      // optionalAttrs (config.oix.defaults.editor == "nvim") {
         tool = "nvim";
       };
       difftool = {
         prompt = false;
       }
-      // optionalAttrs ((config.oix.defaults.editor or null) == "nvim") {
+      // optionalAttrs (config.oix.defaults.editor == "nvim") {
         nvim.cmd = "nvim -d $LOCAL $REMOTE";
       };
       merge = {
         conflictstyle = "zdiff3";
       }
-      // optionalAttrs ((config.oix.defaults.editor or null) == "nvim") {
+      // optionalAttrs (config.oix.defaults.editor == "nvim") {
         tool = "nvim";
       };
       mergetool = {
         prompt = false;
       }
-      // optionalAttrs ((config.oix.defaults.editor or null) == "nvim") {
+      // optionalAttrs (config.oix.defaults.editor == "nvim") {
         nvim.cmd = "nvim -d $LOCAL $MERGED $REMOTE";
       };
 

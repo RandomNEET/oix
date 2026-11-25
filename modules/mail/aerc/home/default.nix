@@ -43,25 +43,25 @@ in
       };
       openers = {
         "text/plain" = "${
-          if (config.oix.defaults.terminal or null) == "foot" then
+          if config.oix.defaults.terminal == "foot" then
             getExe' pkgs.foot "foot"
           else
-            getExe pkgs.${(config.oix.defaults.terminal or null)}
+            getExe pkgs.${config.oix.defaults.terminal}
         } -e ${
-          if (config.oix.defaults.editor or null) == "nvim" then
+          if config.oix.defaults.editor == "nvim" then
             getExe config.programs.nixvim.build.package
-          else if (config.oix.defaults.editor or null) == "helix" then
+          else if config.oix.defaults.editor == "helix" then
             getExe pkgs.helix
           else
             getExe pkgs.neovim
         } ${
-          if (config.oix.defaults.editor or null) == "nvim" then
+          if config.oix.defaults.editor == "nvim" then
             "--clean -c 'set clipboard=unnamedplus' -c 'nnoremap q ZQ'"
           else
             ""
         } {}";
-        "x-scheme-handler/http*" = "${getExe pkgs.${(config.oix.defaults.browser or null)}} {}";
-        "text/html" = "${getExe pkgs.${(config.oix.defaults.browser or null)}} {}";
+        "x-scheme-handler/http*" = "${getExe pkgs.${config.oix.defaults.browser}} {}";
+        "text/html" = "${getExe pkgs.${config.oix.defaults.browser}} {}";
       }
       // optionalAttrs hasDesktop { use-terminal-pinentry = "true"; }
       // optionalAttrs config.programs.swayimg.enable { "image/*" = "${getExe pkgs.swayimg} {}"; }

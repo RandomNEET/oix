@@ -13,7 +13,7 @@
     // {
       programs.helix = {
         enable = true;
-        defaultEditor = (config.oix.defaults.editor or null) == "helix";
+        defaultEditor = config.oix.defaults.editor == "helix";
         settings = {
           editor = {
             default-yank-register = "+";

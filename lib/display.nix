@@ -1,6 +1,6 @@
 { lib }:
 {
   display = {
-    getPrimary = displayList: lib.findFirst (d: (d.orientation or "") == "landscape") { } displayList;
+    getPrimary = displayList: lib.findFirst (d: d.orientation == "landscape") { } displayList;
   };
 }

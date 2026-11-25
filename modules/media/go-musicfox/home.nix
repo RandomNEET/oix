@@ -34,7 +34,7 @@ in
               show = true;
               showTranslation = true;
               cover = {
-                show = builtins.elem (config.oix.defaults.terminal or null) [ "kitty" ];
+                show = builtins.elem config.oix.defaults.terminal [ "kitty" ];
                 tmuxPassthrough = config.programs.tmux.enable;
               };
             };

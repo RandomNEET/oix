@@ -20,7 +20,7 @@ in
           xdg-desktop-portal-gtk
           xdg-desktop-portal-termfilechooser
         ]
-        ++ optional (config.wayland.windowManager.hyprland.enable or false) xdg-desktop-portal-hyprland
+        ++ optional config.wayland.windowManager.hyprland.enable xdg-desktop-portal-hyprland
         ++ optional (config.wayland.windowManager.mango.enable or false) xdg-desktop-portal-wlr
         ++ optional (config.programs.plasma.enable or false) kdePackages.xdg-desktop-portal-kde;
       configPackages =
@@ -29,7 +29,7 @@ in
           xdg-desktop-portal-gtk
           xdg-desktop-portal-termfilechooser
         ]
-        ++ optional (config.wayland.windowManager.hyprland.enable or false) xdg-desktop-portal-hyprland
+        ++ optional config.wayland.windowManager.hyprland.enable xdg-desktop-portal-hyprland
         ++ optional (config.wayland.windowManager.mango.enable or false) xdg-desktop-portal-wlr
         ++ optional (config.programs.plasma.enable or false) kdePackages.plasma-workspace;
       config = {
@@ -38,7 +38,7 @@ in
           "org.freedesktop.impl.portal.FileChooser" = "termfilechooser";
         };
       }
-      // optionalAttrs (config.wayland.windowManager.hyprland.enable or false) {
+      // optionalAttrs config.wayland.windowManager.hyprland.enable {
         hyprland = {
           default = [
             "hyprland"
@@ -70,12 +70,12 @@ in
     terminal-exec = {
       enable = true;
       settings = {
-        default = [ "${(config.oix.defaults.terminal or null)}.desktop" ];
+        default = [ "${config.oix.defaults.terminal}.desktop" ];
       };
     };
     configFile."xdg-desktop-portal-termfilechooser/config".text = ''
       [filechooser]
-      cmd=${(config.oix.defaults.fileManager or null)}-wrapper.sh
+      cmd=${config.oix.defaults.fileManager}-wrapper.sh
       default_dir=$HOME
       env=TERMCMD='${terminal.exe} ${terminal.classFlag} "terminal filechooser"'
       open_mode=suggested

@@ -23,7 +23,7 @@
         parseEmoji = true;
       };
       os = {
-        editPreset = config.oix.defaults.editor or null;
+        editPreset = config.oix.defaults.editor;
         disableStartupPopups = true;
       };
     };

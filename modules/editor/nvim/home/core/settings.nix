@@ -15,7 +15,7 @@ in
         enable = true;
         viAlias = true;
         vimAlias = true;
-        defaultEditor = (config.oix.defaults.editor or null) == "nvim";
+        defaultEditor = config.oix.defaults.editor == "nvim";
 
         opts = {
           # UI
