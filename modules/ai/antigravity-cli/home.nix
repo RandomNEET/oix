@@ -1,6 +1,8 @@
+# TODO: 配置目录移至~/.config内
 {
   imports = [
-    ../shared/home.nix
+    ../shared/mcp.nix
+    ../shared/packages.nix
   ];
 
   programs.antigravity-cli = {

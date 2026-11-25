@@ -1,6 +1,7 @@
 {
   imports = [
-    ../shared/home.nix
+    ../shared/mcp.nix
+    ../shared/packages.nix
   ];
 
   programs.codex = {

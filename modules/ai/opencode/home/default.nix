@@ -7,7 +7,8 @@
 }:
 {
   imports = [
-    ../../shared/home.nix
+    ../../shared/mcp.nix
+    ../../shared/packages.nix
   ]
   ++ lib.optional (osConfig.oix.appearance.themes.enable or false) {
     # TEMPFIX until Stylix uses cli.theme.name for OpenCode 2
