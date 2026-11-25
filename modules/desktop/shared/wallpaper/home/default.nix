@@ -8,7 +8,7 @@
   ...
 }:
 let
-  gowall-autoconvert = import ./scripts/gowall-autoconvert.nix {
+  gowallAutoconvert = import ./scripts/gowall-autoconvert.nix {
     inherit
       osConfig
       config
@@ -26,7 +26,7 @@ in
       [ gowall ]
       ++ lib.optional (
         (osConfig.oix.appearance.themes.enable or false) && config.oix.desktop.wallpaper.enable
-      ) gowall-autoconvert;
+      ) gowallAutoconvert;
     file = {
       ".config/gowall/config.yml".text = ''
         EnableImagePreviewing: true

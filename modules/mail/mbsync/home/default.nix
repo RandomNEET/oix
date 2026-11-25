@@ -14,9 +14,6 @@ in
 
   config = mkMerge [
     {
-      programs.mbsync = {
-        enable = true;
-      };
       services.mbsync = {
         enable = true;
         postExec =
@@ -25,6 +22,7 @@ in
             import ./scripts/notify.nix { inherit config pkgs; }
           );
       };
+      programs.mbsync.enable = true;
     }
     (mkIf cfg.imapnotify.enable {
       services.imapnotify = {

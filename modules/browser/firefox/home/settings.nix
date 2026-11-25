@@ -1,9 +1,9 @@
 let
-  lock-false = {
+  lockFalse = {
     Value = false;
     Status = "locked";
   };
-  lock-true = {
+  lockTrue = {
     Value = true;
     Status = "locked";
   };
@@ -54,43 +54,43 @@ in
   "network.trr.custom_uri" = "https://dns.alidns.com/dns-query";
 
   # Remove trackers
-  "privacy.purge_trackers.enabled" = lock-true;
-  "privacy.trackingprotection.enabled" = lock-true;
-  "privacy.trackingprotection.fingerprinting.enabled" = lock-true;
-  "privacy.resistFingerprinting" = lock-true;
-  "privacy.trackingprotection.socialtracking.enabled" = lock-true;
-  "privacy.trackingprotection.cryptomining.enabled" = lock-true;
-  "privacy.globalprivacycontrol.enabled" = lock-true;
-  "privacy.globalprivacycontrol.functionality.enabled" = lock-true;
-  "privacy.donottrackheader.enabled" = lock-true;
+  "privacy.purge_trackers.enabled" = lockTrue;
+  "privacy.trackingprotection.enabled" = lockTrue;
+  "privacy.trackingprotection.fingerprinting.enabled" = lockTrue;
+  "privacy.resistFingerprinting" = lockTrue;
+  "privacy.trackingprotection.socialtracking.enabled" = lockTrue;
+  "privacy.trackingprotection.cryptomining.enabled" = lockTrue;
+  "privacy.globalprivacycontrol.enabled" = lockTrue;
+  "privacy.globalprivacycontrol.functionality.enabled" = lockTrue;
+  "privacy.donottrackheader.enabled" = lockTrue;
   "privacy.donottrackheader.value" = 1;
-  "privacy.query_stripping.enabled" = lock-true;
-  "privacy.query_stripping.enabled.pbmode" = lock-true;
+  "privacy.query_stripping.enabled" = lockTrue;
+  "privacy.query_stripping.enabled.pbmode" = lockTrue;
 
   # Clear on shutdown (Only locks the options to true. Manually enable in firefox settings)
-  "privacy.sanitize.sanitizeOnShutdown" = lock-true;
-  "privacy.clearOnShutdown.cache" = lock-true;
-  "privacy.clearOnShutdown.cookies" = lock-true;
-  "privacy.clearOnShutdown.downloads" = lock-true;
-  "privacy.clearOnShutdown.formdata" = lock-true;
-  "privacy.clearOnShutdown.history" = lock-true;
-  "privacy.clearOnShutdown.offlineApps" = lock-true;
-  "privacy.clearOnShutdown.sessions" = lock-true;
-  "privacy.clearOnShutdown.siteSettings" = lock-true;
+  "privacy.sanitize.sanitizeOnShutdown" = lockTrue;
+  "privacy.clearOnShutdown.cache" = lockTrue;
+  "privacy.clearOnShutdown.cookies" = lockTrue;
+  "privacy.clearOnShutdown.downloads" = lockTrue;
+  "privacy.clearOnShutdown.formdata" = lockTrue;
+  "privacy.clearOnShutdown.history" = lockTrue;
+  "privacy.clearOnShutdown.offlineApps" = lockTrue;
+  "privacy.clearOnShutdown.sessions" = lockTrue;
+  "privacy.clearOnShutdown.siteSettings" = lockTrue;
 
   # Block telemetry
-  "toolkit.telemetry.enabled" = lock-false;
-  "toolkit.telemetry.unified" = lock-false;
+  "toolkit.telemetry.enabled" = lockFalse;
+  "toolkit.telemetry.unified" = lockFalse;
   "toolkit.telemetry.server" = "data:,";
-  "toolkit.telemetry.archive.enabled" = lock-false;
-  "toolkit.telemetry.newProfilePing.enabled" = lock-false;
-  "toolkit.telemetry.shutdownPingSender.enabled" = lock-false;
-  "toolkit.telemetry.updatePing.enabled" = lock-false;
-  "toolkit.telemetry.bhrPing.enabled" = lock-false;
-  "toolkit.telemetry.coverage.opt-out" = lock-true;
-  "toolkit.telemetry.firstShutdownPing.enabled" = lock-false;
-  "browser.newtabpage.activity-stream.telemetry" = lock-false;
-  "browser.ping-centre.telemetry" = lock-false;
+  "toolkit.telemetry.archive.enabled" = lockFalse;
+  "toolkit.telemetry.newProfilePing.enabled" = lockFalse;
+  "toolkit.telemetry.shutdownPingSender.enabled" = lockFalse;
+  "toolkit.telemetry.updatePing.enabled" = lockFalse;
+  "toolkit.telemetry.bhrPing.enabled" = lockFalse;
+  "toolkit.telemetry.coverage.opt-out" = lockTrue;
+  "toolkit.telemetry.firstShutdownPing.enabled" = lockFalse;
+  "browser.newtabpage.activity-stream.telemetry" = lockFalse;
+  "browser.ping-centre.telemetry" = lockFalse;
 
   # Permissions
   # 0=always ask (default), 1=allow, 2=block
@@ -101,64 +101,64 @@ in
   "permissions.default.xr" = 2; # Virtual Reality
 
   # Block more unwanted stuff
-  "dom.block_multiple_popups" = lock-true;
-  "browser.privatebrowsing.forceMediaMemoryCache" = lock-true;
+  "dom.block_multiple_popups" = lockTrue;
+  "browser.privatebrowsing.forceMediaMemoryCache" = lockTrue;
   "browser.contentblocking.category" = {
     Value = "strict";
     Status = "locked";
   };
-  "browser.search.suggest.enabled" = lock-false;
-  "browser.search.suggest.enabled.private" = lock-false;
+  "browser.search.suggest.enabled" = lockFalse;
+  "browser.search.suggest.enabled.private" = lockFalse;
   "privacy.popups.disable_from_plugins" = 3;
-  "extensions.pocket.enabled" = lock-false;
-  "browser.newtabpage.activity-stream.section.highlights.includePocket" = lock-false;
-  "browser.newtabpage.activity-stream.feeds.section.topstories" = lock-false;
-  "browser.newtabpage.activity-stream.feeds.topsites" = lock-false;
-  "browser.newtabpage.activity-stream.showSponsored" = lock-false;
-  "browser.newtabpage.activity-stream.showSponsoredTopSites" = lock-false;
-  "layout.word_select.eat_space_to_next_word" = lock-false;
-  "browser.shell.checkDefaultBrowser" = lock-false;
-  "signon.rememberSignons" = lock-false;
-  "toolkit.coverage.opt-out" = lock-true;
+  "extensions.pocket.enabled" = lockFalse;
+  "browser.newtabpage.activity-stream.section.highlights.includePocket" = lockFalse;
+  "browser.newtabpage.activity-stream.feeds.section.topstories" = lockFalse;
+  "browser.newtabpage.activity-stream.feeds.topsites" = lockFalse;
+  "browser.newtabpage.activity-stream.showSponsored" = lockFalse;
+  "browser.newtabpage.activity-stream.showSponsoredTopSites" = lockFalse;
+  "layout.word_select.eat_space_to_next_word" = lockFalse;
+  "browser.shell.checkDefaultBrowser" = lockFalse;
+  "signon.rememberSignons" = lockFalse;
+  "toolkit.coverage.opt-out" = lockTrue;
   "toolkit.coverage.endpoint.base" = "";
-  "experiments.supported" = lock-false;
-  "experiments.enabled" = lock-false;
+  "experiments.supported" = lockFalse;
+  "experiments.enabled" = lockFalse;
   "experiments.manifest.uri" = "";
-  "datareporting.healthreport.uploadEnabled" = lock-false;
-  "datareporting.healthreport.service.enabled" = lock-false;
-  "datareporting.policy.dataSubmissionEnabled" = lock-false;
+  "datareporting.healthreport.uploadEnabled" = lockFalse;
+  "datareporting.healthreport.service.enabled" = lockFalse;
+  "datareporting.policy.dataSubmissionEnabled" = lockFalse;
   "breakpad.reportURL" = "";
-  "browser.tabs.crashReporting.sendReport" = lock-false;
-  "browser.crashReports.unsubmittedCheck.autoSubmit2" = lock-false;
-  "browser.formfill.enable" = lock-false;
-  "extensions.formautofill.addresses.enabled" = lock-false;
+  "browser.tabs.crashReporting.sendReport" = lockFalse;
+  "browser.crashReports.unsubmittedCheck.autoSubmit2" = lockFalse;
+  "browser.formfill.enable" = lockFalse;
+  "extensions.formautofill.addresses.enabled" = lockFalse;
   "extensions.formautofill.available" = "off";
-  "extensions.formautofill.creditCards.available" = lock-false;
-  "extensions.formautofill.creditCards.enabled" = lock-false;
-  "extensions.formautofill.heuristics.enabled" = lock-false;
-  "app.normandy.enabled" = lock-false;
+  "extensions.formautofill.creditCards.available" = lockFalse;
+  "extensions.formautofill.creditCards.enabled" = lockFalse;
+  "extensions.formautofill.heuristics.enabled" = lockFalse;
+  "app.normandy.enabled" = lockFalse;
   "app.normandy.api_url" = "";
-  "dom.webnotifications.enabled" = lock-false;
-  "dom.webnotifications.serviceworker.enabled" = lock-false;
+  "dom.webnotifications.enabled" = lockFalse;
+  "dom.webnotifications.serviceworker.enabled" = lockFalse;
 
   # General settings
   "ui.key.accelKey" = 17; # Set CTRL as master key
-  "browser.aboutConfig.showWarning" = lock-false;
-  "browser.aboutwelcome.enabled" = lock-false;
-  "browser.tabs.firefox-view" = lock-false;
+  "browser.aboutConfig.showWarning" = lockFalse;
+  "browser.aboutwelcome.enabled" = lockFalse;
+  "browser.tabs.firefox-view" = lockFalse;
   "browser.startup.homepage_override.mstone" = "ignore";
   "trailhead.firstrun.didSeeAboutWelcome" = true; # Disable welcome splash
   "browser.newtab.url" = "about:blank";
-  "browser.newtabpage.activity-stream.enabled" = lock-false;
-  "browser.newtabpage.enhanced" = lock-false;
-  "browser.newtabpage.introShown" = lock-true;
+  "browser.newtabpage.activity-stream.enabled" = lockFalse;
+  "browser.newtabpage.enhanced" = lockFalse;
+  "browser.newtabpage.introShown" = lockTrue;
   "browser.newtabpage.pinned" = false;
   "browser.bookmarks.defaultLocation" = "toolbar";
   "browser.startup.page" = 1; # 3 = restore sessions
   "media.autoplay.default" = 0; # 0 = allow all 1 = mute audio
-  "app.shield.optoutstudies.enabled" = lock-false;
-  "dom.security.https_only_mode" = lock-true;
-  "dom.security.https_only_mode_ever_enabled" = lock-true;
+  "app.shield.optoutstudies.enabled" = lockFalse;
+  "dom.security.https_only_mode" = lockTrue;
+  "dom.security.https_only_mode_ever_enabled" = lockTrue;
   "app.update.auto" = false;
   "browser.startup.homepage" = "about:home";
   "browser.bookmarks.restore_default_bookmarks" = false;
@@ -177,8 +177,8 @@ in
   "datareporting.policy.dataSubmissionEnable" = false;
   "datareporting.policy.dataSubmissionPolicyAcceptedVersion" = 2;
 
-  "extensions.getAddons.showPane" = lock-false;
-  "extensions.htmlaboutaddons.recommendations.enabled" = lock-false;
+  "extensions.getAddons.showPane" = lockFalse;
+  "extensions.htmlaboutaddons.recommendations.enabled" = lockFalse;
   # "extensions.update.enabled" = false;
   "extensions.webcompat.enable_picture_in_picture_overrides" = true;
   "extensions.webcompat.enable_shims" = true;
@@ -193,7 +193,7 @@ in
     Value = 15;
     Status = "locked";
   };
-  "extensions.allowPrivateBrowsingByDefault" = lock-true;
+  "extensions.allowPrivateBrowsingByDefault" = lockTrue;
   "extensions.webextensions.restrictedDomains" = {
     Value = "";
     Status = "locked";
@@ -203,9 +203,9 @@ in
   "plugins.enumerable_names" = "";
   "plugin.state.flash" = 0;
   "browser.search.update" = false;
-  "extensions.getAddons.cache.enabled" = lock-false;
-  "extensions.ui.sitepermission.hidden" = lock-true;
-  "extensions.ui.locale.hidden" = lock-true;
+  "extensions.getAddons.cache.enabled" = lockFalse;
+  "extensions.ui.sitepermission.hidden" = lockTrue;
+  "extensions.ui.locale.hidden" = lockTrue;
 
   "browser.uiCustomization.state" = builtins.toJSON {
     currentVersion = 20;

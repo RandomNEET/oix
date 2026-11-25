@@ -5,9 +5,6 @@
 }:
 {
   config = {
-    oix.defaults.browser = lib.mkDefault "firefox";
-  }
-  // {
     programs.firefox = {
       enable = true;
       policies = import ./policies.nix;
@@ -23,6 +20,9 @@
         };
       };
     };
+  }
+  // {
+    oix.defaults.browser = lib.mkDefault "firefox";
   }
   // lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
     stylix.targets.firefox = {

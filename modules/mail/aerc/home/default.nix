@@ -8,7 +8,7 @@
 }:
 let
   inherit (lib) optionalAttrs getExe getExe';
-  hasDesktop = osConfig.oix.desktop.enable or false;
+  desktopEnabled = osConfig.oix.desktop.enable or false;
   themesEnabled = osConfig.oix.appearance.themes.enable or false;
   colors = config.lib.stylix.colors.withHashtag;
 in
@@ -63,7 +63,7 @@ in
         "x-scheme-handler/http*" = "${getExe pkgs.${config.oix.defaults.browser}} {}";
         "text/html" = "${getExe pkgs.${config.oix.defaults.browser}} {}";
       }
-      // optionalAttrs hasDesktop { use-terminal-pinentry = "true"; }
+      // optionalAttrs desktopEnabled { use-terminal-pinentry = "true"; }
       // optionalAttrs config.programs.swayimg.enable { "image/*" = "${getExe pkgs.swayimg} {}"; }
       // optionalAttrs config.programs.zathura.enable { "application/pdf" = "${getExe pkgs.zathura} {}"; }
       // optionalAttrs config.programs.thunderbird.enable {

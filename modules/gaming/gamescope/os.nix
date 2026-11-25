@@ -8,7 +8,7 @@
 let
   display = config.oix.hardware.display.info or [ ];
   primaryDisplay = mylib.display.getPrimary display;
-  hasSteam = config.programs.steam.enable;
+  steamEnabled = config.programs.steam.enable;
 in
 {
   programs.gamescope = {
@@ -16,7 +16,7 @@ in
     capSysNice = true;
   };
 
-  environment.etc = lib.optionalAttrs (config.services.displayManager.ly.enable && hasSteam) {
+  environment.etc = lib.optionalAttrs (config.services.displayManager.ly.enable && steamEnabled) {
     "ly/sessions/wayland/steam.desktop".text = ''
       [Desktop Entry]
       Name=steam
@@ -25,7 +25,7 @@ in
     '';
   };
 
-  environment.systemPackages = lib.optionals hasSteam [
+  environment.systemPackages = lib.optionals steamEnabled [
     (pkgs.makeDesktopItem {
       name = "steam-gamescope";
       desktopName = "Steam (Gamescope)";

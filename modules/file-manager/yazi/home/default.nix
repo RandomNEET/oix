@@ -9,9 +9,6 @@
 }:
 {
   config = {
-    oix.defaults.fileManager = lib.mkDefault "yazi";
-  }
-  // {
     programs.yazi = lib.mkMerge [
       (import ./plugins {
         inherit
@@ -35,6 +32,9 @@
         initLua = builtins.readFile ./init.lua; # init.lua for yazi itself
       }
     ];
+  }
+  // {
+    oix.defaults.fileManager = lib.mkDefault "yazi";
   }
   // lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
     stylix.targets.yazi.enable = true;

@@ -5,7 +5,7 @@
   ...
 }:
 let
-  blink-common-profile = import ./blink-common.nix { inherit pkgs global DOWNLOADS; };
+  blinkCommonProfile = import ./blink-common.nix { inherit pkgs global DOWNLOADS; };
   local = pkgs.writeText "firejail-electron-common-local" "";
 in
 pkgs.writeText "firejail-electron-common-profile" ''
@@ -35,5 +35,5 @@ pkgs.writeText "firejail-electron-common-profile" ''
   dbus-user none
 
   # Redirect
-  include ${blink-common-profile}
+  include ${blinkCommonProfile}
 ''

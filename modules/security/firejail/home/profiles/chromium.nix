@@ -5,7 +5,7 @@
   ...
 }:
 let
-  chromium-common-profile = import ./chromium-common.nix { inherit pkgs global DOWNLOADS; };
+  chromiumCommonProfile = import ./chromium-common.nix { inherit pkgs global DOWNLOADS; };
   local = pkgs.writeText "firejail-chromium-local" "";
 in
 pkgs.writeText "firejail-chromium-profile" ''
@@ -31,5 +31,5 @@ pkgs.writeText "firejail-chromium-profile" ''
   #private-bin chromium,chromium-browser,chromedriver
 
   # Redirect
-  include ${chromium-common-profile}
+  include ${chromiumCommonProfile}
 ''

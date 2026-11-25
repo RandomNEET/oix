@@ -6,7 +6,8 @@
   ...
 }:
 let
-  themesEnabled = osConfig.oix.desktop.enable or false;
+  desktopEnabled = osConfig.oix.desktop.enable or false;
+  themesEnabled = osConfig.oix.appearance.themes.enable or false;
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
 in
@@ -21,8 +22,7 @@ in
           address: "${"${config.services.mpd.network.listenAddress}:${toString config.services.mpd.network.port}"}",
           password: None,
           cache_dir: None,
-          ${lib.optionalString (osConfig.oix.desktop.enable or false
-          ) "on_song_change: [\"${./scripts/notify.sh}\"],"}
+          ${lib.optionalString desktopEnabled "on_song_change: [\"${./scripts/notify.sh}\"],"}
           volume_step: 5,
           max_fps: 30,
           scrolloff: 0,

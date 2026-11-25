@@ -6,7 +6,7 @@
   ...
 }:
 let
-  electron-common-profile = import ./electron-common.nix { inherit pkgs global DOWNLOADS; };
+  electronCommonProfile = import ./electron-common.nix { inherit pkgs global DOWNLOADS; };
   local = pkgs.writeText "firejail-obsidian-local" ''
     ignore include whitelist-runuser-common.inc
   '';
@@ -37,5 +37,5 @@ pkgs.writeText "firejail-obsidian-profile" ''
   private-etc @network,@tls-ca,@x11,libva.conf
 
   # Redirect
-  include ${electron-common-profile}
+  include ${electronCommonProfile}
 ''

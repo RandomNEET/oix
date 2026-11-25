@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  hasX = config.services.xserver.enable;
+  xserverEnabled = config.services.xserver.enable;
 in
 {
   services.displayManager.ly = {
@@ -8,7 +8,7 @@ in
     settings = {
       waylandsessions = "/etc/ly/sessions/wayland";
       custom_sessions = "/etc/ly/sessions";
-      xsessions = if hasX then "/etc/ly/sessions/x" else null;
+      xsessions = if xserverEnabled then "/etc/ly/sessions/x" else null;
       xinitrc = null;
       shell = false;
       session_log = ".local/state/ly/session.log";
@@ -25,6 +25,6 @@ in
 
       save = true;
     };
-    x11Support = hasX;
+    x11Support = xserverEnabled;
   };
 }

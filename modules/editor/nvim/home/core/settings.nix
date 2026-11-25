@@ -153,6 +153,9 @@ in
         nixpkgs.config.allowUnfree = meta.allowUnfree;
       };
     }
+    // {
+      oix.defaults.editor = lib.mkDefault "nvim";
+    }
     // lib.optionalAttrs themesEnabled {
       stylix.targets.nixvim = {
         enable = true;

@@ -7,7 +7,7 @@
   ...
 }:
 let
-  yt-dlp-profile = import ./yt-dlp.nix {
+  ytDlpProfile = import ./yt-dlp.nix {
     inherit
       pkgs
       global
@@ -36,5 +36,5 @@ pkgs.writeText "firejail-gallery-dl-profile" ''
   private-etc gallery-dl.conf
 
   # Redirect
-  include ${yt-dlp-profile}
+  include ${ytDlpProfile}
 ''

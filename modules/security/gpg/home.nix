@@ -6,7 +6,7 @@
   ...
 }:
 let
-  hasDesktop = osConfig.oix.desktop.enable or false;
+  desktopEnabled = osConfig.oix.desktop.enable or false;
 in
 {
   programs.gpg = {
@@ -35,8 +35,8 @@ in
       enableSshSupport = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-      pinentry.package = if hasDesktop then pkgs.pinentry-qt else pkgs.pinentry-curses;
-      pinentry.program = if hasDesktop then "pinentry-qt" else "pinentry-curses";
+      pinentry.package = if desktopEnabled then pkgs.pinentry-qt else pkgs.pinentry-curses;
+      pinentry.program = if desktopEnabled then "pinentry-qt" else "pinentry-curses";
     };
     ssh-agent.enable = lib.mkIf config.services.gpg-agent.enableSshSupport (lib.mkForce false);
   };

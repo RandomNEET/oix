@@ -5,7 +5,7 @@
   ...
 }:
 let
-  blink-common-profile = import ./blink-common.nix { inherit pkgs global DOWNLOADS; };
+  blinkCommonProfile = import ./blink-common.nix { inherit pkgs global DOWNLOADS; };
   local = pkgs.writeText "firejail-chromium-common-local" "";
 in
 pkgs.writeText "firejail-chromium-common-profile" ''
@@ -69,5 +69,5 @@ pkgs.writeText "firejail-chromium-common-profile" ''
   ?HAS_NODBUS: env NO_CHROME_KDE_FILE_DIALOG=1
 
   # Redirect
-  include ${blink-common-profile}
+  include ${blinkCommonProfile}
 ''

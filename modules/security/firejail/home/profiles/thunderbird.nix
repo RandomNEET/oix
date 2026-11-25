@@ -5,7 +5,7 @@
   ...
 }:
 let
-  firefox-common-profile = import ./firefox-common.nix { inherit pkgs global DOWNLOADS; };
+  firefoxCommonProfile = import ./firefox-common.nix { inherit pkgs global DOWNLOADS; };
   local = pkgs.writeText "firejail-thunderbird-local" "";
 in
 pkgs.writeText "firejail-thunderbird-profile" ''
@@ -91,5 +91,5 @@ pkgs.writeText "firejail-thunderbird-profile" ''
   ignore private-tmp
 
   # Redirect
-  include ${firefox-common-profile}
+  include ${firefoxCommonProfile}
 ''

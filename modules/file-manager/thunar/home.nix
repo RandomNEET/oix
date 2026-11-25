@@ -13,14 +13,14 @@ let
 in
 {
   config = {
-    oix.defaults.fileManager = lib.mkDefault "thunar";
-  }
-  // {
     home.packages = with pkgs; [
       thunar
       gvfs
       tumbler
       xfconf
     ];
+  }
+  // {
+    oix.defaults.fileManager = lib.mkDefault "thunar";
   };
 }

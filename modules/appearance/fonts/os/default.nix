@@ -1,14 +1,14 @@
 { config, ... }:
 let
-  fonts = config.oix.appearance.fonts;
+  cfg = config.oix.appearance.fonts;
 in
 {
   imports = [ ./options.nix ];
 
   fonts.packages = builtins.concatLists [
-    (map (f: f.package) fonts.monospace)
-    (map (f: f.package) fonts.sansSerif)
-    (map (f: f.package) fonts.serif)
-    (map (f: f.package) fonts.emoji)
+    (map (f: f.package) cfg.monospace)
+    (map (f: f.package) cfg.sansSerif)
+    (map (f: f.package) cfg.serif)
+    (map (f: f.package) cfg.emoji)
   ];
 }

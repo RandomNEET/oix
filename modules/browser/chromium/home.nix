@@ -1,9 +1,6 @@
 { lib, ... }:
 {
   config = {
-    oix.defaults.browser = lib.mkDefault "chromium";
-  }
-  // {
     programs.chromium = {
       enable = true;
       commandLineArgs = [
@@ -15,5 +12,8 @@
         { id = "dbepggeogbaibhgnhhndojpepiihcmeb"; } # Vimium
       ];
     };
+  }
+  // {
+    oix.defaults.browser = lib.mkDefault "chromium";
   };
 }

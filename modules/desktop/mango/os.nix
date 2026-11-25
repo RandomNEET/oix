@@ -5,7 +5,7 @@
   ...
 }:
 let
-  start-mango = lib.getExe (pkgs.callPackage ../shared/scripts/start-mango.nix { inherit pkgs; });
+  startMango = lib.getExe (pkgs.callPackage ../shared/scripts/start-mango.nix { inherit pkgs; });
 in
 {
   xdg.portal = {
@@ -17,7 +17,7 @@ in
     "ly/sessions/wayland/mango.desktop".text = ''
       [Desktop Entry]
       Name=mango
-      Exec=${start-mango}
+      Exec=${startMango}
       DesktopNames=mango;wlroots
     '';
   };

@@ -6,9 +6,6 @@
 }:
 {
   config = {
-    oix.defaults.terminal = lib.mkDefault "foot";
-  }
-  // {
     programs.foot = {
       enable = true;
       settings = {
@@ -25,6 +22,9 @@
     systemd.user.services.foot.Service.Environment = lib.mkIf (
       config.programs.foot.server.enable && config.programs.tmux.secureSocket
     ) "TMUX_TMPDIR=%t";
+  }
+  // {
+    oix.defaults.terminal = lib.mkDefault "foot";
   }
   // lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
     stylix.targets.foot.enable = true;

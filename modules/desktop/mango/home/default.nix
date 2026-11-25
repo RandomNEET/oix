@@ -10,7 +10,7 @@
 }:
 let
   inherit (lib) getExe;
-  file-manager = getExe (import ../../shared/scripts/file-manager.nix { inherit config pkgs; });
+  fileManagerExe = getExe (import ../../shared/scripts/file-manager.nix { inherit config pkgs; });
   autoclicker = getExe (pkgs.callPackage ../../shared/scripts/autoclicker.nix { });
   colors = config.lib.stylix.colors;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
@@ -33,7 +33,7 @@ in
             osConfig
             config
             lib
-            file-manager
+            fileManagerExe
             autoclicker
             ;
         };

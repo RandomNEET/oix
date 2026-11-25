@@ -13,7 +13,7 @@ let
   colors = config.lib.stylix.colors.withHashtag;
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
   resurrectDir = "${config.xdg.stateHome}/tmux/resurrect";
-  resurrect-cmd-fix = import ./scripts/resurrect-cmd-fix.nix { inherit pkgs resurrectDir; };
+  resurrectCmdFix = import ./scripts/resurrect-cmd-fix.nix { inherit pkgs resurrectDir; };
 in
 {
   programs = {
@@ -93,7 +93,7 @@ in
           plugin = resurrect;
           extraConfig = ''
             set -g @resurrect-dir '${resurrectDir}'
-            set -g @resurrect-hook-post-save-layout '${resurrect-cmd-fix}'
+            set -g @resurrect-hook-post-save-layout '${resurrectCmdFix}'
             set -g @resurrect-processes '
               "~nvim->nvim"
               "~hx->hx"

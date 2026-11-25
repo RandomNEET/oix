@@ -2,7 +2,7 @@
   osConfig,
   config,
   lib,
-  file-manager,
+  fileManagerExe,
   autoclicker,
   gamespace,
   ...
@@ -50,7 +50,7 @@ let
 
   termInfo = import ../../shared/scripts/terminal.nix { inherit config; };
   terminal = termInfo.exe;
-  fileManager = "${file-manager} ${config.oix.defaults.fileManager}";
+  fileManager = "${fileManagerExe} ${config.oix.defaults.fileManager}";
   editor = "${terminal} ${termInfo.classFlag} editor -e ${config.oix.defaults.editor}";
   browser = config.oix.defaults.browser;
 in

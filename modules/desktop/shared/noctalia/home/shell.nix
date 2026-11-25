@@ -6,7 +6,7 @@
 }:
 let
   monoFonts = osConfig.oix.appearance.fonts.monospace or [ ];
-  screenshot-handler = lib.getExe (import ./scripts/screenshot-handler.nix { inherit config pkgs; });
+  screenshotHandler = lib.getExe (import ./scripts/screenshot-handler.nix { inherit config pkgs; });
 in
 {
   font_family = if monoFonts != [ ] then (builtins.head monoFonts).name else "monospace";
@@ -34,7 +34,7 @@ in
     save_to_file = false;
     copy_to_clipboard = false;
     pipe_to_command = true;
-    pipe_command = "${screenshot-handler}";
+    pipe_command = "${screenshotHandler}";
     directory = "${config.xdg.userDirs.pictures}/screenshots";
     filename_pattern = "screenshot-%Y-%m-%d-%H:%M:%S";
   };

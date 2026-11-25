@@ -5,9 +5,6 @@
 }:
 {
   config = {
-    oix.defaults.terminal = lib.mkDefault "kitty";
-  }
-  // {
     programs.kitty = {
       enable = true;
       shellIntegration.enableBashIntegration = true;
@@ -51,6 +48,9 @@
       "kitty/shaders/space.slang".source = ./shaders/space.slang;
       "kitty/shaders/space.pipeline".source = ./shaders/space.pipeline;
     };
+  }
+  // {
+    oix.defaults.terminal = lib.mkDefault "kitty";
   }
   // lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
     stylix.targets.kitty.enable = true;

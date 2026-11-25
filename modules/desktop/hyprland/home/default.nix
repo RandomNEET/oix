@@ -7,7 +7,7 @@
 }:
 let
   inherit (lib) getExe;
-  file-manager = getExe (import ../../shared/scripts/file-manager.nix { inherit config pkgs; });
+  fileManagerExe = getExe (import ../../shared/scripts/file-manager.nix { inherit config pkgs; });
   autoclicker = getExe (pkgs.callPackage ../../shared/scripts/autoclicker.nix { });
   gamespace = getExe (pkgs.callPackage ./scripts/gamespace.nix { inherit pkgs; });
 in
@@ -20,7 +20,7 @@ in
             osConfig
             config
             lib
-            file-manager
+            fileManagerExe
             autoclicker
             gamespace
             ;

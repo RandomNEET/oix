@@ -7,7 +7,7 @@
 }:
 let
   inherit (lib) getExe optionalAttrs optionals;
-  hasDesktop = osConfig.oix.desktop.enable or false;
+  desktopEnabled = osConfig.oix.desktop.enable or false;
 in
 {
   initLua = builtins.readFile ./init.lua; # init.lua for plugins
@@ -39,7 +39,7 @@ in
     // optionalAttrs config.programs.lazygit.enable {
       lazygit = pkgs.yaziPlugins.lazygit;
     }
-    // optionalAttrs hasDesktop {
+    // optionalAttrs desktopEnabled {
       wl-clipboard = pkgs.yaziPlugins.wl-clipboard;
     };
   settings = {
@@ -235,7 +235,7 @@ in
           desc = "run lazygit";
         }
       ]
-      ++ optionals hasDesktop [
+      ++ optionals desktopEnabled [
         # wl-clipboard
         {
           on = "Y";
@@ -251,7 +251,7 @@ in
       # mediainfo
       mediainfo
     ]
-    ++ optionals hasDesktop [
+    ++ optionals desktopEnabled [
       # wl-clipboard
       wl-clipboard
     ];

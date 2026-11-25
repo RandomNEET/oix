@@ -5,7 +5,7 @@
   ...
 }:
 let
-  firefox-common-profile = import ./firefox-common.nix { inherit pkgs global DOWNLOADS; };
+  firefoxCommonProfile = import ./firefox-common.nix { inherit pkgs global DOWNLOADS; };
   local = pkgs.writeText "firejail-firefox-local" ''
     # mDNS
     whitelist /run/nscd
@@ -65,5 +65,5 @@ pkgs.writeText "firejail-firefox-profile" ''
   ignore dbus-user none
 
   # Redirect
-  include ${firefox-common-profile}
+  include ${firefoxCommonProfile}
 ''

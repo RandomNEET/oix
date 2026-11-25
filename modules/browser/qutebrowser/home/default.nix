@@ -15,9 +15,6 @@ in
     ./userscripts
   ];
   config = {
-    oix.defaults.browser = lib.mkDefault "qutebrowser";
-  }
-  // {
     programs.qutebrowser = {
       enable = true;
       loadAutoconfig = false;
@@ -46,5 +43,8 @@ in
       for name, value in json.loads(${builtins.toJSON (builtins.toJSON appearance.settings)}).items():
           config.set(name, value)
     '';
+  }
+  // {
+    oix.defaults.browser = lib.mkDefault "qutebrowser";
   };
 }
