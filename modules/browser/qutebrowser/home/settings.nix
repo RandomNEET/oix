@@ -9,6 +9,40 @@ let
   startPage = "file://${config.xdg.configHome}/qutebrowser/startpage/index.html";
 in
 {
+  window = {
+    hide_decoration = true;
+    transparent = true;
+  };
+  qt = {
+    force_platformtheme = "flatpak";
+  };
+  colors.webpage.darkmode = {
+    enabled = true;
+    policy.images = "never";
+  };
+  scrolling = {
+    smooth = true;
+  };
+
+  tabs = {
+    show = "always";
+    favicons.scale = 1.0;
+    indicator.width = 2;
+    title = {
+      alignment = "left";
+      format = "{audio}{current_title}";
+      format_pinned = "{audio}";
+    };
+  };
+  statusbar = {
+    widgets = [
+      "keypress"
+      "search_match"
+      "url"
+      "progress"
+      "scroll"
+    ];
+  };
   completion = {
     shrink = true;
     height = "30%";
@@ -17,6 +51,28 @@ in
       max_items = -1;
     };
   };
+  hints.radius = 6;
+  keyhint.radius = 10;
+  prompt.radius = 12;
+
+  url = {
+    default_page = lib.mkDefault startPage;
+    start_pages = lib.mkDefault [ startPage ];
+  };
+  content = {
+    blocking = {
+      enabled = true;
+      method = "auto";
+      hosts = {
+        block_subdomains = true;
+        lists = [
+          "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+        ];
+      };
+      whitelist = [ ];
+    };
+  };
+
   editor = lib.optionalAttrs ((config.oix.defaults.terminal or null) != null) {
     command = lib.flatten [
       (
@@ -50,40 +106,5 @@ in
       )
       "{file}"
     ];
-  };
-  window = {
-    hide_decoration = true;
-    transparent = true;
-  };
-  tabs = {
-    show = "always";
-    indicator.width = 2;
-  };
-  scrolling = {
-    smooth = true;
-  };
-  content = {
-    blocking = {
-      enabled = true;
-      method = "auto";
-      hosts = {
-        block_subdomains = true;
-        lists = [
-          "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
-        ];
-      };
-      whitelist = [ ];
-    };
-  };
-  url = {
-    default_page = lib.mkDefault startPage;
-    start_pages = lib.mkDefault [ startPage ];
-  };
-  colors.webpage.darkmode = {
-    enabled = true;
-    policy.images = "never";
-  };
-  qt = {
-    force_platformtheme = "flatpak";
   };
 }

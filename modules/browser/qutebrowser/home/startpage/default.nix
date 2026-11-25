@@ -50,12 +50,12 @@ in
         :root {
           color-scheme: ${polarity};
           --color-bg: #${colors.base00};
-          --color-fg: #${colors.base05};
+          --color-fg: #${colors.base06};
+          --color-heading: #${colors.base05};
           --color-link: #${colors.base04};
-          --color-link-visited: #${colors.base0C};
           --color-link-hover: #${primaryColor};
-          --color-glow: ${hexToRgba primaryColor 0.12};
-          --color-glow-secondary: ${hexToRgba colors.base0C 0.08};
+          --color-glow: ${hexToRgba primaryColor 0.10};
+          --color-glow-secondary: ${hexToRgba colors.base0C 0.06};
         }
         ${builtins.readFile ./style.css}
       '';

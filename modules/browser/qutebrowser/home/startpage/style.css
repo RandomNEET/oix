@@ -22,6 +22,9 @@ body {
     var(--color-bg);
   color: var(--color-fg);
   font-family: "JetBrainsMono Nerd Font", monospace;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
 }
 
 .startpage {
@@ -30,6 +33,7 @@ body {
 
 h1 {
   margin: 0 0 3rem;
+  color: var(--color-fg);
   text-align: center;
   font-size: clamp(2rem, 5vw, 2.5rem);
   font-weight: 500;
@@ -50,33 +54,30 @@ section {
 
 h2 {
   margin: 0 0 0.5rem;
-  color: var(--color-fg);
+  color: var(--color-heading);
   font-size: 1.25rem;
   font-weight: 500;
 }
 
 a {
+  padding: 0.15rem 0.6rem;
+  border-radius: 8px;
   color: var(--color-link);
   text-decoration: none;
-}
-
-a:visited {
-  color: var(--color-link-visited);
+  outline: none;
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease;
 }
 
 a:hover,
-a:focus-visible,
-h2 a:hover,
-h2 a:focus-visible {
+a:focus-visible {
+  background: color-mix(in srgb, var(--color-link-hover) 12%, transparent);
   color: var(--color-link-hover);
 }
 
-h2 a,
-h2 a:visited {
-  color: var(--color-fg);
-}
-
 .cursor {
+  color: var(--color-link-hover);
   animation: blink 1s ease-in-out infinite;
 }
 
@@ -95,5 +96,12 @@ h2 a:visited {
 @media (max-width: 22rem) {
   .bookmarks {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
   }
 }

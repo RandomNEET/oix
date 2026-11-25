@@ -37,8 +37,6 @@ in
       perDomainSettings = import ./domains.nix;
       greasemonkey = import ./greasemonkey.nix { inherit pkgs; };
       extraConfig = ''
-        c.tabs.padding = {"top": 7, "bottom": 7, "left": 12, "right": 12}
-        c.statusbar.padding = {"top": 5, "bottom": 5, "left": 10, "right": 10}
         config.source(${builtins.toJSON "${config.xdg.configHome}/qutebrowser/appearance.py"})
       '';
     };
