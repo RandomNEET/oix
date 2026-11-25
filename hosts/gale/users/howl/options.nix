@@ -262,8 +262,11 @@ rec {
   home = {
     packages = with pkgs; [
       splayer-next
+
       antigravity-hub
       chatgpt
+
+      hmcl
     ];
   };
 
