@@ -1,14 +1,12 @@
 {
-  config = {
-    programs.nixvim = {
-      plugins.mini-icons = {
+  programs.nixvim = {
+    plugins.mini-icons = {
+      enable = true;
+      mockDevIcons = true;
+      lazyLoad = {
         enable = true;
-        mockDevIcons = true;
-        lazyLoad = {
-          enable = true;
-          settings = {
-            event = "DeferredUIEnter";
-          };
+        settings = {
+          event = "DeferredUIEnter";
         };
       };
     };

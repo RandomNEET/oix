@@ -25,62 +25,60 @@ in
     )
   ];
 
-  config = {
-    wayland.windowManager.mango =
-      let
-        binds = import ./binds.nix {
-          inherit
-            osConfig
-            config
-            lib
-            fileManagerExe
-            autoclicker
-            ;
-        };
-        autostart = import ./autostart.nix { inherit config lib; };
-      in
-      {
-        enable = true;
-        package = pkgs.mango;
-        systemd = {
-          enable = true;
-          xdgAutostart = true;
-        };
-        settings =
-          lib.recursiveUpdate
-            (
-              {
-                inherit (binds)
-                  bind
-                  binds
-                  mousebind
-                  axisbind
-                  key_mode
-                  ;
-                layer_rule = (import ./rules.nix).layer_rule;
-                window_rule = (import ./rules.nix).window_rule;
-                env = import ./env.nix;
-                exec_once = autostart.exec_once;
-              }
-              // import ./animations.nix
-              // import ./misc.nix
-            )
-            (
-              lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
-                root_color = "0x${colors.base00}ff";
-                border_color = "0x${colors.base02}ff";
-                drop_color = "0x${colors.base01}55";
-                split_color = "0x${colors.base0D}ff";
-                focus_color = "0x${primaryColor}ff";
-                urgent_color = "0x${colors.base08}ff";
-              }
-            );
+  wayland.windowManager.mango =
+    let
+      binds = import ./binds.nix {
+        inherit
+          osConfig
+          config
+          lib
+          fileManagerExe
+          autoclicker
+          ;
       };
+      autostart = import ./autostart.nix { inherit config lib; };
+    in
+    {
+      enable = true;
+      package = pkgs.mango;
+      systemd = {
+        enable = true;
+        xdgAutostart = true;
+      };
+      settings =
+        lib.recursiveUpdate
+          (
+            {
+              inherit (binds)
+                bind
+                binds
+                mousebind
+                axisbind
+                key_mode
+                ;
+              layer_rule = (import ./rules.nix).layer_rule;
+              window_rule = (import ./rules.nix).window_rule;
+              env = import ./env.nix;
+              exec_once = autostart.exec_once;
+            }
+            // import ./animations.nix
+            // import ./misc.nix
+          )
+          (
+            lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
+              root_color = "0x${colors.base00}ff";
+              border_color = "0x${colors.base02}ff";
+              drop_color = "0x${colors.base01}55";
+              split_color = "0x${colors.base0D}ff";
+              focus_color = "0x${primaryColor}ff";
+              urgent_color = "0x${colors.base08}ff";
+            }
+          );
+    };
 
-    home.packages = with pkgs; [
-      libnotify
-      wl-clipboard
-      wlrctl # mouse control
-    ];
-  };
+  home.packages = with pkgs; [
+    libnotify
+    wl-clipboard
+    wlrctl # mouse control
+  ];
 }

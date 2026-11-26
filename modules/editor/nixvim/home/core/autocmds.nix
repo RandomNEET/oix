@@ -1,8 +1,5 @@
 {
-  config = {
-    programs.nixvim = {
-      autoCmd = [
-      ];
-    };
+  programs.nixvim = {
+    autoCmd = [ ];
   };
 }

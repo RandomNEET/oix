@@ -1,40 +1,38 @@
 {
-  config = {
-    programs.nixvim = {
-      plugins.blink-cmp = {
-        enable = true;
-        settings = {
-          appearance = {
-            nerd_font_variant = "normal";
-            use_nvim_cmp_as_default = true;
-          };
-          completion = {
-            accept = {
-              auto_brackets = {
-                enabled = true;
-                semantic_token_resolution = {
-                  enabled = false;
-                };
+  programs.nixvim = {
+    plugins.blink-cmp = {
+      enable = true;
+      settings = {
+        appearance = {
+          nerd_font_variant = "normal";
+          use_nvim_cmp_as_default = true;
+        };
+        completion = {
+          accept = {
+            auto_brackets = {
+              enabled = true;
+              semantic_token_resolution = {
+                enabled = false;
               };
             };
-            documentation = {
-              auto_show = true;
-            };
           };
-          keymap = {
-            preset = "super-tab";
+          documentation = {
+            auto_show = true;
           };
-          signature = {
-            enabled = true;
-          };
-          sources = {
-            default = [
-              "lsp"
-              "buffer"
-              "snippets"
-              "path"
-            ];
-          };
+        };
+        keymap = {
+          preset = "super-tab";
+        };
+        signature = {
+          enabled = true;
+        };
+        sources = {
+          default = [
+            "lsp"
+            "buffer"
+            "snippets"
+            "path"
+          ];
         };
       };
     };

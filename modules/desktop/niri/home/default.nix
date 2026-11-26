@@ -14,42 +14,40 @@ let
   primaryColor = mylib.theme.getThemePrimaryColor colors config.stylix.base16Scheme;
 in
 {
-  config = {
-    wayland.windowManager.niri = {
-      enable = true;
-      package = pkgs.niri;
-      settings =
-        lib.recursiveUpdate
-          (
-            {
-              environment = import ./environment.nix;
-              layout = import ./layout.nix;
-              binds = import ./binds.nix {
-                inherit
-                  osConfig
-                  config
-                  lib
-                  fileManagerExe
-                  autoclicker
-                  ;
-              };
-              _children = import ./startup.nix ++ import ./rules.nix;
-            }
-            // import ./misc.nix
-          )
-          (
-            lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
-              layout.border = {
-                active-color = primaryColor;
-                inactive-color = colors.base03;
-              };
-            }
-          );
-    };
-
-    home.packages = with pkgs; [
-      libnotify
-      wl-clipboard
-    ];
+  wayland.windowManager.niri = {
+    enable = true;
+    package = pkgs.niri;
+    settings =
+      lib.recursiveUpdate
+        (
+          {
+            environment = import ./environment.nix;
+            layout = import ./layout.nix;
+            binds = import ./binds.nix {
+              inherit
+                osConfig
+                config
+                lib
+                fileManagerExe
+                autoclicker
+                ;
+            };
+            _children = import ./startup.nix ++ import ./rules.nix;
+          }
+          // import ./misc.nix
+        )
+        (
+          lib.optionalAttrs (osConfig.oix.appearance.themes.enable or false) {
+            layout.border = {
+              active-color = primaryColor;
+              inactive-color = colors.base03;
+            };
+          }
+        );
   };
+
+  home.packages = with pkgs; [
+    libnotify
+    wl-clipboard
+  ];
 }

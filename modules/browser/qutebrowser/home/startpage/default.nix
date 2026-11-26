@@ -23,43 +23,41 @@ let
     ;
 in
 {
-  config = {
-    xdg.configFile = {
-      "qutebrowser/startpage/index.html".text = ''
-        <!doctype html>
-        <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>~/startpage</title>
-            <link id="theme" rel="stylesheet" href="style.css">
-            <script src="theme.js" defer></script>
-          </head>
-          <body>
-            <main class="startpage">
-              <h1>&gt; cd ~/<span class="cursor">_</span></h1>
+  xdg.configFile = {
+    "qutebrowser/startpage/index.html".text = ''
+      <!doctype html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>~/startpage</title>
+          <link id="theme" rel="stylesheet" href="style.css">
+          <script src="theme.js" defer></script>
+        </head>
+        <body>
+          <main class="startpage">
+            <h1>&gt; cd ~/<span class="cursor">_</span></h1>
 
-              <nav class="bookmarks" aria-label="Bookmarks">
-                ${renderedBookmarks}
-              </nav>
-            </main>
-          </body>
-        </html>
-      '';
-      "qutebrowser/startpage/style.css".text = ''
-        :root {
-          color-scheme: ${polarity};
-          --color-bg: #${colors.base00};
-          --color-fg: #${colors.base06};
-          --color-heading: #${colors.base05};
-          --color-link: #${colors.base04};
-          --color-link-hover: #${primaryColor};
-          --color-glow: ${hexToRgba primaryColor 0.10};
-          --color-glow-secondary: ${hexToRgba colors.base0C 0.06};
-        }
-        ${builtins.readFile ./style.css}
-      '';
-      "qutebrowser/startpage/theme.js".source = ./theme.js;
-    };
+            <nav class="bookmarks" aria-label="Bookmarks">
+              ${renderedBookmarks}
+            </nav>
+          </main>
+        </body>
+      </html>
+    '';
+    "qutebrowser/startpage/style.css".text = ''
+      :root {
+        color-scheme: ${polarity};
+        --color-bg: #${colors.base00};
+        --color-fg: #${colors.base06};
+        --color-heading: #${colors.base05};
+        --color-link: #${colors.base04};
+        --color-link-hover: #${primaryColor};
+        --color-glow: ${hexToRgba primaryColor 0.10};
+        --color-glow-secondary: ${hexToRgba colors.base0C 0.06};
+      }
+      ${builtins.readFile ./style.css}
+    '';
+    "qutebrowser/startpage/theme.js".source = ./theme.js;
   };
 }

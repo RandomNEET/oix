@@ -1,17 +1,15 @@
 {
-  config = {
-    programs.nixvim = {
-      plugins.ts-comments = {
+  programs.nixvim = {
+    plugins.ts-comments = {
+      enable = true;
+      lazyLoad = {
         enable = true;
-        lazyLoad = {
-          enable = true;
-          settings = {
-            event = [
-              "BufReadPost"
-              "BufNewFile"
-              "BufWritePre"
-            ];
-          };
+        settings = {
+          event = [
+            "BufReadPost"
+            "BufNewFile"
+            "BufWritePre"
+          ];
         };
       };
     };
