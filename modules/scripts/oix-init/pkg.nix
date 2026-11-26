@@ -1,4 +1,4 @@
-{ pkgs, meta, ... }:
+{ pkgs, meta }:
 let
   oix-init = pkgs.writeShellScriptBin "oix-init" ''
     set -e

@@ -4,7 +4,6 @@
   lib,
   fileManagerExe,
   autoclicker,
-  ...
 }:
 let
   inherit (lib) optional;

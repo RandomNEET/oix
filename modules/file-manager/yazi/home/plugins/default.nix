@@ -3,7 +3,6 @@
   config,
   lib,
   pkgs,
-  ...
 }:
 let
   inherit (lib) getExe optionalAttrs optionals;

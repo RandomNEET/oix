@@ -1,4 +1,4 @@
-{ osConfig, mylib, ... }:
+{ osConfig, mylib }:
 let
   display = osConfig.oix.hardware.display.info or [ ];
   primaryDisplay = mylib.display.getPrimary display;

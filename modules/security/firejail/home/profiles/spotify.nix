@@ -1,8 +1,4 @@
-{
-  pkgs,
-  global,
-  ...
-}:
+{ pkgs, global, ... }:
 let
   local = pkgs.writeText "firejail-spotify-local" "";
 in

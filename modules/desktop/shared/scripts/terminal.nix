@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config }:
 let
   isFoot = config.oix.defaults.terminal == "foot";
 in

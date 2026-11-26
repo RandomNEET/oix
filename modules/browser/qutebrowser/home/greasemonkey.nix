@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 [
   # youtube-adb
   (pkgs.fetchurl {

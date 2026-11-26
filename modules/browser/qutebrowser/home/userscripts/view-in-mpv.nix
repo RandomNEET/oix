@@ -1,5 +1,5 @@
 # Requirements: programs.mpv.enable = true;
-{ pkgs, ... }:
+{ pkgs }:
 pkgs.writeShellScript "view-in-mpv" ''
   set -e
 

@@ -1,8 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}:
+{ lib, pkgs, ... }:
 let
   thunar = pkgs.thunar.override {
     thunarPlugins = with pkgs; [

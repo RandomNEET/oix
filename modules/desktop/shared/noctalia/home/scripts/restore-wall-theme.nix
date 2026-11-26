@@ -2,7 +2,6 @@
   osConfig,
   config,
   pkgs,
-  ...
 }:
 let
   defaultTheme =

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs }:
 let
   folders =
     pkgs.lib.concatMap

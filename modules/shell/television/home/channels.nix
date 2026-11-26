@@ -2,7 +2,6 @@
   osConfig,
   config,
   lib,
-  ...
 }:
 let
   inherit (lib) escapeShellArg optionalAttrs;

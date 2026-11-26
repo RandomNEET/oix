@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs }:
 if config.i18n.inputMethod.type == "fcitx5" then
   pkgs.writeShellScript "ime-off" ''
     FCITX5_REMOTE="${pkgs.fcitx5}/bin/fcitx5-remote"

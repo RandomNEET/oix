@@ -2,7 +2,6 @@
   pkgs,
   global,
   DOWNLOADS,
-  ...
 }:
 let
   blinkCommonProfile = import ./blink-common.nix { inherit pkgs global DOWNLOADS; };

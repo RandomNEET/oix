@@ -6,7 +6,7 @@
 }:
 let
   monoFonts = osConfig.oix.appearance.fonts.monospace or [ ];
-  screenshotHandler = lib.getExe (import ./scripts/screenshot-handler.nix { inherit config pkgs; });
+  screenshotHandler = lib.getExe (import ./scripts/screenshot-handler.nix { inherit pkgs; });
 in
 {
   font_family = if monoFonts != [ ] then (builtins.head monoFonts).name else "monospace";

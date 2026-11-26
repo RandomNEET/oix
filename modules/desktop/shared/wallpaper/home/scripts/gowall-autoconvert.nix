@@ -3,7 +3,6 @@
   config,
   pkgs,
   mylib,
-  ...
 }:
 let
   wallpaperDir = config.oix.desktop.wallpaper.dir;

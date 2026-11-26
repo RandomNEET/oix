@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 pkgs.writeShellScriptBin "screenshot-handler" ''
   OCR_LANGS="eng+chi_sim+chi_tra"
   SIGNAL_FILE="/tmp/noctalia-screenshot-ocr"

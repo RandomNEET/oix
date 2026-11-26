@@ -1,4 +1,4 @@
-{ meta, ... }:
+{ meta }:
 {
   mgr = {
     prepend_keymap = [

@@ -1,8 +1,4 @@
-{
-  osConfig,
-  lib,
-  ...
-}:
+{ osConfig, lib, ... }:
 {
   config = {
     programs.nixvim = lib.mkIf (osConfig.oix.desktop.enable or false) {

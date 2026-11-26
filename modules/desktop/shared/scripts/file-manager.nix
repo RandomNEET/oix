@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs }:
 let
   terminal = import ./terminal.nix { inherit config; };
   args = ''${terminal.classFlag} "fileManager"'';

@@ -4,7 +4,6 @@
   lib,
   pkgs,
   meta,
-  ...
 }:
 let
   env = rec {

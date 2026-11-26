@@ -1,4 +1,4 @@
-{ pkgs, resurrectDir, ... }:
+{ pkgs, resurrectDir }:
 pkgs.writeShellScript "resurrect-cmd-fix" ''
   TARGET_FILE=''${1:-${resurrectDir}/last}
 

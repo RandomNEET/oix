@@ -2,7 +2,6 @@
   osConfig,
   config,
   mylib,
-  ...
 }:
 let
   themesEnabled = osConfig.oix.appearance.themes.enable or false;

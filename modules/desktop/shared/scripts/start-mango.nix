@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, ... }:
 pkgs.writeShellScriptBin "start-mango" ''
   if hash systemctl >/dev/null 2>&1; then
     if systemctl --user -q is-active mango-session.target; then

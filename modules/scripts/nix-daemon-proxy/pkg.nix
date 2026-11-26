@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 let
   nix-daemon-proxy = pkgs.writeShellScriptBin "nix-daemon-proxy" ''
     set -euo pipefail

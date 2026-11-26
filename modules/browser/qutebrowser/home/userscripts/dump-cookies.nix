@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs }:
 let
   source = "${config.xdg.dataHome}/qutebrowser/webengine/Cookies?nolock=1";
   defaultOutput = "${config.xdg.userDirs.download}/qutebrowser-cookies";

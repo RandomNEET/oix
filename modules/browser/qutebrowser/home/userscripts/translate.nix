@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 pkgs.writers.writePython3 "translate"
   {
     libraries = [ pkgs.python3Packages.requests ];

@@ -2,7 +2,6 @@
   pkgs,
   global,
   DOWNLOADS,
-  ...
 }:
 let
   local = pkgs.writeText "firejail-firefox-common-local" "";

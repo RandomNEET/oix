@@ -5,7 +5,6 @@
   fileManagerExe,
   autoclicker,
   gamespace,
-  ...
 }:
 let
   inherit (lib) optional;

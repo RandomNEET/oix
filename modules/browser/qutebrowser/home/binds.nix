@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib }:
 let
   imeOff = lib.optionalString (
     config.i18n.inputMethod.type != null
