@@ -28,7 +28,7 @@
     ../../modules/shell
     ../../modules/development
 
-    ../../modules/editor/nvim
+    ../../modules/editor/nixvim
     ../../modules/editor/helix
     ../../modules/editor/vscode
 

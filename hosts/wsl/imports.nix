@@ -16,7 +16,7 @@
     ../../modules/development/devenv
     ../../modules/development/glow
 
-    ../../modules/editor/nvim
+    ../../modules/editor/nixvim
 
     ../../modules/file-manager/yazi
 

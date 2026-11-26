@@ -26,7 +26,7 @@
     ../../modules/shell
     ../../modules/development
 
-    ../../modules/editor/nvim
+    ../../modules/editor/nixvim
     ../../modules/editor/vscode
 
     ../../modules/file-manager/yazi
