@@ -207,10 +207,8 @@ in
           ${lib.optionalString themesEnabled "theme: \"stylix\","}
       )
     '';
-  };
-  home = {
-    file = lib.optionalAttrs themesEnabled {
-      ".config/rmpc/themes/stylix.ron".text = ''
+    themes = lib.optionalAttrs themesEnabled {
+      stylix = ''
         #![enable(implicit_some)]
         #![enable(unwrap_newtypes)]
         #![enable(unwrap_variant_newtypes)]
